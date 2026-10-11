@@ -3,7 +3,9 @@
 **Competition:** [DOE GEMS Prize, DrivenData competition 306](https://www.drivendata.org/competitions/306/competition-doe-gems/)
 · **Problem description:** [page 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
 · **Rules (PDF):** [docs.nlr.gov/docs/fy26osti/96647.pdf](https://docs.nlr.gov/docs/fy26osti/96647.pdf)
-· **Live site:** <https://buffedlizard55-lab.github.io/62GEMSDOE/>
+· **Site source:** [`docs/`](docs/) — served at <https://buffedlizard55-lab.github.io/62GEMSDOE/> once Pages is enabled
+(repo **Settings → Pages → Source: `main` / `/docs`**; *not yet enabled*, and the sandbox's GitHub token lacks the
+`pages` permission to do it via API — flagged as IR-62-006 for manual review)
 
 > ### Our Core Values — kept central to every decision in this repository
 > **Maximize P(Win).** *"Maximize the Probability of Winning"* is our decision-making framework. In
@@ -30,16 +32,16 @@
 
 | | |
 |---|---|
-| **Primary (all-finite zeros outside the footprint)** | [`docs/downloads/gems62-lahontan-isobase-225dots-zeros.tif`](docs/downloads/gems62-lahontan-isobase-225dots-zeros.tif) |
-| sha256 | `e03201fbb13cc21b25c2d343d9879fdcaea7a6cb4600647207829e30f47b2cf0` |
-| bytes | 56,392 |
-| dots | 225 |
-| NaN-outside twin (same in-footprint values) | [`docs/downloads/gems62-lahontan-isobase-225dots-nan.tif`](docs/downloads/gems62-lahontan-isobase-225dots-nan.tif) |
+| **Primary (all-finite zeros outside the footprint)** | [`docs/downloads/gems62-lahontan-isobase-99dots-zeros.tif`](docs/downloads/gems62-lahontan-isobase-99dots-zeros.tif) |
+| sha256 | `fc628410873f018d998ca60e0a00228c999aff035e2e9dc22ccd571a6e8c0348` |
+| bytes | 56,048 |
+| dots | 99 |
+| NaN-outside twin (same in-footprint values) | [`docs/downloads/gems62-lahontan-isobase-99dots-nan.tif`](docs/downloads/gems62-lahontan-isobase-99dots-nan.tif) |
 
 **Why it is not cleared.** The metric charges `beta = 0.8` per missing truth cell
 and `alpha = 0.2` per emitted cell, so a sparse file is capped by its own mass. With
 |G| = 12,000 truth cells, this file's **hard upper bound — every dot perfect — is
-0.0233**. The protocol gate *"do not spend a
+0.0103**. The protocol gate *"do not spend a
 submission slot on an idea that hasn't beaten the current holdout best"* is not met.
 Full reasoning and the numbers needed to clear it: [`docs/index.html`](docs/index.html).
 
@@ -49,16 +51,17 @@ shape (3730, 3292), transform `(100, 0, 243350, 0, -100, 4508550)`, all finite v
 in [0, 1], zero non-finite values inside the footprint, values outside the footprint all
 zero (the reference-template encoding class).
 
-**Lane status:** `DISTINCT LANE` — **both halves of the rule are recorded**, because the
-prompt requires the check *"on the surface before placement AND on final dots"*:
+**Lane status:** `DISTINCT LANE` — **both halves of the rule are
+recorded**, because the protocol requires the check *"on the surface before placement AND on final dots"*:
 
 | half | max &#124;Spearman rho&#124; (limit 0.90) | worst 3-px overlap (limit 0.70) | cells |
 |---|---|---|---|
-| before placement — datum-offset surface | 0.015546 | 0.3742 | 60,227 |
-| before placement — flagged evidence | 0.005815 | 0.3852 | 9,443 |
-| final dots | 0.000756 | 0.4444 | 225 |
+| before placement — datum-offset surface | 0.015551 | 0.3742 | 60,227 |
+| before placement — flagged evidence | 0.007957 | 0.2990 | 16,156 |
+| final dots | 0.000622 | 0.4040 | 99 |
 
-The worst non-vacuous comparison is `gems8_hedge_v2_01563`. Three registry rasters are reported
+The worst non-vacuous comparison is `gems61c_gravstep_liveband_40k`.
+3 of the 21 registry rasters are reported
 *vacuous* (their own 3-px dilation blankets ≥ 70 % of the footprint), independently reproducing the
 sibling repositories' documented defect IR-54-016.
 
@@ -110,11 +113,13 @@ python scripts/run_lane.py --data data --registry /tmp/gems/registry --holdout-b
 |---|---|---|
 | benches mapped on the datum | 176 (from 90,664 wave-planed cells) | MEASURED |
 | local strand isobase residual sigma | 2.99 m (published elevation-method resolution: 3 m) | MEASURED |
-| step / deflection flags | 6 / 9 | MEASURED |
-| traces (mean length) | 12 (6800 m) | MEASURED |
-| dots | 225 | MEASURED |
-| **HOLDOUT-DTI** (evaluator `gems62.holdout.v1`, 3,199 withheld whole segments, 60,988 withheld positive cells) | **0.000158**, 95 % CI [0.000102, 0.000490] (whole-segment cluster bootstrap, n = 60) | MEASURED |
-| hard upper bound at 225 dots, perfect placement, \|G\| = 12,000 | **0.0233** | MODEL |
+| step **locations** after the two-stage test | 1 accepted · 43 pairs cleared the 3 m resolution gate · 42 rejected as borderline · gate = 12.12 m | MEASURED |
+| scatter estimates behind that gate | sigma = 3.43 m from the median pairwise difference (median|jump| over pairs within radius_m, / 0.9539), cross-checked against a global MAD of 2.99 m (which would give a gate of 10.57 m and the same single accepted location) | MEASURED |
+| deflection locations | 4 | MEASURED |
+| traces (mean length) | 5 (6560 m) | MEASURED |
+| dots | 99 | MEASURED |
+| **HOLDOUT-DTI** (evaluator `gems62.holdout.v1`, 3,199 withheld whole segments, 60,988 withheld positive cells) | **0.000026**, 95 % CI [0.000006, 0.000162] (whole-segment cluster bootstrap, n = 60) | MEASURED |
+| hard upper bound at 99 dots, perfect placement, \|G\| = 12,000 | **0.0103** | MODEL |
 | the model reproduces the owner-reported 0.2778 | 0.27802 (c = 0.122, N = 40,199) — 0.02 % error | MODEL, check |
 | **verdict** | **negative** | — |
 
@@ -124,7 +129,7 @@ python scripts/run_lane.py --data data --registry /tmp/gems/registry --holdout-b
 
 | # | hypothesis | layers | physical signature | why it should catch an *unmapped* fault | differs from anything already implemented | expected DTI gain | cost | verdict |
 |---|---|---|---|---|---|---|---|---|
-| 1 | **Datum-offset lane** (this artifact) | DEM (+ band 12/19 detrended elevation) | isobase residual step / map-view deflection of an isochronous shoreline | a shoreline offset is a *surface* expression an expert can confirm; the label population is expert-confirmed faults | no sibling repository touches pluvial shorelines (`grep` over all 60+ cached trees: zero hits) | low (mass-capped) | high | **negative** — bound 0.0233 |
+| 1 | **Datum-offset lane** (this artifact) | DEM (+ band 12/19 detrended elevation) | isobase residual step / map-view deflection of an isochronous shoreline | a shoreline offset is a *surface* expression an expert can confirm; the label population is expert-confirmed faults | no sibling repository touches pluvial shorelines (`grep` over all 60+ cached trees: zero hits) | low (mass-capped) | high | **negative** — bound 0.0103 |
 | 2 | **Mass-and-quality rebalancing of the dominant family** | the family's own prior surface | none new — it is an *emission-geometry* hypothesis | it does not find new faults; it stops wasting credit | every sibling emits 37k-45k dots with c ≈ 0.13; none calibrates N to the inferred \|G\| | **highest** | low | **untested** |
 | 3 | Blind-system / outflow-halo corridor | well & spring chemistry (GDR 1391 / 1486), 3-D temperature | discharge halo kilometres from a mapped trace, no surface scarp | the LLNL literature states most Great Basin systems are blind, and outflow surfaces far from the source | sibling `lane_hydro.py` exists but no corroborated emission survives | medium | medium | untested |
 | 4 | 1 m lidar scarp detection at the datum margins only | 3DEP 1 m (`lidar_scarp_features_u8.tif`, 706/716 tiles) | fine-scale scarp morphology | 100 m DEM cannot resolve a 2-5 m scarp; the expert can | siblings use lidar globally, never restricted to the datum corridor | medium | high | untested |
@@ -134,8 +139,9 @@ python scripts/run_lane.py --data data --registry /tmp/gems/registry --holdout-b
 
 ```
 src/gems62/        the eight modules above
-scripts/           download_data.sh, fetch_registry.py, run_lane.py, lane_check_surface.py
-tests/             metric identity tests (10); scripts/*.py are compiled in CI-style checks
+scripts/           download_data.sh, fetch_registry.py, run_lane.py,
+                   lane_check_surface.py, make_readme.py, make_site.py
+tests/             metric identity tests (10)
 docs/              index.html, executive-summary.html, research/sources.md, downloads/
 registry/          registry_sources.json, registry_manifest.json, data_pins.json
 evidence/          run card, holdout receipt, lane check, profiles, figures
@@ -151,6 +157,24 @@ evidence/          run card, holdout receipt, lane check, profiles, figures
   `docs/research/sources.md` section 1).
 * DrivenData's Terms of Use prohibit automated monitoring; no leaderboard scraper, feed or
   monitor is included, and no leaderboard page was fetched.
+* The step test uses a *pairwise* scatter estimate rather than a global MAD, because a global
+  MAD is masked by the offset it is meant to detect (a synthetic 12 m step over 20 km raised it to
+  6.02 m and rejected itself). On this lane's real data the two estimators disagree mildly —
+  3.43 m vs 2.99 m — and both accept the same single location, which is why the finding is
+  reported as robust to the choice. If a future lane finds them disagreeing strongly, that is
+  the first thing to investigate.
+* The DEM mirror does not cover the whole labelled footprint: 5,165,644 cells have a label but
+  no elevation (IR-62-007, found by intersecting the shipped mirrors). The datum lane maps what
+  the DEM covers; those cells cannot contribute a datum observation at all.
+* The step test is deliberately conservative. A 12.9 m offset needs a *pair* of benches within
+  5000 m of each other on the mapped datum, so a
+  genuine fault that crosses the shoreline where the datum is not preserved cannot be found by
+  this lane at all. That is a coverage property of the method, not a bug.
+* `residual` in the code and in the receipts means *datum elevation minus the local isobase*
+  (`lahontan.local_isobase` returns `r - level`). The local isobase is bounded by two support
+  guards — a gradient cap and a neighbourhood-band clamp — because without them a plane fitted
+  12 km away could extrapolate a phantom offset; the first run of this lane did exactly that and
+  produced a +25.7 m artifact that would have set the profile's y-axis.
 
 ## Sources
 

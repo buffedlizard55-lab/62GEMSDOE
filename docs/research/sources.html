@@ -1,7 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sources — 62GEMSDOE</title><link rel="stylesheet" href="../assets/site.css"></head><body>
-<header><span class="brand">62GEMSDOE · datum-offset lane</span><nav>
+<title>Sources — 62GEMSDOE</title><link rel="stylesheet" href="../assets/site.css"></head><body><header><span class="brand">62GEMSDOE · datum-offset lane</span><nav>
 <a href="../index.html">Overview</a><a href="../executive-summary.html">How to submit</a>
 <a href="sources.html" class="active">Sources</a>
 <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">GitHub</a></nav></header>
@@ -82,6 +81,8 @@
 <tr><td>IR-62-003</td><td>The three papers the prompt names as this lane's precedents (Briggs &amp; Wesnousky 2004; Dong et al.; Pierce &amp; Wesnousky 2016) were <strong>not</strong> fetched in this session. The lane's mechanism is instead supported by the independently retrieved Adams/Wesnousky/Bills work, which states the same physical fact in one sentence. No number from the three unfetched papers appears anywhere in this repository.</td></tr>
 <tr><td>IR-62-004</td><td><code>registry_sources.json</code> entry <code>gems48_h59_cover_ds_belief_02296</code> returns HTTP 404: the path was reconstructed from a site listing rather than from a repository tree, and could not be resolved without guessing. It is excluded from the lane check rather than approximated.</td></tr>
 <tr><td>IR-62-005</td><td>The prompt's own leaderboard values are mutually inconsistent across sessions (0.2778 / 0.3195 / 0.3774 are quoted as "highest" in different places). This repository treats none of them as current fact; the score model is run at all three targets so the conclusion does not depend on which one is right.</td></tr>
+<tr><td>IR-62-006</td><td>GitHub Pages is <strong>not enabled</strong> for this repository, so the <code>docs/</code> site is not yet reachable at <code>https://buffedlizard55-lab.github.io/62GEMSDOE/</code>. The sandbox's GitHub token lacks the <code>pages</code> scope, so <code>POST /repos/…/pages</code> returns HTTP 403 ("Resource not accessible by integration"). One manual step in repo Settings → Pages → Source = <code>main</code> / <code>/docs</code> publishes it. Until then the site is reviewed locally (<code>python3 -m http.server --directory docs</code>) and by opening <code>docs/index.html</code> directly.</td></tr>
+<tr><td>IR-62-007</td><td>The three shipped mirrors disagree about the survey footprint. <code>labels.tif</code> and <code>sample_submission.tif</code> have identical footprints (5,167,373 cells; the agreement of the ones-count is complete), but the 100 m DEM covers only 5,165,644 of them: <strong>1,729 footprint cells have no DEM elevation and 1,543 DEM-finite cells are NaN in the template's footprint</strong>. Cells have a label but no elevation, and vice versa. MEASURED here by intersecting all three rasters. Consequence: this lane maps only what the DEM covers, so 186 cells that the competition grid calls valid can never contribute a datum observation, and any lane that reads the DEM is subject to the same limit.</td></tr>
 </tbody></table></main>
-<footer>Every claim carries an evidence class. Irregularities IR-62-001 … IR-62-005 are flagged for manual review.</footer>
+<footer>Every claim carries an evidence class. Irregularities IR-62-001 … IR-62-006 are flagged for manual review.</footer>
 </body></html>

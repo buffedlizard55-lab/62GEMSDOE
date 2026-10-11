@@ -61,12 +61,12 @@ nothing for a range check to trip on. This repository ships both encodings so yo
 <h2>3. Which of our files to upload</h2>
 <div class="card">
 <p><span class="verdict v-no">DO NOT SUBMIT THIS WEEK</span></p>
-<p>The current artifact has a hard upper bound of <b>0.0233</b> —
-even if all 225 dots landed exactly on truth pixels — because the metric charges
+<p>The current artifact has a hard upper bound of <b>0.0103</b> —
+even if all 99 dots landed exactly on truth pixels — because the metric charges
 β = 0.8 per missing truth cell. Uploading it would spend one of three weekly slots on a file that cannot
 beat the incumbent family. It is <b>OK TO DOWNLOAD</b> and inspect, and it is useful Phase-2 evidence.</p>
-<a class="btn" href="downloads/gems62-lahontan-isobase-225dots-zeros.tif">Download for inspection</a>
-<a class="btn sec" href="downloads/gems62-lahontan-isobase-225dots-nan.tif">NaN-outside twin</a>
+<a class="btn" href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">Download for inspection</a>
+<a class="btn sec" href="downloads/gems62-lahontan-isobase-99dots-nan.tif">NaN-outside twin</a>
 </div>
 
 <h2>4. What to upload instead — the numbers the metric demands</h2>
@@ -85,11 +85,11 @@ better placement. At a target of <b>0.3195</b>, with |G| = 12,000:</p>
       <td>a 53 % improvement in mean credit — the highest-leverage single change</td></tr>
 </table>
 <p>And the rule that decides whether one more dot is worth emitting — profitable iff its credit exceeds
-α·DTI, i.e. within <b>281 m</b> of a truth pixel at
-DTI = 0.3195. Dots between ~277 m and 300 m still help slightly; beyond 300 m they contribute nothing and
-cost α each.</p>
+α·DTI, i.e. within <b>281 m</b> of a truth pixel at DTI = 0.3195. Dots beyond 300 m contribute
+nothing at all and cost α each.</p>
 <p class="sub">Label: <b>MODEL</b>. The model's own validity check: applied to the two owner-recorded rows of
-the family it reproduces 0.2778 to within 0.02 %. It is not a score and not a projection written as a score.</p>
+the family it reproduces 0.2778 to within 0.02 %. It is not a score and not a projection written as a score.
+For reference, a 225-dot file with flawless placement would score 0.0233.</p>
 
 <h2>5. The single most important rule the competition states</h2>
 <div class="card hi">
@@ -112,13 +112,13 @@ structures an expert can independently confirm.</p>
 <h2>6. Checklist before you press Submit</h2>
 <table>
   <tr><th>#</th><th>check</th><th>how</th></tr>
-  <tr><td>1</td><td>single band, float32, EPSG:32611, shape (3730, 3292), exact transform</td><td><code>python -m gems62.validate</code> or <code>rasterio</code> one-liner</td></tr>
-  <tr><td>2</td><td>no non-finite value inside the footprint</td><td><code>np.isfinite(a[footprint]).all()</code></td></tr>
+  <tr><td>1</td><td>single band, float32, EPSG:32611, shape (3730, 3292), exact transform</td><td><code>python -m gems62.validate</code> or a <code>rasterio</code> one-liner</td></tr>
+  <tr><td>2</td><td>no non-finite value inside the footprint</td><td><code>np.isfinite(a[foot]).all()</code></td></tr>
   <tr><td>3</td><td>every finite value in [0, 1]</td><td><code>a[foot].min() &gt;= 0 and a[foot].max() &lt;= 1</code></td></tr>
   <tr><td>4</td><td>no out-of-range nodata sentinel</td><td>the file's <code>nodata</code> must be <code>None</code> or NaN</td></tr>
   <tr><td>5</td><td>unique vs every earlier raster you own — <b>both before placement (on the surface) and on the final dots</b></td><td>rank correlation &lt; 0.90 and dot overlap &lt; 70 %; <code>scripts/lane_check_surface.py</code> does the pre-placement half and <code>run_lane.py</code> records both</td></tr>
   <tr><td>6</td><td>you know the file's hard upper bound before you spend the slot</td><td><code>gems62.score_model.perfect_placement_ceiling(n_dots)</code></td></tr>
-  <tr><td>7</td><td>a note under 140 characters that identifies this submission to you later</td><td>e.g. <code>gems62-lahontan-isobase-225dots</code></td></tr>
+  <tr><td>7</td><td>a note under 140 characters that identifies this submission to you later</td><td>e.g. <code>gems62-lahontan-isobase-99dots</code></td></tr>
 </table>
 
 <h2>7. Things that will get a submission rejected or disqualified — not technical</h2>
@@ -142,5 +142,6 @@ structures an expert can independently confirm.</p>
 <a href="https://epsg.io/32611">EPSG 32611</a> ·
 <a href="https://en.wikipedia.org/wiki/Tversky_index">Tversky index</a></p>
 </main>
-<footer>Local format checks are not organizer acceptance. Verify the portal's behaviour with your own upload.</footer>
+<footer>Local format checks are not organizer acceptance. Verify the portal's behaviour with your own upload.
+<a href="index.html">← Overview</a></footer>
 </body></html>
