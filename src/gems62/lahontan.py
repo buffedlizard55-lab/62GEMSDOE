@@ -546,6 +546,37 @@ def flag_deflections(
     return flags
 
 
+def datum_offset_surface(
+    benches: list[Bench],
+    residual: np.ndarray,
+    shape: tuple[int, int],
+    *,
+    step_threshold_m: float = ELEVATION_RESOLUTION_M,
+) -> tuple[np.ndarray, np.ndarray]:
+    """The two rasters the lane rule means by "the surface before placement".
+
+    ``full``
+        |local-isobase residual| in metres on every dominant-strand datum cell.
+        This is the field the seeding and extension steps read.
+    ``evidence``
+        the same field restricted to benches flagged as anomalous
+        (|residual| >= ``step_threshold_m``); the analogue of a dot set when the
+        3-px overlap half of the rule is applied before placement.
+
+    Both are zero away from their cells and therefore comparable, by
+    ``gems62.uniqueness.compare``, against any registry raster without further
+    masking.
+    """
+    full = np.zeros(shape, np.float32)
+    evidence = np.zeros(shape, np.float32)
+    for b, r in zip(benches, residual):
+        mag = np.abs(float(r)).astype(np.float32)
+        full[b.rows, b.cols] = mag
+        if abs(float(r)) >= step_threshold_m:
+            evidence[b.rows, b.cols] = mag
+    return full, evidence
+
+
 def shoreline_profile(benches: list[Bench], residual: np.ndarray, *,
                       track_deg: float) -> list[dict]:
     """Order benches along a published shoreline track and return a profile.

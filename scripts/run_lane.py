@@ -249,6 +249,31 @@ def main() -> int:
     lane = verdict(entries) if entries else {"verdict": "NO REGISTRY", "passed": None}
     dump_uniqueness(entries, ev / f"{tag}-lane.json")
 
+    # The rule has two halves, and this is the half that runs BEFORE placement:
+    # the datum-offset surface itself (and its flagged-evidence subset), compared
+    # with the same machinery.  Recording only the final-dots half would leave
+    # the receipt incomplete.
+    surf_full, surf_ev = lahontan.datum_offset_surface(
+        benches, residual, footprint.shape, step_threshold_m=args.step_threshold_m)
+    surface_receipts = {}
+    for variant, surf in (("full", surf_full), ("evidence", surf_ev)):
+        se = compare(surf, reg_paths, footprint) if reg_paths else []
+        sv = verdict(se) if se else {"verdict": "NO REGISTRY", "passed": None}
+        dump_uniqueness(se, ev / f"{tag}-lane-surface-{variant}.json")
+        surface_receipts[variant] = {
+            "cells": int((surf > 0).sum()),
+            "max_abs_rho": sv.get("max_abs_rho"),
+            "max_frac3px_non_vacuous": sv.get("max_frac3px_non_vacuous"),
+            "rho_limit": sv.get("rho_limit"), "overlap_limit": sv.get("overlap_limit"),
+            "n_registry": sv.get("n_registry"), "n_vacuous": sv.get("n_vacuous"),
+            "closest_non_vacuous": sv.get("closest_non_vacuous"),
+            "passed": sv.get("passed"), "verdict": sv.get("verdict"),
+        }
+        print(f"      surface/{variant:8s} cells={surface_receipts[variant]['cells']:,} "
+              f"max|rho|={sv.get('max_abs_rho'):.6f} "
+              f"max3px={sv.get('max_frac3px_non_vacuous'):.4f}")
+    surface_ok = all(v["passed"] for v in surface_receipts.values())
+
     track_azimuth = float(np.median([b.azimuth_deg for b in benches if b.is_elongated])) \
         if any(b.is_elongated for b in benches) else 0.0
     profiles = lahontan.shoreline_profile(benches, residual, track_deg=track_azimuth)
@@ -326,6 +351,7 @@ def main() -> int:
             "mean_trace_length_m": float(np.mean([t.length_m for t in traces])) if traces else 0.0,
         },
         "correlation_overlap_vs_registry": lane,
+        "correlation_overlap_vs_registry_surface_before_placement": surface_receipts,
         "score_model": {
             **score_model.comparison_table(0.3195),
             "in_family_check": {

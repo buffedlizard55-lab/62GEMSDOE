@@ -116,7 +116,7 @@ structures an expert can independently confirm.</p>
   <tr><td>2</td><td>no non-finite value inside the footprint</td><td><code>np.isfinite(a[footprint]).all()</code></td></tr>
   <tr><td>3</td><td>every finite value in [0, 1]</td><td><code>a[foot].min() &gt;= 0 and a[foot].max() &lt;= 1</code></td></tr>
   <tr><td>4</td><td>no out-of-range nodata sentinel</td><td>the file's <code>nodata</code> must be <code>None</code> or NaN</td></tr>
-  <tr><td>5</td><td>unique vs every earlier raster you own</td><td>rank correlation &lt; 0.90 and dot overlap &lt; 70 %</td></tr>
+  <tr><td>5</td><td>unique vs every earlier raster you own — <b>both before placement (on the surface) and on the final dots</b></td><td>rank correlation &lt; 0.90 and dot overlap &lt; 70 %; <code>scripts/lane_check_surface.py</code> does the pre-placement half and <code>run_lane.py</code> records both</td></tr>
   <tr><td>6</td><td>you know the file's hard upper bound before you spend the slot</td><td><code>gems62.score_model.perfect_placement_ceiling(n_dots)</code></td></tr>
   <tr><td>7</td><td>a note under 140 characters that identifies this submission to you later</td><td>e.g. <code>gems62-lahontan-isobase-225dots</code></td></tr>
 </table>

@@ -27,6 +27,7 @@
     <tr><th>grid</th><td class="n">float32 · EPSG:32611 · 3730 × 3292 · 100 m · transform (100, 0, 243350, 0, −100, 4508550)</td></tr>
     <tr><th>local format checks</th><td><span class="verdict v-ok">PASS</span>
         — single band, float32, CRS/shape/transform exact, no non-finite value inside the footprint, every finite value in [0, 1], zeros outside the footprint</td></tr>
+    <tr><th>lane rule — BOTH halves</th><td><b>before placement</b> (datum-offset surface): max |ρ| 0.015546, max 3-px overlap 0.3742 over 60,227 cells; <b>flagged evidence</b>: max |ρ| 0.005815, overlap 0.3852 over 9,443 cells — all vs the limits 0.90 / 0.70. <b>final dots</b>: max |ρ| 0.000756, overlap 0.4444. Same evaluator, same registry of 21 rasters; 3 of them are vacuous (see below).</td></tr>
     <tr><th>lane check vs 21 registry rasters</th><td><span class="verdict v-ok">DISTINCT LANE</span>
         — max |ρ| 0.000756 (limit 0.90); worst 3-px overlap 0.4444 (limit 0.70) vs <code>gems8_hedge_v2_01563</code></td></tr>
     <tr><th>hard upper bound</th><td class="n"><b>0.0233</b> — every one of the 225 dots landing exactly on a truth pixel, |G| = 12,000</td></tr>
