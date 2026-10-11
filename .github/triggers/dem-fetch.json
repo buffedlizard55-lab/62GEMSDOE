@@ -1,6 +1,6 @@
 {
- "tiles": "n39w119,n40w119,n40w118,n41w119,n41w120,n42w120",
+ "tiles": "n39w119,n40w119,n40w118,n41w119,n41w120",
  "res": 25,
- "bounds": "240000,4135550,430000,4508550",
- "note": "run 2: fixed TNM discovery (tiny centre bbox + snapped UTM grid)"
+ "bounds": "240000,4250000,430000,4480000",
+ "note": "run 3: Lahontan-only ROI, 5 tiles, DEM committed to evidence/dem for transport"
 }

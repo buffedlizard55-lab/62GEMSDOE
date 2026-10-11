@@ -91,6 +91,39 @@ jobs:
               for t in r.get('tiles', []):
                   print(t['tile'], t.get('status'), (t.get('download') or {}).get('bytes'))
           PY
+      - name: commit DEM transport copy (kept small on purpose)
+        if: always()
+        run: |
+          set -e
+          python - <<'PY'
+          import json, pathlib, subprocess
+          import numpy as np, rasterio
+          from rasterio.enums import Resampling
+          src = pathlib.Path('out/dem/dem_25m_utm11.tif')
+          if not src.exists():
+              print('no DEM written; nothing to commit'); raise SystemExit(0)
+          total = src.stat().st_size
+          print('dem bytes:', total)
+          dest = pathlib.Path('evidence/dem'); dest.mkdir(parents=True, exist_ok=True)
+          out = dest / 'lahontan_dem_utm11.tif'
+          if total <= 90_000_000:
+              target = out
+              if src.resolve() != target.resolve():
+                  target.write_bytes(src.read_bytes())
+              print('committing 25 m DEM as-is:', target, target.stat().st_size)
+          else:
+              with rasterio.open(src) as s:
+                  h = int(round(s.height / 2)); w = int(round(s.width / 2))
+                  a = s.read(1, out_shape=(h, w), resampling=Resampling.average)
+                  tr = s.transform * s.transform.scale(s.width / w, s.height / h)
+                  prof = s.profile.copy(); prof.update(height=h, width=w, transform=tr, compress='deflate', predictor=2, tiled=True, blockxsize=512, blockysize=512, zlevel=9)
+              with rasterio.open(out, 'w', **prof) as d:
+                  d.write(a, 1)
+              print('committing 50 m DEM (source too large):', out, out.stat().st_size)
+          info = {'source_bytes': total, 'committed_bytes': out.stat().st_size,
+                  'committed_name': out.name, 'resampling': 'as-is' if total <= 90_000_000 else 'block-average 2x -> 50 m'}
+          (dest / 'dem_transport.json').write_text(json.dumps(info, indent=1))
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:

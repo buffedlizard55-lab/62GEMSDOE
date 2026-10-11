@@ -280,7 +280,10 @@ def main() -> int:
                        blockxsize=512, blockysize=512, zlevel=9) as dst:
         dst.write(q, 1)
         dst.update_tags(ENCODING="z_m = value/10", PRODUCT=NED_13, SOURCE="receipt.json")
-    log(f"wrote dem_25m_utm11.tif  valid={valid.sum()}")
+    dem_path = out / "dem_25m_utm11.tif"
+    receipt["dem_file"] = {"name": dem_path.name, "bytes": dem_path.stat().st_size,
+                           "sha256": sha256(dem_path)}
+    log(f"wrote dem_25m_utm11.tif  valid={valid.sum()}  bytes={dem_path.stat().st_size}")
 
     if not args.skip_derived:
         d = out / "derived_25m"; d.mkdir(exist_ok=True)
