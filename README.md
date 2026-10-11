@@ -49,10 +49,16 @@ shape (3730, 3292), transform `(100, 0, 243350, 0, -100, 4508550)`, all finite v
 in [0, 1], zero non-finite values inside the footprint, values outside the footprint all
 zero (the reference-template encoding class).
 
-**Lane status:** `DISTINCT LANE` — max |Spearman rho|
-= 0.000756 against the limit 0.90; worst 3-px dot overlap
-= 0.4444 against the limit 0.70, versus
-`gems8_hedge_v2_01563`. Three registry rasters are reported
+**Lane status:** `DISTINCT LANE` — **both halves of the rule are recorded**, because the
+prompt requires the check *"on the surface before placement AND on final dots"*:
+
+| half | max &#124;Spearman rho&#124; (limit 0.90) | worst 3-px overlap (limit 0.70) | cells |
+|---|---|---|---|
+| before placement — datum-offset surface | 0.015546 | 0.3742 | 60,227 |
+| before placement — flagged evidence | 0.005815 | 0.3852 | 9,443 |
+| final dots | 0.000756 | 0.4444 | 225 |
+
+The worst non-vacuous comparison is `gems8_hedge_v2_01563`. Three registry rasters are reported
 *vacuous* (their own 3-px dilation blankets ≥ 70 % of the footprint), independently reproducing the
 sibling repositories' documented defect IR-54-016.
 
@@ -128,8 +134,8 @@ python scripts/run_lane.py --data data --registry /tmp/gems/registry --holdout-b
 
 ```
 src/gems62/        the eight modules above
-scripts/           download_data.sh, fetch_registry.py, run_lane.py
-tests/             metric identity tests (10)
+scripts/           download_data.sh, fetch_registry.py, run_lane.py, lane_check_surface.py
+tests/             metric identity tests (10); scripts/*.py are compiled in CI-style checks
 docs/              index.html, executive-summary.html, research/sources.md, downloads/
 registry/          registry_sources.json, registry_manifest.json, data_pins.json
 evidence/          run card, holdout receipt, lane check, profiles, figures
