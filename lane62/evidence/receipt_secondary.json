@@ -1,7 +1,7 @@
 {
- "file": "/home/user/62GEMSDOE/docs/downloads/gems62-lahontan-datum-step-dotted-primary-zeros.tif",
- "bytes": 407401,
- "sha256": "042982c22daf8f4fe2b510ac21fe1bceaf2cb7aa6bf1de2f279675052431e6b1",
+ "file": "lane62/docs/downloads/gems62-lahontan-postdatum-scarp-dotted-secondary-zeros.tif",
+ "bytes": 203799,
+ "sha256": "9dd662e1f354f590e83f9d989a9e233e0d4e0875e0caf144bef48cde3391ac74",
  "meta": {
   "height": 3730,
   "width": 3292,
@@ -27,7 +27,7 @@
  "n_finite": 12279160,
  "n_non_finite": 0,
  "n_non_finite_inside_footprint": 0,
- "n_positive_inside_footprint": 49070,
+ "n_positive_inside_footprint": 1750,
  "min_inside": 0.0,
  "max_inside": 1.0,
  "portal_error_cannot_occur": true,
@@ -117,7 +117,7 @@
   }
  ],
  "dots_on_catalogue": {
-  "n_positive": 49070,
+  "n_positive": 1750,
   "n_positive_on_catalogue": 0,
   "mass_on_catalogue": 0.0,
   "n_positive_outside_footprint": 0

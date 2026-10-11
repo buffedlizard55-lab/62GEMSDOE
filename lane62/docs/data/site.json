@@ -20,7 +20,7 @@
   "primary": {
    "name": "gems62-lahontan-datum-break-dotted-primary-zeros.tif",
    "receipt": {
-    "file": "/home/user/62GEMSDOE/docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif",
+    "file": "lane62/docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif",
     "bytes": 518595,
     "sha256": "f58ae055030e5eddc3ec704d6958019be4220188efc03367e089baf024f32e59",
     "meta": {
@@ -260,7 +260,7 @@
   "secondary": {
    "name": "gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif",
    "receipt": {
-    "file": "/home/user/62GEMSDOE/docs/downloads/gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif",
+    "file": "lane62/docs/downloads/gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif",
     "bytes": 191897,
     "sha256": "0cb75334251abd7ef29565039cd13a50e60bafb12a35a257d8a4b0dbfb477edf",
     "meta": {
