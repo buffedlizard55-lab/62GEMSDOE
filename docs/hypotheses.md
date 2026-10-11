@@ -12,18 +12,22 @@ from an organizer/USGS page, **[MEASURED]** computed here from hash-pinned bytes
 
 ## 0. The lever that multiplies every hypothesis — and it is not geology
 
-The published metric is `DTI = T / (0.2·(T + S − M) + 0.8·K)` [OFFICIAL, competition page 967].
-With β = 0.8 the denominator is dominated by **misses**, not by false positives, and every known
-USGS/INGENIOUS pixel is **excluded from evaluation entirely** [OFFICIAL, thread 11516] — so mass
-placed on the catalogue is free and worthless, while a *missed* new fault costs 0.8.
+The published metric is `DTI = TP_w / (TP_w + 0.2·FP_w + 0.8·FN_w + ε)` with a 300 m triangular
+kernel [OFFICIAL, competition page 967]. Writing `T = TP_w`, `S = FP_w`, `N = T + FN_w`, this is
+exactly `DTI = T / (0.2·(T + S) + 0.8·N)` — so with β = 0.8 the denominator is dominated by
+**misses**, not by false positives. Known USGS/INGENIOUS pixels are **excluded from evaluation
+entirely** [OFFICIAL, thread 11516], so mass placed on the catalogue is neither penalised nor
+credited, while a *missed* new fault costs 0.8. The full derivation, including the implied recall
+floor of the group's best artifact, is in [`why-h33-scored.md`](why-h33-scored.md).
 
 That makes the emission **density** the highest-leverage variable in the whole problem, and the
-break-even condition is computable **without any hidden truth**: for a candidate dot of local
-recall probability `p`, adding it helps iff `p > alpha·(1 - DTI_current)/… ` — the exact
-condition is already implemented in `src/gems62/metric.py::marginal_bar`. Calibrating each
-emitter's density and threshold against that bar is worth more than any single new detector, and
-it costs hours, not weeks. **Rank it first by expected DTI gain per unit cost.** Every hypothesis
-below should be scored *through* it.
+break-even condition is computable **without any hidden truth**: adding a dot that earns `p` of
+truth credit and `1 − p` of penalty raises the denominator by exactly `0.2`, so it helps iff
+**`p > 0.2 · DTI`** (derivation in [`why-h33-scored.md`](why-h33-scored.md) §2). At the group's
+best operating point (0.2778) that bar is `p > 0.056`; at a more modest one it is lower still.
+`src/gems62/metric.py::marginal_bar` implements it. Calibrating each emitter's density against
+that bar is worth more than any single new detector, and it costs hours, not weeks. **Rank it
+first by expected DTI gain per unit cost.** Every hypothesis below should be scored *through* it.
 
 *Validation:* the marginal-credit curve is analytically checkable and is reproduced in `tests/`;
 the emitted densities are then compared against the sub-totals on the submission page, which is
