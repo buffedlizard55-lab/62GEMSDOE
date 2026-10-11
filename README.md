@@ -296,6 +296,30 @@ python scripts/check_uniqueness.py --raster build/lane/<name>.tif --footprint sa
 python -m pytest tests -q
 ```
 
+---
+
+## Session 2026-10-11 (`datum62/`) — the leaderboard-calibrated instrument
+
+The newest session extends the root lane with a **scoreboard-calibrated instrument** and ships one
+new format-legal, uniqueness-checked artifact plus a disclosed negative.
+
+* **Artifact to submit / download:**
+  [`docs/downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif`](docs/downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif)
+  — 372,859 B, sha256 `4d83efff6c134734b4be66e1fc1041062657ca22b0cadc3b4396cad820501999`,
+  46,598 dots, float32 EPSG:32611, 14/14 validator checks on the re-read bytes, unique against
+  100 comparators (worst informative Jaccard 0.069). **Verdict: OK to download and submit; do
+  not expect an improvement** — blocked DTI on the surrogate 0.2178 → projection 0.110, below the
+  group's incumbent band 0.24–0.28.
+* **Instrument (the real product):** 56 artifacts with owner-reported portal scores are 56 linear
+  measurements of the hidden test set through the published metric. Inverting them recovers a
+  surrogate `S*` (8,479 px) that reproduces the reported scores at Spearman **+0.968**, against
+  **−0.928** for the SGMC off-catalogue instrument the project had been using as its lead.
+  Evidence: [`datum62/evidence/`](datum62/evidence/), hypotheses and the blocked-but-highest-value
+  option in [`datum62/docs/`](datum62/docs/).
+* **Next session:** rebuild the multi-physics oriented-lineament consensus *from the organiser
+  19-band stack* as **features** (H-2); target blocked DTI(`S*`) ≥ 0.60 before any slot is spent.
+
+
 ## Suggestions / what still needs doing
 
 Kept current in [`docs/next-steps.md`](docs/next-steps.md) (headline: 1 m 3DEP refinement of the

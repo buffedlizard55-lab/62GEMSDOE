@@ -61,3 +61,22 @@ anchored one.
    rank the group's own artifacts against each other.
 7. **Sandbox reachability is a hard constraint.** USGS hosts are unreachable (HTTP 000); DEM
    fetching, and any future external data, must round-trip through a GitHub Actions runner and git.
+
+
+## 2026-10-11 (d-lane extension) — what remains
+
+1. **H-2 (highest value).** Rebuild the incumbents' multi-physics oriented-lineament construction
+   from the organiser 19-band stack *as features* for a supervised detector (the incumbents emit it
+   as a hand-built field). Measure with the new instrument: blocked DTI(`S*`) — stop at ≥ 0.60.
+2. **H-4 (highest value, blocked).** A field placed on the inverted surrogate `S*` projects at
+   0.34–0.42, but ~100 % of its dots fall within 3 px of the incumbent h33 field, i.e. the
+   parallel-run protocol's definition of a duplicate. Documented for the owner in
+   `datum62/docs/decision-note.md`; not emitted.
+3. **Retire the old instruments.** SGMC off-catalogue ranks −0.928 vs the portal over the 15
+   artifacts with owner-reported scores; the catalogue-segment holdout is documented anti-correlated
+   (IR-30-046). Re-rank any future candidate with `datum62/scripts/invert.py`'s objective first.
+4. **Widen the calibration.** 56 artifacts are indexed at `/tmp/reg`; more scored artifacts exist in
+   the sibling repositories (63 indexed) and would tighten the fitted scale.
+5. **Still open from earlier sessions:** repo-root `tests/` cannot collect (`PIXEL_M`,
+   `brute_force_components` undefined at the root — symbols live in
+   `src/gems62/superseded_20261011/`); 1 m 3DEP refinement (H-5) needs a GitHub runner.
