@@ -1,0 +1,52 @@
+{
+ "evaluator": "gems62.holdout.v1 (4 spatial quadrants, whole segments, 300 m buffer)",
+ "n_folds": 4,
+ "buffer_m": 300.0,
+ "pooled_dti": 2.6027063966964748e-05,
+ "folds": [
+  {
+   "fold": "nw",
+   "withheld_segments": 1815,
+   "withheld_cells": 29075,
+   "tp_w": 0.3690259243359434,
+   "fp_w": 93.68816503408199,
+   "fn_w": 29038.630974075662,
+   "dti": 1.5872074958628283e-05
+  },
+  {
+   "fold": "ne",
+   "withheld_segments": 687,
+   "withheld_cells": 12678,
+   "tp_w": 0.8998123067514102,
+   "fp_w": 94.66666666666667,
+   "fn_w": 12668.100187693248,
+   "dti": 8.861380189284283e-05
+  },
+  {
+   "fold": "sw",
+   "withheld_segments": 368,
+   "withheld_cells": 9267,
+   "tp_w": 0.0,
+   "fp_w": 90.0,
+   "fn_w": 9210.0,
+   "dti": 0.0
+  },
+  {
+   "fold": "se",
+   "withheld_segments": 329,
+   "withheld_cells": 9968,
+   "tp_w": 0.0,
+   "fp_w": 90.0,
+   "fn_w": 9928.0,
+   "dti": 0.0
+  }
+ ],
+ "withheld_segments_total": 3199,
+ "withheld_cells_total": 60988,
+ "ci95": [
+  5.517209120036438e-06,
+  0.00016180041394316518
+ ],
+ "bootstrap_n": 60,
+ "note": "Catalogue-truth proxy. The competition target is faults ABSENT from the catalogue; they are masked out of scoring, so this number cannot measure the lane's performance on the real target. It is a leak-free lower bound on recovering a mapped-fault population."
+}

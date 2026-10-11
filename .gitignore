@@ -1,4 +1,10 @@
-.venv/
-build/
+# Large inputs are restored by scripts/fetch_3dep.py + .github/workflows/dem-fetch.yml, not committed.
+data/training_features.tif
+data/geodawn_dem_a2_100m.tif
+data/tmp_stack/
+*.part
 __pycache__/
 *.pyc
+.pytest_cache/
+.venv/
+build/
