@@ -1,0 +1,554 @@
+{
+ "generated_utc": "2026-10-11T20:47:14Z",
+ "product": "National Elevation Dataset (NED) 1/3 arc-second",
+ "api": "https://tnmaccess.nationalmap.gov/api/v1/products",
+ "res_m": 25.0,
+ "crs": "EPSG:32611",
+ "bounds_utm11": [
+  240000.0,
+  4250000.0,
+  430000.0,
+  4480000.0
+ ],
+ "grid_aligned_to": {
+  "crs": "EPSG:32611",
+  "x0": 243350.0,
+  "y1": 4508550.0,
+  "px": 100.0,
+  "rows": 3730,
+  "cols": 3292
+ },
+ "tiles": [
+  {
+   "tile": "n39w119",
+   "discovery": {
+    "tile": "n39w119",
+    "bbox_deg": "-118.505000,38.495000,-118.495000,38.505000",
+    "api_url": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=National+Elevation+Dataset+%28NED%29+1%2F3+arc-second&bbox=-118.505000%2C38.495000%2C-118.495000%2C38.505000&prodFormats=GeoTIFF&max=30&outputFormat=JSON",
+    "api_http": 200,
+    "api_total": 4,
+    "candidates": [
+     {
+      "title": "USGS 1/3 Arc Second n39w119 20031201",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w119/USGS_13_n39w119_20031201.tif",
+      "bytes": 378847638,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n39w119 20230308",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w119/USGS_13_n39w119_20230308.tif",
+      "bytes": 400674169,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n39w119 20250514",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w119/USGS_13_n39w119_20250514.tif",
+      "bytes": 401998969,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 13 arc-second n39w119 1 x 1 degree",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w119/USGS_13_n39w119_20130911.tif",
+      "bytes": 374368,
+      "format": "GeoTIFF"
+     }
+    ]
+   },
+   "download": {
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w119/USGS_13_n39w119_20031201.tif",
+    "http": 200,
+    "bytes": 378847638,
+    "sha256": "287ef5a207f52dc19117c6ae07465a45cb08e8eaed879234cf536d0683a14f7c"
+   },
+   "status": "ok",
+   "src_meta": {
+    "src_crs": "EPSG:4269",
+    "src_shape": [
+     10812,
+     10812
+    ],
+    "src_res": [
+     9.259259259995828e-05,
+     9.259259259995828e-05
+    ],
+    "src_dtype": "float32",
+    "dst_shape": [
+     4504,
+     3568
+    ],
+    "dst_transform": [
+     25.0,
+     0.0,
+     324300.0,
+     0.0,
+     -25.0,
+     4318775.0
+    ],
+    "utm_bounds": [
+     324346.5199080435,
+     4206224.591584721,
+     413456.10695940524,
+     4318742.008145616
+    ]
+   },
+   "dst_shape": [
+    4504,
+    3568
+   ],
+   "paste_row0": 6449,
+   "paste_col0": 3372,
+   "z_min": 1206.864501953125,
+   "z_max": 3434.3623046875,
+   "valid_fraction": 0.9658856427570112
+  },
+  {
+   "tile": "n40w119",
+   "discovery": {
+    "tile": "n40w119",
+    "bbox_deg": "-118.505000,39.495000,-118.495000,39.505000",
+    "api_url": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=National+Elevation+Dataset+%28NED%29+1%2F3+arc-second&bbox=-118.505000%2C39.495000%2C-118.495000%2C39.505000&prodFormats=GeoTIFF&max=30&outputFormat=JSON",
+    "api_http": 200,
+    "api_total": 3,
+    "candidates": [
+     {
+      "title": "USGS 1/3 Arc Second n40w119 20040601",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w119/USGS_13_n40w119_20040601.tif",
+      "bytes": 319123792,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n40w119 20230308",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w119/USGS_13_n40w119_20230308.tif",
+      "bytes": 378567782,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 13 arc-second n40w119 1 x 1 degree",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w119/USGS_13_n40w119_20130911.tif",
+      "bytes": 313036,
+      "format": "GeoTIFF"
+     }
+    ]
+   },
+   "download": {
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w119/USGS_13_n40w119_20040601.tif",
+    "http": 200,
+    "bytes": 319123792,
+    "sha256": "548342c726f04bbf9d541ab202da124c6e4fefd2b01f0f441b31f45ed0b51dcc"
+   },
+   "status": "ok",
+   "src_meta": {
+    "src_crs": "EPSG:4269",
+    "src_shape": [
+     10812,
+     10812
+    ],
+    "src_res": [
+     9.259259259300006e-05,
+     9.259259259300006e-05
+    ],
+    "src_dtype": "float32",
+    "dst_shape": [
+     4505,
+     3520
+    ],
+    "dst_transform": [
+     25.0,
+     0.0,
+     326725.0,
+     0.0,
+     -25.0,
+     4429775.0
+    ],
+    "utm_bounds": [
+     326759.63159378944,
+     4317189.983750349,
+     414687.6529540481,
+     4429735.705686498
+    ]
+   },
+   "dst_shape": [
+    4505,
+    3520
+   ],
+   "paste_row0": 2009,
+   "paste_col0": 3469,
+   "z_min": 1028.2584228515625,
+   "z_max": 2673.843994140625,
+   "valid_fraction": 0.9653095045908586
+  },
+  {
+   "tile": "n40w118",
+   "discovery": {
+    "tile": "n40w118",
+    "bbox_deg": "-117.505000,39.495000,-117.495000,39.505000",
+    "api_url": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=National+Elevation+Dataset+%28NED%29+1%2F3+arc-second&bbox=-117.505000%2C39.495000%2C-117.495000%2C39.505000&prodFormats=GeoTIFF&max=30&outputFormat=JSON",
+    "api_http": 200,
+    "api_total": 5,
+    "candidates": [
+     {
+      "title": "USGS 1/3 Arc Second n40w118 20040601",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w118/USGS_13_n40w118_20040601.tif",
+      "bytes": 378411756,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n40w118 20230308",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w118/USGS_13_n40w118_20230308.tif",
+      "bytes": 389575210,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n40w118 20250113",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w118/USGS_13_n40w118_20250113.tif",
+      "bytes": 395926370,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n40w118 20260112",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w118/USGS_13_n40w118_20260112.tif",
+      "bytes": 397926937,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 13 arc-second n40w118 1 x 1 degree",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w118/USGS_13_n40w118_20130911.tif",
+      "bytes": 374507,
+      "format": "GeoTIFF"
+     }
+    ]
+   },
+   "download": {
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w118/USGS_13_n40w118_20040601.tif",
+    "http": 200,
+    "bytes": 378411756,
+    "sha256": "0084d31ed0379f4482e071625c13be401f507a1fcda0964126f4e89d85a3ecc2"
+   },
+   "status": "ok",
+   "src_meta": {
+    "src_crs": "EPSG:4269",
+    "src_shape": [
+     10812,
+     10812
+    ],
+    "src_res": [
+     9.2592592593e-05,
+     9.2592592593e-05
+    ],
+    "src_dtype": "float32",
+    "dst_shape": [
+     4466,
+     3470
+    ],
+    "dst_transform": [
+     25.0,
+     0.0,
+     413325.0,
+     0.0,
+     -25.0,
+     4428325.0
+    ],
+    "utm_bounds": [
+     413358.53628168866,
+     4316714.932762142,
+     500048.1069023656,
+     4428298.259755649
+    ]
+   },
+   "dst_shape": [
+    4466,
+    3470
+   ],
+   "paste_row0": 2067,
+   "paste_col0": 6933,
+   "z_min": 1029.8021240234375,
+   "z_max": 3486.118896484375,
+   "valid_fraction": 0.9874313900349874
+  },
+  {
+   "tile": "n41w119",
+   "discovery": {
+    "tile": "n41w119",
+    "bbox_deg": "-118.505000,40.495000,-118.495000,40.505000",
+    "api_url": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=National+Elevation+Dataset+%28NED%29+1%2F3+arc-second&bbox=-118.505000%2C40.495000%2C-118.495000%2C40.505000&prodFormats=GeoTIFF&max=30&outputFormat=JSON",
+    "api_http": 200,
+    "api_total": 4,
+    "candidates": [
+     {
+      "title": "USGS 1/3 Arc Second n41w119 20040601",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w119/USGS_13_n41w119_20040601.tif",
+      "bytes": 351901084,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n41w119 20230308",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w119/USGS_13_n41w119_20230308.tif",
+      "bytes": 380277067,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n41w119 20240625",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w119/USGS_13_n41w119_20240625.tif",
+      "bytes": 386798261,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 13 arc-second n41w119 1 x 1 degree",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w119/USGS_13_n41w119_20130911.tif",
+      "bytes": 347386,
+      "format": "GeoTIFF"
+     }
+    ]
+   },
+   "download": {
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w119/USGS_13_n41w119_20040601.tif",
+    "http": 200,
+    "bytes": 351901084,
+    "sha256": "c597d758a839cfbc2a3573f53e2050a1f639e6815ca0171c49be3fb90a8d3145"
+   },
+   "status": "ok",
+   "src_meta": {
+    "src_crs": "EPSG:4269",
+    "src_shape": [
+     10812,
+     10812
+    ],
+    "src_res": [
+     9.2592592593e-05,
+     9.2592592593e-05
+    ],
+    "src_dtype": "float32",
+    "dst_shape": [
+     4506,
+     3471
+    ],
+    "dst_transform": [
+     25.0,
+     0.0,
+     329200.0,
+     0.0,
+     -25.0,
+     4540775.0
+    ],
+    "utm_bounds": [
+     329225.6939755451,
+     4428173.869815213,
+     415945.2954958788,
+     4540746.277193553
+    ]
+   },
+   "dst_shape": [
+    4506,
+    3471
+   ],
+   "paste_row0": 0,
+   "paste_col0": 3568,
+   "z_min": 1185.7169189453125,
+   "z_max": 2991.701904296875,
+   "valid_fraction": 0.96470297358252
+  },
+  {
+   "tile": "n41w120",
+   "discovery": {
+    "tile": "n41w120",
+    "bbox_deg": "-119.505000,40.495000,-119.495000,40.505000",
+    "api_url": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=National+Elevation+Dataset+%28NED%29+1%2F3+arc-second&bbox=-119.505000%2C40.495000%2C-119.495000%2C40.505000&prodFormats=GeoTIFF&max=30&outputFormat=JSON",
+    "api_http": 200,
+    "api_total": 6,
+    "candidates": [
+     {
+      "title": "USGS 1/3 Arc Second n41w120 20040601",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w120/USGS_13_n41w120_20040601.tif",
+      "bytes": 351065565,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n41w120 20230308",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w120/USGS_13_n41w120_20230308.tif",
+      "bytes": 370816199,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n41w120 20240625",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w120/USGS_13_n41w120_20240625.tif",
+      "bytes": 375910709,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n41w120 20250514",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w120/USGS_13_n41w120_20250514.tif",
+      "bytes": 375910871,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n41w120 20260601",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w120/USGS_13_n41w120_20260601.tif",
+      "bytes": 375913234,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 13 arc-second n41w120 1 x 1 degree",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w120/USGS_13_n41w120_20130911.tif",
+      "bytes": 348011,
+      "format": "GeoTIFF"
+     }
+    ]
+   },
+   "download": {
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w120/USGS_13_n41w120_20040601.tif",
+    "http": 200,
+    "bytes": 351065565,
+    "sha256": "c3c5bd10372f5160b3b46125a4ac4e914fa620a6f577c0a75b64b7dc0c9b1544"
+   },
+   "status": "ok",
+   "src_meta": {
+    "src_crs": "EPSG:4269",
+    "src_shape": [
+     10812,
+     10812
+    ],
+    "src_res": [
+     9.2592592593e-05,
+     9.2592592593e-05
+    ],
+    "src_dtype": "float32",
+    "dst_shape": [
+     4545,
+     3522
+    ],
+    "dst_transform": [
+     25.0,
+     0.0,
+     243825.0,
+     0.0,
+     -25.0,
+     4543200.0
+    ],
+    "utm_bounds": [
+     243850.8404944118,
+     4429610.24085318,
+     331840.25454036513,
+     4543156.2452032715
+    ]
+   },
+   "dst_shape": [
+    4545,
+    3522
+   ],
+   "paste_row0": 0,
+   "paste_col0": 153,
+   "z_min": 1147.7674560546875,
+   "z_max": 2732.96533203125,
+   "valid_fraction": 0.9432415075692692
+  },
+  {
+   "tile": "n40w120",
+   "discovery": {
+    "tile": "n40w120",
+    "bbox_deg": "-119.505000,39.495000,-119.495000,39.505000",
+    "api_url": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=National+Elevation+Dataset+%28NED%29+1%2F3+arc-second&bbox=-119.505000%2C39.495000%2C-119.495000%2C39.505000&prodFormats=GeoTIFF&max=30&outputFormat=JSON",
+    "api_http": 200,
+    "api_total": 6,
+    "candidates": [
+     {
+      "title": "USGS 1/3 Arc Second n40w120 20061001",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w120/USGS_13_n40w120_20061001.tif",
+      "bytes": 383230816,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n40w120 20230308",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w120/USGS_13_n40w120_20230308.tif",
+      "bytes": 404593868,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n40w120 20240313",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w120/USGS_13_n40w120_20240313.tif",
+      "bytes": 404593275,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n40w120 20250514",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w120/USGS_13_n40w120_20250514.tif",
+      "bytes": 404461518,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 Arc Second n40w120 20260519",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w120/USGS_13_n40w120_20260519.tif",
+      "bytes": 402039220,
+      "format": "GeoTIFF"
+     },
+     {
+      "title": "USGS 1/3 arc-second n40w120 1 x 1 degree",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w120/USGS_13_n40w120_20200106.tif",
+      "bytes": 391371853,
+      "format": "GeoTIFF"
+     }
+    ]
+   },
+   "download": {
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w120/USGS_13_n40w120_20061001.tif",
+    "http": 200,
+    "bytes": 383230816,
+    "sha256": "660dc04dec8548f0e6550e9e20b8d085f4e6a584ac8c409a887f33ae09c5eb7a"
+   },
+   "status": "ok",
+   "src_meta": {
+    "src_crs": "EPSG:4269",
+    "src_shape": [
+     10812,
+     10812
+    ],
+    "src_res": [
+     9.259259259300006e-05,
+     9.259259259300006e-05
+    ],
+    "src_dtype": "float32",
+    "dst_shape": [
+     4544,
+     3570
+    ],
+    "dst_transform": [
+     25.0,
+     0.0,
+     240100.0,
+     0.0,
+     -25.0,
+     4432175.0
+    ],
+    "utm_bounds": [
+     240149.65322865278,
+     4318616.5765586095,
+     329323.3167222494,
+     4432132.331017062
+    ]
+   },
+   "dst_shape": [
+    4544,
+    3570
+   ],
+   "paste_row0": 1913,
+   "paste_col0": 4,
+   "z_min": 1148.3792724609375,
+   "z_max": 3280.779052734375,
+   "valid_fraction": 0.9443100391565077
+  }
+ ],
+ "mosaic": {
+  "shape": [
+   9200,
+   7600
+  ],
+  "valid_cells": 56550061,
+  "valid_fraction": 0.8087823369565217,
+  "z_min": 1028.2584228515625,
+  "z_max": 3434.3623046875
+ },
+ "dem_file": {
+  "name": "dem_25m_utm11.tif",
+  "bytes": 45932226,
+  "sha256": "90838cbc194576b772c4c11b19b6d37aeb66cbe04818170ccaa3ca46591f40e7"
+ }
+}
