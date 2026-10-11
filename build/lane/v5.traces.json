@@ -1,0 +1,4152 @@
+{
+ "traces": [
+  {
+   "seed_rc": [
+    4954.0,
+    3791.0
+   ],
+   "evidence": 0.21479197281709414,
+   "loci": [
+    {
+     "kind": "deflection",
+     "row": 4954.0,
+     "col": 3791.0,
+     "seg": 16,
+     "s_m": 2100.0,
+     "weight": 5.306517546619653,
+     "value": -87.83892051177364,
+     "evidence": 0.10411916673183441
+    }
+   ],
+   "kind": "deflection",
+   "weight": 5.306517546619653,
+   "n_points": 14
+  },
+  {
+   "seed_rc": [
+    6506.0,
+    4070.0
+   ],
+   "evidence": 0.24589098706712478,
+   "loci": [
+    {
+     "kind": "deflection",
+     "row": 6506.0,
+     "col": 4070.0,
+     "seg": 42,
+     "s_m": 6076.776695296637,
+     "weight": 5.074748642742634,
+     "value": -90.0,
+     "evidence": 0.06386096030473709
+    }
+   ],
+   "kind": "deflection",
+   "weight": 5.074748642742634,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    160.0,
+    747.0
+   ],
+   "evidence": 0.7072998190315212,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 160.0,
+     "col": 747.0,
+     "weight": 3.0,
+     "step_m": 119.29992675781273,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 246.2214450449026,
+     "strike_deg": 36.0389262447367,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 19
+  },
+  {
+   "seed_rc": [
+    241.0,
+    771.0
+   ],
+   "evidence": 0.7984435779720386,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 241.0,
+     "col": 771.0,
+     "weight": 3.0,
+     "step_m": 158.20007324218727,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 413.82363393117123,
+     "strike_deg": 160.48671087946101,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 19
+  },
+  {
+   "seed_rc": [
+    329.0,
+    529.0
+   ],
+   "evidence": 0.74229226655547,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 329.0,
+     "col": 529.0,
+     "weight": 3.0,
+     "step_m": 23.4000244140625,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 735.2720584926371,
+     "strike_deg": 175.14879845696848,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 26
+  },
+  {
+   "seed_rc": [
+    410.0,
+    501.0
+   ],
+   "evidence": 0.6382077798267247,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 410.0,
+     "col": 501.0,
+     "weight": 3.0,
+     "step_m": 74.0999755859375,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 425.73465914816006,
+     "strike_deg": 169.14635398481306,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    433.0,
+    761.0
+   ],
+   "evidence": 0.4842023828794594,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 433.0,
+     "col": 761.0,
+     "weight": 3.0,
+     "step_m": 98.699951171875,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 257.390753524675,
+     "strike_deg": 17.060561512601453,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  },
+  {
+   "seed_rc": [
+    524.0,
+    487.0
+   ],
+   "evidence": 0.7820881972462578,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 524.0,
+     "col": 487.0,
+     "weight": 3.0,
+     "step_m": 47.50000000000023,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 369.120576505835,
+     "strike_deg": 1.884529365974089,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 23
+  },
+  {
+   "seed_rc": [
+    605.0,
+    466.0
+   ],
+   "evidence": 0.7507716991674211,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 605.0,
+     "col": 466.0,
+     "weight": 3.0,
+     "step_m": 46.499956512451035,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 167.70509831248424,
+     "strike_deg": 173.39357407766673,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 24
+  },
+  {
+   "seed_rc": [
+    616.0,
+    798.0
+   ],
+   "evidence": 0.6581871307409515,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 616.0,
+     "col": 798.0,
+     "weight": 3.0,
+     "step_m": 133.3001068115234,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 413.82363393117123,
+     "strike_deg": 13.552012935700816,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 16
+  },
+  {
+   "seed_rc": [
+    686.0,
+    425.0
+   ],
+   "evidence": 0.7765468619551127,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 686.0,
+     "col": 425.0,
+     "weight": 3.0,
+     "step_m": 139.7000343322752,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 134.6291201783626,
+     "strike_deg": 143.41462936607851,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    686.0,
+    520.0
+   ],
+   "evidence": 0.5476045351834923,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 686.0,
+     "col": 520.0,
+     "weight": 3.0,
+     "step_m": 139.00004348754874,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 195.25624189766634,
+     "strike_deg": 21.701304818187822,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 17
+  },
+  {
+   "seed_rc": [
+    697.0,
+    766.0
+   ],
+   "evidence": 0.7728033800765959,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 697.0,
+     "col": 766.0,
+     "weight": 3.0,
+     "step_m": 20.09991760253888,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 285.0438562747845,
+     "strike_deg": 3.910737332589314,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 15
+  },
+  {
+   "seed_rc": [
+    767.0,
+    483.0
+   ],
+   "evidence": 0.22264600569765075,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 767.0,
+     "col": 483.0,
+     "weight": 3.0,
+     "step_m": 84.99995422363281,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 348.209706929603,
+     "strike_deg": 75.53390491121259,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    779.0,
+    792.0
+   ],
+   "evidence": 0.4130438409832426,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 779.0,
+     "col": 792.0,
+     "weight": 3.0,
+     "step_m": 22.199764738083104,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 340.0367627183861,
+     "strike_deg": 3.0337112693815764,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    883.0,
+    637.0
+   ],
+   "evidence": 0.6838764924872449,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 883.0,
+     "col": 637.0,
+     "weight": 3.0,
+     "step_m": 90.5004235804081,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 125.0,
+     "strike_deg": 11.252548010675213,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 21
+  },
+  {
+   "seed_rc": [
+    897.0,
+    967.0
+   ],
+   "evidence": 0.48500312585784405,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 897.0,
+     "col": 967.0,
+     "weight": 3.0,
+     "step_m": 120.19930729866019,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 279.5084971874737,
+     "strike_deg": 23.162758162331812,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    1034.0,
+    674.0
+   ],
+   "evidence": 0.6407709785104858,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1034.0,
+     "col": 674.0,
+     "weight": 3.0,
+     "step_m": 34.300886056423224,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 167.70509831248424,
+     "strike_deg": 6.1392954515354745,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  },
+  {
+   "seed_rc": [
+    1075.0,
+    1046.0
+   ],
+   "evidence": 0.7836108463476512,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1075.0,
+     "col": 1046.0,
+     "weight": 3.0,
+     "step_m": 40.40248710632318,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 251.24689052802225,
+     "strike_deg": 174.175648678303,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 20
+  },
+  {
+   "seed_rc": [
+    1138.0,
+    778.0
+   ],
+   "evidence": 0.39601414704442506,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1138.0,
+     "col": 778.0,
+     "weight": 3.0,
+     "step_m": 58.902213706970315,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 200.0,
+     "strike_deg": 165.13612085692642,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    97.0,
+    1933.0
+   ],
+   "evidence": 0.5778068324646324,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 97.0,
+     "col": 1933.0,
+     "weight": 3.0,
+     "step_m": 77.51372198104877,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 375.8324094593227,
+     "strike_deg": 100.3431403143865,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 16
+  },
+  {
+   "seed_rc": [
+    129.0,
+    1415.0
+   ],
+   "evidence": 0.42430768197056823,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 129.0,
+     "col": 1415.0,
+     "weight": 3.0,
+     "step_m": 102.90016479492147,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 650.0,
+     "strike_deg": 13.57390629404105,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    218.0,
+    1396.0
+   ],
+   "evidence": 0.4430869663127379,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 218.0,
+     "col": 1396.0,
+     "weight": 3.0,
+     "step_m": 159.20033959388707,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 585.2349955359813,
+     "strike_deg": 110.49013404727826,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    296.0,
+    1758.0
+   ],
+   "evidence": 0.5475711477319775,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 296.0,
+     "col": 1758.0,
+     "weight": 3.0,
+     "step_m": 16.604610080719112,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 215.05813167606567,
+     "strike_deg": 85.89788663701393,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    308.0,
+    1622.0
+   ],
+   "evidence": 0.3475723433933815,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 308.0,
+     "col": 1622.0,
+     "weight": 3.0,
+     "step_m": 27.89970650672899,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 301.0398644698074,
+     "strike_deg": 2.716913420407053,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    322.0,
+    1461.0
+   ],
+   "evidence": 0.3546392229020617,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 322.0,
+     "col": 1461.0,
+     "weight": 3.0,
+     "step_m": 151.19974119663243,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 726.7220926874317,
+     "strike_deg": 112.21765779415372,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    389.0,
+    1551.0
+   ],
+   "evidence": 0.6946863115266856,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 389.0,
+     "col": 1551.0,
+     "weight": 3.0,
+     "step_m": 40.7997247695921,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 251.24689052802225,
+     "strike_deg": 0.2419935619921887,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    401.0,
+    1758.0
+   ],
+   "evidence": 0.44548647609448644,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 401.0,
+     "col": 1758.0,
+     "weight": 3.0,
+     "step_m": 90.89572007894503,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 391.31189606246323,
+     "strike_deg": 72.10013463682189,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 16
+  },
+  {
+   "seed_rc": [
+    496.0,
+    1199.0
+   ],
+   "evidence": 0.6313992593927946,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 496.0,
+     "col": 1199.0,
+     "weight": 3.0,
+     "step_m": 119.0999983608724,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 431.5669125408017,
+     "strike_deg": 160.13672706878154,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    525.0,
+    1452.0
+   ],
+   "evidence": 0.6154684392656078,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 525.0,
+     "col": 1452.0,
+     "weight": 3.0,
+     "step_m": 206.0001636219024,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 626.9968101992226,
+     "strike_deg": 28.93610710398445,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 21
+  },
+  {
+   "seed_rc": [
+    629.0,
+    1211.0
+   ],
+   "evidence": 0.765179779909733,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 629.0,
+     "col": 1211.0,
+     "weight": 3.0,
+     "step_m": 112.9001182556151,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 226.38462845343543,
+     "strike_deg": 161.84847098510315,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 25
+  },
+  {
+   "seed_rc": [
+    649.0,
+    1512.0
+   ],
+   "evidence": 0.6074150045179836,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 649.0,
+     "col": 1512.0,
+     "weight": 3.0,
+     "step_m": 97.00009096145641,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 125.0,
+     "strike_deg": 158.82287733955337,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    653.0,
+    1329.0
+   ],
+   "evidence": 0.42966825240630746,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 653.0,
+     "col": 1329.0,
+     "weight": 3.0,
+     "step_m": 128.20004501342783,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 230.4886114323222,
+     "strike_deg": 161.63632270724207,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 15
+  },
+  {
+   "seed_rc": [
+    715.0,
+    2042.0
+   ],
+   "evidence": 0.4165648239111955,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 715.0,
+     "col": 2042.0,
+     "weight": 3.0,
+     "step_m": 119.40087732315055,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 469.7073557013984,
+     "strike_deg": 164.18005472652754,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 16
+  },
+  {
+   "seed_rc": [
+    716.0,
+    1208.0
+   ],
+   "evidence": 0.7434992152379759,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 716.0,
+     "col": 1208.0,
+     "weight": 3.0,
+     "step_m": 37.699822604655765,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 160.0781059358212,
+     "strike_deg": 5.485154804053803,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 27
+  },
+  {
+   "seed_rc": [
+    735.0,
+    1941.0
+   ],
+   "evidence": 0.526051531629942,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 735.0,
+     "col": 1941.0,
+     "weight": 3.0,
+     "step_m": 33.59715244293193,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 896.1724164467461,
+     "strike_deg": 7.573726515576482,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    738.0,
+    1300.0
+   ],
+   "evidence": 0.7366954427493636,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 738.0,
+     "col": 1300.0,
+     "weight": 3.0,
+     "step_m": 28.60027235031157,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 482.83019789569914,
+     "strike_deg": 178.04971281221086,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    816.0,
+    2005.0
+   ],
+   "evidence": 0.6121915504207323,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 816.0,
+     "col": 2005.0,
+     "weight": 3.0,
+     "step_m": 166.60354696750642,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 340.0367627183861,
+     "strike_deg": 161.34131834528355,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 45
+  },
+  {
+   "seed_rc": [
+    881.0,
+    1277.0
+   ],
+   "evidence": 0.5484642348893298,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 881.0,
+     "col": 1277.0,
+     "weight": 3.0,
+     "step_m": 106.20058119893088,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 300.0,
+     "strike_deg": 162.30499733639212,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 33
+  },
+  {
+   "seed_rc": [
+    924.0,
+    1363.0
+   ],
+   "evidence": 0.4971785880230121,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 924.0,
+     "col": 1363.0,
+     "weight": 3.0,
+     "step_m": 77.39897301673886,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 364.0054944640259,
+     "strike_deg": 169.78645566352026,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    927.0,
+    1805.0
+   ],
+   "evidence": 0.6857837645703688,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 927.0,
+     "col": 1805.0,
+     "weight": 3.0,
+     "step_m": 123.79987478256226,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 382.4264635194589,
+     "strike_deg": 11.757998627241486,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    947.0,
+    1918.0
+   ],
+   "evidence": 0.5746301233408507,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 947.0,
+     "col": 1918.0,
+     "weight": 3.0,
+     "step_m": 115.10111357212054,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 380.78865529319546,
+     "strike_deg": 166.6764688618023,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 16
+  },
+  {
+   "seed_rc": [
+    984.0,
+    1267.0
+   ],
+   "evidence": 0.6303019905446788,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 984.0,
+     "col": 1267.0,
+     "weight": 3.0,
+     "step_m": 120.49921658039102,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 291.54759474226506,
+     "strike_deg": 21.168015008831954,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 19
+  },
+  {
+   "seed_rc": [
+    1016.0,
+    1373.0
+   ],
+   "evidence": 0.4970636951423618,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1016.0,
+     "col": 1373.0,
+     "weight": 3.0,
+     "step_m": 122.29925356864919,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 371.65171868296267,
+     "strike_deg": 23.807295532682115,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 14
+  },
+  {
+   "seed_rc": [
+    77.0,
+    2276.0
+   ],
+   "evidence": 0.7269673270040523,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 77.0,
+     "col": 2276.0,
+     "weight": 3.0,
+     "step_m": 12.906259183072962,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 261.00766272276377,
+     "strike_deg": 2.4525579972443246,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    89.0,
+    2725.0
+   ],
+   "evidence": 0.4554121684916531,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 89.0,
+     "col": 2725.0,
+     "weight": 3.0,
+     "step_m": 92.60854250907892,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 585.2349955359813,
+     "strike_deg": 72.70969704346093,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  },
+  {
+   "seed_rc": [
+    172.0,
+    2751.0
+   ],
+   "evidence": 0.5834622168334513,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 172.0,
+     "col": 2751.0,
+     "weight": 3.0,
+     "step_m": 16.108805365562603,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 206.15528128088303,
+     "strike_deg": 179.29046988863894,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 18
+  },
+  {
+   "seed_rc": [
+    247.0,
+    2373.0
+   ],
+   "evidence": 0.5866990329695043,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 247.0,
+     "col": 2373.0,
+     "weight": 3.0,
+     "step_m": 199.6030731904507,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 640.3124237432849,
+     "strike_deg": 33.74901882843483,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    253.0,
+    2627.0
+   ],
+   "evidence": 0.36375856290822284,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 253.0,
+     "col": 2627.0,
+     "weight": 3.0,
+     "step_m": 263.8017944145204,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 1190.8505363814554,
+     "strike_deg": 36.07281271948466,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  },
+  {
+   "seed_rc": [
+    440.0,
+    2633.0
+   ],
+   "evidence": 0.309627501181913,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 440.0,
+     "col": 2633.0,
+     "weight": 3.0,
+     "step_m": 171.607962284088,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 353.5533905932738,
+     "strike_deg": 166.93565983003322,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    492.0,
+    2250.0
+   ],
+   "evidence": 0.5187665371001917,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 492.0,
+     "col": 2250.0,
+     "weight": 3.0,
+     "step_m": 207.82312675476078,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 285.0438562747845,
+     "strike_deg": 148.23291743589203,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 21
+  },
+  {
+   "seed_rc": [
+    513.0,
+    2374.0
+   ],
+   "evidence": 0.6468691502808972,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 513.0,
+     "col": 2374.0,
+     "weight": 3.0,
+     "step_m": 83.44349988937347,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 190.39432764659773,
+     "strike_deg": 11.6937161116347,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    521.0,
+    2633.0
+   ],
+   "evidence": 0.5677878793714606,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 521.0,
+     "col": 2633.0,
+     "weight": 3.0,
+     "step_m": 264.6674169921873,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 784.6177413237608,
+     "strike_deg": 27.49090885543406,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 22
+  },
+  {
+   "seed_rc": [
+    631.0,
+    2685.0
+   ],
+   "evidence": 0.6704255236437427,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 631.0,
+     "col": 2685.0,
+     "weight": 3.0,
+     "step_m": 70.18760442733742,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 230.4886114323222,
+     "strike_deg": 170.57481626444294,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 41
+  },
+  {
+   "seed_rc": [
+    644.0,
+    2217.0
+   ],
+   "evidence": 0.5883420456686493,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 644.0,
+     "col": 2217.0,
+     "weight": 3.0,
+     "step_m": 169.81914122581475,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 355.31676008879737,
+     "strike_deg": 147.92265512817113,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 51
+  },
+  {
+   "seed_rc": [
+    740.0,
+    2678.0
+   ],
+   "evidence": 0.8977100191037966,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 740.0,
+     "col": 2678.0,
+     "weight": 3.0,
+     "step_m": 14.251619091033717,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 395.2847075210474,
+     "strike_deg": 178.8446012755548,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 14
+  },
+  {
+   "seed_rc": [
+    745.0,
+    2194.0
+   ],
+   "evidence": 0.6183097453786189,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 745.0,
+     "col": 2194.0,
+     "weight": 3.0,
+     "step_m": 14.611061587334007,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 506.2114182829147,
+     "strike_deg": 2.2634394810508374,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 29
+  },
+  {
+   "seed_rc": [
+    827.0,
+    2248.0
+   ],
+   "evidence": 0.5336451983812421,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 827.0,
+     "col": 2248.0,
+     "weight": 3.0,
+     "step_m": 18.90555142879498,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 770.1460900374682,
+     "strike_deg": 172.72932256826394,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  },
+  {
+   "seed_rc": [
+    859.0,
+    2140.0
+   ],
+   "evidence": 0.6477395888209374,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 859.0,
+     "col": 2140.0,
+     "weight": 3.0,
+     "step_m": 13.394636826515125,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 279.5084971874737,
+     "strike_deg": 178.60786391530038,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  },
+  {
+   "seed_rc": [
+    890.0,
+    2653.0
+   ],
+   "evidence": 0.4751414136729381,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 890.0,
+     "col": 2653.0,
+     "weight": 3.0,
+     "step_m": 97.2700649070739,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 292.61749776799064,
+     "strike_deg": 161.47102565780617,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    940.0,
+    2131.0
+   ],
+   "evidence": 0.5279197778350426,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 940.0,
+     "col": 2131.0,
+     "weight": 3.0,
+     "step_m": 12.59708492755908,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 390.5124837953327,
+     "strike_deg": 175.14948704606297,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 22
+  },
+  {
+   "seed_rc": [
+    971.0,
+    2642.0
+   ],
+   "evidence": 0.7528589921044397,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 971.0,
+     "col": 2642.0,
+     "weight": 3.0,
+     "step_m": 119.73242909908299,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 152.0690632574555,
+     "strike_deg": 12.368112514544004,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 19
+  },
+  {
+   "seed_rc": [
+    1048.0,
+    2118.0
+   ],
+   "evidence": 0.42714630279237553,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1048.0,
+     "col": 2118.0,
+     "weight": 3.0,
+     "step_m": 117.01166480064398,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 427.20018726587654,
+     "strike_deg": 102.27328484750362,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 14
+  },
+  {
+   "seed_rc": [
+    1068.0,
+    1981.0
+   ],
+   "evidence": 0.8503532336695862,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1068.0,
+     "col": 1981.0,
+     "weight": 3.0,
+     "step_m": 37.60292051792135,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 279.5084971874737,
+     "strike_deg": 175.00666625096974,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 16
+  },
+  {
+   "seed_rc": [
+    288.0,
+    3821.0
+   ],
+   "evidence": 0.518832143795002,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 288.0,
+     "col": 3821.0,
+     "weight": 3.0,
+     "step_m": 18.38981770992291,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 230.4886114323222,
+     "strike_deg": 3.975996125775554,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 12
+  },
+  {
+   "seed_rc": [
+    307.0,
+    3566.0
+   ],
+   "evidence": 0.7087918496357156,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 307.0,
+     "col": 3566.0,
+     "weight": 3.0,
+     "step_m": 92.7804242038726,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 235.8495283014151,
+     "strike_deg": 99.51529798511801,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 14
+  },
+  {
+   "seed_rc": [
+    363.0,
+    3478.0
+   ],
+   "evidence": 0.5114840477789346,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 363.0,
+     "col": 3478.0,
+     "weight": 3.0,
+     "step_m": 218.88151919364918,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 813.9410298049853,
+     "strike_deg": 153.60556479254177,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 14
+  },
+  {
+   "seed_rc": [
+    369.0,
+    3746.0
+   ],
+   "evidence": 0.5746306495612361,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 369.0,
+     "col": 3746.0,
+     "weight": 3.0,
+     "step_m": 84.44730859756487,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 406.97051490249265,
+     "strike_deg": 18.211229034487477,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    834.0,
+    3379.0
+   ],
+   "evidence": 0.4981487184685756,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 834.0,
+     "col": 3379.0,
+     "weight": 3.0,
+     "step_m": 236.30314895629863,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 380.78865529319546,
+     "strike_deg": 149.28246801704654,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    915.0,
+    3364.0
+   ],
+   "evidence": 0.5054643927795258,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 915.0,
+     "col": 3364.0,
+     "weight": 3.0,
+     "step_m": 182.48820573806756,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 276.1340254296815,
+     "strike_deg": 156.283613608457,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 28
+  },
+  {
+   "seed_rc": [
+    928.0,
+    3454.0
+   ],
+   "evidence": 0.5657957227737548,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 928.0,
+     "col": 3454.0,
+     "weight": 3.0,
+     "step_m": 177.75645203590375,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 250.0,
+     "strike_deg": 63.84179203841201,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 15
+  },
+  {
+   "seed_rc": [
+    996.0,
+    3310.0
+   ],
+   "evidence": 0.36663441654781376,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 996.0,
+     "col": 3310.0,
+     "weight": 3.0,
+     "step_m": 206.5973857498168,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 425.0,
+     "strike_deg": 137.7054221256396,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  },
+  {
+   "seed_rc": [
+    1019.0,
+    3044.0
+   ],
+   "evidence": 0.4394261055996215,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1019.0,
+     "col": 3044.0,
+     "weight": 3.0,
+     "step_m": 28.715165691375432,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 235.8495283014151,
+     "strike_deg": 96.41087474603388,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 15
+  },
+  {
+   "seed_rc": [
+    1090.0,
+    3401.0
+   ],
+   "evidence": 0.5878197539321206,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1090.0,
+     "col": 3401.0,
+     "weight": 3.0,
+     "step_m": 111.34046008110045,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 230.4886114323222,
+     "strike_deg": 79.49421048169002,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 20
+  },
+  {
+   "seed_rc": [
+    83.0,
+    4217.0
+   ],
+   "evidence": 0.6022476089863924,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 83.0,
+     "col": 4217.0,
+     "weight": 3.0,
+     "step_m": 164.1804008990291,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 206.15528128088303,
+     "strike_deg": 139.7597073556062,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    174.0,
+    4200.0
+   ],
+   "evidence": 0.5629206045642738,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 174.0,
+     "col": 4200.0,
+     "weight": 3.0,
+     "step_m": 127.93360841751087,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 254.9509756796392,
+     "strike_deg": 110.94009335963047,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    255.0,
+    4178.0
+   ],
+   "evidence": 0.3710798952319486,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 255.0,
+     "col": 4178.0,
+     "weight": 3.0,
+     "step_m": 222.4368222570415,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 305.16389039334257,
+     "strike_deg": 154.06640118624594,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  },
+  {
+   "seed_rc": [
+    428.0,
+    4130.0
+   ],
+   "evidence": 0.5851460937355453,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 428.0,
+     "col": 4130.0,
+     "weight": 3.0,
+     "step_m": 17.324521427154423,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 548.2928049865327,
+     "strike_deg": 5.735315474845585,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 12
+  },
+  {
+   "seed_rc": [
+    603.0,
+    4619.0
+   ],
+   "evidence": 0.5665479474623466,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 603.0,
+     "col": 4619.0,
+     "weight": 3.0,
+     "step_m": 21.662988471984818,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 182.00274723201295,
+     "strike_deg": 100.38425395088768,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    647.0,
+    4892.0
+   ],
+   "evidence": 0.46441881362044896,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 647.0,
+     "col": 4892.0,
+     "weight": 3.0,
+     "step_m": 76.02609532356223,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 158.11388300841898,
+     "strike_deg": 165.83965392981634,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 12
+  },
+  {
+   "seed_rc": [
+    728.0,
+    4767.0
+   ],
+   "evidence": 0.4988999394382788,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 728.0,
+     "col": 4767.0,
+     "weight": 3.0,
+     "step_m": 16.281293845176606,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 325.0,
+     "strike_deg": 88.22364489835424,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 15
+  },
+  {
+   "seed_rc": [
+    728.0,
+    4953.0
+   ],
+   "evidence": 0.7291615788330856,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 728.0,
+     "col": 4953.0,
+     "weight": 3.0,
+     "step_m": 74.80324302434929,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 195.25624189766634,
+     "strike_deg": 163.00554880311424,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    750.0,
+    4562.0
+   ],
+   "evidence": 0.46796511349841624,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 750.0,
+     "col": 4562.0,
+     "weight": 3.0,
+     "step_m": 121.6358800208568,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 215.05813167606567,
+     "strike_deg": 143.82470182251498,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    810.0,
+    4813.0
+   ],
+   "evidence": 0.6010838239841672,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 810.0,
+     "col": 4813.0,
+     "weight": 3.0,
+     "step_m": 73.61613480091091,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 125.0,
+     "strike_deg": 12.77484327731753,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 18
+  },
+  {
+   "seed_rc": [
+    886.0,
+    4419.0
+   ],
+   "evidence": 0.6052650326446858,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 886.0,
+     "col": 4419.0,
+     "weight": 3.0,
+     "step_m": 255.2881858456135,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 430.11626335213134,
+     "strike_deg": 143.3226809967266,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 12
+  },
+  {
+   "seed_rc": [
+    896.0,
+    4335.0
+   ],
+   "evidence": 0.34527071156844547,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 896.0,
+     "col": 4335.0,
+     "weight": 3.0,
+     "step_m": 25.888305506706274,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 500.0,
+     "strike_deg": 99.29073321165171,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 20
+  },
+  {
+   "seed_rc": [
+    921.0,
+    4565.0
+   ],
+   "evidence": 0.6904743227834647,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 921.0,
+     "col": 4565.0,
+     "weight": 3.0,
+     "step_m": 106.90305976986883,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 206.15528128088303,
+     "strike_deg": 31.62087456406119,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 29
+  },
+  {
+   "seed_rc": [
+    942.0,
+    4234.0
+   ],
+   "evidence": 0.501172103056305,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 942.0,
+     "col": 4234.0,
+     "weight": 3.0,
+     "step_m": 43.205802087783695,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 226.38462845343543,
+     "strike_deg": 102.04538994044152,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    968.0,
+    4452.0
+   ],
+   "evidence": 0.7328912055458863,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 968.0,
+     "col": 4452.0,
+     "weight": 3.0,
+     "step_m": 67.27116119384755,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 766.8930825088984,
+     "strike_deg": 10.493501488125224,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 28
+  },
+  {
+   "seed_rc": [
+    981.0,
+    4354.0
+   ],
+   "evidence": 0.22337177402260364,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 981.0,
+     "col": 4354.0,
+     "weight": 3.0,
+     "step_m": 73.20981264591205,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 357.94552658190884,
+     "strike_deg": 151.25516112495282,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  },
+  {
+   "seed_rc": [
+    983.0,
+    4929.0
+   ],
+   "evidence": 0.5864001361851442,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 983.0,
+     "col": 4929.0,
+     "weight": 3.0,
+     "step_m": 93.90977020263699,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 175.0,
+     "strike_deg": 76.59142975880958,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 24
+  },
+  {
+   "seed_rc": [
+    1049.0,
+    4457.0
+   ],
+   "evidence": 0.7692015643866197,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1049.0,
+     "col": 4457.0,
+     "weight": 3.0,
+     "step_m": 29.846445093155126,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 320.1562118716424,
+     "strike_deg": 3.2698558222410856,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 27
+  },
+  {
+   "seed_rc": [
+    1058.0,
+    4651.0
+   ],
+   "evidence": 0.5752724223830923,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1058.0,
+     "col": 4651.0,
+     "weight": 3.0,
+     "step_m": 12.968043928146244,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 364.0054944640259,
+     "strike_deg": 3.478526353033217,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 14
+  },
+  {
+   "seed_rc": [
+    1121.0,
+    4364.0
+   ],
+   "evidence": 0.22903976863304076,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1121.0,
+     "col": 4364.0,
+     "weight": 3.0,
+     "step_m": 44.069880619048945,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 529.7405025104273,
+     "strike_deg": 11.37263873184695,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    63.0,
+    5377.0
+   ],
+   "evidence": 0.5142072211201548,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 63.0,
+     "col": 5377.0,
+     "weight": 3.0,
+     "step_m": 33.447599490356424,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 201.55644370746373,
+     "strike_deg": 172.00584904859903,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 15
+  },
+  {
+   "seed_rc": [
+    113.0,
+    5927.0
+   ],
+   "evidence": 0.6834874581949384,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 113.0,
+     "col": 5927.0,
+     "weight": 3.0,
+     "step_m": 53.509967517853056,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 141.4213562373095,
+     "strike_deg": 161.49234697514606,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 20
+  },
+  {
+   "seed_rc": [
+    139.0,
+    5059.0
+   ],
+   "evidence": 0.3676166761464124,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 139.0,
+     "col": 5059.0,
+     "weight": 3.0,
+     "step_m": 22.60807744026215,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 127.4754878398196,
+     "strike_deg": 75.61836383742904,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    219.0,
+    5565.0
+   ],
+   "evidence": 0.31449016587790624,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 219.0,
+     "col": 5565.0,
+     "weight": 3.0,
+     "step_m": 73.71737030029271,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 237.17082451262846,
+     "strike_deg": 152.08501160134682,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 14
+  },
+  {
+   "seed_rc": [
+    380.0,
+    5300.0
+   ],
+   "evidence": 0.552227041305411,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 380.0,
+     "col": 5300.0,
+     "weight": 3.0,
+     "step_m": 57.339463043212845,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 223.60679774997897,
+     "strike_deg": 75.33200176994616,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  },
+  {
+   "seed_rc": [
+    431.0,
+    5617.0
+   ],
+   "evidence": 0.5066674805734207,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 431.0,
+     "col": 5617.0,
+     "weight": 3.0,
+     "step_m": 116.2765736579895,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 285.0438562747845,
+     "strike_deg": 148.54283097530205,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    535.0,
+    5214.0
+   ],
+   "evidence": 0.31288031610283373,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 535.0,
+     "col": 5214.0,
+     "weight": 3.0,
+     "step_m": 29.96635461330402,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 215.05813167606567,
+     "strike_deg": 2.0996912219674186,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    551.0,
+    5447.0
+   ],
+   "evidence": 0.6586686023223198,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 551.0,
+     "col": 5447.0,
+     "weight": 3.0,
+     "step_m": 64.26618780970603,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 176.7766952966369,
+     "strike_deg": 13.585854055392502,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    557.0,
+    5295.0
+   ],
+   "evidence": 0.3517894313308866,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 557.0,
+     "col": 5295.0,
+     "weight": 3.0,
+     "step_m": 75.13152447342895,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 167.70509831248424,
+     "strike_deg": 52.705020116011355,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    740.0,
+    5047.0
+   ],
+   "evidence": 0.5871114568957747,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 740.0,
+     "col": 5047.0,
+     "weight": 3.0,
+     "step_m": 31.900918493270638,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 261.00766272276377,
+     "strike_deg": 178.05822220280277,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    1083.0,
+    5785.0
+   ],
+   "evidence": 0.6440526523856678,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1083.0,
+     "col": 5785.0,
+     "weight": 3.0,
+     "step_m": 193.26051750183115,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 182.00274723201295,
+     "strike_deg": 47.504061619855065,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    95.0,
+    6563.0
+   ],
+   "evidence": 0.529833546484693,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 95.0,
+     "col": 6563.0,
+     "weight": 3.0,
+     "step_m": 62.73185982704172,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 226.38462845343543,
+     "strike_deg": 74.30989578126777,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 16
+  },
+  {
+   "seed_rc": [
+    165.0,
+    6204.0
+   ],
+   "evidence": 0.47193838267930494,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 165.0,
+     "col": 6204.0,
+     "weight": 3.0,
+     "step_m": 53.4711490488055,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 583.6308764964376,
+     "strike_deg": 84.35394384819456,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 14
+  },
+  {
+   "seed_rc": [
+    247.0,
+    6174.0
+   ],
+   "evidence": 0.623037182934734,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 247.0,
+     "col": 6174.0,
+     "weight": 3.0,
+     "step_m": 126.98158284664146,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 552.268050859363,
+     "strike_deg": 108.69366142995864,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    275.0,
+    6407.0
+   ],
+   "evidence": 0.5772971745915586,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 275.0,
+     "col": 6407.0,
+     "weight": 3.0,
+     "step_m": 180.27776523590092,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 752.0804478245661,
+     "strike_deg": 152.61856694176618,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 12
+  },
+  {
+   "seed_rc": [
+    367.0,
+    6455.0
+   ],
+   "evidence": 0.27968359274388116,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 367.0,
+     "col": 6455.0,
+     "weight": 3.0,
+     "step_m": 92.71586864471419,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 482.83019789569914,
+     "strike_deg": 72.66302536183704,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    377.0,
+    6285.0
+   ],
+   "evidence": 0.4940874946284677,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 377.0,
+     "col": 6285.0,
+     "weight": 3.0,
+     "step_m": 182.5284985256194,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 1007.7822185373186,
+     "strike_deg": 109.97239912954659,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 21
+  },
+  {
+   "seed_rc": [
+    458.0,
+    6253.0
+   ],
+   "evidence": 0.39244698452148985,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 458.0,
+     "col": 6253.0,
+     "weight": 3.0,
+     "step_m": 253.85846116542803,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 1123.6102527122116,
+     "strike_deg": 57.85668710810399,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 19
+  },
+  {
+   "seed_rc": [
+    618.0,
+    6621.0
+   ],
+   "evidence": 0.4515091330685401,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 618.0,
+     "col": 6621.0,
+     "weight": 3.0,
+     "step_m": 170.34849521160118,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 215.05813167606567,
+     "strike_deg": 133.38171472775036,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 44
+  },
+  {
+   "seed_rc": [
+    630.0,
+    6249.0
+   ],
+   "evidence": 0.3548731100103137,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 630.0,
+     "col": 6249.0,
+     "weight": 3.0,
+     "step_m": 118.05746823787695,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 850.3675675847476,
+     "strike_deg": 114.98738112728687,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 14
+  },
+  {
+   "seed_rc": [
+    651.0,
+    6483.0
+   ],
+   "evidence": 0.6515389667266253,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 651.0,
+     "col": 6483.0,
+     "weight": 3.0,
+     "step_m": 172.20690714240072,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 753.7406715840667,
+     "strike_deg": 60.42658034790237,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 19
+  },
+  {
+   "seed_rc": [
+    712.0,
+    6329.0
+   ],
+   "evidence": 0.6968266482030772,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 712.0,
+     "col": 6329.0,
+     "weight": 3.0,
+     "step_m": 145.5616806793214,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 403.11288741492746,
+     "strike_deg": 60.603434326463216,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    720.0,
+    6722.0
+   ],
+   "evidence": 0.5317242867726957,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 720.0,
+     "col": 6722.0,
+     "weight": 3.0,
+     "step_m": 120.6865471303463,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 450.6939094329987,
+     "strike_deg": 64.52420598961669,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 14
+  },
+  {
+   "seed_rc": [
+    725.0,
+    6564.0
+   ],
+   "evidence": 0.4597077797791917,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 725.0,
+     "col": 6564.0,
+     "weight": 3.0,
+     "step_m": 208.25605698108666,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 371.65171868296267,
+     "strike_deg": 58.68072566736636,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 15
+  },
+  {
+   "seed_rc": [
+    790.0,
+    6428.0
+   ],
+   "evidence": 0.48362374142626186,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 790.0,
+     "col": 6428.0,
+     "weight": 3.0,
+     "step_m": 47.91619175910955,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 316.22776601683796,
+     "strike_deg": 99.7573584045211,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 23
+  },
+  {
+   "seed_rc": [
+    800.0,
+    6329.0
+   ],
+   "evidence": 0.6235692132277026,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 800.0,
+     "col": 6329.0,
+     "weight": 3.0,
+     "step_m": 138.7587610578537,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 176.7766952966369,
+     "strike_deg": 119.63449543934419,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 23
+  },
+  {
+   "seed_rc": [
+    822.0,
+    6558.0
+   ],
+   "evidence": 0.6141778112107906,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 822.0,
+     "col": 6558.0,
+     "weight": 3.0,
+     "step_m": 83.40685247421243,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 596.3430220938282,
+     "strike_deg": 76.56158891162768,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    852.0,
+    6130.0
+   ],
+   "evidence": 0.7100764383122218,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 852.0,
+     "col": 6130.0,
+     "weight": 3.0,
+     "step_m": 72.90417196273802,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 100.0,
+     "strike_deg": 79.28223478948946,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    903.0,
+    6544.0
+   ],
+   "evidence": 0.5485617484256324,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 903.0,
+     "col": 6544.0,
+     "weight": 3.0,
+     "step_m": 107.96996914386773,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 608.789783094296,
+     "strike_deg": 9.757574679813473,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 21
+  },
+  {
+   "seed_rc": [
+    988.0,
+    6104.0
+   ],
+   "evidence": 0.43703927870629466,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 988.0,
+     "col": 6104.0,
+     "weight": 3.0,
+     "step_m": 82.16908142089869,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 309.23292192132453,
+     "strike_deg": 165.17217887517768,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 19
+  },
+  {
+   "seed_rc": [
+    999.0,
+    6548.0
+   ],
+   "evidence": 0.4439442803723984,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 999.0,
+     "col": 6548.0,
+     "weight": 3.0,
+     "step_m": 117.93353360652918,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 391.31189606246323,
+     "strike_deg": 162.9786141104904,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    1039.0,
+    6675.0
+   ],
+   "evidence": 0.5821296361847725,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1039.0,
+     "col": 6675.0,
+     "weight": 3.0,
+     "step_m": 153.58141554117196,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 991.526600752597,
+     "strike_deg": 151.37066642090147,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 16
+  },
+  {
+   "seed_rc": [
+    1044.0,
+    5992.0
+   ],
+   "evidence": 0.6091962395848404,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1044.0,
+     "col": 5992.0,
+     "weight": 3.0,
+     "step_m": 151.9474597465994,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 237.17082451262846,
+     "strike_deg": 132.03889643258464,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 15
+  },
+  {
+   "seed_rc": [
+    1065.0,
+    5910.0
+   ],
+   "evidence": 0.47941841607428964,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1065.0,
+     "col": 5910.0,
+     "weight": 3.0,
+     "step_m": 13.603694915771484,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 134.6291201783626,
+     "strike_deg": 90.06935644522719,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    1556.0,
+    1098.0
+   ],
+   "evidence": 0.6037494860126014,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1556.0,
+     "col": 1098.0,
+     "weight": 3.0,
+     "step_m": 39.89565316200242,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 250.0,
+     "strike_deg": 92.9163129906414,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 14
+  },
+  {
+   "seed_rc": [
+    1600.0,
+    848.0
+   ],
+   "evidence": 0.5509730939985229,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1600.0,
+     "col": 848.0,
+     "weight": 3.0,
+     "step_m": 284.13380470275865,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 212.13203435596424,
+     "strike_deg": 32.9596177219035,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 18
+  },
+  {
+   "seed_rc": [
+    1657.0,
+    1038.0
+   ],
+   "evidence": 0.4397795906233492,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1657.0,
+     "col": 1038.0,
+     "weight": 3.0,
+     "step_m": 116.54057276487379,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 1193.9953936259553,
+     "strike_deg": 165.2973050672047,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  },
+  {
+   "seed_rc": [
+    1992.0,
+    1007.0
+   ],
+   "evidence": 0.8347559393865635,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1992.0,
+     "col": 1007.0,
+     "weight": 3.0,
+     "step_m": 102.6846467673779,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 1267.3791855636575,
+     "strike_deg": 175.99135323257562,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 59
+  },
+  {
+   "seed_rc": [
+    1061.0,
+    1901.0
+   ],
+   "evidence": 0.5398009985126965,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1061.0,
+     "col": 1901.0,
+     "weight": 3.0,
+     "step_m": 115.29479089736924,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 450.6939094329987,
+     "strike_deg": 131.33281796822928,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 12
+  },
+  {
+   "seed_rc": [
+    1182.0,
+    2026.0
+   ],
+   "evidence": 0.7989615218375452,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1182.0,
+     "col": 2026.0,
+     "weight": 3.0,
+     "step_m": 73.50280508041351,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 760.3453162872775,
+     "strike_deg": 177.54897230895548,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 26
+  },
+  {
+   "seed_rc": [
+    1263.0,
+    2013.0
+   ],
+   "evidence": 0.5999557792268106,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1263.0,
+     "col": 2013.0,
+     "weight": 3.0,
+     "step_m": 110.09074451446531,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 752.0804478245661,
+     "strike_deg": 3.607299980766321,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 15
+  },
+  {
+   "seed_rc": [
+    1344.0,
+    2019.0
+   ],
+   "evidence": 0.7889344229710041,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1344.0,
+     "col": 2019.0,
+     "weight": 3.0,
+     "step_m": 163.11178240299205,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 482.83019789569914,
+     "strike_deg": 166.21954158495674,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    1496.0,
+    1901.0
+   ],
+   "evidence": 0.4685628955910824,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1496.0,
+     "col": 1901.0,
+     "weight": 3.0,
+     "step_m": 289.2146517944336,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 785.0159234053791,
+     "strike_deg": 119.73108365684041,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 12
+  },
+  {
+   "seed_rc": [
+    1589.0,
+    1997.0
+   ],
+   "evidence": 0.7351542385306645,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1589.0,
+     "col": 1997.0,
+     "weight": 3.0,
+     "step_m": 248.05025107383722,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 687.8408246098802,
+     "strike_deg": 17.071715262543634,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 24
+  },
+  {
+   "seed_rc": [
+    1875.0,
+    2042.0
+   ],
+   "evidence": 0.3764563146425212,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1875.0,
+     "col": 2042.0,
+     "weight": 3.0,
+     "step_m": 166.29694786071786,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 230.4886114323222,
+     "strike_deg": 165.12852715799735,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    1958.0,
+    1278.0
+   ],
+   "evidence": 0.33283556004729486,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1958.0,
+     "col": 1278.0,
+     "weight": 3.0,
+     "step_m": 89.67986667633068,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 860.9587678861282,
+     "strike_deg": 162.98368754928984,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    1165.0,
+    2681.0
+   ],
+   "evidence": 0.5039808669713414,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1165.0,
+     "col": 2681.0,
+     "weight": 3.0,
+     "step_m": 27.98381680488592,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 1025.3048327204938,
+     "strike_deg": 85.44932411520645,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    1539.0,
+    2633.0
+   ],
+   "evidence": 0.3131488251001655,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1539.0,
+     "col": 2633.0,
+     "weight": 3.0,
+     "step_m": 55.864305034876,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 425.73465914816006,
+     "strike_deg": 85.55538268987014,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 12
+  },
+  {
+   "seed_rc": [
+    2013.0,
+    2598.0
+   ],
+   "evidence": 0.9268436265740743,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 2013.0,
+     "col": 2598.0,
+     "weight": 3.0,
+     "step_m": 17.463925266265733,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 743.3034373659253,
+     "strike_deg": 178.65326583981636,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 56
+  },
+  {
+   "seed_rc": [
+    1348.0,
+    3325.0
+   ],
+   "evidence": 0.4581801641162564,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1348.0,
+     "col": 3325.0,
+     "weight": 3.0,
+     "step_m": 77.72166394710598,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 175.0,
+     "strike_deg": 69.26455347361244,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    1473.0,
+    3333.0
+   ],
+   "evidence": 0.3770441397828201,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1473.0,
+     "col": 3333.0,
+     "weight": 3.0,
+     "step_m": 182.04269927978498,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 689.6557112066861,
+     "strike_deg": 122.76915348476166,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    1563.0,
+    3311.0
+   ],
+   "evidence": 0.6520571369980014,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1563.0,
+     "col": 3311.0,
+     "weight": 3.0,
+     "step_m": 77.28979598999013,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 230.4886114323222,
+     "strike_deg": 19.026607199281354,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    1813.0,
+    2947.0
+   ],
+   "evidence": 0.3183318139173795,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1813.0,
+     "col": 2947.0,
+     "weight": 3.0,
+     "step_m": 118.06987947463995,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 320.1562118716424,
+     "strike_deg": 23.237738533001817,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    1203.0,
+    4606.0
+   ],
+   "evidence": 0.42692615317449445,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1203.0,
+     "col": 4606.0,
+     "weight": 3.0,
+     "step_m": 18.07653176546114,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 235.8495283014151,
+     "strike_deg": 177.32599008850963,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    1205.0,
+    4516.0
+   ],
+   "evidence": 0.5170566928079906,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1205.0,
+     "col": 4516.0,
+     "weight": 3.0,
+     "step_m": 15.040497736931002,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 300.0,
+     "strike_deg": 88.03094126158791,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 19
+  },
+  {
+   "seed_rc": [
+    1284.0,
+    4598.0
+   ],
+   "evidence": 0.2965664943200129,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1284.0,
+     "col": 4598.0,
+     "weight": 3.0,
+     "step_m": 20.599795646667417,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 223.60679774997897,
+     "strike_deg": 92.09634257017908,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    1413.0,
+    4424.0
+   ],
+   "evidence": 0.6089487391706686,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1413.0,
+     "col": 4424.0,
+     "weight": 3.0,
+     "step_m": 124.3146789550783,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 226.38462845343543,
+     "strike_deg": 19.33560142033965,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    1418.0,
+    4510.0
+   ],
+   "evidence": 0.5301744475233285,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1418.0,
+     "col": 4510.0,
+     "weight": 3.0,
+     "step_m": 153.69616516113274,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 509.9019513592784,
+     "strike_deg": 148.89545583751038,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    1499.0,
+    4518.0
+   ],
+   "evidence": 0.6924860075744862,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1499.0,
+     "col": 4518.0,
+     "weight": 3.0,
+     "step_m": 24.045463256836,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 715.8910531638177,
+     "strike_deg": 3.8812055651463027,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 29
+  },
+  {
+   "seed_rc": [
+    1613.0,
+    4537.0
+   ],
+   "evidence": 0.7397313305817907,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1613.0,
+     "col": 4537.0,
+     "weight": 3.0,
+     "step_m": 106.82572296142575,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 190.39432764659773,
+     "strike_deg": 158.80468699661597,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    1693.0,
+    4417.0
+   ],
+   "evidence": 0.6270054779695922,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1693.0,
+     "col": 4417.0,
+     "weight": 3.0,
+     "step_m": 19.881031036376953,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 182.00274723201295,
+     "strike_deg": 175.67108297214236,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 31
+  },
+  {
+   "seed_rc": [
+    1766.0,
+    4546.0
+   ],
+   "evidence": 0.53191653141371,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1766.0,
+     "col": 4546.0,
+     "weight": 3.0,
+     "step_m": 91.35217132568346,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 213.60009363293827,
+     "strike_deg": 28.373703661621704,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    1811.0,
+    4332.0
+   ],
+   "evidence": 0.49004052552616767,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1811.0,
+     "col": 4332.0,
+     "weight": 3.0,
+     "step_m": 125.25042366981529,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 443.00112866673373,
+     "strike_deg": 146.38445786878194,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    1265.0,
+    5793.0
+   ],
+   "evidence": 0.39126400162792635,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1265.0,
+     "col": 5793.0,
+     "weight": 3.0,
+     "step_m": 83.46256065368652,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 827.6472678623425,
+     "strike_deg": 105.80186649471239,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 11
+  },
+  {
+   "seed_rc": [
+    1504.0,
+    5146.0
+   ],
+   "evidence": 0.48199287763661514,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1504.0,
+     "col": 5146.0,
+     "weight": 3.0,
+     "step_m": 76.95458130836482,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 134.6291201783626,
+     "strike_deg": 128.47858756382846,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    1561.0,
+    5852.0
+   ],
+   "evidence": 0.5124958792223439,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1561.0,
+     "col": 5852.0,
+     "weight": 3.0,
+     "step_m": 138.3640468597414,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 313.2491021535417,
+     "strike_deg": 157.3025295122085,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 15
+  },
+  {
+   "seed_rc": [
+    1679.0,
+    5903.0
+   ],
+   "evidence": 0.5966160835459519,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1679.0,
+     "col": 5903.0,
+     "weight": 3.0,
+     "step_m": 28.173063386678905,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 111.80339887498948,
+     "strike_deg": 83.71006357191575,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    1199.0,
+    6075.0
+   ],
+   "evidence": 0.5337551798171171,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1199.0,
+     "col": 6075.0,
+     "weight": 3.0,
+     "step_m": 13.308517469167782,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 190.39432764659773,
+     "strike_deg": 1.1184398874858346,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    1264.0,
+    6453.0
+   ],
+   "evidence": 0.3722155777935223,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1264.0,
+     "col": 6453.0,
+     "weight": 3.0,
+     "step_m": 182.21124885082259,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 498.1214711292819,
+     "strike_deg": 139.64417540713035,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    1280.0,
+    6077.0
+   ],
+   "evidence": 0.6970721256565593,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1280.0,
+     "col": 6077.0,
+     "weight": 3.0,
+     "step_m": 100.0520031547544,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 201.55644370746373,
+     "strike_deg": 160.24718055820875,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    1318.0,
+    5960.0
+   ],
+   "evidence": 0.7297703653707296,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1318.0,
+     "col": 5960.0,
+     "weight": 3.0,
+     "step_m": 25.112858591079657,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 176.7766952966369,
+     "strike_deg": 173.61575238492733,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 8
+  },
+  {
+   "seed_rc": [
+    1334.0,
+    6661.0
+   ],
+   "evidence": 0.6837167530226081,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1334.0,
+     "col": 6661.0,
+     "weight": 3.0,
+     "step_m": 156.88676731109604,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 436.60622991432444,
+     "strike_deg": 60.479189376776105,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  },
+  {
+   "seed_rc": [
+    1438.0,
+    6575.0
+   ],
+   "evidence": 0.42129936784334815,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1438.0,
+     "col": 6575.0,
+     "weight": 3.0,
+     "step_m": 45.41290287971492,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 305.16389039334257,
+     "strike_deg": 81.80599972977215,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 17
+  },
+  {
+   "seed_rc": [
+    1960.0,
+    6413.0
+   ],
+   "evidence": 0.498866025593038,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 1960.0,
+     "col": 6413.0,
+     "weight": 3.0,
+     "step_m": 72.50974101066595,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 514.78150704935,
+     "strike_deg": 17.833021308652054,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    2100.0,
+    6967.0
+   ],
+   "evidence": 0.6595261961553216,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 2100.0,
+     "col": 6967.0,
+     "weight": 3.0,
+     "step_m": 25.716837754249582,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 175.0,
+     "strike_deg": 176.138451811927,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 25
+  },
+  {
+   "seed_rc": [
+    2313.0,
+    3926.0
+   ],
+   "evidence": 0.6501324246806137,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 2313.0,
+     "col": 3926.0,
+     "weight": 3.0,
+     "step_m": 108.64859231948844,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 226.38462845343543,
+     "strike_deg": 110.71629655562245,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 9
+  },
+  {
+   "seed_rc": [
+    2441.0,
+    3776.0
+   ],
+   "evidence": 0.4306635207412615,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 2441.0,
+     "col": 3776.0,
+     "weight": 3.0,
+     "step_m": 85.20040709495538,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 145.77379737113253,
+     "strike_deg": 148.27834127394095,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  },
+  {
+   "seed_rc": [
+    2048.0,
+    4591.0
+   ],
+   "evidence": 0.4309813605073118,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 2048.0,
+     "col": 4591.0,
+     "weight": 3.0,
+     "step_m": 32.635509319305584,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 201.55644370746373,
+     "strike_deg": 173.39467983151695,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 13
+  },
+  {
+   "seed_rc": [
+    2235.0,
+    4187.0
+   ],
+   "evidence": 0.5534770491509231,
+   "loci": [
+    {
+     "kind": "datum_step",
+     "row": 2235.0,
+     "col": 4187.0,
+     "weight": 3.0,
+     "step_m": 33.71792541503919,
+     "datum_evidence": 1.0,
+     "shore_distance_m": 206.15528128088303,
+     "strike_deg": 9.049415011638915,
+     "seg": -1,
+     "s_m": NaN
+    }
+   ],
+   "kind": "datum_step",
+   "weight": 3.0,
+   "n_points": 10
+  }
+ ]
+}

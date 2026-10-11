@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GEMSDOE62 — datum-offset submission (Lake Lahontan shoreline isobase)</title>
+<style>
+  :root { --ink:#101418; --dim:#5b6673; --line:#e3e8ee; --ok:#0b7a3b; --warn:#8a5a00; --bg:#fbfcfd; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 32px 20px 72px; }
+  h1 { font-size: 1.55rem; margin: 0 0 4px; letter-spacing:-.01em; }
+  .sub { color: var(--dim); margin: 0 0 24px; font-size: .95rem; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px 24px; margin:0 0 18px;
+          box-shadow: 0 1px 2px rgba(16,20,24,.04); }
+  .verdict { border-left: 6px solid var(--ok); }
+  .verdict h2 { margin:0 0 6px; font-size:1.15rem; color:var(--ok); }
+  .verdict p { margin:6px 0 0; }
+  .btn { display:inline-flex; align-items:center; gap:10px; margin:14px 0 6px;
+         background:var(--ok); color:#fff; text-decoration:none; font-weight:600;
+         padding:14px 20px; border-radius:10px; font-size:1.02rem; }
+  .btn:hover { filter: brightness(1.08); }
+  .btn small { font-weight:400; opacity:.85; }
+  code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:.86em; }
+  .sha { color:var(--dim); font-size:.82rem; }
+  table { border-collapse: collapse; width:100%; font-size:.92rem; }
+  th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { font-weight:600; background:#f6f8fa; }
+  td.n, th.n { text-align:right; font-variant-numeric: tabular-nums; }
+  .warn { border-left:6px solid var(--warn); }
+  .warn h2 { color:var(--warn); margin:0 0 6px; font-size:1.05rem; }
+  ul { margin:8px 0 0; padding-left:20px; }
+  li { margin:3px 0; }
+  .links a { display:block; padding:6px 0; text-decoration:none; color:#0a58ca; border-bottom:1px solid var(--line); }
+  .links a:last-child { border-bottom:0; }
+  .pill { display:inline-block; background:#eef3f8; color:var(--dim); border-radius:999px;
+          padding:2px 10px; font-size:.76rem; margin-left:6px; vertical-align:1px; }
+  footer { color:var(--dim); font-size:.82rem; margin-top:26px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>GEMSDOE62 — datum-offset lane</h1>
+  <p class="sub">DOE GEMS Prize (DrivenData #306) · Lake Lahontan shoreline benches as a strain gauge ·
+  single-band 100 m GeoTIFF, EPSG:32611</p>
+
+  <div class="card verdict">
+    <h2>✅ OK to download and submit — legal and unique</h2>
+    <p>Single band <code>float32</code>, EPSG:32611, 100 m, 3730×3292, values in <code>[0,1]</code>,
+    <strong>no nodata tag, no NaN</strong>. Unique against all 289 registry rasters
+    (worst rank correlation −0.065).</p>
+
+    <a class="btn" href="downloads/gemsdoe62-datum-lahontan-isobase-v8.tif" download>
+      ⬇ Download the submission GeoTIFF
+      <small>62.7 KB · sha256 3d4b66e6…</small>
+    </a>
+    <p class="sha">sha256 <code>3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba</code></p>
+  </div>
+
+  <div class="card warn">
+    <h2>⚠️ Spend a slot on it only as a novelty probe — not as the lead horse</h2>
+    <p>1,660 dots at pluvial-bench steps and deflections, 221 DEM-ridge traces. Honest expectation is
+    <strong>below</strong> the group's best scored artifact (h33-2-b2, 0.2778, owner-reported).
+    The local holdout <em>cannot</em> rank submissions for this task — proof below.</p>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0;font-size:1.05rem">Why the local holdout is not a score</h2>
+    <table>
+      <thead><tr><th>emission</th><th class="n">proxy DTI</th><th class="n">vs its own Poisson null</th></tr></thead>
+      <tbody>
+        <tr><td>this file (v8)</td><td class="n">0.0029</td><td class="n">0.74×</td></tr>
+        <tr><td>h33-2-b2 zeros <span class="pill">live 0.2778</span></td><td class="n">0.0067</td><td class="n">0.10×</td></tr>
+        <tr><td>Poisson control, 1,660 dots</td><td class="n">0.0039</td><td class="n">1.00×</td></tr>
+        <tr><td>Poisson control, 37,654 dots</td><td class="n"><strong>0.0669</strong></td><td class="n">1.00×</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:12px 0 0">A <strong>uniform-random</strong> field outscores the artifact that
+    actually scored 0.2778 live, by 10×. The proxy's truth is the USGS/INGENIOUS catalogue; the
+    competition's truth is precisely the faults <em>absent</em> from it. So "below the catalogue null"
+    is a <em>novelty</em> signature, not a quality score — a sibling repository measured the same
+    defect independently (proxy vs live, Spearman ρ = +0.087).</p>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0;font-size:1.05rem">What the file is</h2>
+    <ul>
+      <li>flat-pixel stand filter (local tile mode, 8 km tiles) inside the basin-wide stand band 1157–1455 m</li>
+      <li>robust quadratic isobase (Huber IRLS) — absorbs post-pluvial rebound, cannot follow one scarp</li>
+      <li>Frangi ridge of |∇(z − isobase)|, offset measured at ±250 m</li>
+      <li>gates: evidence ≥ 0.10, step ≥ 2 m, ≤ 1500 m from a bench, <strong>step trace crossing the datum contours ≥ 30°</strong></li>
+      <li>2,003 loci flagged → 400 kept (2 km suppression) → 221 traces → 1,660 dots</li>
+    </ul>
+    <p style="margin:8px 0 0">The cross-cut gate is what separates a tectonic scarp (steps across its
+    own trace, so it crosses contours) from a fan-head riser, wave-cut bluff or berm (runs parallel to
+    contours). It is a defence, not a proof.</p>
+  </div>
+
+  <div class="card links">
+    <h2 style="margin-top:0;font-size:1.05rem">Evidence</h2>
+    <a href="executive-summary.md">Executive summary — verdict, receipts, how to submit</a>
+    <a href="run-card.md">Run card — hypothesis, mechanism, named confuser, holdout, validator, verdict</a>
+    <a href="hypotheses.md">Untried hypotheses, ranked (and the validation trap)</a>
+    <a href="irregularities.md">Irregularities and defects — including two shared tools fixed and reported</a>
+    <a href="sources.md">Official sources, line by line</a>
+    <a href="data.md">Data provenance and exact reproduction</a>
+    <a href="next-steps.md">Remaining work and limitations</a>
+  </div>
+
+  <footer>
+    Nothing on this page is an organizer-confirmed score. Owner-reported scores are labelled as
+    claims. The quarantined artifact <code>gems32-h19-5-smoothmaxcov-44090.tif</code> is never
+    shipped or re-emitted.
+  </footer>
+
+</div>
+</body>
+</html>

@@ -29,6 +29,7 @@ import sys
 import time
 
 import numpy as np
+from scipy import ndimage
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 
@@ -103,9 +104,13 @@ def main() -> int:
     ap.add_argument("--flat-slope", type=float, default=0.035)
     ap.add_argument("--riser-slope", type=float, default=0.10)
     ap.add_argument("--bench-min-score", type=float, default=0.25)
-    ap.add_argument("--isobase-tile-m", type=float, default=4000.0)
+    ap.add_argument("--isobase-tile-m", type=float, default=8000.0)
     ap.add_argument("--isobase-smooth-tiles", type=float, default=3.0)
-    ap.add_argument("--shore-tol-m", type=float, default=8.0)
+    ap.add_argument("--stand-bin-m", type=float, default=2.0)
+    ap.add_argument("--stand-tol-m", type=float, default=6.0)
+    ap.add_argument("--min-tile-support", type=int, default=40)
+    ap.add_argument("--stand-band-tol-m", type=float, default=18.0)
+    ap.add_argument("--shore-tol-m", type=float, default=12.0)
     ap.add_argument("--z-lo", type=float, default=1150.0)
     ap.add_argument("--z-hi", type=float, default=1450.0)
     # segment / locus knobs
@@ -121,6 +126,12 @@ def main() -> int:
     ap.add_argument("--trace-window-m", type=float, default=20000.0)
     ap.add_argument("--max-trace-len-m", type=float, default=15000.0)
     ap.add_argument("--min-trace-evidence", type=float, default=0.22)
+    ap.add_argument("--scarp-sigma-m", type=float, default=75.0)
+    ap.add_argument("--min-locus-evidence", type=float, default=0.06)
+    ap.add_argument("--max-chain-jump-m", type=float, default=150.0)
+    ap.add_argument("--min-datum-evidence", type=float, default=0.10)
+    ap.add_argument("--max-shore-distance-m", type=float, default=1500.0)
+    ap.add_argument("--max-loci-per-block", type=int, default=40)
     # emission knobs
     ap.add_argument("--dot-spacing-px", type=float, default=2.8)
     ap.add_argument("--min-catalogue-px", type=float, default=1.0)
@@ -174,7 +185,21 @@ def main() -> int:
     bench_all = np.concatenate(bench_pts, axis=0)
     log(f"pass 1: {n_blocks} blocks, bench pixels={len(bench_all)}")
 
-    # isobase: robust local mode of bench elevations on a coarse tile lattice, then smoothing
+    # ---- restrict to the pluvial stand band, data-driven from the basin-wide flat-pixel histogram ----
+    zb = bench_all[:, 2]
+    hist, edges = np.histogram(zb, bins=np.arange(0.0, 3500.0, 2.0))
+    k = np.ones(6) / 6.0
+    hs = np.convolve(hist, k, mode="same")
+    peaks = [int(i) for i in range(2, hs.size - 2)
+             if hs[i] == hs[i - 2:i + 3].max() and hs[i] >= 0.20 * hs.max()]
+    peak_z = sorted(0.5 * (edges[i] + edges[i + 1]) for i in peaks)
+    z_lo_b, z_hi_b = (peak_z[0] - args.stand_band_tol_m, peak_z[-1] + args.stand_band_tol_m)
+    in_band = (zb >= z_lo_b) & (zb <= z_hi_b)
+    log(f"flat-pixel histogram -> {len(peak_z)} stands at z={np.round(peak_z, 0).tolist()}; "
+        f"band [{z_lo_b:.0f}, {z_hi_b:.0f}] m keeps {int(in_band.sum())} of {zb.size} pixels")
+    bench_all = bench_all[in_band]
+
+    # ---- local stand filter: keep bench pixels whose elevation equals the local mode ----
     tile_m = args.isobase_tile_m
     tpx = int(round(tile_m / res))
     tr, tc = int(np.ceil(H / tpx)), int(np.ceil(W / tpx))
@@ -188,29 +213,47 @@ def main() -> int:
     starts = np.concatenate([[0], bounds + 1]); ends = np.concatenate([bounds + 1, [len(zz_s)]])
     for a, b_ in zip(starts, ends):
         vals = zz_s[a:b_]
-        if vals.size < 12:
+        if vals.size < args.min_tile_support:
             continue
         hist, edges = np.histogram(vals, bins=np.arange(max(np.floor(vals.min()), args.z_lo),
-                                                       min(np.ceil(vals.max()), args.z_hi) + 2.0, 2.0))
+                                                       min(np.ceil(vals.max()), args.z_hi) + 2.0,
+                                                       args.stand_bin_m))
         if hist.size == 0:
             continue
         k = int(np.argmax(hist))
+        if hist[k] < max(6, args.min_tile_support // 4):
+            continue
         lo, hi = edges[k], edges[k + 1]
         inb = vals[(vals >= lo) & (vals <= hi)]
-        surf[ti_s[a], tj_s[a]] = float(np.median(inb)) if inb.size else np.nan
-    from scipy import ndimage
-    valid_tiles = np.isfinite(surf)
-    if not valid_tiles.any():
-        log("FATAL: isobase surface empty")
-        return 2
-    idx = ndimage.distance_transform_edt(~valid_tiles, return_distances=False, return_indices=True)
-    filled = surf[tuple(idx)]
-    iso_tiles = ndimage.gaussian_filter(filled, sigma=args.isobase_smooth_tiles)
-    sample_iso = IsobaseSampler(iso_tiles, (src.transform.c, src.transform.f), tile_m, res)
-    log(f"isobase tiles={int(valid_tiles.sum())}/{surf.size} "
-        f"z-range=[{np.nanmin(iso_tiles):.0f},{np.nanmax(iso_tiles):.0f}]")
+        surf[ti_s[a], tj_s[a]] = float(np.median(inb))
+    tile_i = (bench_all[:, 0] // tpx).astype(int); tile_j = (bench_all[:, 1] // tpx).astype(int)
+    tile_z = surf[np.clip(tile_i, 0, tr - 1), np.clip(tile_j, 0, tc - 1)]
+    stand_ok = np.isfinite(tile_z) & (np.abs(bench_all[:, 2] - tile_z) <= args.stand_tol_m)
 
-    # ---------------- pass 2: shoreline segments -> flagged loci ------------------------------
+    # ---- the isobase itself: robust quadratic (absorbs rebound + regional tilt, cannot follow
+    #      a fan apron or a single scarp -- see datum.isobase_quadratic) ----
+    bx = src.transform.c + (bench_all[stand_ok, 1] + 0.5) * res
+    by = src.transform.f - (bench_all[stand_ok, 0] + 0.5) * res
+    bz = bench_all[stand_ok, 2]
+    if bz.size < 500:
+        log(f"FATAL: only {bz.size} stand-consistent bench pixels; nothing to fit")
+        return 2
+    fit = datum.isobase_quadratic(bx, by, bz)
+    log(f"isobase quadratic fit: n={fit['n']} rmad={fit['rmad']:.2f} m  "
+        f"coeffs[km]={np.round(fit['coeffs'], 2).tolist()}")
+    resid_all = bench_all[stand_ok, 2] - datum.isobase_eval(fit, bx, by)
+    log(f"datum residual on bench pixels: p05={np.percentile(resid_all, 5):.1f} "
+        f"p50={np.percentile(resid_all, 50):.1f} p95={np.percentile(resid_all, 95):.1f} m; "
+        f"|r|<={args.shore_tol_m:.0f} m for {float((np.abs(resid_all) <= args.shore_tol_m).mean()):.3f} of pixels")
+
+    def isobase_block(r0_, c0_, r1_, c1_):
+        rows_ = np.arange(r0_, r1_); cols_ = np.arange(c0_, c1_)
+        xx = src.transform.c + (cols_ + 0.5) * res
+        yy = src.transform.f - (rows_ + 0.5) * res
+        return datum.isobase_eval(fit, xx[None, :] * np.ones((len(rows_), 1)),
+                                  yy[:, None] * np.ones((1, len(cols_))))
+
+    # ---------------- pass 2: shoreline strands (profiles) + datum-step loci ----------------
     loci: list[dict] = []
     segments_meta: list[dict] = []
     for (r0, c0, r1, c1) in block_windows(H, W, block_px, overlap_px):
@@ -220,47 +263,82 @@ def main() -> int:
         if np.nanmin(z) > args.z_hi or np.nanmax(z) < args.z_lo:
             continue
         b = datum.bench_response(z, res, flat_slope=args.flat_slope, riser_slope=args.riser_slope)
+        if (~np.isfinite(z)).any():
+            ind = ndimage.distance_transform_edt(~np.isfinite(z), return_distances=False,
+                                                 return_indices=True)
+            z_filled = z[tuple(ind)]
+        else:
+            z_filled = z
         rows = np.arange(r0, r1); cols = np.arange(c0, c1)
-        iso = sample_iso.at_rows_cols(rows[:, None], cols[None, :])
+        iso = isobase_block(r0, c0, r1, c1)
+        # ---- (a) the lane's core signal: steps in the isobase residual ----
+        ds = datum.datum_step_loci(z_filled, iso, b["score"], res,
+                                   min_step_m=args.min_step_m,
+                                   min_datum_evidence=args.min_datum_evidence,
+                                   max_shore_distance_m=args.max_shore_distance_m,
+                                   suppression_m=args.locus_separation_m,
+                                   max_loci=args.max_loci_per_block)
+        for e in ds.get("loci", []):
+            if e["row"] < 0.5 * overlap_px or e["col"] < 0.5 * overlap_px or \
+               e["row"] > (r1 - r0) - 0.5 * overlap_px or e["col"] > (c1 - c0) - 0.5 * overlap_px:
+                continue                    # drop block-edge duplicates (kept by the neighbour)
+            loci.append(dict(kind="datum_step", row=e["row"] + r0, col=e["col"] + c0,
+                             weight=float(e["score"]), step_m=float(e["step_m"]),
+                             datum_evidence=float(e["datum_evidence"]),
+                             shore_distance_m=float(e["shore_distance_m"]),
+                             strike_deg=float(e["strike_deg"]), seg=-1, s_m=float("nan")))
+        # ---- (b) shoreline strands: the profile deliverable + deflection loci ----
         shore = datum.shoreline_mask(z, b, iso, tol_m=args.shore_tol_m,
                                      min_score=args.bench_min_score)
         lab, n = ndimage.label(shore, structure=np.ones((3, 3), int))
+        scarp_blk = datum.ScarpField.from_dem(z_filled, res, sigma_m=args.scarp_sigma_m)
         for k in range(1, n + 1):
             rr, cc = np.nonzero(lab == k)
             if rr.size < args.min_segment_px:
                 continue
             pts = np.stack([rr, cc], axis=1).astype(np.float64)
-            xy = pts * res
-            centred = xy - xy.mean(0)
-            _, sv, _ = np.linalg.svd(centred, full_matrices=False)
-            elong = float(sv[0] / (sv[1] + 1e-9))
-            length = float(sv[0] * 2 * np.sqrt(2.0))
-            if elong < args.min_elongation or length < args.min_length_m:
-                continue
-            prof = datum.profile(pts, z, iso, res)
-            steps = datum.flag_steps(prof, window_m=args.step_window_m, res=res,
-                                     min_step_m=args.min_step_m)
-            defl = datum.flag_deflections(prof, res=res, window_m=args.step_window_m,
-                                          min_delta_deg=args.min_deflection_deg)
-            seg_id = len(segments_meta)
-            segments_meta.append(dict(seg=seg_id, block=[r0, c0, r1, c1], n_px=int(rr.size),
-                                      length_m=length, elongation=elong,
-                                      n_steps=len(steps), n_deflections=len(defl)))
-            for e in steps + defl:
-                i = e["i"]
-                weight = abs(e["step_m"]) if e["kind"] == "step" else abs(e["delta_deg"]) / 10.0
-                loci.append(dict(seg=seg_id, kind=e["kind"], row=float(rr[i] + r0),
-                                 col=float(cc[i] + c0), s_m=float(e["s_m"]), weight=float(weight),
-                                 value=float(e.get("step_m", e.get("delta_deg")))))
-            # keep the profile of the strongest segments for the deliverable plots
-            if (len(steps) or len(defl)) and len(segments_meta) <= 400:
-                np.save(out_dir / f"profile_seg{seg_id:03d}.npy",
-                        np.stack([prof["s"], prof["z"], prof["isobase"], prof["r"],
-                                  np.nan_to_num(prof["azimuth"])], axis=1))
+            for chain in datum.chains_from_component(pts, res, max_jump_m=args.max_chain_jump_m,
+                                                     min_chain_px=args.min_segment_px):
+                cpts = pts[chain]
+                xy = cpts * res
+                centred = xy - xy.mean(0)
+                _, sv, _ = np.linalg.svd(centred, full_matrices=False)
+                elong = float(sv[0] / (sv[1] + 1e-9))
+                length = float(sv[0] * 2 * np.sqrt(2.0))
+                if elong < args.min_elongation or length < args.min_length_m:
+                    continue
+                prof = datum.profile(cpts, z, iso, res)
+                steps = datum.flag_steps(prof, window_m=args.step_window_m, res=res,
+                                         min_step_m=args.min_step_m)
+                defl = datum.flag_deflections(prof, res=res, window_m=args.step_window_m,
+                                              min_delta_deg=args.min_deflection_deg)
+                seg_id = len(segments_meta)
+                segments_meta.append(dict(seg=seg_id, block=[r0, c0, r1, c1],
+                                          n_px=int(cpts.shape[0]), length_m=length,
+                                          elongation=elong, n_steps=len(steps),
+                                          n_deflections=len(defl),
+                                          from_component_px=int(rr.size)))
+                for e in steps + defl:
+                    i = e["i"]
+                    lr = float(cpts[i, 0]); lc = float(cpts[i, 1])
+                    ev = float(scarp_blk.sample(lr, lc, scarp_blk.evidence))
+                    if ev < args.min_locus_evidence:
+                        continue
+                    weight = (abs(e["step_m"]) if e["kind"] == "step"
+                              else abs(e["delta_deg"]) / 10.0) * (0.5 + ev)
+                    loci.append(dict(kind=e["kind"], row=lr + r0, col=lc + c0, seg=seg_id,
+                                     s_m=float(e["s_m"]), weight=float(weight),
+                                     value=float(e.get("step_m", e.get("delta_deg"))),
+                                     evidence=ev))
+                if (len(steps) or len(defl)) and len(segments_meta) <= 400:
+                    np.save(out_dir / f"profile_seg{seg_id:03d}.npy",
+                            np.stack([prof["s"], prof["z"], prof["isobase"], prof["r"],
+                                      np.nan_to_num(prof["azimuth"])], axis=1))
         del b, shore, z
     log(f"pass 2: segments={len(segments_meta)} flagged loci={len(loci)}")
 
     # ---------------- traces ------------------------------------------------------------------
+    (out_dir / f"{args.name}.loci.json").write_text(json.dumps(loci, indent=1))
     loci_sorted = sorted(loci, key=lambda e: -e["weight"])
     chosen: list[dict] = []
     for e in loci_sorted:
@@ -288,6 +366,12 @@ def main() -> int:
         seed = (e["row"] - r0, e["col"] - c0)
         path = datum.trace_from_seed(scarp, seed, max_len_m=args.max_trace_len_m,
                                      min_evidence=args.min_trace_evidence)
+        if (j < 8):
+            ev_here = [scarp.sample(q[0], q[1], scarp.evidence) for q in path]
+            log(f"  locus {j} {e['kind']} row={e['row']:.0f} col={e['col']:.0f} "
+                f"strike={scarp.sample(seed[0], seed[1], scarp.strike_deg):.0f} "
+                f"evid_seed={scarp.sample(seed[0], seed[1], scarp.evidence):.3f} "
+                f"path={len(path)} mean_evid={np.mean(ev_here) if ev_here else float('nan'):.3f}")
         if len(path) < 8:                       # shorter than ~1.6 km: not worth emission mass
             continue
         ev = float(np.mean([scarp.sample(p[0], p[1], scarp.evidence) for p in path]))
@@ -316,8 +400,7 @@ def main() -> int:
                     "params": vars(args)})
     (out_dir / f"{args.name}.receipt.json").write_text(json.dumps(receipt, indent=1))
     (out_dir / f"{args.name}.traces.json").write_text(json.dumps(
-        {"traces": [{k: v for k, v in t.items() if k != "rowcol"} | {"n_points": len(t["rowcol"])}
-                    for t in traces]}, indent=1))
+        {"traces": [dict(t, n_points=len(t["rowcol"])) for t in traces]}, indent=1))
     (out_dir / f"{args.name}.segments.json").write_text(json.dumps(segments_meta, indent=1))
     log(f"WROTE {tif} sha256={receipt['sha256'][:16]} dots={receipt['n_positive']} "
         f"mass={receipt['total_mass']:.1f} legal={receipt['legal']} "

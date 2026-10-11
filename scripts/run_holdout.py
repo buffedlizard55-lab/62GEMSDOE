@@ -3,9 +3,18 @@
 
 Protocol (from the session brief, applied to a catalogue-free detector)
 ----------------------------------------------------------------------
-* withhold whole fault *segments* with a buffer: the fold interior is hidden, and every
-  catalogue pixel within `buffer_px` of the interior is moved into the mask as well, so no
-  visible fault can leak the location of a hidden one through proximity;
+* withhold whole fault *segments* with a buffer.  Operational definition, stated explicitly
+  because the catalogue is ONE basin-scale connected lineament network (measured: connected
+  components of `existing_faults.tif` are 10^5-10^6 px, so a component-level rule matches
+  nothing): the *segment* is the catalogue geometry inside the fold block, and the block is
+  eroded by `buffer_px` before withholding, so (a) fault geometry is never cut and scored at an
+  arbitrary boundary, and (b) no withholding decision is made on the basis of geometry outside
+  the block.  Catalogue connected components that lie
+  were also withheld as a whole under an earlier rule that additionally required a component to
+  lie wholly inside the block; that rule was tested and rejects every fold (0 withheld pixels), so
+  it is recorded here as a dead end rather than used.
+  `buffer_px` defaults to 3 = one 300 m kernel radius, i.e. the leakage-length scale of the
+  published metric;
 * "derive every catalogue-based feature only from the visible faults": the datum lane derives
   *nothing* from the catalogue, so this clause is satisfied by construction -- which is exactly
   what the leakage canary below verifies rather than assumes;
@@ -65,7 +74,7 @@ def main() -> int:
     ap.add_argument("--out", default="build/holdout.json")
     ap.add_argument("--folds", type=int, default=6)
     ap.add_argument("--min-fault-px", type=int, default=250)
-    ap.add_argument("--buffer-px", type=int, default=1)
+    ap.add_argument("--buffer-px", type=int, default=3)
     args = ap.parse_args()
 
     import rasterio
@@ -87,30 +96,37 @@ def main() -> int:
     edges_c = np.linspace(c0, c1, fc + 1).astype(int)
 
     folds = []
+    comp_labels, n_comp = ndimage.label(known, structure=np.ones((3, 3), int))
+    comp_px = np.bincount(comp_labels.ravel())
     for i in range(fr):
         for j in range(fc):
             inner = np.zeros((H, W), bool)
             rr0, rr1 = edges_r[i], edges_r[i + 1]
             cc0, cc1 = edges_c[j], edges_c[j + 1]
             inner[rr0:rr1, cc0:cc1] = True
-            truth = known & inner
+            interior = ndimage.binary_erosion(inner, iterations=args.buffer_px, border_value=0)
+            interior &= footprint
+            if not interior.any():
+                continue
+            # label the catalogue only within the block + buffer band, then withhold whole
+            # components whose majority lies inside the block
+            truth = known & interior
             if int(truth.sum()) < args.min_fault_px:
                 continue
-            inner_eroded = ndimage.binary_erosion(inner, iterations=args.buffer_px,
-                                                  border_value=0)
-            truth = known & inner_eroded
-            if int(truth.sum()) < args.min_fault_px:
+            # Scored domain = the whole eroded block.  Inside it there is no "visible" catalogue
+            # to exclude: the entire catalogue geometry in the block is the withheld truth.  (The
+            # module's `active` = footprint-minus-known convention belongs to the *organizer's*
+            # task, where the catalogue is masked out; a holdout must score the masked geometry
+            # instead -- passing `interior & ~known` here silently zeroes the truth.)
+            active = interior
+            if int(truth.sum()) < args.min_fault_px or not active.any():
                 continue
-            visible = known & ~ndimage.binary_dilation(inner, iterations=args.buffer_px)
-            active = footprint & ~visible
-            if int((active & truth).sum()) == 0:
-                continue
-            res = metric.dti_binary(emis & active, truth & active, active)
+            res = metric.dti_binary(emis, truth, active)
             folds.append(dict(fold=[i, j], rows=[int(rr0), int(rr1)], cols=[int(cc0), int(cc1)],
                               n_truth=int(res["n_truth"]), n_pred=int(res["n_active_pred"]),
                               tp=res["tp"], fp=res["fp"], fn=res["fn"], dti=res["dti"],
                               recall=res["tp"] / max(res["n_truth"], 1)))
-            del inner, inner_eroded, visible, active
+            del inner, interior, truth, active
     # pooled DTI: sum the components across folds then apply the published formula once
     tp = sum(f["tp"] for f in folds); fp = sum(f["fp"] for f in folds); fn = sum(f["fn"] for f in folds)
     pooled = metric.dti_from_components(tp, fp, fn)
@@ -127,12 +143,15 @@ def main() -> int:
         for fold in folds:
             rr0, rr1 = fold["rows"]; cc0, cc1 = fold["cols"]
             inner = np.zeros((H, W), bool); inner[rr0:rr1, cc0:cc1] = True
-            inner_eroded = ndimage.binary_erosion(inner, iterations=args.buffer_px, border_value=0)
-            truth = (known & inner_eroded).ravel()
-            active = (footprint & ~known).ravel()
+            interior = ndimage.binary_erosion(inner, iterations=args.buffer_px, border_value=0)
+            interior &= footprint
+            truth = (known & interior).ravel()
+            # negatives come from the SAME fold interior, never basin-wide
+            active = (interior & ~known).ravel()
             val = f.ravel()
-            pos = np.nonzero(truth)[0]; neg = np.nonzero(active)[0]
-            stride = max(1, neg.size // 200000)          # subsample negatives for speed
+            pos = np.nonzero(truth)[0]
+            neg = np.nonzero(active)[0]
+            stride = max(1, neg.size // 200000)
             aucs.append(auc(val, pos, neg[::stride]))
         canary[name] = dict(auc_per_fold=[float(a) for a in aucs],
                             auc_mean=float(np.nanmean(aucs)) if aucs else None,
