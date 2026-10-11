@@ -12,10 +12,13 @@ One JSON run card per experiment, as the brief requires. The machine-readable co
   "mechanism": "flat-pixel stand filter (local tile mode, 8 km tiles) -> robust quadratic isobase (Huber IRLS, 6 terms) -> r = z - isobase -> Frangi ridge of |grad r| -> offset = |r(+250 m) - r(-250 m)| across the ridge -> gates (evidence >= 0.10, step >= 2 m, <= 1500 m from a bench, cross-cut >= 30 deg, 2 km suppression) -> 5-candidate heading trace growth while DEM-ridge evidence >= 0.15 -> dotted emission at 100 m.",
   "named_non_fault_process_that_could_mimic_it": "Wave-cut bluffs, beach berms, fan-head risers and delta topsets are all level steps in the same elevation band as the shoreline, and 15 separate 'stands' were measured in the flat-pixel histogram between 1175 and 1437 m. The cross-cut gate (drop steps whose trace is contour-parallel) is the defence against exactly this family; it is a defence, not a proof. Aeolian/playa-margin steps and agricultural terracing on the basin floor are the same physical confuser.",
   "holdout": {
+    "evidence_class": "HOLDOUT-DTI (proxy; not an organizer score)",
     "instrument": "scripts/run_holdout.py v2 (session 2026-10-11 fix: fold-confined scoring, block-scale whole-segment withholding, 3 px erosion = one kernel radius, same-fold canary negatives)",
     "protocol": "6 spatial folds (3 rows x 2 cols) over the footprint; truth = catalogue geometry inside the eroded block; scored domain = the eroded block; alpha 0.2, beta 0.8, 300 m triangular kernel; pooled over folds",
     "n_withheld_positives": 60362,
     "pooled_dti": 0.00286,
+    "dti_ci95": null,
+    "dti_ci_note": "A 95% CI for pooled DTI is not estimable from this six-fold run: five folds have no predictions. Do not substitute the recall interval below for a DTI interval.",
     "pooled_tp": 139.269,
     "pooled_fp": 1603.316,
     "pooled_fn": 60222.731,
@@ -38,9 +41,18 @@ One JSON run card per experiment, as the brief requires. The machine-readable co
   "registry": {
     "n_registry": 289,
     "max_rank_correlation": -0.0652,
+    "max_positive_spearman_rho": -0.0652,
     "max_asymmetric_overlap": 1.0,
-    "max_symmetric_jaccard": 0.0302,
-    "verdict": "UNIQUE-VS-REGISTRY"
+    "max_one_sided_overlap": 1.0,
+    "max_symmetric_jaccard_diagnostic_only": 0.0302,
+    "rank_trip": false,
+    "overlap_trip": true,
+    "overlap_limit": 0.70,
+    "jaccard_is_gate": false,
+    "verdict": "DUPLICATE - STOP",
+    "reassessment": "Legacy per-comparator list was trimmed; preserved max one-sided overlap 1.0 exceeds 0.70. No fresh registry scan was run.",
+    "overlap_method": "one-sided Euclidean distance <= 3 pixels; Jaccard is diagnostic only",
+    "preplacement_surface_gate": "NOT VERIFIED - no passing surface-before-placement receipt is present for v8"
   },
   "raster": {
     "file": "docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif",
@@ -58,9 +70,9 @@ One JSON run card per experiment, as the brief requires. The machine-readable co
   },
   "cost": {"wall_seconds": 191, "cpu": "2 cores"},
   "submission_name": "gemsdoe62-datum-lahontan-isobase-v8",
-  "submission_note": "Lake Lahontan pluvial-bench isobase: 1660 dots on stepped/deflected shoreline benches; 221 DEM-ridge traces; unique vs registry.",
-  "submission_note_chars": 128,
-  "verdict": "NEGATIVE as a detector of catalogue faults; NOVEL versus the catalogue; promoted to the download page as a low-risk Phase-1 novelty probe, explicitly not as the lead horse (expectation below h33's owner-reported 0.2778)."
+  "submission_note": "Lake Lahontan pluvial-bench isobase: 1660 dots on shoreline datum breaks; 221 DEM-ridge traces; DO NOT SUBMIT (registry overlap trip).",
+  "submission_note_chars": 134,
+  "verdict": "NEGATIVE — the preserved strict one-sided registry overlap is 1.0 (>0.70); DUPLICATE - STOP; DO NOT SUBMIT. The HOLDOUT-DTI is weak, and no organizer-confirmed score exists. No replacement candidate or registry refresh was run in this correction."
 }
 ```
 

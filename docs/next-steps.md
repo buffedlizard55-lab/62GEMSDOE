@@ -3,10 +3,12 @@
 ## What is finished
 
 * The **assigned lane** is implemented end-to-end: DEM → stands → robust isobase → datum-step loci
-  → traces → a validated, unique GeoTIFF with two machine-readable receipts.
+  → traces → a format-valid GeoTIFF with machine-readable receipts. Its strict registry gate fails
+  (one-sided overlap 1.00 > 0.70); v8 is **DO NOT SUBMIT**.
 * A **download page** with an explicit verdict, and this documentation set.
-* The **shared tools were fixed and reported, not forked** (`irregularities.md` §2, §3): the
-  holdout evaluator (five defects) and the registry uniqueness tripwire (density-blind).
+* The holdout evaluator's five defects were fixed and reported (`irregularities.md` §2). The
+  registry gate now preserves the literal one-sided tripwire despite its density-blind limitation;
+  the old Jaccard-based uniqueness clearance was incorrect and is withdrawn (`irregularities.md` §3).
 * A **Poisson null** generator (`scripts/make_control.py`), without which no holdout number in this
   repository is interpretable.
 
@@ -54,9 +56,9 @@ anchored one.
 4. **25 m DEM resolution bounds the detector.** Shoreline steps of 2 m are at the edge of what the
    gridded product supports; the 1 m lidar composite in the training stack is the remedy and is not
    available in this checkout.
-5. **The weekly slot decision is not made here.** Per the brief, choosing what to promote to a real
-   slot is a separate selector step within the weekly cap. This repository only states what the
-   evidence supports: a low-risk Phase-1 novelty probe, explicitly not the lead horse.
+5. **The weekly slot decision is not made here.** The evidence does support a stop: v8 fails the
+   strict registry overlap threshold and must not be submitted. Selection of any future, distinct
+   candidate remains a separate step; no replacement is present here.
 6. **Owner-reported scores are unverifiable here** (`irregularities.md` §5) and are used only to
    rank the group's own artifacts against each other.
 7. **Sandbox reachability is a hard constraint.** USGS hosts are unreachable (HTTP 000); DEM

@@ -13,8 +13,8 @@
 <main>
 <h1>Lake Lahontan shorelines as a strain gauge</h1>
 <p class="sub">Datum-offset lane · DOE GEMS Prize (DrivenData #306) ·
-<span class="pill">artifact generated 2026-10-11</span><span class="pill">lane: DISTINCT</span>
-<span class="pill">format: PASS</span><span class="pill">verdict: negative</span></p>
+<span class="pill">historical 99-dot artifact</span><span class="pill">lane: DUPLICATE — STOP</span>
+<span class="pill">format: PASS</span><span class="pill">DO NOT SUBMIT</span></p>
 
 <div class="dl">
   <h2>⬇ Submission file</h2>
@@ -28,9 +28,9 @@
     <tr><th>grid</th><td class="n">float32 · EPSG:32611 · 3730 × 3292 · 100 m · transform (100, 0, 243350, 0, −100, 4508550)</td></tr>
     <tr><th>local format checks</th><td><span class="verdict v-ok">PASS</span>
         — single band, float32, CRS/shape/transform exact, no non-finite value inside the footprint, every finite value in [0, 1], zeros outside the footprint</td></tr>
-    <tr><th>lane rule — BOTH halves</th><td><b>before placement</b> (datum-offset surface): max |ρ| 0.015551, max 3-px overlap 0.3742 over 60,227 cells; <b>flagged evidence</b>: max |ρ| 0.007957, overlap 0.2990 over 16,156 cells — all vs the limits 0.90 / 0.70. <b>final dots</b>: max |ρ| 0.000622, overlap 0.4040. Same evaluator, same registry of 21 rasters; 3 of them are vacuous (see below).</td></tr>
-    <tr><th>lane check vs 21 registry rasters</th><td><span class="verdict v-ok">DISTINCT LANE</span>
-        — max |ρ| 0.000622 (limit 0.90); worst 3-px overlap 0.4040 (limit 0.70) vs <code>gems61c_gravstep_liveband_40k</code></td></tr>
+    <tr><th>pre-placement gate</th><td><b>NOT VERIFIED.</b> The legacy surface receipt reports only the non-vacuous subset, so it does not establish the required all-comparator surface result.</td></tr>
+    <tr><th>final-dot gate vs 21 legacy comparators</th><td><span class="verdict v-no">DUPLICATE — STOP</span>
+        — preserved strict all-comparator one-sided overlap <b>1.0000 &gt; 0.70</b>. The 0.4040 maximum on the non-vacuous subset is diagnostic only; three dense comparators were excluded by the old summary logic.</td></tr>
     <tr><th>hard upper bound</th><td class="n"><b>0.0103</b> — every one of the 99 dots landing exactly on a truth pixel, |G| = 12,000</td></tr>
   </table>
   <p><b>Why you should not submit it.</b> The published metric charges β = 0.8 per <i>missing</i> truth

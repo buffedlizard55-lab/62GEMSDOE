@@ -12,21 +12,20 @@ so this lane buys **defensibility more than area**.
 
 ---
 
-## ⬇ Is it OK to download and submit the generated file?
+## ⬇ Download for review? Yes. Submit? **NO — DO NOT SUBMIT.**
 
-### ✅ YES — [`docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif`](docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif)
+[`docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif`](docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif)
+(62,709 bytes; sha256 `3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba`)
+is available for inspection. Its format receipt says `legal = true` (single-band `float32`,
+EPSG:32611, 100 m, values in `[0,1]`, no nodata tag), but that is **not** a uniqueness or
+submission clearance. The preserved maximum one-sided overlap is **1.00**, above the binding
+**0.70** stop threshold across the 289-raster registry. The previous `UNIQUE-VS-REGISTRY` label
+incorrectly used symmetric Jaccard (0.030) to override that trip; Jaccard is diagnostic only.
+Therefore this file is **DUPLICATE — STOP** under the required protocol. Do not spend a weekly slot.
 
-62,709 bytes · sha256 `3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba` ·
-`legal = true` · **UNIQUE-VS-REGISTRY** across 289 prior rasters (worst rank correlation −0.065,
-worst symmetric overlap 0.030).
-
-**Spend a weekly slot on it only as a low-risk Phase-1 novelty probe, not as the lead horse.**
-The honest expectation is below the group's best scored artifact (`gems32-h33-h33-2-b2-…-zeros`,
-0.2778, OWNER-REPORTED). The reason is not a low local score — it is that **no local instrument can
-score this task**: on the catalogue-based proxy a uniform-random field beats that same 0.2778
-artifact by 10× (0.0669 vs 0.0067). Full argument and receipts:
-[`docs/executive-summary.md`](docs/executive-summary.md), [`docs/run-card.md`](docs/run-card.md),
-one-click page: [`docs/index.html`](docs/index.html).
+The candidate's HOLDOUT-DTI is weak and is not an organizer score; see
+[`docs/run-card.md`](docs/run-card.md) and [`docs/executive-summary.md`](docs/executive-summary.md).
+No replacement candidate or registry refresh was run during this correction.
 
 Every generated file is published here with an explicit verdict. Read
 [`docs/executive-summary.md`](docs/executive-summary.md) for the one-page answer, and
@@ -54,7 +53,7 @@ The rule this repository enforces mechanically (`src/gems62/grid.py::write_submi
 | `scripts/fetch_3dep.py` + `.github/workflows/dem-fetch.yml` | transports the official USGS 3DEP DEM (the driving sandbox cannot reach USGS hosts; GitHub runners can) |
 | `scripts/run_lane.py` | end-to-end: DEM → benches → isobase → loci → traces → submission GeoTIFF + receipts |
 | `scripts/run_holdout.py` | hide-and-recover holdout (spatially blocked, buffer, pooled DTI, leakage canary) |
-| `scripts/check_uniqueness.py` | lane-drift tripwires: rank correlation ≤ 0.90 and ≤ 70 % dot overlap vs every registry raster |
+| `scripts/check_uniqueness.py` | strict lane-drift stops: positive rank correlation > 0.90 or one-sided Euclidean overlap > 70 % within 3 px; Jaccard is diagnostic only |
 | `docs/` | executive summary, run card, hypothesis ranking, sources, irregularities, evidence JSON |
 | `evidence/` | receipts committed by the GitHub runner: DEM provenance, network probes |
 
@@ -72,9 +71,10 @@ committed; see [`docs/data.md`](docs/data.md) for the exact reproduction command
 | known USGS/INGENIOUS faults | masked/excluded from scoring in both rounds | OFFICIAL (organizer post, thread 11516) |
 | "new fault" | any pixel not captured by USGS/INGENIOUS, **including new geometry of an existing system** | OFFICIAL (organizer post, thread 11536) |
 | Phase 2 label set | updated by expert review of Phase 1 submissions | OFFICIAL (organizer post, thread 11527) |
-| this lane's holdout DTI | **0.00286** (6 folds, 60,362 withheld positives, recall 0.0023, Wilson95 [0.00196, 0.00272]); **not a score** — the same proxy ranks a Poisson control (0.0669) above the artifact that scored 0.2778 live (0.0067) | HOLDOUT-DTI (proxy; `evidence/holdout_v8.json`) |
+| v8 proxy metric | **HOLDOUT-DTI 0.00286**; `scripts/run_holdout.py` v2; 60,362 withheld positives; spatial-fold 95% CI for DTI not estimable (5/6 folds have no predictions); pooled-recall Wilson95 [0.001955, 0.002723] is a different quantity; **not an organizer score** | HOLDOUT-DTI (`evidence/holdout_v8.json`) |
 | this file vs its own Poisson null | 0.74× (h33: 0.10×) — a **novelty** ratio, not a quality ratio | MEASURED (`evidence/calibration_v8.json`) |
-| registry uniqueness | **UNIQUE-VS-REGISTRY**, 289 rasters, max ρ −0.065, max Jaccard 0.030 | MEASURED (`evidence/uniqueness_v8.json`) |
+| strict registry gate | **DUPLICATE — STOP**; one-sided overlap 1.00 > 0.70; max ρ −0.065; Jaccard 0.030 is diagnostic only | MEASURED, retrospective reclassification (`evidence/uniqueness_v8.json`) |
+| pre-placement surface gate | **NOT VERIFIED**; no passing v8 surface-before-placement receipt is present | NOT VERIFIED |
 | organizer scores of *any* file here | **none exist** | — |
 
 Scores the user reported for earlier sites (0.2778, 0.3774, …) are recorded in

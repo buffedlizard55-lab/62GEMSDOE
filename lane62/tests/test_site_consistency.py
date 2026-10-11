@@ -58,18 +58,16 @@ def test_every_page_exists_and_carries_the_nav():
             assert f'href="{other}.html"' in body, (page, other)
 
 
-def test_index_prints_the_gate_numbers_not_superseded_ones(site, gate):
+def test_index_prints_the_strict_gate_and_keeps_diagnostics_separate(site, gate):
     g = gate[site["files"]["primary"]["name"]]
-    t = text_of("index")
-    worst = money(g["worst_overlap_discriminating"]["overlap_3px_one_sided"], 4)
-    assert f"{g['n_discriminating']} of {g['n_comparators']} registry comparators" in t
-    assert worst in t, worst
-    # the superseded figure may only appear inside the sentence that explains why
-    # it is not the discriminating leg's value
-    for sentence in re.split(r"(?<=[.;]) ", t):
-        if "0.9416" in sentence:
-            assert "blanket" in sentence or "dilation" in sentence, sentence
-            assert "0.70" not in sentence, sentence
+    t = text_of("index").upper()
+    strict = money(g["max_overlap_all"], 4)
+    diagnostic = money(g["worst_overlap_discriminating"]["overlap_3px_one_sided"], 4)
+    assert g["verdict"] == "DUPLICATE - STOP"
+    assert "DUPLICATE" in t and "DO NOT SUBMIT" in t
+    assert strict in t and diagnostic in t
+    assert "JACCARD" in t and "DIAGNOSTIC" in t
+    assert "DOES NOT" in t or "DO NOT" in t
 
 
 def _number_printed(t: str, value: float, nds=(4, 6)) -> str:
@@ -81,16 +79,20 @@ def _number_printed(t: str, value: float, nds=(4, 6)) -> str:
     return repr(value)
 
 
-def test_score_numbers_on_the_pages_equal_the_stats_json(site):
+def test_holdout_numbers_are_consistent_and_not_promoted_on_the_landing_page(site):
     pa = site["files"]["primary"]["stats"]
     a = pa["instrumentA"]["dti"]
     b = pa["instrumentB"]["dti"]
-    for page in ("index", "results", "executive-summary", "run-card"):
+    for page in ("results", "executive-summary", "run-card"):
         t = text_of(page)
         _number_printed(t, a)
         _number_printed(t, b)
+        assert "HOLDOUT-DTI" in t
         assert f"{pa['n_dots']:,}" in t, (page, pa["n_dots"])
-    # B' is a mass-matched check, reported where the economics are made
+    # The landing page should prioritize the stop verdict, not promote proxy scores.
+    index = text_of("index")
+    assert "DUPLICATE" in index and "DO NOT SUBMIT" in index
+    # B' is a mass-matched proxy diagnostic, reported where the economics are discussed.
     for page in ("results", "run-card", "research"):
         _number_printed(text_of(page), pa["instrumentB_prime_dti"])
     assert pa["credit_bar_at_s_0p2778"] < pa["mean_credit_per_dot"] * 2
@@ -98,7 +100,7 @@ def test_score_numbers_on_the_pages_equal_the_stats_json(site):
 
 def test_secondary_is_described_as_a_duplicate_wherever_it_is_linked(gate, site):
     s = gate[site["files"]["secondary"]["name"]]
-    assert s["verdict"] == "DUPLICATE"
+    assert s["verdict"] == "DUPLICATE - STOP"
     for page in ("index", "run-card", "results"):
         t = text_of(page)
         if site["files"]["secondary"]["name"] in (DOCS / f"{page}.html").read_text():
@@ -144,11 +146,16 @@ def test_run_card_has_every_field_the_protocol_requires():
     ci = rc["holdout_dti"]["instrumentA"]["ci95"]
     assert ci[0] <= rc["holdout_dti"]["instrumentA"]["value"] <= ci[1], "CI must bracket"
     assert rc["holdout_dti"]["instrumentB"]["edge"] > 0
-    assert rc["correlation_and_overlap_vs_registry"]["verdict"] == "UNIQUE"
+    registry = rc["correlation_and_overlap_vs_registry"]
+    assert registry["verdict"] == "DUPLICATE - STOP"
+    assert registry["strict_gate_pass"] is False
+    assert registry["overlap_trip"] is True
+    assert registry["jaccard_is_gate"] is False
+    assert registry["preplacement_surface_gate"].startswith("NOT VERIFIED")
     # the second artefact is documented as not-submittable in the same card
     sec = rc["second_artifact"]
     assert sec["status"].upper() == "DO NOT SUBMIT"
-    assert "0.9885" in sec["reason"] and "informative leg" in sec["reason"]
+    assert "0.9885" in sec["reason"] and "sparse comparator" in sec["reason"]
     assert sec["sha256"] == load(
         DOCS / "downloads" / sec["name"].replace(".tif", ".json"))["sha256"]
 
@@ -173,7 +180,7 @@ def test_sibling_lane_crosscheck_is_distinct_and_reported():
         assert row["overlap_3px_one_sided"] <= 0.70, row
         assert abs(row["spearman"]) <= 0.90, row
     t = text_of("index")
-    assert "Sibling-lane cross-check" in t
+    assert "sibling-lane cross-check" in t.lower()
     assert f"{x['pairs'][0]['overlap_3px_one_sided']:.4f}" in t
 
 
@@ -181,10 +188,11 @@ def test_no_page_promises_a_score_it_does_not_have():
     for page in PAGES:
         t = text_of(page)
         low = t.lower()
-        assert "organizer-confirmed score" not in low
+        assert "has an organizer-confirmed score" not in low
+        assert "organizer-confirmed score of" not in low
         assert "scored 0." not in low
         if "0.3195" in t:                                  # the stale bar (IR-62-06)
             i = t.index("0.3195")
             assert "stale" in t[max(0, i - 200):i + 200].lower()
     assert "unscored" in text_of("run-card").lower()
-    assert "no weekly slot" in text_of("index").lower()
+    assert "do not submit" in text_of("index").lower()

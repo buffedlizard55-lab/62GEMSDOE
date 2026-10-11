@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GEMSDOE62 — datum-offset submission (Lake Lahontan shoreline isobase)</title>
 <style>
-  :root { --ink:#101418; --dim:#5b6673; --line:#e3e8ee; --ok:#0b7a3b; --warn:#8a5a00; --bg:#fbfcfd; }
+  :root { --ink:#101418; --dim:#5b6673; --line:#e3e8ee; --ok:#0b7a3b; --warn:#8a5a00; --no:#b42318; --bg:#fbfcfd; }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--bg); color:var(--ink);
          font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
@@ -14,11 +14,11 @@
   .sub { color: var(--dim); margin: 0 0 24px; font-size: .95rem; }
   .card { background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px 24px; margin:0 0 18px;
           box-shadow: 0 1px 2px rgba(16,20,24,.04); }
-  .verdict { border-left: 6px solid var(--ok); }
-  .verdict h2 { margin:0 0 6px; font-size:1.15rem; color:var(--ok); }
+  .verdict { border-left: 6px solid var(--no); }
+  .verdict h2 { margin:0 0 6px; font-size:1.15rem; color:var(--no); }
   .verdict p { margin:6px 0 0; }
   .btn { display:inline-flex; align-items:center; gap:10px; margin:14px 0 6px;
-         background:var(--ok); color:#fff; text-decoration:none; font-weight:600;
+         background:#425b76; color:#fff; text-decoration:none; font-weight:600;
          padding:14px 20px; border-radius:10px; font-size:1.02rem; }
   .btn:hover { filter: brightness(1.08); }
   .btn small { font-weight:400; opacity:.85; }
@@ -47,23 +47,26 @@
   single-band 100 m GeoTIFF, EPSG:32611</p>
 
   <div class="card verdict">
-    <h2>✅ OK to download and submit — legal and unique</h2>
-    <p>Single band <code>float32</code>, EPSG:32611, 100 m, 3730×3292, values in <code>[0,1]</code>,
-    <strong>no nodata tag, no NaN</strong>. Unique against all 289 registry rasters
-    (worst rank correlation −0.065).</p>
+    <h2>🛑 Download for review only — DO NOT SUBMIT</h2>
+    <p>Format checks pass (single-band <code>float32</code>, EPSG:32611, 100 m, 3730×3292,
+    values in <code>[0,1]</code>, <strong>no nodata tag, no NaN</strong>); format validity is not
+    submission clearance. The strict registry gate trips: maximum one-sided 3 px overlap is
+    <strong>1.00 &gt; 0.70</strong> across 289 prior rasters. Symmetric Jaccard 0.030 is diagnostic
+    only. Verdict: <strong>DUPLICATE — STOP</strong>. The required pre-placement surface receipt is
+    absent, so that gate is <strong>NOT VERIFIED</strong>; the final-dot trip independently blocks submission.</p>
 
     <a class="btn" href="downloads/gemsdoe62-datum-lahontan-isobase-v8.tif" download>
-      ⬇ Download the submission GeoTIFF
+      ⬇ Download for inspection only — do not upload
       <small>62.7 KB · sha256 3d4b66e6…</small>
     </a>
     <p class="sha">sha256 <code>3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba</code></p>
   </div>
 
   <div class="card warn">
-    <h2>⚠️ Spend a slot on it only as a novelty probe — not as the lead horse</h2>
-    <p>1,660 dots at pluvial-bench steps and deflections, 221 DEM-ridge traces. Honest expectation is
-    <strong>below</strong> the group's best scored artifact (h33-2-b2, 0.2778, owner-reported).
-    The local holdout <em>cannot</em> rank submissions for this task — proof below.</p>
+    <h2>⛔ No weekly slot — the strict uniqueness gate failed</h2>
+    <p>The preserved one-sided overlap exceeds the protocol threshold. The earlier Jaccard-based
+    clearance was incorrect and is withdrawn. The local HOLDOUT-DTI is not an organizer score and
+    cannot override the duplicate stop. No replacement candidate or fresh registry scan is included.</p>
   </div>
 
   <div class="card">

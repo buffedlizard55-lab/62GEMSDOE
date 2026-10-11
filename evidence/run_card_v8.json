@@ -32,14 +32,26 @@
    "lane_binary_mask_auc_mean": 0.4999,
    "verdict": "no leakage; AUC at chance means no signal about catalogue faults either"
   },
-  "ratio_to_own_poisson_null": 0.736
+  "ratio_to_own_poisson_null": 0.736,
+  "evidence_class": "HOLDOUT-DTI (proxy; not an organizer score)",
+  "dti_ci95": null,
+  "dti_ci_note": "A 95% CI for pooled DTI is not estimable from this six-fold run: five folds have no predictions. The stored Wilson interval is for pooled kernel-weighted recall, not DTI."
  },
  "registry": {
   "n_registry": 289,
   "max_rank_correlation": -0.0652,
+  "max_positive_spearman_rho": -0.0652,
   "max_asymmetric_overlap": 1.0,
+  "max_one_sided_overlap": 1.0,
   "max_symmetric_jaccard": 0.0302,
-  "verdict": "UNIQUE-VS-REGISTRY"
+  "verdict": "DUPLICATE - STOP",
+  "overlap_limit": 0.7,
+  "rank_correlation_trip": false,
+  "overlap_trip": true,
+  "jaccard_is_gate": false,
+  "reassessment_note": "The saved raw one-sided overlap is 1.0 (>0.70). The previous UNIQUE label incorrectly substituted a Jaccard diagnostic for the specified tripwire. This artifact is not approved for submission.",
+  "overlap_method": "one-sided Euclidean distance <= 3 pixels; Jaccard is diagnostic only",
+  "preplacement_surface_gate": "NOT VERIFIED - no passing surface-before-placement receipt is present for v8"
  },
  "raster": {
   "file": "docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif",
@@ -76,7 +88,7 @@
   "cores": 2
  },
  "submission_name": "gemsdoe62-datum-lahontan-isobase-v8",
- "submission_note": "Lake Lahontan pluvial-bench isobase: 1660 dots on stepped/deflected shoreline benches; 221 DEM-ridge traces; unique vs registry.",
- "submission_note_chars": 128,
- "verdict": "NEGATIVE as a detector of catalogue faults and NOVEL versus the catalogue. Promoted to the download page as a low-risk Phase-1 novelty probe (organizers state Phase 1 submissions feed the Phase 2 expert-reviewed test set), explicitly not as the lead horse: expectation is below h33's owner-reported 0.2778."
+ "submission_note": "Lake Lahontan pluvial-bench isobase: 1660 dots on shoreline datum breaks; 221 DEM-ridge traces; DO NOT SUBMIT (registry overlap trip).",
+ "submission_note_chars": 134,
+ "verdict": "NEGATIVE \u2014 strict registry overlap trip (1.0 > 0.70); DO NOT SUBMIT. The HOLDOUT-DTI is weak and is not an organizer score. No new candidate or registry refresh was run in this patch."
 }

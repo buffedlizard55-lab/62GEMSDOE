@@ -5,8 +5,8 @@
  "thresholds": {
   "rank": 0.9,
   "overlap": 0.7,
-  "jaccard": 0.25,
-  "kernel_px": 3.0
+  "kernel_px": 3.0,
+  "jaccard_diagnostic_only": 0.25
  },
  "worst_rank_corr": {
   "file": "GEMSDOE48__GEMSDOE48-H56-ds-belief-dotted-x-tip-20261007-9ec0d605c45b-nan-outside.tif",
@@ -28,7 +28,8 @@
   "n_mine": 1660,
   "n_theirs": 206895,
   "rank_flag": false,
-  "overlap_flag": false
+  "overlap_flag": true,
+  "strict_trip_reason": "one-sided overlap 1.0 > 0.70; Jaccard is diagnostic only"
  },
  "worst_jaccard": {
   "file": "GEMSDOE47__gems47-h50-slopeanom-s2p8-20261007-allfinite.tif",
@@ -42,7 +43,15 @@
   "overlap_flag": false
  },
  "any_rank_flag": false,
- "any_overlap_flag": false,
- "verdict": "UNIQUE-VS-REGISTRY",
- "note": "trimmed: per-registry results list omitted; regenerate with scripts/check_uniqueness.py (~10 min over 289 rasters)"
+ "any_overlap_flag": true,
+ "verdict": "DUPLICATE - STOP",
+ "note": "Retrospective strict-gate correction: the preserved maximum one-sided overlap is 1.0, above the binding 0.70 limit. Jaccard 0.0302 is diagnostic only. Per-comparator rows were trimmed from this legacy report; regenerate from the registry cache before any future claim of distinctness.",
+ "protocol_gate": {
+  "rho_rule": "positive Spearman rho > 0.90",
+  "overlap_rule": "one-sided Euclidean fraction within 3 px > 0.70",
+  "rho_trip": false,
+  "overlap_trip": true,
+  "passed": false,
+  "verdict": "DUPLICATE - STOP"
+ }
 }

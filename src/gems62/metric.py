@@ -118,3 +118,21 @@ def credit_audit(mask: np.ndarray) -> dict:
     return dict(n_emitted=n, total_mass=float(m.sum()),
                 redundancy_fraction=float((best[pos] > 0).mean()),
                 mean_self_kernel=float(best[pos].mean()))
+
+
+# Compatibility API for the shared spatial holdout and its unit tests.  The
+# active fast path above remains the root pipeline's evaluator; these exact
+# physical-unit routines back catalogue-segment holdout and the brute-force
+# reference tests.  Keep the adapters here (the canonical package surface) so
+# callers never import the archived `superseded_20261011` package directly.
+from .superseded_20261011.metric import (  # noqa: E402
+    Components,
+    Precomputed,
+    brute_force_components,
+    dti as dti_physical,
+    dti_components,
+    maximum_useful_distance_m,
+    unit_dot_dti,
+)
+
+RADIUS_M = 300.0

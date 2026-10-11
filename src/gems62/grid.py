@@ -21,6 +21,9 @@ GRID = dict(crs="EPSG:32611", height=3730, width=3292, res=100.0,
             x0=243350.0, y1=4508550.0)
 TRANSFORM = (100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)
 BOUNDS = (243350.0, 4135550.0, 572550.0, 4508550.0)
+# Public constant used by the holdout, geomorphology and emission modules.  Keep
+# this derived from the same measured grid record instead of duplicating 100 m.
+PIXEL_M = float(GRID["res"])
 
 PINS = {
     "training_features.tif": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",

@@ -10,15 +10,13 @@
 <a href="data/run_card.json">docs/data/run_card.json</a>.</p>
 <h2>Read these two lines first</h2>
 <ul class="tight">
-<li><b>gems62-lahontan-datum-break-dotted-primary-zeros.tif</b> — registry verdict <b>UNIQUE</b>: worst one-sided 3 px
-overlap 0.4066 over
-321 discriminating comparators (limit 0.70), correlation leg
-pass (worst |ρ|
-0.0325, limit 0.90). Eligible to download;
-<b>no weekly slot recommended</b>.</li>
-<li><b>gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif</b> — registry verdict <b>DUPLICATE</b> at
-0.9885 against
-<code>gems41-h42-basinmargin-s4-n40000-20261006T015229Z-allfinite.tif</code>.
+<li><b>gems62-lahontan-datum-break-dotted-primary-zeros.tif</b> — strict registry verdict <b>DUPLICATE - STOP</b>: max one-sided
+Euclidean 3 px overlap 1.0000 across all comparators (limit 0.70),
+max positive ρ 0.0325 (limit 0.90). Download for review only;
+<b>DO NOT SUBMIT</b>.</li>
+<li><b>gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif</b> — strict registry verdict <b>DUPLICATE - STOP</b>:
+max one-sided overlap 1.0000 against
+<code>17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif</code>.
 <b>DO NOT SUBMIT</b>; kept as evidence.</li>
 </ul>
 <pre>{
@@ -50,14 +48,23 @@ pass (worst |ρ|
    &quot;control_same_stratum&quot;: 0.02912910620477438,
    &quot;edge&quot;: 0.0037132289815902733
   },
-  &quot;evaluator&quot;: &quot;gems62.holdout (this repository), alpha 0.2, beta 0.8, 300 m triangular kernel, 2x2 spatial block, catalogue masked pixel-exactly&quot;,
+  &quot;evidence_class&quot;: &quot;HOLDOUT-DTI (proxy; not an organizer score)&quot;,
+  &quot;evaluator&quot;: &quot;lane62 gems62.holdout harness (no tagged semantic version in legacy receipt), alpha 0.2, beta 0.8, 300 m triangular kernel, 2x2 spatial block, catalogue masked pixel-exactly&quot;,
+  &quot;ci_note&quot;: &quot;Instrument A has a stored 95% interval. Instruments B and B-prime have no 95% CI in the legacy evidence; do not call them organizer scores.&quot;,
   &quot;withheld_positives_note&quot;: &quot;instrument A withholds whole catalogue segments dilated by the kernel radius; instrument B uses an independent off-catalogue compilation, not the withheld catalogue&quot;
  },
  &quot;correlation_and_overlap_vs_registry&quot;: {
-  &quot;verdict&quot;: &quot;UNIQUE&quot;,
+  &quot;verdict&quot;: &quot;DUPLICATE - STOP&quot;,
+  &quot;strict_gate_verdict&quot;: &quot;DUPLICATE - STOP&quot;,
+  &quot;passed&quot;: false,
+  &quot;strict_gate_pass&quot;: false,
+  &quot;overlap_trip&quot;: true,
+  &quot;rho_trip&quot;: false,
+  &quot;max_overlap_all&quot;: 1.0,
+  &quot;max_positive_spearman&quot;: 0.03250647880527635,
   &quot;n_comparators&quot;: 508,
   &quot;n_discriminating&quot;: 321,
-  &quot;worst_overlap_informative&quot;: {
+  &quot;worst_overlap_informative_diagnostic&quot;: {
    &quot;file&quot;: &quot;riftline-context-distance-20260925T011817Z-7b6010637a.tif&quot;,
    &quot;repo&quot;: &quot;GEMSDOE3&quot;,
    &quot;n_positive&quot;: 352506,
@@ -83,8 +90,10 @@ pass (worst |ρ|
   },
   &quot;correlation_leg_pass&quot;: true,
   &quot;limit_overlap&quot;: 0.7,
-  &quot;limit_abs_spearman&quot;: 0.9,
-  &quot;note&quot;: &quot;the strict leg is degenerate (see IR-62-04)&quot;
+  &quot;limit_positive_spearman&quot;: 0.9,
+  &quot;jaccard_is_gate&quot;: false,
+  &quot;preplacement_surface_gate&quot;: &quot;NOT VERIFIED; no passing receipt present&quot;,
+  &quot;note&quot;: &quot;strict overlap trip against the all-comparator registry; density/vacuity and Jaccard are diagnostics only&quot;
  },
  &quot;sibling_lane_crosscheck&quot;: {
   &quot;note&quot;: &quot;main already carries an independently merged datum-offset lane (v8). These candidates were compared against its shipped TIFs with the same convention as the registry gate; none is a duplicate.&quot;,
@@ -223,9 +232,11 @@ pass (worst |ρ|
   &quot;source&quot;: &quot;scripts/finalize.py writes and then RE-READS the bytes from disk; the receipt is only produced if every clause passes&quot;
  },
  &quot;submission_name&quot;: &quot;gems62-lahontan-datum-break-dotted-primary&quot;,
- &quot;note_140&quot;: &quot;Lahontan highstand datum-offset lane: 86,968 dots on shoreline datum breaks, dotted 283 m, 0 on catalogue; UNSCORED&quot;,
+ &quot;note_140&quot;: &quot;Lahontan shoreline datum breaks; 86,968 dots; strict registry overlap trip; DO NOT SUBMIT; UNSCORED&quot;,
+ &quot;note_140_chars&quot;: 99,
+ &quot;preplacement_surface_gate&quot;: &quot;NOT VERIFIED; no passing receipt is present for this legacy artifact&quot;,
  &quot;verdict&quot;: &quot;negative&quot;,
- &quot;verdict_reason&quot;: &quot;format-valid and unique under the informative gate, but dominated on the same instrument by a registered prior field (mean credit per dot 0.55x the best registered field&#x27;s at 1/511x its dot count), and its standing edge over a same-stratum control on the independent instrument is +0.0104 in absolute DTI. No weekly slot.&quot;,
+ &quot;verdict_reason&quot;: &quot;The preserved final-dot one-sided overlap is 1.0 (&gt;0.70), so the binding verdict is DUPLICATE - STOP. The informative-only clearance is withdrawn; no submission is cleared. The pre-placement surface receipt is also absent. Holdout/economics results remain diagnostics, not organizer scores.&quot;,
  &quot;budget&quot;: {
   &quot;experiments_planned&quot;: 3,
   &quot;experiments_run&quot;: 3,
@@ -236,7 +247,7 @@ pass (worst |ρ|
   &quot;sha256&quot;: &quot;0cb75334251abd7ef29565039cd13a50e60bafb12a35a257d8a4b0dbfb477edf&quot;,
   &quot;n_dots&quot;: 87,
   &quot;status&quot;: &quot;DO NOT SUBMIT&quot;,
-  &quot;reason&quot;: &quot;fails the uniqueness gate&#x27;s informative leg at 0.9885 against gems41-h42-basinmargin-s4-n40000-20261006T015229Z-allfinite.tif&quot;
+  &quot;reason&quot;: &quot;fails the strict all-comparator overlap gate at 1.0000 (&gt;0.70); it also has 0.9885 overlap against sparse comparator gems41-h42-basinmargin-s4-n40000-20261006T015229Z-allfinite.tif&quot;
  },
  &quot;deliverable_1&quot;: {
   &quot;file&quot;: &quot;docs/downloads/lahontan_shoreline_profiles.json&quot;,

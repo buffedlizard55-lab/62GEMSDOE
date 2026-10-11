@@ -17,15 +17,13 @@ SELECTION RULE (fixed before the numbers):
   instrument B reported alongside.  Instrument A is reported but never selects
   (IR-30-046).
 
-UNIQUENESS, both readings, because the strict reading is provably degenerate:
-  * STRICT   -- max one-sided 3 px overlap over ALL registry rasters.
-  * INFORMATIVE -- same, over comparators that are themselves sparse
-    (<= 10 % of the footprint positive).  A comparator covering the whole
-    footprint makes the leg vacuously 1.0 for any file, so it cannot carry
-    information about lane drift (the group logged this as IR-61-UNIQ-01).
-  * JACCARD -- intersection-over-union against the dense comparators, the
-    group's exception statistic.
-  Plus rank correlation (Spearman, or point-biserial when a side is constant).
+UNIQUENESS, literal binding rule:
+  * trip if positive rank correlation > 0.90 against any registry raster; OR
+  * trip if > 70 % of candidate dots lie within a 3 px Euclidean radius of any
+    one registry raster.
+  Comparator density and Jaccard are reported as diagnostics only and never
+  suppress a trip. The rank calculation uses a footprint sample, not only the
+  candidate's own positive cells.
 """
 from __future__ import annotations
 
@@ -46,6 +44,7 @@ from gems62 import grid as G          # noqa: E402
 from gems62 import holdout as H       # noqa: E402
 from gems62.metric import kernel, credit_bar, dti_exact   # noqa: E402
 from gems62.validate import write_submission, dots_on_catalogue  # noqa: E402
+from uniqueness_gate import one_sided_overlap, protocol_verdict  # noqa: E402
 
 REG = Path.home() / ".cache" / "gems62_registry"
 SEP_PX = 2.8284271247461903
@@ -233,9 +232,13 @@ def main():
     # ------------------------------------------------------ uniqueness gate
     print("[uniqueness] scanning registry")
     rasters = sorted(REG.rglob("*.tif"))
-    rr, cc = np.nonzero(primary)
-    sample = rng.choice(rr.size, min(200_000, rr.size), replace=False) if rr.size else np.array([], int)
-    my_vals = primary[rr[sample], cc[sample]].astype(np.float64) if rr.size else np.array([])
+    dot_rr, dot_cc = np.nonzero(primary & g.footprint)
+    n_mine = int(dot_rr.size)
+    fp_indices = np.flatnonzero(g.footprint.ravel())
+    sample = rng.choice(fp_indices, min(200_000, fp_indices.size), replace=False) \
+        if fp_indices.size else np.array([], int)
+    sample_rr, sample_cc = np.divmod(sample, w)
+    my_vals = primary[sample_rr, sample_cc].astype(np.float64) if sample.size else np.array([])
     fp_total = int(g.footprint.sum())
     rows, skipped = [], []
     for p in rasters:
@@ -248,26 +251,23 @@ def main():
         except Exception as e:                                   # noqa: BLE001
             skipped.append(dict(file=p.name, reason=f"read error: {e}")); continue
         a = a.astype(np.float64); a[~np.isfinite(a)] = 0.0
-        pos = a > 0
+        pos = (a > 0) & g.footprint
         npos = int(pos.sum())
         if npos == 0:
             continue
-        d3 = ndi.binary_dilation(pos, iterations=3)
-        ov = float(d3[rr, cc].mean()) if rr.size else 0.0
-        inter = float((pos[rr, cc]).mean()) if rr.size else 0.0
-        # Jaccard of the two positive sets: |A n B| / |A u B|
-        inter_n = int((pos & primary).sum())
-        union_n = npos + int(primary.sum()) - inter_n
+        ov = one_sided_overlap(primary, pos, g.footprint)
+        inter = float((pos & primary).sum() / n_mine) if n_mine else 0.0
+        # Symmetric Jaccard is diagnostic only; it does not waive one-sided overlap.
+        inter_n = int((pos & primary & g.footprint).sum())
+        union_n = npos + n_mine - inter_n
         jac = inter_n / union_n if union_n else 0.0
         rho, meth = float("nan"), None
-        if rr.size and my_vals.size > 2:
-            their = a.ravel()[rr[sample] * w + cc[sample]]
+        if sample.size > 2:
+            their = a[sample_rr, sample_cc]
             if np.unique(my_vals).size > 1 and np.unique(their).size > 1:
                 rho, meth = float(spearmanr(my_vals, their).statistic), "spearman"
-            else:
-                x = (my_vals > 0).astype(np.float64); y = their.astype(np.float64)
-                if x.std() > 0 and y.std() > 0:
-                    rho, meth = float(np.corrcoef(x, y)[0, 1]), "point_biserial"
+            elif my_vals.std() > 0 and their.std() > 0:
+                rho, meth = float(np.corrcoef(my_vals, their)[0, 1]), "point_biserial"
         rows.append(dict(file=p.name, repo=p.relative_to(REG).parts[0],
                          bytes=p.stat().st_size, n_positive=npos,
                          coverage_frac=npos / fp_total,
@@ -279,24 +279,29 @@ def main():
     fin = [r for r in rows if np.isfinite(r["spearman"])]
     worst_ov_all = rows[0] if rows else None
     worst_ov_sparse = sparse[0] if sparse else None
-    worst_rho = max(fin, key=lambda r: abs(r["spearman"])) if fin else None
+    worst_rho_abs = max(fin, key=lambda r: abs(r["spearman"])) if fin else None
+    max_positive_rho = max((r["spearman"] for r in fin), default=float("nan"))
     worst_jac_dense = max(dense, key=lambda r: r["jaccard"]) if dense else None
-    strict_pass = bool(worst_ov_all and worst_ov_all["overlap_3px_one_sided"] <= 0.70)
-    informative_pass = bool(worst_ov_sparse is None or worst_ov_sparse["overlap_3px_one_sided"] <= 0.70)
-    rho_pass = bool(worst_rho is None or abs(worst_rho["spearman"]) <= 0.90)
-    verdict = "UNIQUE" if (informative_pass and rho_pass) else "DUPLICATE"
-    print(f"[uniqueness] {verdict} (strict leg {'pass' if strict_pass else 'DEGENERATE/FAIL'}; "
-          f"informative leg {'pass' if informative_pass else 'FAIL'}; "
-          f"correlation leg {'pass' if rho_pass else 'FAIL'})")
+    max_overlap_all = max((r["overlap_3px_one_sided"] for r in rows), default=0.0)
+    max_overlap_sparse = max((r["overlap_3px_one_sided"] for r in sparse), default=0.0)
+    protocol = protocol_verdict(max_positive_rho, max_overlap_all,
+                                n_comparators=len(rows))
+    strict_pass = bool(rows) and not protocol["overlap_trip"]
+    informative_pass = bool(worst_ov_sparse is None or max_overlap_sparse <= 0.70)
+    rho_pass = not protocol["rho_trip"]
+    verdict = protocol["verdict"]
+    print(f"[uniqueness] {verdict} (strict overlap {'pass' if strict_pass else 'TRIP/UNVERIFIED'}; "
+          f"informative overlap diagnostic {'pass' if informative_pass else 'trip'}; "
+          f"positive-correlation leg {'pass' if rho_pass else 'TRIP'})")
     if worst_ov_all:
         print(f"   strict worst overlap {worst_ov_all['overlap_3px_one_sided']:.4f} vs "
               f"{worst_ov_all['file'][:55]} (coverage {worst_ov_all['coverage_frac']:.3f})")
     if worst_ov_sparse:
-        print(f"   sparse worst overlap {worst_ov_sparse['overlap_3px_one_sided']:.4f} vs "
+        print(f"   sparse diagnostic overlap {worst_ov_sparse['overlap_3px_one_sided']:.4f} vs "
               f"{worst_ov_sparse['file'][:55]} (coverage {worst_ov_sparse['coverage_frac']:.3f})")
-    if worst_rho:
-        print(f"   worst |rho| {abs(worst_rho['spearman']):.4f} ({worst_rho['spearman_method']}) "
-              f"vs {worst_rho['file'][:55]}")
+    if worst_rho_abs:
+        print(f"   worst |rho| diagnostic {abs(worst_rho_abs['spearman']):.4f} "
+              f"({worst_rho_abs['spearman_method']}) vs {worst_rho_abs['file'][:55]}")
 
     site = dict(
         generated_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -313,18 +318,25 @@ def main():
                                           "test mass from the 0.2778 file (60GEMSDOE README, "
                                           "2026-10-11).",
                        sweep=sweep, chosen=best),
-        uniqueness=dict(verdict=verdict, strict_leg_pass=strict_pass,
-                        informative_leg_pass=informative_pass, correlation_leg_pass=rho_pass,
+        uniqueness=dict(verdict=verdict, passed=protocol["passed"],
+                        strict_leg_pass=strict_pass,
+                        informative_leg_pass_diagnostic=informative_pass,
+                        correlation_leg_pass=rho_pass,
+                        rho_trip=protocol["rho_trip"], overlap_trip=protocol["overlap_trip"],
+                        max_positive_spearman=max_positive_rho,
+                        max_overlap_all=max_overlap_all,
+                        max_overlap_sparse_diagnostic=max_overlap_sparse,
                         n_compared=len(rows), n_skipped=len(skipped),
                         n_dense_comparators=len(dense), n_sparse_comparators=len(sparse),
-                        blunt_rule="a comparator with >= 20 % of the footprint positive makes "
-                                   "the 3 px overlap leg vacuously 1.0 for ANY file, so it "
-                                   "cannot carry information (IR-61-UNIQ-01)",
+                        density_diagnostic="dense comparators may make one-sided overlap "
+                                           "uninformative; strict protocol trip is preserved",
+                        jaccard_is_gate=False,
                         worst_overlap_all=worst_ov_all,
                         worst_overlap_sparse=worst_ov_sparse,
-                        worst_spearman=worst_rho,
+                        worst_spearman_abs_diagnostic=worst_rho_abs,
                         worst_jaccard_among_dense=worst_jac_dense,
-                        limit_overlap=0.70, limit_abs_spearman=0.90, sparse_frac=SPARSE_FRAC,
+                        limit_overlap=0.70, limit_spearman=0.90,
+                        tolerance_px=3.0, sparse_frac_diagnostic=SPARSE_FRAC,
                         top10_overlap=rows[:10], skipped=skipped[:40]),
         registry_scope=dict(root=str(REG), n_tifs=len(rasters),
                             manifest=str(REG / "registry_manifest.tsv")),

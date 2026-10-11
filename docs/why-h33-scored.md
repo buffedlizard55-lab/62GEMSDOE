@@ -94,9 +94,10 @@ Ranked by expected gain per unit cost, with the reasoning above as the foundatio
 The datum-offset lane's 1,660 dots sit **23× below** the density of the artifact that scored
 0.2778, and 1,641 of them fall in a single 171 × 110 km sub-region. Even if those dots individually
 cleared the marginal bar — which is unknowable locally — their *coverage* bounds what they can add.
-That is why the verdict on the download page is "legal, unique, low-risk Phase-1 novelty probe,
-**not** the lead horse", and why the ranked next step (§3.1) is density calibration rather than
-more detector work.
+This arithmetic is separate from the strict uniqueness gate. The v8 file's previous "legal,
+unique, low-risk Phase-1 novelty probe" clearance is withdrawn: its preserved one-sided registry
+overlap is 1.00 (>0.70), so its current verdict is **DUPLICATE — STOP; DO NOT SUBMIT**. The
+ranked scientific next step remains density calibration, but no weekly slot should be spent on v8.
 
 ## 5. The claim this document does **not** make
 

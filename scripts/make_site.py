@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import html
 import json
+import math
 import pathlib
 import re
 
@@ -37,6 +38,28 @@ CNT = card["counts"]
 G = card["gates"]["step_significance"]
 IB = card["isobase"]
 STEP0 = card["step_locations_detail"][0] if card["step_locations_detail"] else None
+
+# This legacy builder's current input predates the binding all-comparator rule:
+# it contains only non-vacuous surface maxima and previously wrote a DISTINCT
+# badge even when max_frac3px_all was 1.0. Fail closed rather than regenerate a
+# public page with an obsolete clearance or upload instructions.
+_surface_variants = ("full", "evidence")
+if ("max_frac3px_all" not in L or "max_rho" not in L or
+        any("max_frac3px_all" not in SURF.get(v, {}) or "max_rho" not in SURF.get(v, {})
+            for v in _surface_variants)):
+    raise SystemExit(
+        "refusing to regenerate the public site from a legacy run card: strict all-comparator "
+        "final and pre-placement overlap receipts are required; the current v8 surface gate is "
+        "NOT VERIFIED")
+if (L["max_frac3px_all"] > L["overlap_limit"] or
+        max(L.get("max_rho", L.get("max_abs_rho", float("nan"))),
+            *[SURF[v].get("max_rho", SURF[v].get("max_abs_rho", float("nan")))
+              for v in _surface_variants]) > L["rho_limit"] or
+        any(SURF[v]["max_frac3px_all"] > SURF[v]["overlap_limit"]
+            for v in _surface_variants)):
+    raise SystemExit(
+        "refusing to regenerate a submission page: the strict registry gate trips; mark the "
+        "artifact DUPLICATE - STOP and DO NOT SUBMIT")
 print(f"site from {CARD_PATH.name} -> {slug}")
 
 MODES = ", ".join(f"{m['value_m']:.1f}" for m in IB["levels"]["modes"])

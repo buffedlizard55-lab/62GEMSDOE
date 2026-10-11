@@ -7,10 +7,10 @@
 <main class="wrap">
 <h1>Executive summary — how to make a submission</h1>
 
-<h2>1. The file</h2>
-<p>The file to submit is
-<a href="downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif"><b>gems62-lahontan-datum-break-dotted-primary-zeros.tif</b></a>
-(518,595 bytes, sha256 <code>f58ae055030e5eddc3ec704d6958019be4220188efc03367e089baf024f32e59</code>).</p>
+<h2>1. The artifact — review only, NOT CLEARED TO SUBMIT</h2>
+<p><a href="downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif"><b>gems62-lahontan-datum-break-dotted-primary-zeros.tif</b></a> is available for inspection
+(518,595 bytes, sha256 <code>f58ae055030e5eddc3ec704d6958019be4220188efc03367e089baf024f32e59</code>), but the strict
+registry gate returns <b>DUPLICATE — STOP</b>. Do not upload this file or spend a weekly slot.</p>
 
 <h2>2. What the competition requires (quoted from the official page)</h2>
 <table><tr><th>Requirement (official wording)</th><th>This file</th></tr>
@@ -28,20 +28,20 @@ max 1.0</td></tr>
 <p class="mut">Source: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">
 problem description, section “Submission format”</a>, read 2026-10-11.</p>
 
-<h2>3. Click-by-click</h2>
-<ol>
-<li>Download <a href="downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif">gems62-lahontan-datum-break-dotted-primary-zeros.tif</a>. Do not rename it; the name is
-the artifact's identity.</li>
-<li>Open the competition's <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">
-data page</a> → <b>Submit</b> (requires a DrivenData login).</li>
-<li>In <b>File to submit</b>, choose the downloaded <code>.tif</code>.</li>
-<li>In <b>Note (optional)</b> paste:
-<pre>Lahontan highstand datum-offset lane: 86,968 dots on shoreline datum breaks, dotted 283 m, 0 on catalogue; UNSCORED</pre></li>
-<li>Click submit. The portal returns either a public score or a format error; only the
-first of those is a result, and this repository has none.</li>
-</ol>
+<h2>3. Submission instructions</h2>
+<div class="banner bad"><b>Do not upload this artifact.</b> Its strict one-sided registry
+overlap is 1.0 (&gt; 0.70), so the required result is <b>DUPLICATE — STOP</b>. The format
+receipt cannot waive that rule. The name and note below are for internal tracking only.</div>
+<ul>
+<li>Internal artifact ID: <code>gems62-lahontan-datum-break-dotted-primary</code>.</li>
+<li>Internal note (&le;140 chars, not an upload recommendation):
+<code>Lahontan shoreline datum breaks; 86,968 dots; strict registry overlap trip; DO NOT SUBMIT; UNSCORED</code>.</li>
+</ul>
+<p>For a future, separately validated file only: clear the spatially blocked holdout screen and
+both registry checks (surface before placement and final dots) before considering the submission
+form. The required pre-placement uniqueness receipt is absent for this lane62 artifact.</p>
 
-<h2>4. Why the all-finite encoding is the one to upload</h2>
+<h2>4. Format-valid does not mean cleared for submission</h2>
 <p>Two independent mechanisms produce the portal error <code>"Predicted values must be in
 range [0, 1]"</code>, and both are properties of the competition's own inputs:
 <b>(M1)</b> <code>training_features.tif</code> declares
@@ -55,30 +55,29 @@ NaN-outside twin with bit-identical in-footprint values is reproducible with
 <code>python3 scripts/make_variants.py</code>.</p>
 
 <h2>5. Honest status — is it OK to submit?</h2>
-<div class="banner warn"><b>Download: yes. Weekly slot: no.</b> No organizer score exists
-for this file. Every number in this repository is either <b>MEASURED</b> (reproducible from
-the pinned bytes with the commands in the <a href="run-card.html">run card</a>),
-<b>MODEL</b> (an estimate conditioned on the group's published inference of the hidden test
-mass, 7,905 px), or <b>HOLDOUT-DTI</b> (evaluator: this repository's holdout harness, α 0.2,
-β 0.8, 300 m triangular kernel).</div>
+<div class="banner bad"><b>Download for inspection: yes. Submit: NO — DO NOT SUBMIT.</b>
+The preserved strict one-sided overlap is 1.0 (&gt; 0.70), so the binding verdict is
+<b>DUPLICATE — STOP</b>. No organizer-confirmed score receipt exists. HOLDOUT-DTI and model
+outputs are diagnostics, not competition scores.</div>
 <table><tr><th>question</th><th>answer</th></tr>
-<tr><td>format-valid to upload?</td><td>yes — 14/14 checks on the re-read bytes; the portal
-range error cannot occur (section 4)</td></tr>
-<tr><td>unique against the registry?</td><td><b>UNIQUE</b> under the
-informative leg: worst one-sided 3 px overlap
-0.4066 over
-321 discriminating comparators (limit 0.70); correlation leg
-pass (worst |ρ|
-0.0325, limit 0.90)</td></tr>
-<tr><td>HOLDOUT-DTI, independent off-catalogue truth (instrument B)</td>
-<td><b>0.096746</b> (edge over its own same-stratum control
-+0.010418)</td></tr>
-<tr><td>HOLDOUT-DTI, withheld catalogue segments (instrument A)</td>
-<td><b>0.027196</b>, 95 % CI
-0.026848–0.027535 — <b>loses</b> to its
-same-stratum control (0.048565)</td></tr>
-<tr><td>mass-matched check (instrument B′, 7,905 px)</td>
-<td>0.032842</td></tr>
+<tr><td>format-valid?</td><td>yes — 14/14 local checks on re-read bytes; this is not upload clearance</td></tr>
+<tr><td>strict uniqueness gate?</td><td><b>DUPLICATE - STOP</b>; maximum one-sided Euclidean 3 px overlap
+1.0000 against
+<code>17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif</code> (limit 0.70);
+max positive ρ 0.0325 (limit 0.90; no rank trip).
+Informative-only overlap 0.4066
+and Jaccard do not waive the strict trip.</td></tr>
+<tr><td>pre-placement surface gate?</td><td><b>NOT VERIFIED</b> — no passing receipt is present</td></tr>
+<tr><td>submit or spend a weekly slot?</td><td><b>NO — DO NOT SUBMIT; DUPLICATE — STOP</b></td></tr>
+<tr><td>HOLDOUT-DTI proxy, independent off-catalogue truth (instrument B)</td>
+<td><b>0.096746</b>; lane62 <code>gems62.holdout</code> legacy harness (version untagged),
+79,615 withheld positives; 95% CI not computed in retained evidence; not an organizer score.</td></tr>
+<tr><td>HOLDOUT-DTI proxy, withheld catalogue segments (instrument A)</td>
+<td><b>0.027196</b>; lane62 <code>gems62.holdout</code> legacy harness (version untagged),
+369,289 withheld positives; stored 95% CI
+0.026848–0.027535; not an organizer score.</td></tr>
+<tr><td>HOLDOUT-DTI proxy, mass-matched check (instrument B′, 7,905 px)</td>
+<td>0.032842; CI not computed in retained evidence; not an organizer score.</td></tr>
 <tr><td>economy of one more dot</td><td>mean credit
 0.0400/dot vs the marginal bar
 0.0556 at the family best 0.2778 — below the bar, so a

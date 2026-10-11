@@ -120,14 +120,19 @@ def test_shipped_artefacts_match_the_site():
         assert G.sha256_file(p) == f["receipt"]["sha256"], "sha256 drifted"
         assert f["receipt"]["n_non_finite"] == 0
         assert f["stats"]["n_dots"] > 0
-    # the secondary is labelled DO NOT SUBMIT for a recorded reason
-    assert site["uniqueness"]["informative_leg_pass"] is True or True
+    # Both files trip the literal all-comparator stop rule; low Jaccard/informative
+    # subset diagnostics cannot waive the recorded dense-comparator trip.
+    assert site["uniqueness"]["verdict"] == "DUPLICATE - STOP"
+    assert site["uniqueness"]["overlap_trip"] is True
     gate = json.loads(Path("evidence/uniqueness_gate.json").read_text())
     prim = gate[site["files"]["primary"]["name"]]
-    assert prim["verdict"] == "UNIQUE"
+    assert prim["verdict"] == "DUPLICATE - STOP"
+    assert prim["overlap_trip"] is True
+    assert prim["max_overlap_all"] == 1.0
     assert prim["worst_overlap_discriminating"]["overlap_3px_one_sided"] <= 0.70
     sec = gate[site["files"]["secondary"]["name"]]
-    assert sec["verdict"] == "DUPLICATE"
+    assert sec["verdict"] == "DUPLICATE - STOP"
+    assert sec["overlap_trip"] is True
     assert sec["worst_overlap_discriminating"]["overlap_3px_one_sided"] > 0.70
 
 

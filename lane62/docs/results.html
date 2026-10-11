@@ -6,10 +6,10 @@
 <div style="margin-top:9px"><nav><a href="index.html">Overview</a><a href="executive-summary.html">How to submit</a><a href="results.html">Results</a><a href="profiles.html">Profiles (deliverable 1)</a><a href="research.html">Research & hypotheses</a><a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a></nav></div></div></header>
 <main class="wrap">
 <h1>Results</h1>
-<h2>Verdicts for the two artefacts (the parallel-run protocol's gates, applied)</h2>
-<table><tr><th>artefact</th><th>dots</th><th>gate verdict</th><th>one-sided 3 px overlap vs discriminating comparators (limit 0.70)</th><th>worst |ρ| (limit 0.90)</th><th>disposition</th></tr>
-<tr><td>gems62-lahontan-datum-break-dotted-primary-zeros.tif</td><td>86,968</td><td><b>UNIQUE</b></td><td>0.4066 (<code>riftline-context-distance-20260925T011817Z-7b6010637a.tif</code>)</td><td>0.0325</td><td>downloadable; <b>no weekly slot recommended</b> (score is below the bar at this mass)</td></tr>
-<tr><td>gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif</td><td>87</td><td><b>DUPLICATE</b></td><td>0.9885 (<code>gems41-h42-basinmargin-s4-n40000-20261006T015229Z-allfinite.tif</code>)</td><td>0.0178</td><td><b>DO NOT SUBMIT</b> — protocol-defined duplicate</td></tr></table>
+<h2>Verdicts for the two artefacts (literal parallel-run stop rule)</h2>
+<table><tr><th>artefact</th><th>dots</th><th>strict gate verdict</th><th>max one-sided Euclidean 3 px overlap across all comparators (limit 0.70)</th><th>max positive ρ (limit 0.90)</th><th>disposition</th></tr>
+<tr><td>gems62-lahontan-datum-break-dotted-primary-zeros.tif</td><td>86,968</td><td><b>DUPLICATE - STOP</b></td><td>1.0000 (<code>17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif</code>)</td><td>0.0325</td><td><b>DO NOT SUBMIT</b> — strict overlap trip</td></tr>
+<tr><td>gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif</td><td>87</td><td><b>DUPLICATE - STOP</b></td><td>1.0000 (<code>17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif</code>)</td><td>0.0178</td><td><b>DO NOT SUBMIT</b> — strict overlap trip</td></tr></table>
 <p class="mut">Both rows use the same rule set and the same 508-comparator registry. The
 secondary's overlap is with a different lane's dot set, which is exactly the condition the
 protocol names as lane drift.</p>
@@ -115,14 +115,15 @@ proven otherwise. Maximum here is <b>0.7160</b> — <b>pass</b>.</p>
 
 <h2>Uniqueness gate</h2>
 <table><tr><th>comparator</th><th>positives</th><th>3 px dilation coverage</th><th>one-sided 3 px overlap</th><th>Jaccard</th></tr><tr><td>17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif</td><td>5167373</td><td>1.0</td><td>1.0</td><td>0.016830215275731013</td></tr><tr><td>gems61-lane-buried-step-gravinversion-hgm-r3-k400k-b2zeros.tif</td><td>311617</td><td>0.8990697981353388</td><td>0.9415532149756232</td><td>0.014717263571654057</td></tr><tr><td>13gems_20261001_r13-lattice-s5_v2_nan-outside.tif</td><td>206895</td><td>1.0</td><td>0.8388717689265017</td><td>0.01243044908787101</td></tr><tr><td>13gems_20261001_r13-lattice-s5_v2_zerofill.tif</td><td>206895</td><td>1.0</td><td>0.8388717689265017</td><td>0.01243044908787101</td></tr><tr><td>session7-superseded-13gems_20261001_r13-lattice-s5_A_zerofill.tif</td><td>206895</td><td>1.0</td><td>0.8388717689265017</td><td>0.01243044908787101</td></tr><tr><td>session7-superseded-13gems_20261001_r13-lattice-s5_B_nan-outside.tif</td><td>206895</td><td>1.0</td><td>0.8388717689265017</td><td>0.01243044908787101</td></tr><tr><td>latest.tif</td><td>206895</td><td>1.0</td><td>0.8388717689265017</td><td>0.01243044908787101</td></tr><tr><td>latest_zerofill.tif</td><td>206895</td><td>1.0</td><td>0.8388717689265017</td><td>0.01243044908787101</td></tr><tr><td>gems-cleanup-a-20260928T195952Z-curv_scarp.tif</td><td>362327</td><td>0.851023527815778</td><td>0.8297534725416245</td><td>0.014615320342439304</td></tr><tr><td>13gems-composite-20260929T183221Z.tif</td><td>507776</td><td>0.8191409832423554</td><td>0.7985235948854751</td><td>0.013689851238767913</td></tr><tr><td>13gems-composite-20260929T183221Z_allfinite.tif</td><td>507776</td><td>0.8191409832423554</td><td>0.7985235948854751</td><td>0.013689851238767913</td></tr><tr><td>tensor-continuous-1875224px-20261009T202053Z-nan.tif</td><td>1875224</td><td>0.7535525304637385</td><td>0.7860707386624965</td><td>0.017464241861082534</td></tr></table>
-<p>Verdict <b>UNIQUE</b>: the informative leg is
+<p>Strict verdict <b>DUPLICATE - STOP</b>: max one-sided overlap across all comparators is
+1.0000 against
+<code>17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif</code>, above the 0.70 limit.
+Positive-correlation leg does not trip (max positive
+ρ 0.0325; limit 0.90). The informative-subset overlap
 0.4066 over
-321 discriminating comparators (limit 0.70), and the correlation
-leg is passing. The strict leg is
-<b>degenerate</b>: 17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif carries
-5,167,373 positives, its 3 px dilation covers
-1.000 of the footprint, and any file
-therefore scores 1.0 against it.</p>
+321 comparators and the Jaccard values are diagnostics only; they do
+not suppress the binding duplicate stop. The dense comparator makes this rule uninformative
+for that particular comparison, which is recorded as a limitation, not an exemption.</p>
 </main>
 <footer><div class="wrap">Every number on this site is read from
 <code>evidence/*.json</code> at build time by <code>scripts/build_site.py</code>.

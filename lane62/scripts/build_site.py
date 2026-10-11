@@ -203,84 +203,64 @@ BLANKET_EXACT = exact_from_jaccard(BLANKET, _a) / _a if BLANKET else None
 COPY = max((r for r in _grows if r["discriminating"]), key=lambda r: exact_from_jaccard(r, _a))
 COPY_EXACT = exact_from_jaccard(COPY, _a) / _a
 verdict_banner = f"""
-<div class="banner warn"><h3 style="margin-top:0">Answer to "is it OK to download and
-submit this file?" &nbsp;<span class="pill ok">DOWNLOAD: YES</span>
-<span class="pill warn">SUBMIT: LEGAL &amp; UNIQUE, BUT NOT RECOMMENDED</span></h3>
+<div class="banner bad"><h3 style="margin-top:0">Download for inspection only —
+<b>DO NOT SUBMIT</b> &nbsp;<span class="pill ok">DOWNLOAD: YES</span>
+<span class="pill bad">STRICT GATE: DUPLICATE — STOP</span></h3>
 <ul class="tight">
-<li><b>Download — yes.</b> The file is a valid GeoTIFF: single band, <code>float32</code>,
-EPSG:32611, 3730×3292, the sample submission's exact transform, every one of the
-12,279,160 cells finite, values in [0, 1], <b>no <code>nodata</code> tag</b>, zero
-positive mass outside the footprint, and <b>0 dots on the mapped catalogue</b>. The
-portal error <code>"Predicted values must be in range [0, 1]"</code> cannot occur for
-these bytes: 14/14 format checks pass on the re-read file
-(<a href="downloads/{P['name'].replace('.tif','.json')}">receipt</a>).</li>
-<li><b>Uniqueness — unique under the informative reading.</b>
-{GATE_P['n_discriminating']} of {GATE_P['n_comparators']} registry comparators (from
-{site['registry_scope']['n_tifs']} rasters across the group's public repositories) are
-<i>discriminating</i>, i.e. their 3 px dilation does not already cover the map; against
-those, the worst one-sided 3 px overlap is
-<b>{money(GATE_P['worst_overlap_discriminating']['overlap_3px_one_sided'],4)}</b>
-(<code>{html.escape(GATE_P['worst_overlap_discriminating']['file'])}</code>), against the
-0.70 limit. The heavy-overlap cases are <b>blankets, not shared lanes</b>: the largest
-one-sided overlap anywhere in the registry is 1.0000 against a raster that is positive on
-100 % of the footprint, and next
-<b>{money( BLANKET['overlap_3px_one_sided'],4) if BLANKET else 'n/a'}</b> against
-<code>{html.escape(BLANKET['file']) if BLANKET else 'n/a'}</code>, whose own 3 px dilation
-already covers {BLANKET['effective_coverage']*100:.1f} % of the map while sharing only
-{BLANKET_EXACT*100:.2f} % of our exact pixels (Jaccard
-{money(BLANKET['jaccard'],4)}). The <i>strict</i> reading is <b>not satisfiable by any
-file</b>: the top comparator has {OV['worst_overlap_all']['n_positive']:,} positive
-pixels — the entire footprint — so every prediction scores 1.0 against it.
-<b>Copying test:</b> the largest exact pixel overlap with any <i>discriminating</i>
-comparator is <b>{COPY_EXACT*100:.2f} %</b> of our dots
-(<code>{html.escape(COPY['file'])}</code>), i.e. these dots were not copied from a
-registry raster.</li>
-<li><b>Sibling-lane cross-check.</b> Another session shipped a datum-offset lane to
-<i>main</i> before this one merged (the v8 TIF at the repository root). These candidates are
-<b>not</b> copies of it: against <code>{xchk['pairs'][0]['theirs']}</code> the primary scores
-one-sided 3 px overlap <b>{money(xchk['pairs'][0]['overlap_3px_one_sided'],4)}</b>, exact pixel
-overlap {money(xchk['pairs'][0]['exact_overlap_fraction_of_mine'],4)} of its dots, and rank
-correlation {xchk['pairs'][0]['spearman']:+.4f}. Computed in
-<code>lane62/scripts/crosscheck_sibling_lane.py</code>, same convention as the 508-raster
-gate.</li>
-<li><b>Score — do not expect more than a few points.</b> On the independent
-off-catalogue truth the file reaches HOLDOUT-DTI <b>{money(gB['dti'])}</b> and it beats a
-matched random control drawn from <i>its own spatial stratum</i> by only
-<b>{ctrl['edge_instrumentB']:+.6f}</b>. On the whole-catalogue holdout it
-<b>loses</b> to that control ({money(gA['dti'])} vs {money(ctrl['instrumentA'])}).
-Its dots carry a mean credit of <b>{money(PA['mean_credit_per_dot'],4)}</b> per dot, below
-the marginal bar of {money(PA['credit_bar_at_s_0p2778'],4)} at the current family best —
-so the file is <b>not</b> a leaderboard play, and no weekly slot is recommended.</li>
+<li><b>Format receipt: PASS, format only.</b> This is a valid GeoTIFF: single band,
+<code>float32</code>, EPSG:32611, 3730×3292, exact sample transform, all cells finite,
+values in [0, 1], no <code>nodata</code> tag, zero positive mass outside the footprint,
+and 0 dots on the mapped catalogue (<a href="downloads/{P['name'].replace('.tif','.json')}">receipt</a>).
+Format validity does not clear it for upload.</li>
+<li><b>Binding uniqueness result: {html.escape(GATE_P['verdict'])}.</b> The maximum one-sided
+Euclidean overlap within 3 px is
+<b>{money(GATE_P['max_overlap_all'],4)}</b> against
+<code>{html.escape(GATE_P['worst_overlap_all']['file'])}</code>, exceeding the 0.70 stop limit.
+The positive-rho maximum is {money(GATE_P['max_positive_spearman'],4)} (limit 0.90; no rank trip).
+This strict result includes every comparator. The informative subset's lower overlap
+{money(GATE_P['worst_overlap_discriminating']['overlap_3px_one_sided'],4)} across
+{GATE_P['n_discriminating']} comparators and the low Jaccard are diagnostics only; neither
+waives the strict trip. The previous informative-only clearance is withdrawn.</li>
+<li><b>Known density caveat.</b> The top comparator has
+{OV['worst_overlap_all']['n_positive']:,} positives (the full footprint), so the one-sided rule
+can trip for unrelated sparse dots. That makes the protocol uninformative for this comparator,
+but does not authorize changing the rule. Record the prescribed negative and stop.</li>
+<li><b>Pre-placement surface gate: not verified in this lane62 run card.</b> No passing receipt for
+that required half is present. The final-dot duplicate trip alone is sufficient to block upload.</li>
+<li><b>Other local measurements are not scores.</b> The HOLDOUT-DTI/proxy and geological diagnostics
+cannot override the registry stop; no ORGANIZER-CONFIRMED score receipt exists.</li>
+<li><b>Pairwise sibling-lane cross-check, not a full registry clearance.</b> Against the root v8
+artifact the legacy report records one-sided 3 px overlap
+{money(xchk['pairs'][0]['overlap_3px_one_sided'],4)}. This one-to-one comparison does not clear
+this file against all registry rasters.</li>
 </ul></div>"""
 
 body_index = f"""
 <h1>Lake Lahontan shorelines as a strain gauge</h1>
-<p class="mut">62GEMSDOE · one lane of a parallel DOE GEMS Prize effort · session
-2026-10-11 · branch <code>arena/4e304372-62gemsdoe</code></p>
+<p class="mut">62GEMSDOE · Lake Lahontan shoreline datum-offset lane · session
+2026-10-11 · status <b>DO NOT SUBMIT — strict registry trip</b></p>
 
 {verdict_banner}
 
-<h2>One-click submission file</h2>
+<h2>Download for audit only — not an upload file</h2>
 <div class="card">
-<p style="margin-top:0"><a class="dl"
- href="downloads/{P['name']}">⬇ Download {P['name']}</a>
+<p style="margin-top:0"><a class="dl alt"
+ href="downloads/{P['name']}">⬇ Download for inspection only — DO NOT UPLOAD</a>
 &nbsp; <span class="mut">{P['receipt']['bytes']:,} bytes ·
 sha256 <code>{P['receipt']['sha256']}</code></span></p>
-<p style="margin-bottom:0"><b>Name to give the submission</b> (the competition asks for a
-unique name): <code>gems62-lahontan-datum-break-dotted-primary</code><br>
-<b>Note to paste into the form</b> (≤140 chars):
-<code>Lahontan highstand datum-offset lane: {PA['n_dots']:,} dots on shoreline datum breaks,
-dotted 283 m, 0 on catalogue; UNSCORED</code></p>
+<p style="margin-bottom:0"><b>Internal artifact ID</b> (tracking only):
+<code>gems62-lahontan-datum-break-dotted-primary</code><br>
+<b>Internal note</b> (≤140 chars; not an upload recommendation):
+<code>Lahontan shoreline datum breaks; 86,968 dots; strict registry overlap trip; DO NOT SUBMIT; UNSCORED</code></p>
 </div>
 <p class="mut">A second artefact exists for audit only and is
 <span class="pill bad">DO NOT SUBMIT</span> — see below.</p>
 
 <h2>The brief's questions, answered with measurements</h2>
 <div class="grid">
-<div class="card"><div class="k">0.4133</div><div>Public leaderboard #1 as read
-2026-10-11. The brief's 0.3195 and 0.3774 are <b>stale</b>; 0.2778 now sits at rank 23.</div></div>
-<div class="card"><div class="k">{money(gB['dti'])}</div><div>HOLDOUT-DTI of the shipped file on
-independent off-catalogue truth ({gB['n_truth']:,} px). Not a score.</div></div>
+<div class="card"><div class="k">No receipt</div><div>Leaderboard values quoted in earlier drafts are not independently verified or organizer-confirmed in this checkout.</div></div>
+<div class="card"><div class="k">{money(gB['dti'])}</div><div>HOLDOUT-DTI proxy only — lane62 <code>gems62.holdout</code> (legacy, untagged version),
+{gB['n_truth']:,} withheld positives; 95% CI not computed in the retained evidence. Not an organizer score.</div></div>
 <div class="card"><div class="k">{ver['ratio_lane_over_best_champion']:.2f}×</div>
 <div>This lane's best mean credit per dot
 ({ver['lane_best_mean_credit']:.3f}) over the best registered prior field's
@@ -330,22 +310,21 @@ faults that offset the Lahontan shoreline are, for the most part, the ones alrea
 <div class="banner bad"><b>{S['name']}</b> ({SA['n_dots']} dots, sha256
 <code>{S['receipt']['sha256']}</code>) is the lane's most conservative reading — one dot at
 each of the top 120 flagged breaks, mean credit
-{SA['mean_credit_per_dot']:.3f} per dot. It <b>fails</b> the uniqueness gate's informative
-leg: {money(GATE_S['worst_overlap_discriminating']['overlap_3px_one_sided'],4)} of its dots
-lie within 3 px of
-<code>{html.escape(GATE_S['worst_overlap_discriminating']['file'])}</code>. Under the
-parallel-run protocol that is a logged duplicate, so it is published as evidence and
-<b>must not be submitted</b>.</div>
+{SA['mean_credit_per_dot']:.3f} per dot. It also fails the strict all-comparator gate:
+maximum one-sided overlap {money(GATE_S['max_overlap_all'],4)} (&gt;0.70). Its informative
+subset overlap is {money(GATE_S['worst_overlap_discriminating']['overlap_3px_one_sided'],4)}
+against <code>{html.escape(GATE_S['worst_overlap_discriminating']['file'])}</code>. It is
+published as evidence and <b>must not be submitted</b>.</div>
 """
 
 # ------------------------------------------------------- executive summary
 body_exec = f"""
 <h1>Executive summary — how to make a submission</h1>
 
-<h2>1. The file</h2>
-<p>The file to submit is
-<a href="downloads/{P['name']}"><b>{P['name']}</b></a>
-({P['receipt']['bytes']:,} bytes, sha256 <code>{P['receipt']['sha256']}</code>).</p>
+<h2>1. The artifact — review only, NOT CLEARED TO SUBMIT</h2>
+<p><a href="downloads/{P['name']}"><b>{P['name']}</b></a> is available for inspection
+({P['receipt']['bytes']:,} bytes, sha256 <code>{P['receipt']['sha256']}</code>), but the strict
+registry gate returns <b>DUPLICATE — STOP</b>. Do not upload this file or spend a weekly slot.</p>
 
 <h2>2. What the competition requires (quoted from the official page)</h2>
 <table><tr><th>Requirement (official wording)</th><th>This file</th></tr>
@@ -363,20 +342,20 @@ max {P['receipt']['max_inside']}</td></tr>
 <p class="mut">Source: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">
 problem description, section “Submission format”</a>, read 2026-10-11.</p>
 
-<h2>3. Click-by-click</h2>
-<ol>
-<li>Download <a href="downloads/{P['name']}">{P['name']}</a>. Do not rename it; the name is
-the artifact's identity.</li>
-<li>Open the competition's <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">
-data page</a> → <b>Submit</b> (requires a DrivenData login).</li>
-<li>In <b>File to submit</b>, choose the downloaded <code>.tif</code>.</li>
-<li>In <b>Note (optional)</b> paste:
-<pre>Lahontan highstand datum-offset lane: {PA['n_dots']:,} dots on shoreline datum breaks, dotted 283 m, 0 on catalogue; UNSCORED</pre></li>
-<li>Click submit. The portal returns either a public score or a format error; only the
-first of those is a result, and this repository has none.</li>
-</ol>
+<h2>3. Submission instructions</h2>
+<div class="banner bad"><b>Do not upload this artifact.</b> Its strict one-sided registry
+overlap is 1.0 (&gt; 0.70), so the required result is <b>DUPLICATE — STOP</b>. The format
+receipt cannot waive that rule. The name and note below are for internal tracking only.</div>
+<ul>
+<li>Internal artifact ID: <code>gems62-lahontan-datum-break-dotted-primary</code>.</li>
+<li>Internal note (&le;140 chars, not an upload recommendation):
+<code>Lahontan shoreline datum breaks; 86,968 dots; strict registry overlap trip; DO NOT SUBMIT; UNSCORED</code>.</li>
+</ul>
+<p>For a future, separately validated file only: clear the spatially blocked holdout screen and
+both registry checks (surface before placement and final dots) before considering the submission
+form. The required pre-placement uniqueness receipt is absent for this lane62 artifact.</p>
 
-<h2>4. Why the all-finite encoding is the one to upload</h2>
+<h2>4. Format-valid does not mean cleared for submission</h2>
 <p>Two independent mechanisms produce the portal error <code>"Predicted values must be in
 range [0, 1]"</code>, and both are properties of the competition's own inputs:
 <b>(M1)</b> <code>training_features.tif</code> declares
@@ -390,30 +369,29 @@ NaN-outside twin with bit-identical in-footprint values is reproducible with
 <code>python3 scripts/make_variants.py</code>.</p>
 
 <h2>5. Honest status — is it OK to submit?</h2>
-<div class="banner warn"><b>Download: yes. Weekly slot: no.</b> No organizer score exists
-for this file. Every number in this repository is either <b>MEASURED</b> (reproducible from
-the pinned bytes with the commands in the <a href="run-card.html">run card</a>),
-<b>MODEL</b> (an estimate conditioned on the group's published inference of the hidden test
-mass, 7,905 px), or <b>HOLDOUT-DTI</b> (evaluator: this repository's holdout harness, α 0.2,
-β 0.8, 300 m triangular kernel).</div>
+<div class="banner bad"><b>Download for inspection: yes. Submit: NO — DO NOT SUBMIT.</b>
+The preserved strict one-sided overlap is 1.0 (&gt; 0.70), so the binding verdict is
+<b>DUPLICATE — STOP</b>. No organizer-confirmed score receipt exists. HOLDOUT-DTI and model
+outputs are diagnostics, not competition scores.</div>
 <table><tr><th>question</th><th>answer</th></tr>
-<tr><td>format-valid to upload?</td><td>yes — 14/14 checks on the re-read bytes; the portal
-range error cannot occur (section 4)</td></tr>
-<tr><td>unique against the registry?</td><td><b>{GATE_P['verdict']}</b> under the
-informative leg: worst one-sided 3 px overlap
-{money(GATE_P['worst_overlap_discriminating']['overlap_3px_one_sided'],4)} over
-{GATE_P['n_discriminating']} discriminating comparators (limit 0.70); correlation leg
-{'pass' if GATE_P['correlation_leg_pass'] else 'fail'} (worst |ρ|
-{abs(GATE_P['worst_spearman']['spearman']):.4f}, limit 0.90)</td></tr>
-<tr><td>HOLDOUT-DTI, independent off-catalogue truth (instrument B)</td>
-<td><b>{money(gB['dti'])}</b> (edge over its own same-stratum control
-{ctrl['edge_instrumentB']:+.6f})</td></tr>
-<tr><td>HOLDOUT-DTI, withheld catalogue segments (instrument A)</td>
-<td><b>{money(gA['dti'])}</b>, 95 % CI
-{money(PA['instrumentA_ci95'][0])}–{money(PA['instrumentA_ci95'][1])} — <b>loses</b> to its
-same-stratum control ({money(ctrl['instrumentA'])})</td></tr>
-<tr><td>mass-matched check (instrument B′, 7,905 px)</td>
-<td>{money(PA['instrumentB_prime_dti'])}</td></tr>
+<tr><td>format-valid?</td><td>yes — 14/14 local checks on re-read bytes; this is not upload clearance</td></tr>
+<tr><td>strict uniqueness gate?</td><td><b>{GATE_P['verdict']}</b>; maximum one-sided Euclidean 3 px overlap
+{money(GATE_P['max_overlap_all'],4)} against
+<code>{html.escape(GATE_P['worst_overlap_all']['file'])}</code> (limit 0.70);
+max positive ρ {money(GATE_P['max_positive_spearman'],4)} (limit 0.90; no rank trip).
+Informative-only overlap {money(GATE_P['worst_overlap_discriminating']['overlap_3px_one_sided'],4)}
+and Jaccard do not waive the strict trip.</td></tr>
+<tr><td>pre-placement surface gate?</td><td><b>NOT VERIFIED</b> — no passing receipt is present</td></tr>
+<tr><td>submit or spend a weekly slot?</td><td><b>NO — DO NOT SUBMIT; DUPLICATE — STOP</b></td></tr>
+<tr><td>HOLDOUT-DTI proxy, independent off-catalogue truth (instrument B)</td>
+<td><b>{money(gB['dti'])}</b>; lane62 <code>gems62.holdout</code> legacy harness (version untagged),
+{gB['n_truth']:,} withheld positives; 95% CI not computed in retained evidence; not an organizer score.</td></tr>
+<tr><td>HOLDOUT-DTI proxy, withheld catalogue segments (instrument A)</td>
+<td><b>{money(gA['dti'])}</b>; lane62 <code>gems62.holdout</code> legacy harness (version untagged),
+{PA['n_truth_A']:,} withheld positives; stored 95% CI
+{money(PA['instrumentA_ci95'][0])}–{money(PA['instrumentA_ci95'][1])}; not an organizer score.</td></tr>
+<tr><td>HOLDOUT-DTI proxy, mass-matched check (instrument B′, 7,905 px)</td>
+<td>{money(PA['instrumentB_prime_dti'])}; CI not computed in retained evidence; not an organizer score.</td></tr>
 <tr><td>economy of one more dot</td><td>mean credit
 {money(PA['mean_credit_per_dot'],4)}/dot vs the marginal bar
 {money(PA['credit_bar_at_s_0p2778'],4)} at the family best 0.2778 — below the bar, so a
@@ -453,10 +431,10 @@ econ = e3["rows"]
 champ = ver["champion_family"][:8]
 body_results = f"""
 <h1>Results</h1>
-<h2>Verdicts for the two artefacts (the parallel-run protocol's gates, applied)</h2>
-<table><tr><th>artefact</th><th>dots</th><th>gate verdict</th><th>one-sided 3 px overlap vs discriminating comparators (limit 0.70)</th><th>worst |ρ| (limit 0.90)</th><th>disposition</th></tr>
-<tr><td>{P['name']}</td><td>{PA['n_dots']:,}</td><td><b>{GATE_P['verdict']}</b></td><td>{money(GATE_P['worst_overlap_discriminating']['overlap_3px_one_sided'],4)} (<code>{html.escape(GATE_P['worst_overlap_discriminating']['file'])}</code>)</td><td>{abs(GATE_P['worst_spearman']['spearman']):.4f}</td><td>downloadable; <b>no weekly slot recommended</b> (score is below the bar at this mass)</td></tr>
-<tr><td>{S['name']}</td><td>{SA['n_dots']:,}</td><td><b>{GATE_S['verdict']}</b></td><td>{money(GATE_S['worst_overlap_discriminating']['overlap_3px_one_sided'],4)} (<code>{html.escape(GATE_S['worst_overlap_discriminating']['file'])}</code>)</td><td>{abs(GATE_S['worst_spearman']['spearman']):.4f}</td><td><b>DO NOT SUBMIT</b> — protocol-defined duplicate</td></tr></table>
+<h2>Verdicts for the two artefacts (literal parallel-run stop rule)</h2>
+<table><tr><th>artefact</th><th>dots</th><th>strict gate verdict</th><th>max one-sided Euclidean 3 px overlap across all comparators (limit 0.70)</th><th>max positive ρ (limit 0.90)</th><th>disposition</th></tr>
+<tr><td>{P['name']}</td><td>{PA['n_dots']:,}</td><td><b>{GATE_P['verdict']}</b></td><td>{money(GATE_P['max_overlap_all'],4)} (<code>{html.escape(GATE_P['worst_overlap_all']['file'])}</code>)</td><td>{money(GATE_P['max_positive_spearman'],4)}</td><td><b>DO NOT SUBMIT</b> — strict overlap trip</td></tr>
+<tr><td>{S['name']}</td><td>{SA['n_dots']:,}</td><td><b>{GATE_S['verdict']}</b></td><td>{money(GATE_S['max_overlap_all'],4)} (<code>{html.escape(GATE_S['worst_overlap_all']['file'])}</code>)</td><td>{money(GATE_S['max_positive_spearman'],4)}</td><td><b>DO NOT SUBMIT</b> — strict overlap trip</td></tr></table>
 <p class="mut">Both rows use the same rule set and the same 508-comparator registry. The
 secondary's overlap is with a different lane's dot set, which is exactly the condition the
 protocol names as lane drift.</p>
@@ -562,14 +540,15 @@ proven otherwise. Maximum here is <b>{canary['max_auc']:.4f}</b> — <b>{canary[
 
 <h2>Uniqueness gate</h2>
 {rows_html(sorted(GATE_P['rows'], key=lambda r: -r['overlap_3px_one_sided'])[:12], [('file','comparator'),('n_positive','positives'),('effective_coverage','3 px dilation coverage'),('overlap_3px_one_sided','one-sided 3 px overlap'),('jaccard','Jaccard')])}
-<p>Verdict <b>{GATE_P['verdict']}</b>: the informative leg is
+<p>Strict verdict <b>{GATE_P['verdict']}</b>: max one-sided overlap across all comparators is
+{money(GATE_P['max_overlap_all'],4)} against
+<code>{html.escape(GATE_P['worst_overlap_all']['file'])}</code>, above the 0.70 limit.
+Positive-correlation leg {'trips' if GATE_P['rho_trip'] else 'does not trip'} (max positive
+ρ {money(GATE_P['max_positive_spearman'],4)}; limit 0.90). The informative-subset overlap
 {money(GATE_P['worst_overlap_discriminating']['overlap_3px_one_sided'],4)} over
-{GATE_P['n_discriminating']} discriminating comparators (limit 0.70), and the correlation
-leg is {'passing' if GATE_P['correlation_leg_pass'] else 'failing'}. The strict leg is
-<b>degenerate</b>: {html.escape(OV['worst_overlap_all']['file'])} carries
-{OV['worst_overlap_all']['n_positive']:,} positives, its 3 px dilation covers
-{GATE_P['worst_overlap_all']['effective_coverage']:.3f} of the footprint, and any file
-therefore scores 1.0 against it.</p>
+{GATE_P['n_discriminating']} comparators and the Jaccard values are diagnostics only; they do
+not suppress the binding duplicate stop. The dense comparator makes this rule uninformative
+for that particular comparison, which is recorded as a limitation, not an exemption.</p>
 """
 
 # ---------------------------------------------------------------- profiles
@@ -628,7 +607,7 @@ hyps = [
          why="A fault not in the catalogue still cuts the datum; the flag is where. Because the catalogue is masked, only off-catalogue flags can score.",
          cat=f"catalogue-masked emission with 3 px prune; {PA['n_dots']:,} dots; still only {ctrl['edge_instrumentB']:+.6f} over a same-stratum control",
          emodel=f"HOLDOUT-DTI A {money(gA['dti'])} (CI {money(PA['instrumentA_ci95'][0])}–{money(PA['instrumentA_ci95'][1])}), B {money(gB['dti'])}, B′ {money(PA['instrumentB_prime_dti'])}",
-         cost="low", verdict="NEGATIVE for a slot (dominated on the same instrument); unique, format-valid, delivered"),
+         cost="low", verdict="NEGATIVE for a slot; strict overlap DUPLICATE - STOP; format-valid but not cleared to submit"),
     dict(rank=2, name="H62-B — Per-flag credit gating with an independent compilation as the screen",
          layers="the same flag set, screened by agreement between two independent compilations (SGMC 1:750k state map; the group's own derived fault rasters) before emission",
          sig="Only flags where two compilations both miss a mapped trace can be candidates for a genuinely new fault",
@@ -820,9 +799,9 @@ IRR = [
  ("IR-62-03", "High", "Open — the isobase fit is degenerate in its linear part",
   f"Fitted tilt is {isob['tilt_east_m_per_km']:.4f} m/km east and {isob['tilt_north_m_per_km']:.4f} m/km north, against the literature's ~20 m northward tilt across the basin. The estimator (median of a narrow elevation band per 20×20 km block) has a compressed dynamic range, and a quadratic can absorb the tilt into curvature.",
   "The fit is used only to locate the datum (RMS {:.2f} m). Its tilt coefficients are NOT reported as a rebound measurement anywhere on this site.".format(isob['rmse_m'])),
- ("IR-62-04", "High", "Verified — the strict uniqueness leg cannot be satisfied by any file",
-  f"The top comparator, {OV['worst_overlap_all']['file']}, has {OV['worst_overlap_all']['n_positive']:,} positive pixels — 100 % of the footprint — so every prediction scores 1.0 of one-sided overlap against it. A further {site['uniqueness']['n_dense_comparators']-1} comparators are dense enough that their 3 px dilation also covers the map.",
-  "The leg is reported under both readings: strict (all 508 comparators) and informative (the {} whose 3 px dilation covers ≤ 50 % of the footprint). The verdict uses the informative leg plus rank correlation, and the strict value is printed so a reviewer can see it is degenerate rather than hidden.".format(GATE_P['n_discriminating'])),
+ ("IR-62-04", "High", "Corrected — literal strict gate trips; density limitation retained as a diagnostic",
+  f"The top comparator, {OV['worst_overlap_all']['file']}, has {OV['worst_overlap_all']['n_positive']:,} positive pixels — 100 % of the footprint — so the saved candidate records one-sided overlap 1.0. This is above the binding 0.70 threshold, even though the comparator makes the test uninformative for substantive similarity.",
+  "Use the protocol exactly: all-comparator one-sided overlap >0.70 means DUPLICATE - STOP. Coverage and Jaccard explain the limitation but do not waive it. The previous informative-only clearance is withdrawn; do not submit."),
  ("IR-62-05", "Medium", "Open — the selector was uninformative about the budget",
   "Mean DTI on the mass-matched instrument B′ rose monotonically to the largest budget tested ({} dots); there is no interior optimum inside the lane's product form.".format(site['selection']['chosen']['n_dots']),
   "The budget was therefore bounded by the lane's own product form and by the uniqueness gate, not by the selector. Stated on the Results page rather than smoothed over."),
@@ -913,20 +892,32 @@ card = {
         instrumentB_prime=dict(value=PA["instrumentB_prime_dti"], mass_px=PA["hidden_mass_px"],
                                control_same_stratum=ctrl["instrumentB_prime"],
                                edge=ctrl["edge_instrumentB_prime"]),
-        evaluator="gems62.holdout (this repository), alpha 0.2, beta 0.8, 300 m triangular "
-                  "kernel, 2x2 spatial block, catalogue masked pixel-exactly",
+        evidence_class="HOLDOUT-DTI (proxy; not an organizer score)",
+        evaluator="lane62 gems62.holdout harness (no tagged semantic version in legacy receipt), "
+                  "alpha 0.2, beta 0.8, 300 m triangular kernel, 2x2 spatial block, "
+                  "catalogue masked pixel-exactly",
+        ci_note="Instrument A has a stored 95% interval. Instruments B and B-prime have no 95% CI in the legacy evidence; do not call them organizer scores.",
         withheld_positives_note="instrument A withholds whole catalogue segments dilated by "
                                 "the kernel radius; instrument B uses an independent "
                                 "off-catalogue compilation, not the withheld catalogue"),
     "correlation_and_overlap_vs_registry": dict(
         verdict=GATE_P["verdict"],
+        strict_gate_verdict=GATE_P["verdict"],
+        passed=GATE_P["passed"],
+        strict_gate_pass=GATE_P["strict_leg_pass"],
+        overlap_trip=GATE_P["overlap_trip"],
+        rho_trip=GATE_P["rho_trip"],
+        max_overlap_all=GATE_P["max_overlap_all"],
+        max_positive_spearman=GATE_P["max_positive_spearman"],
         n_comparators=GATE_P["n_comparators"],
         n_discriminating=GATE_P["n_discriminating"],
-        worst_overlap_informative=GATE_P["worst_overlap_discriminating"],
+        worst_overlap_informative_diagnostic=GATE_P["worst_overlap_discriminating"],
         worst_overlap_strict=GATE_P["worst_overlap_all"],
         correlation_leg_pass=GATE_P["correlation_leg_pass"],
-        limit_overlap=0.70, limit_abs_spearman=0.90,
-        note="the strict leg is degenerate (see IR-62-04)"),
+        limit_overlap=0.70, limit_positive_spearman=0.90,
+        jaccard_is_gate=False,
+        preplacement_surface_gate="NOT VERIFIED; no passing receipt present",
+        note="strict overlap trip against the all-comparator registry; density/vacuity and Jaccard are diagnostics only"),
     "sibling_lane_crosscheck": dict(
         note="main already carries an independently merged datum-offset lane (v8). These "
              "candidates were compared against its shipped TIFs with the same convention "
@@ -944,15 +935,11 @@ card = {
         source="scripts/finalize.py writes and then RE-READS the bytes from disk; the "
                "receipt is only produced if every clause passes"),
     "submission_name": "gems62-lahontan-datum-break-dotted-primary",
-    "note_140": (f"Lahontan highstand datum-offset lane: {PA['n_dots']:,} dots on shoreline "
-                 f"datum breaks, dotted 283 m, 0 on catalogue; UNSCORED")[:140],
+    "note_140": "Lahontan shoreline datum breaks; 86,968 dots; strict registry overlap trip; DO NOT SUBMIT; UNSCORED",
+    "note_140_chars": len("Lahontan shoreline datum breaks; 86,968 dots; strict registry overlap trip; DO NOT SUBMIT; UNSCORED"),
+    "preplacement_surface_gate": "NOT VERIFIED; no passing receipt is present for this legacy artifact",
     "verdict": "negative",
-    "verdict_reason": "format-valid and unique under the informative gate, but dominated on "
-                      "the same instrument by a registered prior field (mean credit per dot "
-                      f"{ver['ratio_lane_over_best_champion']:.2f}x the best registered "
-                      f"field's at 1/{ver['champion_family'][0]['n_dots']//ver['lane_variants']['N50_half4']['n_dots']}x "
-                      "its dot count), and its standing edge over a same-stratum control on "
-                      "the independent instrument is +0.0104 in absolute DTI. No weekly slot.",
+    "verdict_reason": "The preserved final-dot one-sided overlap is 1.0 (>0.70), so the binding verdict is DUPLICATE - STOP. The informative-only clearance is withdrawn; no submission is cleared. The pre-placement surface receipt is also absent. Holdout/economics results remain diagnostics, not organizer scores.",
     "budget": dict(experiments_planned=3, experiments_run=3,
                    note="lane product + holdout; selectivity sweep; emission economics. "
                         "A separate verification pass re-measured the same-instrument "
@@ -960,9 +947,10 @@ card = {
     "second_artifact": dict(name=S["name"], sha256=S["receipt"]["sha256"],
                             n_dots=SA["n_dots"],
                             status="DO NOT SUBMIT",
-                            reason="fails the uniqueness gate's informative leg at "
+                            reason="fails the strict all-comparator overlap gate at "
+                                   f"{GATE_S['max_overlap_all']:.4f} (>0.70); it also has "
                                    f"{GATE_S['worst_overlap_discriminating']['overlap_3px_one_sided']:.4f} "
-                                   "against "
+                                   "overlap against sparse comparator "
                                    f"{GATE_S['worst_overlap_discriminating']['file']}"),
     "deliverable_1": dict(file="docs/downloads/lahontan_shoreline_profiles.json",
                           n_traces=prof["n_traces"], n_flags=len(prof["flags"]),
@@ -974,15 +962,13 @@ body_card = f"""
 <a href="data/run_card.json">docs/data/run_card.json</a>.</p>
 <h2>Read these two lines first</h2>
 <ul class="tight">
-<li><b>{P['name']}</b> — registry verdict <b>{GATE_P['verdict']}</b>: worst one-sided 3 px
-overlap {money(GATE_P['worst_overlap_discriminating']['overlap_3px_one_sided'],4)} over
-{GATE_P['n_discriminating']} discriminating comparators (limit 0.70), correlation leg
-{'pass' if GATE_P['correlation_leg_pass'] else 'fail'} (worst |ρ|
-{abs(GATE_P['worst_spearman']['spearman']):.4f}, limit 0.90). Eligible to download;
-<b>no weekly slot recommended</b>.</li>
-<li><b>{S['name']}</b> — registry verdict <b>{GATE_S['verdict']}</b> at
-{money(GATE_S['worst_overlap_discriminating']['overlap_3px_one_sided'],4)} against
-<code>{html.escape(GATE_S['worst_overlap_discriminating']['file'])}</code>.
+<li><b>{P['name']}</b> — strict registry verdict <b>{GATE_P['verdict']}</b>: max one-sided
+Euclidean 3 px overlap {money(GATE_P['max_overlap_all'],4)} across all comparators (limit 0.70),
+max positive ρ {money(GATE_P['max_positive_spearman'],4)} (limit 0.90). Download for review only;
+<b>DO NOT SUBMIT</b>.</li>
+<li><b>{S['name']}</b> — strict registry verdict <b>{GATE_S['verdict']}</b>:
+max one-sided overlap {money(GATE_S['max_overlap_all'],4)} against
+<code>{html.escape(GATE_S['worst_overlap_all']['file'])}</code>.
 <b>DO NOT SUBMIT</b>; kept as evidence.</li>
 </ul>
 <pre>{html.escape(json.dumps(card, indent=1))}</pre>

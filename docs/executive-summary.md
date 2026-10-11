@@ -1,24 +1,24 @@
 # Executive summary — is it OK to download and submit this file?
 
-## ✅ Verdict
+## 🛑 Verdict: download for review only; DO NOT SUBMIT
 
-**Download:** [`downloads/gemsdoe62-datum-lahontan-isobase-v8.tif`](downloads/gemsdoe62-datum-lahontan-isobase-v8.tif) —
+**Download for inspection:** [`downloads/gemsdoe62-datum-lahontan-isobase-v8.tif`](downloads/gemsdoe62-datum-lahontan-isobase-v8.tif) —
 sha256 `3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba`, 62,709 bytes.
 
-**It is legal to submit.** Single band, `float32`, EPSG:32611, 100 m, 3730×3292, values exactly
-in `[0, 1]`, **no nodata tag and no NaN anywhere** — the two mechanisms behind the portal error
-you hit ("Predicted values must be in range [0, 1]") are structurally absent. Every field below
-is re-read from the bytes on disk by `grid.check_submission`, not from the array in memory.
+The format receipt is **legal = true**: single-band `float32`, EPSG:32611, 100 m, 3730×3292,
+values in `[0, 1]`, no nodata tag and no NaN. That confirms format only; it does not clear the
+file for submission.
 
-**It is unique.** Checked against all **289** prior rasters in the group registry: worst rank
-correlation is **−0.065** (threshold 0.90) and worst symmetric dot overlap is **0.030** (threshold
-0.25 as corrected, see below). No duplicate flag.
+**The strict uniqueness gate fails.** The preserved maximum one-sided dot overlap is **1.00**
+within 3 px, above the binding **0.70** stop threshold across 289 prior rasters. The reported
+symmetric Jaccard **0.030** is diagnostic only and cannot override that trip. The previous
+`UNIQUE-VS-REGISTRY` label was wrong. Record the result as **DUPLICATE — STOP**, and do not spend
+a weekly slot. The required pre-placement surface-gate receipt is absent, so that half is
+**NOT VERIFIED**; the final-dot trip already blocks submission. Full correction:
+[`irregularities.md`](irregularities.md) §3.
 
-**Should you spend a weekly slot on it?** *Only as a novelty probe, never as your lead horse.*
-The honest expectation is **below** the group's best scored artifact
-(`gems32-h33-h33-2-b2-…-zeros`, 0.2778, OWNER-REPORTED). The reasoning and the numbers are in
-§3 — including the measured fact that the local holdout instrument **cannot** rank submissions
-for this task, so it is reported rather than used as a gate.
+The HOLDOUT-DTI is also weak and is **not** an organizer score. No replacement candidate, fresh
+registry scan, new holdout run, or organizer-confirmed receipt was produced in this correction.
 
 ---
 
@@ -48,18 +48,19 @@ contours. Full method and the six bugs that were found and fixed on the way:
 | driver / band / dtype | GTiff / 1 / float32 | MEASURED |
 | CRS / shape / res / transform | EPSG:32611 / 3730×3292 / 100 m / (243350, 4508550) | MEASURED, matches the official sample |
 | values | min 0.0, max 1.0, `n_outside_0_1 = 0`, `nan_count = 0`, `all_finite = true`, `nodata = null` | MEASURED |
-| `legal` | **true** | MEASURED (`grid.check_submission`) |
-| rank correlation vs 289 registry rasters | max **−0.065** | MEASURED |
-| dot overlap vs 289 registry rasters | max asymmetric 1.00 (**density artefact**), max symmetric Jaccard **0.030** | MEASURED |
+| `legal` | **true** — format validity only, not submission clearance | MEASURED (`grid.check_submission`) |
+| rank correlation vs 289 registry rasters | max **−0.065**; no rank trip at 0.90 | MEASURED |
+| one-sided dot overlap vs 289 registry rasters | max **1.00** within 3 px; strict trip because 1.00 > 0.70 | MEASURED; **DUPLICATE — STOP** |
+| symmetric Jaccard | **0.030** | diagnostic only; not a substitute gate |
 
 ## 3. The number you must not over-read — and why
 
-| emission | local holdout DTI | ratio to its own Poisson null |
-| --- | ---: | ---: |
-| **this file (v8)** | 0.0029 | 0.74× |
-| `gems32-h33-2-b2-…-zeros` (**OWNER-REPORTED live 0.2778**) | 0.0067 | **0.10×** |
-| Poisson control, same density as this file (1,660 dots) | 0.0039 | 1.00× |
-| Poisson control, same density as h33 (37,654 dots) | **0.0669** | 1.00× |
+| emission | local proxy metric and evidence class | ratio to its own Poisson null |
+| --- | --- | ---: |
+| **this file (v8)** | **HOLDOUT-DTI 0.00286** — `scripts/run_holdout.py` v2; 60,362 withheld positives; spatial-fold 95% CI not estimable (5/6 folds have no predictions); pooled-recall Wilson95 [0.001955, 0.002723] is not a DTI CI | 0.74× |
+| `gems32-h33-2-b2-…-zeros` (**OWNER-REPORTED, unverified live value 0.2778; not organizer-confirmed**) | calibration proxy DTI 0.0067; evaluator/withheld count/CI not supplied in this legacy comparison; not a score | **0.10×** |
+| Poisson control, same density as this file (1,660 dots) | legacy proxy calibration value 0.0039; no DTI CI retained; not a score | 1.00× |
+| Poisson control, same density as h33 (37,654 dots) | legacy proxy calibration value **0.0669**; no DTI CI retained; not a score | 1.00× |
 
 Read the bottom two rows against the top two. On the local instrument a **uniform random** field
 outscores the artifact that actually scored 0.2778 on the live board, by 10×. The instrument
@@ -74,19 +75,21 @@ useful honest statement about this file. The instrument is kept only as a **scre
 genuine bugs, and it produces the Poisson null above); it is not used to promote or reject.
 See [`irregularities.md`](irregularities.md) §2.
 
-## 4. How to submit
+## 4. Download and submission instructions
 
-1. Download `docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif` (one click, [`index.html`](index.html)).
-2. On the DrivenData submission page for competition 306, upload it as-is — do not re-encode, do
-   not add a nodata tag, do not convert to a different dtype.
-3. Submission name: `gemsdoe62-datum-lahontan-isobase-v8`; note (≤ 140 characters, site has
-   previously accepted longer but the stated limit is 140):
-   > `Lake Lahontan pluvial-bench isobase: 1660 dots on stepped/deflected shoreline benches; 221 DEM-ridge traces; unique vs registry.`
-4. If you have only one slot in the week, spend it on the group's h33 lineage, not on this file —
-   and read [`why-h33-scored.md`](why-h33-scored.md) first: it derives the recall floor that the
-   0.2778 necessarily implies (≥ 0.235) and the marginal bar for adding a dot (`p > 0.2·DTI`,
-   i.e. > 0.056 at that operating point), which is the quantitative case for emitting *more*,
-   not merely *better*.
+**Do not upload v8.** The linked GeoTIFF is available only for review; its strict gate is
+`DUPLICATE — STOP` despite passing the format validator. Do not spend a weekly slot on it.
+
+For internal tracking only:
+
+- artifact name: `gemsdoe62-datum-lahontan-isobase-v8`;
+- note (134 characters; explicitly negative, not an upload recommendation):
+  > `Lake Lahontan pluvial-bench isobase: 1660 dots on shoreline datum breaks; 221 DEM-ridge traces; DO NOT SUBMIT (registry overlap trip).`
+
+For a future candidate, first pass the spatially blocked holdout as a screen and both uniqueness
+checks (surface before placement and final dots) using the literal rank-correlation and one-sided
+overlap thresholds. Only a candidate with a new verified run card and a non-trip may be considered
+for upload. No such replacement file is part of this correction.
 
 ## 5. Where this leaves the effort (limitations, stated plainly)
 

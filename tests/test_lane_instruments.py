@@ -157,37 +157,19 @@ def test_deflections_are_locations_too():
 
 
 # --------------------------------------------------------------------------- 4
-def test_map_writer_rejects_wrong_units(tmp_path):
-    """A marker given in projected metres must never be drawn off-canvas.
+def test_step_rc_uses_compass_azimuth_in_row_col_units():
+    """A compass heading must become the corresponding row/column displacement.
 
-    The original defect: flags were passed in metres to a helper expecting grid
-    indices, so the step circle landed ~100,000 px away and Pillow drew nothing
-    -- a "no evidence" figure that looked entirely normal.
+    The old plotting-helper test called ``save_map_png`` from a superseded
+    ``run_lane.py`` API; the current script no longer owns that renderer.  The
+    underlying unit/axis defect is guarded at its source, ``datum.step_rc``.
     """
-    import importlib.util
+    from gems62.datum import step_rc
 
-    spec = importlib.util.spec_from_file_location(
-        "run_lane", Path(__file__).resolve().parents[1] / "scripts" / "run_lane.py")
-    run_lane = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(run_lane)
-
-    dem = np.zeros((300, 300))
-    foot = np.ones((300, 300), bool)
-    cat = np.zeros((300, 300), bool)
-    band = np.zeros((300, 300), bool)
-    dots = np.zeros((300, 300), bool)
-    dots[150, 150] = True
-    out = tmp_path / "m.png"
-
-    # a flag expressed in projected metres inside the grid is accepted
-    flag = {"x": 243350.0 + 150 * 100.0, "y": 4508550.0 - 150 * 100.0, "jump_m": 12.9}
-    run_lane.save_map_png(dem, foot, cat, band, dots, out, flags=[flag])
-    assert out.exists() and out.stat().st_size > 0
-
-    # ... and one outside the grid raises instead of silently vanishing
-    bad = {"x": -1.0e6, "y": -1.0e6, "jump_m": 12.9}
-    with pytest.raises(ValueError):
-        run_lane.save_map_png(dem, foot, cat, band, dots, out, flags=[bad])
+    assert step_rc(0.0, 2.0) == pytest.approx((-2.0, 0.0))
+    assert step_rc(90.0, 2.0) == pytest.approx((0.0, 2.0), abs=1e-12)
+    assert step_rc(180.0, 2.0) == pytest.approx((2.0, 0.0))
+    assert step_rc(270.0, 2.0) == pytest.approx((0.0, -2.0), abs=1e-12)
 
 
 # --------------------------------------------------------------------------- 5

@@ -124,7 +124,7 @@
  },
  "uniqueness": {
   "n_positive": 86968,
-  "verdict": "UNIQUE",
+  "verdict": "DUPLICATE - STOP",
   "strict_leg_pass": false,
   "informative_leg_pass": true,
   "correlation_leg_pass": true,
@@ -179,11 +179,19 @@
    "spearman_method": "spearman"
   },
   "rule": {
-   "effective_discriminating": 0.5,
-   "overlap_limit": 0.7,
-   "rho_limit": 0.9,
-   "note": "a comparator whose 3 px dilation covers more than 50% of the footprint cannot discriminate: any file scores 1.0 against it."
-  }
+   "positive_rho_limit": 0.9,
+   "one_sided_euclidean_overlap_limit": 0.7,
+   "tolerance_px": 3.0,
+   "strict_comparators": "all registry rasters",
+   "density_action": "diagnostic only; do not suppress a trip",
+   "jaccard_action": "diagnostic only; do not suppress a trip"
+  },
+  "passed": false,
+  "rho_trip": false,
+  "overlap_trip": true,
+  "max_positive_spearman": 0.03250647880527635,
+  "max_overlap_all": 1.0,
+  "jaccard_is_gate": false
  },
  "stats": {
   "n_dots": 86968,

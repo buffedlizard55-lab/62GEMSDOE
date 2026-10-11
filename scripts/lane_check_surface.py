@@ -36,7 +36,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from gems62 import grid as gridmod  # noqa: E402
 from gems62 import lahontan  # noqa: E402
-from gems62.uniqueness import compare, OVERLAP_LIMIT, RHO_LIMIT  # noqa: E402
+from gems62.uniqueness import (compare, OVERLAP_LIMIT, RHO_LIMIT,
+                               protocol_verdict)  # noqa: E402
+
+
+def aggregate_surface_verdict(variants: dict[str, dict]) -> dict:
+    """Require both surface variants to have a non-empty, non-tripping registry gate."""
+    if not variants or any(v.get("n_registry", 0) <= 0 for v in variants.values()):
+        return {"passed": False, "verdict": "NOT VERIFIED - EMPTY REGISTRY"}
+    passed = all(v.get("passed") is True for v in variants.values())
+    return {"passed": passed,
+            "verdict": "DISTINCT LANE" if passed else "DUPLICATE - STOP"}
 
 
 def build_surfaces(data: str, *, order: int, slope_max_deg: float, min_cells: int,
@@ -81,31 +91,42 @@ def main() -> int:
 
     reg = {p.stem: p for p in sorted(Path(a.registry).glob("*.tif"))}
     report = {"evaluator": "gems62.uniqueness.compare", "rule": {
-        "rho_limit": RHO_LIMIT, "overlap_limit": OVERLAP_LIMIT, "tolerance_px": 3}}
-    worst = 0.0
+        "rho_rule": "positive Spearman rho > threshold trips",
+        "overlap_rule": "one-sided Euclidean fraction within tolerance_px > threshold trips",
+        "rho_limit": RHO_LIMIT, "overlap_limit": OVERLAP_LIMIT, "tolerance_px": 3,
+        "jaccard_is_gate": False}}
     for variant, surf in (("full", full), ("evidence", evid)):
         entries = compare(surf, reg, foot)
         nonvac = [e for e in entries if not e.vacuous]
-        rho_max = max((abs(e.rho) for e in entries if np.isfinite(e.rho)), default=float("nan"))
-        ov = max((e.frac3px for e in nonvac), default=0.0)
-        worst = max(worst, rho_max if np.isfinite(rho_max) else 0.0, ov)
+        finite_rho = [e.rho for e in entries if np.isfinite(e.rho)]
+        max_rho = max(finite_rho, default=float("nan"))
+        max_abs_rho = max((abs(rho) for rho in finite_rho), default=float("nan"))
+        max_overlap_all = max((e.frac3px for e in entries), default=0.0)
+        max_overlap_nonvac = max((e.frac3px for e in nonvac), default=0.0)
+        gate = protocol_verdict(max_rho, max_overlap_all,
+                                n_comparators=len(entries))
+        closest_all = max(entries, key=lambda e: e.frac3px).alias if entries else None
         report[variant] = {
             "n_registry": len(entries), "n_vacuous": len(entries) - len(nonvac),
-            "max_abs_rho": rho_max, "max_3px_overlap_non_vacuous": ov,
-            "closest": (max(nonvac, key=lambda e: e.frac3px).alias if nonvac else None),
+            "max_rho": max_rho, "max_abs_rho_diagnostic": max_abs_rho,
+            "max_3px_overlap_all": max_overlap_all,
+            "max_3px_overlap_non_vacuous_diagnostic": max_overlap_nonvac,
+            "closest_all": closest_all,
+            "rho_trip": gate["rho_trip"], "overlap_trip": gate["overlap_trip"],
+            "passed": gate["passed"], "verdict": gate["verdict"],
             "per_raster": [{"alias": e.alias, "rho": e.rho, "frac3px": e.frac3px,
                             "coverage3px": e.coverage3px, "vacuous": e.vacuous,
                             "sha256": e.sha256} for e in entries],
         }
-        print(f"  {variant:8s} max|rho|={rho_max:.6f} (limit {RHO_LIMIT})  "
-              f"max 3px={ov:.4f} (limit {OVERLAP_LIMIT})  vacuous={report[variant]['n_vacuous']}")
+        print(f"  {variant:8s} max rho={max_rho:.6f} (limit {RHO_LIMIT})  "
+              f"max 3px all={max_overlap_all:.4f} (limit {OVERLAP_LIMIT})  "
+              f"diagnostic vacuous={report[variant]['n_vacuous']}")
 
-    trip = (worst >= min(RHO_LIMIT, OVERLAP_LIMIT))
-    report["passed"] = None if trip else True
-    report["verdict"] = "SURFACE DISTINCT" if not trip else "REVIEW"
-    report["note"] = ("pre-placement half of the lane rule; the final-dots half is in the run card"
-                      " field correlation_overlap_vs_registry. Correlation on a broad, mostly-zero"
-                      " field is a drift check, not a score.")
+    aggregate = aggregate_surface_verdict({v: report[v] for v in ("full", "evidence")})
+    report.update(aggregate)
+    report["note"] = ("Pre-placement surface gate: any positive rank-correlation or one-sided "
+                      "overlap trip across all registry comparators stops the lane. Comparator "
+                      "density and Jaccard are diagnostics only. The final-dots half must also pass.")
     report["isobase"] = {"order": a.isobase_order, "residual_sigma_m": levels.get("sigma_m")}
     out = Path(a.out) / f"{a.name}-lane-surface.json"
     out.write_text(json.dumps(report, indent=1))

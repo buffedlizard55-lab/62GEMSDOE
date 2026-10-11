@@ -98,18 +98,19 @@ stay accountable to the final outcome.
 
 | question | answer |
 |---|---|
-| Where is the submission file? | [`docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif`](docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif) — 518,595 bytes, 86,968 dots, sha256 `f58ae055030e5edd…` |
-| Is it OK to download? | **YES.** Single band, `float32`, EPSG:32611, 3730×3292, the sample submission's exact transform, all 12,279,160 cells finite, values in [0, 1], `nodata = None`, zero positive mass outside the footprint, **0 dots on the mapped catalogue**. All 14 validator checks pass on the re-read bytes. The portal error `"Predicted values must be in range [0, 1]"` cannot occur for these bytes. |
-| Is it unique? | **UNIQUE** under the informative reading of the protocol's gate: worst one-sided 3 px overlap **0.4066** against the 321 *discriminating* comparators (limit 0.70), worst rank correlation **0.0325** (limit 0.90), over 508 comparators drawn from the group's public repositories. The *strict* leg is degenerate — the top comparator has 5,167,373 positives, i.e. the entire footprint — and is reported, not hidden (`IR-62-04`). The second-highest overlap anywhere (0.9416, `gems61-lane-buried-step-gravinversion-hgm-r3-k400k-b2zeros.tif`) is also a blanket rather than a shared lane: its own 3 px dilation already covers 89.9 % of the map and it shares only 6.65 % of our exact pixels (Jaccard 0.0147). **Copying test:** the largest exact pixel overlap with any *discriminating* comparator is 10.81 % of our dots (`concordance_surface.tif`), so nothing was lifted from a registry raster. |
-| Should it be given a weekly slot? | **NO — honest negative.** HOLDOUT-DTI on independent off-catalogue truth is **0.096746**; against a matched random control drawn from its *own spatial stratum* the edge is only **+0.010418**, and on the catalogue-segment holdout it **loses** to that control (0.027196 vs 0.048565). Mean credit per dot is 0.0400, below the marginal bar 0.0556 at the current family best. The *same-instrument* control shows a registered prior field reaching **0.29294** per dot on 45,000 dots — ≈2× this lane's best dot class and 500× its count. The lane is dominated; it does not get a slot. |
-| Has an organizer scored it? | **No.** `organizer_score` is null. Every number is HOLDOUT-DTI, MEASURED or MODEL. |
-| What is the second file? | [`…flagged-breaks-selective-secondary-zeros.tif`](docs/downloads/gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif) (87 dots, mean credit 0.120¹) is **DO NOT SUBMIT**: it fails the informative uniqueness leg at **0.9885** against `gems61-lane-buried-step-gravinversion-hgm-r3-k400k-b2zeros.tif`, which the protocol defines as lane drift. It is published as evidence. |
+| Where is the artifact? | [`docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif`](docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif) — 518,595 bytes, 86,968 dots, sha256 `f58ae055030e5edd…`; available for inspection only. |
+| Is it OK to download? | **YES, for review only. DO NOT UPLOAD.** Single band, `float32`, EPSG:32611, 3730×3292, exact sample transform, all 12,279,160 cells finite, values in [0, 1], `nodata = None`, zero positive mass outside the footprint, 0 dots on the mapped catalogue. These are format checks only. |
+| Is it unique under the required protocol? | **NO — DUPLICATE - STOP.** Strict maximum one-sided 3 px overlap is **1.00 > 0.70** across all 508 comparators. The max positive rank correlation is **0.0325 < 0.90**, so that leg does not trip. The lower 0.4066 overlap on the 321-comparator informative subset and Jaccard 0.030 are diagnostics, not waivers. The top comparator is dense enough to make the overlap test uninformative, but the protocol still says log duplicate and stop (`IR-62-04`). |
+| Was the pre-placement surface gate passed? | **NOT VERIFIED.** No passing surface-before-placement receipt is present for this lane62 artifact. The final-dot strict trip already blocks submission. |
+| Should it be given a weekly slot? | **NO.** Do not submit. The local HOLDOUT-DTI results are proxy measurements, not organizer scores; instrument B has no retained 95% CI and its evaluator is not version-tagged in the legacy record. |
+| Has an organizer scored it? | **No.** No submission-page receipt is present; there is no ORGANIZER-CONFIRMED score. |
+| What is the second file? | [`…flagged-breaks-selective-secondary-zeros.tif`](docs/downloads/gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif) (87 dots) is also **DO NOT SUBMIT**: it fails the strict all-comparator overlap gate (maximum 1.00) and independently has 0.9885 overlap against a sparse comparator. |
 
 ¹ mean credit 0.12006 per dot on instrument B.
 
-**The brief's headline numbers are stale.** The public leaderboard, read 2026-10-11, shows
-#1 `xiaofanhu` **0.4133**, #2 0.3585, #3 0.3418; **0.3195 is now rank 9** and **0.2778 is
-rank 23**. Any target stated against 0.3195 is aiming at ninth place.
+**Leaderboard claims are unverified here.** Prior drafts reported values such as 0.4133 and 0.2778,
+but this checkout contains no current leaderboard export or submission-page receipt. Treat all such
+figures as owner-reported, not ORGANIZER-CONFIRMED, and do not use them as competition scores.
 
 ---
 
@@ -188,10 +189,11 @@ convention as the 508-raster gate (positivity `value > 0`, "within 3 px" =
 | primary | `gems62-lahontan-isobase-99dots-nan.tif` | 0.0009 | 0.0000 | −0.0007 | distinct |
 | secondary (87 dots) | all three | 0.0000 | 0.0000 | −0.0001…0.0000 | distinct |
 
-Evidence: `lane62/evidence/crosscheck_sibling_lane.json`. The two lanes agree on the physics and
-disagree on the emission: the sibling ships 99-dot/segment geometry (`UNIQUE-VS-REGISTRY`,
-worst rank correlation −0.065), this lane ships an 86,968-dot dotted field and reaches a
-**negative** verdict because its credit per dot sits below the marginal bar (§3).
+Evidence: `lane62/evidence/crosscheck_sibling_lane.json`. The shipped rasters are distinct from
+one another under the recorded pairwise comparison, but **neither is cleared against the full
+registry**: both strict all-comparator overlap gates trip against dense registry rasters. The
+root v8 `UNIQUE-VS-REGISTRY` label is withdrawn; its preserved one-sided maximum is 1.00 (>0.70).
+The lane62 primary also trips at 1.00. These are negative protocol results; do not submit either.
 
 **One defect found while merging, reported and not fixed (out of lane).** After the merge the
 repository-root suite cannot collect on a clean `origin/main` worktree either:

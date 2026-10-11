@@ -1,24 +1,13 @@
 #!/usr/bin/env python3
-"""UNIQUENESS GATE, made honest.
+"""Apply the literal uniqueness stop rule against every registry raster.
 
-The protocol's overlap leg -- "no more than 70 % of your dots within 3 px of one
-registry raster's dots" -- is only informative about LANE DRIFT if the comparator
-can fail you for a reason other than "its 3 px dilation covers the whole map".
-A comparator with N positive pixels dilates to at most 49*N cells; once that
-reaches the 5,167,373-px footprint, EVERY file scores 1.0 against it.
+A positive Spearman rho > 0.90 or one-sided Euclidean dot overlap > 0.70
+within 3 px trips the gate. Dense comparators may make overlap uninformative,
+but density and Jaccard are diagnostics only: neither may suppress a trip.
 
-Per comparator this script measures
-
-  coverage_frac     = positives / footprint                      (raw density)
-  effective_cover   = |dilate(pos,3) & footprint| / footprint    (exact for the
-                      largest comparators, safe upper bound otherwise)
-  discriminating    = effective_cover <= 0.50
-
-and reports the overlap leg under three readings: STRICT (all comparators),
-INFORMATIVE (discriminating only) and JACCARD (for the non-discriminating ones).
-Rank correlation is reported separately.
-
-Streams the registry (one comparator in memory at a time) so it cannot OOM.
+Effective 3 px coverage is retained to expose the known density-blindness of
+the one-sided rule. The registry is streamed (one comparator in memory at a
+time) so the comparison does not OOM.
 
 Usage:
   python3 scripts/uniqueness_gate.py <candidate.tif> [<candidate.tif> ...]
@@ -40,10 +29,34 @@ sys.path.insert(0, str(ROOT / "src"))
 from gems62 import grid as G          # noqa: E402
 
 REG = Path.home() / ".cache" / "gems62_registry"
-EFFECTIVE_DISCRIMINATING = 0.50
+EFFECTIVE_DISCRIMINATING = 0.50  # diagnostic only; never filters a comparator from the gate
 OV_LIMIT = 0.70
 RHO_LIMIT = 0.90
+TOLERANCE_PX = 3.0
 MAX_EXACT_COVER = 40
+
+
+def one_sided_overlap(candidate: np.ndarray, registry: np.ndarray,
+                      footprint: np.ndarray, tolerance_px: float = TOLERANCE_PX) -> float:
+    """Fraction of candidate positives within an inclusive Euclidean pixel radius."""
+    mine = np.asarray(candidate, dtype=bool) & np.asarray(footprint, dtype=bool)
+    other = np.asarray(registry, dtype=bool) & np.asarray(footprint, dtype=bool)
+    if not mine.any() or not other.any():
+        return 0.0
+    distance = ndi.distance_transform_edt(~other)
+    return float((distance[mine] <= tolerance_px).mean())
+
+
+def protocol_verdict(max_rho: float, max_overlap: float, *, n_comparators: int) -> dict:
+    """Apply the binding positive-rho and one-sided-overlap thresholds."""
+    rho_trip = bool(np.isfinite(max_rho) and max_rho > RHO_LIMIT)
+    overlap_trip = bool(max_overlap > OV_LIMIT)
+    passed = bool(n_comparators) and not (rho_trip or overlap_trip)
+    label = ("DISTINCT LANE" if passed else
+             "NOT VERIFIED - EMPTY REGISTRY" if not n_comparators else "DUPLICATE - STOP")
+    return dict(rho_trip=rho_trip, overlap_trip=overlap_trip, passed=passed,
+                verdict=label, rho_limit=RHO_LIMIT, overlap_limit=OV_LIMIT,
+                overlap_kernel_px=TOLERANCE_PX)
 
 
 def positives(path):
@@ -75,6 +88,7 @@ def main(paths):
             skipped.append(dict(file=p.name, reason=f"read error: {e}")); continue
         if pos is None:
             skipped.append(dict(file=p.name, reason="not on the competition grid")); continue
+        pos &= g.footprint
         n = int(pos.sum())
         del pos
         if n == 0:
@@ -88,11 +102,13 @@ def main(paths):
     order = sorted(meta, key=lambda r: -r["n_positive"])
     eff = {}
     for r in order[:MAX_EXACT_COVER]:
-        pos = positives(Path(r["path"]))
-        eff[r["file"]] = float((ndi.binary_dilation(pos, iterations=3) & g.footprint).sum()) / fp
-        del pos
+        pos = positives(Path(r["path"])) & g.footprint
+        distance = ndi.distance_transform_edt(~pos)
+        eff[r["file"]] = float(((distance <= TOLERANCE_PX) & g.footprint).sum()) / fp
+        del pos, distance
     for r in order[MAX_EXACT_COVER:]:
-        eff[r["file"]] = min(1.0, r["n_positive"] * 49.0 / fp)
+        # 29 integer-offset cells lie in a radius-3 Euclidean disk (including center).
+        eff[r["file"]] = min(1.0, r["n_positive"] * 29.0 / fp)
     for r in meta:
         r["effective_coverage"] = eff[r["file"]]
         r["discriminating"] = bool(eff[r["file"]] <= EFFECTIVE_DISCRIMINATING)
@@ -107,7 +123,7 @@ def main(paths):
         with rasterio.open(path) as d:
             arr = np.asarray(d.read(1), dtype=np.float32)
         arr = np.nan_to_num(arr, nan=0.0, posinf=0.0, neginf=0.0)
-        mine = arr > 0
+        mine = (arr > 0) & g.footprint
         del arr
         rr, cc = np.nonzero(mine)
         n_mine = int(rr.size)
@@ -121,8 +137,8 @@ def main(paths):
         s_r, s_c = np.divmod(sample, w)
         rows = []
         for r in meta:
-            pos = positives(Path(r["path"]))
-            ov = float(ndi.binary_dilation(pos, iterations=3)[rr, cc].mean()) if n_mine else 0.0
+            pos = positives(Path(r["path"])) & g.footprint
+            ov = one_sided_overlap(mine, pos, g.footprint)
             inter_n = int((pos & mine).sum())
             union_n = r["n_positive"] + n_mine - inter_n
             rho, meth = float("nan"), None
@@ -149,30 +165,42 @@ def main(paths):
         fin = [r for r in rows if np.isfinite(r["spearman"])]
         worst_all = rows[0] if rows else None
         worst_disc = disc[0] if disc else None
-        worst_rho = max(fin, key=lambda r: abs(r["spearman"])) if fin else None
+        worst_rho_abs = max(fin, key=lambda r: abs(r["spearman"])) if fin else None
+        max_positive_rho = max((r["spearman"] for r in fin), default=float("nan"))
         worst_jac = max(nond, key=lambda r: r["jaccard"]) if nond else None
-        strict = bool(worst_all is None or worst_all["overlap_3px_one_sided"] <= OV_LIMIT)
-        inform = bool(worst_disc is None or worst_disc["overlap_3px_one_sided"] <= OV_LIMIT)
-        rho_ok = bool(worst_rho is None or abs(worst_rho["spearman"]) <= RHO_LIMIT)
-        verdict = "UNIQUE" if (inform and rho_ok) else "DUPLICATE"
+        max_overlap_all = max((r["overlap_3px_one_sided"] for r in rows), default=0.0)
+        max_overlap_disc = max((r["overlap_3px_one_sided"] for r in disc), default=0.0)
+        protocol = protocol_verdict(max_positive_rho, max_overlap_all,
+                                   n_comparators=len(rows))
+        strict = bool(rows) and not protocol["overlap_trip"]
+        inform = bool(worst_disc is None or max_overlap_disc <= OV_LIMIT)
+        rho_ok = not protocol["rho_trip"]
+        verdict = protocol["verdict"]
         out[path.name] = dict(
-            n_positive=n_mine, verdict=verdict, strict_leg_pass=strict,
-            informative_leg_pass=inform, correlation_leg_pass=rho_ok,
+            n_positive=n_mine, verdict=verdict, passed=protocol["passed"],
+            strict_leg_pass=strict, informative_leg_pass=inform,
+            correlation_leg_pass=rho_ok,
+            rho_trip=protocol["rho_trip"], overlap_trip=protocol["overlap_trip"],
             n_comparators=len(rows), n_discriminating=len(disc),
+            max_positive_spearman=max_positive_rho,
+            max_abs_spearman_diagnostic=(abs(worst_rho_abs["spearman"])
+                                         if worst_rho_abs else float("nan")),
+            max_overlap_all=max_overlap_all,
+            max_overlap_discriminating_diagnostic=max_overlap_disc,
             worst_overlap_all=worst_all, worst_overlap_discriminating=worst_disc,
-            worst_spearman=worst_rho, worst_jaccard_among_nondiscriminating=worst_jac,
-            rule=dict(effective_discriminating=EFFECTIVE_DISCRIMINATING,
-                      overlap_limit=OV_LIMIT, rho_limit=RHO_LIMIT,
-                      note="a comparator whose 3 px dilation covers more than "
-                           f"{EFFECTIVE_DISCRIMINATING:.0%} of the footprint cannot "
-                           "discriminate: any file scores 1.0 against it."),
+            worst_spearman=worst_rho_abs,
+            worst_jaccard_among_nondiscriminating=worst_jac,
+            rule=dict(overlap_limit=OV_LIMIT, rho_limit=RHO_LIMIT,
+                      tolerance_px=TOLERANCE_PX,
+                      effective_discriminating_diagnostic=EFFECTIVE_DISCRIMINATING,
+                      dense_comparator_action="report diagnostic; preserve strict trip",
+                      jaccard_is_gate=False),
             rows=rows)
         print(f"[gate] {path.name}: n={n_mine} -> {verdict}; strict worst ov "
-              f"{worst_all['overlap_3px_one_sided']:.4f} (eff.cov {worst_all['effective_coverage']:.3f}); "
-              f"discriminating worst ov "
+              f"{(worst_all['overlap_3px_one_sided'] if worst_all else float('nan')):.4f}; "
+              f"discriminating diagnostic "
               f"{(worst_disc['overlap_3px_one_sided'] if worst_disc else float('nan')):.4f} "
-              f"over {len(disc)} comparators; worst |rho| "
-              f"{(abs(worst_rho['spearman']) if worst_rho else float('nan')):.4f}", flush=True)
+              f"over {len(disc)} comparators; max positive rho {max_positive_rho:.4f}", flush=True)
     json.dump(out, open(ROOT / "evidence/uniqueness_gate.json", "w"), indent=1, default=str)
     json.dump(dict(comparators=meta, skipped=skipped, footprint_px=fp),
               open(ROOT / "evidence/registry_comparators.json", "w"), indent=1, default=str)
