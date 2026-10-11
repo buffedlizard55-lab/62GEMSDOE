@@ -272,8 +272,10 @@ def main() -> int:
                          "valid_fraction": float(valid.mean()),
                          "z_min": float(mosaic[valid].min()) if valid.any() else None,
                          "z_max": float(mosaic[valid].max()) if valid.any() else None}
-    q = np.where(valid, np.round(mosaic * 10.0), -32768.0)
-    q = np.clip(q, -32767, 32767).astype(np.int16)
+    q = np.where(valid, np.clip(np.round(mosaic * 10.0), -32766.0, 32767.0), -32767.0).astype(np.int16)
+    # NOTE: the sentinel is written as -32767 (not -32768) because the clipping at 32767 must not
+    # silently rewrite the nodata value -- the earlier form clipped after assigning -32768, which
+    # is the defect fixed here; readers must mask values <= -32000.
     with rasterio.open(out / "dem_25m_utm11.tif", "w", driver="GTiff", dtype="int16",
                        count=1, height=h, width=w, crs=GRID["crs"], transform=transform,
                        nodata=-32768, compress="deflate", predictor=2, tiled=True,

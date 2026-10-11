@@ -35,6 +35,20 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 from gems62 import datum, grid, metric  # noqa: E402
 
 
+
+def read_z(src, window, res=None):
+    """Decode a DEM window to metres with NaN for nodata.
+
+    The transport GeoTIFF stores int16 decimetres (z_m = value/10) with the -32767/-32768
+    sentinel family; both the scale and the sentinel are handled here so no threshold in this
+    script ever sees decimetres by accident (a 10x unit error would silently disable every
+    elevation window in the pipeline).
+    """
+    import numpy as np
+    z = src.read(1, window=window).astype(np.float32)
+    z[z <= -32000.0] = np.nan
+    return z * 0.1
+
 def log(msg: str) -> None:
     print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
 
@@ -142,8 +156,7 @@ def main() -> int:
     n_blocks = 0
     for (r0, c0, r1, c1) in block_windows(H, W, block_px, overlap_px):
         n_blocks += 1
-        z = src.read(1, window=Window(c0, r0, c1 - c0, r1 - r0)).astype(np.float32)
-        z[~np.isfinite(z)] = np.nan
+        z = read_z(src, Window(c0, r0, c1 - c0, r1 - r0))
         if not np.isfinite(z).any():
             continue
         if np.nanmin(z) > args.z_hi or np.nanmax(z) < args.z_lo:
@@ -201,8 +214,7 @@ def main() -> int:
     loci: list[dict] = []
     segments_meta: list[dict] = []
     for (r0, c0, r1, c1) in block_windows(H, W, block_px, overlap_px):
-        z = src.read(1, window=Window(c0, r0, c1 - c0, r1 - r0)).astype(np.float32)
-        z[~np.isfinite(z)] = np.nan
+        z = read_z(src, Window(c0, r0, c1 - c0, r1 - r0))
         if not np.isfinite(z).any():
             continue
         if np.nanmin(z) > args.z_hi or np.nanmax(z) < args.z_lo:
@@ -264,10 +276,9 @@ def main() -> int:
     for j, e in enumerate(chosen):
         r0 = max(0, int(e["row"]) - half_px); c0 = max(0, int(e["col"]) - half_px)
         r1 = min(H, int(e["row"]) + half_px); c1 = min(W, int(e["col"]) + half_px)
-        z = src.read(1, window=Window(c0, r0, c1 - c0, r1 - r0)).astype(np.float32)
+        z = read_z(src, Window(c0, r0, c1 - c0, r1 - r0))
         if not np.isfinite(z).any():
             continue
-        z = np.where(np.isfinite(z), z, np.nan)
         # fill any NaN by nearest interpolation so the Hessian is defined at block edges
         if (~np.isfinite(z)).any():
             ind = ndimage.distance_transform_edt(~np.isfinite(z), return_distances=False,
