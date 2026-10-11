@@ -1,0 +1,441 @@
+{
+ "status": "ok",
+ "error": null,
+ "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+ "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard_partial/?page=1",
+ "fetched_utc": "2026-10-11T20:57:47+00:00",
+ "metric": "public DW-Tversky (DTI), higher is better; scored only on expert-labelled new faults; catalogue pixels masked",
+ "n_rows": 50,
+ "top5_cutoff_score": 0.3333,
+ "rows": [
+  {
+   "rank": 1,
+   "name": "xiaofanhu",
+   "display": "xiaofanhu 19h 37min ago \u2e31 16 submissions",
+   "score": 0.4133,
+   "profile": "/users/xiaofanhu/"
+  },
+  {
+   "rank": 2,
+   "name": "cfld__",
+   "display": "cfld__ 8h 41min ago \u2e31 5 submissions",
+   "score": 0.3585,
+   "profile": "/users/cfld__/"
+  },
+  {
+   "rank": 3,
+   "name": "JerryDataWorks",
+   "display": "JerryDataWorks 1d 20h ago \u2e31 19 submissions",
+   "score": 0.3418,
+   "profile": "/users/JerryDataWorks/"
+  },
+  {
+   "rank": 4,
+   "name": "alexoktaba",
+   "display": "alexoktaba 2d 11h ago \u2e31 27 submissions",
+   "score": 0.3361,
+   "profile": "/users/alexoktaba/"
+  },
+  {
+   "rank": 5,
+   "name": "joeyfezster",
+   "display": "joeyfezster 16h 59min ago \u2e31 27 submissions",
+   "score": 0.3333,
+   "profile": "/users/joeyfezster/"
+  },
+  {
+   "rank": 6,
+   "name": "Batik Shirt Brothers 1d 15h ago \u2e31 26 submissions",
+   "display": "Batik Shirt Brothers 1d 15h ago \u2e31 26 submissions",
+   "score": 0.33
+  },
+  {
+   "rank": 7,
+   "name": "nchuzhoy",
+   "display": "nchuzhoy 1w ago \u2e31 6 submissions",
+   "score": 0.3262,
+   "profile": "/users/nchuzhoy/"
+  },
+  {
+   "rank": 8,
+   "name": "kinghorton42",
+   "display": "kinghorton42 1d 22h ago \u2e31 10 submissions",
+   "score": 0.3261,
+   "profile": "/users/kinghorton42/"
+  },
+  {
+   "rank": 9,
+   "name": "DARD",
+   "display": "DARD 1w 2d ago \u2e31 18 submissions",
+   "score": 0.3195,
+   "profile": "/users/DARD/"
+  },
+  {
+   "rank": 10,
+   "name": "mzoorob",
+   "display": "mzoorob 20h 15min ago \u2e31 30 submissions",
+   "score": 0.3129,
+   "profile": "/users/mzoorob/"
+  },
+  {
+   "rank": 11,
+   "name": "ruping",
+   "display": "ruping 1d 4h ago \u2e31 8 submissions",
+   "score": 0.3104,
+   "profile": "/users/ruping/"
+  },
+  {
+   "rank": 12,
+   "name": "newway",
+   "display": "newway 17h 8min ago \u2e31 8 submissions",
+   "score": 0.308,
+   "profile": "/users/newway/"
+  },
+  {
+   "rank": 13,
+   "name": "BrandenKMurray",
+   "display": "BrandenKMurray 18h 53min ago \u2e31 17 submissions",
+   "score": 0.305,
+   "profile": "/users/BrandenKMurray/"
+  },
+  {
+   "rank": 14,
+   "name": "giles",
+   "display": "giles 2d 2h ago \u2e31 7 submissions",
+   "score": 0.3025,
+   "profile": "/users/giles/"
+  },
+  {
+   "rank": 15,
+   "name": "ohyeah",
+   "display": "ohyeah 1d 7h ago \u2e31 5 submissions",
+   "score": 0.2983,
+   "profile": "/users/ohyeah/"
+  },
+  {
+   "rank": 16,
+   "name": "notmyfault 18h 6min ago \u2e31 21 submissions",
+   "display": "notmyfault 18h 6min ago \u2e31 21 submissions",
+   "score": 0.2981
+  },
+  {
+   "rank": 17,
+   "name": "baobao",
+   "display": "baobao 1d 18h ago \u2e31 6 submissions",
+   "score": 0.2974,
+   "profile": "/users/baobao/"
+  },
+  {
+   "rank": 18,
+   "name": "GrigorSargsyan",
+   "display": "GrigorSargsyan 1d 19h ago \u2e31 16 submissions",
+   "score": 0.2892,
+   "profile": "/users/GrigorSargsyan/"
+  },
+  {
+   "rank": 19,
+   "name": "ndavis7",
+   "display": "ndavis7 1w 2d ago \u2e31 12 submissions",
+   "score": 0.2888,
+   "profile": "/users/ndavis7/"
+  },
+  {
+   "rank": 20,
+   "name": "HardcoreTechGod",
+   "display": "HardcoreTechGod 3w 2d ago \u2e31 6 submissions",
+   "score": 0.2854,
+   "profile": "/users/HardcoreTechGod/"
+  },
+  {
+   "rank": 21,
+   "name": "nsabaj",
+   "display": "nsabaj 20h 54min ago \u2e31 14 submissions",
+   "score": 0.2843,
+   "profile": "/users/nsabaj/"
+  },
+  {
+   "rank": 22,
+   "name": "op01",
+   "display": "op01 3d 2h ago \u2e31 10 submissions",
+   "score": 0.2797,
+   "profile": "/users/op01/"
+  },
+  {
+   "rank": 23,
+   "name": "extradr19",
+   "display": "extradr19 1w ago \u2e31 15 submissions",
+   "score": 0.2778,
+   "profile": "/users/extradr19/"
+  },
+  {
+   "rank": 24,
+   "name": "arnofault",
+   "display": "arnofault 3d 18h ago \u2e31 2 submissions",
+   "score": 0.2764,
+   "profile": "/users/arnofault/"
+  },
+  {
+   "rank": 25,
+   "name": "faultsofthy",
+   "display": "faultsofthy 2d 19h ago \u2e31 3 submissions",
+   "score": 0.2764,
+   "profile": "/users/faultsofthy/"
+  },
+  {
+   "rank": 26,
+   "name": "wonderfulbig12",
+   "display": "wonderfulbig12 2d 16h ago \u2e31 4 submissions",
+   "score": 0.2761,
+   "profile": "/users/wonderfulbig12/"
+  },
+  {
+   "rank": 27,
+   "name": "No Fault of Our Own 4d 20h ago \u2e31 27 submissions",
+   "display": "No Fault of Our Own 4d 20h ago \u2e31 27 submissions",
+   "score": 0.2761
+  },
+  {
+   "rank": 28,
+   "name": "doublebigmac",
+   "display": "doublebigmac 1d ago \u2e31 6 submissions",
+   "score": 0.2758,
+   "profile": "/users/doublebigmac/"
+  },
+  {
+   "rank": 29,
+   "name": "wbg1",
+   "display": "wbg1 5d 20h ago \u2e31 17 submissions",
+   "score": 0.275,
+   "profile": "/users/wbg1/"
+  },
+  {
+   "rank": 30,
+   "name": "raboush2",
+   "display": "raboush2 3d 16h ago \u2e31 11 submissions",
+   "score": 0.2747,
+   "profile": "/users/raboush2/"
+  },
+  {
+   "rank": 31,
+   "name": "Mekhi12",
+   "display": "Mekhi12 1d ago \u2e31 6 submissions",
+   "score": 0.2747,
+   "profile": "/users/Mekhi12/"
+  },
+  {
+   "rank": 32,
+   "name": "1stop",
+   "display": "1stop 1d ago \u2e31 4 submissions",
+   "score": 0.2747,
+   "profile": "/users/1stop/"
+  },
+  {
+   "rank": 33,
+   "name": "jgaines",
+   "display": "jgaines 20h 41min ago \u2e31 27 submissions",
+   "score": 0.2734,
+   "profile": "/users/jgaines/"
+  },
+  {
+   "rank": 34,
+   "name": "li002666",
+   "display": "li002666 3d 4h ago \u2e31 4 submissions",
+   "score": 0.2726,
+   "profile": "/users/li002666/"
+  },
+  {
+   "rank": 35,
+   "name": "smashi34",
+   "display": "smashi34 5d 20h ago \u2e31 15 submissions",
+   "score": 0.271,
+   "profile": "/users/smashi34/"
+  },
+  {
+   "rank": 36,
+   "name": "smrtdoog5",
+   "display": "smrtdoog5 1w ago \u2e31 15 submissions",
+   "score": 0.2708,
+   "profile": "/users/smrtdoog5/"
+  },
+  {
+   "rank": 37,
+   "name": "bot_account",
+   "display": "bot_account 3d 17h ago \u2e31 2 submissions",
+   "score": 0.2707,
+   "profile": "/users/bot_account/"
+  },
+  {
+   "rank": 38,
+   "name": "kpomazi",
+   "display": "kpomazi 1d 16h ago \u2e31 17 submissions",
+   "score": 0.2706,
+   "profile": "/users/kpomazi/"
+  },
+  {
+   "rank": 39,
+   "name": "NoahNault",
+   "display": "NoahNault 2d 12h ago \u2e31 12 submissions",
+   "score": 0.2702,
+   "profile": "/users/NoahNault/"
+  },
+  {
+   "rank": 40,
+   "name": "shixing",
+   "display": "shixing 1d 4h ago \u2e31 7 submissions",
+   "score": 0.2664,
+   "profile": "/users/shixing/"
+  },
+  {
+   "rank": 41,
+   "name": "yifanxu",
+   "display": "yifanxu 2d 21h ago \u2e31 4 submissions",
+   "score": 0.265,
+   "profile": "/users/yifanxu/"
+  },
+  {
+   "rank": 42,
+   "name": "ad3002",
+   "display": "ad3002 3d 7h ago \u2e31 25 submissions",
+   "score": 0.2643,
+   "profile": "/users/ad3002/"
+  },
+  {
+   "rank": 43,
+   "name": "moongrega",
+   "display": "moongrega 1d 17h ago \u2e31 23 submissions",
+   "score": 0.264,
+   "profile": "/users/moongrega/"
+  },
+  {
+   "rank": 44,
+   "name": "regan_towin",
+   "display": "regan_towin 3d 18h ago \u2e31 1 submission",
+   "score": 0.2632,
+   "profile": "/users/regan_towin/"
+  },
+  {
+   "rank": 45,
+   "name": "jfper21",
+   "display": "jfper21 20h 10min ago \u2e31 15 submissions",
+   "score": 0.2607,
+   "profile": "/users/jfper21/"
+  },
+  {
+   "rank": 46,
+   "name": "SDCF9",
+   "display": "SDCF9 1w ago \u2e31 16 submissions",
+   "score": 0.26,
+   "profile": "/users/SDCF9/"
+  },
+  {
+   "rank": 47,
+   "name": "roison",
+   "display": "roison 20h 53min ago \u2e31 5 submissions",
+   "score": 0.2586,
+   "profile": "/users/roison/"
+  },
+  {
+   "rank": 48,
+   "name": "haiderz",
+   "display": "haiderz 3d 19h ago \u2e31 1 submission",
+   "score": 0.2584,
+   "profile": "/users/haiderz/"
+  },
+  {
+   "rank": 49,
+   "name": "tchu",
+   "display": "tchu 1w 4d ago \u2e31 21 submissions",
+   "score": 0.2511,
+   "profile": "/users/tchu/"
+  },
+  {
+   "rank": 50,
+   "name": "MSU-Laskowski-GEMS 1d 20h ago \u2e31 13 submissions",
+   "display": "MSU-Laskowski-GEMS 1d 20h ago \u2e31 13 submissions",
+   "score": 0.2448
+  }
+ ],
+ "watched": {
+  "DARD": {
+   "why": "leader at last manual check (0.3168, 2026-09-28)",
+   "rank": 9,
+   "score": 0.3195,
+   "submissions": null
+  },
+  "alexoktaba": {
+   "why": "#2 at last manual check",
+   "rank": 4,
+   "score": 0.3361,
+   "submissions": null
+  },
+  "HardcoreTechGod": {
+   "why": "#3 at last manual check",
+   "rank": 20,
+   "score": 0.2854,
+   "submissions": null
+  },
+  "mzoorob": {
+   "why": "#4 at last manual check",
+   "rank": 10,
+   "score": 0.3129,
+   "submissions": null
+  },
+  "joeyfezster": {
+   "why": "#5 at last manual check (Phase-1 top-5 cutoff)",
+   "rank": 5,
+   "score": 0.3333,
+   "submissions": null
+  },
+  "GrigorSargsyan": {
+   "why": "#6 at last manual check",
+   "rank": 18,
+   "score": 0.2892,
+   "submissions": null
+  },
+  "doegemsDrivendata": {
+   "why": "name suggests organizer reference U-Net (0.1847); NOT verified",
+   "rank": null,
+   "score": null,
+   "submissions": null
+  },
+  "extradr19": {
+   "why": "0.1563 = group ens12 artifact score? ownership NOT verified",
+   "rank": 23,
+   "score": 0.2778,
+   "submissions": null
+  },
+  "SDCF9": {
+   "why": "0.1563, same value as extradr19; ownership NOT verified",
+   "rank": 46,
+   "score": 0.26,
+   "submissions": null
+  },
+  "smashi34": {
+   "why": "0.1563, same value as extradr19; ownership NOT verified",
+   "rank": 35,
+   "score": 0.271,
+   "submissions": null
+  },
+  "wbg1": {
+   "why": "0.1461 = 7GEMSDOE README claim; ownership NOT verified",
+   "rank": 29,
+   "score": 0.275,
+   "submissions": null
+  },
+  "smrtdoog5": {
+   "why": "0.1193 = GEMSDOE3 README claim; ownership NOT verified",
+   "rank": 36,
+   "score": 0.2708,
+   "submissions": null
+  }
+ },
+ "caveat": "Public leaderboard only. Phase-1 prizes are decided on this board; Phase-2 uses an expanded expert-reviewed truth set. Account ownership in `watched` is NOT verified.",
+ "fragment_attempts": [
+  {
+   "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard_partial/?page=1",
+   "bytes": 117083,
+   "rows": 50,
+   "sample_row_html": "<tbody>\n      \n      \n        \n          \n\n<tr id=\"leaderRow_325641\"\n    data-rank=\"1\"\n    class=\"text-nowrap  \">\n  <td class=\"text-start text-base font-heading align-middle\"\n      style=\"width: 70px\">\n    <div class=\"lh-1\"\n         id=\"rank-1\">\n      \n        \n        <span class=\"fw-bold\">#1</span>\n        <i class=\"fa-solid fa-star ps-1 text-primary\"\n           data-winner=\"1\"\n           title=\"A winning rank when the competition is over\"\n           role=\"img\"></i>\n      \n      \n    </div>\n  </td>\n  \n  <td class=\"ps-0 pe-0 align-middle\" style=\"width: 150px; max-width: 150px\">\n    <div class=\"d-none d-md-flex justify-content-end flex-wrap\"\n         style=\"width: 150px\">\n      \n        \n\n<div class=\"d-flex gap-2 align-items-center avatar\">\n  <a href=\"/users/xiaofanhu/\"\n     title=\"View xiaofanhu's profile\"\n     class=\"d-flex\"\n     style=\"width: 32px;\n            height: 32px\">\n    \n    \n    <div class=\"avatar-wrapper\"><img class=\"\" src=\"https://secure.gravatar.com/avatar/2e4740d25937497544ab16457dc696bc.jpg?s=64&amp;d=404&amp;r=g\" width=\"64\" height=\"64\" alt=\"\" loading=\"lazy\" onload=\"this.style.opacity = 1\" onerror=\"this.style.opacity = 0; this.onerror = null; this.src = 'https://drivendata-prod-public.s3.amazonaws.com/avatar/2e4740d25937497544ab16457dc696bc.svg'\"/></div>\n  </a>\n  \n</div>\n\n      \n    </div>\n  </td>\n  <td class=\"text-nowrap align-middle \">\n    <div class=\"d-flex flex-column gap-1\">\n      <div class=\"d-flex align-items-center\">\n        <div class=\"d-flex text-s"
+  }
+ ]
+}

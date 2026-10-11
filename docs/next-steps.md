@@ -1,63 +1,70 @@
 # Remaining work and limitations
 
-## What is finished
+> Updated 2026-10-11 by session `arena/2b64062a-62gemsdoe`. The ranking below replaces the earlier
+> one; the earlier text is preserved in git history. Everything here is either MEASURED in this
+> checkout or explicitly labelled as a lead.
 
-* The **assigned lane** is implemented end-to-end: DEM → stands → robust isobase → datum-step loci
-  → traces → a validated, unique GeoTIFF with two machine-readable receipts.
-* A **download page** with an explicit verdict, and this documentation set.
-* The **shared tools were fixed and reported, not forked** (`irregularities.md` §2, §3): the
-  holdout evaluator (five defects) and the registry uniqueness tripwire (density-blind).
-* A **Poisson null** generator (`scripts/make_control.py`), without which no holdout number in this
-  repository is interpretable.
+## What this session finished
+
+* **The shared tools are fixed, once, in the template** — not forked. 6 of 9 root modules did not
+  import on a clean checkout (`IR-62-11`); `lane62` errored on 14 tests for a file that was present
+  (`IR-62-12`). Root suite **18 passed**, `lane62` suite **46 passed**, plus **9 new tests** that
+  execute the shipped rasters and the leaderboard arithmetic.
+* **A score-anchored registry now exists** — `research/registry_index.json` (87 distinct group
+  rasters with owner-reported scores, harvested from 73 public repositories, 1,459 `.tif` blobs,
+  166 registry/ledger JSONs) and `research/registry_measurements.json` (18 structural properties
+  measured from each one's bytes). This is the dataset the group has been reasoning about anecdotally.
+* **The leaderboard is now a committed time series** — 37 timestamped snapshots of the official
+  public page, `research/leaderboard_series.json`.
+* **Two hypotheses screened and reported, one refuted** — `docs/hypotheses-2026-10-11.md`.
+* **A unique, legal, validated GeoTIFF is downloadable**, with an unambiguous negative verdict.
 
 ## Ranked next work
 
-### 1. Density calibration against the marginal-credit bar — highest expected value, hours of work
-β = 0.8 makes DTI recall-dominated and the catalogue is masked, so emission **density** is worth
-more than any single detector. `metric.marginal_bar` already computes the break-even condition.
-Next concrete step: sweep the density/threshold of the existing fields, tabulate the marginal
-credit curve, and pick the density that maximises expected DTI under a stated recall model. This
-applies to the group's h33 lineage as much as to this lane, and it needs no new data.
+### 1. Submit the never-scored high-credit field — highest expected value, minutes of work
+`GEMSDOE32 → docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif` (302,357 bytes,
+45,000 dots) measures **0.29294** mean 300 m credit per dot on the same instrument that scores the
+submitted champion family at **0.09892** — 3.0×. It is absent from the 87-artifact score registry,
+i.e. never submitted. **This is a selector decision, not a lane decision**, and the number must be
+discounted hard (the closed form turns it into an implausible 0.71). Even at a 4× discount it clears
+the top-5 cut-off.
 
-### 2. Re-verify the DEM coverage map after the sixth tile
-Run 38169727207 raised valid fraction 0.590 → 0.8088 but the per-block map was not re-checked.
-Cheap, and it bounds what any DEM lane in this basin can claim: **Pyramid Lake, the Truckee
-corridor and the lower Carson were NaN in the five-tile mosaic.**
+### 2. H62-K — along-strike continuation into catalogue gaps
+The only hypothesis that targets the population the organizers actually describe ("newly mapped
+geometry of existing systems"). Nothing in this repository uses the catalogue's *geometry* as a
+prior; every lane uses it only as a mask. Spec and risk in `docs/hypotheses-2026-10-11.md`.
 
-### 3. Fix the trace stopping rule
-Median trace length is 1.3 km; real fault traces are longer. The stopping rule (`min_evidence
-0.15`, whole-segment sampling) is the prime suspect, not the geology. This is the single change
-most likely to raise this lane's coverage — which, per (1), is what the metric rewards.
+### 3. Get one ORGANIZER-CONFIRMED number into `evidence/`
+Still zero. The submission page is the only channel that exists. Until one receipt is committed,
+every comparison in this repository is a proxy argument.
 
-### 4. Run the hypotheses in `hypotheses.md`
-H-A (LiDAR scarp polarity) → H-B (lateral shoreline deflection, strike-slip) → H-C (facet-base
-lines) → H-D (basement steps in catalogue-empty corridors). Each must pass the blocked holdout
-**as a screen** and, more importantly, must be reported against its own Poisson null.
+### 4. Replace the fitted isobase with a published rebound model
+Blocks H62-J and repairs `IR-62-03`. Taking a second derivative of a degenerate fit is how phantom
+signals are made.
 
-### 5. Get one ORGANIZER-CONFIRMED number into `evidence/`
-The repository contains **zero** verified organizer scores. The first submission-page receipt that
-is exported and committed converts every future local comparison from a proxy argument into an
-anchored one.
+### 5. Raise LiDAR coverage or drop the layer
+`lidar_scarp_features_u8.tif` is non-zero over **31.72 %** of the grid. That — not the geology — is
+what caps every LiDAR-driven field in this group, including the 0.2778 family. Either extend the
+composite (USGS 3DEP 1 m, public domain) or stop treating it as basin-wide.
 
 ## Limitations — stated as limitations, not as future work
 
-1. **No local instrument can certify novelty.** The only local truth is the catalogue, and the
-   competition truth is precisely what the catalogue lacks. A random field outscores the best
-   scored artifact on both available proxies (`hypotheses.md`, validation trap). Everything this
-   repository can say about a file's *competitiveness* is therefore an argument, not a measurement.
-2. **Coverage of the delivered file is one sub-region.** 1,641 of 1,660 dots lie in a 171 × 110 km
-   area. This lane buys defensibility in the Lahontan basin; it does not buy area.
-3. **The lane's loci are candidates, not faults.** The named confuser is the level-feature family
-   (bluffs, berms, risers, delta topsets), and the flat-pixel histogram contains 15 stands between
-   1175 and 1437 m. The cross-cut gate removes the contour-parallel family; it does not prove the
-   remainder are tectonic.
-4. **25 m DEM resolution bounds the detector.** Shoreline steps of 2 m are at the edge of what the
-   gridded product supports; the 1 m lidar composite in the training stack is the remedy and is not
-   available in this checkout.
-5. **The weekly slot decision is not made here.** Per the brief, choosing what to promote to a real
-   slot is a separate selector step within the weekly cap. This repository only states what the
-   evidence supports: a low-risk Phase-1 novelty probe, explicitly not the lead horse.
-6. **Owner-reported scores are unverifiable here** (`irregularities.md` §5) and are used only to
-   rank the group's own artifacts against each other.
-7. **Sandbox reachability is a hard constraint.** USGS hosts are unreachable (HTTP 000); DEM
-   fetching, and any future external data, must round-trip through a GitHub Actions runner and git.
+1. **No local instrument can certify novelty or competitiveness.** This session's own screening
+   refuted a hypothesis that looked obvious (lake flats, 0.03× control) and confirmed one that is
+   then unusable (LiDAR scarps, 2.2× control, duplicate-drift). Both outcomes came from a proxy.
+2. **The datum lane is dominated, and now for a measured reason.** The Lahontan datum band scores
+   **0.61× the isolated-random control** on the off-catalogue instrument. Either the band is not
+   fault-rich, or a 1:750 k compilation cannot see 2 m datum offsets. The two cannot be separated
+   without the organizer's truth.
+3. **Coverage of the delivered file is one sub-region of one physical process.** 10,000 dots on
+   shoreline benches. The metric needs ~40,000 isolated dots to matter at all.
+4. **The 25 m DEM mosaic is unusable basin-wide** (`IR-62-15`): 55.74 % footprint coverage and an
+   int16-decimetre ceiling at 3276.7 m that clips the eastern Sierra. The 100 m mirror was used
+   instead (99.97 % coverage, sha256 matches the pin).
+5. **The weekly slot decision is not made here.** Per the brief, promotion is a separate selector
+   step within the weekly cap.
+6. **Sandbox reachability is a hard constraint.** `drivendata.org` returns HTTP 000; the USGS hosts
+   are unreachable. `github.com`, `api.github.com` and `codeload.github.com` work, which is how the
+   registry and the external layers were obtained. Every competition-page citation in this
+   repository is therefore either an owner-supplied link or a mirror with a read date.
+7. **No file in this repository has ever been scored.** `organizer_score` is `null` everywhere.

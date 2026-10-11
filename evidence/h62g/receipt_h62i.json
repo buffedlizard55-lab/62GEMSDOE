@@ -1,0 +1,37 @@
+{
+ "file": "gems62-h62i-scarpcrosscut-hardcore-zeros.tif",
+ "bytes": 282543,
+ "sha256": "aaadb736f1b6037919c66983049a8deafab66e986ddba08c2c76083f233568cb",
+ "driver": "GTiff",
+ "count": 1,
+ "dtype": "float32",
+ "crs": "EPSG:32611",
+ "transform": [
+  100.0,
+  0.0,
+  243350.0,
+  0.0,
+  -100.0,
+  4508550.0
+ ],
+ "shape": [
+  3730,
+  3292
+ ],
+ "res": [
+  100.0,
+  100.0
+ ],
+ "nodata": null,
+ "width_height_match": true,
+ "crs_match": true,
+ "transform_match": true,
+ "all_finite": true,
+ "nan_count": 0,
+ "min": 0.0,
+ "max": 1.0,
+ "n_outside_0_1": 0,
+ "n_positive": 60000,
+ "total_mass": 60000.0,
+ "legal": true
+}

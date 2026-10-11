@@ -37,6 +37,12 @@ from gems62 import datum, grid, metric  # noqa: E402
 
 
 
+# IR-62-11 FIX: the two diagnostic-figure writers now live in ``gems62.figures`` so that
+# ``tests/test_lane_instruments.py`` and ``scripts/make_figures.py`` resolve against the same
+# implementation this script does.  Re-exported here to keep the historic call sites working.
+from gems62.figures import save_map_png, save_profile_png  # noqa: E402,F401
+
+
 def read_z(src, window, res=None):
     """Decode a DEM window to metres with NaN for nodata.
 

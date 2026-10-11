@@ -1,0 +1,30 @@
+{
+ "planning_truth_mass_cells": 12000,
+ "label": "MODEL, not a score: algebra on the published metric with an instrument-B credit that is NOT the organiser's truth",
+ "curve": [
+  {
+   "M": 5000,
+   "mean_credit_instrumentB": 0.057189,
+   "marginal_credit_of_last_1000": 0.034044,
+   "model_dti_at_N12000": 0.026976,
+   "marginal_bar_0p2_dti": 0.005395,
+   "marginal_rule_satisfied": true
+  },
+  {
+   "M": 10000,
+   "mean_credit_instrumentB": 0.04202,
+   "marginal_credit_of_last_1000": 0.024504,
+   "model_dti_at_N12000": 0.036224,
+   "marginal_bar_0p2_dti": 0.007245,
+   "marginal_rule_satisfied": true
+  }
+ ],
+ "best": {
+  "M": 10000,
+  "mean_credit_instrumentB": 0.04202,
+  "marginal_credit_of_last_1000": 0.024504,
+  "model_dti_at_N12000": 0.036224,
+  "marginal_bar_0p2_dti": 0.007245,
+  "marginal_rule_satisfied": true
+ }
+}

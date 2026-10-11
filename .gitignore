@@ -28,6 +28,10 @@ lane62/data/**/*.npy
 lane62/evidence/plain_mask.npy
 lane62/docs/downloads/*-nanoutside.tif
 
+# External rasters fetched from sibling public repositories (not committed; see
+# scripts/fetch_external.py).  The 100 m DEM is hash-pinned in registry/data_pins.json.
+data/external/*.tif
+data/external/*.npy
 # ---- lane62-h62a/ (third independent re-derivation, arena/fe0bc9db-62gemsdoe) --
 # The three official rasters are ~420 MB and are sha256-pinned, never committed:
 #   lane62-h62a/data/**  -> bash lane62-h62a/scripts/download_competition_data.sh

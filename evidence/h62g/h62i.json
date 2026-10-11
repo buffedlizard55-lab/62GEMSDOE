@@ -1,0 +1,128 @@
+{
+ "control": {
+  "M": 44090,
+  "credit": 0.04331478779519293
+ },
+ "curve": [
+  {
+   "M": 10000,
+   "credit": 0.11452,
+   "credit_vs_control": 2.644,
+   "model_dti_N12000": 0.098724,
+   "marginal_bar": 0.019745
+  },
+  {
+   "M": 20000,
+   "credit": 0.10551,
+   "credit_vs_control": 2.436,
+   "model_dti_N12000": 0.155162,
+   "marginal_bar": 0.031032
+  },
+  {
+   "M": 30000,
+   "credit": 0.098559,
+   "credit_vs_control": 2.275,
+   "model_dti_N12000": 0.189537,
+   "marginal_bar": 0.037907
+  },
+  {
+   "M": 40000,
+   "credit": 0.09424,
+   "credit_vs_control": 2.176,
+   "model_dti_N12000": 0.214181,
+   "marginal_bar": 0.042836
+  },
+  {
+   "M": 44090,
+   "credit": 0.092685,
+   "credit_vs_control": 2.14,
+   "model_dti_N12000": 0.221875,
+   "marginal_bar": 0.044375
+  },
+  {
+   "M": 50000,
+   "credit": 0.090081,
+   "credit_vs_control": 2.08,
+   "model_dti_N12000": 0.229798,
+   "marginal_bar": 0.04596
+  },
+  {
+   "M": 60000,
+   "credit": 0.086663,
+   "credit_vs_control": 2.001,
+   "model_dti_N12000": 0.24073,
+   "marginal_bar": 0.048146
+  }
+ ],
+ "best": {
+  "M": 60000,
+  "credit": 0.086663,
+  "credit_vs_control": 2.001,
+  "model_dti_N12000": 0.24073,
+  "marginal_bar": 0.048146
+ },
+ "holdout_instrumentA": {
+  "evaluator": "src/gems62/holdout.py::evaluate (root template, block-wise hide-and-recover, buffered 3 px)",
+  "pooled_dti": 0.00035142051858682406,
+  "n_folds": 4,
+  "withheld_segments": 3199,
+  "withheld_cells": 60988,
+  "ci95": [
+   0.0004655507046650052,
+   0.06368855819662386
+  ],
+  "caveat": "Catalogue-truth proxy. The competition target is faults ABSENT from the catalogue; they are masked out of scoring, so this number cannot measure the lane's performance on the real target. It is a leak-free lower bound on recovering a mapped-fault population."
+ },
+ "holdout_control": {
+  "evaluator": "src/gems62/holdout.py::evaluate (root template, block-wise hide-and-recover, buffered 3 px)",
+  "pooled_dti": 0.00016996858405884377,
+  "n_folds": 4,
+  "withheld_segments": 3199,
+  "withheld_cells": 60988,
+  "ci95": [
+   0.0002081331045540815,
+   0.0327459229215711
+  ],
+  "caveat": "Catalogue-truth proxy. The competition target is faults ABSENT from the catalogue; they are masked out of scoring, so this number cannot measure the lane's performance on the real target. It is a leak-free lower bound on recovering a mapped-fault population."
+ },
+ "receipt": {
+  "file": "gems62-h62i-scarpcrosscut-hardcore-zeros.tif",
+  "bytes": 282543,
+  "sha256": "aaadb736f1b6037919c66983049a8deafab66e986ddba08c2c76083f233568cb",
+  "driver": "GTiff",
+  "count": 1,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "shape": [
+   3730,
+   3292
+  ],
+  "res": [
+   100.0,
+   100.0
+  ],
+  "nodata": null,
+  "width_height_match": true,
+  "crs_match": true,
+  "transform_match": true,
+  "all_finite": true,
+  "nan_count": 0,
+  "min": 0.0,
+  "max": 1.0,
+  "n_outside_0_1": 0,
+  "n_positive": 60000,
+  "total_mass": 60000.0,
+  "legal": true
+ },
+ "lidar_valid_fraction": 0.31716013147479144,
+ "dem_valid_fraction_of_footprint": 0.9996654005816882,
+ "label_instrumentB": "SGMC 1:750k off-catalogue (NOT the organiser truth)"
+}
