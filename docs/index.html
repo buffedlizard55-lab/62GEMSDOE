@@ -1,0 +1,133 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>62GEMSDOE — datum-offset lane</title><link rel="stylesheet" href="assets/site.css"></head><body><header>
+  <span class="brand">62GEMSDOE · datum-offset lane</span>
+  <nav>
+    <a href="index.html" class="active">Overview</a>
+    <a href="executive-summary.html" class="">How to submit</a>
+    <a href="research/sources.html">Sources</a>
+    <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">GitHub</a>
+  </nav>
+</header>
+<main>
+<h1>Lake Lahontan shorelines as a strain gauge</h1>
+<p class="sub">Datum-offset lane · DOE GEMS Prize (DrivenData #306) ·
+<span class="pill">artifact generated 2026-10-11</span><span class="pill">lane: DISTINCT</span>
+<span class="pill">format: PASS</span><span class="pill">verdict: negative</span></p>
+
+<div class="dl">
+  <h2>⬇ Submission file</h2>
+  <p><b>OK TO DOWNLOAD</b> for inspection. &nbsp;
+     <span class="verdict v-no">NOT CLEARED TO SUBMIT — do not spend a weekly slot</span></p>
+  <a class="btn" href="downloads/gems62-lahontan-isobase-225dots-zeros.tif">Download gems62-lahontan-isobase-225dots-zeros.tif</a>
+  <a class="btn sec" href="downloads/gems62-lahontan-isobase-225dots-nan.tif">NaN-outside twin</a>
+  <table>
+    <tr><th>sha256</th><td class="mono">e03201fbb13cc21b25c2d343d9879fdcaea7a6cb4600647207829e30f47b2cf0</td></tr>
+    <tr><th>bytes / dots</th><td class="n">56,392 &nbsp;·&nbsp; 225 dots</td></tr>
+    <tr><th>grid</th><td class="n">float32 · EPSG:32611 · 3730 × 3292 · 100 m · transform (100, 0, 243350, 0, −100, 4508550)</td></tr>
+    <tr><th>local format checks</th><td><span class="verdict v-ok">PASS</span>
+        — single band, float32, CRS/shape/transform exact, no non-finite value inside the footprint, every finite value in [0, 1], zeros outside the footprint</td></tr>
+    <tr><th>lane check vs 21 registry rasters</th><td><span class="verdict v-ok">DISTINCT LANE</span>
+        — max |ρ| 0.000756 (limit 0.90); worst 3-px overlap 0.4444 (limit 0.70) vs <code>gems8_hedge_v2_01563</code></td></tr>
+    <tr><th>hard upper bound</th><td class="n"><b>0.0233</b> — every one of the 225 dots landing exactly on a truth pixel, |G| = 12,000</td></tr>
+  </table>
+  <p><b>Why you should not submit it.</b> The published metric charges β = 0.8 per <i>missing</i> truth
+  cell and α = 0.2 per <i>emitted</i> cell. A file with 225 dots therefore cannot
+  exceed 0.0233 <b>even with perfect placement</b>, because FN<sub>w</sub> ≈ |G| dwarfs
+  TP<sub>w</sub> ≤ 225. The protocol gate
+  <i>“do not spend a submission slot on an idea that hasn't beaten the current holdout best”</i> is not met.
+  Use this artifact as Phase-2 defensibility evidence, not as an initial-round scorer.
+  Full reasoning below and in <a href="executive-summary.html">How to submit</a>.</p>
+</div>
+
+<h2>The question</h2>
+<p><b>Why did the 0.2778 file score highest, and can we beat it?</b> The 0.2778 artifact is the
+family's 0.2708 emission (40,199 dots) with every dot within 200 m of the mapped catalogue deleted
+(2,545 dots removed, 37,654 left). For unit-valued, non-overlapping dots the published index reduces to</p>
+<pre><code>DTI = c·N / (α·N + β·|G|)          c = mean kernel credit per dot, N = emitted mass, |G| = truth mass</code></pre>
+<p>Deleting a dot that earns no credit lowers N while leaving the pooled credit T unchanged, so DTI
+rises <i>mechanically</i>. That is a <b>precision edit, not a discovery</b>. The same algebra inverts
+the two owner-recorded rows of the family to give c ≈ 0.122 and |G| ≈ 12,000 cells — and it reproduces
+the observed 0.2778 to within 0.02 %:</p>
+<table>
+  <tr><th>check</th><th class="n">model</th><th class="n">owner-reported</th><th class="n">error</th></tr>
+  <tr><td>c = 0.122, N = 40,199, |G| = 12,000</td><td class="n">0.27802</td><td class="n">0.2778</td><td class="n">0.02 %</td></tr>
+</table>
+<p><b>So the answer to “can we beat it?” is a set of numbers, not a hope.</b>
+At a target of 0.3195:</p>
+<table>
+  <tr><th>route</th><th class="n">requirement</th></tr>
+  <tr><td>more mass, same placement quality</td><td class="n">46,402 dots at c = 0.130</td></tr>
+  <tr><td>better placement, moderate mass</td><td class="n">22,536 dots at c = 0.200</td></tr>
+  <tr><td>40,000 dots</td><td class="n">need c = 0.1406</td></tr>
+  <tr><td>25,000 dots</td><td class="n">need c = 0.1866</td></tr>
+  <tr><td>marginal rule for adding one dot</td><td class="n">profitable iff c &gt; 0.0639 (within 281 m of truth)</td></tr>
+</table>
+<p class="sub">All rows labelled <b>MODEL</b> — algebra on the published metric with one inherited input (|G| ⊂
+[10,000, 14,100]). No projection is written as a score.</p>
+
+<h2>What the lane did</h2>
+<ol>
+  <li><b>Datum mapping.</b> 90,664 wave-planed cells inside the published deformed-elevation
+      window (1313.5–1345.8 m; literature range 1318.4–1340.8 m) → <b>176 benches</b>.</li>
+  <li><b>Level separation.</b> The residual histogram is multi-modal
+      (modes at -10.2, -7.2, -4.2, -1.2, 1.8, 4.8 m) — the stacked-shoreline
+      mimic. The dominant strand (176 benches) is kept so a
+      Sehoo bench is never contrasted with an Eetza bench.</li>
+  <li><b>Isobases.</b> Robust 3rd-order global fit (σ = 12.16 m) for the domal
+      rebound + northward tilt, then a locally robust plane fit on the single strand:
+      <b>σ = 2.99 m</b>, i.e. below the published 3 m elevation-method resolution.</li>
+  <li><b>Flags.</b> 6 steps (|Δresidual| ≥ 3 m between benches ≤ 5 km apart) and
+      9 lateral deflections (≥ 35° azimuth change). A sensitivity screen over the
+      slope gate (2.5/3.0/4.0°) and minimum patch size (4/8 cells) returns <b>3–6 steps in every configuration</b> —
+      a handful, as the brief anticipated.</li>
+  <li><b>Traces.</b> Fault azimuth from the datum geometry, not the local DEM grain: a vertical step means the fault
+      <i>crosses</i> the shoreline (az + 90°), a lateral deflection means it <i>runs along</i> it (the Pyramid Lake
+      fault-zone case). 12 traces survive evidence-gated extension (coherence ≥ 0.15,
+      relief ≥ 4 m), mean length 6800 m.</li>
+  <li><b>Emission.</b> Unit dots at 300 m kernel-matched spacing, ≥ 200 m from the mapped catalogue.
+      <b>225 dots</b>.</li>
+</ol>
+
+<h2>First deliverable — shoreline elevation-versus-distance profiles</h2>
+<p>Elevation of every bench along the shoreline track against the fitted isobase. Green = residual below
+the published 3 m resolution; amber = a flagged step.</p>
+<img class="fig" src="assets/profile.png" alt="Shoreline elevation versus along-shoreline distance with the flagged steps">
+<h3>Spatial view</h3>
+<img class="fig" src="assets/map.png" alt="Highstand datum band, catalogue, and emitted dots">
+<p class="sub">Grey = DEM shaded relief. Blue = the mapped highstand datum cells. Red = the mapped catalogue
+(USGS/INGENIOUS). Yellow = the 225 emitted dots. Note that every yellow dot sits on the datum
+margin and none sits on the catalogue.</p>
+
+<h2>Verification, step by step</h2>
+<table>
+  <tr><th>check</th><th>result</th></tr>
+  <tr><td>Metric re-implemented from the published formula</td><td>Official worked example 3.00/1.89/2.00 → 0.6026517 (page rounds to 0.60); 1×5 counterexample → 25/29 = 0.8620689… — <b>10/10 tests pass</b></td></tr>
+  <tr><td>Grid constants measured, never assumed</td><td>counts −1/0/1 = 7,111,787 / 5,106,385 / 60,988; footprint 5,167,373 cells; all four rasters share one transform</td></tr>
+  <tr><td>Input integrity</td><td>every input SHA-256 pinned in <code>registry/data_pins.json</code>; the 19-band stack re-assembled from five parts and verified against its published pin</td></tr>
+  <tr><td>Registry cross-check</td><td>21 prior artifacts fetched; every pinned hash matched on fetch, including the 0.2778 file (<code>c55bafc4…ab6fa9</code>)</td></tr>
+  <tr><td>HOLDOUT-DTI</td><td>0.000158 · 95 % CI [0.000102, 0.000490] (3,199 withheld whole segments, 60,988 withheld positive cells, cluster bootstrap n = 60) — <b>evaluator gems62.holdout.v1, label HOLDOUT-DTI</b></td></tr>
+  <tr><td>Protocol defect reproduced</td><td>3 of 21 registry rasters are <i>vacuous</i> — their own 3-px dilation blankets ≥ 70 % of the footprint, so <i>any</i> submission trips the 70 % dot-overlap rule against them. Independently reproduces the sibling repositories' IR-54-016.</td></tr>
+</table>
+<p><b>Why the holdout number is unusually trustworthy here, and also does not answer the real question.</b>
+The lane reads the catalogue for <i>nothing</i> except an exclusion gate that can only remove mass, so withheld
+positives provably cannot help it — this is a leak-free hide-and-recover, unlike every catalogue-reading method
+in the family. But the competition's target is exactly the fault population the catalogue <i>lacks</i> and the
+organizers mask out of scoring, so the number is a lower bound on recovering a <i>mapped</i> population and says
+nothing about the hidden target. Both facts are stated wherever the number appears.</p>
+
+<h2>Sources &amp; irregularities</h2>
+<p>Every claim carries an evidence class (OFFICIAL / PEER-REVIEWED / MEASURED / INHERITED / MODEL) and a link in
+<a href="research/sources.html">Sources</a>, including five flagged irregularities (IR-62-001 … IR-62-005) for
+manual review. Headline citations:</p>
+<ul>
+  <li>Adams, Wesnousky &amp; Bills (1999), JGR — “<i>Active faults locally offset the high shoreline, but cannot
+      explain the regional upwarping attributed to isostatic rebound since 13 ka</i>”; deflection ~22 m;
+      range 1318.4–1340.8 m; prerebound 1328 m; 3 m resolution.</li>
+  <li>Adams &amp; Wesnousky (1998), GSA Bulletin 110, 1318–1332 — isochronous highstand, 13,070 ± 60 yr B.P.</li>
+  <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">Problem description, page 967</a> — metric, submission format.</li>
+</ul>
+</main>
+<footer>No organizer score exists for this or any artifact here, and none is claimed. Local format checks are not
+organizer acceptance. DrivenData's Terms of Use prohibit automated monitoring, so no leaderboard scraper or feed is
+included. <a href="executive-summary.html">How to submit →</a></footer></body></html>

@@ -1,0 +1,87 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sources — 62GEMSDOE</title><link rel="stylesheet" href="../assets/site.css"></head><body>
+<header><span class="brand">62GEMSDOE · datum-offset lane</span><nav>
+<a href="../index.html">Overview</a><a href="../executive-summary.html">How to submit</a>
+<a href="sources.html" class="active">Sources</a>
+<a href="https://github.com/buffedlizard55-lab/62GEMSDOE">GitHub</a></nav></header>
+<main><h1>Sources — verified, with the evidence class of every claim</h1>
+<p>Evidence classes used in this repository, and never mixed:</p>
+<table><thead><tr><th>class</th><th>meaning</th></tr></thead><tbody>
+<tr><td><strong>OFFICIAL</strong></td><td>read from the organizer's own pages, or fetched and quoted during the session, with the link</td></tr>
+<tr><td><strong>PEER-REVIEWED</strong></td><td>a named journal paper whose abstract/figures were fetched and quoted during the session</td></tr>
+<tr><td><strong>MEASURED</strong></td><td>computed in this checkout from local bytes; reproducible with the listed script</td></tr>
+<tr><td><strong>INHERITED</strong></td><td>a number or artifact carried over from a sibling <code>buffedlizard55-lab</code> repository, quoted with its own label</td></tr>
+<tr><td><strong>MODEL</strong></td><td>algebra applied to the above; explicitly not a score</td></tr>
+</tbody></table>
+<p>---</p>
+<h2>1. The competition and its metric — OFFICIAL</h2>
+<table><thead><tr><th>Fact</th><th>Source</th><th>Status</th></tr></thead><tbody>
+<tr><td>Task: predict structures indicative of geothermal resources; test set is "newly identified faults in the GeoDAWN region that are not included in the existing USGS fault database"</td><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">Problem description, page 967</a></td><td>Owner-supplied link; <strong>not re-fetched in this session</strong> (this sandbox cannot reach <code>drivendata.org</code>). The metric algebra below is independently re-derived and tested.</td></tr>
+<tr><td>Metric: <code>k(d) = max(1 - d/300 m, 0)</code>; <code>TP_w = sum_g max_x p(x)k(d(x,g))</code>; <code>FP_w = sum_x p(x)[1 - max_g k(d(x,g))]</code>; <code>FN_w = sum_g [1 - max_x p(x)k(d(x,g))]</code>; <code>DTI(alpha,beta) = TP_w/(TP_w + alpha*FP_w + beta*FN_w)</code>, alpha = 0.2, beta = 0.8</td><td>Same page, "# Mathematical representation"</td><td>Transcribed from the sibling repositories' frozen copies and re-implemented with regression tests (<code>src/gems62/metric.py</code>, <code>tests/test_metric.py</code>). Two identities are enforced: the page's worked example (3.00/1.89/2.00 → 0.6026517, page rounds to 0.60) and the 1x5 counterexample (25/29).</td></tr>
+<tr><td>Submission format: EPSG 32611, 100 m, same bounds as the training data, "data outside the bounds is null or nan", single band, float32, values in [0, 1]</td><td>Same page, "# Submission format"</td><td>Implemented in <code>src/gems62/validate.py</code>.</td></tr>
+<tr><td>Known USGS/INGENIOUS fault pixels are <strong>masked / excluded from evaluation</strong></td><td>DrivenData community thread 11516, staff (<code>chrisk-dd</code>), 2026-09-16</td><td>INHERITED as a quote from the sibling repositories' <code>sources.json</code>; the sandbox cannot reach <code>community.drivendata.org</code>. <strong>Flagged for manual re-verification before any submission</strong> (irregularity IR-62-002).</td></tr>
+<tr><td><code>sample_submission.tif</code> is the rasterised catalogue (60,988 pixels equal to 1), not "total fault absence"</td><td>MEASURED here: <code>sha256 2176d08e…</code>, 1,599,597 B, <code>np.unique</code> → <code>{0, 1, nan}</code>, count of ones = 60,988 = <code>labels.tif</code> count of ones exactly</td><td>Independently reproduced in this checkout.</td></tr>
+<tr><td>The portal error "Predicted values must be in range [0, 1]"</td><td>Owner-reported on the submission form</td><td>Reproduced class identified as a float32 nodata sentinel or a NaN nodata tag; <code>validate.py</code> reports the three separate facts rather than conflating them.</td></tr>
+</tbody></table>
+<h2>2. The science of the lane — PEER-REVIEWED</h2>
+<p>Every quote below was returned by a literature search performed in this session</p>
+<p>(the abstract/figures text of the cited paper or of a citing paper that reproduces it).</p>
+<table><thead><tr><th>Claim</th><th>Quote</th><th>Source</th></tr></thead><tbody>
+<tr><td>The Lahontan highstand is an isochronous, near-horizontal datum</td><td>"the high shoreline of Lake Lahontan is an isochronous surface ... that probably formed in a period of years to decades immediately prior to 13 ka"</td><td>Adams &amp; Wesnousky (1998), GSA Bulletin 110, 1318–1332, as reproduced in <a href="https://www.researchgate.net/publication/240670908_Isostatic_rebound_active_faulting_and_potential_geomorphic_effects_in_the_Lake_Lahontan_basin_Nevada_and_California">Adams, Wesnousky &amp; Bills, JGR</a></td></tr>
+<tr><td>It is now vertically deflected by ~22 m</td><td>"the once horizontal (equipotential) shoreline, which traverses almost 4° of latitude and 3° of longitude, is now deflected vertically about 22 m"</td><td>Adams, Wesnousky &amp; Bills (1999), JGR — same link</td></tr>
+<tr><td>The deformed range is 1318.4 m to 1340.8 m</td><td>"High shoreline elevations range from 1318.4 m near the northern periphery of the basin to 1340.8 m near the central part of the basin. The difference of ~22 m is taken to represent the total vertical regional deformation"</td><td>Adams, Wesnousky &amp; Bills (1999) — same link</td></tr>
+<tr><td>Two regional terms: isostatic rebound + a small northward tilt</td><td>"Most of the deformation is attributed to isostatic rebound, but a small down-to-the-north regional tilting also appears to contribute to the overall deformation pattern"</td><td>Same</td></tr>
+<tr><td><strong>Faults offset the datum</strong></td><td>"<strong>Active faults locally offset the high shoreline</strong>, but cannot explain the regional upwarping attributed to isostatic rebound since 13 ka"</td><td>Same — this is the sentence the whole lane rests on</td></tr>
+<tr><td>Prerebound elevation assumed 1328 m</td><td>"In this study we assume that the elevation of 1328 m closely approximates the prerebound value of the high shoreline"</td><td>Same</td></tr>
+<tr><td>Elevation-method resolution ~3 m</td><td>"The resolution to which the signal can be measured is limited to about 3 m because of natural variability in the height that constructional beach features form above a still water plane"</td><td>Same — this sets <code>ELEVATION_RESOLUTION_M</code></td></tr>
+<tr><td>Highstand age 13,070 ± 60 yr B.P.</td><td>"Lake Lahontan began to recede from its highstand by 13 070 ±60 yr B.P. (Adams and Wesnousky, 1998) and had reached an elevation of 1230 m in the Winnemucca Dry Lake"</td><td>Same</td></tr>
+<tr><td>Unified only above the 1,308 m sill</td><td>"Only when lake level exceeds 1,308 meters, does Lake Lahontan become a single body of water, that acts in a unified manner to changes in the regional hydrologic balance"</td><td><a href="https://www.researchgate.net/publication/247987548_Late_Pleistocene_and_Early_Holocene_lake-level_fluctuations_in_the_Lahontan_Basin_Nevada_Implications_for_the_distribution_of_archaeological_sites">Late Pleistocene and Early Holocene lake-level fluctuations in the Lahontan Basin (USGS/publication)</a></td></tr>
+<tr><td>Older, higher strands coexist (the stacked-shoreline mimic)</td><td>"Beach deposits of the ~1370-m and ~1350-m(?) shorelines of Lake Lahontan and of the two intermediate shorelines of Lakes Columbus-Rennie, Hubbs, and Newark, retain the forms"</td><td><a href="https://www.researchgate.net/publication/223575168_Highest_Pluvial-Lake_Shorelines_and_Pleistocene_Climate_of_the_Western_Great_Basin">Highest Pluvial-Lake Shorelines and Pleistocene Climate of the Western Great Basin</a></td></tr>
+<tr><td>The highstand formed quickly</td><td>"the final rise to the highstand was very rapid and that the lake maintained its highest stand for a very brief period of time, perhaps only for years or decades"</td><td><a href="https://www.researchgate.net/publication/228488135_Late_Pleistocene_and_Late_Holocene_Lake_Highstands_in_the_Pyramid_Lake_Subbasin_of_Lake_Lahontan_Nevada_USA">Late Pleistocene and Late Holocene Lake Highstands in the Pyramid Lake Subbasin (Briggs et al.)</a></td></tr>
+</tbody></table>
+<h2>3. The three sites the prompt names as this lane's precedents — PEER-REVIEWED</h2>
+<p>The prompt names three published uses of Lahontan shorelines as a strain gauge.</p>
+<p>This session confirms the mechanism each one relies on and records the residual</p>
+<p>uncertainty honestly.</p>
+<table><thead><tr><th>Study</th><th>What the prompt says it did</th><th>Status in this session</th></tr></thead><tbody>
+<tr><td><strong>Briggs &amp; Wesnousky (JGR, 2004)</strong> — features displaced since the highstand constrain slip on the Pyramid Lake fault zone</td><td>Shoreline/geomorphic features used as displaced markers</td><td>Mechanism confirmed in kind by the source-search sentence "Active faults locally offset the high shoreline" (Adams, Wesnousky &amp; Bills 1999). <strong>The specific 2004 paper was not fetched in this session</strong> — the DOI/abstract was not independently read, so its numbers are not quoted anywhere in this repository. Flagged IR-62-003.</td></tr>
+<tr><td><strong>Dong et al. (Geosphere)</strong> — Lahontan shorelines displaced along a strike-slip fault outboard of the Wassuk Range front</td><td>Map-view (lateral) offset of shorelines</td><td>This is the precedent for the *lateral deflection* detector in <code>lahontan.flag_deflections</code>. <strong>Not fetched in this session</strong>; no number from it is quoted. Flagged IR-62-003.</td></tr>
+<tr><td><strong>Pierce &amp; Wesnousky (SCEC poster, 2016)</strong> — two previously unmapped NW-striking segments in Smith Valley's basin centre offsetting Holocene sediments</td><td>Unmapped faults found in basin centres</td><td>The strongest strategic point for this lane: it is evidence that the missing population sits in <strong>basin interiors</strong>, which is where pluvial shorelines are also preserved. <strong>Not fetched in this session</strong>. Flagged IR-62-003.</td></tr>
+</tbody></table>
+<h2>4. The DEM — OFFICIAL source, INHERITED mirror</h2>
+<table><thead><tr><th>Fact</th><th>Source</th><th>Status</th></tr></thead><tbody>
+<tr><td><code>data/geodawn_dem_a2_100m.tif</code> (49,531,304 B) is on the competition grid: 3730 x 3292, EPSG:32611, 100 m, transform <code>(100, 0, 243349.966, 0, -100, 4508550)</code></td><td>MEASURED here with <code>rasterio</code></td><td>Grid identical to <code>labels.tif</code> and <code>sample_submission.tif</code> to within 0.034 m in the x-origin (5.2 x 10^-7 of a pixel)</td></tr>
+<tr><td>Its provenance</td><td>INHERITED from <code>buffedlizard55-lab/60GEMSDOE</code>: the same repository's <code>docs/sources.md</code> names USGS 3DEP as the topographic source and its <code>data/external/dem10_chi_100m.manifest.json</code> pins the 1/3 arc-second 3DEP tiles it derives from, with per-tile URLs and SHA-256s (<code>https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n38w117/USGS_13_n38w117.tif</code> etc.)</td><td>The 100 m A2 grid is <strong>not</strong> accompanied by its own receipt in that repository. Flagged IR-62-001: treat as an owner-supplied, integrity-unpinned mirror, <strong>not organizer-authenticated</strong>.</td></tr>
+<tr><td>3DEP licence</td><td>USGS 3DEP is a US Government work (public domain)</td><td>Compatible with the competition's external-data rule (<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">page 967, "# External Datasets"</a>)</td></tr>
+</tbody></table>
+<h2>5. Prior work for the lane-drift check — INHERITED</h2>
+<p><code>registry/registry_sources.json</code> lists 24 prior artifacts from 15 sibling</p>
+<p>repositories, each with the owner-reported score and, where known, a SHA-256.</p>
+<p><code>scripts/fetch_registry.py</code> fetches them through the public GitHub API and writes</p>
+<p><code>registry/registry_manifest.json</code>; 21 fetched, 1 path no longer exists (404), 2</p>
+<p>skipped by construction (their path pattern could not be resolved without guessing).</p>
+<p>Every pinned hash matched on fetch, including</p>
+<p><code>c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9</code> for the</p>
+<p>0.2778-scoring file and <code>f81e26d7712d1a4a…</code> for the GEMSDOE32 "best-validated"</p>
+<p>artifact, which that repository's own README independently quotes.</p>
+<p><strong>None of those scores is an organizer receipt.</strong> They are owner-reported values</p>
+<p>from a public leaderboard snapshot, and this repository uses them only as</p>
+<p>orientation, never as evidence.</p>
+<h2>6. From the sibling repositories, quoted with their own labels — INHERITED</h2>
+<table><thead><tr><th>Fact</th><th>Source</th><th>Status</th></tr></thead><tbody>
+<tr><td>The best-scoring family is a thinning of a solid prior; deleting the &lt;=200 m catalogue flank raised the owner-reported score from 0.2600 to 0.2778</td><td><code>GEMSDOE51/knowledge/03_why_the_dotted_family_wins_2026-10-07.md</code>; <code>GEMSDOE54/registry/registry_manifest.json</code></td><td>INHERITED. The dot counts and the byte identity are MEASURED here from the fetched bytes: <code>dotted_b2_prune</code> 37,654 dots vs <code>dotted_d2_8</code> 40,199 dots.</td></tr>
+<tr><td>The 3-px-overlap lane rule is unsatisfiable against three near-blanketing registry rasters</td><td><code>GEMSDOE54</code> irregularity IR-54-016, <code>evidence/cgrc_submission_receipt.json</code> → <code>lane_infeasibility_proof</code> (r11 73.97 %, r13 99.87 %, r14 76.20 % of footprint within 3 px)</td><td><strong>MEASURED here, independently reproduced.</strong> This session's own registry screen finds the same three rasters vacuous (<code>max_frac3px_all = 1.0</code>), confirming the defect.</td></tr>
+<tr><td>Hidden truth mass G is ~10,000–14,100 cells</td><td><code>GEMSDOE54/docs/research/why-h33.md</code>, inversion of two owner-recorded rows</td><td>INHERITED and labelled MODEL wherever it is used.</td></tr>
+<tr><td>Local format checks are not organizer acceptance</td><td><code>GEMSDOE48/docs/research/metric-identity-erratum-20261007.md</code></td><td>Adopted as this repository's policy.</td></tr>
+</tbody></table>
+<h2>7. Irregularities recorded for manual review</h2>
+<table><thead><tr><th>ID</th><th>Irregularity</th></tr></thead><tbody>
+<tr><td>IR-62-001</td><td>The 100 m DEM has no per-file receipt in the repository it was mirrored from; only the upstream 1/3 arc-second 3DEP tiles are hash-pinned. A ray of evidence is missing between "USGS 3DEP tile" and "the 100 m grid used here".</td></tr>
+<tr><td>IR-62-002</td><td>The masking clarification (community thread 11516) could not be re-fetched; it is a second-hand quote. Manual verification required before any submission that relies on the masking rule (this lane's catalogue-exclusion gate relies on it).</td></tr>
+<tr><td>IR-62-003</td><td>The three papers the prompt names as this lane's precedents (Briggs &amp; Wesnousky 2004; Dong et al.; Pierce &amp; Wesnousky 2016) were <strong>not</strong> fetched in this session. The lane's mechanism is instead supported by the independently retrieved Adams/Wesnousky/Bills work, which states the same physical fact in one sentence. No number from the three unfetched papers appears anywhere in this repository.</td></tr>
+<tr><td>IR-62-004</td><td><code>registry_sources.json</code> entry <code>gems48_h59_cover_ds_belief_02296</code> returns HTTP 404: the path was reconstructed from a site listing rather than from a repository tree, and could not be resolved without guessing. It is excluded from the lane check rather than approximated.</td></tr>
+<tr><td>IR-62-005</td><td>The prompt's own leaderboard values are mutually inconsistent across sessions (0.2778 / 0.3195 / 0.3774 are quoted as "highest" in different places). This repository treats none of them as current fact; the score model is run at all three targets so the conclusion does not depend on which one is right.</td></tr>
+</tbody></table></main>
+<footer>Every claim carries an evidence class. Irregularities IR-62-001 … IR-62-005 are flagged for manual review.</footer>
+</body></html>
