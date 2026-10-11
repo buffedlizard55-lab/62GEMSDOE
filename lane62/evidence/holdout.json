@@ -1,0 +1,136 @@
+{
+ "instrument_A": {
+  "description": "whole catalogue segments hidden by 2x2 spatial block, dilated by 3 px = the 300 m kernel radius; pooled DTI over the whole grid with visible catalogue masked",
+  "caveat": "IR-30-046 (measured by the group 2026-10-03): this proxy ranks ANTI-correlated with the public portal scores.  Never a promotion gate on its own."
+ },
+ "instrument_B": {
+  "description": "SGMC 1:750k state-map fault traces rasterised to this grid minus the competition catalogue = 'mapped but not catalogued', the class the competition actually scores",
+  "truth_px": 79615,
+  "sha256": "643cbe992ef4ba37588fb469163ed8291e3ceb23d6c1f78a3cfaa462430c2da0",
+  "caveat": "public, independent, but 1:750k generalisation is coarse and it is still not the organiser's private expert set."
+ },
+ "results": {
+  "primary_lane_literal": {
+   "n_positive_px": 49070,
+   "instrument_A": {
+    "instrument": "A",
+    "truth": "hidden catalogue segments (dilated by the 300 m kernel)",
+    "n_truth_px": 369289,
+    "n_segments_total": 1977,
+    "pooled": {
+     "tp": 5184.763747712965,
+     "fp": 47681.30814929049,
+     "fn": 364104.23625228705,
+     "n_truth": 369289,
+     "n_predicted": 49070,
+     "dti": 0.01694342795095961,
+     "coverage": 0.014039854281370322
+    },
+    "ci95": [
+     0.017079706407551323,
+     0.017688212968971655
+    ],
+    "folds": [
+     2,
+     2
+    ],
+    "caveat": "IR-30-046: this proxy ranks anti-correlated with the public portal scores; never a promotion gate on its own."
+   },
+   "instrument_A_random_dots": {
+    "pooled": {
+     "tp": 26977.399860032234,
+     "fp": 44780.73292719376,
+     "fn": 342311.60013996775,
+     "n_truth": 369289,
+     "n_predicted": 49070,
+     "dti": 0.08708487865459393,
+     "coverage": 0.07305227033578643
+    },
+    "ci95": [
+     0.08947864891333462,
+     0.09087789309075688
+    ]
+   },
+   "instrument_B": {
+    "tp": 4415.612915286132,
+    "fp": 47169.43604857342,
+    "fn": 75199.38708471388,
+    "n_truth": 79615,
+    "n_predicted": 49070,
+    "dti": 0.05966318057287915,
+    "coverage": 0.05546207266578072
+   },
+   "instrument_B_random_dots": {
+    "tp": 6592.216237786105,
+    "fp": 46533.500685886225,
+    "fn": 73022.78376221389,
+    "n_truth": 79615,
+    "n_predicted": 49070,
+    "dti": 0.08870384325267563,
+    "coverage": 0.08280118366873208
+   },
+   "credit_bar_at_B": 0.011932636114575831
+  },
+  "secondary_lake_plain": {
+   "n_positive_px": 1750,
+   "instrument_A": {
+    "instrument": "A",
+    "truth": "hidden catalogue segments (dilated by the 300 m kernel)",
+    "n_truth_px": 369289,
+    "n_segments_total": 1977,
+    "pooled": {
+     "tp": 255.89213857030168,
+     "fp": 1686.3013912078832,
+     "fn": 369033.1078614297,
+     "n_truth": 369289,
+     "n_predicted": 1750,
+     "dti": 0.000865027554254632,
+     "coverage": 0.0006929319274885027
+    },
+    "ci95": [
+     0.0007990702547544168,
+     0.0009297793428442497
+    ],
+    "folds": [
+     2,
+     2
+    ],
+    "caveat": "IR-30-046: this proxy ranks anti-correlated with the public portal scores; never a promotion gate on its own."
+   },
+   "instrument_A_random_dots": {
+    "pooled": {
+     "tp": 964.8496618395297,
+     "fp": 1600.6911840654261,
+     "fn": 368324.15033816046,
+     "n_truth": 369289,
+     "n_predicted": 1750,
+     "dti": 0.0032602406439523716,
+     "coverage": 0.002612722452711913
+    },
+    "ci95": [
+     0.0031198704655997977,
+     0.0034153138027076583
+    ]
+   },
+   "instrument_B": {
+    "tp": 203.64832500355305,
+    "fp": 1665.4565789563435,
+    "fn": 79411.35167499645,
+    "n_truth": 79615,
+    "n_predicted": 1750,
+    "dti": 0.0031787358982664137,
+    "coverage": 0.002557914023783873
+   },
+   "instrument_B_random_dots": {
+    "tp": 255.96414480191038,
+    "fp": 1659.4132648513728,
+    "fn": 79359.03585519809,
+    "n_truth": 79615,
+    "n_predicted": 1750,
+    "dti": 0.003994753699105558,
+    "coverage": 0.0032150241135704373
+   },
+   "credit_bar_at_B": 0.0006357471796532828
+  }
+ }
+}

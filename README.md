@@ -300,3 +300,23 @@ python -m pytest tests -q
 
 Kept current in [`docs/next-steps.md`](docs/next-steps.md) (headline: 1 m 3DEP refinement of the
 top loci, the catalogue-endpoint extension hypothesis H4, and a 19-band + DEM deep detector).
+
+---
+
+## Independent re-derivation of this same lane — `lane62/`
+
+A second session on this repository was assigned the same datum-offset lane and worked without
+seeing this one. Its whole tree lives under [`lane62/`](lane62/README.md) so that the two do not
+collide; **nothing at the root was overwritten**. It ships a different artefact —
+[`lane62/docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif`](lane62/docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif)
+(86,968 dots, 518,595 bytes, sha256 `f58ae055…`, all-finite float32, 0 dots on the catalogue) —
+plus a profiles deliverable and 46 tests. Its own verdict is an **honest negative**
+(mean credit 0.039967/dot below the 0.055556 marginal bar; dominated ~0.55× by a registered
+prior field on the same instrument), so the v8 file above remains the candidate to spend a slot
+on. The two artefacts are **not** copies of one another: re-running the duplicate test against
+this lane's shipped TIFs gives 3 px overlap ≤ 0.0099, exact overlap ≤ 0.0005 and |ρ| ≤ 0.0021
+(`lane62/evidence/crosscheck_sibling_lane.json`). `lane62/scripts/crosscheck_sibling_lane.py`
+also documents one defect it found here — on a clean checkout, `tests/` cannot collect because
+`src/gems62/lahontan.py` imports a `PIXEL_M` that `src/gems62/grid.py` does not define, and
+`tests/test_metric.py` imports a `brute_force_components` that `src/gems62/metric.py` does not
+define. Reported as `IR-62-11`, deliberately not fixed from another lane.

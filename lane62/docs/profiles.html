@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Profiles · 62GEMSDOE</title><link rel="stylesheet" href="assets/site.css">
+</head><body><header><div class="wrap"><strong>62GEMSDOE</strong> &nbsp;
+<small class="mut">Lake Lahontan shoreline datum-offset lane · DOE GEMS Prize</small>
+<div style="margin-top:9px"><nav><a href="index.html">Overview</a><a href="executive-summary.html">How to submit</a><a href="results.html">Results</a><a href="profiles.html">Profiles (deliverable 1)</a><a href="research.html">Research & hypotheses</a><a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a></nav></div></div></header>
+<main class="wrap">
+<h1>Deliverable 1 — shoreline elevation-versus-distance profiles with the flagged steps</h1>
+<p class="mut">The lane's first deliverable, as requested: the datum residual along the
+mapped Lahontan shoreline, with every flagged step and lateral deflection marked.</p>
+
+<h2>How the traces were made</h2>
+<ol>
+<li><b>Isobase.</b> robust (Huber, c=1.5) quadratic fit to the median highstand-band elevation of every 20 x 20 km block containing >= 300 pick pixels -- a rank-sufficient design, unlike a pixel-level fit confined to a narrow band. Result: RMS
+3.57 m over 86 blocks; median residual
+0.30 m, p16–p84
+-10.24–10.71 m.</li>
+<li><b>Datum residual</b> ζ = z − isobase, and its zero contour traced with
+marching squares on the 3730×3292 grid.</li>
+<li><b>Flags.</b> Along each ordered trace, a <b>vertical step</b> is a change of
+≥ 2.5 m between the mean of the
+6 samples before and after a position; a
+<b>lateral deflection</b> is a ≥ 25.0° change of
+heading between the preceding and following chords. De-duplicated at 5 px.</li>
+</ol>
+<p>Result: <b>44 traces</b>, <b>3552 flags</b>
+(800 vertical steps,
+2752 lateral deflections).</p>
+
+<p class='mut'>profile data unavailable</p>
+
+<h2>Caveats a reader must carry</h2>
+<ul class="tight">
+<li><b>The isobase fit is degenerate in its linear part.</b>
+Tilt is 0.0040 m/km east and
+0.0038 m/km north — near zero, because the estimator is the
+median of a narrow elevation band per block, and a quadratic absorbs the literature's
+~20 m northward tilt across the basin into its curvature terms. The fit is therefore
+adequate for locating the datum (RMS 3.57 m) but the <i>tilt coefficients
+must not be read as a rebound measurement</i>. That is flagged as IR-62-03.</li>
+<li><b>The traces are the ζ = 0 contour of a block-median surface, not a digitised
+shoreline.</b> At 100 m posting a 1–2 pixel shoreline cannot be picked directly; this is the
+proxy the lane said it would use and it is the reason the lane's dot class is heterogeneous
+(median credit 0).</li>
+<li><b>the organiser's own training_features.tif was NOT obtainable: the DrivenData data page is login-walled (verified 2026-10-11: redirects to /accounts/login/).</b></li>
+</ul>
+
+<h2>3552 flags, per trace</h2>
+<table><tr><th>trace</th><th>vertices</th><th>length km</th><th>flags</th><th>bbox (row0,col0,row1,col1)</th></tr><tr><td>0</td><td>1535</td><td>130.29</td><td>120</td><td>[0, 449, 447, 677]</td></tr><tr><td>1</td><td>180</td><td>15.15</td><td>16</td><td>[0, 702, 54, 761]</td></tr><tr><td>2</td><td>21940</td><td>1831.54</td><td>1872</td><td>[0, 168, 1871, 1821]</td></tr><tr><td>3</td><td>125</td><td>10.13</td><td>12</td><td>[0, 1499, 31, 1557]</td></tr><tr><td>4</td><td>267</td><td>23.28</td><td>18</td><td>[35, 1662, 111, 1716]</td></tr><tr><td>5</td><td>2411</td><td>201.56</td><td>178</td><td>[287, 834, 816, 1138]</td></tr><tr><td>6</td><td>189</td><td>15.88</td><td>18</td><td>[398, 264, 465, 284]</td></tr><tr><td>7</td><td>4917</td><td>406.14</td><td>417</td><td>[505, 1415, 1718, 2138]</td></tr><tr><td>8</td><td>55</td><td>4.6</td><td>5</td><td>[541, 1978, 559, 1986]</td></tr><tr><td>9</td><td>41</td><td>3.38</td><td>3</td><td>[544, 1966, 556, 1975]</td></tr><tr><td>10</td><td>49</td><td>4.18</td><td>3</td><td>[585, 1950, 596, 1963]</td></tr><tr><td>11</td><td>57</td><td>4.52</td><td>4</td><td>[690, 1552, 704, 1561]</td></tr><tr><td>12</td><td>505</td><td>39.78</td><td>43</td><td>[850, 1088, 937, 1226]</td></tr><tr><td>13</td><td>53</td><td>4.24</td><td>5</td><td>[915, 519, 924, 535]</td></tr><tr><td>14</td><td>929</td><td>77.58</td><td>88</td><td>[961, 844, 1095, 1029]</td></tr><tr><td>15</td><td>711</td><td>58.61</td><td>64</td><td>[1091, 780, 1243, 917]</td></tr><tr><td>16</td><td>83</td><td>7.05</td><td>8</td><td>[1239, 791, 1258, 811]</td></tr><tr><td>17</td><td>569</td><td>54.62</td><td>25</td><td>[1239, 1115, 1382, 1242]</td></tr><tr><td>18</td><td>335</td><td>28.26</td><td>27</td><td>[1252, 345, 1282, 444]</td></tr><tr><td>19</td><td>115</td><td>11.39</td><td>7</td><td>[1354, 1034, 1383, 1064]</td></tr><tr><td>20</td><td>55</td><td>4.52</td><td>5</td><td>[1395, 657, 1406, 673]</td></tr><tr><td>21</td><td>185</td><td>16.11</td><td>18</td><td>[1415, 697, 1444, 755]</td></tr><tr><td>22</td><td>237</td><td>19.42</td><td>20</td><td>[1425, 1201, 1480, 1250]</td></tr><tr><td>23</td><td>99</td><td>7.82</td><td>10</td><td>[1430, 1183, 1452, 1207]</td></tr><tr><td>24</td><td>45</td><td>3.92</td><td>4</td><td>[1437, 1208, 1448, 1221]</td></tr><tr><td>25</td><td>41</td><td>3.38</td><td>3</td><td>[1458, 1162, 1468, 1173]</td></tr><tr><td>26</td><td>75</td><td>6.63</td><td>6</td><td>[1494, 1553, 1517, 1565]</td></tr><tr><td>27</td><td>91</td><td>7.84</td><td>7</td><td>[1521, 838, 1537, 864]</td></tr><tr><td>28</td><td>49</td><td>4.12</td><td>3</td><td>[1559, 1523, 1569, 1536]</td></tr><tr><td>29</td><td>99</td><td>8.25</td><td>7</td><td>[1564, 1595, 1586, 1620]</td></tr><tr><td>30</td><td>99</td><td>8.3</td><td>6</td><td>[1568, 466, 1584, 498]</td></tr><tr><td>31</td><td>73</td><td>6.0</td><td>6</td><td>[1586, 594, 1608, 606]</td></tr><tr><td>32</td><td>187</td><td>15.35</td><td>13</td><td>[1601, 1057, 1643, 1102]</td></tr><tr><td>33</td><td>265</td><td>22.18</td><td>26</td><td>[1632, 597, 1701, 638]</td></tr><tr><td>34</td><td>45</td><td>3.69</td><td>4</td><td>[1635, 1055, 1647, 1067]</td></tr><tr><td>35</td><td>1543</td><td>126.8</td><td>119</td><td>[1676, 623, 1869, 968]</td></tr><tr><td>36</td><td>177</td><td>15.11</td><td>12</td><td>[1728, 750, 1761, 797]</td></tr><tr><td>37</td><td>2563</td><td>216.32</td><td>170</td><td>[1860, 946, 2446, 1272]</td></tr><tr><td>38</td><td>45</td><td>4.13</td><td>2</td><td>[1913, 1172, 1931, 1176]</td></tr><tr><td>39</td><td>1359</td><td>114.01</td><td>102</td><td>[1927, 1351, 2138, 1608]</td></tr><tr><td>40</td><td>49</td><td>4.1</td><td>3</td><td>[2058, 1076, 2071, 1087]</td></tr><tr><td>41</td><td>61</td><td>4.86</td><td>5</td><td>[2412, 1357, 2421, 1376]</td></tr><tr><td>42</td><td>53</td><td>4.2</td><td>4</td><td>[2688, 1638, 2703, 1649]</td></tr><tr><td>43</td><td>905</td><td>73.99</td><td>64</td><td>[3198, 1967, 3426, 2145]</td></tr></table>
+<p><a href="downloads/lahontan_shoreline_profiles.json">Download the full profiles
+(JSON, all traces, all flags)</a>.</p>
+</main>
+<footer><div class="wrap">Every number on this site is read from
+<code>evidence/*.json</code> at build time by <code>scripts/build_site.py</code>.
+Nothing here is an organizer score. Generated 2026-10-11T20:18:20Z.
+</div></footer></body></html>
