@@ -1,63 +1,54 @@
-# Remaining work and limitations
+# Remaining work and access limitations
 
-## What is finished
+## Completed in this review
 
-* The **assigned lane** is implemented end-to-end: DEM → stands → robust isobase → datum-step loci
-  → traces → a validated, unique GeoTIFF with two machine-readable receipts.
-* A **download page** with an explicit verdict, and this documentation set.
-* The **shared tools were fixed and reported, not forked** (`irregularities.md` §2, §3): the
-  holdout evaluator (five defects) and the registry uniqueness tripwire (density-blind).
-* A **Poisson null** generator (`scripts/make_control.py`), without which no holdout number in this
-  repository is interpretable.
+- Re-read the repository and held scope to the assigned datum-offset / Lake Lahontan shoreline lane.
+- Updated the README and landing page to state **NOT CLEARED — DO NOT SUBMIT**.
+- Corrected the shared writer to write NaN outside the official footprint, with no nodata tag, and
+  to validate the written bytes.
+- Corrected the shared uniqueness rule so literal rank/overlap thresholds stop the run; no
+  vacuity/Jaccard exemption is applied.
+- Recomputed **HOLDOUT-DTI** with a six-spatial-block cluster bootstrap CI and feature-alone
+  leakage canary; all outputs carry evaluator/proxy caveats.
+- Fetched a registry snapshot (525 TIFFs from 88 repositories; 12 repositories skipped above the
+  90 MB cap), then reproduced a strict final-dot overlap failure against the 13GEMSDOE r11-greedy-mp raster (fail-fast stop at 9/525 TIFFs).
+- Ran three implementation/review passes and added regression tests. See
+  [`irregularities.md`](irregularities.md) and
+  [`evidence/lahontan_run_card_20261011.json`](evidence/lahontan_run_card_20261011.json).
 
-## Ranked next work
+## Hard stop before any new experiment or submission candidate
 
-### 1. Density calibration against the marginal-credit bar — highest expected value, hours of work
-β = 0.8 makes DTI recall-dominated and the catalogue is masked, so emission **density** is worth
-more than any single detector. `metric.marginal_bar` already computes the break-even condition.
-Next concrete step: sweep the density/threshold of the existing fields, tabulate the marginal
-credit curve, and pick the density that maximises expected DTI under a stated recall model. This
-applies to the group's h33 lineage as much as to this lane, and it needs no new data.
+The old v8 output is both format-invalid outside the footprint and over the strict 70% overlap
+limit. Do not rename or re-emit it. A future attempt must begin from the ranked
+[datum-offset hypotheses](hypotheses.md), save its **pre-placement surface**, and run the strict
+registry gate before any dots are placed. After final emission, run the gate again on the final
+raster. If either strict gate fails, log `DUPLICATE-STOP` and stop. No submission slot is selected
+here.
 
-### 2. Re-verify the DEM coverage map after the sixth tile
-Run 38169727207 raised valid fraction 0.590 → 0.8088 but the per-block map was not re-checked.
-Cheap, and it bounds what any DEM lane in this basin can claim: **Pyramid Lake, the Truckee
-corridor and the lower Carson were NaN in the five-tile mosaic.**
+The top proposed future experiment is **multi-strand co-displacement coherence**, using the local
+25 m USGS 3DEP DEM. It has not been implemented or holdout-validated. The prior v8 HOLDOUT-DTI is
+not validation of this new hypothesis and cannot be reused as such. No slot recommendation is
+possible before a new candidate clears its own spatially blocked screen and the strict registry
+checks; even then the local catalogue proxy cannot certify hidden-new-fault performance.
 
-### 3. Fix the trace stopping rule
-Median trace length is 1.3 km; real fault traces are longer. The stopping rule (`min_evidence
-0.15`, whole-segment sampling) is the prime suspect, not the geology. This is the single change
-most likely to raise this lane's coverage — which, per (1), is what the metric rewards.
+## Remaining gaps
 
-### 4. Run the hypotheses in `hypotheses.md`
-H-A (LiDAR scarp polarity) → H-B (lateral shoreline deflection, strike-slip) → H-C (facet-base
-lines) → H-D (basement steps in catalogue-empty corridors). Each must pass the blocked holdout
-**as a screen** and, more importantly, must be reported against its own Poisson null.
+1. **Pre-placement surface receipt:** the historical v8 surface was not retained, so no pre-placement
+   comparison can be reconstructed from its bytes. Persist this for any future candidate.
+2. **Registry completeness:** 12 of 100 scanned repositories exceeded the 90 MB fetch cap. This
+   does not weaken the current stop, but a future candidate cannot claim exhaustive clearance from
+   this partial snapshot.
+3. **v8 profile arrays:** the v8 per-bench profile arrays were not retained. The present profile
+   figure is from the earlier 99-dot exploratory run and is explicitly labeled historical.
+4. **High-resolution LiDAR availability:** official USGS TNM product discovery is accessible via
+   the [3DEP API](https://tnmaccess.nationalmap.gov/api/v1/products), but exact coverage of each
+   candidate shoreline transect has not been verified. The ranked hypotheses do not require it.
+5. **Organizer receipt:** no submission-page receipt or organizer-confirmed score is present.
+6. **External network:** direct USGS/TNM requests from the sandbox returned HTTP 000; the existing
+   25 m DEM was obtained through a GitHub runner. New official data may require the same route.
 
-### 5. Get one ORGANIZER-CONFIRMED number into `evidence/`
-The repository contains **zero** verified organizer scores. The first submission-page receipt that
-is exported and committed converts every future local comparison from a proxy argument into an
-anchored one.
+## What will not be done
 
-## Limitations — stated as limitations, not as future work
-
-1. **No local instrument can certify novelty.** The only local truth is the catalogue, and the
-   competition truth is precisely what the catalogue lacks. A random field outscores the best
-   scored artifact on both available proxies (`hypotheses.md`, validation trap). Everything this
-   repository can say about a file's *competitiveness* is therefore an argument, not a measurement.
-2. **Coverage of the delivered file is one sub-region.** 1,641 of 1,660 dots lie in a 171 × 110 km
-   area. This lane buys defensibility in the Lahontan basin; it does not buy area.
-3. **The lane's loci are candidates, not faults.** The named confuser is the level-feature family
-   (bluffs, berms, risers, delta topsets), and the flat-pixel histogram contains 15 stands between
-   1175 and 1437 m. The cross-cut gate removes the contour-parallel family; it does not prove the
-   remainder are tectonic.
-4. **25 m DEM resolution bounds the detector.** Shoreline steps of 2 m are at the edge of what the
-   gridded product supports; the 1 m lidar composite in the training stack is the remedy and is not
-   available in this checkout.
-5. **The weekly slot decision is not made here.** Per the brief, choosing what to promote to a real
-   slot is a separate selector step within the weekly cap. This repository only states what the
-   evidence supports: a low-risk Phase-1 novelty probe, explicitly not the lead horse.
-6. **Owner-reported scores are unverifiable here** (`irregularities.md` §5) and are used only to
-   rank the group's own artifacts against each other.
-7. **Sandbox reachability is a hard constraint.** USGS hosts are unreachable (HTTP 000); DEM
-   fetching, and any future external data, must round-trip through a GitHub Actions runner and git.
+- No weekly submission slot will be chosen or spent by this run.
+- No projection, leaderboard claim, or proxy result will be labeled as an organizer score.
+- No unrelated fault-detection lane will be introduced.

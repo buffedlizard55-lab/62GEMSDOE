@@ -1,46 +1,24 @@
-"""Submission format validator.
+"""Compatibility wrapper around the canonical ``gems62.grid`` submission validator.
 
-Checks are transcribed from the competition problem page
-(https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) and
-from the observed submission-form behaviour recorded by the sibling repositories:
-
-* "same projected coordinate reference system as the training data ... EPSG 32611"
-* "same resolution ... 100m"
-* "same bounds as the training data, and data outside the bounds is null or nan"
-* "a single layer with datatype of 32-bit float (``float32``) with values between 0 and 1"
-
-The portal error the owner hit -- ``Predicted values must be in range [0, 1]`` -- is
-reproduced by any file whose values outside [0, 1] leak into the portal's range
-check, most commonly a float32 nodata sentinel such as ``-3.4028235e38`` or a NaN
-nodata tag.  This validator therefore reports *three* separate facts and never
-conflates them:
-
-1. every finite value in the scored footprint lies in ``[0, 1]``;
-2. whether any non-finite value occurs inside the footprint;
-3. how the file encodes the region outside the footprint (finite zeros vs NaN).
-
-A local pass is **not** an organizer acceptance receipt.
+All format rules live in ``grid.check_submission`` so old call sites cannot keep accepting
+finite-zero outside masks while the shared writer requires NaN there. A local pass is never an
+organizer acceptance receipt.
 """
-
 from __future__ import annotations
 
-import hashlib
 import json
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
 
 import numpy as np
 import rasterio
 
-from .grid import CRS, HEIGHT, WIDTH, TRANSFORM
+from .grid import check_submission, sha256
 
 
 def sha256_file(path: str | Path, chunk: int = 1 << 20) -> str:
-    h = hashlib.sha256()
-    with open(path, "rb") as fh:
-        for block in iter(lambda: fh.read(chunk), b""):
-            h.update(block)
-    return h.hexdigest()
+    """Backwards-compatible spelling for the shared file-hash helper."""
+    return sha256(path)
 
 
 @dataclass
@@ -72,101 +50,45 @@ class ValidationReport:
 
 def validate_submission(path: str | Path, footprint: np.ndarray,
                         *, expected_positive_values: tuple[float, ...] = (1.0,)) -> ValidationReport:
-    """Validate a candidate GeoTIFF against the published submission contract."""
+    """Validate using the same fail-closed contract as ``grid.write_submission``."""
     path = Path(path)
-    failures: list[str] = []
-    notes: list[str] = []
-
+    receipt = check_submission(path, footprint=footprint)
     with rasterio.open(path) as src:
-        count = src.count
-        dtype = src.dtypes[0]
-        crs = str(src.crs)
-        shape = (src.height, src.width)
-        transform = tuple(float(v) for v in src.transform[:6])
-        nodata = None if src.nodata is None else float(src.nodata)
         arr = src.read(1)
+    foot = np.asarray(footprint, dtype=bool)
+    inside = arr[foot]
+    outside = arr[~foot]
+    finite_inside = inside[np.isfinite(inside)]
+    positives = inside[np.isfinite(inside) & (inside > 0)]
+    unique = np.unique(positives).astype(float).tolist() if positives.size else []
+    notes: list[str] = []
+    if expected_positive_values and unique:
+        unexpected = [v for v in unique if v not in expected_positive_values]
+        if unexpected:
+            notes.append(f"positive values beyond {expected_positive_values}: {unexpected[:5]}")
 
-    if count != 1:
-        failures.append(f"single band required, found {count}")
-    if dtype != "float32":
-        failures.append(f"float32 required, found {dtype}")
-    if crs.upper().replace(" ", "") not in {CRS, "EPSG:32611"}:
-        failures.append(f"CRS must be {CRS}, found {crs}")
-    if shape != (HEIGHT, WIDTH):
-        failures.append(f"shape must be {(HEIGHT, WIDTH)}, found {shape}")
-    if len(transform) != 6 or any(
-        abs(a - b) > 1e-6 for a, b in zip(transform, TRANSFORM)
-    ):
-        failures.append(f"geotransform must be {TRANSFORM}, found {transform}")
-
-    inside = footprint
-    vals_in = arr[inside]
-    finite_in = np.isfinite(vals_in)
-    nan_inside = int((~finite_in).sum())
-
-    if nan_inside:
-        failures.append(f"{nan_inside} non-finite values inside the scored footprint")
-
-    finite_vals = vals_in[finite_in]
-    vmin = float(finite_vals.min()) if finite_vals.size else float("nan")
-    vmax = float(finite_vals.max()) if finite_vals.size else float("nan")
-    if finite_vals.size and ((finite_vals < 0.0) | (finite_vals > 1.0)).any():
-        failures.append(
-            "values outside [0,1] inside the footprint "
-            f"({int(((finite_vals < 0) | (finite_vals > 1)).sum())} cells)"
-        )
-
-    outside_vals = arr[~inside]
-    outside_nan = int((~np.isfinite(outside_vals)).sum())
-    if outside_nan == outside_vals.size:
-        outside_encoding = "all NaN outside the footprint"
-    elif outside_nan == 0:
-        outside_encoding = "all finite outside the footprint"
-    else:
-        outside_encoding = f"mixed ({outside_nan} of {outside_vals.size} NaN)"
-    if outside_nan not in (0, outside_vals.size):
-        failures.append("outside-footprint encoding is mixed (NaN and finite)")
-
-    finite_out = outside_vals[np.isfinite(outside_vals)]
-    if finite_out.size and ((finite_out < 0.0) | (finite_out > 1.0)).any():
-        failures.append(
-            "finite values outside the footprint fall outside [0,1]; this is the "
-            "class of file that triggers 'Predicted values must be in range [0, 1]'"
-        )
-
-    if nodata is not None:
-        notes.append(
-            f"file declares nodata={nodata!r}; the reference template declares nodata=nan"
-        )
-
-    pos = arr > 0
-    positive_cells = int((pos & inside).sum())
-    unique_pos = np.unique(arr[pos & inside]).astype(float).tolist() if positive_cells else []
-    max_pos = float(max(unique_pos)) if unique_pos else 0.0
-    if expected_positive_values and unique_pos:
-        extra = [v for v in unique_pos if v not in expected_positive_values]
-        if extra:
-            notes.append(f"positive values beyond {expected_positive_values}: {extra[:5]}")
-
+    meta = receipt["meta"]
     return ValidationReport(
         path=str(path),
-        sha256=sha256_file(path),
-        bytes=path.stat().st_size,
-        count=count,
-        dtype=dtype,
-        crs=crs,
-        shape=shape,
-        transform=transform,
-        nodata=nodata,
-        values_min=vmin,
-        values_max=vmax,
-        nan_inside_footprint=nan_inside,
-        nan_outside_footprint=outside_nan,
-        outside_encoding=outside_encoding,
-        positive_cells=positive_cells,
-        max_positive_value=max_pos,
-        unique_positive_values=unique_pos[:10],
-        passed=not failures,
-        failures=failures,
+        sha256=receipt["sha256"],
+        bytes=receipt["bytes"],
+        count=meta["count"],
+        dtype=meta["dtype"],
+        crs=meta["crs"],
+        shape=tuple(meta["shape"]),
+        transform=tuple(meta["transform"]),
+        nodata=meta["nodata"],
+        values_min=float(finite_inside.min()) if finite_inside.size else float("nan"),
+        values_max=float(finite_inside.max()) if finite_inside.size else float("nan"),
+        nan_inside_footprint=int((~np.isfinite(inside)).sum()),
+        nan_outside_footprint=int((~np.isfinite(outside)).sum()),
+        outside_encoding=("all NaN outside the footprint"
+                          if receipt["checks"]["all_nan_outside_footprint"]
+                          else "not all NaN outside the footprint"),
+        positive_cells=int(positives.size),
+        max_positive_value=float(positives.max()) if positives.size else 0.0,
+        unique_positive_values=unique[:10],
+        passed=receipt["legal"],
+        failures=list(receipt["failed_checks"]),
         notes=notes,
     )

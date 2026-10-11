@@ -1,20 +1,9 @@
-"""Regenerate the docs/ site from the newest run card.
-
-The pages are *derived* documents: every number is substituted from
-``evidence/<slug>-runcard.json`` and its sibling receipts, so a re-run cannot
-leave stale figures on the site. Substitution is token-based (``{{TOKEN}}``)
-rather than f-string based, so the templates can hold arbitrary HTML and the
-script can prove that no token was left unfilled.
-
-    python scripts/run_lane.py --registry <dir> --out docs/downloads --evidence evidence
-    python scripts/make_readme.py
-    python scripts/make_site.py
-
-Writes docs/index.html, docs/executive-summary.html and
-docs/research/sources.html (converted from sources.md).
+"""Disabled legacy static-site generator. The historical implementation is retained below for provenance but is intentionally unreachable; it emits superseded format/uniqueness claims.
 """
-
 from __future__ import annotations
+
+raise SystemExit('make_site.py is disabled: it would overwrite the current reviewed site with superseded claims.')
+
 
 import html
 import json

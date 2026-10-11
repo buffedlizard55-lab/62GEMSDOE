@@ -66,6 +66,21 @@ def auc(score: np.ndarray, pos: np.ndarray, neg: np.ndarray) -> float:
     return float((r_pos - s.size * (s.size + 1) / 2) / (s.size * n.size))
 
 
+def block_bootstrap_dti_ci(folds: list[dict], *, replicates: int = 10000,
+                           seed: int = 62) -> list[float] | None:
+    """Percentile CI by resampling spatial folds as clusters, not individual pixels."""
+    if len(folds) < 2:
+        return None
+    components = np.asarray([[f["tp"], f["fp"], f["fn"]] for f in folds], dtype=np.float64)
+    rng = np.random.default_rng(seed)
+    sample = rng.integers(0, len(folds), size=(replicates, len(folds)))
+    tp, fp, fn = components[sample].sum(axis=1).T
+    denom = tp + metric.ALPHA * fp + metric.BETA * fn + metric.EPS
+    values = np.divide(tp, denom, out=np.zeros_like(tp), where=denom > 0)
+    lo, hi = np.quantile(values, [0.025, 0.975])
+    return [float(lo), float(hi)]
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--emission", required=True)
@@ -130,6 +145,7 @@ def main() -> int:
     # pooled DTI: sum the components across folds then apply the published formula once
     tp = sum(f["tp"] for f in folds); fp = sum(f["fp"] for f in folds); fn = sum(f["fn"] for f in folds)
     pooled = metric.dti_from_components(tp, fp, fn)
+    pooled_dti_ci = block_bootstrap_dti_ci(folds, replicates=10000, seed=62)
 
     # ---- leakage canary on stand-alone features -------------------------------------------
     # feature 1: lane proximity = distance to the nearest emitted dot (kernel-weighted)
@@ -160,10 +176,15 @@ def main() -> int:
     report = dict(
         emission=pathlib.Path(args.emission).name,
         emission_sha256=grid.sha256(args.emission),
+        evaluator_version="root-run_holdout-v3",
         protocol=dict(folds=len(folds), buffer_px=args.buffer_px, truth="visible catalogue",
                       masking="visible catalogue pixel-exact",
                       alpha=metric.ALPHA, beta=metric.BETA, kernel_radius_px=metric.RADIUS_PX),
         pooled=dict(tp=tp, fp=fp, fn=fn, dti=pooled,
+                    dti_95_ci=pooled_dti_ci,
+                    dti_ci_method=("percentile bootstrap of spatial folds as clusters; "
+                                   "10,000 replicates, seed 62; coarse six-fold uncertainty"
+                                   if pooled_dti_ci is not None else "not estimable: fewer than two folds"),
                     n_truth=sum(f["n_truth"] for f in folds),
                     n_pred=sum(f["n_pred"] for f in folds)),
         folds=folds, canary=canary,

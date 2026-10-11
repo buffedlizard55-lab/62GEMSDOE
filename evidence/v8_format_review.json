@@ -1,0 +1,65 @@
+{
+  "file": "gemsdoe62-datum-lahontan-isobase-v8.tif",
+  "path": "docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif",
+  "bytes": 62709,
+  "sha256": "3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba",
+  "meta": {
+    "driver": "GTiff",
+    "count": 1,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "height": 3730,
+    "width": 3292,
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "resolution": [
+      100.0,
+      100.0
+    ],
+    "nodata": null,
+    "bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ]
+  },
+  "checks": {
+    "single_band": true,
+    "float32": true,
+    "crs_epsg_32611": true,
+    "shape": true,
+    "transform": true,
+    "resolution_100m": true,
+    "bounds": true,
+    "nodata_tag_absent": true,
+    "footprint_shape": true,
+    "finite_values_in_footprint": true,
+    "values_0_to_1_in_footprint": true,
+    "all_nan_outside_footprint": false
+  },
+  "failed_checks": [
+    "all_nan_outside_footprint"
+  ],
+  "legal": false,
+  "n_cells": 12279160,
+  "n_finite_total": 12279160,
+  "n_nan_total": 0,
+  "n_non_finite_inside_footprint": 0,
+  "n_non_nan_outside_footprint": 7111787,
+  "n_invalid_inside_footprint": 0,
+  "n_positive_inside_footprint": 1660,
+  "min_inside": 0.0,
+  "max_inside": 1.0,
+  "note": "Local format validation only; not an organizer acceptance or score receipt."
+}

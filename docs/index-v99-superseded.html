@@ -11,26 +11,31 @@
   </nav>
 </header>
 <main>
-<h1>Lake Lahontan shorelines as a strain gauge</h1>
+<div style="border:3px solid #a61b1b;background:#fff2f2;padding:1rem 1.2rem;border-radius:12px;margin-bottom:1rem">
+  <h2 style="color:#a61b1b;margin-top:0">SUPERSEDED — NOT CLEARED FOR DOWNLOAD OR SUBMISSION</h2>
+  <p>This historical page used an invalid vacuity/Jaccard exemption. The current strict gate does not exempt dense comparators. Do not rely on any old “DISTINCT LANE” or “format PASS” claim here. See the <a href="index.html">current status</a> and <a href="executive-summary.html">strict review</a>.</p>
+</div>
+<h1>Lake Lahontan shorelines as a strain gauge — archived v99 review</h1>
 <p class="sub">Datum-offset lane · DOE GEMS Prize (DrivenData #306) ·
-<span class="pill">artifact generated 2026-10-11</span><span class="pill">lane: DISTINCT</span>
-<span class="pill">format: PASS</span><span class="pill">verdict: negative</span></p>
+<span class="pill">historical artifact</span><span class="pill">clearance withdrawn</span>
+<span class="pill">old uniqueness logic superseded</span></p>
 
 <div class="dl">
   <h2>⬇ Submission file</h2>
-  <p><b>OK TO DOWNLOAD</b> for inspection. &nbsp;
-     <span class="verdict v-no">NOT CLEARED TO SUBMIT — do not spend a weekly slot</span></p>
-  <a class="btn" href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">Download gems62-lahontan-isobase-99dots-zeros.tif</a>
-  <a class="btn sec" href="downloads/gems62-lahontan-isobase-99dots-nan.tif">NaN-outside twin</a>
+  <p><b>ARCHIVAL ONLY</b> — not cleared to download for submission. &nbsp;
+     <span class="verdict v-no">DO NOT SUBMIT</span></p>
+  <a class="btn" href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">Open archived v99 TIF (inspection only)</a>
+  <a class="btn sec" href="downloads/gems62-lahontan-isobase-99dots-nan.tif">Open archived NaN-outside twin (inspection only)</a>
   <table>
     <tr><th>sha256</th><td class="mono">fc628410873f018d998ca60e0a00228c999aff035e2e9dc22ccd571a6e8c0348</td></tr>
     <tr><th>bytes / dots</th><td class="n">56,048 &nbsp;·&nbsp; 99 dots</td></tr>
     <tr><th>grid</th><td class="n">float32 · EPSG:32611 · 3730 × 3292 · 100 m · transform (100, 0, 243350, 0, −100, 4508550)</td></tr>
-    <tr><th>local format checks</th><td><span class="verdict v-ok">PASS</span>
-        — single band, float32, CRS/shape/transform exact, no non-finite value inside the footprint, every finite value in [0, 1], zeros outside the footprint</td></tr>
-    <tr><th>lane rule — BOTH halves</th><td><b>before placement</b> (datum-offset surface): max |ρ| 0.015551, max 3-px overlap 0.3742 over 60,227 cells; <b>flagged evidence</b>: max |ρ| 0.007957, overlap 0.2990 over 16,156 cells — all vs the limits 0.90 / 0.70. <b>final dots</b>: max |ρ| 0.000622, overlap 0.4040. Same evaluator, same registry of 21 rasters; 3 of them are vacuous (see below).</td></tr>
-    <tr><th>lane check vs 21 registry rasters</th><td><span class="verdict v-ok">DISTINCT LANE</span>
-        — max |ρ| 0.000622 (limit 0.90); worst 3-px overlap 0.4040 (limit 0.70) vs <code>gems61c_gravstep_liveband_40k</code></td></tr>
+    <tr><th>legacy format result</th><td><span class="verdict v-no">NOT CLEARED</span>
+        — old check accepted finite zeros outside the footprint; the current official-format checker requires NaN outside.</td></tr>
+    <tr><th>legacy lane rule</th><td><span class="verdict v-no">SUPERSEDED</span>
+        — old “DISTINCT LANE” receipts excluded dense/vacuous comparators. That exemption violates the literal user rule and must not authorize any artifact.</td></tr>
+    <tr><th>current clearance</th><td><span class="verdict v-no">NOT RECHECKED / DO NOT SUBMIT</span>
+        — this archival 99-dot raster has no current strict registry receipt; use the active negative run card for v8.</td></tr>
     <tr><th>hard upper bound</th><td class="n"><b>0.0103</b> — every one of the 99 dots landing exactly on a truth pixel, |G| = 12,000</td></tr>
   </table>
   <p><b>Why you should not submit it.</b> The published metric charges β = 0.8 per <i>missing</i> truth
@@ -38,8 +43,8 @@
   exceed 0.0103 <b>even with perfect placement</b>, because FN<sub>w</sub> ≈ |G| dwarfs
   TP<sub>w</sub> ≤ 99. The protocol gate
   <i>“do not spend a submission slot on an idea that hasn't beaten the current holdout best”</i> is not met.
-  Use this artifact as Phase-2 defensibility evidence, not as an initial-round scorer.
-  Full reasoning below and in <a href="executive-summary.html">How to submit</a>.</p>
+  This old model calculation is historical only; it does not authorize Phase-2 or leaderboard claims.
+  See the <a href="executive-summary.html">current strict review</a> before handling any raster.</p>
 </div>
 
 <h2>The question</h2>
@@ -125,7 +130,7 @@ margin and none sits on the catalogue.</p>
   <tr><td>Registry cross-check</td><td>21 prior artifacts fetched; every pinned hash matched on fetch, including the 0.2778 file (<code>c55bafc4…ab6fa9</code>)</td></tr>
   <tr><td>HOLDOUT-DTI</td><td>0.000026 · 95 % CI [0.000006, 0.000162] (3,199 withheld whole segments, 60,988 withheld positive cells, cluster bootstrap n = 60) — <b>evaluator gems62.holdout.v1, label HOLDOUT-DTI</b></td></tr>
   <tr><td>Gate recording</td><td>every CLI gate that produced this file is echoed into the run card under <code>gates</code>, so an independent reader can reproduce the numbers without guessing defaults</td></tr>
-  <tr><td>Protocol defect reproduced</td><td>3 of 21 registry rasters are <i>vacuous</i> — their own 3-px dilation blankets ≥ 70 % of the footprint, so <i>any</i> submission trips the 70 % dot-overlap rule against them. Independently reproduces the sibling repositories' IR-54-016.</td></tr>
+  <tr><td>Legacy protocol handling</td><td>This archived page treated some high-coverage comparators as exempt. The current strict rule does not grant that exemption; any candidate with raw overlap above 70% is a stop.</td></tr>
 </table>
 <p><b>Why the holdout number is unusually trustworthy here, and also does not answer the real question.</b>
 The lane reads the catalogue for <i>nothing</i> except an exclusion gate that can only remove mass, so withheld

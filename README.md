@@ -12,35 +12,44 @@ so this lane buys **defensibility more than area**.
 
 ---
 
-## ⬇ Is it OK to download and submit the generated file?
+## ⛔ Is it OK to download and submit the candidate?
 
-### ✅ YES — [`docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif`](docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif)
+### **NO — DO NOT SUBMIT**
 
-62,709 bytes · sha256 `3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba` ·
-`legal = true` · **UNIQUE-VS-REGISTRY** across 289 prior rasters (worst rank correlation −0.065,
-worst symmetric overlap 0.030).
+The linked v8 GeoTIFF is an **archival artifact only**, not an approved submission:
+[`docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif`](docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif).
+It is a prior raster, and an independent strict check found a hard-stop duplicate condition:
+1,601 of 1,660 positive dots (**96.45%**) fall within 3 px of `13GEMSDOE`'s r11 greedy-mp raster
+(272,853 positive cells; required: **≤70%**); rank correlation was −0.3318 (limit: ≤0.90). The
+fail-fast registry scan stopped after 9 of 525 rasters at this comparator. The result is
+`DUPLICATE-STOP`, not a submission verdict.
 
-**Spend a weekly slot on it only as a low-risk Phase-1 novelty probe, not as the lead horse.**
-The honest expectation is below the group's best scored artifact (`gems32-h33-h33-2-b2-…-zeros`,
-0.2778, OWNER-REPORTED). The reason is not a low local score — it is that **no local instrument can
-score this task**: on the catalogue-based proxy a uniform-random field beats that same 0.2778
-artifact by 10× (0.0669 vs 0.0067). Full argument and receipts:
-[`docs/executive-summary.md`](docs/executive-summary.md), [`docs/run-card.md`](docs/run-card.md),
-one-click page: [`docs/index.html`](docs/index.html).
+The same old file also has finite zero-valued pixels outside the competition footprint, while the
+official format requires null/NaN outside it. The corrected shared writer now emits NaN outside and
+validates its bytes, but **the prior TIF has not been re-emitted** because the strict uniqueness
+stop was reached. No slot is recommended or selected. The registry fetch covered 88 repositories
+and 525 TIFFs; 12 repositories exceeded the 90 MB fetch cap, so the broad registry snapshot is
+incomplete. The one independently checked comparator is already sufficient to stop.
 
-Every generated file is published here with an explicit verdict. Read
-[`docs/executive-summary.md`](docs/executive-summary.md) for the one-page answer, and
-[`docs/run-card.md`](docs/run-card.md) for the current candidate's full evidence class.
+**Evidence (not organizer scores):** `HOLDOUT-DTI`, evaluator `root-run_holdout-v3`, six spatial
+blocks, 60,362 withheld catalogue positives, 95% spatial-block bootstrap CI `[0, 0.006842]`;
+feature-alone canary AUCs were 0.5020 and 0.4999 (neither exceeds the 0.90 leakage threshold).
+This is a catalogue proxy, not the competition's hidden-new-fault truth. No organizer-confirmed
+submission receipt exists for this raster. Details: [`docs/executive-summary.md`](docs/executive-summary.md),
+[`docs/run-card.md`](docs/run-card.md), [`evidence/lahontan_run_card_20261011.json`](evidence/lahontan_run_card_20261011.json).
 
-The rule this repository enforces mechanically (`src/gems62/grid.py::write_submission` +
-`check_submission`, re-read from disk after writing):
+### Format rules enforced by the shared writer
 
-| requirement | how it is guaranteed |
+`src/gems62/grid.py::write_submission` writes NaN pixels outside the template footprint, leaves the
+GeoTIFF nodata tag unset, then reopens and checks the bytes. This validates the local format only;
+it does not establish uniqueness or organizer acceptance.
+
+| requirement | local check |
 | --- | --- |
-| single band, `float32` | written by one code path, then re-opened from disk and re-checked |
-| EPSG:32611, 100 m, 3730×3292 | asserted against the transform read back from the official sample |
-| every value in `[0, 1]`, no NaN anywhere | asserted before writing **and** re-counted after |
-| **no nodata tag at all** | the two mechanisms behind the portal error *"Predicted values must be in range [0, 1]"* are a `-3.40e38` float32 sentinel and a NaN nodata tag; both are structurally absent here |
+| one band, `float32` | re-read from output |
+| EPSG:32611, 100 m, 3730×3292, matching transform and bounds | compared to the pinned official sample grid |
+| finite values in `[0,1]` inside the footprint | asserted before write and re-counted after |
+| NaN outside footprint; no nodata tag | asserted from the written bytes |
 
 ---
 
@@ -54,12 +63,13 @@ The rule this repository enforces mechanically (`src/gems62/grid.py::write_submi
 | `scripts/fetch_3dep.py` + `.github/workflows/dem-fetch.yml` | transports the official USGS 3DEP DEM (the driving sandbox cannot reach USGS hosts; GitHub runners can) |
 | `scripts/run_lane.py` | end-to-end: DEM → benches → isobase → loci → traces → submission GeoTIFF + receipts |
 | `scripts/run_holdout.py` | hide-and-recover holdout (spatially blocked, buffer, pooled DTI, leakage canary) |
-| `scripts/check_uniqueness.py` | lane-drift tripwires: rank correlation ≤ 0.90 and ≤ 70 % dot overlap vs every registry raster |
+| `scripts/check_uniqueness.py` + `src/gems62/uniqueness.py` | strict stop if rho > 0.90 or raw Euclidean 3 px overlap > 70 % vs any registry raster; no dense-comparator exemption |
 | `docs/` | executive summary, run card, hypothesis ranking, sources, irregularities, evidence JSON |
 | `evidence/` | receipts committed by the GitHub runner: DEM provenance, network probes |
 
-Heavy inputs (418 MB official feature stack, 25 m DEM, registry of prior rasters) are **not**
-committed; see [`docs/data.md`](docs/data.md) for the exact reproduction commands.
+The 25 m Lahontan 3DEP DEM and official grid/catalogue mirrors are tracked in this checkout; the
+418 MB feature stack is not present, and the full registry is external/transient. Availability and
+reproduction limits are recorded in [`docs/data.md`](docs/data.md).
 
 ---
 
@@ -72,10 +82,11 @@ committed; see [`docs/data.md`](docs/data.md) for the exact reproduction command
 | known USGS/INGENIOUS faults | masked/excluded from scoring in both rounds | OFFICIAL (organizer post, thread 11516) |
 | "new fault" | any pixel not captured by USGS/INGENIOUS, **including new geometry of an existing system** | OFFICIAL (organizer post, thread 11536) |
 | Phase 2 label set | updated by expert review of Phase 1 submissions | OFFICIAL (organizer post, thread 11527) |
-| this lane's holdout DTI | **0.00286** (6 folds, 60,362 withheld positives, recall 0.0023, Wilson95 [0.00196, 0.00272]); **not a score** — the same proxy ranks a Poisson control (0.0669) above the artifact that scored 0.2778 live (0.0067) | HOLDOUT-DTI (proxy; `evidence/holdout_v8.json`) |
-| this file vs its own Poisson null | 0.74× (h33: 0.10×) — a **novelty** ratio, not a quality ratio | MEASURED (`evidence/calibration_v8.json`) |
-| registry uniqueness | **UNIQUE-VS-REGISTRY**, 289 rasters, max ρ −0.065, max Jaccard 0.030 | MEASURED (`evidence/uniqueness_v8.json`) |
-| organizer scores of *any* file here | **none exist** | — |
+| historical v8 holdout | **0.002863**, 95% cluster-bootstrap CI `[0, 0.006842]`, 60,362 withheld positives; **not a score** | HOLDOUT-DTI (`root-run_holdout-v3`, six spatial blocks; `evidence/holdout_v8_strict_review.json`) |
+| feature-alone leakage canary | AUC 0.5020 and 0.4999; below the 0.90 alarm | HOLDOUT-DTI canary (`evidence/holdout_v8_strict_review.json`) |
+| historical v8 strict registry check | **DUPLICATE-STOP**: raw 3 px overlap 0.9645 (1,601/1,660) vs 13GEMSDOE r11-greedy-mp (limit 0.70); rho −0.3318; stopped after 9/525 TIFFs | LOCAL-STRICT-REGISTRY-CHECK (`evidence/uniqueness_v8_strict_review.json`) |
+| historical v8 format | `legal = false`; finite zeros remain outside footprint, failed `all_nan_outside_footprint` | LOCAL-FORMAT-CHECK (`grid.check_submission`) |
+| organizer scores of any file here | **none exist** | no ORGANIZER-CONFIRMED receipt |
 
 Scores the user reported for earlier sites (0.2778, 0.3774, …) are recorded in
 `docs/irregularities.md` **as claims**, with what could and could not be verified.
@@ -269,54 +280,24 @@ successful project. It should be worked on in this next session or the next sess
 
 ---
 
-## Reproduce (no manual steps, no paid services)
+## Verified state and safe next steps
+
+This checkout currently has **no cleared submission TIF**. The historical v8 artifact is
+`DUPLICATE-STOP` under the literal raw-overlap rule and fails the current NaN-outside format check.
+Do not rerun the old pipeline to create a downloadable candidate without first persisting and
+passing a pre-placement surface gate; then recheck final dots after emission.
+
+Re-run local code tests with:
 
 ```bash
-# 0. toolchain
-python -m venv .venv && . .venv/bin/activate
-pip install numpy scipy rasterio
-
-# 1. official competition rasters (login-walled on DrivenData; this repo uses the sha256-pinned
-#    mirror transported through git by the sibling GEMSDOE data bridge)
-python /path/to/fetch_features.py          # 418 MB feature stack -> /tmp/gems
-gh api -H "Accept: application/vnd.github.raw" \
-  repos/buffedlizard55-lab/GEMSDOE/contents/data/bridge/existing_faults.tif > labels.tif
-gh api -H "Accept: application/vnd.github.raw" \
-  repos/buffedlizard55-lab/GEMSDOE/contents/data/bridge/example_submission.tif > sample_submission.tif
-
-# 2. official 3DEP DEM (runs on a GitHub runner; the sandbox cannot reach USGS hosts)
-#    edit .github/triggers/dem-fetch.json, push, then pull the receipt + DEM back
-python scripts/run_lane.py --dem /tmp/gems/dem/lahontan_dem_utm11.tif \
-  --catalogue labels.tif --sample sample_submission.tif \
-  --out-dir build/lane --name gemsdoe62-datum-lahontan-isobase
-
-# 3. the three gates that must pass before anything is offered for download
-python scripts/run_holdout.py   --emission build/lane/<name>.tif --catalogue labels.tif --sample sample_submission.tif
-python scripts/check_uniqueness.py --raster build/lane/<name>.tif --footprint sample_submission.tif
-python -m pytest tests -q
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest tests -q
 ```
 
-## Suggestions / what still needs doing
+Current evidence and access limits are maintained in [`docs/next-steps.md`](docs/next-steps.md),
+[`docs/data.md`](docs/data.md), and [`docs/run-card.md`](docs/run-card.md). The failed historical
+TIF, strict registry receipt, and HOLDOUT-DTI receipt are linked at the top of this README.
+No weekly slot is selected or recommended.
 
-Kept current in [`docs/next-steps.md`](docs/next-steps.md) (headline: 1 m 3DEP refinement of the
-top loci, the catalogue-endpoint extension hypothesis H4, and a 19-band + DEM deep detector).
-
----
-
-## Independent re-derivation of this same lane — `lane62/`
-
-A second session on this repository was assigned the same datum-offset lane and worked without
-seeing this one. Its whole tree lives under [`lane62/`](lane62/README.md) so that the two do not
-collide; **nothing at the root was overwritten**. It ships a different artefact —
-[`lane62/docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif`](lane62/docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif)
-(86,968 dots, 518,595 bytes, sha256 `f58ae055…`, all-finite float32, 0 dots on the catalogue) —
-plus a profiles deliverable and 46 tests. Its own verdict is an **honest negative**
-(mean credit 0.039967/dot below the 0.055556 marginal bar; dominated ~0.55× by a registered
-prior field on the same instrument), so the v8 file above remains the candidate to spend a slot
-on. The two artefacts are **not** copies of one another: re-running the duplicate test against
-this lane's shipped TIFs gives 3 px overlap ≤ 0.0099, exact overlap ≤ 0.0005 and |ρ| ≤ 0.0021
-(`lane62/evidence/crosscheck_sibling_lane.json`). `lane62/scripts/crosscheck_sibling_lane.py`
-also documents one defect it found here — on a clean checkout, `tests/` cannot collect because
-`src/gems62/lahontan.py` imports a `PIXEL_M` that `src/gems62/grid.py` does not define, and
-`tests/test_metric.py` imports a `brute_force_components` that `src/gems62/metric.py` does not
-define. Reported as `IR-62-11`, deliberately not fixed from another lane.
+The `lane62/` directory is a separate archived parallel run and is not part of this review's
+candidate selection. Its historical artifacts and uniqueness reports are not used to clear the
+root v8 TIF; each would require its own strict registry and format checks before use.

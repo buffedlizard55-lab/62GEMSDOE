@@ -1,54 +1,57 @@
-# Official sources, read line by line
+# Sources and evidence provenance
 
-Every claim in this repository that is labelled OFFICIAL traces to one of the entries below.
-**Nothing here is quoted from memory.** Where a source could not be read from this sandbox, that
-is stated with the reason.
+This page separates organizer specifications, official geospatial data, peer-reviewed regional
+context, local measurements, and unverified score claims. No leaderboard projection is presented
+as an organizer result.
 
-## Competition
+## Competition specification (official)
 
-| # | source | what was read from it | class |
-| --- | --- | --- | --- |
-| 1 | [Competition page 967, DOE GEMS Prize](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) | the metric verbatim: `DTI = TP_w/(TP_w + 0.2·FP_w + 0.8·FN_w + ε)` with triangular kernel `k(d) = max(1 − d/R, 0)`, `R = 300 m`; the submission format: same CRS, bounds and 100 m grid as the training data (EPSG:32611), values `null`/`nan` permitted outside the footprint, **single layer, `float32`, values in `[0, 1]`** | OFFICIAL |
-| 2 | [Scoring clarification, thread 11516](https://community.drivendata.org/t/scoring-clarification-…-11516) | known USGS/INGENIOUS fault pixels are **masked / excluded from evaluation in both rounds**; including or excluding them does not matter | OFFICIAL |
-| 3 | [Where do you draw the line, thread 11536](https://community.drivendata.org/t/where-do-you-draw-the-line/11536) | a "new fault" is any fault pixel **not** already captured by USGS/INGENIOUS, *explicitly including newly mapped geometry of existing systems* | OFFICIAL |
-| 4 | [How were the new test faults identified, thread 11527](https://community.drivendata.org/t/how-were-the-new-test-faults-identified-data-sources-and-fault-types/11527) | chrisk-dd (2026-09-23): organizers will **not** share data sources, fault types or coverage behind the test faults beyond the problem description; **Phase 2 (the largest prize pool) will use a test set updated by expert review of all Phase 1 submissions** | OFFICIAL |
-| 5 | [Official rules, FY26 OSTI 96647 (PDF)](https://docs.nlr.gov/docs/fy26osti/96647.pdf) | $300,000 total prize pool, September 2026 edition; section structure including 3.4 Feedback, 3.6.1 Public Leaderboard, 3.6.2 Private Dataset Testing, 3.6.3 Interviews. **Only the first chunk of the PDF was read** — sections beyond that are unverified | OFFICIAL, partial |
+| source | use in this repository | evidence class |
+|---|---|---|
+| [DOE GEMS Prize — competition page 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) | Metric: distance-weighted Tversky index with `alpha=0.2`, `beta=0.8`, triangular kernel `k(d)=max(1-d/300m,0)`. Format: single-band `float32`, same CRS/bounds/resolution as training data (EPSG:32611, 100 m), values in `[0,1]`, null/NaN allowed or required outside the footprint. This source controls the writer and validator. | OFFICIAL; page fetched 2026-10-11 |
+| [FY26 OSTI 96647 competition rules PDF](https://docs.nlr.gov/docs/fy26osti/96647.pdf) | Rules include the weekly submission cap (up to three), AI-use disclosure requirements, and Phase 2 expert-review process. These are reasons to document AI assistance and not spend a slot automatically. | OFFICIAL; PDF fetched 2026-10-11 |
+| [Public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) | Retrieved 2026-10-11. The displayed public board did not match the prompt's stated 0.3195 premise. It is not a receipt for this repository's artifact and is not used as one. | PUBLIC-BOARD OBSERVATION, time-stamped; not a candidate score receipt |
 
-## Data
+No submission-page receipt is present for the historical v8 TIF. Therefore it has no
+ORGANIZER-CONFIRMED score.
 
-| # | source | what was read from it | class |
-| --- | --- | --- | --- |
-| 6 | [USGS TNM Access API](https://tnmaccess.nationalmap.gov/api/v1/products) | the official 3DEP discovery endpoint: 19 products listed for the n40w119 bbox with S3 download URLs of the form `https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w119/USGS_13_n40w119_<date>.tif`, sizes 319–379 MB. Receipt committed as `evidence/tnm_probe.json` | OFFICIAL |
-| 7 | USGS 3DEP | no use restrictions; acknowledgement required: "Map services and data available from U.S. Geological Survey, National Geospatial Program" | OFFICIAL |
+## Official elevation-data source
 
-**Reachability, measured:** this sandbox gets `HTTP 000` from USGS/TNM hosts. GitHub Actions
-runners do not, which is why all 3DEP fetching happens on a runner
-(`.github/workflows/dem-fetch.yml` + `scripts/fetch_3dep.py`) and the result is transported into
-the repository as bytes. Run **38169727207** is the successful six-tile fetch; see `data.md`.
+| source | use | evidence class |
+|---|---|---|
+| [USGS The National Map / 3DEP product discovery API](https://tnmaccess.nationalmap.gov/api/v1/products) | Official discovery service for 3DEP elevation and LiDAR products. Prior queries returned nearby product records and download URLs. Exact LiDAR coverage along future shoreline transects is not confirmed. | OFFICIAL source; local query result recorded in `evidence/tnm_probe.json` |
+| [USGS 3DEP program](https://www.usgs.gov/3d-elevation-program) | Source attribution and program context for the DEM. | OFFICIAL |
 
-## Science cited by the session brief — **not independently verified here**
+The locally available 25 m Lahontan DEM is tracked at `evidence/dem/lahontan_dem_utm11.tif` with
+transport details in `evidence/dem/dem_transport.json`. Direct USGS/TNM HTTP requests from the
+sandbox returned HTTP 000; the mosaic was transported via a GitHub Actions runner. This local
+transport receipt is not a new organizer data source.
 
-These three works are named in the brief and motivate the assigned lane. They were **not** fetched
-or read from this sandbox, so nothing about their content is asserted here beyond "the brief cites
-them". Marked **[CITED-IN-BRIEF]** wherever they appear.
+## Lake Lahontan and Walker Lane scientific context
 
-* Briggs & Wesnousky, *JGR* 2004 — features displaced since the Lahontan highstand used to
-  constrain slip on the Pyramid Lake fault zone.
-* Dong and coauthors, *Geosphere* — Lahontan shorelines displaced along a strike-slip fault
-  outboard of the Wassuk Range front.
-* Pierce & Wesnousky, *SCEC poster* 2016 — two previously unmapped northwest-striking segments in
-  the centre of Smith Valley, offsetting Holocene sediments.
+| source | relevant context | evidence class |
+|---|---|---|
+| [Dong et al. (2014), *Geosphere*, “Strike-slip faulting along the Wassuk Range…”](https://pubs.geoscienceworld.org/gsa/geosphere/article/10/1/40/132152/Strike-slip-faulting-along-the-Wassuk-Range-of-the) | Published Walker Lane/Lake Lahontan shoreline displacement context, motivating a datum-offset lane. | Peer-reviewed regional context; source fetched/read 2026-10-11 |
+| [Pierce, Wesnousky & Owen (2016), SCEC Contribution 6917](https://www.scec.org/publication/6917) | Lidar mapping context for faulted fans, stream offsets, and unmapped structures in the northern Walker Lane. | SCEC research contribution; fetched/read 2026-10-11 |
+| [Pierce et al. (2021), *Tectonics*, DOI 10.1029/2019TC005612](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019TC005612) | Regional Walker Lane tectonic context. | Peer-reviewed regional context; fetched/read 2026-10-11 |
+| [Adams, Wesnousky & Bills (1999), DOI 10.1130/0016-7606(1999)111<1739:IRAFAP>2.3.CO;2](https://doi.org/10.1130/0016-7606(1999)111%3C1739:IRAFAP%3E2.3.CO;2) | Lake Lahontan isostatic rebound and geomorphic effects, relevant to non-fault mimic control and isobase modeling. | Peer-reviewed regional context; bibliographic source verified 2026-10-11 |
 
-## Sibling repositories (this group, not official)
+These sources support a hypothesis, not an assertion that any rasterized candidate is a fault.
+The candidate's stated non-fault mimics include wave-cut bluffs, beach berms, fan-head risers,
+delta topsets, shoreline reoccupation, channel incision/avulsion, and spatially variable rebound.
 
-Used **only** as internal comparison, never as truth. The registry of 289 prior rasters under
-`/tmp/registry` is the group's own output; the calibration numbers quoted from
-`sibling h33-hypotheses.md` / `evidence/h33_holdout.json` are **[SIBLING-MEASURED]** and are
-attributed to those repositories wherever they appear.
+## Internal measurements and score claims
 
-## Claims this repository explicitly does **not** make
+| item | source | status |
+|---|---|---|
+| Historical v8 HOLDOUT-DTI, CI, withheld-positive count, and canary | `evidence/holdout_v8_strict_review.json` | Local proxy measurement; not an organizer score |
+| Strict final-dot registry comparison | `evidence/uniqueness_v8_strict_review.json` | Local comparison against fetched repository artifacts; strict result `DUPLICATE-STOP` |
+| Current local GeoTIFF format receipt | produced by `src/gems62/grid.py::check_submission` | Local validator only; historical v8 fails NaN-outside rule |
+| User-provided earlier leaderboard numbers | `docs/irregularities.md` | OWNER-REPORTED claims; no submission-page receipt is present |
 
-* No organizer-confirmed score exists for any file produced in this repository. None is claimed.
-* No number from the local holdout is presented as a score. See `irregularities.md` §4.
-* No fault "identified" by this repository is asserted to be a fault; the emission is a set of
-  datum-offset candidates with a named non-tectonic confuser for each (`run-card.md`).
+## Claims this repository does not make
+
+- It does not claim that the historical v8 raster is unique or submission-ready.
+- It does not claim a fault has been discovered from the candidate geometry.
+- It does not label the catalogue proxy as hidden-new-fault performance.
+- It does not claim an ORGANIZER-CONFIRMED score without a submission-page receipt.

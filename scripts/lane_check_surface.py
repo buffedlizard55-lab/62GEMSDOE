@@ -28,6 +28,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from dataclasses import asdict
 from pathlib import Path
 
 import numpy as np
@@ -36,7 +37,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from gems62 import grid as gridmod  # noqa: E402
 from gems62 import lahontan  # noqa: E402
-from gems62.uniqueness import compare, OVERLAP_LIMIT, RHO_LIMIT  # noqa: E402
+from gems62.uniqueness import compare, verdict as registry_verdict  # noqa: E402
 
 
 def build_surfaces(data: str, *, order: int, slope_max_deg: float, min_cells: int,
@@ -79,39 +80,47 @@ def main() -> int:
           f"{int((evid > 0).sum()):,} flagged-evidence cells, "
           f"|residual| median {np.median(full[full > 0]):.2f} m")
 
-    reg = {p.stem: p for p in sorted(Path(a.registry).glob("*.tif"))}
-    report = {"evaluator": "gems62.uniqueness.compare", "rule": {
-        "rho_limit": RHO_LIMIT, "overlap_limit": OVERLAP_LIMIT, "tolerance_px": 3}}
-    worst = 0.0
+    registry_root = Path(a.registry)
+    reg = {str(p.relative_to(registry_root)): p
+           for p in sorted(registry_root.rglob("*.tif"))}
+    report = {"evaluator": "gems62.uniqueness.compare",
+              "rule": {"rho_strictly_greater_than": 0.90,
+                       "overlap_strictly_greater_than": 0.70,
+                       "tolerance_euclidean_px": 3},
+              "jaccard_or_vacuity_exemptions": False}
+    summaries = []
     for variant, surf in (("full", full), ("evidence", evid)):
         entries = compare(surf, reg, foot)
-        nonvac = [e for e in entries if not e.vacuous]
-        rho_max = max((abs(e.rho) for e in entries if np.isfinite(e.rho)), default=float("nan"))
-        ov = max((e.frac3px for e in nonvac), default=0.0)
-        worst = max(worst, rho_max if np.isfinite(rho_max) else 0.0, ov)
+        summary = registry_verdict(entries)
+        summaries.append(summary)
+        ranked = [e for e in entries if e.comparable and np.isfinite(e.rho)]
+        comparable = [e for e in entries if e.comparable]
+        worst_rank = max(ranked, key=lambda e: e.rho) if ranked else None
+        worst_overlap = max(comparable, key=lambda e: e.frac3px) if comparable else None
         report[variant] = {
-            "n_registry": len(entries), "n_vacuous": len(entries) - len(nonvac),
-            "max_abs_rho": rho_max, "max_3px_overlap_non_vacuous": ov,
-            "closest": (max(nonvac, key=lambda e: e.frac3px).alias if nonvac else None),
-            "per_raster": [{"alias": e.alias, "rho": e.rho, "frac3px": e.frac3px,
-                            "coverage3px": e.coverage3px, "vacuous": e.vacuous,
-                            "sha256": e.sha256} for e in entries],
+            "strict_summary": summary,
+            "worst_rank_corr": asdict(worst_rank) if worst_rank else None,
+            "worst_asymmetric_3px_overlap": asdict(worst_overlap) if worst_overlap else None,
+            "per_raster": [asdict(e) for e in entries],
         }
-        print(f"  {variant:8s} max|rho|={rho_max:.6f} (limit {RHO_LIMIT})  "
-              f"max 3px={ov:.4f} (limit {OVERLAP_LIMIT})  vacuous={report[variant]['n_vacuous']}")
+        print(f"  {variant:8s} verdict={summary['verdict']} "
+              f"max-rho={summary['max_rank_corr']} "
+              f"max-raw-overlap={summary['max_frac3px_all']:.4f}")
 
-    trip = (worst >= min(RHO_LIMIT, OVERLAP_LIMIT))
-    report["passed"] = None if trip else True
-    report["verdict"] = "SURFACE DISTINCT" if not trip else "REVIEW"
-    report["note"] = ("pre-placement half of the lane rule; the final-dots half is in the run card"
-                      " field correlation_overlap_vs_registry. Correlation on a broad, mostly-zero"
-                      " field is a drift check, not a score.")
+    duplicate = any(s["rho_trip"] or s["overlap_trip"] for s in summaries)
+    incomplete = any(s["n_uncomparable"] or not s["n_comparable"] for s in summaries)
+    report["passed"] = bool(not duplicate and not incomplete)
+    report["verdict"] = ("DUPLICATE-STOP" if duplicate else
+                         "REVIEW-INCOMPLETE" if incomplete else "NO-STRICT-TRIPWIRE")
+    report["note"] = ("pre-placement surface gate. Every registry raster is tested; dense/vacuous "
+                      "comparators are not exempt. Final dots require a separate check after emission.")
     report["isobase"] = {"order": a.isobase_order, "residual_sigma_m": levels.get("sigma_m")}
     out = Path(a.out) / f"{a.name}-lane-surface.json"
-    out.write_text(json.dumps(report, indent=1))
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(report, indent=1, allow_nan=True))
     np.save(Path(a.out) / f"{a.name}-surface.npy", full)
     print(f"wrote {out}")
-    return 0
+    return 2 if duplicate else 1 if incomplete else 0
 
 
 if __name__ == "__main__":

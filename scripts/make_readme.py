@@ -1,13 +1,7 @@
-"""Regenerate README.md from the newest run card.
-
-The README is a *derived* document: every number in it comes from
-``evidence/<slug>-runcard.json`` rather than being typed by hand.  That is
-deliberate -- a stale number in a public write-up is the same defect as a wrong
-number, and this repository has already been bitten by it once (a re-run changed
-the dot count while the site still cited the old one).
-
-Run after ``scripts/run_lane.py``:  ``python scripts/make_readme.py``
+"""Disabled legacy README generator. The historical implementation is retained below for provenance but is intentionally unreachable; it emits superseded format/uniqueness claims.
 """
+raise SystemExit('make_readme.py is disabled: it would overwrite the current README with superseded claims.')
+
 import json
 import pathlib
 

@@ -1,163 +1,91 @@
 #!/usr/bin/env python3
-"""Lane-drift / duplicate check: is this raster a re-run of something already in the registry?
-
-The session brief sets two tripwires, and this script evaluates both on the bytes:
-
-* **rank correlation > 0.90** with any registry raster -> drifted into that lane;
-* **more than 70 % of this raster's dots within 3 px of one registry raster's dots** ->
-  duplicate.
-
-**Measured defect, fixed here and reported** (session 2026-10-11): the 70 % tripwire is
-*density-blind*.  `13gems_20261001_r13-lattice-s5_v2` carries 206,895 dots, which dilates to
-112 % of the 5.17 M-cell footprint, so its 3 px neighbourhood covers the map and **any** emission
-scores ~1.0 on the tripwire.  Demonstration: a uniform-random 1,660-dot control
-(`build/controls/poisson_1660_seed7.tif`, seed 7) scores `dot_overlap_within_kernel = 0.9982`
-against that same raster.  A tripwire that fires on Poisson noise cannot certify a duplicate, so
-the verdict now additionally requires a **symmetric** overlap -- the Jaccard index of the two
-3 px-dilated dot masks, `|A n B| / |A u B|` -- which is 1.0 for a re-run of the same lane and
-~0.01 for a sparse emission against a dense lattice.  The asymmetric fraction is still reported,
-as a diagnostic, because it is what the brief names.
-
-Rank correlation is Spearman's rho over the union of the two rasters' positive cells plus a
-deterministic background sample of the footprint (so the number is not dominated by the shared
-zero field).  Dot overlap is computed from a Euclidean distance transform of the registry mask.
-
-Usage:
-  python scripts/check_uniqueness.py --raster build/lane/x.tif --registry /tmp/registry \
-      --footprint <sample_submission.tif> --out build/uniqueness.json
-"""
+"""CLI for the shared, strict registry gate in ``gems62.uniqueness``."""
 from __future__ import annotations
 
 import argparse
 import json
 import pathlib
 import sys
+from dataclasses import asdict
 
 import numpy as np
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 
-from gems62 import grid  # noqa: E402
-
-
-def spearman(a: np.ndarray, b: np.ndarray) -> float:
-    """Spearman rho with average ranks for ties (no scipy.stats dependency on 12M cells)."""
-    if a.size < 10:
-        return float("nan")
-
-    def rank(v):
-        order = np.argsort(v, kind="mergesort")
-        r = np.empty(v.size, float)
-        r[order] = np.arange(1, v.size + 1)
-        uniq, inv, cnt = np.unique(v, return_inverse=True, return_counts=True)
-        if (cnt > 1).any():
-            sums = np.zeros(uniq.size); np.add.at(sums, inv, r)
-            r = (sums / cnt)[inv]
-        return r
-
-    ra, rb = rank(a), rank(b)
-    ra = ra - ra.mean(); rb = rb - rb.mean()
-    denom = np.sqrt((ra * ra).sum() * (rb * rb).sum())
-    return float((ra * rb).sum() / denom) if denom > 0 else float("nan")
+from gems62 import grid, uniqueness  # noqa: E402
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--raster", required=True)
-    ap.add_argument("--registry", default="/tmp/registry")
-    ap.add_argument("--footprint")
+    ap.add_argument("--registry", required=True,
+                    help="registry folder; GeoTIFF search is recursive")
+    ap.add_argument("--footprint", help="official sample raster; defaults to pinned sample")
     ap.add_argument("--out", default="build/uniqueness.json")
-    ap.add_argument("--rank-threshold", type=float, default=0.90)
-    ap.add_argument("--overlap-threshold", type=float, default=0.70)
-    ap.add_argument("--kernel-px", type=float, default=3.0)
-    ap.add_argument("--jaccard-threshold", type=float, default=0.25)
     args = ap.parse_args()
 
     import rasterio
-    from scipy import ndimage
 
-    with rasterio.open(args.raster) as s:
-        mine = s.read(1).astype(np.float32)
-    H, W = mine.shape
-    mine_pos = mine > 0
-    if args.footprint:
-        with rasterio.open(args.footprint) as s:
-            footprint = np.isfinite(s.read(1))
-    else:
-        footprint = np.ones_like(mine, bool)
-    rng = np.random.default_rng(62)
-    # deterministic background sample of the footprint (10k cells) keeps this fast
-    fr, fc = np.nonzero(footprint)
-    k = min(10000, fr.size)
-    sel = rng.choice(fr.size, size=k, replace=False)
-    bg = (fr[sel], fc[sel])
+    raster = pathlib.Path(args.raster)
+    registry_root = pathlib.Path(args.registry)
+    if not registry_root.is_dir():
+        raise FileNotFoundError(f"registry directory does not exist: {registry_root}")
+    paths = sorted(p for p in registry_root.rglob("*")
+                   if p.is_file() and p.suffix.lower() in {".tif", ".tiff"})
+    if not paths:
+        raise ValueError(f"no GeoTIFFs found recursively under {registry_root}")
 
-    results = []
-    for p in sorted(pathlib.Path(args.registry).glob("*.tif")):
-        try:
-            with rasterio.open(p) as s:
-                other = s.read(1).astype(np.float32)
-        except Exception as exc:
-            results.append(dict(file=p.name, error=str(exc)))
-            continue
-        if other.shape != (H, W):
-            results.append(dict(file=p.name, skipped="shape", shape=list(other.shape)))
-            continue
-        other = np.nan_to_num(other, nan=0.0, posinf=0.0, neginf=0.0)
-        other_pos = other > 0
-        rr, cc = np.nonzero(mine_pos | other_pos)
-        if rr.size == 0:
-            results.append(dict(file=p.name, skipped="no-positives"))
-            continue
-        a = np.concatenate([mine[rr, cc], mine[bg]])
-        b = np.concatenate([other[rr, cc], other[bg]])
-        rho = spearman(a, b)
-        # dot overlap: fraction of my dots within `kernel_px` of any of its dots
-        if other_pos.any() and mine_pos.any():
-            d = ndimage.distance_transform_edt(~other_pos)
-            frac = float((d[mine_pos] <= args.kernel_px).mean())
-        else:
-            frac = 0.0
-        # symmetric overlap: Jaccard of the two kernel-width dilated dot masks.  A dense
-        # registry raster covers the map, which inflates `frac` to ~1 for *any* emission
-        # (measured: Poisson control 0.9982) but leaves the Jaccard small, as it should be.
-        kk = int(round(args.kernel_px))
-        if kk > 0:
-            st = np.ones((2 * kk + 1, 2 * kk + 1), bool)
-            da = ndimage.binary_dilation(mine_pos, structure=st)
-            db = ndimage.binary_dilation(other_pos, structure=st)
-            union = int((da | db).sum())
-            jac = float((da & db).sum()) / union if union else 0.0
-        else:
-            union = int((mine_pos | other_pos).sum())
-            jac = float((mine_pos & other_pos).sum()) / union if union else 0.0
-        results.append(dict(file=p.name, sha256=grid.sha256(p)[:16],
-                            rank_corr=None if np.isnan(rho) else round(rho, 4),
-                            dot_overlap_within_kernel=round(frac, 4),
-                            dilated_jaccard=round(jac, 4),
-                            n_mine=int(mine_pos.sum()), n_theirs=int(other_pos.sum()),
-                            rank_flag=bool(rho > args.rank_threshold) if not np.isnan(rho) else False,
-                            overlap_flag=bool(jac > args.jaccard_threshold)))
-    ranked = [r for r in results if r.get("rank_corr") is not None]
-    worst_rank = max(ranked, key=lambda r: r["rank_corr"]) if ranked else None
-    worst_ovl = max(ranked, key=lambda r: r["dot_overlap_within_kernel"]) if ranked else None
-    worst_jac = max(ranked, key=lambda r: r["dilated_jaccard"]) if ranked else None
-    report = dict(raster=pathlib.Path(args.raster).name, raster_sha256=grid.sha256(args.raster),
-                  n_registry=len(ranked),
-                  thresholds=dict(rank=args.rank_threshold, overlap=args.overlap_threshold,
-                                  jaccard=args.jaccard_threshold, kernel_px=args.kernel_px),
-                  worst_rank_corr=worst_rank, worst_overlap=worst_ovl, worst_jaccard=worst_jac,
-                  any_rank_flag=any(r.get("rank_flag") for r in ranked),
-                  any_overlap_flag=any(r.get("overlap_flag") for r in ranked),
-                  verdict=("DUPLICATE-OF-REGISTRY-LANE"
-                           if any(r.get("rank_flag") for r in ranked)
-                           or any(r.get("overlap_flag") for r in ranked) else "UNIQUE-VS-REGISTRY"),
-                  results=results)
-    out = pathlib.Path(args.out); out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(report, indent=1))
-    print(json.dumps({k: report[k] for k in ("verdict", "n_registry", "worst_rank_corr",
-                                             "worst_overlap", "worst_jaccard")}, indent=1))
+    footprint_path = pathlib.Path(args.footprint) if args.footprint else grid.DEFAULT_SAMPLE
+    with rasterio.open(raster) as src:
+        mine = src.read(1).astype(np.float32)
+        candidate_crs = str(src.crs)
+        candidate_transform = tuple(float(x) for x in src.transform[:6])
+    with rasterio.open(footprint_path) as src:
+        footprint = np.isfinite(src.read(1))
+    if footprint.shape != mine.shape:
+        raise ValueError(f"footprint shape {footprint.shape} != raster shape {mine.shape}")
+
+    registry = {str(p.relative_to(registry_root)): p for p in paths}
+    entries = uniqueness.compare(mine, registry, footprint, expected_crs=candidate_crs,
+                                 expected_transform=candidate_transform, fail_fast=True)
+    summary = uniqueness.verdict(entries)
+    comparable = [e for e in entries if e.comparable]
+    finite_rank = [e for e in comparable if np.isfinite(e.rho)]
+    worst_rank = max(finite_rank, key=lambda e: e.rho) if finite_rank else None
+    worst_overlap = max(comparable, key=lambda e: e.frac3px) if comparable else None
+    report = {
+        "raster": raster.name,
+        "raster_sha256": grid.sha256(raster),
+        "registry_root": str(registry_root),
+        "comparison_scope": ("recursive fail-fast; entries/extrema cover only comparators "
+                              "scanned through the first strict violation"),
+        "n_registry_files": len(paths),
+        "n_registry_scanned": len(entries),
+        "n_registry_compared": len(comparable),
+        "n_registry_uncomparable_scanned": len(entries) - len(comparable),
+        "n_registry_remaining_unscanned": len(paths) - len(entries),
+        "scan_stopped_early": len(entries) < len(paths),
+        "strict_summary": summary,
+        "any_rank_flag": summary["rho_trip"],
+        "any_overlap_flag": summary["overlap_trip"],
+        "verdict": summary["verdict"].replace(" - ", "-").replace(" ", "-"),
+        "worst_rank_corr": asdict(worst_rank) if worst_rank else None,
+        "worst_overlap": asdict(worst_overlap) if worst_overlap else None,
+        "strict_failures": [asdict(e) for e in entries if e.rank_flag or e.overlap_flag],
+        "results": [asdict(e) for e in entries],
+    }
+    out = pathlib.Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(report, indent=1, allow_nan=True))
+    print(json.dumps({k: report[k] for k in (
+        "verdict", "n_registry_files", "n_registry_scanned", "n_registry_compared",
+        "n_registry_uncomparable_scanned", "n_registry_remaining_unscanned",
+        "worst_rank_corr", "worst_overlap")}, indent=1, allow_nan=True))
     print("wrote", out)
+    if summary["verdict"] == "DUPLICATE - STOP":
+        return 2
+    if summary["verdict"] == "REVIEW INCOMPLETE":
+        return 1
     return 0
 
 

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GEMSDOE62 — datum-offset submission (Lake Lahontan shoreline isobase)</title>
 <style>
-  :root { --ink:#101418; --dim:#5b6673; --line:#e3e8ee; --ok:#0b7a3b; --warn:#8a5a00; --bg:#fbfcfd; }
+  :root { --ink:#101418; --dim:#5b6673; --line:#e3e8ee; --ok:#a61b1b; --warn:#8a5a00; --bg:#fbfcfd; }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--bg); color:var(--ink);
          font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
@@ -47,45 +47,48 @@
   single-band 100 m GeoTIFF, EPSG:32611</p>
 
   <div class="card verdict">
-    <h2>✅ OK to download and submit — legal and unique</h2>
-    <p>Single band <code>float32</code>, EPSG:32611, 100 m, 3730×3292, values in <code>[0,1]</code>,
-    <strong>no nodata tag, no NaN</strong>. Unique against all 289 registry rasters
-    (worst rank correlation −0.065).</p>
-
-    <a class="btn" href="downloads/gemsdoe62-datum-lahontan-isobase-v8.tif" download>
-      ⬇ Download the submission GeoTIFF
-      <small>62.7 KB · sha256 3d4b66e6…</small>
-    </a>
+    <h2>⛔ NOT CLEARED — DO NOT DOWNLOAD FOR SUBMISSION</h2>
+    <p>The linked v8 file is a historical artifact, not a new candidate. The strict registry test
+    found <strong>1,601/1,660 dots (96.45%) within 3 px</strong> of a prior 13GEMSDOE r11 raster; the
+    hard-stop limit is 70%. Rank correlation was −0.332 (threshold 0.90). The fail-fast scan stopped
+    after 9 of 525 fetched TIFFs.</p>
+    <p>The old file also has finite zero pixels outside the competition footprint; the official
+    format calls for null/NaN outside. No corrected TIF was emitted after the uniqueness stop.</p>
+    <p><a href="downloads/gemsdoe62-datum-lahontan-isobase-v8.tif">Historical v8 GeoTIFF (inspection only; do not submit)</a></p>
     <p class="sha">sha256 <code>3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba</code></p>
   </div>
 
   <div class="card warn">
-    <h2>⚠️ Spend a slot on it only as a novelty probe — not as the lead horse</h2>
-    <p>1,660 dots at pluvial-bench steps and deflections, 221 DEM-ridge traces. Honest expectation is
-    <strong>below</strong> the group's best scored artifact (h33-2-b2, 0.2778, owner-reported).
-    The local holdout <em>cannot</em> rank submissions for this task — proof below.</p>
+    <h2>🛑 No submission slot recommended or selected</h2>
+    <p><strong>DUPLICATE-STOP</strong> is a local strict-rule result, not an organizer finding.
+    The broader registry fetch included 525 TIFFs from 88 repositories, with 12 repositories
+    skipped above the 90 MB cap; the single failing comparator is sufficient to stop. No
+    organizer-confirmed receipt exists for this artifact.</p>
+    <p><strong>HOLDOUT-DTI</strong> (root-run_holdout-v3; six spatial blocks; 60,362 withheld
+    catalogue positives; 95% spatial-block bootstrap CI [0, 0.006842]) is a proxy only, not a score.
+    Feature-alone canary AUCs 0.5020 and 0.4999 are below the 0.90 leakage alarm.</p>
   </div>
 
   <div class="card">
-    <h2 style="margin-top:0;font-size:1.05rem">Why the local holdout is not a score</h2>
+    <h2 style="margin-top:0;font-size:1.05rem">Historical proxy comparisons (HOLDOUT-DTI, not scores)</h2>
     <table>
-      <thead><tr><th>emission</th><th class="n">proxy DTI</th><th class="n">vs its own Poisson null</th></tr></thead>
+      <thead><tr><th>emission</th><th class="n">HOLDOUT-DTI proxy</th><th class="n">vs its own Poisson null</th></tr></thead>
       <tbody>
         <tr><td>this file (v8)</td><td class="n">0.0029</td><td class="n">0.74×</td></tr>
-        <tr><td>h33-2-b2 zeros <span class="pill">live 0.2778</span></td><td class="n">0.0067</td><td class="n">0.10×</td></tr>
+        <tr><td>h33-2-b2 zeros <span class="pill">OWNER-REPORTED 0.2778</span></td><td class="n">0.0067</td><td class="n">0.10×</td></tr>
         <tr><td>Poisson control, 1,660 dots</td><td class="n">0.0039</td><td class="n">1.00×</td></tr>
         <tr><td>Poisson control, 37,654 dots</td><td class="n"><strong>0.0669</strong></td><td class="n">1.00×</td></tr>
       </tbody>
     </table>
     <p style="margin:12px 0 0">A <strong>uniform-random</strong> field outscores the artifact that
-    actually scored 0.2778 live, by 10×. The proxy's truth is the USGS/INGENIOUS catalogue; the
+    carries the OWNER-REPORTED 0.2778 claim, by 10× on this proxy. The proxy's truth is the USGS/INGENIOUS catalogue; the
     competition's truth is precisely the faults <em>absent</em> from it. So "below the catalogue null"
     is a <em>novelty</em> signature, not a quality score — a sibling repository measured the same
     defect independently (proxy vs live, Spearman ρ = +0.087).</p>
   </div>
 
   <div class="card">
-    <h2 style="margin-top:0;font-size:1.05rem">What the file is</h2>
+    <h2 style="margin-top:0;font-size:1.05rem">What the historical v8 file attempted (not cleared)</h2>
     <ul>
       <li>flat-pixel stand filter (local tile mode, 8 km tiles) inside the basin-wide stand band 1157–1455 m</li>
       <li>robust quadratic isobase (Huber IRLS) — absorbs post-pluvial rebound, cannot follow one scarp</li>
@@ -111,9 +114,9 @@
   </div>
 
   <footer>
-    Nothing on this page is an organizer-confirmed score. Owner-reported scores are labelled as
-    claims. The quarantined artifact <code>gems32-h19-5-smoothmaxcov-44090.tif</code> is never
-    shipped or re-emitted.
+    Nothing on this page is an organizer-confirmed score. Owner-reported historical scores are
+    claims. The v8 TIF remains an archival artifact only; no slot was selected and no replacement
+    was emitted after the strict stop.
   </footer>
 
 </div>

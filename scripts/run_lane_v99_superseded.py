@@ -1,24 +1,9 @@
-"""Run the datum-offset lane end to end and write the submission GeoTIFF.
-
-Pipeline
---------
-1. Load the competition grid (labels, DEM) and the official feature stack.
-2. Map the Lahontan highstand datum: wave-planed cells inside the published
-   deformed-elevation window, reduced to one observation per bench.
-3. Fit a robust smooth isobase (2-D polynomial) to the bench elevations.
-4. Flag abrupt steps and lateral deflections of the datum.
-5. Seed a trace at each flagged offset and extend it while DEM lineament
-   evidence supports it.
-6. Emit kernel-matched unit dots with a catalogue exclusion.
-7. Validate the raster, check lane uniqueness against the registry, write the
-   run card, profiles and diagnostics.
-
-Usage:
-    python scripts/run_lane.py --data /tmp/gems/data --registry /tmp/gems/registry \
-        --out docs/downloads
+"""Disabled historical 99-dot lane runner. The implementation is retained below for provenance but is intentionally unreachable because it uses superseded format/uniqueness logic.
 """
-
 from __future__ import annotations
+
+raise SystemExit('run_lane_v99_superseded.py is disabled: do not emit from the historical pipeline.')
+
 
 import argparse
 import json

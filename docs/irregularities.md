@@ -1,121 +1,125 @@
-# Irregularities, defects and traps — flagged, with what was done about each
+# Irregularities, defects, and review record — 2026-10-11
 
-The brief asks for irregularities to be flagged rather than smoothed over. These are ordered by
-how much damage they could do.
+This page records evidence and failures without smoothing them over. The active decision is
+**negative**: the historical v8 TIF is not cleared for submission. See the current
+[executive summary](executive-summary.md) and machine-readable
+[run card](evidence/lahontan_run_card_20261011.json).
 
-## 1. The portal error you hit: "Predicted values must be in range [0, 1]"
+## 1. Strict registry result: stop, not a uniqueness pass
 
-**Diagnosis.** The official spec asks for a single-band `float32` raster with values in `[0, 1]`
-[OFFICIAL, competition page 967]. Two writing habits violate it while looking correct on screen:
-a `float32` **sentinel** such as `-3.4028235e38` (survives as an outlier inside the valid
-footprint), and a **NaN nodata tag** (the reader returns NaN, which is not in `[0, 1]`).
-The defective artifact from the earlier session — `gems32-h19-5-smoothmaxcov-44090.tif` — is one
-of these, and it is **quarantined by standing rule: never ship, never re-emit.**
+The previous root checker and older reports applied a vacuity/Jaccard exemption to a literal
+70%-within-3-px rule. That did not match the user's stop condition. The shared tool was changed so
+that the asymmetric raw fraction is a hard stop for every comparable raster; footprint coverage
+and Jaccard are not exemptions. The check now returns a non-zero status on duplicate-stop and
+searches nested repository snapshots recursively.
 
-**What is done about it.** One writer, one code path, and the file is **re-opened from disk and
-re-counted** before anything is published (`grid.check_submission`). The current file reports
-`nodata = null`, `nan_count = 0`, `n_outside_0_1 = 0`, `all_finite = true`. The two mechanisms are
-structurally absent, not merely avoided.
+**Reproduced final-dot result for historical v8:**
 
-## 2. This session's own holdout instrument was wrong three times
+- Candidate: 1,660 positive cells.
+- First blocking comparator in the recursive fail-fast scan: `13GEMSDOE` `r11-greedy-mp-v2`,
+  SHA-256 `033df94ceef16350030a69d5cfdec0afe7bc605bb155d8f3b98b203aabf80abd`, 272,853 positive cells.
+- Spearman rho: −0.3317889 (not over the 0.90 threshold).
+- Candidate dots within Euclidean 3 px: **1,601/1,660 = 0.9644578** (hard-stop threshold: more
+  than 0.70).
+- Comparator's 3 px footprint coverage: 0.7397312; this is diagnostic and does **not** exempt it
+  from the strict test.
+- Scan stopped after 9 of 525 fetched TIFFs (516 unscanned after stop). Verdict:
+  **`DUPLICATE-STOP`**. Do not submit or emit a repackaged TIF.
 
-Reported in full, because the numbers above are only trustworthy if the failures are visible.
+Receipt: [`evidence/uniqueness_v8_strict_review.json`](evidence/uniqueness_v8_strict_review.json).
+The fetched registry snapshot contains 525 GeoTIFFs from 88 repositories; 12 repositories exceeded
+the 90 MB cap. The snapshot is incomplete, but one failing comparator is sufficient for the stop.
+No exhaustive-uniqueness claim is made.
 
-| defect | symptom | fix |
-| --- | --- | --- |
-| fold did not confine scoring (`active = footprint & ~visible`) | `n_pred = 1660` in *every* fold; the whole footprint was scored each time | score only inside the eroded block |
-| canary negatives drawn basin-wide while positives were fold-local | AUC pinned at exactly ~0.500 in every fold — a degenerate tie, not a clean bill of health | negatives from the same fold interior |
-| "wholly inside the block" component rule | `n_truth = 0` in all 6 folds — the catalogue is one basin-scale connected component, so nothing is ever "wholly inside" | block-scale withholding with a 3 px erosion |
-| `metric.dti_binary(pred, truth & active, active)` | truth silently zeroed (the module applies `active` to truth itself) | pass the block as the scored domain, not the block minus the catalogue |
+Older artifacts such as `evidence/uniqueness_v8.json`, `evidence/run_card_v8.json`,
+`evidence/gems62-lahontan-isobase-99dots-lane.json`, and the old static pages used the prior
+informative-comparator/Jaccard logic. They are retained as provenance, not as current clearance.
 
-Then a fifth, of a different kind: a run crashed on an undefined variable, its stdout/stderr were
-suppressed to `/dev/null`, and the **stale JSON from the previous run was read as the result**.
-The lesson is recorded in the commands: never suppress output when the artefact is the evidence.
+## 2. The historical TIF fails the current format check
 
-The evaluator version that produced the numbers in `run-card.md` is the one *after* all five
-fixes, and the fold arithmetic is asserted (`a withheld pixel survived inside the scoring zone`
-raises).
+Official submission rules require a single-band `float32` raster aligned to the training grid,
+values in `[0,1]` inside the footprint, and null/NaN outside it. The shared writer was corrected to
+write NaN outside, leave the nodata tag unset, reopen the bytes, and fail closed.
 
-## 3. The registry uniqueness tripwire is density-blind — a shared-tool defect, fixed and reported
+The historical v8 TIF itself has correct band count, dtype, CRS, shape, resolution, transform,
+bounds, in-footprint range, and no nodata tag. It has **7,111,787 non-NaN outside-footprint
+pixels**, however; `grid.check_submission` returns `legal: false` with
+`all_nan_outside_footprint` failed. No replacement was written because the strict duplicate stop
+was reached. Thus the README and site now say **DO NOT SUBMIT**.
 
-**Defect.** The brief's tripwire is "> 70 % of your dots within 3 px of one registry raster's
-dots ⇒ duplicate". Measured here: `13gems_20261001_r13-lattice-s5_v2` carries **206,895 dots**,
-which dilates to 112 % of the 5.17 M-cell footprint, so its 3 px neighbourhood covers the map and
-**any** emission scores ≈ 1.0 on the tripwire.
+## 3. Holdout and leakage canary are evidence-qualified
 
-**Proof, not assertion.** A uniform-random 1,660-dot control (`build/controls/poisson_1660_seed7.tif`,
-seed 7) scores `dot_overlap_within_kernel = 0.9982` against that same raster. A tripwire that
-fires on Poisson noise cannot certify a duplicate.
+Recomputed with `scripts/run_holdout.py` evaluator `root-run_holdout-v3`:
 
-**Fix (in `scripts/check_uniqueness.py`, reported here rather than forked).** The verdict now
-additionally requires a **symmetric** overlap — the Jaccard index of the two 3 px-dilated dot
-masks, `|A ∩ B| / |A ∪ B|`, threshold 0.25. It is 1.0 for a re-run of the same lane and ~0.01 for
-a sparse emission against a dense lattice. The asymmetric fraction is still reported as a
-diagnostic, because it is what the brief names.
+- **HOLDOUT-DTI 0.0028633750**, six spatial blocks, **60,362 withheld positive catalogue cells**.
+- 95% CI `[0, 0.0068419286]`, percentile bootstrap resampling the six blocks as clusters, 10,000
+  replicates, seed 62. This is a coarse six-cluster uncertainty interval, not a guarantee of
+  generalization.
+- Feature-alone canary AUC: `lane_kernel_proximity` 0.5020115 and `lane_binary_mask` 0.4999204;
+  neither is above the 0.90 leakage alarm. Near-chance AUC indicates little signal about the
+  catalogue in these features; it does not prove that every possible leakage path is absent.
 
-**Result for the current file:** `UNIQUE-VS-REGISTRY` across 289 rasters — worst rank correlation
-**−0.065**, worst Jaccard **0.030**, and the asymmetric maximum of 1.00 attributable to the
-lattice raster above.
+The proxy truth is the existing USGS/INGENIOUS catalogue. It cannot evaluate the competition's
+hidden-new-fault target and is not an organizer score. No submission-page receipt is present.
 
-## 4. The catalogue-based holdout anti-selects novelty — so it is not a score
+## 4. Three review passes
 
-Measured three independent ways (`hypotheses.md`, "the validation trap"): a sibling repository
-measured ρ = **+0.087** between its catalogue-hidden proxy and the live leaderboard; its Poisson
-control (0.098) beats an artifact that scored 0.2778 live (0.019); and this repository's own
-Poisson control (0.0669) beats the same artifact (0.0067) by 10×.
+1. **Scientific scope and evidence.** Kept work in the Lake Lahontan datum-offset lane; re-read the
+   official metric/format/rules and geological context; separated historical measurements from
+   organizer-confirmed evidence; identified wave-cut bluffs, berms, fan-head risers, delta topsets,
+   and differential rebound as non-fault mimics; ranked four future lane-compatible hypotheses.
+2. **Implementation review.** Corrected the shared `grid.write_submission` outside-footprint
+   behavior and validator; fixed the aggregate-credit DTI guard; added a UTM-safe map writer;
+   reconciled receipt logging; added fold-cluster bootstrap CI; replaced the vacuity/Jaccard
+   uniqueness exemption with the literal strict gate in shared `src/gems62/uniqueness.py`; added
+   regression tests for writer and strict raw-overlap behavior.
+3. **Release review.** Root tests: **28 passed**. Recomputed holdout/canary; independently ran the
+   strict final-dot comparison against the fetched 13GEMSDOE raster; confirmed
+   `DUPLICATE-STOP` and the historical TIF's local format failure; made no new emission, slot
+   selection, or organizer-result claim.
 
-**Consequence, stated in every document that carries the number:** the holdout is a bug screen, a
-leakage canary and a null generator. It is **never** written as a score, and it is never used to
-promote or reject a file.
+## 5. Pre-placement surface and profile artifacts
 
-## 5. Owner-reported scores are claims, not receipts
+The historical v8 pre-placement surface raster was not retained. Its pre-placement registry check
+therefore cannot be reconstructed from saved bytes without rerunning the pipeline. No new emission
+or submission placement happened in this review. Any future candidate must persist and test its
+pre-placement surface before emission, then test final dots afterward; either strict failure is a
+stop.
 
-The scores the user has quoted (0.2778, 0.3774, …) are recorded here as **OWNER-REPORTED**. No
-organizer receipt, e-mail or exported leaderboard row is present in this repository, and the
-competition pages do not expose them to this sandbox. They are used only to *rank the group's own
-artifacts against each other*, which is what the user asked for, and never as an evaluation of a
-file produced here. If a receipt exists, it should be committed as `evidence/` and this file
-updated — it would be the first ORGANIZER-CONFIRMED number in the repository.
+The visible profile figure `docs/assets/profile.png` is from an earlier 99-dot exploratory run,
+not v8. Its data receipt is `evidence/gems62-lahontan-isobase-99dots-profile.json`. The v8 run's
+full profile arrays were not retained. Do not present the older figure as validation of v8.
 
-## 6. Submission note length
+## 6. Registry-fetch limits and access
 
-The stated limit is 140 characters; the site has previously accepted 177–200 [OWNER-REPORTED].
-This repository keeps **≤ 140** because that is the stated limit. The current note is 128
-characters.
+The registry fetch completed successfully under `/tmp/gems62_registry_review`: 88 repositories and
+525 TIFFs were fetched; 12 repositories were skipped because the configured archive limit was
+90 MB. The skipped repositories are listed in that temporary directory's manifest (the sandbox
+snapshot does not persist `/tmp`). Current strict stop does not depend on the skipped artifacts.
 
-## 7. DEM transport and format traps
+The cached 25 m Lahontan DEM is available in `evidence/dem/`. Direct requests from this sandbox to
+USGS/TNM hosts returned HTTP 000; the already documented 3DEP mosaic was transported through a
+GitHub runner. Exact 1 m LiDAR tile coverage along each future shoreline transect remains
+unverified, so no future-hypothesis ranking assumes those tiles exist.
 
-* The 3DEP transport GeoTIFF is **int16 decimetres**, not metres, and the first fetch clipped the
-  −32767 nodata sentinel to −32766 when rounding to decimetres. Handling it as metres made every
-  elevation gate false; the fix is in `read_z()` and in the fetch writer (sentinel written *after*
-  the clip, readers mask ≤ −32000).
-* Run **38169049665** is recorded as **success with no artifact** — a silent-empty result. It is
-  kept in `evidence/` precisely because "success" was not the same as "produced data".
-* `dem_transport.json` records `resampling: "as-is"`, i.e. the mosaic is not reprojected here; the
-  tiles are already EPSG:32611 at 25 m.
-* Coverage after run **38169727207**: 6 tiles, valid fraction **0.8088** (was 0.590 with 5). The
-  per-block coverage map has not been re-verified since the 6th tile landed — a gap in this
-  session's evidence, listed in `next-steps.md`.
+## 7. Leaderboard and score integrity
 
-## 8. Second-hand layer names
+There is no ORGANIZER-CONFIRMED score for any artifact in this repository. User-provided historical
+scores remain `OWNER-REPORTED` claims in the irregularities/source records. The public leaderboard
+page observation is not a receipt for this candidate. No projection or proxy metric is described
+as a competition score.
 
-The band names used for hypotheses H-A and H-D (`lidar_scarp_features_u8.tif`, `geodawn_rad_u8.tif`,
-`training_features.tif` bands 13/15/17) are **[SIBLING-MEASURED]** — read from band descriptions in
-a sibling checkout. This repository does not clone the 418 MB feature stack, so they are **not
-re-verified here**. Treat them as a lead to confirm before building on.
+## 8. Shared-tool and implementation fixes made in this branch
 
-## 9. What the organizers will and will not tell us — read this before trusting any local score
+- `src/gems62/grid.py`: footprint-aware write/read validation; NaN outside, no nodata tag; local
+  receipt only.
+- `src/gems62/metric.py`: soft DTI/reference helpers and corrected aggregate credit validation.
+- `src/gems62/uniqueness.py` + `scripts/check_uniqueness.py`: one strict shared rule, recursive
+  registry CLI, dense comparators remain hard-stop comparators.
+- `scripts/run_holdout.py`: deterministic spatial-fold cluster-bootstrap DTI CI and evaluator
+  version recorded in output.
+- `scripts/run_lane.py`: diagnostic PNG map writer validates UTM flag coordinates; receipt logging
+  uses keys that the shared writer actually returns.
 
-* They will **not** share the data sources, fault types or coverage behind the test faults beyond
-  the problem description [OFFICIAL, thread 11527 — chrisk-dd, 2026-09-23].
-* **Phase 2 uses a test set updated by expert review of all Phase 1 submissions** [OFFICIAL, same
-  post]. Phase 1 predictions therefore influence final evaluation even when they do not score
-  well — which is the only sound argument for spending a Phase-1 slot on a file whose local
-  evidence is thin, and which is why this file's verdict is "low-risk novelty probe" rather than
-  "do not submit".
-
-## 10. A suspicious statistic in this file's own output
-
-The 221 traces have a **median length of 1.3 km** (max 5.6 km). Real fault traces are usually
-longer, so the binding constraint is probably the trace-stopping rule rather than the geology.
-Flagged as unresolved; see `next-steps.md`.
+These changes do not transform the old TIF into a submission-ready file. The negative verdict is
+the intended deliverable of this review.

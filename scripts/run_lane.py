@@ -18,7 +18,8 @@ Usage:
   python scripts/run_lane.py --dem /tmp/gems/dem/dem_25m_utm11.tif \
       --catalogue /home/user/work/bridge/existing_faults.tif \
       --sample /home/user/work/bridge/example_submission.tif \
-      --out-dir build/lane --name gemsdoe62-datum-lahontan-isobase
+      --out-dir build/lane --name gemsdoe62-datum-lahontan-isobase \
+      --registry /tmp/gems62_registry_review
 """
 from __future__ import annotations
 
@@ -26,6 +27,7 @@ import argparse
 import json
 import pathlib
 import sys
+from dataclasses import asdict
 import time
 
 import numpy as np
@@ -33,7 +35,7 @@ from scipy import ndimage
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 
-from gems62 import datum, grid, metric  # noqa: E402
+from gems62 import datum, grid, metric, uniqueness  # noqa: E402
 
 
 
@@ -52,6 +54,93 @@ def read_z(src, window, res=None):
 
 def log(msg: str) -> None:
     print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
+
+
+def save_map_png(dem: np.ndarray, footprint: np.ndarray, catalogue: np.ndarray,
+                 band: np.ndarray, dots: np.ndarray, path: str | pathlib.Path,
+                 *, flags: list[dict] | None = None) -> None:
+    """Save a compact diagnostic map and fail on flags outside the raster.
+
+    Flag coordinates are UTM metres (``x``, ``y``), not row/column indices.
+    The conversion here is explicit so a unit mix-up cannot silently draw an
+    apparently valid empty map.
+    """
+    from PIL import Image
+
+    z = np.asarray(dem, dtype=np.float64)
+    foot = np.asarray(footprint, dtype=bool)
+    cat = np.asarray(catalogue, dtype=bool)
+    shore = np.asarray(band, dtype=bool)
+    pred = np.asarray(dots, dtype=bool)
+    if z.ndim != 2 or any(a.shape != z.shape for a in (foot, cat, shore, pred)):
+        raise ValueError("DEM, masks and dots must have the same 2-D shape")
+
+    finite = foot & np.isfinite(z)
+    gray = np.zeros(z.shape, dtype=np.uint8)
+    if finite.any():
+        lo, hi = np.percentile(z[finite], [2, 98])
+        gray[finite] = np.round(255 * np.clip((z[finite] - lo) / max(hi - lo, 1e-9), 0, 1))
+    rgb = np.repeat(gray[..., None], 3, axis=2)
+    rgb[~foot] = (18, 24, 35)
+    rgb[shore & foot] = (35, 150, 185)
+    rgb[cat & foot] = (220, 70, 70)
+    rgb[pred & foot] = (255, 225, 50)
+
+    h, w = z.shape
+    for flag in flags or []:
+        try:
+            x, y = float(flag["x"]), float(flag["y"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError("each flag must include finite UTM metre coordinates x and y") from exc
+        if not np.isfinite([x, y]).all():
+            raise ValueError("flag coordinates must be finite")
+        col = int(round((x - grid.BOUNDS[0]) / grid.PIXEL_M))
+        row = int(round((grid.BOUNDS[3] - y) / grid.PIXEL_M))
+        if not (0 <= row < h and 0 <= col < w):
+            raise ValueError(f"flag UTM coordinate {(x, y)} maps outside raster at {(row, col)}")
+        rr, cc = np.ogrid[:h, :w]
+        disk = (rr - row) ** 2 + (cc - col) ** 2 <= 4 ** 2
+        rgb[disk] = (255, 255, 255)
+
+    out = pathlib.Path(path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    Image.fromarray(rgb, mode="RGB").save(out, format="PNG")
+
+
+def strict_registry_gate(surface: np.ndarray, registry: str | pathlib.Path,
+                         footprint: np.ndarray, out_path: str | pathlib.Path,
+                         *, stage: str,
+                         candidate_path: str | pathlib.Path | None = None) -> dict:
+    """Write a fail-closed strict registry receipt for a pre-placement or final raster."""
+    root = pathlib.Path(registry)
+    candidate_resolved = pathlib.Path(candidate_path).resolve() if candidate_path else None
+    discovered = sorted(p for p in root.rglob("*")
+                        if p.is_file() and p.suffix.lower() in {".tif", ".tiff"}) \
+        if root.is_dir() else []
+    files = [p for p in discovered
+             if candidate_resolved is None or p.resolve() != candidate_resolved]
+    mapping = {str(p.relative_to(root)): p for p in files}
+    entries = uniqueness.compare(
+        surface, mapping, footprint, expected_crs=grid.CRS,
+        expected_transform=grid.TRANSFORM, fail_fast=True)
+    summary = uniqueness.verdict(entries)
+    report = {
+        "evaluator": "gems62.uniqueness.compare",
+        "stage": stage,
+        "candidate_surface_file": str(candidate_path) if candidate_path else None,
+        "candidate_surface_sha256": grid.sha256(candidate_path) if candidate_path else None,
+        "registry_root": str(root),
+        "registry_files_discovered": len(discovered),
+        "registry_files_total": len(files),
+        "candidate_path_excluded_from_registry": len(discovered) != len(files),
+        "registry_files_checked_until_stop": len(entries),
+        "strict_summary": summary,
+        "entries": [asdict(entry) for entry in entries],
+    }
+    out = pathlib.Path(out_path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(report, indent=1, allow_nan=True))
+    return report
 
 
 def block_windows(h: int, w: int, block_px: int, overlap_px: int):
@@ -99,6 +188,8 @@ def main() -> int:
     ap.add_argument("--catalogue", required=True, help="labels.tif / existing_faults.tif")
     ap.add_argument("--sample", required=True, help="sample_submission.tif (defines the footprint)")
     ap.add_argument("--out-dir", default="build/lane")
+    ap.add_argument("--registry", required=True,
+                    help="recursive registry directory required for fail-closed pre/final gates")
     ap.add_argument("--name", default="gemsdoe62-datum-lahontan-isobase")
     # bench / isobase knobs
     ap.add_argument("--flat-slope", type=float, default=0.035)
@@ -143,6 +234,11 @@ def main() -> int:
     import rasterio
     from rasterio.windows import Window
 
+    registry_root = pathlib.Path(args.registry)
+    if not registry_root.is_dir() or not any(
+            p.is_file() and p.suffix.lower() in {".tif", ".tiff"}
+            for p in registry_root.rglob("*")):
+        raise ValueError(f"--registry must contain one or more GeoTIFFs: {registry_root}")
     out_dir = pathlib.Path(args.out_dir); out_dir.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
 
@@ -348,6 +444,41 @@ def main() -> int:
                for c in chosen):
             chosen.append(e)
     log(f"loci kept after {args.locus_separation_m:.0f} m separation: {len(chosen)}")
+    if not chosen:
+        log("STOP before placement: no candidate seed loci survived selection")
+        return 2
+
+    # Pre-placement seed-score surface: one normalized probability per mapped seed.
+    # DEM-grid coordinates are transformed to the official 100 m submission grid, the
+    # grid-writer receipt is retained, then the persisted surface bytes are compared.
+    seed_surface = np.zeros(grid.SHAPE, dtype=np.float32)
+    for locus in chosen:
+        x = float(src.transform.c + (locus["col"] + 0.5) * res)
+        y = float(src.transform.f - (locus["row"] + 0.5) * res)
+        rr = int(round((grid.BOUNDS[3] - y) / grid.PIXEL_M))
+        cc = int(round((x - grid.BOUNDS[0]) / grid.PIXEL_M))
+        if 0 <= rr < grid.HEIGHT and 0 <= cc < grid.WIDTH and footprint[rr, cc]:
+            seed_surface[rr, cc] = max(seed_surface[rr, cc], float(locus["weight"]))
+    peak = float(seed_surface.max())
+    if peak <= 0.0:
+        log("STOP before placement: no selected seed maps into the official footprint")
+        return 2
+    seed_surface = np.clip(seed_surface / peak, 0.0, 1.0)
+    pre_tif = out_dir / f"{args.name}.preplacement-seed-surface.tif"
+    pre_surface_receipt = grid.write_submission(pre_tif, seed_surface, footprint=footprint)
+    with rasterio.open(pre_tif) as pre_src:
+        pre_surface_values = pre_src.read(1)
+    pre_gate = strict_registry_gate(
+        pre_surface_values, registry_root, footprint,
+        out_dir / f"{args.name}.preplacement-registry.json",
+        stage="preplacement-seed-surface", candidate_path=pre_tif)
+    pre_summary = pre_gate["strict_summary"]
+    log(f"pre-placement registry gate: {pre_summary['verdict']} "
+        f"checked={pre_gate['registry_files_checked_until_stop']}/"
+        f"{pre_gate['registry_files_total']}")
+    if not pre_summary["passed"]:
+        log("STOP before trace placement/emission: strict registry gate did not pass")
+        return 2
 
     half_px = int(round(args.trace_window_m / 2 / res))
     traces: list[dict] = []
@@ -393,18 +524,35 @@ def main() -> int:
 
     # ---------------- write + receipt ----------------------------------------------------------
     tif = out_dir / f"{args.name}.tif"
-    receipt = grid.write_submission(tif, emis)
+    receipt = grid.write_submission(tif, emis, footprint=footprint)
     audit = metric.credit_audit(emis > 0)
+    with rasterio.open(tif) as written:
+        final_values = written.read(1)
+    final_gate = strict_registry_gate(
+        final_values, registry_root, footprint,
+        out_dir / f"{args.name}.final-registry.json", stage="final-dots",
+        candidate_path=tif)
+    final_summary = final_gate["strict_summary"]
     receipt.update({"audit": audit, "n_traces": len(traces),
                     "n_loci_flagged": len(loci), "n_loci_emitted": len(chosen),
+                    "preplacement_surface": pre_surface_receipt,
+                    "registry_preplacement": pre_summary,
+                    "registry_final": final_summary,
+                    "local_submission_clearance": bool(receipt["legal"] and pre_summary["passed"]
+                                                       and final_summary["passed"]),
                     "params": vars(args)})
     (out_dir / f"{args.name}.receipt.json").write_text(json.dumps(receipt, indent=1))
     (out_dir / f"{args.name}.traces.json").write_text(json.dumps(
         {"traces": [dict(t, n_points=len(t["rowcol"])) for t in traces]}, indent=1))
     (out_dir / f"{args.name}.segments.json").write_text(json.dumps(segments_meta, indent=1))
-    log(f"WROTE {tif} sha256={receipt['sha256'][:16]} dots={receipt['n_positive']} "
-        f"mass={receipt['total_mass']:.1f} legal={receipt['legal']} "
+    log(f"WROTE {tif} sha256={receipt['sha256'][:16]} "
+        f"dots={receipt['n_positive_inside_footprint']} mass={audit['total_mass']:.1f} "
+        f"legal={receipt['legal']} registry={final_summary['verdict']} "
+        f"cleared={receipt['local_submission_clearance']} "
         f"redundancy={audit['redundancy_fraction']:.3f} elapsed={time.time() - t0:.0f}s")
+    if not receipt["local_submission_clearance"]:
+        log("STOP: final registry/format gates did not clear; do not distribute or submit")
+        return 2
     return 0
 
 

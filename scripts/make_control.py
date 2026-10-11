@@ -47,10 +47,10 @@ def main() -> int:
     pick = rng.choice(idx, size=min(args.n, idx.size), replace=False)
     out = np.zeros(valid.shape, np.float32)
     out.ravel()[pick] = 1.0
-    # every value in [0,1], no NaN, no nodata tag -- the same writer the lane uses
+    # finite values in [0,1] inside; shared writer masks outside as NaN and leaves nodata unset
     path = pathlib.Path(args.out)
     path.parent.mkdir(parents=True, exist_ok=True)
-    grid.write_submission(path, out)
+    grid.write_submission(path, out, footprint=valid)
     print(f"wrote {path} n={int((out > 0).sum())} seed={args.seed} "
           f"footprint_cells={idx.size}")
     return 0
