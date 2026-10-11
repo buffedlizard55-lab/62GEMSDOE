@@ -1,0 +1,81 @@
+name: dem-fetch
+
+# Transport step for the Lahontan datum-offset lane.
+# The driving sandbox cannot reach USGS hosts (verified: curl to prd-tnm.s3.amazonaws.com
+# returns HTTP 000 there); GitHub-hosted runners can.  This workflow downloads the official
+# USGS 3DEP 1/3 arc-second DEM tiles named in the dispatch input, reprojects them to the
+# competition grid's UTM 11N frame at 25 m, uploads the mosaics as run artifacts and commits
+# only the small JSON receipt back to the branch.  No third-party or inferred data is used.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tiles:
+        description: 'comma-separated 1-degree tile ids (e.g. n39w119,n40w119,n41w119,n41w120)'
+        required: true
+        default: 'n39w119,n40w119,n40w118,n41w119,n41w120,n42w120'
+      res:
+        description: 'output grid resolution in metres (divides 100 to nest inside the 100 m competition grid)'
+        required: true
+        default: '25'
+      bounds:
+        description: 'x0,y0,x1,y1 in EPSG:32611'
+        required: true
+        default: '240000,4135550,430000,4508550'
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: install geospatial stack
+        run: |
+          python -m pip install --quiet --disable-pip-version-check numpy rasterio
+          python -c "import rasterio; print('rasterio', rasterio.__version__, 'GDAL', rasterio.__gdal_version__)"
+      - name: fetch + reproject official 3DEP DEM
+        run: |
+          set -o pipefail
+          python scripts/fetch_3dep.py --tiles "${{ inputs.tiles }}" --res "${{ inputs.res }}" \
+            --bounds "${{ inputs.bounds }}" --out out/dem 2>&1 | tee out_dem_log.txt
+      - name: summarise receipt
+        if: always()
+        run: |
+          mkdir -p evidence
+          cp out_dem_log.txt evidence/dem_fetch_log_${{ github.run_id }}.txt || true
+          cp out/dem/receipt.json evidence/dem_fetch_receipt_${{ github.run_id }}.json || true
+          python - <<'PY' || true
+          import json, pathlib
+          p = pathlib.Path('out/dem/receipt.json')
+          if p.exists():
+              r = json.loads(p.read_text())
+              print(json.dumps({k: r[k] for k in ('generated_utc','product','res_m','mosaic') if k in r}, indent=1))
+              for t in r.get('tiles', []):
+                  print(t['tile'], t.get('status'), (t.get('download') or {}).get('bytes'))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dem-out-${{ github.run_id }}
+          path: |
+            out/dem/**/*.tif
+            out/dem/receipt.json
+            out_dem_log.txt
+          if-no-files-found: warn
+          retention-days: 30
+      - name: commit receipt + log
+        if: always()
+        run: |
+          git config user.name "gems62-bot"
+          git config user.email "gems62-bot@users.noreply.github.com"
+          git add -A evidence || true
+          git commit -m "evidence: dem-fetch receipt run ${{ github.run_id }} [skip ci]" || echo "nothing to commit"
+          git push origin HEAD:${{ github.ref_name }} || echo "push failed"
