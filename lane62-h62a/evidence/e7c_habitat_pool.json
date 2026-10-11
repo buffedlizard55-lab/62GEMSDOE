@@ -1,0 +1,13 @@
+{
+  "n_footprint": 5167373,
+  "n_bench": 375991,
+  "n_pool": 271102,
+  "resid_median_m": -1.0167673154057013,
+  "throw_lo_m": 15.0,
+  "throw_hi_m": 130.0,
+  "definition": "bench & |isobase residual - median| in [15,130) m & footprint; CATALOGUE-FREE by construction",
+  "out": "/home/user/.cache/gems62/habitat_pool.npz",
+  "bytes": 258816,
+  "generated_utc": "2026-10-11T20:58:51Z",
+  "elapsed_seconds": 44.4
+}

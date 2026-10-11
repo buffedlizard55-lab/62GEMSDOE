@@ -1,0 +1,9 @@
+[19:41:06] n39w119: NO URL (200)
+[19:41:07] n40w119: NO URL (200)
+[19:41:07] n40w118: NO URL (200)
+[19:41:08] n41w119: NO URL (200)
+[19:41:08] n41w120: NO URL (200)
+[19:41:09] n42w120: NO URL (200)
+[19:41:15] wrote dem_25m_utm11.tif  valid=0
+[19:41:21] wrote derived slope + curvature
+[19:41:21] done

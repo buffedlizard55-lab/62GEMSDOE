@@ -1,384 +1,811 @@
-"""Lahontan bench-detection lane: the geomorphic offset of a pluvial-lake
-shoreline datum as a primary fault-signal source.
+"""Datum-offset lane: Lake Lahontan shorelines as a strain gauge.
 
-Why this exists
----------------
-The task is a segmentation problem whose positive class is a *linear* feature
-whose only reliable expression in a 100 m DEM is topography, and the published
-catalogue is the very thing the labels were extended from.  Any model trained on
-catalogue-derived shape therefore maximises its score by re-deriving the
-catalogue, which is exactly where the family's earlier lane plateaued
-(raster/GBM 0.2181, feature-stack GEMSDOE60 0.2759, trace graph 0.2708).  The
-score that is actually being sought is the *residual* signal, so this lane
-builds an independent primary measurement instead of a classifier:
+Scientific basis (all sources fetched and quoted in ``docs/research/sources.md``):
 
-    Pluvial Lake Lahontan stood at the Sehoo highstand 15.5 +- 0.7 cal ka BP
-    and left benches, relict shorelines and spillways that were later cut by the
-    same range-front faults the contest asks for.  Published offsets measured
-    across individual fault strands are ~2.6 +- 0.3 mm/yr (12-15 m on channels
-    and 35-43 m on side canyons across (39 +- 4) kyr of incision, Briggs &
-    Wesnousky 2004, JGR 109:B08402), ~0.9 mm/yr on shorelines near the Wassuk
-    Range (~14 m since 15.1 ka, Dong et al. 2014, Geosphere), and 15 +- 10 m of
-    vertical separation on a Sehoo-age ridge south of Black Rock Desert (Angster
-    et al. 2016, BSSA).  The expected signal is therefore ~10-45 m of vertical
-    offset of a continuous near-level surface, and it should be *parallel* to
-    the shoreline where the fault is oblique and *perpendicular* to the
-    shoreline where the fault cuts across it.
+* The late-Pleistocene (Sehoo) highstand of Lake Lahontan is an **isochronous,
+  near-horizontal datum** formed in a period of years to decades immediately
+  prior to 13.07 +/- 0.06 ka (Adams & Wesnousky 1998, GSA Bulletin 110, 1318-1332;
+  Briggs, Wesnousky & Adams 2005).
+* Used as a **passive strain marker**, its elevation now ranges from 1318.4 m at
+  the basin periphery to 1340.8 m in the basin centre -- ~22 m of vertical
+  deflection, most of it isostatic rebound (domal) plus a down-to-the-north
+  regional tilt (Adams, Wesnousky & Bills 1999, JGR).
+* "**Active faults locally offset the high shoreline**, but cannot explain the
+  regional upwarping" (Adams, Wesnousky & Bills 1999, abstract) -- so the datum
+  carries a tectonic residual on top of a smooth rebound field.
+* Shorelines of this lake have been used to measure **strike-slip displacement**
+  where they are displaced across faults outboard of the Wassuk Range front
+  (Dong et al., Geosphere).
+* Resolution of the *elevation* method is ~3 m, limited by the natural scatter in
+  how high constructional beach features build above still water (Adams,
+  Wesnousky & Bills 1999).  The *map-view* signal -- a lateral deflection of the
+  shoreline trace -- is not limited by that 3 m and is the primary detector here.
 
-Design decisions that matter
-----------------------------
-* The signal is the *jump in the datum across a candidate trace*, measured on
-  pixels the flat-tread test accepts -- not the elevation anomaly relative to a
-  fitted regional surface.  A whole-lake version of the latter was built and
-  rejected: the basin contains nested still-stands and playa floors, so the
-  block median settles between levels and the residual measures which surface a
-  pixel belongs to rather than whether it is faulted (tread |anomaly| median 45 m
-  on the full grid).
-* Bench identification is direction-free: a tread is a cell flanked within a few
-  pixels by ground both higher and lower (a riser on both sides), with modest
-  local relief in both directions.  An isotropic |z - median| test was tried and
-  abandoned, because a 500-700 m wide tread is mostly riser pixels inside a 7x7
-  window and the real benches fail it for the wrong reason.
-* Offset estimation uses a discrete matched filter over 12 trace trends.  For a
-  trend ``az``, ``T = (sin az, cos az)`` walks *along* the trace and
-  ``N = (cos az, -sin az)`` is *across* the step; the datum is compared between
-  +/- legs along N, and the control windows are offset along T.
-* A step is only kept when each limb keeps one level over four independent
-  sub-windows and the sign of the offset continues along the trace.  Those two
-  tests are what separate a through-going fault from a DEM spike or an
-  artefact.  Known limitation, tested for rather than glossed over: an alluvial
-  lens that carries the tread ~600 m past the trace and then returns to the
-  datum is NOT vetoed, because at 100 m cells that is what a short range-front
-  scarp looks like; the flagged core shrinks by about a third and the amplitude
-  is unchanged.
-* Regional uplift/subsidence is O(1 m/km) across the basin (isostatic rebound
-  after Lahontan), which over the 0.2-1 km lever arm of the operator is <1 m: it
-  cannot manufacture a 10-45 m step, so no isobase needs to be removed before
-  gating.  A smooth regional datum is still computed for the maps and profiles.
-* Discretisation: on a 100 m grid the leg offsets are integers, so a scarp whose
-  face is 1-2 cells wide is measured with a bias of a few metres and the arg-max
-  trend is weakly determined where both limbs are level.  The amplitude carries
-  the physical claim; the trace is followed through the sign boundary of
-  ``step_signed``, not by integrating ``step_azim``.
+Method implemented below, in order:
+
+1. Select cells on the highstand datum: inside the published deformed-elevation
+   window, low local slope (a wave-planed bench or a constructional bar top).
+2. Reduce each connected bench to one datum observation (area, centroid,
+   median elevation, elongation, azimuth).
+3. Fit a smooth **isobase** (robust 2-D polynomial) to those observations.  The
+   isobase is the sum of the rebound dome and the regional tilt -- exactly the
+   two terms the literature attributes the regional signal to.
+4. Residual ``r = z_obs - isobase``.  A **step** is a residual jump between two
+   benches that are close in plan view.
+5. A **lateral deflection** is a sharp change of the bench-trace azimuth, or a
+   gap where a bench trace resumes with a map-view offset.
+6. Seed a fault trace at every flagged step and extend it along the local
+   structural grain while DEM evidence supports it (``emit.py``).
+
+Every threshold is a module constant so the run card can quote it.
 """
+
 from __future__ import annotations
+
+from dataclasses import dataclass, field
 
 import numpy as np
 from scipy import ndimage as ndi
 
-# ------------------------------------------------------------------ constants
-PIXEL_M = 100.0                                 # training-grid cell size
-AZIMUTHS = np.arange(0.0, 180.0, 15.0)           # candidate trace trends, deg
-J_LEGS = (2, 3, 4, 5)                             # px, datum lever arms
-OUT_LEGS = (7, 8, 9, 10)                          # px, persistence control legs
-J_HALVES = ((2, 3), (4, 5))                       # sub-windows for limb stability
-W_HALVES = ((7, 8), (9, 10))
-CROSS = (-1, 0, 1)                                # px, averaging across the tread
-LEG_LEN_PX = max(OUT_LEGS)                        # px, outer lever arm
-FLANK_PX = 4                                      # px, tread must be flanked within
-MIN_RELIEF_M = 6.0                                # m, riser relief on both sides
-MAX_SLOPE_DEG = 7.0                               # deg, tread must be near-level
-MAX_PLANARITY_M = 3.0                             # m, 5x5 departure from the median
-MAX_ANCHOR_SLOPE_DEG = 12.0                       # deg, reject scarps and valley sides
-MIN_SUBWIN_CELLS = 0.9        # bench cells needed for a sub-window mean to count
-MIN_SIDE_CELLS = 3.0          # bench cells needed per limb, pooled over sub-windows
-MIN_VALID_SUBWINS = 2         # sub-windows per limb that must be usable
-LIMB_TOLERANCE_M = 10.0                           # m, spread allowed within one limb
-ISO_BLOCK = 50                                    # px, regional datum block size
-ISO_SMOOTH_BLOCKS = 4.0                           # blocks, smoothing of that surface
-PLUVIAL_WINDOW_M = (1120.0, 1520.0)               # lake-level window for this grid
-MIN_STEP_M = 8.0                                  # m, >= 2 DEM s.u. and ~3x the
-#    smallest published Lahontan offset (9 m at the Walker Lane sils)
-MAX_STEP_M = 90.0                                 # m, beyond this it is a range front
-BENCH_HABITAT_DILATE = 4                           # px, tread-to-habitat buffer
+from .grid import PIXEL_M
+
+# --- Published constants ------------------------------------------------------
+#: Deformed highstand elevation window (m).  Adams, Wesnousky & Bills (1999)
+#: report 1318.4 m (northern periphery) to 1340.8 m (basin centre); the window is
+#: widened by 5 m on each side so that the datum is never clipped.
+HIGHSTAND_LO_M = 1313.5
+HIGHSTAND_HI_M = 1345.8
+
+#: Elevation resolution of the *elevation* method: 3 m (natural scatter of
+#: constructional beach crests above still water).  A residual step must exceed
+#: this to be reported as a datum offset rather than beach-crest scatter.
+ELEVATION_RESOLUTION_M = 3.0
+
+#: A bench is wave-planed: its slope is well below the regional hillslope median.
+BENCH_SLOPE_MAX_DEG = 3.0
+#: Minimum connected-bench area, in cells (1 cell = 1 ha at 100 m).
+BENCH_MIN_CELLS = 8
+
+#: Two benches closer than this in plan view can be contrasted for a step.
+STEP_PAIR_RADIUS_M = 5000.0
+#: The regional isobase signal is smooth on the 100 km scale (22 m of total
+#: Lahontan deflection across the basin, ~0.1 m/km).  A local plane is not
+#: allowed to claim a steeper gradient than this.
+GRADIENT_MAX_M_PER_KM = 0.5
+
+#: An azimuth change of this size or more is a lateral deflection.
+DEFLECTION_MIN_DEG = 35.0
 
 
-class DatumField(dict):
-    """Container for the lane's fields (attribute and key access both work)."""
+@dataclass
+class Bench:
+    """One connected set of highstand-datum cells, reduced to a datum observation."""
 
-    def __getattr__(self, k):
-        try:
-            return self[k]
-        except KeyError as e:                 # pragma: no cover
-            raise AttributeError(k) from e
+    label: int
+    rows: np.ndarray
+    cols: np.ndarray
+    n_cells: int
+    row_c: float
+    col_c: float
+    x: float
+    y: float
+    z: float                # median elevation of the bench (m)
+    z_iqr: float
+    azimuth_deg: float      # principal axis of the bench footprint, [0, 180)
+    elongation: float       # sqrt(lambda1 / lambda2) of the cell covariance
+    length_m: float
 
-    def __setattr__(self, k, v):
-        self[k] = v
+    @property
+    def is_elongated(self) -> bool:
+        return self.elongation >= 2.0 and self.n_cells >= BENCH_MIN_CELLS
 
 
-# ------------------------------------------------------------------ small helpers
-def _at(arr: np.ndarray, dy: int, dx: int) -> np.ndarray:
-    """Shift an array by whole pixels, zero-filled (no wrap-around).
-
-    ``out[i, j] == arr[i - dy, j - dx]`` for indices inside the array; the strip
-    left at the edge is *zeroed* rather than copied, so a roll can never leak a
-    far-side value across the map.  Verified pixel-for-pixel against an explicit
-    index loop by tests/test_lahontan.py.
-    """
-    out = np.zeros_like(arr)
-    H, W = arr.shape
-    ys, xs = slice(max(dy, 0), min(H + dy, H)), slice(max(dx, 0), min(W + dx, W))
-    yd, xd = slice(max(-dy, 0), min(H - dy, H)), slice(max(-dx, 0), min(W - dx, W))
-    if ys.start < ys.stop and xs.start < xs.stop:
-        out[ys, xs] = arr[yd, xd]
+def slope_degrees(dem: np.ndarray, footprint: np.ndarray) -> np.ndarray:
+    """Terrain slope in degrees from a 100 m DEM (Horn's 3x3 operator, central form)."""
+    z = np.where(footprint & np.isfinite(dem), dem, np.nan)
+    fill = np.nanmedian(z) if np.isfinite(z).any() else 0.0
+    zf = np.where(np.isfinite(z), z, fill)
+    gy, gx = np.gradient(zf, PIXEL_M, PIXEL_M)
+    out = np.degrees(np.arctan(np.hypot(gx, gy)))
+    out[~footprint] = np.nan
     return out
 
 
-def _block_reduce(vals: np.ndarray, mask: np.ndarray, block: int, stat: str) -> tuple:
-    """Block-reduce float data and a boolean mask onto one coarse grid."""
-    H, W = vals.shape
-    nby, nbx = int(np.ceil(H / block)), int(np.ceil(W / block))
-    padH, padW = nby * block, nbx * block
-    v = np.full((padH, padW), np.nan, np.float64)
-    v[:H, :W] = np.where(mask, vals, np.nan)
-    m = np.zeros((padH, padW), bool)
-    m[:H, :W] = mask
-    vb = v.reshape(nby, block, nbx, block).transpose(0, 2, 1, 3).reshape(nby, nbx, -1)
-    mb = m.reshape(nby, block, nbx, block).transpose(0, 2, 1, 3).reshape(nby, nbx, -1)
-    cnt = mb.sum(2)
+def highstand_mask(dem: np.ndarray, footprint: np.ndarray) -> np.ndarray:
+    """Cells whose elevation lies in the published deformed highstand window."""
     with np.errstate(invalid="ignore"):
-        if stat == "mean":
-            out = np.where(cnt > 0, np.nanmean(vb, axis=2), np.nan)
-        elif stat == "frac":
-            out = np.where(cnt > 0, mb.mean(2), np.nan)
-        elif stat == "median":
-            out = np.where(cnt > 0, np.nanmedian(vb, axis=2), np.nan)
-        else:                               # pragma: no cover
-            raise ValueError(stat)
-    return out.astype(np.float32), cnt
+        return (
+            footprint
+            & np.isfinite(dem)
+            & (dem >= HIGHSTAND_LO_M)
+            & (dem <= HIGHSTAND_HI_M)
+        )
 
 
-def _zoom_to(small: np.ndarray, shape) -> np.ndarray:
-    """Nearest-zoom a coarse map back to full grid, staying on cell centres."""
-    return np.asarray(ndi.zoom(small, (shape[0] / small.shape[0],
-                                        shape[1] / small.shape[1]), order=0,
-                               mode="nearest"), np.float32)
+def bench_cells(
+    dem: np.ndarray,
+    footprint: np.ndarray,
+    *,
+    slope_max_deg: float = BENCH_SLOPE_MAX_DEG,
+    min_cells: int = BENCH_MIN_CELLS,
+) -> np.ndarray:
+    """Wave-planed cells on the highstand datum, small patches removed.
 
-
-def _slope_aspect(z: np.ndarray) -> tuple:
-    """Slope in degrees and dip direction in degrees from north, from a 2-point
-    central difference.  np.gradient returns m per *pixel* here, hence PIXEL_M."""
-    gy, gx = np.gradient(z.astype(np.float64))
-    g = np.hypot(gy, gx) / PIXEL_M
-    return np.degrees(np.arctan(g)).astype(np.float32), \
-        np.degrees(np.arctan2(gx, -gy)).astype(np.float32)
-
-
-# ------------------------------------------------------------------ the field
-def build_field(z: np.ndarray, footprint: np.ndarray, *,
-                min_step: float = MIN_STEP_M, max_step: float = MAX_STEP_M,
-                iso_block: int = ISO_BLOCK,
-                window=PLUVIAL_WINDOW_M, verbose: bool = True) -> DatumField:
-    """Compute the bench mask, the offset-corrected datum and the step fields.
-
-    Parameters
-    ----------
-    z : float array (H, W)
-        DEM in metres above sea level; NaN where the tile did not cover.
-    footprint : bool array (H, W)
-        Cells inside the contest grid.
-    min_step, max_step : float
-        Accepted vertical offset of the bench datum across the trace, metres.
+    A cell qualifies when it is inside the highstand window, its slope is below
+    ``slope_max_deg``, and it belongs to a connected patch of at least
+    ``min_cells`` such cells (8-connected).
     """
-    z = np.asarray(z, np.float32)
-    fin = np.isfinite(z) & np.asarray(footprint, bool)
-    zf = np.where(fin, z, np.float32(np.nan)).astype(np.float32)
-    zfmed = ndi.median_filter(np.nan_to_num(zf, nan=0.0), size=5)
-    zf = np.where(fin, zf, zfmed).astype(np.float32)
+    slope = slope_degrees(dem, footprint)
+    cand = highstand_mask(dem, footprint) & np.isfinite(slope) & (slope <= slope_max_deg)
+    lab, n = ndi.label(cand, structure=np.ones((3, 3), dtype=int))
+    if n == 0:
+        return np.zeros_like(cand)
+    sizes = np.bincount(lab.ravel())
+    keep = sizes >= min_cells
+    keep[0] = False
+    return keep[lab]
 
-    slope, aspect = _slope_aspect(zf)
-    in_band = fin & (zf >= window[0]) & (zf <= window[1])
 
-    # ---- tread test (direction-free) ------------------------------------
-    # A tread cell is flanked within FLANK_PX by ground both clearly above and
-    # clearly below it (a riser on both sides) and is itself near-level, with
-    # little relief in a small window.
-    hi = ndi.maximum_filter(np.where(in_band, zf, np.float32(-1e9)),
-                            size=2 * FLANK_PX + 1)
-    lo = ndi.minimum_filter(np.where(in_band, zf, np.float32(1e9)),
-                            size=2 * FLANK_PX + 1)
-    flanked = (hi - zf >= MIN_RELIEF_M) & (zf - lo >= MIN_RELIEF_M)
-    planar = np.abs(zf - ndi.median_filter(zf, size=5)) <= MAX_PLANARITY_M
-    bench = in_band & (slope <= MAX_SLOPE_DEG) & flanked & planar
-    if verbose:
-        print(f"[field] pluvial-band px {int(in_band.sum())}, bench px {int(bench.sum())}",
-              flush=True)
+def _principal_axis(rows: np.ndarray, cols: np.ndarray) -> tuple[float, float]:
+    """Azimuth (deg, [0,180)) and elongation of a cell footprint."""
+    if rows.size < 3:
+        return 0.0, 1.0
+    # x = east (col), y = north (-row)
+    x = cols.astype(float)
+    y = -rows.astype(float)
+    x = x - x.mean()
+    y = y - y.mean()
+    cov = np.cov(np.vstack([x, y]))
+    w, v = np.linalg.eigh(cov)
+    order = np.argsort(w)[::-1]
+    w = w[order]
+    v = v[:, order]
+    dx, dy = v[0, 0], v[1, 0]
+    az = np.degrees(np.arctan2(dx, dy)) % 180.0   # azimuth measured clockwise from north
+    elong = float(np.sqrt(max(w[0], 1e-9) / max(w[1], 1e-9)))
+    return float(az), elong
 
-    # ---- matched-filter step operator ----------------------------------
-    # The datum is measured on tread pixels and nowhere else, and the SAME mask
-    # weights numerator and denominator so sv/cv is a true mean elevation.  A
-    # softened weight was tried and is wrong: it lets the riser, whose elevation
-    # differs by exactly the bench relief, leak into a limb mean and fabricate a
-    # step of the bench height at every tread margin.
-    wgt = bench.astype(np.float32)
-    zf0 = np.nan_to_num(zf, nan=0.0).astype(np.float32)
-    zq = (zf0 * wgt).astype(np.float32)
-    step = np.zeros(z.shape, np.float32)
-    step_signed = np.zeros(z.shape, np.float32)
-    step_azim = np.zeros(z.shape, np.float32)
-    gated = np.zeros(z.shape, np.float32)
-    best = np.full(z.shape, -1.0, np.float32)
 
-    def limb(legs, sign, ny, nx, ty, tx):
-        """Sum and count of bench elevation on one limb over these legs.
+def describe_benches(
+    dem: np.ndarray,
+    footprint: np.ndarray,
+    transform: tuple[float, float, float, float, float, float],
+    *,
+    slope_max_deg: float = BENCH_SLOPE_MAX_DEG,
+    min_cells: int = BENCH_MIN_CELLS,
+    max_cells: int = 4000,
+) -> list[Bench]:
+    """Label the wave-planed datum patches and reduce each to one observation.
 
-        Each leg is averaged over ``CROSS`` pixels across the tread as well, so a
-        tread only one or two cells wide still yields a continuous field along its
-        strike.  Returns sums so the caller can pool legs however it likes.
-        """
-        sv = np.zeros(z.shape, np.float32)
-        cv = np.zeros(z.shape, np.float32)
-        for leg in legs:
-            for m in CROSS:
-                py = int(round(sign * leg * ny + m * ty))
-                px = int(round(sign * leg * nx + m * tx))
-                if py == 0 and px == 0:
-                    continue
-                sv = sv + _at(zq, -py, -px)      # sample at (i+py, j+px)
-                cv = cv + _at(wgt, -py, -px)
-        return sv, cv
+    Patches larger than ``max_cells`` are split by a conservative watershed on the
+    filled patch mask so that one observation never averages the datum across
+    more than ~40 km^2 of shoreline.
+    """
+    mask = bench_cells(dem, footprint, slope_max_deg=slope_max_deg, min_cells=min_cells)
+    lab, n = ndi.label(mask, structure=np.ones((3, 3), dtype=int))
+    if n == 0:
+        return []
 
-    for az in AZIMUTHS:                # trend of the trace, deg from north
-        th = np.radians(float(az))
-        ty, tx = np.sin(th), np.cos(th)          # along the trace (the walk)
-        ny, nx = np.cos(th), -np.sin(th)          # across the step (the legs)
-        mus, svs, cvs = [], [], []
-        for sign in (+1, -1):
-            for legs in J_HALVES + W_HALVES:
-                sv, cv = limb(legs, sign, ny, nx, ty, tx)
-                svs.append(sv); cvs.append(cv)
-                with np.errstate(invalid="ignore", divide="ignore"):
-                    mu = np.where(cv >= MIN_SUBWIN_CELLS,
-                                  sv / np.maximum(cv, 1e-6), np.float32(np.nan))
-                mus.append(np.asarray(mu, np.float32))
-        spread = np.zeros(z.shape, np.float32)
-        nvalid = np.zeros(z.shape, np.int16)
-        ok = np.ones(z.shape, bool)
-        for side in (0, 4):                       # one level test per limb
-            stack = np.stack(mus[side:side + 4])
-            nv = np.isfinite(stack).sum(0).astype(np.int16)
-            nvalid = nvalid + nv
-            with np.errstate(invalid="ignore"):
-                sp = np.nanmax(stack, axis=0) - np.nanmin(stack, axis=0)
-            sp = np.where(nv >= 2, sp, np.float32(1e6))
-            spread = np.maximum(spread, np.nan_to_num(sp, nan=1e6).astype(np.float32))
-            tot = np.stack(cvs[side:side + 4]).sum(0)
-            ok &= tot >= MIN_SIDE_CELLS
-        ok &= nvalid >= 2 * MIN_VALID_SUBWINS
-        with np.errstate(invalid="ignore", divide="ignore"):
-            svp = np.stack(svs[0:4]).sum(0)
-            cvp = np.stack(cvs[0:4]).sum(0)
-            svm = np.stack(svs[4:8]).sum(0)
-            cvm = np.stack(cvs[4:8]).sum(0)
-            dS = np.where(ok, svp / np.maximum(cvp, 1e-6)
-                          - svm / np.maximum(cvm, 1e-6), np.float32(0.0))
-        dS = np.nan_to_num(dS, nan=0.0).astype(np.float32)
-        J = np.abs(dS).astype(np.float32)
-        # the offset must keep its sign for a couple of pixels along the trace:
-        # a real scarp continues, a lone bump or a pixel-scale artefact oscillates
-        signs_ok = np.ones(z.shape, bool)
-        for leg in (1, 2):
-            py, px = int(round(leg * ty)), int(round(leg * tx))
-            if py == 0 and px == 0:
+    a, _, c0, _, e, f = transform
+    out: list[Bench] = []
+    objs = ndi.find_objects(lab)
+    for i, sl in enumerate(objs, start=1):
+        if sl is None:
+            continue
+        rr, cc = np.nonzero(lab[sl] == i)
+        rr = rr + sl[0].start
+        cc = cc + sl[1].start
+        if rr.size < min_cells:
+            continue
+        zz = dem[rr, cc]
+        ok = np.isfinite(zz)
+        if ok.sum() < min_cells:
+            continue
+        rr, cc, zz = rr[ok], cc[ok], zz[ok]
+        if rr.size > max_cells:
+            sub = np.zeros(lab.shape, dtype=bool)
+            sub[rr, cc] = True
+            k = int(np.ceil(rr.size / max_cells))
+            k = max(2, min(k, 64))
+            # Split along the principal axis into k equal-area bins.
+            x = cc.astype(float)
+            y = -rr.astype(float)
+            az, _ = _principal_axis(rr, cc)
+            th = np.radians(az)
+            proj = x * np.sin(th) + y * np.cos(th)
+            edges = np.quantile(proj, np.linspace(0, 1, k + 1))
+            idx = np.clip(np.searchsorted(edges, proj, side="right") - 1, 0, k - 1)
+            for j in range(k):
+                sel = idx == j
+                if sel.sum() >= min_cells:
+                    out.append(_bench_from_cells(i * 1000 + j, rr[sel], cc[sel], zz[sel], (a, c0, e, f)))
+            continue
+        out.append(_bench_from_cells(i, rr, cc, zz, (a, c0, e, f)))
+    return out
+
+
+def _bench_from_cells(label: int, rr: np.ndarray, cc: np.ndarray, zz: np.ndarray,
+                      params: tuple[float, float, float, float]) -> Bench:
+    a, c0, e, f = params
+    row_c = float(rr.mean())
+    col_c = float(cc.mean())
+    x = c0 + (col_c + 0.5) * a
+    y = f + (row_c + 0.5) * e
+    az, elong = _principal_axis(rr, cc)
+    q25, q75 = np.percentile(zz, [25, 75])
+    # Along-axis length from the principal-axis projection range.
+    th = np.radians(az)
+    proj = (cc - col_c) * np.sin(th) + (-(rr - row_c)) * np.cos(th)
+    length_m = float(proj.max() - proj.min()) * PIXEL_M
+    return Bench(
+        label=label, rows=rr, cols=cc, n_cells=int(rr.size),
+        row_c=row_c, col_c=col_c, x=float(x), y=float(y),
+        z=float(np.median(zz)), z_iqr=float(q75 - q25),
+        azimuth_deg=az, elongation=elong, length_m=length_m,
+    )
+
+
+def fit_isobase(
+    benches: list[Bench],
+    *,
+    order: int = 2,
+    irls_iters: int = 12,
+    huber_k: float = 1.345,
+) -> tuple[np.ndarray, dict]:
+    """Robust 2-D polynomial isobase fitted to the bench datum elevations.
+
+    The polynomial absorbs the two regional terms the literature names -- the
+    domal isostatic rebound and the down-to-the-north tilt.  Fitting is done by
+    iteratively reweighted least squares with a Huber weight, so that a handful
+    of genuinely faulted benches cannot drag the regional surface.
+
+    Returns ``(coef, info)`` where ``info`` records the design and the residual
+    scale of the inlier population.
+    """
+    if len(benches) < (order + 1) * (order + 2) // 2:
+        raise ValueError("not enough benches to fit an isobase of this order")
+
+    x = np.array([b.x for b in benches], dtype=float)
+    y = np.array([b.y for b in benches], dtype=float)
+    z = np.array([b.z for b in benches], dtype=float)
+    # Work in km about the centroid for conditioning.
+    x0, y0 = x.mean(), y.mean()
+    xs = (x - x0) / 1000.0
+    ys = (y - y0) / 1000.0
+
+    terms: list[tuple[int, int]] = [
+        (i, j) for i in range(order + 1) for j in range(order + 1 - i)
+    ]
+    A = np.column_stack([xs ** i * ys ** j for i, j in terms])
+
+    w = np.ones_like(z)
+    coef = np.zeros(A.shape[1])
+    for _ in range(irls_iters):
+        Aw = A * np.sqrt(w)[:, None]
+        zw = z * np.sqrt(w)
+        coef, *_ = np.linalg.lstsq(Aw, zw, rcond=None)
+        r = z - A @ coef
+        s = 1.4826 * np.median(np.abs(r - np.median(r)))
+        s = max(s, 1e-6)
+        u = np.abs(r) / (s * huber_k)
+        w = np.where(u <= 1.0, 1.0, 1.0 / np.maximum(u, 1e-9))
+
+    resid = z - A @ coef
+    sigma = float(1.4826 * np.median(np.abs(resid - np.median(resid))))
+    info = {
+        "n_benches": int(len(benches)),
+        "order": int(order),
+        "x0": float(x0),
+        "y0": float(y0),
+        "terms": terms,
+        "coef": [float(v) for v in coef],
+        "residual_sigma_m": sigma,
+        "residual_p16_m": float(np.percentile(resid, 16)),
+        "residual_p84_m": float(np.percentile(resid, 84)),
+        "residual_median_m": float(np.median(resid)),
+        "irls_iters": int(irls_iters),
+        "huber_k": float(huber_k),
+    }
+    return coef, info
+
+
+def isobase_at(coef: np.ndarray, terms: list[tuple[int, int]], x0: float, y0: float,
+               x: np.ndarray, y: np.ndarray) -> np.ndarray:
+    xs = (np.asarray(x, dtype=float) - x0) / 1000.0
+    ys = (np.asarray(y, dtype=float) - y0) / 1000.0
+    out = np.zeros_like(xs)
+    for c, (i, j) in zip(coef, terms):
+        out += c * xs ** i * ys ** j
+    return out
+
+
+@dataclass
+class StepFlag:
+    """A flagged abrupt step of the datum along strike."""
+
+    x: float
+    y: float
+    residual_jump_m: float
+    pair_distance_m: float
+    az_deg: float            # azimuth of the line joining the two benches
+    bench_a: int
+    bench_b: int
+    kind: str = "elevation_step"
+    n_pairs: int = 1                                     # pairs merged into this location
+    cluster_jump_range_m: tuple[float, float] | None = None
+
+
+@dataclass
+class DeflectionFlag:
+    """A flagged lateral deflection of the datum trace."""
+
+    x: float
+    y: float
+    az_change_deg: float
+    gap_m: float
+    az_in_deg: float
+    az_out_deg: float
+    bench_a: int
+    bench_b: int
+    kind: str = "lateral_deflection"
+    n_pairs: int = 1
+
+
+def level_structure(residual: np.ndarray, weights: np.ndarray,
+                    *, bin_m: float = 1.0) -> dict:
+    """Describe the discrete level structure of the datum residuals.
+
+    A pluvial basin hosts several stacked shorelines (Lake Lahontan preserves the
+    late-Pleistocene Sehoo highstand plus older Eetza/Wyemaha strands, and a
+    staircase of recessional bars).  All of them plot inside the published
+    deformed-elevation window, so the residual distribution is *multi-modal*.
+    Two benches on different strands differ in elevation by construction and would
+    be a false "step"; this function reports the modes so the caller can restrict
+    the step test to one strand.
+
+    Returns the mode locations (cell-weighted), their mass, and the dominant mode.
+    """
+    r = np.asarray(residual, dtype=float)
+    w = np.asarray(weights, dtype=float)
+    if r.size == 0:
+        return {"modes": [], "dominant_m": float("nan"), "n_modes": 0}
+    lo, hi = float(r.min()), float(r.max())
+    edges = np.arange(lo - bin_m, hi + bin_m * 2, bin_m)
+    hist, _ = np.histogram(r, bins=edges, weights=w)
+    # Light smoothing so single-bin gaps do not split one mode.
+    k = np.array([1.0, 2.0, 3.0, 2.0, 1.0])
+    k = k / k.sum()
+    hist_s = np.convolve(hist, k, mode="same")
+    centres = 0.5 * (edges[:-1] + edges[1:])
+    # Mode seeking with a minimum separation.
+    order = np.argsort(hist_s)[::-1]
+    modes: list[dict] = []
+    min_sep = 3.0
+    for idx in order:
+        if hist_s[idx] <= 0:
+            continue
+        if any(abs(centres[idx] - m["value_m"]) < min_sep for m in modes):
+            continue
+        modes.append({"value_m": float(centres[idx]), "mass_cells": float(hist_s[idx])})
+        if len(modes) >= 6:
+            break
+    modes.sort(key=lambda m: m["value_m"])
+    dominant = max(modes, key=lambda m: m["mass_cells"]) if modes else {"value_m": float("nan")}
+    total = float(sum(m["mass_cells"] for m in modes)) or 1.0
+    for m in modes:
+        m["fraction"] = m["mass_cells"] / total
+    return {
+        "modes": modes,
+        "n_modes": len(modes),
+        "dominant_m": float(dominant["value_m"]),
+        "bin_m": bin_m,
+    }
+
+
+def dominant_strand_mask(
+    residual: np.ndarray,
+    weights: np.ndarray,
+    *,
+    tolerance_m: float = 4.0,
+    mode: float | None = None,
+) -> tuple[np.ndarray, dict]:
+    """Select the benches belonging to the dominant (most massive) datum strand.
+
+    ``tolerance_m`` is how far a bench may sit from the strand's level and still be
+    treated as part of it.  It is deliberately a little wider than the published
+    3 m elevation resolution so that faulted-but-still-picked benches are retained
+    for the step test rather than silently dropped.
+    """
+    struct = level_structure(residual, weights)
+    target = float(struct["dominant_m"]) if mode is None else float(mode)
+    r = np.asarray(residual, dtype=float)
+    keep = np.isfinite(r) & (np.abs(r - target) <= tolerance_m)
+    struct["strand_tolerance_m"] = tolerance_m
+    struct["strand_benches"] = int(keep.sum())
+    struct["strand_cells"] = int(np.asarray(weights, dtype=float)[keep].sum()) if keep.any() else 0
+    return keep, struct
+
+
+def local_isobase(
+    benches: list[Bench],
+    residual: np.ndarray,
+    *,
+    radius_m: float = 12_000.0,
+    min_neighbours: int = 6,
+    huber_k: float = 1.345,
+    iters: int = 8,
+    support_quantile: float = 0.10,
+) -> tuple[np.ndarray, dict]:
+    """Locally robust isobase fitted to *one* isochronous strand.
+
+    The literature supplies the physical form of the regional signal: a domal
+    isostatic rebound plus a northward tilt, both of which vary on the 100 km
+    scale (22 m of total deflection across the basin).  Over the 12 km fitting
+    radius used here that signal is a smooth, near-planar surface.  For every bench
+    a robust plane is therefore fitted to its neighbours' *residuals*, and the
+    local level is the plane's value at the bench.  Doing this on residuals (rather
+    than raw elevations) also lets the caller restrict the fit to a single strand,
+    which removes the stacked-shoreline mimic.
+    """
+    n = len(benches)
+    x = np.array([b.x for b in benches], dtype=float)
+    y = np.array([b.y for b in benches], dtype=float)
+    r = np.asarray(residual, dtype=float)
+    level = np.full(n, np.nan)
+    n_used = np.zeros(n, dtype=int)
+
+    for i in range(n):
+        d = np.hypot(x - x[i], y - y[i])
+        sel = np.nonzero((d <= radius_m) & (d > 0))[0]
+        if sel.size < min_neighbours:
+            sel = np.argsort(d)[1 : min_neighbours + 1]
+        if sel.size == 0:
+            level[i] = r[i]
+            continue
+        xr = (x[sel] - x[i]) / 1000.0
+        yr = (y[sel] - y[i]) / 1000.0
+        A = np.column_stack([np.ones_like(xr), xr, yr])
+        zz = r[sel]
+        w = np.ones_like(zz)
+        coef = np.zeros(3)
+        for _ in range(iters):
+            Aw = A * np.sqrt(w)[:, None]
+            coef, *_ = np.linalg.lstsq(Aw, zz * np.sqrt(w), rcond=None)
+            rr = zz - A @ coef
+            s = 1.4826 * np.median(np.abs(rr - np.median(rr)))
+            s = max(s, 1e-6)
+            u = np.abs(rr) / (s * huber_k)
+            w = np.where(u <= 1.0, 1.0, 1.0 / np.maximum(u, 1e-9))
+        # Support guards.  The regional signal is smooth on the 100 km scale --
+        # 22 m of total deflection across the basin, i.e. ~0.1 m/km -- so a local
+        # plane that has to extrapolate a steep gradient several kilometres to
+        # reach the bench is fitting noise.  Two guards make that impossible:
+        #   (1) cap the fitted gradient at GRADIENT_MAX_M_PER_KM;
+        #   (2) clamp the resulting level to the band the bench's own neighbours
+        #       occupy, widened by the robust scatter.
+        # Without them the first run produced a +25.7 m phantom offset on one
+        # bench, far outside the +-4 m band that defined the strand, and the
+        # profile's y-axis was then set by that artifact.
+        g = float(np.hypot(coef[1], coef[2]))
+        if g > GRADIENT_MAX_M_PER_KM:
+            coef[1:3] *= GRADIENT_MAX_M_PER_KM / g
+        q = support_quantile
+        lo_b, hi_b = np.quantile(zz, [q, 1.0 - q])
+        spread = 1.4826 * np.median(np.abs(zz - np.median(zz)))
+        pad = max(1.0, 2.0 * spread)
+        level[i] = float(np.clip(coef[0], lo_b - pad, hi_b + pad))
+        n_used[i] = int(sel.size)
+
+    rho = r - level
+    sigma = float(1.4826 * np.median(np.abs(rho - np.median(rho))))
+    info = {
+        "radius_m": radius_m,
+        "min_neighbours": min_neighbours,
+        "huber_k": huber_k,
+        "residual_sigma_m": sigma,
+        "n_benches": n,
+        "median_neighbours": int(np.median(n_used)) if n else 0,
+        "support_guards": {
+            "gradient_max_m_per_km": GRADIENT_MAX_M_PER_KM,
+            "quantile": support_quantile,
+            "rule": "fitted gradient capped; level clamped to the neighbourhood band",
+        },
+    }
+    return rho, info
+
+
+def flag_steps(
+    benches: list[Bench],
+    residual: np.ndarray,
+    *,
+    threshold_m: float = ELEVATION_RESOLUTION_M,
+    radius_m: float = STEP_PAIR_RADIUS_M,
+    cluster_m: float = 3000.0,
+    z_min: float = 2.5,
+    max_pair_m: float = 5000.0,
+    stats: dict | None = None,
+) -> list[StepFlag]:
+    """Flag *locations* where two nearby benches differ in datum residual.
+
+    Two gates must both pass, and the second one is the important one:
+
+    * ``threshold_m`` (default the published 3 m elevation resolution) -- a
+      smaller difference is not separable from the natural scatter of beach
+      crests.  On its own this gate is **at the noise level** and flags noise:
+      in this lane 43 of the 73 bench pairs inside 5 km cleared it, which cannot
+      be a handful of tectonic offsets.
+    * A robust significance gate.  Nearby benches of one isochronous strand are
+      drawn from one local population, so the difference of two residuals has
+      scatter ``sqrt(2) * sigma`` with ``sigma`` estimated robustly (1.4826 MAD,
+      ~2.99 m here, which is also the published method resolution).  A step is
+      called only when ``|jump| >= z_min * sqrt(2) * sigma`` -- with the default
+      ``z_min = 2.5`` that is ~10.6 m, i.e. an offset that cannot be constructional
+      scatter.  ``max_pair_m`` additionally demands the offset be *sharp* at the
+      scale of the datum, rather than a regional gradient.
+
+    ``stats``, if given, is filled with the counts behind the decision so a
+    reader can see what was rejected rather than only what survived.
+    """
+    res = np.asarray(residual, dtype=float)
+    # Two scatter estimates, because they fail differently.
+    #
+    #  * ``sigma_global`` -- 1.4826 MAD of the whole strand.  Standard, but it is
+    #    MASKED by the very thing it is meant to detect: a single 13 m offset in a
+    #    short strand raises the estimate so far that the offset no longer clears
+    #    its own gate.  Measured: a synthetic 12 m step over 20 km pushed this to
+    #    6.02 m and rejected itself.
+    #  * ``sigma_pairs`` -- derived from the median absolute difference between
+    #    benches that are already close together (<= radius_m).  Under a normal
+    #    model with scatter s, |difference| of two draws has median 0.6745*sqrt(2)*s,
+    #    so s = median|jump| / 0.9539.  A median over pairs tolerates up to half of
+    #    them being offsets, so it cannot be masked by a handful of faults.
+    #
+    # The gate uses ``sigma_pairs``; ``sigma_global`` is reported alongside so a
+    # reader can see both and judge the disagreement.
+    sigma_global = float(1.4826 * np.median(np.abs(res - np.median(res)))) if res.size else 0.0
+    # first pass: the pairwise scatter estimate
+    near_jumps: list[float] = []
+    for i, bi in enumerate(benches):
+        for j in range(i + 1, len(benches)):
+            bj = benches[j]
+            if float(np.hypot(bi.x - bj.x, bi.y - bj.y)) <= radius_m:
+                near_jumps.append(abs(float(res[i] - res[j])))
+    sigma_pairs = (float(np.median(near_jumps)) / 0.9539) if near_jumps else sigma_global
+    if not np.isfinite(sigma_pairs) or sigma_pairs <= 0:
+        sigma_pairs = max(sigma_global, 1e-9)
+    gate = max(float(threshold_m), float(z_min * np.sqrt(2.0) * sigma_pairs))
+
+    n_near = n_res = n_borderline = 0
+    borderline: list[dict] = []
+    pairs: list[StepFlag] = []
+    for i, bi in enumerate(benches):
+        for j in range(i + 1, len(benches)):
+            bj = benches[j]
+            d = float(np.hypot(bi.x - bj.x, bi.y - bj.y))
+            if d > radius_m:
                 continue
-            sp_ = _at(dS, py, px)
-            sm_ = _at(dS, -py, -px)
-            signs_ok &= ((sp_ * dS >= 0) | (sp_ == 0)) & ((sm_ * dS >= 0) | (sm_ == 0))
-        score = J * ok * (spread <= LIMB_TOLERANCE_M) * signs_ok \
-            * (J >= min_step) * (J <= max_step)
-        upd = score > best
-        step = np.where(upd, J, step).astype(np.float32)
-        step_signed = np.where(upd, dS, step_signed).astype(np.float32)
-        step_azim = np.where(upd, np.float32(az), step_azim).astype(np.float32)
-        gated = np.where(upd, score, gated).astype(np.float32)
-        best = np.where(upd, score, best).astype(np.float32)
-        del mus, svs, cvs, ok, spread, nvalid, dS, J, signs_ok, score, upd
-
-    # coarse regional datum surface, for maps/profiles only (never used to gate)
-    regional, rcnt = _block_reduce(zf, bench, iso_block, "median")
-    regional = np.where(np.isfinite(regional), regional, np.nanmedian(regional))
-    isobase = _zoom_to(ndi.gaussian_filter(regional, sigma=ISO_SMOOTH_BLOCKS), z.shape)
-    anomaly = (zf - isobase).astype(np.float32)
-
-    ev = np.clip(gated / max(max_step, 1e-6), 0.0, 1.0).astype(np.float32)
-    ev = ndi.gaussian_filter(ev, sigma=0.8).astype(np.float32)
-    mx = float(ev.max()) if ev.size else 0.0
-    if mx > 0:
-        ev = (ev / mx).astype(np.float32)
-
-    # The anchor pixel of a step is the riser itself, which the flat-tread test
-    # rejects, so the flag also lives on the tread beside the step.  Anchors on
-    # steep ground are rejected outright: a smooth range-front slope concentrates
-    # the same bench level change into 2-3 cells and reads 3-4x the true offset.
-    zone = ((gated >= min_step) & ndi.binary_dilation(bench, iterations=2)
-            & (slope <= MAX_ANCHOR_SLOPE_DEG))
-    habitat = (ndi.binary_dilation(bench & (slope <= MAX_ANCHOR_SLOPE_DEG),
-                                  iterations=BENCH_HABITAT_DILATE) & footprint)
-    n_flag = int(zone.sum())
-    if verbose:
-        print(f"[field] gated persistent-step px >= {min_step} m: {n_flag}; "
-              f"habitat px {int(habitat.sum())}", flush=True)
-    return DatumField(z=z, slope=slope, aspect=aspect, bench=bench, isobase=isobase,
-                      anomaly=anomaly, step=step, step_signed=step_signed,
-                      step_azim=step_azim, gated=gated, zone=zone, evidence=ev,
-                      habitat=np.asarray(habitat, bool),
-                      meta=dict(pluvial_window=[float(window[0]), float(window[1])],
-                                iso_block=int(iso_block), min_step_m=float(min_step),
-                                max_step_m=float(max_step),
-                                limb_tolerance_m=LIMB_TOLERANCE_M,
-                                min_side_cells=MIN_SIDE_CELLS, xcross=list(CROSS),
-                                n_band=int(in_band.sum()), n_bench=int(bench.sum()),
-                                n_step_flagged=n_flag, n_habitat=int(habitat.sum()),
-                                azimuths=AZIMUTHS.tolist(), legs_j=list(J_LEGS),
-                                legs_out=list(OUT_LEGS), flank_px=FLANK_PX,
-                                min_relief_m=MIN_RELIEF_M, max_slope_deg=MAX_SLOPE_DEG,
-                                max_planarity_m=MAX_PLANARITY_M))
+            n_near += 1
+            if d > max_pair_m:
+                continue
+            jump = float(res[i] - res[j])
+            if abs(jump) < threshold_m:
+                continue
+            n_res += 1
+            if abs(jump) < gate:
+                n_borderline += 1
+                borderline.append({
+                    "x": 0.5 * (bi.x + bj.x), "y": 0.5 * (bi.y + bj.y),
+                    "jump_m": jump, "pair_distance_m": d,
+                    "z": abs(jump) / (np.sqrt(2.0) * max(sigma_pairs, 1e-9)),
+                })
+                continue
+            az = float(np.degrees(np.arctan2(bj.x - bi.x, bj.y - bi.y)) % 180.0)
+            pairs.append(
+                StepFlag(
+                    x=0.5 * (bi.x + bj.x), y=0.5 * (bi.y + bj.y),
+                    residual_jump_m=jump, pair_distance_m=d, az_deg=az,
+                    bench_a=i, bench_b=j,
+                )
+            )
+    locs = _cluster_locations(pairs, cluster_m)
+    if stats is not None:
+        stats.update({
+            "robust_sigma_m_global_mad": round(sigma_global, 3),
+            "robust_sigma_m": round(sigma_pairs, 3),
+            "sigma_estimator": "median|jump| over pairs within radius_m, / 0.9539",
+            "z_min": z_min,
+            "significance_gate_m": round(gate, 3),
+            "significance_gate_if_global_mad_m": round(
+                max(float(threshold_m), z_min * np.sqrt(2.0) * max(sigma_global, 1e-9)), 3),
+            "resolution_gate_m": float(threshold_m),
+            "pairs_within_radius": n_near,
+            "pairs_clearing_resolution_gate": n_res,
+            "pairs_rejected_as_borderline": n_borderline,
+            "pairs_accepted": len(pairs),
+            "locations": len(locs),
+        })
+        # Worst-first, capped: the candidates a reader should see were REJECTED.
+        stats["borderline_candidates"] = sorted(
+            borderline, key=lambda f: -abs(f["jump_m"]))[:20]
+    return locs
 
 
-# --------------------------------------------------------------- isobase / profiles
-def fit_isobase_1d(dist_km: np.ndarray, elev_m: np.ndarray, bench_m: np.ndarray,
-                  exclude: tuple[float, float] | None = None, deg: int = 3):
-    """Robust polynomial isobase fit along a shoreline transect (km, m asl).
+def _cluster_locations(pairs: list[StepFlag], cluster_m: float) -> list[StepFlag]:
+    """Merge flags that describe the SAME place into one location.
 
-    ``exclude`` masks a along-strike window (km) around a flagged step so the
-    smooth rebound/tilt surface is fitted to the limbs only and the step height
-    is a genuine datum offset rather than a fitting artefact.  Two robust IRLS
-    passes clip the displaced limb.
+    One datum offset shows up as many qualifying bench pairs, so a raw pair
+    count overstates the evidence: 43 pairs in this lane's first guarded run
+    collapsed to a handful of distinct places.  The brief asks for "a handful
+    of convincing" offsets, so the reported unit is a *location*: the pair with
+    the largest |jump| in a connected group, carrying the group's statistics.
     """
-    d = np.asarray(dist_km, float)
-    e = np.asarray(elev_m, float)
-    m = np.asarray(bench_m, bool) & np.isfinite(d) & np.isfinite(e)
-    if exclude is not None:
-        m &= ~((d >= exclude[0]) & (d <= exclude[1]))
-    if m.sum() < deg + 3:
-        return None
-    w = np.ones(m.sum(), float)
-    dd, ee = d[m], e[m]
-    coef = np.polyfit(dd, ee, deg, w=w)
-    for _ in range(2):
-        r = ee - np.polyval(coef, dd)
-        s = 1.4826 * np.median(np.abs(r - np.median(r))) + 1e-6
-        w = 1.0 / (1.0 + (r / (2.5 * s)) ** 2)
-        coef = np.polyfit(dd, ee, deg, w=w)
-    iso = np.polyval(coef, d)
-    resid = e - iso
-    return dict(deg=deg, coef=coef.tolist(), isobase_m=iso, residual_m=resid,
-                rms_m=float(np.sqrt(np.mean(r ** 2))), n_fit=int(m.sum()))
+    if not pairs:
+        return []
+    parent = list(range(len(pairs)))
+
+    def find(a: int) -> int:
+        while parent[a] != a:
+            parent[a] = parent[parent[a]]
+            a = parent[a]
+        return a
+
+    def union(a: int, b: int) -> None:
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[rb] = ra
+
+    cells: dict[tuple[int, int], int] = {}
+    for k, f in enumerate(pairs):
+        key = (int(f.x // cluster_m), int(f.y // cluster_m))
+        for dr in (-1, 0, 1):
+            for dc in (-1, 0, 1):
+                other = cells.get((key[0] + dr, key[1] + dc))
+                if other is not None:
+                    g = pairs[other]
+                    if float(np.hypot(f.x - g.x, f.y - g.y)) <= cluster_m:
+                        union(k, other)
+        cells.setdefault(key, k)
+
+    groups: dict[int, list[int]] = {}
+    for k in range(len(pairs)):
+        groups.setdefault(find(k), []).append(k)
+
+    out: list[StepFlag] = []
+    for members in groups.values():
+        best = max(members, key=lambda k: abs(pairs[k].residual_jump_m))
+        f = pairs[best]
+        out.append(StepFlag(
+            x=f.x, y=f.y, residual_jump_m=f.residual_jump_m,
+            pair_distance_m=f.pair_distance_m, az_deg=f.az_deg,
+            bench_a=f.bench_a, bench_b=f.bench_b,
+            n_pairs=len(members),
+            cluster_jump_range_m=(float(min(pairs[k].residual_jump_m for k in members)),
+                                  float(max(pairs[k].residual_jump_m for k in members))),
+        ))
+    out.sort(key=lambda f: -abs(f.residual_jump_m))
+    return out
 
 
-# --------------------------------------------------------------- profiles
-def profile_along(path_yx: np.ndarray, fld: DatumField) -> dict:
-    """Elevation-versus-distance profile along a bench path: measured bench
-    elevation, the regional datum, and the detected steps."""
-    yy = np.clip(path_yx[:, 0].astype(int), 0, fld.z.shape[0] - 1)
-    xx = np.clip(path_yx[:, 1].astype(int), 0, fld.z.shape[1] - 1)
-    d = np.concatenate([[0.0], np.cumsum(np.hypot(np.diff(yy), np.diff(xx)))])
-    st = fld.step[yy, xx].astype(np.float64)
-    return dict(distance_km=(d * PIXEL_M / 1000.0),
-                bench_elev_m=fld.z[yy, xx].astype(np.float64),
-                isobase_m=fld.isobase[yy, xx].astype(np.float64),
-                anomaly_m=fld.anomaly[yy, xx].astype(np.float64),
-                step_m=st,
-                step_azim_deg=fld.step_azim[yy, xx].astype(np.float64),
-                slope_deg=fld.slope[yy, xx].astype(np.float64),
-                flagged=st >= float(fld.meta["min_step_m"]))
+def flag_deflections(
+    benches: list[Bench],
+    *,
+    min_change_deg: float = DEFLECTION_MIN_DEG,
+    max_gap_m: float = 5000.0,
+) -> list[DeflectionFlag]:
+    """Flag azimuth changes between nearby, well-elongated datum traces."""
+    flags: list[DeflectionFlag] = []
+    elongated = [b for b in benches if b.is_elongated]
+    for i, bi in enumerate(elongated):
+        for j in range(i + 1, len(elongated)):
+            bj = elongated[j]
+            d = float(np.hypot(bi.x - bj.x, bi.y - bj.y))
+            if d > max_gap_m:
+                continue
+            da = abs(((bi.azimuth_deg - bj.azimuth_deg) + 90.0) % 180.0 - 90.0)
+            if da < min_change_deg:
+                continue
+            az = float(np.degrees(np.arctan2(bj.x - bi.x, bj.y - bi.y)) % 180.0)
+            flags.append(
+                DeflectionFlag(
+                    x=0.5 * (bi.x + bj.x), y=0.5 * (bi.y + bj.y),
+                    az_change_deg=float(da), gap_m=d,
+                    az_in_deg=bi.azimuth_deg, az_out_deg=bj.azimuth_deg,
+                    bench_a=i, bench_b=j,
+                )
+            )
+    # The same "one place, many pairs" accounting as the step detector: report
+    # locations, so a single bent shoreline is not counted four times.
+    if not flags:
+        return []
+    parent = list(range(len(flags)))
+
+    def find(a: int) -> int:
+        while parent[a] != a:
+            parent[a] = parent[parent[a]]
+            a = parent[a]
+        return a
+
+    for i in range(len(flags)):
+        for j in range(i + 1, len(flags)):
+            if float(np.hypot(flags[i].x - flags[j].x, flags[i].y - flags[j].y)) <= 3000.0:
+                ra, rb = find(i), find(j)
+                if ra != rb:
+                    parent[rb] = ra
+
+    groups: dict[int, list[int]] = {}
+    for k in range(len(flags)):
+        groups.setdefault(find(k), []).append(k)
+    out: list[DeflectionFlag] = []
+    for members in groups.values():
+        best = max(members, key=lambda k: flags[k].az_change_deg)
+        f = flags[best]
+        out.append(DeflectionFlag(
+            x=f.x, y=f.y, az_change_deg=f.az_change_deg, gap_m=f.gap_m,
+            az_in_deg=f.az_in_deg, az_out_deg=f.az_out_deg,
+            bench_a=f.bench_a, bench_b=f.bench_b, n_pairs=len(members),
+        ))
+    out.sort(key=lambda f: -f.az_change_deg)
+    return out
+
+
+def datum_offset_surface(
+    benches: list[Bench],
+    residual: np.ndarray,
+    shape: tuple[int, int],
+    *,
+    step_threshold_m: float = ELEVATION_RESOLUTION_M,
+) -> tuple[np.ndarray, np.ndarray]:
+    """The two rasters the lane rule means by "the surface before placement".
+
+    ``full``
+        |local-isobase residual| in metres on every dominant-strand datum cell.
+        This is the field the seeding and extension steps read.
+    ``evidence``
+        the same field restricted to benches flagged as anomalous
+        (|residual| >= ``step_threshold_m``); the analogue of a dot set when the
+        3-px overlap half of the rule is applied before placement.
+
+    Both are zero away from their cells and therefore comparable, by
+    ``gems62.uniqueness.compare``, against any registry raster without further
+    masking.
+    """
+    full = np.zeros(shape, np.float32)
+    evidence = np.zeros(shape, np.float32)
+    for b, r in zip(benches, residual):
+        mag = np.abs(float(r)).astype(np.float32)
+        full[b.rows, b.cols] = mag
+        if abs(float(r)) >= step_threshold_m:
+            evidence[b.rows, b.cols] = mag
+    return full, evidence
+
+
+def shoreline_profile(benches: list[Bench], residual: np.ndarray, *,
+                      track_deg: float) -> list[dict]:
+    """Order benches along a published shoreline track and return a profile.
+
+    ``track_deg`` is the azimuth of the track (degrees clockwise from north).
+    The returned list is the first deliverable of the lane: an
+    elevation-versus-distance profile of the datum with the flagged steps.
+    """
+    if not benches:
+        return []
+    th = np.radians(track_deg)
+    rows = []
+    for i, b in enumerate(benches):
+        s = (b.x * np.sin(th) + b.y * np.cos(th))
+        rows.append({
+            "bench": i,
+            "x": b.x, "y": b.y,
+            "along_track_m": float(s),
+            "elevation_m": b.z,
+            "isobase_m": float(b.z - residual[i]),
+            "residual_m": float(residual[i]),
+            "n_cells": b.n_cells,
+            "azimuth_deg": b.azimuth_deg,
+            "length_m": b.length_m,
+        })
+    rows.sort(key=lambda r: r["along_track_m"])
+    s0 = rows[0]["along_track_m"]
+    for r in rows:
+        r["distance_track_m"] = r["along_track_m"] - s0
+    return rows

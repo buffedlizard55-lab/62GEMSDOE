@@ -1,0 +1,21 @@
+{
+ "file": "data/external/geodawn_dem_a2_100m.tif",
+ "sha256": "d32762a38222764389e948da423ebc6cadd00ac617ad3938d3dd79c6cfe14431",
+ "provenance_class": "OWNER-MIRROR of a public USGS GeoDAWN product; mirrored in the group's 60GEMSDOE repository. NOT organiser-authenticated.",
+ "grid": {
+  "epsg": 32611,
+  "height": 3730,
+  "width": 3292,
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "pixel_m": 100.0
+ },
+ "source": "GeoDAWN area-2 absolute-elevation DEM on the competition 100 m grid",
+ "limits": "the organiser's own training_features.tif was NOT obtainable: the DrivenData data page is login-walled (verified 2026-10-11: redirects to /accounts/login/)."
+}

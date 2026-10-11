@@ -1,444 +1,416 @@
-"""Dot allocation: greedy max-coverage under a clipped-convolution surrogate.
+"""Turn flagged datum offsets into a submission raster.
 
-Why this allocation rule
-------------------------
-For a binary dot field (see :mod:`gems61.metric` for the derivation, including
-why the denominator does **not** collapse to ``alpha*n + beta*|G|``)::
+Emission design is dictated by the published metric, not by taste:
 
-    D   = alpha*(T + n - M) + beta*|G|
-    DTI = T / D
-
-where ``T`` is the covered truth credit and ``M`` the total self-credit of the
-emitted dots.  The allocation surrogate assigns a dot at ``x`` **fixed** self-credit
-``k(x) = E[k](x) = sum_g p(g) k(d(x,g))`` -- the convolution of the per-cell
-truth probability with the kernel -- which does not depend on the other dots,
-This clipped convolution is an approximation to unknown-truth max self-credit,
-not its exact expectation; its marginal coverage ``dT(x)`` falls as neighbouring truth cells get
-covered.  The exact acceptance test ``dT > alpha*DTI*(dT + 1 - k)`` therefore
-rearranges to a per-candidate bar::
-
-    dT > c * (1 - k(x)),     c = alpha*DTI / (1 - alpha*DTI)
-
-which is what the loop below applies.  Candidates are processed in rounds in
-decreasing ``E[k]`` order with the bar frozen inside a round; a candidate is only
-re-evaluated when a nearby acceptance could have changed its ``dT``.  ``dT`` is
-non-increasing and the bar rises while DTI rises, so the loop terminates when a
-round accepts nothing.
-
-Nothing about the *shape* of the emission is assumed here -- the spatial
-structure comes entirely from ``p``, which :mod:`gems61.anatomy` fits to the
-hide-and-recover holdout.
+* Unit-valued dots are optimal.  For a fixed support, writing value ``v`` on every
+  dot gives ``DTI(v) = v*sum(k) / (0.2*v*N + 0.8*|G|)``, which is strictly
+  increasing in ``v``; the limit is ``v = 1``.  (``tests/test_metric.py``
+  checks the monotonicity; all 21 collected family artifacts from the sibling
+  repositories indeed use ``1.0``.)
+* Dot spacing is kernel-matched at ~300 m.  The best-scoring prior family used a
+  nearest-neighbour spacing of 3.0 px = 300 m; at that spacing the triangular
+  kernels just touch, so no emitted mass is wasted on shared coverage.
+* A dot inside ~200 m of the mapped catalogue earns no credit: the organizer
+  confirmed that known USGS/INGENIOUS fault pixels are masked out of the
+  evaluation (DrivenData community thread 11516, staff, 2026-09-16), and the
+  empirically best-scoring prior artifact is exactly the one produced by
+  deleting the 100-200 m catalogue flank (its owner reports 0.2600 -> 0.2778 for
+  that single edit).
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 import numpy as np
 from scipy import ndimage as ndi
 
-from .metric import ALPHA, BETA, EPS, OFF_DX, OFF_DY, OFF_K
+from .grid import PIXEL_M
+from .lahontan import (
+    DEFLECTION_MIN_DEG,
+    ELEVATION_RESOLUTION_M,
+    DeflectionFlag,
+    StepFlag,
+)
 
-
-def expected_credit(p: np.ndarray) -> np.ndarray:
-    """``E[k](x) = sum_g p(g) k(d(x,g))`` -- convolution of ``p`` with the kernel.
-
-    For a first dot this sums per-cell expected coverage. The greedy surrogate
-    uses its clipped value for self-credit, although expected maximum kernel
-    self-credit is not generally the expectation of this sum. Actual holdout
-    scores are computed by the exact shared evaluator, not by this surrogate.
-    """
-    p = np.asarray(p, np.float32)
-    out = np.zeros(p.shape, np.float32)
-    H, W = p.shape
-    for j, i, k in zip(OFF_DY, OFF_DX, OFF_K):
-        ys0, ys1 = max(0, j), min(H, H + j)
-        xs0, xs1 = max(0, i), min(W, W + i)
-        out[ys0:ys1, xs0:xs1] += p[max(0, -j):min(H, H - j),
-                                   max(0, -i):min(W, W - i)] * np.float32(k)
-    return out
+#: Dot spacing along a trace: 3 px = 300 m, the kernel-matched value.
+DOT_SPACING_M = 300.0
+#: Catalogue exclusion radius (m).  See module docstring.
+CATALOGUE_EXCLUSION_M = 200.0
+#: Traces are extended while DEM lineament evidence exceeds these bars.
+COHERENCE_MIN = 0.15
+RELIEF_MIN_M = 4.0
+#: Longest single trace extension from a seed, each way (m).
+MAX_TRACE_LENGTH_M = 6000.0
+#: Extension step (m).
+TRACE_STEP_M = 200.0
+#: Extensions are tried in this azimuth fan (deg clockwise from north).
+AZIMUTH_FAN_DEG = 15.0
 
 
 @dataclass
-class Allocation:
-    emitted: np.ndarray
-    n_dots: int
-    expected_covered_credit: float = 0.0   # running T under the surrogate p
-    expected_self_credit: float = 0.0      # running M under the surrogate p
-    rounds: int = 0
-    surrogate_dti: float = 0.0
-    trace: list = field(default_factory=list)
+class Trace:
+    """A single emitted fault trace, in map coordinates (m, EPSG:32611)."""
+
+    seed_x: float
+    seed_y: float
+    azimuth_deg: float
+    xs: np.ndarray
+    ys: np.ndarray
+    provenance: str
+    evidence_min: float
+
+    @property
+    def length_m(self) -> float:
+        if self.xs.size < 2:
+            return 0.0
+        return float(np.sum(np.hypot(np.diff(self.xs), np.diff(self.ys))))
+
+    def sample(self, spacing_m: float = DOT_SPACING_M) -> tuple[np.ndarray, np.ndarray]:
+        """Resample the polyline at roughly ``spacing_m`` intervals."""
+        if self.xs.size == 0:
+            return np.array([]), np.array([])
+        seg = np.hypot(np.diff(self.xs), np.diff(self.ys))
+        s = np.concatenate([[0.0], np.cumsum(seg)])
+        if s[-1] <= 0:
+            return self.xs[:1].copy(), self.ys[:1].copy()
+        n = max(1, int(round(s[-1] / spacing_m)) + 1)
+        targets = np.linspace(0.0, s[-1], n)
+        return np.interp(targets, s, self.xs), np.interp(targets, s, self.ys)
 
 
-def greedy_allocate(p: np.ndarray, allowed: np.ndarray, k_truth: float, *,
-                    floor: float = 0.02, max_dots: int = 200_000,
-                    candidate_cap: int = 400_000, per_round: int = 20_000,
-                    max_rounds: int = 400, trace_every: int = 0) -> Allocation:
-    """Select dots while each one provably raises the surrogate DTI.
+def structure_tensor(dem: np.ndarray, footprint: np.ndarray, *,
+                     sigma_px: float = 5.0) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Gradient-covariance (structure) tensor of the terrain.
 
-    Parameters
-    ----------
-    p
-        Per-cell probability of being a hidden truth cell, in [0, 1].
-    allowed
-        Boolean mask of cells that may carry a dot (footprint, catalogue removed).
-    k_truth
-        ``|G|``, the number of hidden truth cells, which sets the bar.
-    floor
-        Cells with ``E[k] < floor`` are never considered.  Pure speed-up: with
-        ``alpha = 0.2`` the bar is ``c*(1-k) >= 0`` and any candidate accepted at
-        a realistic score has ``E[k]`` well above this.
+    Returns ``(azimuth_deg, coherence, relief_m)`` on the full grid:
+
+    * ``azimuth_deg`` -- dominant lineament azimuth, degrees clockwise from north,
+      in ``[0, 180)``.  It is the direction *along* which the terrain gradient is
+      smallest, i.e. the ridge/escarpment trend.
+    * ``coherence`` -- ``(l1 - l2) / (l1 + l2)`` of the tensor, in ``[0, 1]``; a
+      measure of how lineament-like the local terrain is.
+    * ``relief_m`` -- the cross-strike elevation contrast over the smoothing
+      window, a proxy for scarp height.
     """
-    p = np.asarray(p, np.float32)
-    H, W = p.shape
-    ek = expected_credit(p)
-    cand = allowed & (ek >= floor)
-    ys, xs = np.nonzero(cand)
-    if ys.size == 0:
-        return Allocation(np.zeros(p.shape, bool), 0)
-    order = np.argsort(-ek[ys, xs], kind="stable")
-    if order.size > candidate_cap:
-        order = order[:candidate_cap]
-    ys, xs = ys[order], xs[order]
-    ekc = ek[ys, xs].astype(np.float64)
-    # ``E[k]`` is a *sum* of p*k over the neighbourhood and can exceed 1, but the
-    # metric's per-dot self-credit is ``max_g k(d(x,g))``, which cannot.  Using
-    # the unclipped sum makes ``1 - k`` negative, which flips the bar negative and
-    # lets zero-credit dots through -- that bug produced 7,987 duplicate
-    # acceptances on a synthetic field (``IR-57-KCLIP-01``).
-    kself = np.minimum(ekc, 1.0)
-    ncand = ys.size
+    z = np.where(footprint & np.isfinite(dem), dem, np.nan)
+    fill = np.nanmedian(z) if np.isfinite(z).any() else 0.0
+    zf = np.where(np.isfinite(z), z, fill)
+    gy, gx = np.gradient(zf, PIXEL_M, PIXEL_M)
+    valid = footprint.astype(float)
 
-    cover = np.zeros(p.shape, np.float32)
-    emitted = np.zeros(p.shape, bool)
-    upper = ekc.copy()            # non-increasing upper bound on each candidate's dT
-    dirty = np.ones(ncand, bool)  # needs (re-)evaluation
-    T = M = 0.0
-    n_dots = 0
-    rounds = 0
-    trace: list[dict] = []
+    def smooth(a):
+        num = ndi.gaussian_filter(a * valid, sigma_px)
+        den = ndi.gaussian_filter(valid, sigma_px)
+        return np.divide(num, den, out=np.zeros_like(num), where=den > 1e-9)
 
-    while n_dots < max_dots and rounds < max_rounds:
-        rounds += 1
-        def _c() -> float | None:
-            D_ = ALPHA * (T + n_dots - M) + BETA * k_truth + EPS
-            a_ = ALPHA * (T / D_)
-            return None if a_ >= 1.0 else a_ / (1.0 - a_)
+    gxx = smooth(gx * gx)
+    gyy = smooth(gy * gy)
+    gxy = smooth(gx * gy)
+    tr = gxx + gyy
+    det = gxx * gyy - gxy * gxy
+    disc = np.sqrt(np.maximum(tr * tr / 4.0 - det, 0.0))
+    l1 = tr / 2.0 + disc
+    l2 = tr / 2.0 - disc
+    denom = np.maximum(l1 + l2, 1e-12)
+    coherence = np.where(tr > 0, (l1 - l2) / denom, 0.0)
 
-        c = _c()
-        if c is None:
-            break
-        # the bar is recomputed after every acceptance: DTI moves inside a round,
-        # and freezing it lets marginal acceptances slip through that would
-        # actually lower DTI (the surrogate DTI was non-monotone before this fix)
-        eligible = dirty & (upper > c * (1.0 - kself))
-        if not eligible.any():
-            break
-        idxs = np.flatnonzero(eligible)
-        if idxs.size > per_round:
-            idxs = idxs[:per_round]
-        accepted = 0
-        for i in idxs:
-            if n_dots >= max_dots:
+    # Eigenvector of l2 is the lineament direction.
+    vx = np.where(np.abs(gxy) > 1e-12, l2 - gyy, 1.0)
+    vy = np.where(np.abs(gxy) > 1e-12, gxy, 0.0)
+    norms = np.hypot(vx, vy)
+    norms = np.where(norms > 1e-12, norms, 1.0)
+    vx, vy = vx / norms, vy / norms
+    azimuth = np.degrees(np.arctan2(vx, vy)) % 180.0
+
+    relief = np.sqrt(np.maximum(l1, 0.0)) * (2.0 * sigma_px * PIXEL_M)
+    return azimuth.astype(np.float64), np.clip(coherence, 0.0, 1.0), relief
+
+
+def _bilinear(field: np.ndarray, x: float, y: float,
+              transform: tuple[float, float, float, float, float, float]) -> float:
+    a, b, c, d, e, f = transform
+    col = (x - c) / a - 0.5
+    row = (y - f) / e - 0.5
+    h, w = field.shape
+    if row < 0 or col < 0 or row > h - 1.001 or col > w - 1.001:
+        return float("nan")
+    r0, c0 = int(np.floor(row)), int(np.floor(col))
+    dr, dc = row - r0, col - c0
+    v = (
+        field[r0, c0] * (1 - dr) * (1 - dc)
+        + field[r0 + 1, c0] * dr * (1 - dc)
+        + field[r0, c0 + 1] * (1 - dr) * dc
+        + field[r0 + 1, c0 + 1] * dr * dc
+    )
+    return float(v)
+
+
+def extend_trace(
+    seed_x: float,
+    seed_y: float,
+    seed_azimuth_deg: float,
+    azimuth_field: np.ndarray,
+    coherence: np.ndarray,
+    relief: np.ndarray,
+    footprint: np.ndarray,
+    transform: tuple[float, float, float, float, float, float],
+    *,
+    both_ways: bool = True,
+    max_length_m: float = MAX_TRACE_LENGTH_M,
+    step_m: float = TRACE_STEP_M,
+    coherence_min: float = COHERENCE_MIN,
+    relief_min: float = RELIEF_MIN_M,
+    fan_deg: float = AZIMUTH_FAN_DEG,
+) -> Trace | None:
+    """March outward from a seed while lineament evidence supports the trace.
+
+    At each step the local structure-tensor azimuth is consulted; the trace
+    direction is allowed to deviate from the running azimuth by at most
+    ``fan_deg`` per step, and the step is accepted only if both the lineament
+    coherence and the cross-strike relief clear their bars.  Marching stops at
+    the first unsupported point.
+    """
+    h, w = coherence.shape
+
+    def inside(x: float, y: float) -> bool:
+        a, b, c, d, e, f = transform
+        col = int((x - c) / a)
+        row = int((y - f) / e)
+        return 0 <= row < h and 0 <= col < w and footprint[row, col]
+
+    def march(direction: float) -> tuple[list[tuple[float, float]], float]:
+        pts: list[tuple[float, float]] = []
+        x, y = seed_x, seed_y
+        az = seed_azimuth_deg
+        evidence_min = np.inf
+        travelled = 0.0
+        while travelled < max_length_m:
+            # Candidate next azimuths inside the fan about the running azimuth.
+            local = _bilinear(azimuth_field, x, y, transform)
+            coh = _bilinear(coherence, x, y, transform)
+            rel = _bilinear(relief, x, y, transform)
+            if not np.isfinite(coh) or not np.isfinite(rel):
                 break
-            if c is None:
+            if coh < coherence_min or rel < relief_min:
                 break
-            y, x = int(ys[i]), int(xs[i])
-            if emitted[y, x]:
-                dirty[i] = False
-                continue
-            ny = y + OFF_DY
-            nx = x + OFF_DX
-            ok = (ny >= 0) & (ny < H) & (nx >= 0) & (nx < W)
-            nyv, nxv, kw = ny[ok], nx[ok], OFF_K[ok]
-            pv = p[nyv, nxv].astype(np.float64)
-            cv = cover[nyv, nxv].astype(np.float64)
-            dT = float((pv * np.maximum(kw - cv, 0.0)).sum())
-            upper[i] = dT
-            dirty[i] = False
-            if dT <= c * (1.0 - kself[i]):
-                continue
-            emitted[y, x] = True
-            n_dots += 1
-            T += dT
-            M += float(kself[i])
-            np.maximum.at(cover, (nyv, nxv), kw.astype(np.float32))
-            accepted += 1
-            c = _c()
-            # candidates within 6 px can have a changed dT (3 px kernel, twice)
-            m = (ys >= y - 6) & (ys <= y + 6) & (xs >= x - 6) & (xs <= x + 6)
-            dirty[m] = True
-            dirty[i] = False
-            if trace_every and n_dots % trace_every == 0:
-                D2 = ALPHA * (T + n_dots - M) + BETA * k_truth + EPS
-                trace.append({"n_dots": n_dots, "T": T, "M": M,
-                              "dti_est": T / D2, "last_dT": dT})
-        if accepted == 0:
-            break
-
-    D = ALPHA * (T + n_dots - M) + BETA * k_truth + EPS
-    return Allocation(emitted=emitted, n_dots=n_dots,
-                      expected_covered_credit=T, expected_self_credit=M,
-                      rounds=rounds, surrogate_dti=float(T / D), trace=trace)
-
-
-def dilate_zone(mask: np.ndarray, px: int) -> np.ndarray:
-    """Dilate a mask by ``px`` pixels (square structuring element)."""
-    return ndi.binary_dilation(np.asarray(mask, bool), iterations=int(px))
-
-
-def allocate_by_marginal_bar(p: np.ndarray, allowed: np.ndarray, k_truth: float, *,
-                             floor: float = 0.0, max_dots: int = 200_000,
-                             candidate_cap: int = 600_000,
-                             chunk: int = 50_000) -> Allocation:
-    """Select dots in descending ``E[k]`` order while each one raises the DTI.
-
-    Same decision rule as :func:`greedy_allocate` -- the exact two-sided test
-
-        (T + dT) / D1  >  T / D0,     D = alpha*(T + n - M) + beta*K
-
-    -- but evaluated once per candidate in a single descending pass instead of
-    by repeated round scans.  Under the (stated) approximation that a candidate's
-    marginal truth credit ``dT`` is non-increasing as better-ranked candidates
-    are accepted first, the single pass is the same greedy solution; it costs
-    ``O(n_cand * |kernel|)`` instead of ``O(n_dots * n_cand)``, which is what
-    makes a whole-footprint allocation (millions of candidates) tractable.
-
-    Candidates are visited in decreasing ``E[k] = p (*) k`` order and the loop
-    stops at the first candidate whose marginal credit no longer pays the bar,
-    which is where the greedy optimum sits.
-    """
-    p = np.asarray(p, np.float32)
-    H, W = p.shape
-    ek = expected_credit(p)
-    cand = allowed & (ek >= floor)
-    ys, xs = np.nonzero(cand)
-    if ys.size == 0:
-        return Allocation(np.zeros(p.shape, bool), 0)
-    order = np.argsort(-ek[ys, xs], kind="stable")
-    if order.size > candidate_cap:
-        order = order[:candidate_cap]
-    ys, xs = ys[order], xs[order]
-    kself = np.minimum(ek[ys, xs].astype(np.float64), 1.0)
-
-    cover = np.zeros(p.shape, np.float32)
-    emitted = np.zeros(p.shape, bool)
-    T = M = 0.0
-    n_dots = 0
-    K = float(k_truth)
-    stop_at = None
-    for start in range(0, ys.size, chunk):
-        if n_dots >= max_dots:
-            break
-        cy, cx, ksl = ys[start:start + chunk], xs[start:start + chunk], kself[start:start + chunk]
-        for i in range(cy.size):
-            if n_dots >= max_dots:
+            evidence_min = min(evidence_min, coh)
+            if np.isfinite(local):
+                tol = fan_deg
+                cands = [local % 180.0, (local + 180.0) % 180.0]
+                # Choose the branch closest to the running azimuth.
+                best = min(cands, key=lambda c: _axis_diff(c, az))
+                if _axis_diff(best, az) <= tol:
+                    az = best
+            # Advance along the running azimuth, signed by `direction`.
+            nx = x + direction * step_m * np.sin(np.radians(az))
+            ny = y + direction * step_m * np.cos(np.radians(az))
+            if not inside(nx, ny):
                 break
-            y, x = int(cy[i]), int(cx[i])
-            ny = y + OFF_DY
-            nx = x + OFF_DX
-            ok = (ny >= 0) & (ny < H) & (nx >= 0) & (nx < W)
-            nyv, nxv, kw = ny[ok], nx[ok], OFF_K[ok]
-            pv = p[nyv, nxv].astype(np.float64)
-            cv = cover[nyv, nxv].astype(np.float64)
-            dT = float((pv * np.maximum(kw - cv, 0.0)).sum())
-            if n_dots == 0:
-                if dT <= 0.0:
-                    continue
-            else:
-                D0 = ALPHA * (T + n_dots - M) + BETA * K + EPS
-                D1 = ALPHA * (T + dT + (n_dots + 1) - (M + kself[i])) + BETA * K + EPS
-                if not ((T + dT) / D1 > T / D0):
-                    stop_at = start + i
-                    break
-            emitted[y, x] = True
-            n_dots += 1
-            T += dT
-            M += float(ksl[i])
-            np.maximum.at(cover, (nyv, nxv), kw.astype(np.float32))
-        if stop_at is not None:
-            break
-    D = ALPHA * (T + n_dots - M) + BETA * K + EPS
-    return Allocation(emitted=emitted, n_dots=n_dots, expected_covered_credit=T,
-                      expected_self_credit=M, rounds=1, surrogate_dti=float(T / D))
+            pts.append((nx, ny))
+            x, y = nx, ny
+            travelled += step_m
+        return pts, (float(evidence_min) if np.isfinite(evidence_min) else float("nan"))
+
+    forward, ev_fwd = march(1.0)
+    backward, ev_bwd = march(-1.0) if both_ways else ([], float("nan"))
+    back = list(reversed(backward))
+    pts = back + [(seed_x, seed_y)] + forward
+    if len(pts) < 3:
+        return None
+    xs = np.array([p[0] for p in pts], dtype=float)
+    ys = np.array([p[1] for p in pts], dtype=float)
+    finite = [v for v in (ev_fwd, ev_bwd) if np.isfinite(v)]
+    ev = float(min(finite)) if finite else 0.0
+    return Trace(seed_x=seed_x, seed_y=seed_y, azimuth_deg=seed_azimuth_deg,
+                 xs=xs, ys=ys, provenance="datum_offset", evidence_min=ev)
 
 
-def allocate_patient(p: np.ndarray, allowed: np.ndarray, k_truth: float, *,
-                    floor: float = 0.0, max_dots: int = 200_000,
-                    candidate_cap: int = 4_000_000,
-                    patience: int = 100_000) -> Allocation:
-    """Greedy allocation that skips failing candidates instead of stopping.
+def _axis_diff(a: float, b: float) -> float:
+    """Smallest angle between two axial directions in degrees."""
+    return abs(((a - b) + 90.0) % 180.0 - 90.0)
 
-    :func:`allocate_by_marginal_bar` visits candidates once in descending
-    ``E[k] = p (*) k`` order and **breaks** at the first candidate that fails
-    the two-sided DTI test.  That single pass is only the greedy solution while
-    a candidate's marginal credit ``dT`` is non-increasing in rank -- and it is
-    not, because ``dT`` depends on *local* kernel saturation, not on rank.  On
-    a surface with large flat plateaus of near-equal ``E[k]`` (a tight cluster
-    of high-probability cells) the next candidate in row-major order can sit on
-    top of a dot already placed, return ``dT = 0``, and end the pass thousands
-    of dots early.  Measured on the session-4 surface: it stopped at 3,405 dots
-    where the same bar supports roughly ten times as many.
 
-    This variant keeps the identical accept/reject test but only stops after
-    ``patience`` consecutive rejections, since a rejected candidate says
-    nothing about one ranked below it.  Every decision the single pass made is
-    reproduced, so the result is never worse; the extra cost is scanning the
-    tail of the ranking.
+@dataclass
+class Seed:
+    """A fault trace seed derived from one flagged datum offset.
 
-    ``n_skipped`` and ``n_scanned`` are returned on ``trace`` for diagnostics.
+    ``azimuth_deg`` is the fault's own strike, which is *not* the local DEM
+    lineament azimuth at the seed: at a datum-offset seed the dominant DEM
+    lineament is the shorelines own edge.  The two offset classes therefore take
+    opposite constructions, both of them geometric:
+
+    * vertical step -- the shoreline drops as one walks along it, so the fault
+      that does the dropping must cross the shoreline: ``az = datum_az + 90``.
+    * lateral deflection -- the shoreline is displaced along its own length
+      (the Pyramid Lake fault-zone case of Briggs & Wesnousky and of Dong et al.),
+      so the fault runs roughly parallel to the datum: ``az = datum_az``.
     """
-    p = np.asarray(p, np.float32)
-    H, W = p.shape
-    ek = expected_credit(p)
-    cand = allowed & (ek >= floor)
-    ys, xs = np.nonzero(cand)
-    if ys.size == 0:
-        return Allocation(np.zeros(p.shape, bool), 0)
-    order = np.argsort(-ek[ys, xs], kind="stable")
-    if order.size > candidate_cap:
-        order = order[:candidate_cap]
-    ys, xs = ys[order], xs[order]
-    kself = np.minimum(ek[ys, xs].astype(np.float64), 1.0)
 
-    cover = np.zeros(p.shape, np.float32)
-    emitted = np.zeros(p.shape, bool)
-    T = M = 0.0
-    n_dots = 0
-    n_skipped = 0
-    n_fail = 0
-    K = float(k_truth)
-    for i in range(ys.size):
-        if n_dots >= max_dots or n_fail >= patience:
-            break
-        y, x = int(ys[i]), int(xs[i])
-        ny = y + OFF_DY
-        nx = x + OFF_DX
-        ok = (ny >= 0) & (ny < H) & (nx >= 0) & (nx < W)
-        nyv, nxv, kw = ny[ok], nx[ok], OFF_K[ok]
-        pv = p[nyv, nxv].astype(np.float64)
-        cv = cover[nyv, nxv].astype(np.float64)
-        dT = float((pv * np.maximum(kw - cv, 0.0)).sum())
-        if n_dots == 0:
-            if dT <= 0.0:
-                n_skipped += 1
+    x: float
+    y: float
+    kind: str
+    strength: float
+    azimuth_deg: float
+    az_tol_deg: float = AZIMUTH_FAN_DEG
+
+
+def seeds_from_flags(
+    step_flags: list[StepFlag],
+    deflection_flags: list[DeflectionFlag],
+    benches: list["Bench"],  # noqa: F821
+    *,
+    min_abs_jump_m: float = ELEVATION_RESOLUTION_M,
+    min_az_change_deg: float = DEFLECTION_MIN_DEG,
+    dedupe_radius_m: float = 600.0,
+) -> list[Seed]:
+    """Build fault seeds from the flagged datum offsets, strongest evidence first.
+
+    The fault azimuth is the mean of the two contrasted benches' principal-axis
+    azimuths, rotated by 90 degrees for a vertical step (fault crosses the datum)
+    and left unrotated for a lateral deflection (fault runs along the datum).
+    """
+    raw: list[Seed] = []
+    for f in step_flags:
+        if abs(f.residual_jump_m) < min_abs_jump_m:
+            continue
+        a = 0.5 * (benches[f.bench_a].azimuth_deg + benches[f.bench_b].azimuth_deg)
+        raw.append(Seed(x=f.x, y=f.y, kind="elevation_step",
+                        strength=abs(f.residual_jump_m), azimuth_deg=(a + 90.0) % 180.0))
+    for d in deflection_flags:
+        if d.az_change_deg < min_az_change_deg:
+            continue
+        a = 0.5 * (d.az_in_deg + d.az_out_deg)
+        raw.append(Seed(x=d.x, y=d.y, kind="lateral_deflection",
+                        strength=d.az_change_deg / 10.0, azimuth_deg=a % 180.0))
+
+    raw.sort(key=lambda s: -s.strength)
+    kept: list[Seed] = []
+    for s in raw:
+        if any(np.hypot(s.x - k.x, s.y - k.y) < dedupe_radius_m for k in kept):
+            continue
+        kept.append(s)
+    return kept
+
+
+def traces_from_flags(
+    seeds: list[Seed],
+    azimuth_field: np.ndarray,
+    coherence: np.ndarray,
+    relief: np.ndarray,
+    footprint: np.ndarray,
+    transform: tuple[float, float, float, float, float, float],
+    *,
+    min_evidence_coherence: float = COHERENCE_MIN,
+    min_length_m: float = 400.0,
+) -> list[Trace]:
+    """Extend one trace per seed while DEM evidence supports it."""
+    traces: list[Trace] = []
+    for s in seeds:
+        coh_at_seed = _bilinear(coherence, s.x, s.y, transform)
+        if not np.isfinite(coh_at_seed) or coh_at_seed < min_evidence_coherence:
+            continue
+        t = extend_trace(s.x, s.y, s.azimuth_deg, azimuth_field, coherence, relief,
+                         footprint, transform, fan_deg=s.az_tol_deg)
+        if t is None or t.length_m < min_length_m:
+            continue
+        t.provenance = s.kind
+        t.azimuth_deg = s.azimuth_deg
+        traces.append(t)
+    return traces
+
+
+def dots_from_traces(
+    traces: list[Trace],
+    catalogue: np.ndarray,
+    footprint: np.ndarray,
+    transform: tuple[float, float, float, float, float, float],
+    *,
+    spacing_m: float = DOT_SPACING_M,
+    exclusion_m: float = CATALOGUE_EXCLUSION_M,
+    min_separation_m: float = 0.9 * DOT_SPACING_M,
+) -> tuple[np.ndarray, np.ndarray, dict]:
+    """Rasterise traces as unit-valued dots.
+
+    Three filters, in order:
+
+    1. drop samples inside the scored footprint but within ``exclusion_m`` of the
+       mapped catalogue (they cannot earn credit -- see module docstring);
+    2. drop samples outside the survey footprint (the contract asks for null
+       outside the data bounds);
+    3. greedy minimum-separation thinning at ``min_separation_m`` so that no two
+       kept dots waste mass on the same kernel.
+
+    Returns ``(rows, cols, stats)``.
+    """
+    a, b, c, d, e, f = transform
+    dist_cat = ndi.distance_transform_edt(~catalogue, sampling=(PIXEL_M, PIXEL_M))
+
+    cand: list[tuple[int, int]] = []
+    n_sampled = n_cat_excluded = n_outside = 0
+    for t in traces:
+        xs, ys = t.sample(spacing_m)
+        for x, y in zip(xs, ys):
+            n_sampled += 1
+            col = int((x - c) / a)
+            row = int((y - f) / e)
+            if not (0 <= row < footprint.shape[0] and 0 <= col < footprint.shape[1]):
+                n_outside += 1
                 continue
-        else:
-            D0 = ALPHA * (T + n_dots - M) + BETA * K + EPS
-            D1 = ALPHA * (T + dT + (n_dots + 1) - (M + kself[i])) + BETA * K + EPS
-            if not ((T + dT) / D1 > T / D0):
-                n_fail += 1
-                n_skipped += 1
+            if not footprint[row, col]:
+                n_outside += 1
                 continue
-        emitted[y, x] = True
-        n_dots += 1
-        n_fail = 0
-        T += dT
-        M += float(kself[i])
-        np.maximum.at(cover, (nyv, nxv), kw.astype(np.float32))
-    D = ALPHA * (T + n_dots - M) + BETA * K + EPS
-    return Allocation(emitted=emitted, n_dots=n_dots, expected_covered_credit=T,
-                      expected_self_credit=M, rounds=1, surrogate_dti=float(T / D),
-                      trace=[("n_skipped", n_skipped), ("n_scanned", int(i) + 1)])
+            if dist_cat[row, col] < exclusion_m:
+                n_cat_excluded += 1
+                continue
+            cand.append((row, col))
+
+    # Greedy thinning in map space.
+    kept: list[tuple[int, int]] = []
+    used = np.zeros(footprint.shape, dtype=bool)
+    step_cells = max(1, int(round(min_separation_m / PIXEL_M)))
+
+    def clear(r0: int, c0: int) -> bool:
+        r1, r2 = max(0, r0 - step_cells), min(used.shape[0], r0 + step_cells + 1)
+        c1, c2 = max(0, c0 - step_cells), min(used.shape[1], c0 + step_cells + 1)
+        sub = used[r1:r2, c1:c2]
+        if not sub.any():
+            return True
+        rr, cc = np.nonzero(sub)
+        dy = (rr + r1 - r0) * PIXEL_M
+        dx = (cc + c1 - c0) * PIXEL_M
+        return bool(np.all(np.hypot(dx, dy) >= min_separation_m))
+
+    for r, c0 in cand:
+        if clear(r, c0):
+            used[r, c0] = True
+            kept.append((r, c0))
+
+    rows = np.array([k[0] for k in kept], dtype=int)
+    cols = np.array([k[1] for k in kept], dtype=int)
+    stats = {
+        "n_traces": len(traces),
+        "n_sampled": n_sampled,
+        "n_dropped_outside_footprint": n_outside,
+        "n_dropped_catalogue_exclusion": n_cat_excluded,
+        "n_dots": int(rows.size),
+        "spacing_m": spacing_m,
+        "exclusion_m": exclusion_m,
+        "min_separation_m": min_separation_m,
+    }
+    return rows, cols, stats
 
 
-def surrogate_terms(dots: np.ndarray, p: np.ndarray, k_truth: float) -> dict:
-    """Closed-form surrogate DTI of a candidate dot set under the fitted posterior.
-
-    ``T``  = covered credit ``sum_g p(g) * max_dot k(d(g,dot))``  (kernel dilation of
-    the dot set, weighted by the posterior -- the same expectation
-    :func:`greedy_allocate` accumulates, but computed in one vectorised pass).
-
-    ``M``  = total self-credit ``sum_dot max_{dot'} k(d(dot,dot'))``, i.e. how much
-    of the emitted mass the metric can excuse as "near a prediction".
-
-    Both are *surrogates*: the true maxima are over the unknown hidden truth, so
-    ``T``/``M`` here are the same clipped-convolution approximation the greedy
-    allocator uses.  The reported HOLDOUT-DTI is always recomputed by the shared
-    evaluator; this function exists only to choose a dot budget in seconds
-    instead of hours.
-    """
-    p = np.asarray(p, np.float32)
-    dots_b = np.asarray(dots, bool)
-    if p.shape != dots_b.shape:
-        raise ValueError("dots and posterior must share the grid")
-    H, W = p.shape
-    cover = np.zeros(p.shape, np.float32)
-    self_credit = np.zeros(p.shape, np.float32)
-    for j, i, k in zip(OFF_DY, OFF_DX, OFF_K):
-        ys0, ys1 = max(0, j), min(H, H + j)
-        xs0, xs1 = max(0, i), min(W, W + i)
-        shifted = dots_b[max(0, -j):min(H, H - j), max(0, -i):min(W, W - i)]
-        kk = np.float32(k)
-        np.maximum(cover[ys0:ys1, xs0:xs1], shifted * kk, out=cover[ys0:ys1, xs0:xs1])
-        np.maximum(self_credit[ys0:ys1, xs0:xs1], shifted * kk,
-                   out=self_credit[ys0:ys1, xs0:xs1])
-    T = float((p * cover).sum())
-    M = float(self_credit[dots_b].sum())
-    n = int(dots_b.sum())
-    D = ALPHA * (T + n - M) + BETA * float(k_truth) + EPS
-    return {"n_dots": n, "T": T, "M": M,
-            "surrogate_dti": float(T / D) if D > 0 else 0.0}
+def raster_from_dots(rows: np.ndarray, cols: np.ndarray, shape: tuple[int, int],
+                     *, value: float = 1.0) -> np.ndarray:
+    """Unit-valued raster on the competition grid, zero everywhere else."""
+    out = np.zeros(shape, dtype=np.float32)
+    out[rows, cols] = np.float32(value)
+    return out
 
 
-def emit_decimated(p: np.ndarray, allowed: np.ndarray, *, tile_px: int = 3,
-                   floor: float = 0.0) -> tuple[np.ndarray, np.ndarray]:
-    """Rank every ``tile_px`` x ``tile_px`` tile by its best ``E[k]`` and return
-    (dot mask for the full ranking, per-tile expected credit).
-
-    Why a decimated ranking rather than a second greedy loop
-    -------------------------------------------------------
-    :func:`greedy_allocate` is exact for the shared decision rule but costs
-    ``O(n_dots * n_candidates)`` because every acceptance re-scans the dirty
-    neighbourhood: measured on this repository's own surfaces it admits roughly
-    ten thousand dots per hour, while the registry evidence from the highest
-    owner-reported files shows the live optimum sits in the tens of thousands.
-    The decimated ranking keeps the *decision variable* (``E[k]``, the same
-    convolution the greedy loop uses) and replaces the dirty re-scan with a
-    spacing constraint: at most one dot per ``tile_px`` x ``tile_px`` tile,
-    chosen at the tile's ``argmax E[k]``.  Because the kernel radius is 3 px, a
-    3 px tile grid is exactly the spacing at which a dot stops duplicating its
-    neighbour's credit, which is the same geometry the registry's best files
-    reach by thinning a thick surface.
-
-    The returned dot mask is the *ranking*: taking the ``n`` highest-credit
-    tiles gives the nested budget family used by
-    :func:`gems61.emit.surrogate_terms`, so a budget curve costs one pass.
-    """
-    p = np.asarray(p, np.float32)
-    allowed = np.asarray(allowed, bool)
-    if p.shape != allowed.shape:
-        raise ValueError("posterior and allowed mask must share the grid")
-    if tile_px < 1:
-        raise ValueError("tile_px must be >= 1")
-    ek = expected_credit(p)
-    ek = np.where(allowed, ek, 0.0)
-    H, W = p.shape
-    ph = (-H) % tile_px
-    pw = (-W) % tile_px
-    padded = np.pad(ek, ((0, ph), (0, pw)), mode="constant")
-    th, tw = padded.shape[0] // tile_px, padded.shape[1] // tile_px
-    tiles = padded.reshape(th, tile_px, tw, tile_px).transpose(0, 2, 1, 3)
-    tiles = tiles.reshape(th * tw, tile_px * tile_px)
-    tile_max = tiles.max(axis=1)
-    tile_arg = tiles.argmax(axis=1)
-    stay = tile_max > np.float32(floor)
-    tile_ids = np.flatnonzero(stay)
-    order = tile_ids[np.argsort(-tile_max[tile_ids], kind="stable")]
-    ty = (order // tw) * tile_px
-    tx = ((order % tw) * tile_px)
-    ay = ty + (tile_arg[order] // tile_px)
-    ax = tx + (tile_arg[order] % tile_px)
-    keep = (ay < H) & (ax < W)
-    ay, ax = ay[keep], ax[keep]
-    stride = np.arange(1, ay.size + 1)
-    ranked = np.zeros(p.shape, np.int32)
-    ranked[ay, ax] = stride
-    return ranked, tile_max[order][keep]
-
-
-def emit_prefix(ranked: np.ndarray, budget: int) -> np.ndarray:
-    """The first ``budget`` dots of a :func:`emit_decimated` ranking."""
-    if budget < 0:
-        raise ValueError("budget must be non-negative")
-    return (ranked > 0) & (ranked <= int(budget))
+def to_nan_outside(raster: np.ndarray, footprint: np.ndarray) -> np.ndarray:
+    """Return a copy with NaN outside the survey footprint (the page's wording)."""
+    out = raster.astype(np.float32).copy()
+    out[~footprint] = np.nan
+    return out

@@ -1,0 +1,35 @@
+{
+ "formula": "0.30*cross_max + 0.20*upface_max + 0.20*step_max + 0.20*curv_prof_absmax + 0.10*hs_lineament",
+ "topo_band_names": {
+  "1": "slope_p90",
+  "2": "slope_max",
+  "3": "steep_frac",
+  "4": "slope_std",
+  "5": "relief_local",
+  "6": "curv_prof_absmax",
+  "7": "aspect_coherence",
+  "8": "hs_lineament",
+  "9": "dem_mean"
+ },
+ "lidar_band_names": [
+  "ex_max",
+  "ex_mean",
+  "step_max",
+  "lapneg_max",
+  "lappos_max",
+  "downface_max",
+  "upface_max",
+  "cross_max",
+  "relief",
+  "coh100",
+  "strike",
+  "valid"
+ ],
+ "lidar_band_name_provenance": "OWNER-DOCUMENTED (60GEMSDOE docs/research/geothermal-vents-knowledge.md).  The GeoTIFF carries NO band tags -- this is not organiser metadata.",
+ "shas": {
+  "topo_10m_derived_100m_u8": "a6398d9950965dec6aae6ccecdaa6ced48645d133eab222cbdd11def9bdabfa4",
+  "lidar_scarp_features_u8": "d580bb8bdcdb941e32fefb8b38044bc5bf04e199bf2e83498c3576e6fc465568"
+ },
+ "ir70_data_01_fix": "bands are addressed by TAG where the file is tagged and by documented order where it is not -- never by a remembered index.",
+ "evidence_class": "MEASURED (derived) / OWNER-DOCUMENTED (lidar order)"
+}

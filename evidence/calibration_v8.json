@@ -1,0 +1,38 @@
+{
+ "question": "Can the local catalogue-based holdout rank submissions for a task whose truth is defined as faults ABSENT from that catalogue?",
+ "answer": "No. Measured here and independently in a sibling repository.",
+ "table": {
+  "v8_datum_lane_1660_dots": {
+   "dti": 0.0028633750240036407,
+   "tp": 139.2691692919031,
+   "n_pred": 1660,
+   "ratio_to_own_poisson_null": 0.7358717377437569
+  },
+  "h33_2_b2_zeros_live_0p2778_OWNER_REPORTED": {
+   "dti": 0.006702557015562331,
+   "tp": 373.77446933887603,
+   "n_pred": 37283,
+   "ratio_to_own_poisson_null": 0.10017786830859927
+  },
+  "poisson_null_1660_dots_seed7": {
+   "dti": 0.0038911333010056663,
+   "tp": 189.274399715968,
+   "n_pred": 1645,
+   "ratio_to_own_poisson_null": 1.0
+  },
+  "poisson_null_37654_dots_seed7": {
+   "dti": 0.06690656458086146,
+   "tp": 3761.143200156611,
+   "n_pred": 37346,
+   "ratio_to_own_poisson_null": 1.0
+  }
+ },
+ "sibling_repository_measurement": {
+  "proxy_vs_live_spearman_rho": 0.087,
+  "n_artifacts": 12,
+  "their_poisson_300m_control": 0.098,
+  "their_same_h33_artifact": 0.019,
+  "source": "GEMSDOE32 docs/research/h33-hypotheses.md, evidence/h33_holdout.json [SIBLING-MEASURED]"
+ },
+ "consequence": "The holdout is a bug screen, a leakage canary and a null generator -- never a score, and never a promotion gate."
+}

@@ -1,0 +1,217 @@
+{
+  "lane_id": "H62-A",
+  "lane": "lahontan-isobase-strain-gauge",
+  "package_version": "1.0.0",
+  "generated_utc": "2026-10-11T20:20:03Z",
+  "hypothesis": "Lake Lahontan's ~15 ka shoreline is a near-level datum; where it is stepped in elevation or deflected laterally along strike, a structure younger than the highstand cuts it. Those structures are the class of fault the USGS/INGENIOUS catalogue is incomplete for, because they are expressed as basin-margin scarps rather than range crests.",
+  "mechanism": "Fit a smooth isobase through the pluvial-lake-margin band of the detrended-elevation surface (6 km Gaussian, so differential rebound between sub-basins is absorbed rather than forced into one plane); flag robust residual outliers (steps, k=2.5 MAD) and abrupt azimuth kinks (>22 deg over 3 px, lateral deflections); seed a trace at each flag and extend it while DEM-ridge evidence (across-strike profile curvature + scarp-band slope + TMI/isostatic-gravity horizontal gradient) stays above 0.60; emit single-pixel dots at >=3 px spacing, capped at the organiser-confirmed optimum budget, with every dot within 3 px of a mapped fault deleted.",
+  "named_non_fault_process_that_could_mimic_it": "Differential post-pluvial isostatic rebound itself. Rebound is spatially variable across the Lahontan sub-basins, so a purely isostatic warp of the shoreline produces elevation steps and azimuth kinks with no fault at all. Secondary mimics: (a) alluvial-fan toes and debris-flow lobes, which create slope breaks in the same TPI band; (b) the ~12-14 ka Truckee/Carson River channel and delta margins, which are erosional not tectonic; (c) bedrock lithologic contacts expressed as differential erosion. The lane cannot separate (a) from a genuine scarp at 100 m pixels -- that needs the 1 m lidar in 1m_DEM_links.csv, which is not reachable from this sandbox.",
+  "holdout": {
+    "evaluator": "gems62.holdout_segmented v1",
+    "alpha": 0.2,
+    "beta": 0.8,
+    "radius_m": 300,
+    "n_withheld_positives_total": 81993,
+    "pooled_dti": 0.12237012069736972,
+    "ci95": [
+      0.11540764822985965,
+      0.1283613950152348
+    ],
+    "controls_mean": {
+      "random_lines": 0.02279550276072926,
+      "random_dots": 0.055458264207717545,
+      "catalogue_offset": 0.03857455904400445
+    },
+    "beats_random_lines": true,
+    "best_arm": "A3",
+    "all_arms": {
+      "A1": 0.10832841490488743,
+      "A2": 0.11169704743207226,
+      "A3": 0.12237012069736972
+    }
+  },
+  "leakage_canary": {
+    "threshold": 0.9,
+    "vs_withheld_truth": {
+      "ridge_evidence": 0.5846687300536931,
+      "habitat_from_visible_only": 0.6626862831464582,
+      "isobase_residual_abs": 0.44211024278792344,
+      "step_z": 0.4463564179368944
+    },
+    "any_above": false
+  },
+  "correlation_and_overlap_vs_registry": {
+    "verdict": "DUPLICATE",
+    "verdict_strict_literal": "DUPLICATE",
+    "n_registry": 709,
+    "worst_rho_surface": {
+      "name": "GEMSDOE48__gemsdoe48-h50-plausibility-20261007-5b59e106.tif",
+      "value": 0.06473241166153065
+    },
+    "worst_abs_rho_surface": {
+      "name": "55GEMSDOE__h57-tensor-flank-r15-uneroded-registry56-n200-20261009T200831Z-nan.tif",
+      "value": -1.0
+    },
+    "worst_overlap_one_sided_3px": {
+      "name": "57GEMSDOE__gems57-h57g-width-normalized-b1329dc0f248-RESEARCH-DO-NOT-SUBMIT.tif",
+      "value": 1.0
+    },
+    "worst_overlap_one_sided_3px_informative": {
+      "name": "GEMSDOE48__GEMSDOE48-H57-ds-relief-augmented-20261007-e6b785718c07-diag-conflict-k.tif",
+      "value": 0.8013421052631579
+    },
+    "worst_overlap_excess_above_chance": {
+      "name": "GEMSDOE48__GEMSDOE48-H57-ds-relief-augmented-20261007-e6b785718c07-diag-conflict-k.tif",
+      "value": 0.6214598042362003
+    },
+    "worst_jaccard": {
+      "name": "19GEMSDOE__gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-allfinite.tif",
+      "value": 0.02532200179122557
+    },
+    "n_over_overlap_limit": 64,
+    "n_over_limit_degenerate": 61,
+    "n_over_limit_informative": 3,
+    "n_overlap_degenerate_comparators": 64,
+    "limits": {
+      "overlap": 0.7,
+      "jaccard": 0.5,
+      "rho": 0.9
+    },
+    "degeneracy_note": "A comparator is overlap-degenerate when a NULL dot set would itself exceed the 0.70 overlap limit against it. Two nulls are used: a weak uniform one (dots anywhere in the footprint), which catches regular lattices with spacing <= 6 px and near-blanket fields, and -- when the caller supplies the lane's own catalogue-free habitat mask -- a strong one (dots drawn from that habitat), which also catches the far more common case of a comparator that simply ranks the same basin-margin geology we do. For degenerate comparators the overlap leg carries no information about lane identity and is waived; Jaccard, signed rho and the excess over the null are reported instead and are never waived. See IR-62-UNIQ-01. When no habitat mask is supplied only the weak null runs, and the strict-literal verdict is the one to trust.",
+    "verdict_basis": "calibrated: the overlap leg is waived where EITHER null (uniform-over-footprint, or uniform-over-our-own-catalogue-free-habitat) would itself exceed 0.70; signed rho > 0.90 and Jaccard >= 0.50 are never waived",
+    "n_comparators_over_overlap_limit": 64,
+    "n_waived_by_a_null": 61,
+    "n_binding_distinct_fields": 2,
+    "binding_comparators": [
+      {
+        "name": "GEMSDOE48__GEMSDOE48-H57-ds-relief-augmented-20261007-e6b785718c07-diag-conflict-k.tif",
+        "n_theirs": 1138851,
+        "theirs_density": 0.22039,
+        "overlap": 0.8013,
+        "uniform_null": 0.4752,
+        "habitat_null": 0.6717,
+        "excess_over_habitat_null": 0.129592,
+        "jaccard": 0.01619,
+        "rho_surface": -0.1346
+      },
+      {
+        "name": "GEMSDOE50__gemsdoe50-h59-topo-lineament-scatter-180k-20261007T170212Z-allfinite.tif",
+        "n_theirs": 180000,
+        "theirs_density": 0.03483,
+        "overlap": 0.7726,
+        "uniform_null": 0.6351,
+        "habitat_null": 0.6561,
+        "excess_over_habitat_null": 0.116503,
+        "jaccard": 0.00948,
+        "rho_surface": -0.9671
+      }
+    ],
+    "binding_is_marginal": true,
+    "binding_margin_to_waiver": 0.0282,
+    "null_sample_sensitivity": "Which comparators bind is not stable at the threshold. 13GEMSDOE__13gems-r8-ensemble bound under the null draw in evidence/e7b_uniqueness_null_analysis.json (habitat null 0.681) and is waived under the draw in evidence/e7_uniqueness.json. Both used 20,000 sample points; the difference is sampling variation of ~0.02 either side of a hard 0.70 cliff. A rule whose verdict flips on the null seed is not a rule that can gate a submission.",
+    "max_jaccard": 0.02532,
+    "max_signed_rho": 0.0647,
+    "min_signed_rho": -1.0,
+    "max_excess_over_habitat_null": 0.1632,
+    "max_reverse_overlap": 0.3195,
+    "habitat_null_pool": {
+      "pixels": 271102,
+      "sample": 20000,
+      "definition": "bench & |isobase residual - median| in [15,130) m & footprint; CATALOGUE-FREE"
+    },
+    "is_a_copy": false,
+    "not_a_copy_because": "Across all 709 comparators, exact set agreement never exceeds Jaccard 0.0253 (limit 0.5) and signed rank correlation never exceeds +0.0647 (limit 0.9; the most negative is -1.0000, which is anti-correlation, the opposite of copying); mutual containment never exceeds 0.3195. A copy would show Jaccard near 1.0 and signed rho near 1.0. What the overlap leg is detecting is that 61 of the 64 comparators that trip it are regular lattices or 4-100%-density fields whose 3 px dilation covers the same basin-margin geology this lane is assigned to.",
+    "evidence": [
+      "evidence/e7_uniqueness.json",
+      "evidence/e7b_uniqueness_null_analysis.json",
+      "evidence/e7c_habitat_pool.json"
+    ],
+    "irregularity": "IR-62-UNIQ-01",
+    "vs_organizer_best_0_2778": {
+      "name": "60GEMSDOE__gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "n_theirs": 37654,
+      "overlap_one_sided_3px": 0.4167,
+      "jaccard_exact": 0.01914,
+      "n_intersection": 1421,
+      "rho_surface": -0.9624,
+      "note": "Our 38,000 dots share 1,421 exact pixels with the 0.2778 file's 37,654 and sit within 3 px of 41.7% of them; 58.3% of our dots are in places that file does not cover."
+    }
+  },
+  "raster_sha256": "eabd03c1ca1a5380d100024b3ed7c7401a847bdab5913a423c396bb50f624ed5",
+  "raster_bytes": 141486,
+  "validator": {
+    "ok": true,
+    "n_pass": 26,
+    "n_fail": 0,
+    "failed_checks": [],
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "crs": 32611,
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ]
+  },
+  "submission_name": "gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z",
+  "submission_note": "H62-A Lahontan isobase step/deflection traces; arm A3; 38000 dots; UNSCORED",
+  "submission_note_chars": 75,
+  "organizer_confirmed_score": null,
+  "verdict": "negative",
+  "verdict_reason": "IR-62-HOLDOUT-01: the promotion gate is invalid. Across 10 ORGANIZER-CONFIRMED artifacts scored on one identical frozen holdout, HOLDOUT-DTI is ANTI-correlated with the organizer's score (Spearman -0.9141, p=0.00021; partial Spearman controlling for dot count -0.681, p=0.03017; 7 of 8 count-matched pairs go the same way). The standing instruction is not to spend a slot on an idea that has not beaten the current holdout best; the shipped artifact scores 0.0000 against a best of 0.13215463311922815, and no valid instrument exists to overrule that. IR-62-UNIQ-01: the uniqueness rule says DUPLICATE and this repository will not overrule its own tasking protocol autonomously. The literal leg fires against 64 comparators; calibrating it with two nulls waives all but 2 distinct fields, and those bind only marginally (their habitat nulls sit within 0.0282 of the 0.70 waiver cliff, and which of them binds flips with the null seed). Meanwhile every statistic that can actually detect COPYING is far inside its limit: max Jaccard 0.02532 (limit 0.5), max signed rho 0.0647 (limit 0.9), max mutual containment 0.3195. is_a_copy = False. So the honest reading is that the artifact is NOT a copy and the overlap leg is mis-specified for a lane-conformant artifact -- but that is a human judgement to make, not an autonomous one.",
+  "elapsed_seconds": 601.9,
+  "uniqueness_rechecked_utc": "2026-10-11T21:08:26Z",
+  "holdout_gate": {
+    "instrument": "gems62.holdout_segmented v1 (segmented hide-and-recover)",
+    "our_arm_a3_procedure_dti": 0.12237012069736972,
+    "our_arm_a3_procedure_ci95": [
+      0.11540764822985965,
+      0.1283613950152348
+    ],
+    "our_shipped_artifact_frozen_dti": 0.0,
+    "mechanism_of_zero": "The shipped artifact has ZERO dots within 3 px of any catalogue pixel (measured: minimum dot-to-catalogue distance 3.2 px, median 18.9 px). The holdout's withheld truth IS public catalogue, so its true-positive term is exactly zero and DTI is 0 by construction. This is not a defect of the artifact; it is the property that the ORGANIZER-CONFIRMED evidence says wins.",
+    "current_holdout_best": 0.13215463311922815,
+    "current_holdout_best_label": "dotted-h19-5-d2-8-20261002-e56ea318af89-nan",
+    "beats_current_holdout_best": false,
+    "gate_is_valid": false,
+    "spearman_holdout_vs_organizer": -0.9141,
+    "spearman_p": 0.00021,
+    "partial_spearman_given_ndots": -0.681,
+    "partial_spearman_p": 0.03017,
+    "count_matched_pairs": 8,
+    "count_matched_pairs_lower_holdout_higher_organizer": 7,
+    "confound_ruled_out": true,
+    "cleanest_counterexample": "h33-h33-2-b2 (37,654 dots, HOLDOUT 0.0053, ORGANIZER 0.2778) vs h36-1-rung30-blind-r1 (37,660 dots, HOLDOUT 0.0368, ORGANIZER 0.2710). Six dots apart in budget, a 7x holdout difference, and the LOWER-holdout file carries the HIGHER organizer score.",
+    "finding": "The segmented catalogue-withholding holdout is ANTI-CORRELATED with the organizer's confirmed score across these artifacts. The highest-scoring file (0.2778) has the second-lowest holdout DTI (0.0053); the lowest-scoring files (0.2600) have the highest (0.1322). Mechanism: the holdout's withheld truth IS public catalogue, so it rewards dots that hug the catalogue, while the organizer's private set is faults NOT in the public catalogue, so it rewards dots that avoid it. The 0.2778 file was built by DELETING 6,436 dots within 3 px of the catalogue, which raised its organizer score 0.2600 -> 0.2778 and simultaneously collapses its holdout DTI 0.1322 -> 0.0053. The two objectives are in direct opposition.",
+    "irregularity": "IR-62-HOLDOUT-01",
+    "evidence": [
+      "evidence/e9_frozen_artifact_holdout.json",
+      "registry/organizer_scores.json"
+    ]
+  },
+  "artifact_status": {
+    "format_valid": true,
+    "format_checks": "26/26",
+    "unique_calibrated": false,
+    "unique_strict_literal": false,
+    "is_a_copy": false,
+    "ok_to_download": true,
+    "ok_to_submit": false,
+    "ok_to_submit_reason": "Format-valid (26/26) and NOT a copy of any registry raster by any statistic that can detect copying (max Jaccard 0.02532 vs a 0.50 limit; max signed rho 0.0647 vs a 0.90 limit; max mutual containment 0.3195). But two things block an autonomous promotion: (1) the only holdout instrument in this repository is provably anti-correlated with the organizer's metric, so there is no valid way to show this beats the current best; (2) the uniqueness rule as written returns DUPLICATE, and overruling a leg of the tasking protocol is a human decision. Spending a weekly slot on it would be a guess presented as a result.",
+    "scored": false,
+    "projected_score": null,
+    "projection_note": "No score is projected for this artifact anywhere in this repository. A projection is never written as a score."
+  },
+  "irregularities_open": [
+    "IR-62-UNIQ-01",
+    "IR-62-HOLDOUT-01"
+  ],
+  "finalized_utc": "2026-10-11T21:19:54Z"
+}

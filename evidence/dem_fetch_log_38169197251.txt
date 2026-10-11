@@ -1,0 +1,9 @@
+[19:43:31] n39w119: ok 379 MB -> (4504, 3568) z=[1207,3434] pasted=(7591,3372)
+[19:43:43] n40w119: ok 319 MB -> (4505, 3520) z=[1028,2674] pasted=(3151,3469)
+[19:43:58] n40w118: ok 378 MB -> (4466, 3470) z=[1030,3486] pasted=(3209,6933)
+[19:44:11] n41w119: ok 352 MB -> (4506, 3471) z=[1186,2992] pasted=(0,3568)
+[19:44:25] n41w120: ok 351 MB -> (4545, 3522) z=[1148,2733] pasted=(0,153)
+[19:44:38] n42w120: reproject failed operands could not be broadcast together with shapes (13639,3474) (0,3474) 
+[19:44:54] wrote dem_25m_utm11.tif  valid=55060513
+[19:45:06] wrote derived slope + curvature
+[19:45:06] done

@@ -1,158 +1,172 @@
-"""Submission-format validation, re-derived from the bytes on disk.
+"""Submission format validator.
 
-The organiser accepts a single-band GeoTIFF (or a zip containing one) whose CRS,
-shape and geotransform match the template, with predicted values in ``[0, 1]``.
-A local portal rejection ("Predicted values must be in range [0, 1]") is the
-reason every check here is run against the *written file*, not the in-memory
-array: the file is the deliverable.
+Checks are transcribed from the competition problem page
+(https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) and
+from the observed submission-form behaviour recorded by the sibling repositories:
+
+* "same projected coordinate reference system as the training data ... EPSG 32611"
+* "same resolution ... 100m"
+* "same bounds as the training data, and data outside the bounds is null or nan"
+* "a single layer with datatype of 32-bit float (``float32``) with values between 0 and 1"
+
+The portal error the owner hit -- ``Predicted values must be in range [0, 1]`` -- is
+reproduced by any file whose values outside [0, 1] leak into the portal's range
+check, most commonly a float32 nodata sentinel such as ``-3.4028235e38`` or a NaN
+nodata tag.  This validator therefore reports *three* separate facts and never
+conflates them:
+
+1. every finite value in the scored footprint lies in ``[0, 1]``;
+2. whether any non-finite value occurs inside the footprint;
+3. how the file encodes the region outside the footprint (finite zeros vs NaN).
+
+A local pass is **not** an organizer acceptance receipt.
 """
 
 from __future__ import annotations
 
+import hashlib
+import json
+from dataclasses import dataclass, asdict
 from pathlib import Path
 
 import numpy as np
 import rasterio
-from affine import Affine
 
-from . import grid as gd
-
-CHECKS = (
-    "single_band", "dtype_float32", "dimensions_3730x3292", "crs_epsg_32611",
-    "transform_matches_template", "nodata_unset_or_nan",
-    "in_footprint_all_finite", "in_footprint_no_nan", "in_footprint_no_inf",
-    "in_footprint_no_sentinel", "in_footprint_range_0_1",
-    "outside_footprint_zero", "zero_on_catalogue", "nonempty",
-)
+from .grid import CRS, HEIGHT, WIDTH, TRANSFORM
 
 
-def validate(path: str | Path, footprint: np.ndarray, catalogue: np.ndarray) -> dict:
-    import hashlib
+def sha256_file(path: str | Path, chunk: int = 1 << 20) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for block in iter(lambda: fh.read(chunk), b""):
+            h.update(block)
+    return h.hexdigest()
 
-    p = Path(path)
-    with rasterio.open(p) as src:
+
+@dataclass
+class ValidationReport:
+    path: str
+    sha256: str
+    bytes: int
+    count: int
+    dtype: str
+    crs: str
+    shape: tuple[int, int]
+    transform: tuple[float, ...]
+    nodata: float | None
+    values_min: float
+    values_max: float
+    nan_inside_footprint: int
+    nan_outside_footprint: int
+    outside_encoding: str
+    positive_cells: int
+    max_positive_value: float
+    unique_positive_values: list[float]
+    passed: bool
+    failures: list[str]
+    notes: list[str]
+
+    def to_json(self) -> str:
+        return json.dumps(asdict(self), indent=1, default=str)
+
+
+def validate_submission(path: str | Path, footprint: np.ndarray,
+                        *, expected_positive_values: tuple[float, ...] = (1.0,)) -> ValidationReport:
+    """Validate a candidate GeoTIFF against the published submission contract."""
+    path = Path(path)
+    failures: list[str] = []
+    notes: list[str] = []
+
+    with rasterio.open(path) as src:
+        count = src.count
+        dtype = src.dtypes[0]
+        crs = str(src.crs)
+        shape = (src.height, src.width)
+        transform = tuple(float(v) for v in src.transform[:6])
+        nodata = None if src.nodata is None else float(src.nodata)
         arr = src.read(1)
-        meta = dict(bands=src.count, dtype=src.dtypes[0], height=src.height, width=src.width,
-                    crs=str(src.crs) if src.crs is not None else None,
-                    transform=[float(v) for v in tuple(src.transform)[:6]],
-                    res=[float(v) for v in src.res], nodata=src.nodata)
-    results = {}
-    results["single_band"] = meta["bands"] == 1
-    results["dtype_float32"] = meta["dtype"] == "float32"
-    results["dimensions_3730x3292"] = (meta["height"], meta["width"]) == gd.SHAPE
-    results["crs_epsg_32611"] = meta["crs"] == gd.CRS_EPSG
-    results["transform_matches_template"] = \
-        meta["transform"] == [float(v) for v in tuple(gd.TRANSFORM)[:6]]
-    results["nodata_unset_or_nan"] = meta["nodata"] is None or np.isnan(meta["nodata"])
 
-    inside = arr[footprint]
-    results["in_footprint_all_finite"] = bool(np.isfinite(inside).all())
-    results["in_footprint_no_nan"] = bool(not np.isnan(inside).any())
-    results["in_footprint_no_inf"] = bool(not np.isinf(inside).any())
-    results["in_footprint_no_sentinel"] = bool(not (np.abs(inside) > 1e30).any())
-    results["in_footprint_range_0_1"] = bool(inside.size > 0
-                                             and inside.min() >= 0.0 and inside.max() <= 1.0)
-    outside = arr[~np.asarray(footprint, bool)]
-    results["outside_footprint_zero"] = bool(outside.size == 0 or (outside == 0).all())
-    results["zero_on_catalogue"] = bool(not arr[np.asarray(catalogue, bool) & footprint].any())
-    results["nonempty"] = bool((inside > 0).any())
-    # ------------------------------------------------------------------
-    # aliases: the parallel lanes on origin/main read these check names
-    # back from the receipt. They are the same facts under different keys.
-    # ------------------------------------------------------------------
-    fin = np.isfinite(arr)
-    finite_vals = arr[fin]
-    results["zero_dots_on_mapped_catalogue"] = results["zero_on_catalogue"]
-    results["transform_matches"] = results["transform_matches_template"]
-    results["transform_matches_sample_submission"] = results["transform_matches_template"]
-    results["no_nan_anywhere"] = bool(not np.isnan(arr).any())
-    results["no_inf_anywhere"] = bool(not np.isinf(arr).any())
-    results["no_sentinel_values"] = bool(not (np.abs(arr) > 1e30).any())
-    results["no_float32_sentinel"] = results["no_sentinel_values"]
-    results["range_0_1_guaranteed"] = bool(fin.all() and (arr.size == 0
-                                                          or (arr.min() >= 0.0 and arr.max() <= 1.0)))
-    results["min_ge_0"] = bool(np.nanmin(arr) >= 0.0)
-    results["max_le_1"] = bool(np.nanmax(arr) <= 1.0)
-    results["in_footprint_range_0_1_legacy"] = results["in_footprint_range_0_1"]
-    results["whole_raster_all_finite"] = bool(fin.all())
-    results["whole_raster_range_0_1"] = bool(finite_vals.size > 0
-                                             and finite_vals.min() >= 0.0
-                                             and finite_vals.max() <= 1.0)
+    if count != 1:
+        failures.append(f"single band required, found {count}")
+    if dtype != "float32":
+        failures.append(f"float32 required, found {dtype}")
+    if crs.upper().replace(" ", "") not in {CRS, "EPSG:32611"}:
+        failures.append(f"CRS must be {CRS}, found {crs}")
+    if shape != (HEIGHT, WIDTH):
+        failures.append(f"shape must be {(HEIGHT, WIDTH)}, found {shape}")
+    if len(transform) != 6 or any(
+        abs(a - b) > 1e-6 for a, b in zip(transform, TRANSFORM)
+    ):
+        failures.append(f"geotransform must be {TRANSFORM}, found {transform}")
 
-    info = dict(
-        path=str(p), bytes=p.stat().st_size,
-        sha256=hashlib.sha256(p.read_bytes()).hexdigest(),
-        positive_pixels=int((arr > 0).sum()),
-        positive_in_footprint=int((arr[footprint] > 0).sum()),
-        on_catalogue_positive=int((arr[np.asarray(catalogue, bool) & footprint] > 0).sum()),
-        unique_positive_values=sorted(float(v) for v in np.unique(arr[arr > 0])[:8]),
-        in_footprint_min=float(inside.min()) if inside.size else None,
-        in_footprint_max=float(inside.max()) if inside.size else None,
-        # counters the parallel lanes read back from the receipt
-        n_nan=int(np.isnan(arr).sum()), n_inf=int(np.isinf(arr).sum()),
-        min=float(np.nanmin(arr)), max=float(np.nanmax(arr)),
-        **meta)
-    out = dict(checks=results, all_checks_passed=bool(all(results[k] for k in CHECKS)),
-               validator_version="gems61-validate-v1", info=info)
-    # the parallel lanes read their counters from the top level of the receipt
-    out.update(n_nan=info["n_nan"], n_inf=info["n_inf"],
-               min=info["min"], max=info["max"])
-    return out
+    inside = footprint
+    vals_in = arr[inside]
+    finite_in = np.isfinite(vals_in)
+    nan_inside = int((~finite_in).sum())
 
+    if nan_inside:
+        failures.append(f"{nan_inside} non-finite values inside the scored footprint")
 
-def assert_valid(path: str | Path, footprint: np.ndarray, catalogue: np.ndarray) -> dict:
-    out = validate(path, footprint, catalogue)
-    failed = [k for k, v in out["checks"].items() if not v]
-    if failed:
-        raise ValueError(f"submission failed local validation: {failed}")
-    return out
+    finite_vals = vals_in[finite_in]
+    vmin = float(finite_vals.min()) if finite_vals.size else float("nan")
+    vmax = float(finite_vals.max()) if finite_vals.size else float("nan")
+    if finite_vals.size and ((finite_vals < 0.0) | (finite_vals > 1.0)).any():
+        failures.append(
+            "values outside [0,1] inside the footprint "
+            f"({int(((finite_vals < 0) | (finite_vals > 1)).sum())} cells)"
+        )
 
-
-# ---------------------------------------------------------------------------
-# merged from the parallel lane on origin/main (names kept only where this
-# module did not already define them)
-# ---------------------------------------------------------------------------
-
-EXPECTED = dict(width=3292, height=3730, crs="EPSG:32611", count=1, dtype="float32",
-                transform=(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0))
-
-
-def template_meta():
-    """Return (rasterio write-meta, footprint mask) for the organiser template."""
-    with rasterio.open(TEMPLATE_TIF) as src:
-        return (dict(driver="GTiff", height=src.height, width=src.width,
-                     count=1, dtype="float32", crs=src.crs, transform=src.transform),
-                np.isfinite(src.read(1)))
-
-
-def write_submission(pred: np.ndarray, path: pathlib.Path, outside: str = "zeros",
-                     footprint: np.ndarray | None = None) -> dict:
-    """Write a portal-valid GeoTIFF. ``outside`` is 'zeros' (all-finite) or 'nan'."""
-    meta, fp = template_meta()
-    if footprint is None:
-        footprint = fp
-    if pred.shape != (meta["height"], meta["width"]):
-        raise ValueError(f"shape {pred.shape} != template")
-    if not np.isfinite(pred[footprint]).all():
-        raise ValueError("non-finite prediction inside the footprint")
-    if pred[footprint].min() < 0 or pred[footprint].max() > 1:
-        raise ValueError("prediction outside [0, 1] inside the footprint")
-    if outside == "nan":
-        out = np.full(pred.shape, np.nan, np.float32)
-        out[footprint] = pred[footprint]
-        meta = dict(meta, nodata=float("nan"))
-    elif outside == "zeros":
-        out = np.zeros(pred.shape, np.float32)
-        out[footprint] = pred[footprint]
+    outside_vals = arr[~inside]
+    outside_nan = int((~np.isfinite(outside_vals)).sum())
+    if outside_nan == outside_vals.size:
+        outside_encoding = "all NaN outside the footprint"
+    elif outside_nan == 0:
+        outside_encoding = "all finite outside the footprint"
     else:
-        raise ValueError("outside must be 'zeros' or 'nan'")
-    with rasterio.open(path, "w", compress="deflate", **meta) as dst:
-        dst.write(out, 1)
-    return validate(path, footprint=fp)
+        outside_encoding = f"mixed ({outside_nan} of {outside_vals.size} NaN)"
+    if outside_nan not in (0, outside_vals.size):
+        failures.append("outside-footprint encoding is mixed (NaN and finite)")
 
+    finite_out = outside_vals[np.isfinite(outside_vals)]
+    if finite_out.size and ((finite_out < 0.0) | (finite_out > 1.0)).any():
+        failures.append(
+            "finite values outside the footprint fall outside [0,1]; this is the "
+            "class of file that triggers 'Predicted values must be in range [0, 1]'"
+        )
 
-def assert_submittable(rep: dict) -> None:
-    """Raise AssertionError if any validation check in ``rep`` failed."""
-    if not rep.get("all_checks_passed", False):
-        bad = [k for k, v in rep.get("checks", {}).items() if not v]
-        raise AssertionError(f"failed submission validation checks: {bad}")
+    if nodata is not None:
+        notes.append(
+            f"file declares nodata={nodata!r}; the reference template declares nodata=nan"
+        )
+
+    pos = arr > 0
+    positive_cells = int((pos & inside).sum())
+    unique_pos = np.unique(arr[pos & inside]).astype(float).tolist() if positive_cells else []
+    max_pos = float(max(unique_pos)) if unique_pos else 0.0
+    if expected_positive_values and unique_pos:
+        extra = [v for v in unique_pos if v not in expected_positive_values]
+        if extra:
+            notes.append(f"positive values beyond {expected_positive_values}: {extra[:5]}")
+
+    return ValidationReport(
+        path=str(path),
+        sha256=sha256_file(path),
+        bytes=path.stat().st_size,
+        count=count,
+        dtype=dtype,
+        crs=crs,
+        shape=shape,
+        transform=transform,
+        nodata=nodata,
+        values_min=vmin,
+        values_max=vmax,
+        nan_inside_footprint=nan_inside,
+        nan_outside_footprint=outside_nan,
+        outside_encoding=outside_encoding,
+        positive_cells=positive_cells,
+        max_positive_value=max_pos,
+        unique_positive_values=unique_pos[:10],
+        passed=not failures,
+        failures=failures,
+        notes=notes,
+    )

@@ -1,0 +1,121 @@
+{
+  "file": "gems62-lahontan-datumstep-min12max60-seed25-traceonly.tif",
+  "sha256": "12aa5d4534b5ddcae90e6e2ec10e1f10262df437358ccd9316b8ba9bcf8ca503",
+  "bytes": 179828,
+  "submission_name": "gems62-lahontan-datumstep-min12max60-seed25-traceonly",
+  "note": "Lahontan bench datum-step lane: matched filter over 12 trends on pluvial tread pixels, per-limb stability gate, trace-only emission",
+  "note_chars": 131,
+  "validator": {
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_template": true,
+      "nodata_unset_or_nan": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_no_nan": true,
+      "in_footprint_no_inf": true,
+      "in_footprint_no_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_on_catalogue": true,
+      "nonempty": true,
+      "zero_dots_on_mapped_catalogue": true,
+      "transform_matches": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "no_float32_sentinel": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_range_0_1_legacy": true,
+      "whole_raster_all_finite": true,
+      "whole_raster_range_0_1": true
+    },
+    "all_checks_passed": true,
+    "validator_version": "gems61-validate-v1",
+    "info": {
+      "path": "/home/user/62GEMSDOE/lane62-bench/docs/downloads/.gems62-lahontan-datumstep-min12max60-seed25-traceonly.enmapj3h.tif",
+      "bytes": 179828,
+      "sha256": "12aa5d4534b5ddcae90e6e2ec10e1f10262df437358ccd9316b8ba9bcf8ca503",
+      "positive_pixels": 63750,
+      "positive_in_footprint": 63750,
+      "on_catalogue_positive": 0,
+      "unique_positive_values": [
+        1.0
+      ],
+      "in_footprint_min": 0.0,
+      "in_footprint_max": 1.0,
+      "n_nan": 0,
+      "n_inf": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "bands": 1,
+      "dtype": "float32",
+      "height": 3730,
+      "width": 3292,
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "res": [
+        100.0,
+        100.0
+      ],
+      "nodata": null
+    },
+    "n_nan": 0,
+    "n_inf": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "file": "/home/user/62GEMSDOE/lane62-bench/docs/downloads/gems62-lahontan-datumstep-min12max60-seed25-traceonly.tif"
+  },
+  "template_report": {
+    "ok": true,
+    "problems": [],
+    "sha256": "12aa5d4534b5ddcae90e6e2ec10e1f10262df437358ccd9316b8ba9bcf8ca503",
+    "bytes": 179828,
+    "shape": [
+      3730,
+      3292
+    ],
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "count": 1,
+    "dtype": "float32",
+    "n_nonzero": 63750,
+    "min": 0.0,
+    "max": 1.0,
+    "n_nan": 0,
+    "n_inf": 0,
+    "path": "/home/user/62GEMSDOE/lane62-bench/docs/downloads/gems62-lahontan-datumstep-min12max60-seed25-traceonly.tif"
+  },
+  "zip_file": "gems62-lahontan-datumstep-min12max60-seed25-traceonly.zip",
+  "zip_sha256": "b2f8091e4115e7825a404bfce872f075e68a8e06db4dc53b46628538ec036601",
+  "approved_for_weekly_slot": false,
+  "promoted": false,
+  "submission_slots_used": 0,
+  "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+  "metadata": {
+    "lane": "lahontan datum-offset",
+    "dem_sha256": "d32762a38222764389e948da423ebc6cadd00ac617ad3938d3dd79c6cfe14431",
+    "holdout_dti": 0.03974559469734168,
+    "holdout_dti_pruned_emission": 0.00018346775122689234,
+    "chosen_budget": 120000
+  }
+}
