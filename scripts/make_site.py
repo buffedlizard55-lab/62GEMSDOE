@@ -112,6 +112,7 @@ NAV = """<header>
   <nav>
     <a href="index.html" class="ACT_INDEX">Overview</a>
     <a href="executive-summary.html" class="ACT_EXEC">How to submit</a>
+    <a href="results.html">Prior results</a>
     <a href="research/sources.html">Sources</a>
     <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">GitHub</a>
   </nav>
@@ -267,6 +268,23 @@ EXEC = HEAD + NAV + """
 <h1>Executive summary — exactly how to make a submission into the competition</h1>
 <p class="sub">Written so that someone who has never opened the competition can go from this page to a
 scored submission without reading any code.</p>
+
+<div class="dl">
+  <h2>⬇ The submission file, and whether to upload it</h2>
+  <p><b>OK TO DOWNLOAD</b> for inspection. &nbsp;
+     <span class="verdict v-no">NOT CLEARED TO SUBMIT — do not spend a weekly slot</span></p>
+  <a class="btn" href="downloads/{{SLUG}}-zeros.tif">Download {{SLUG}}-zeros.tif</a>
+  <a class="btn sec" href="downloads/{{SLUG}}-nan.tif">NaN-outside twin</a>
+  <table>
+    <tr><th>sampled dots</th><td class="n">{{DOTS}}</td></tr>
+    <tr><th>hard upper bound</th><td class="n"><b>{{CEIL}}</b> — with every dot placed perfectly (|G| = 12,000)</td></tr>
+    <tr><th>sha256</th><td class="mono">{{SHA}}</td></tr>
+    <tr><th>format checks</th><td>{{PASS}} — and section 2 explains the "values must be in range [0, 1]" error</td></tr>
+  </table>
+  <p>Reason: a {{DOTS}}-dot file cannot beat the incumbent family even with flawless placement, because the
+  metric charges β = 0.8 per <i>missing</i> truth cell. Section 4 gives the mass and quality needed instead.
+  The artifact is still useful as Phase-2 evidence, and it is fully reproducible from this repository.</p>
+</div>
 
 <div class="card hi">
 <h2 style="border:0;margin-top:0;padding-top:0">The 60-second version</h2>
@@ -459,6 +477,82 @@ def md_to_html(md: str) -> str:
     return "\n".join(out)
 
 
+
+def results_page() -> str:
+    """Enumerate every prior artifact in the registry with its quoted score.
+
+    This page is the honest version of "which sites scored what".  Every score on
+    it is OWNER-REPORTED, taken from the artifact's own name or the sibling
+    repositories' manifests, and none is an organizer receipt for these bytes;
+    the digest column is the part that was actually verified here.
+    """
+    man = json.loads((ROOT / "registry" / "registry_manifest.json").read_text())
+    lane_entries = {e["alias"]: e for e in
+                    json.loads((ROOT / "evidence" / f"{slug}-lane.json").read_text())["entries"]}
+    rows = []
+    for e in sorted(man["entries"], key=lambda x: -(x.get("owner_reported_score") or 0.0)):
+        alias = e["alias"]
+        le = lane_entries.get(alias, {})
+        score = e.get("owner_reported_score")
+        score_cell = f"{score:.4f}" if score else "—"
+        nbytes = e.get("bytes")
+        bytes_cell = f"{nbytes:,}" if isinstance(nbytes, int) else "—"
+        if e.get("error"):
+            status = f'<span class="verdict v-no">not retrievable</span> — {e["error"]}'
+        elif le.get("vacuous"):
+            status = "<b>vacuous</b> — any submission trips the 70 % rule against it"
+        else:
+            status = ("normal" if le else "not compared here (see registry_sources.json)")
+        rows.append(
+            "<tr>"
+            f'<td class="n">{score_cell}</td>'
+            f'<td><code>{alias}</code><br><span class="mono">{e["repo"]}</span></td>'
+            f'<td class="n">{bytes_cell}</td>'
+            f'<td class="mono">{str(e.get("sha256", ""))[:12]}…</td>'
+            f'<td class="n">{le.get("positive_cells", 0):,}</td>'
+            f'<td class="n">{le.get("coverage3px", 0):.4f}</td>'
+            f"<td>{status}</td>"
+            "</tr>")
+    body = "\n".join(rows)
+    return (HEAD.replace("TITLE", "Prior results — 62GEMSDOE").replace("CSS", "assets/site.css")
+            + NAV.replace("ACT_INDEX", "").replace("ACT_EXEC", "")
+            + f"""
+<main>
+<h1>Prior results, enumerated</h1>
+<p class="sub">Every artifact this project compares against, with the score quoted for it and the
+digest that was actually verified here. {len(man["entries"])} entries.</p>
+
+<div class="card hi">
+<p><b>How to read this.</b> The <i>score</i> column is <b>OWNER-REPORTED</b> — it comes from the artifact's
+own filename or the sibling repositories' manifests, and it is <b>not</b> an organizer receipt for these
+bytes. The <i>sha256</i> column is <b>MEASURED</b>: the file was fetched and hashed in this repository, and
+it is the only column that is evidence about the artifact rather than about a claim.</p>
+<p><code>coverage3px</code> is how much of the survey footprint the artifact's own dots cover after a
+3-pixel dilation. Three entries cover ≥ 70 % of the footprint, so <i>any</i> submission whatsoever trips
+the protocol's “&gt;70 % of dots within 3 px of a registry raster's dots” rule against them. That is a
+defect in the rule as written, independently reproduced here from the sibling repositories' IR-54-016.</p>
+<p>The prompt's leaderboard values are mutually inconsistent across sessions (IR-62-005), so this table
+does not assert that any one of them is current: it lists what each artifact is quoted at.</p>
+</div>
+
+<table>
+  <tr><th class="n">quoted score</th><th>artifact</th><th class="n">bytes</th><th>sha256</th>
+      <th class="n">dot cells</th><th class="n">coverage3px</th><th>lane-rule status</th></tr>
+  {body}
+</table>
+
+<h2>This lane's own position in that table</h2>
+<table>
+  <tr><th class="n">quoted score</th><th>artifact</th><th class="n">dots</th><th>note</th></tr>
+  <tr><td class="n">— (none)</td><td><code>{slug}</code></td><td class="n">{CNT['dots']}</td>
+      <td><b>negative</b>: hard ceiling {SM['this_artifact_ceiling']:.4f} with flawless placement, so no
+      weekly slot. No organizer score exists for it and none is claimed.</td></tr>
+</table>
+</main>
+<footer><a href="index.html">← Overview</a> · <a href="executive-summary.html">How to submit →</a></footer>
+</body></html>""")
+
+
 def fill(template: str, tokens: dict[str, str], name: str) -> str:
     page = template
     for key, value in tokens.items():
@@ -490,6 +584,7 @@ src_md = (ROOT / "docs" / "research" / "sources.md").read_text()
 SOURCES = (HEAD.replace("TITLE", "Sources — 62GEMSDOE").replace("CSS", "../assets/site.css")
            + """<header><span class="brand">62GEMSDOE · datum-offset lane</span><nav>
 <a href="../index.html">Overview</a><a href="../executive-summary.html">How to submit</a>
+<a href="../results.html">Prior results</a>
 <a href="sources.html" class="active">Sources</a>
 <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">GitHub</a></nav></header>
 <main>""" + md_to_html(src_md) + """</main>
@@ -497,7 +592,8 @@ SOURCES = (HEAD.replace("TITLE", "Sources — 62GEMSDOE").replace("CSS", "../ass
 </body></html>""")
 sources = fill(SOURCES, TOKENS, "research/sources.html")
 (ROOT / "docs" / "research" / "sources.html").write_text(sources)
+(ROOT / "docs" / "results.html").write_text(results_page())
 
 for p in (ROOT / "docs" / "index.html", ROOT / "docs" / "executive-summary.html",
-          ROOT / "docs" / "research" / "sources.html"):
+          ROOT / "docs" / "research" / "sources.html", ROOT / "docs" / "results.html"):
     print(f"wrote {p.relative_to(ROOT)} ({len(p.read_text()):,} chars)")

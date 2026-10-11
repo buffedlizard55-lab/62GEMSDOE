@@ -165,6 +165,9 @@ python scripts/run_lane.py --data data --registry /tmp/gems/registry --holdout-b
 
 **No organizer score exists for this or any artifact here, and no projection is written as a score.**
 
+Every prior artifact this project compares itself against is enumerated, with the score quoted for it and
+the digest that was actually verified here, at [`docs/results.html`](docs/results.html).
+
 ## The five candidate hypotheses this session ranked (for the next session)
 
 | # | hypothesis | layers | physical signature | why it should catch an *unmapped* fault | differs from anything already implemented | expected DTI gain | cost | verdict |
@@ -175,16 +178,41 @@ python scripts/run_lane.py --data data --registry /tmp/gems/registry --holdout-b
 | 4 | 1 m lidar scarp detection at the datum margins only | 3DEP 1 m (`lidar_scarp_features_u8.tif`, 706/716 tiles) | fine-scale scarp morphology | 100 m DEM cannot resolve a 2-5 m scarp; the expert can | siblings use lidar globally, never restricted to the datum corridor | medium | high | untested |
 | 5 | Basin-interior NW-striking Holocene segments | DEM + 10 m chi/knick surfaces | basin-centre lineament with no range-front expression | the Pierce & Wesnousky SCEC precedent: unmapped segments sit in **basin centres** | sibling `60GEMSDOE` runs chi/knick globally, not as a basin-centre-only detector | medium | medium | untested |
 
+## Shared tools — the protocol's names mapped to this repository
+
+The parallel-run protocol names three shared assets. They are used, not rebuilt; here is where each
+one actually lives, so a reviewer can check that nothing was forked privately:
+
+| protocol name | used here as | status |
+|---|---|---|
+| cached feature stack | `data/training_features.tif` (19 bands, 418,912,844 B) | **fetched and hash-verified** against its published pin (`4371c82e…`); **not consumed** by this lane, because the datum is a DEM observable and deriving band features would add nothing. Stated so the omission is visible rather than implied. |
+| `evaluate_holdout.py` | `src/gems62/holdout.py` (`evaluate`, whole-segment hide-and-recover, pooled DTI, cluster bootstrap) | re-implemented in-repo because no such file exists in this repository's template; the design decisions (undilated withheld truth, pixel-exact masking of visible faults, 300 m FP-exclusion buffer, sparse per-segment clustering to avoid the OOM the first draft hit) are documented in the module and in `docs/research/sources.md`. |
+| `submission_writer.py` | `src/gems62/grid.py::write_float32` + `src/gems62/emit.py::raster_from_dots` / `to_nan_outside` | single writer, used for both encodings, with `nodata=None` or NaN and no out-of-range sentinel — the exact defect that produced the portal error *"Predicted values must be in range [0, 1]"*. |
+
+**Leakage canary: not run, and here is why that is defensible.** The canary is listed as optional. It
+applies to a *feature set* whose single-feature AUC could expose catalogue leakage. This lane has exactly
+one input feature — the DEM — and it never reads the catalogue for anything except an exclusion gate that
+can only remove mass. There is therefore no feature whose holdout AUC could reveal leakage, and adding a
+categorical canary over the single DEM band would measure the terrain's correlation with mapped faults,
+not a leak. If a future lane consumes the 19-band stack or any catalogue-derived surface, the canary
+becomes mandatory and this note is superseded.
+
 ## Repository layout
 
 ```
 src/gems62/        the eight modules above
-scripts/           download_data.sh, fetch_registry.py, run_lane.py,
-                   lane_check_surface.py, make_readme.py, make_site.py
-tests/             metric identity tests (10)
-docs/              index.html, executive-summary.html, research/sources.md, downloads/
+scripts/           download_data.sh   restore the pinned inputs
+                   fetch_registry.py  fetch the comparable prior artifacts
+                   run_lane.py        the 7-stage lane (writes both TIFs + receipts)
+                   lane_check_surface.py  the pre-placement half of the lane rule
+                   make_readme.py     README
+                   make_site.py       the docs/ pages
+                   make_figures.py    the profile and map figures (from the receipts)
+tests/             metric identities (10) + lane-instrument regressions (8)
+docs/              index.html, executive-summary.html, results.html,
+                   research/sources.md and sources.html, downloads/ (both encodings)
 registry/          registry_sources.json, registry_manifest.json, data_pins.json
-evidence/          run card, holdout receipt, lane check, profiles, figures
+evidence/          run card, holdout receipt, lane checks (surface + dots), profile, figures
 ```
 
 ## Limitations — stated plainly

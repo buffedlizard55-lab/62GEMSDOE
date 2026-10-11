@@ -5,6 +5,7 @@
   <nav>
     <a href="index.html" class="">Overview</a>
     <a href="executive-summary.html" class="active">How to submit</a>
+    <a href="results.html">Prior results</a>
     <a href="research/sources.html">Sources</a>
     <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">GitHub</a>
   </nav>
@@ -13,6 +14,23 @@
 <h1>Executive summary — exactly how to make a submission into the competition</h1>
 <p class="sub">Written so that someone who has never opened the competition can go from this page to a
 scored submission without reading any code.</p>
+
+<div class="dl">
+  <h2>⬇ The submission file, and whether to upload it</h2>
+  <p><b>OK TO DOWNLOAD</b> for inspection. &nbsp;
+     <span class="verdict v-no">NOT CLEARED TO SUBMIT — do not spend a weekly slot</span></p>
+  <a class="btn" href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">Download gems62-lahontan-isobase-99dots-zeros.tif</a>
+  <a class="btn sec" href="downloads/gems62-lahontan-isobase-99dots-nan.tif">NaN-outside twin</a>
+  <table>
+    <tr><th>sampled dots</th><td class="n">99</td></tr>
+    <tr><th>hard upper bound</th><td class="n"><b>0.0103</b> — with every dot placed perfectly (|G| = 12,000)</td></tr>
+    <tr><th>sha256</th><td class="mono">fc628410873f018d998ca60e0a00228c999aff035e2e9dc22ccd571a6e8c0348</td></tr>
+    <tr><th>format checks</th><td>PASS — and section 2 explains the "values must be in range [0, 1]" error</td></tr>
+  </table>
+  <p>Reason: a 99-dot file cannot beat the incumbent family even with flawless placement, because the
+  metric charges β = 0.8 per <i>missing</i> truth cell. Section 4 gives the mass and quality needed instead.
+  The artifact is still useful as Phase-2 evidence, and it is fully reproducible from this repository.</p>
+</div>
 
 <div class="card hi">
 <h2 style="border:0;margin-top:0;padding-top:0">The 60-second version</h2>
