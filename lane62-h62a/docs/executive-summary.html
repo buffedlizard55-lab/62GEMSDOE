@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Executive summary &amp; how to submit · 62GEMSDOE</title>
+<meta name="description" content="Step-by-step submission instructions, the file, the note text, and the validator output">
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header><div class="w"><h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
+<span class="sub">DOE GEMS Prize · DrivenData #306 · datum-offset lane H62-A</span></div></header>
+<nav><div class="w"><a href="index.html">Home</a><a href="executive-summary.html" class="on">How to submit</a><a href="analysis.html">Why 0.2778</a><a href="method.html">Method</a><a href="results.html">Results</a><a href="hypotheses.html">Hypotheses</a><a href="profiles.html">Shoreline profiles</a><a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a><a href="limitations.html">Limitations</a><a href="leaderboard.html">Leaderboard</a></div></nav>
+<main><div class="w"><h2>Executive summary — exactly how to make a submission</h2>
+<p>This page is the whole procedure. Nothing on it requires judgement calls or manual data
+preparation. If a step cannot be completed automatically it says so and names the blocker.</p>
+<div class="dl"><h3 style="margin-top:0">Step 0 — the file</h3>
+<p><a class="btn" href="downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif" download>Download gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif</a>
+<a class="btn sec" href="downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.zip" download>.zip version</a></p>
+<p class="small">Either form is accepted by the portal: <i>"You can submit a single-band GeoTIFF
+(.tif) file, or a .zip file containing a single GeoTIFF"</i>. The .zip contains exactly one
+GeoTIFF and nothing else.</p></div>
+<h3>Step 1 — go to the submission page</h3>
+<p><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">
+https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/</a> — sign in, then
+click <b>New submission</b>. Check the weekly cap shown on that page before you spend a slot;
+this repository does not spend slots for you.</p>
+<h3>Step 2 — <i>File to submit</i></h3>
+<p>Choose the downloaded <code>gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif</code>. <span class="mut">(The .zip is
+equivalent.)</span></p>
+<h3>Step 3 — <i>Note (optional)</i></h3>
+<p>Paste this. It is 75 of the 140 characters allowed:</p>
+<pre><code>H62-A Lahontan isobase step/deflection traces; arm A3; 38000 dots; UNSCORED</code></pre>
+<h3>Step 4 — submit, then record the receipt</h3>
+<p>The portal returns a score. Copy it into <code>registry/organizer_scores.json</code> next to
+the submission name and the sha256 above. <b>Until you do that, the score does not exist</b> —
+nothing on this site may be relabelled ORGANIZER-CONFIRMED from a projection.</p>
+<h2>Why this file cannot produce <code>"Predicted values must be in range [0, 1]"</code></h2>
+<p>That error has two mechanisms and this file closes both. See the front page for the
+measurement; the summary is:</p>
+<ol class="checklist">
+<li><b>No sentinel.</b> The float32 nodata value <code>-3.4028234663852886e+38</code> occurs in
+<b>3,061</b> cells that lie <i>inside</i> the submission footprint in the official feature stack.
+This artifact writes <code>0.0</code> there.</li>
+<li><b>No NaN and no nodata tag.</b> All
+<b>12,279,160</b>
+cells are finite. The file carries <b>no</b> nodata tag
+(receipt: <code>nodata = </code>), so there is no out-of-range value for
+a validator to find anywhere in the file — inside or outside the footprint.</li>
+<li><b>Values.</b> min 0.000000, max 1.000000; the file is strictly
+binary {0.0, 1.0}.</li>
+</ol>
+<h2>Validator output — re-read from the bytes on disk</h2>
+<p class='small mut'>path <code>/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif</code> · 141486 bytes · sha256 <code>eabd03c1ca1a5380d100024b3ed7c7401a847bdab5913a423c396bb50f624ed5</code></p>
+<table><thead><tr><th>check</th><th>result</th><th>measured</th></tr></thead><tbody><tr><td>file_exists</td><td><span class="ok">PASS</span></td><td class='num small'>/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif</td></tr><tr><td>driver_is_gtiff</td><td><span class="ok">PASS</span></td><td class='num small'>GTiff</td></tr><tr><td>single_band</td><td><span class="ok">PASS</span></td><td class='num small'>count=1</td></tr><tr><td>dtype_float32</td><td><span class="ok">PASS</span></td><td class='num small'>float32</td></tr><tr><td>epsg_32611</td><td><span class="ok">PASS</span></td><td class='num small'>32611</td></tr><tr><td>shape_matches_official</td><td><span class="ok">PASS</span></td><td class='num small'>3730x3292</td></tr><tr><td>resolution_100m</td><td><span class="ok">PASS</span></td><td class='num small'>(100.0, 100.0)</td></tr><tr><td>transform_matches_official</td><td><span class="ok">PASS</span></td><td class='num small'>(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)</td></tr><tr><td>bounds_match_training</td><td><span class="ok">PASS</span></td><td class='num small'>(243350.0, 4135550.0, 572550.0, 4508550.0)</td></tr><tr><td>transform_identical_to_sample_submission_bytes</td><td><span class="ok">PASS</span></td><td class='num small'>(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)</td></tr><tr><td>no_nan_anywhere</td><td><span class="ok">PASS</span></td><td class='num small'>nan=0</td></tr><tr><td>no_inf_anywhere</td><td><span class="ok">PASS</span></td><td class='num small'>inf=0</td></tr><tr><td>no_float32_sentinel</td><td><span class="ok">PASS</span></td><td class='num small'>sentinel_cells=0</td></tr><tr><td>min_ge_0</td><td><span class="ok">PASS</span></td><td class='num small'>0.0</td></tr><tr><td>max_le_1</td><td><span class="ok">PASS</span></td><td class='num small'>1.0</td></tr><tr><td>zero_cells_outside_0_1</td><td><span class="ok">PASS</span></td><td class='num small'>n=0</td></tr><tr><td>nodata_tag_absent_or_zero</td><td><span class="ok">PASS</span></td><td class='num small'>None</td></tr><tr><td>all_finite_inside_footprint</td><td><span class="ok">PASS</span></td><td class='num small'>non_finite_inside=0</td></tr><tr><td>inside_footprint_range_0_1</td><td><span class="ok">PASS</span></td><td class='num small'>min=0.0,max=1.0</td></tr><tr><td>outside_footprint_all_zero</td><td><span class="ok">PASS</span></td><td class='num small'>unique_outside=[0.0]</td></tr><tr><td>footprint_pixel_count_matches_spec</td><td><span class="ok">PASS</span></td><td class='num small'>5167373</td></tr><tr><td>nonzero_pixels_inside_footprint</td><td><span class="ok">PASS</span></td><td class='num small'>positive_px=38000</td></tr><tr><td>not_blank</td><td><span class="ok">PASS</span></td><td class='num small'>positive_px=38000</td></tr><tr><td>not_a_blanket</td><td><span class="ok">PASS</span></td><td class='num small'>positive_px=38000</td></tr><tr><td>zero_dots_exactly_on_mapped_catalogue</td><td><span class="ok">PASS</span></td><td class='num small'>n=0</td></tr><tr><td>values_are_binary_or_probability</td><td><span class="ok">PASS</span></td><td class='num small'>n_unique=2, min=0.0, max=1.0</td></tr></tbody></table>
+<h2>What the file contains</h2>
+<p><b>38,000</b> single-pixel dots at value 1.0, at least
+3 px apart, every one of them more than
+3.0 px from an already-mapped catalogue
+fault. Median distance to the catalogue
+18.9 px;
+0.00%
+within 3 px (must be 0).</p>
+<h2>How to reproduce this file from scratch</h2>
+<pre><code>python -m venv .venv &amp;&amp; . .venv/bin/activate
+pip install -r requirements.txt
+export GEMS62_DATA=/path/to/dir/with/the/three/official/rasters
+pytest tests -q                                  # 36 assertions, all published numbers or brute force
+python scripts/build_registry.py                 # fetch every earlier raster for the uniqueness gate
+python scripts/run_lane.py --budget 38000 --arms A1 A2 A3 --folds 4
+python scripts/build_site.py                     # regenerate this site from evidence/*.json</code></pre>
+<p class="small">The three official rasters are sha256-pinned and re-verified at the start of
+every run. <code>1m_DEM_links.csv</code> and the rasters themselves sit behind DrivenData login;
+<code>scripts/download_competition_data.sh</code> documents both the login route and the
+in-organisation git bridge used here.</p>
+<h2>Other pages</h2><div class='toc'><p><a href='analysis.html'>Why 0.2778 — the budget arithmetic</a></p><p><a href='method.html'>Method, step by step</a></p><p><a href='results.html'>Results, controls and canaries</a></p><p><a href='hypotheses.html'>Five candidate hypotheses, ranked</a></p><p><a href='profiles.html'>First deliverable: shoreline profiles</a></p><p><a href='sources.html'>Every source, with links for manual review</a></p><p><a href='irregularities.html'>Irregularities flagged for review</a></p><p><a href='run-card.html'>The run card (protocol §5)</a></p><p><a href='limitations.html'>Limitations and what would unblock them</a></p><p><a href='leaderboard.html'>Organizer-confirmed score ledger</a></p></div></div></main>
+<footer><div class="w">Built 2026-10-11 21:31 UTC from
+<code>evidence/*.json</code> by <code>scripts/build_site.py</code>. Every number on this site is
+labelled <b>HOLDOUT-DTI</b> or <b>ORGANIZER-CONFIRMED</b>. No projection is written as a score.
+<a href="../README.md">README</a> · <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">repository</a></div></footer>
+</body></html>

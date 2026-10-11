@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hypotheses · 62GEMSDOE</title>
+<meta name="description" content="Five candidate hypotheses ranked by expected DTI gain vs cost">
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header><div class="w"><h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
+<span class="sub">DOE GEMS Prize · DrivenData #306 · datum-offset lane H62-A</span></div></header>
+<nav><div class="w"><a href="index.html">Home</a><a href="executive-summary.html">How to submit</a><a href="analysis.html">Why 0.2778</a><a href="method.html">Method</a><a href="results.html">Results</a><a href="hypotheses.html" class="on">Hypotheses</a><a href="profiles.html">Shoreline profiles</a><a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a><a href="limitations.html">Limitations</a><a href="leaderboard.html">Leaderboard</a></div></nav>
+<main><div class="w"><h2>Candidate geological hypotheses, ranked</h2>
+<p>Five candidates, each naming the specific layers, the physical signature, why it should catch a fault <b>missing</b> from the USGS/INGENIOUS catalogue rather than one already in it, and how it differs from anything already implemented in this organisation's repositories. Ranked by expected DTI improvement against implementation cost. Where a candidate cannot be validated without new external data, the specific free official source is named and its obtainability from this sandbox is stated honestly.</p>
+<div class="card"><h3 style="margin-top:0">#1 · H62-A —
+Isobase-residual throw window x basin-margin habitat (IMPLEMENTED) <span class="pill ok">viable</span></h3>
+<table>
+<tr><th style="width:22%">Layers</th><td><code>band 12 det_elev, band 19 det_elev_slope, band 3 tmi_hg, band 18 iso_grav_anom_hg</code></td></tr>
+<tr><th>Physical signature</th><td>Smooth isobase fit (6 km Gaussian) through the pluvial-lake-margin band; bounded residual window [15,130) m; plan-curvature-selected contour-parallel benches; across-strike profile curvature + horizontal-gradient rank for trace support.</td></tr>
+<tr><th>Why a <i>missing</i> fault</th><td>A fault that offsets a 15 ka shoreline is by construction younger than the highstand, so it is a fault the catalogue is most likely to be missing or mislocated. The measured habitat -- deep topographic position (tpi &lt; -120 m) with a scarp-scale slope -- is 2.3-3.2x enriched, and the throw-window intersection with habitat &gt;= 2.0 measured 3.67x over 66,163 px.</td></tr>
+<tr><th>How it differs</th><td>No sibling repository fits an isobase or uses a bounded throw window. The closest lanes are gravity basement-depth steps (61GEMSDOE), radiometric scarp fusion (GEMSDOE46) and Euler-deconvolution lineaments (GEMSDOE40) -- all subsurface or potential-field, none shoreline-datum based.</td></tr>
+<tr><th>Cost</th><td>implemented</td></tr>
+<tr><th>Expected / measured</th><td>HOLDOUT-DTI 0.1224 (CI 0.1154-0.1284) vs random lines 0.0228</td></tr>
+</table></div>
+<div class="card"><h3 style="margin-top:0">#2 · H62-B —
+Isobase-parallel strike continuity: gaps between collinear mapped traces <span class="pill ok">viable</span></h3>
+<table>
+<tr><th style="width:22%">Layers</th><td><code>band 12 det_elev, labels.tif (visible faults only)</code></td></tr>
+<tr><th>Physical signature</th><td>Fit a RANSAC line to each collinear run of visible catalogue traces inside a basin-margin band, then score the GAP between the ends of two runs whose strikes agree within ~10 deg and whose perpendicular offset is &lt; ~300 m. Emit dots only in the gap.</td></tr>
+<tr><th>Why a <i>missing</i> fault</th><td>Pierce &amp; Wesnousky&#x27;s Smith Valley segments are exactly this: short NW-striking segments in a basin centre that earlier maps missed. A gap between two collinear mapped traces is a fault the catalogue demonstrably failed to connect -- the single most direct definition of &#x27;missing&#x27; available without hidden labels.</td></tr>
+<tr><th>How it differs</th><td>GEMSDOE27&#x27;s topo-gap-closure worked on a d1.5 base but closed gaps in a probability surface, not in the catalogue&#x27;s own strike geometry.</td></tr>
+<tr><th>Cost</th><td>~3 h; no new data</td></tr>
+<tr><th>Expected / measured</th><td>medium-high: targets catalogue incompleteness directly</td></tr>
+</table></div>
+<div class="card"><h3 style="margin-top:0">#3 · H62-C —
+Radiometric K/Th breach of the clay cap at basin-margin faults <span class="pill no">data-blocked</span></h3>
+<table>
+<tr><th style="width:22%">Layers</th><td><code>GeoDAWN radiometrics (NOT in the 19-band stack) x band 17 cond_surf x band 15 depth_to_base_surf</code></td></tr>
+<tr><th>Physical signature</th><td>Potassium metasomatism and hydrothermal clay alteration along a permeable fault produce a local K/Th ratio anomaly that breaches the low-conductivity cap. Target the intersection of high cond_surf, shallow depth_to_base_surf and a radiometric ratio edge.</td></tr>
+<tr><th>Why a <i>missing</i> fault</th><td>This is the only signature in the list that is diagnostic of the GEOTHERMAL part of &#x27;geothermal-indicative fault&#x27; rather than of a fault per se, which is what the prize is actually about.</td></tr>
+<tr><th>How it differs</th><td>GEMSDOE46 fused a radiometric scarp detector but as a scarp proxy, not as a K/Th alteration ratio against a clay cap.</td></tr>
+<tr><th>Cost</th><td>BLOCKED on data: the radiometric channels are not among the 19 bands. The free official source is the USGS GeoDAWN release (https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and) and the ScienceBase item 657e1d85d34e23d3533209f7. Public domain, but usgs.gov is not in this sandbox&#x27;s egress allowlist -- OBTAINABILITY UNVERIFIED HERE.</td></tr>
+<tr><th>Expected / measured</th><td>high if obtained; cannot be validated without the radiometric grid</td></tr>
+</table></div>
+<div class="card"><h3 style="margin-top:0">#4 · H62-D —
+Strain-rate dilatation bands as the deep expression of basin-margin faults <span class="pill ok">viable</span></h3>
+<table>
+<tr><th style="width:22%">Layers</th><td><code>band 7 geod_shearrate, band 8 geod_dilaterate, band 4 geod_2ndinv</code></td></tr>
+<tr><th>Physical signature</th><td>Dilatation-rate maxima aligned along strike with a basin-margin scarp. A locked or creeping fault shows as a narrow band of dilatation contrast in GPS/InSAR-derived strain even where no surface expression is mapped.</td></tr>
+<tr><th>Why a <i>missing</i> fault</th><td>Strain rate is the one layer family that is insensitive to erosion and alluviation, so it can localise a fault whose surface expression has been buried -- the failure mode that makes catalogue faults incomplete in basin centres.</td></tr>
+<tr><th>How it differs</th><td>61GEMSDOE&#x27;s H61-M used a gravity+magnetic conjunction; no sibling lane uses the geodetic strain family as the primary localiser.</td></tr>
+<tr><th>Cost</th><td>~2 h; data already in the stack</td></tr>
+<tr><th>Expected / measured</th><td>low-medium: the 100 m grid smooths strain heavily</td></tr>
+</table></div>
+<div class="card"><h3 style="margin-top:0">#5 · H62-E —
+Earthquake-density azimuthal anisotropy (deq/ieq directional decomposition) <span class="pill ok">viable</span></h3>
+<table>
+<tr><th style="width:22%">Layers</th><td><code>band 10 deq_n100a15, band 16 ieq_n100a15</code></td></tr>
+<tr><th>Physical signature</th><td>These bands are already azimuthally parameterised (n=100 km radius, a=15 deg azimuth). The ratio between two azimuthal samples isolates lineations; a fault shows as a persistent azimuthal contrast rather than a radial one.</td></tr>
+<tr><th>Why a <i>missing</i> fault</th><td>Seismicity clusters on active structures, and an unmapped active fault is precisely the target class.</td></tr>
+<tr><th>How it differs</th><td>No sibling lane decomposes these bands; all treat them as scalar distance/intensity.</td></tr>
+<tr><th>Cost</th><td>~2 h; data already in the stack</td></tr>
+<tr><th>Expected / measured</th><td>low: the parameterisation is not documented well enough to invert confidently</td></tr>
+</table></div>
+<h2>The ranking rule actually applied</h2>
+<p>H62-A was implemented and validated on the spatially-blocked holdout before any slot was
+considered, per the brief. H62-B is next by expected value per hour and needs no new data. H62-C
+has the highest ceiling but is <b>data-blocked</b>: the GeoDAWN radiometric channels are not
+among the 19 provided bands, so the free official source (the USGS GeoDAWN release) is named and
+its obtainability from this sandbox is recorded as unverified rather than assumed. H62-D and
+H62-E use data already in hand and are cheap, but their expected gains are lower and are ranked
+below accordingly.</p></div></main>
+<footer><div class="w">Built 2026-10-11 21:31 UTC from
+<code>evidence/*.json</code> by <code>scripts/build_site.py</code>. Every number on this site is
+labelled <b>HOLDOUT-DTI</b> or <b>ORGANIZER-CONFIRMED</b>. No projection is written as a score.
+<a href="../README.md">README</a> · <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">repository</a></div></footer>
+</body></html>

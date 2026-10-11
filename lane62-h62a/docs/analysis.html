@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Why 0.2778 · 62GEMSDOE</title>
+<meta name="description" content="The metric as a budget, the break-even bar, and the organiser-confirmed ladder">
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header><div class="w"><h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
+<span class="sub">DOE GEMS Prize · DrivenData #306 · datum-offset lane H62-A</span></div></header>
+<nav><div class="w"><a href="index.html">Home</a><a href="executive-summary.html">How to submit</a><a href="analysis.html" class="on">Why 0.2778</a><a href="method.html">Method</a><a href="results.html">Results</a><a href="hypotheses.html">Hypotheses</a><a href="profiles.html">Shoreline profiles</a><a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a><a href="limitations.html">Limitations</a><a href="leaderboard.html">Leaderboard</a></div></nav>
+<main><div class="w"><h2>Why <code>h33-h33-2-b2</code> scored 0.2778</h2>
+<p>Because DTI is a <b>budget</b>, not an accuracy score. From the organiser's published formula
+(α = 0.2, β = 0.8) and the identity FN<sub>w</sub> = |G| − TP<sub>w</sub>:</p>
+<pre><code>DTI = T / ( 0.2·(T + F) + 0.8·|G| )</code></pre>
+<p>Every unit of emitted mass costs <b>0.2</b> whether it hits or misses — because a unit that
+hits contributes k to T and (1−k) to F, and 0.2·(k + 1 − k) = 0.2 exactly. A unit that hits
+earns at most <b>1.0</b>. So the denominator rises by exactly 0.2 per emitted pixel, and the
+question is never "how confident am I" but "does this pixel's expected kernel credit beat
+0.2·DTI".</p>
+<h3>The break-even bar, derived</h3>
+<p>Adding one unit of mass with realised kernel weight k:</p>
+<pre><code>dT = k,   dF = 1 − k,   dD = α·(dT + dF) = α
+dDTI &gt; 0  ⟺  k·D &gt; α·T  ⟺  k &gt; α·DTI</code></pre>
+<p>At the group's organiser-confirmed best of 0.2778 the bar is
+<b>k &gt; 0.05556</b>. The kernel weights attainable on the
+100 m lattice are exactly:</p>
+<pre><code>[1.0, 0.66667, 0.5286, 0.33333, 0.25464, 0.05719]</code></pre>
+<p>So a pixel that coincides with a truth pixel (k = 1) or sits one pixel away (k = 0.667)
+clears the bar comfortably; the (2,2)-diagonal at k = 0.25464 <b>still clears it</b>
+(0.25464 &gt; 0.05556); a (3,0) pixel at k = 0 does not,
+and neither does anything further out. That is the whole geometry of the problem: <b>a dot is
+worth emitting only if it is within 2 pixels of a truth pixel</b>, and the (2,2) corner is the
+last profitable ring.</p>
+<h3>Why dots beat surfaces</h3>
+<p>A filled probability surface emits many pixels that all cover the <i>same</i> truth pixel. The
+first earns its k; every subsequent one earns nothing extra (TP<sub>w</sub> takes a
+<b>max</b> over predictions per truth pixel) and still costs 0.2. Thinning to single pixels at
+≥3 px spacing keeps the geometry and deletes the redundancy — the group measured the same field
+going 0.1922 → 0.2600 when it was dotted.</p>
+<h3>Why binary beats calibrated</h3>
+<p>A dot that hits earns p(x)·k, so a soft value of 0.4 earns 0.4·k. A dot that misses costs
+0.2·p(x). Writing 1.0 maximises credit on hits and the penalty on misses is bounded at 0.2 —
+and because the profitable ring is only 2 px wide, the hit rate at the top of a good ranking is
+high enough that hard 1.0 wins. Every organiser-confirmed file above 0.24 in the ledger is
+binary.</p>
+<h3>Why nothing on the mapped catalogue</h3>
+<p>The hidden test set is a set of faults <b>not</b> in the USGS/INGENIOUS catalogue. A dot
+within 3 px of an already-mapped trace is spending mass where the hidden truth is, by
+construction, absent. The group's own forensics: the 0.2778 file is the exact set difference of
+the 0.2600 file (44,090 dots) with the 6,436 dots within 3 px of the mapped catalogue deleted.
+<b>44,090 → 0.2600; 37,654 → 0.2778.</b> That single deletion is worth +0.0178.</p>
+<h2>The organiser-confirmed budget ladder</h2>
+<table><thead><tr><th>dots emitted</th><th>score</th><th>file</th></tr></thead><tbody><tr><td class='num'>37,654</td><td class='num'><b>0.2778</b></td><td class='small'>h33-h33-2-b2 — group best</td></tr><tr><td class='num'>40,199</td><td class='num'><b>0.2708</b></td><td class='small'>h27-4-solo-d28</td></tr><tr><td class='num'>44,090</td><td class='num'><b>0.2600</b></td><td class='small'>d28-poisson300m-offcat (three repos, same dot set)</td></tr><tr><td class='num'>60,069</td><td class='num'><b>0.2477</b></td><td class='small'>GEMSDOE24 h25-1-dotted-h19-5-d1-5</td></tr><tr><td class='num'>61,328</td><td class='num'><b>0.2449</b></td><td class='small'>GEMSDOE27 topo-gap-closure on d1.5</td></tr></tbody></table>
+<p>Monotone up to ~38 k dots and then flat-to-declining: the optimum is
+<b>≈38,000 single-pixel dots at ≥3 px spacing, none on the catalogue</b>. This repository emits
+at that budget.</p>
+<h2>Can this lane beat 0.2778? The arithmetic, not the mood</h2>
+<p>Write the score as <code>T / (0.2·P + 0.8·|G|)</code> where P is the emitted mass (for binary
+dots, P = number of dots) and T the kernel credit collected. At P = 38,000 and a score of 0.2778
+the denominator is <code>7,600 + 0.8·|G|</code> and <code>T = 0.2778·(7,600 + 0.8·|G|)</code>.
+Since T ≤ P = 38,000, that forces <b>|G| ≤ ~1.6×10⁵</b>; and since the 0.2600 → 0.2778 step
+removed 6,436 dots without losing credit, the credit those dots carried was ≈0, which pins
+|G| lower still.</p>
+<p>The binding constraint on this lane is not the budget, it is <b>geography</b>. The
+pluvial-lake-margin band is 1177085 px of a
+5167373-px footprint
+(22.8%), and the
+false-negative term <code>0.8·|G|</code> is charged over the <b>whole</b> hidden set, not over
+the band. A file confined to lake margins cannot raise T enough to move that denominator. This
+is why the lane's own brief says it "buys defensibility more than area", and it is why the run
+card's verdict is computed rather than asserted.</p>
+<p>What the lane <i>can</i> do is raise the <b>credit density at the top of the ranking</b>. The
+measured habitat intersection — bench pixels inside the physical throw window with habitat
+enrichment ≥ 2.0 — carries <b>3.67×</b> the footprint-mean fault rate over 66,163 px. If the
+hidden set is distributed like the visible catalogue in that habitat, the top of this ranking is
+denser in truth than the top of a stack-wide ranking. That is the only route to a higher score
+that does not require data nobody has, and it is stated as a hypothesis, not a result.</p></div></main>
+<footer><div class="w">Built 2026-10-11 21:31 UTC from
+<code>evidence/*.json</code> by <code>scripts/build_site.py</code>. Every number on this site is
+labelled <b>HOLDOUT-DTI</b> or <b>ORGANIZER-CONFIRMED</b>. No projection is written as a score.
+<a href="../README.md">README</a> · <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">repository</a></div></footer>
+</body></html>

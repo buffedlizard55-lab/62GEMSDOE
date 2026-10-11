@@ -1,0 +1,302 @@
+{
+  "generated_utc": "2026-10-11T20:40:37Z",
+  "holdout_version": "gems62.holdout_segmented v1",
+  "protocol": {
+    "alpha": 0.2,
+    "beta": 0.8,
+    "radius_px": 3.0,
+    "n_folds": 4,
+    "frac_withheld": 0.35,
+    "buffer_px": 3,
+    "emitter": "FROZEN: dot mask read from disk, per-fold visible catalogue subtracted exactly as for our arms"
+  },
+  "information_advantage_note": "Frozen artifacts were built with the full catalogue in hand, so they are information-advantaged versus our arms, which see only the per-fold visible catalogue. For registry files the bias runs against them: they were built to sit OFF the mapped catalogue, so avoiding the withheld truth lowers their holdout DTI.",
+  "label_convention": "Every number here is HOLDOUT-DTI (evaluator gems62.holdout_segmented v1). Column 'organizer_confirmed_score' is ORGANIZER-CONFIRMED, copied from registry/organizer_scores.json. The two are different quantities and are never interchanged.",
+  "rows": [
+    {
+      "label": "dotted-h19-5-d2-8-20261002-e56ea318af89-nan",
+      "path": "/home/user/.cache/gems62/registry/rasters/60GEMSDOE__gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+      "organizer_confirmed_score": 0.26,
+      "n_dots": 44090,
+      "dots_declared": null,
+      "holdout_dti": 0.13215463311922815,
+      "holdout_dti_ci95": [
+        0.12746011522989764,
+        0.13680608885009626
+      ],
+      "n_folds": 4,
+      "withheld_positives": 81993,
+      "tp": 13540.107341770396,
+      "fp": 170770.62623271922,
+      "fn": 68452.8926582296,
+      "fold_dtis": [
+        0.12547353548624984,
+        0.13049699888028643,
+        0.13890911884003287,
+        0.13341985446084098
+      ]
+    },
+    {
+      "label": "d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca",
+      "path": "/home/user/.cache/gems62/registry/rasters/GEMSDOE30__gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "organizer_confirmed_score": 0.26,
+      "n_dots": 44090,
+      "dots_declared": 44090,
+      "holdout_dti": 0.13215463311922815,
+      "holdout_dti_ci95": [
+        0.12746011522989764,
+        0.13680608885009626
+      ],
+      "n_folds": 4,
+      "withheld_positives": 81993,
+      "tp": 13540.107341770396,
+      "fp": 170770.62623271922,
+      "fn": 68452.8926582296,
+      "fold_dtis": [
+        0.12547353548624984,
+        0.13049699888028643,
+        0.13890911884003287,
+        0.13341985446084098
+      ]
+    },
+    {
+      "label": "h32-1-prethin-tip-euler-d2-8-20261003-31e35eee884e-nan",
+      "path": "/home/user/.cache/gems62/registry/rasters/GEMSDOE28__gems28-h32-1-prethin-tip-euler-d2-8-20261003-31e35eee884e-allfinite.tif",
+      "organizer_confirmed_score": 0.2649,
+      "n_dots": 42294,
+      "dots_declared": null,
+      "holdout_dti": 0.0790210640889525,
+      "holdout_dti_ci95": [
+        0.07564991831129324,
+        0.08132643602701616
+      ],
+      "n_folds": 4,
+      "withheld_positives": 81993,
+      "tp": 7925.549284693866,
+      "fp": 165585.78152519165,
+      "fn": 74067.45071530613,
+      "fold_dtis": [
+        0.07403270757458855,
+        0.07954622237913042,
+        0.0819198405763114,
+        0.08050155052140733
+      ]
+    },
+    {
+      "label": "h33d-analog-tip-stepover-r30-20261004-cb490425926e",
+      "path": "/home/user/.cache/gems62/registry/rasters/GEMSDOE33__GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "organizer_confirmed_score": 0.2632,
+      "n_dots": 41865,
+      "dots_declared": null,
+      "holdout_dti": 0.06494991600953885,
+      "holdout_dti_ci95": [
+        0.062379203473089756,
+        0.06722067893651712
+      ],
+      "n_folds": 4,
+      "withheld_positives": 81993,
+      "tp": 6480.891482313572,
+      "fp": 164461.64763439272,
+      "fn": 75512.10851768643,
+      "fold_dtis": [
+        0.06140175901619682,
+        0.0649853689705865,
+        0.06796578225849399,
+        0.06531153684376857
+      ]
+    },
+    {
+      "label": "h27-4-solo-d28-20261004-8acb75e1-nan",
+      "path": "/home/user/.cache/gems62/registry/rasters/GEMSDOE31__gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-allfinite.tif",
+      "organizer_confirmed_score": 0.2708,
+      "n_dots": 40199,
+      "dots_declared": 40199,
+      "holdout_dti": 0.03822395676257735,
+      "holdout_dti_ci95": [
+        0.03658128479999305,
+        0.040430262654289846
+      ],
+      "n_folds": 4,
+      "withheld_positives": 81993,
+      "tp": 3751.2195295231077,
+      "fp": 158966.3698323621,
+      "fn": 78241.7804704769,
+      "fold_dtis": [
+        0.03623235393686103,
+        0.037400077645465164,
+        0.041440324323898076,
+        0.037628077389389114
+      ]
+    },
+    {
+      "label": "h27-4-r1-solo-d2-8-20261003-8acb75e1f2cc-nan",
+      "path": "/home/user/.cache/gems62/registry/rasters/GEMSDOE28__gems28-h27-4-r1-solo-d2-8-20261003-8acb75e1f2cc-allfinite.tif",
+      "organizer_confirmed_score": 0.2708,
+      "n_dots": 40199,
+      "dots_declared": null,
+      "holdout_dti": 0.03822395676257735,
+      "holdout_dti_ci95": [
+        0.03658128479999305,
+        0.040430262654289846
+      ],
+      "n_folds": 4,
+      "withheld_positives": 81993,
+      "tp": 3751.2195295231077,
+      "fp": 158966.3698323621,
+      "fn": 78241.7804704769,
+      "fold_dtis": [
+        0.03623235393686103,
+        0.037400077645465164,
+        0.041440324323898076,
+        0.037628077389389114
+      ]
+    },
+    {
+      "label": "h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan",
+      "path": "/home/user/.cache/gems62/registry/rasters/GEMSDOE28__gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif",
+      "organizer_confirmed_score": 0.271,
+      "n_dots": 37660,
+      "dots_declared": null,
+      "holdout_dti": 0.036823733273933144,
+      "holdout_dti_ci95": [
+        0.035529924639303996,
+        0.038846740785607486
+      ],
+      "n_folds": 4,
+      "withheld_positives": 81993,
+      "tp": 3538.2319807157496,
+      "fp": 148917.9682773499,
+      "fn": 78454.76801928425,
+      "fold_dtis": [
+        0.03563465191652043,
+        0.03542519736208756,
+        0.03991743707530317,
+        0.03611019983647964
+      ]
+    },
+    {
+      "label": "h38-1-hf-euler-r30-r1-20261003-56a9f473edc7-nan",
+      "path": "/home/user/.cache/gems62/registry/rasters/GEMSDOE28__gems28-h38-1-hf-euler-r30-r1-20261003-56a9f473edc7-allfinite.tif",
+      "organizer_confirmed_score": 0.2707,
+      "n_dots": 37860,
+      "dots_declared": null,
+      "holdout_dti": 0.03676251702226014,
+      "holdout_dti_ci95": [
+        0.03547035675827569,
+        0.03878460476795622
+      ],
+      "n_folds": 4,
+      "withheld_positives": 81993,
+      "tp": 3538.2319807157496,
+      "fp": 149717.9682773499,
+      "fn": 78454.76801928425,
+      "fold_dtis": [
+        0.03557546520396964,
+        0.03536524831258174,
+        0.03985431795595175,
+        0.03604801946216317
+      ]
+    },
+    {
+      "label": "anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros",
+      "path": "/home/user/.cache/gems62/registry/rasters/GEMSDOE36__gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "organizer_confirmed_score": 0.275,
+      "n_dots": 38854,
+      "dots_declared": 38854,
+      "holdout_dti": 0.005390786502834442,
+      "holdout_dti_ci95": [
+        0.005139206882093277,
+        0.0056338419071406826
+      ],
+      "n_folds": 4,
+      "withheld_positives": 81993,
+      "tp": 521.3145802242053,
+      "fp": 155030.3604439131,
+      "fn": 81471.6854197758,
+      "fold_dtis": [
+        0.005247207792493484,
+        0.005031205971693069,
+        0.005716172176629787,
+        0.005551511637651579
+      ]
+    },
+    {
+      "label": "h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros",
+      "path": "/home/user/.cache/gems62/registry/rasters/60GEMSDOE__gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "organizer_confirmed_score": 0.2778,
+      "n_dots": 37654,
+      "dots_declared": 37654,
+      "holdout_dti": 0.005250990336397872,
+      "holdout_dti_ci95": [
+        0.005007783633332826,
+        0.005487538966930749
+      ],
+      "n_folds": 4,
+      "withheld_positives": 81993,
+      "tp": 502.7501749705504,
+      "fp": 150244.63680016535,
+      "fn": 81490.24982502946,
+      "fold_dtis": [
+        0.005135388651810884,
+        0.0048801786148547684,
+        0.005522868407051971,
+        0.005452209526809527
+      ]
+    },
+    {
+      "label": "OURS (H62-A, unscored)",
+      "path": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif",
+      "organizer_confirmed_score": null,
+      "n_dots": 38000,
+      "dots_declared": null,
+      "holdout_dti": 0.0,
+      "holdout_dti_ci95": [
+        0.0,
+        0.0
+      ],
+      "n_folds": 4,
+      "withheld_positives": 81993,
+      "tp": 0.0,
+      "fp": 152000.0,
+      "fn": 81993.0,
+      "fold_dtis": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "summary": {
+    "ours_dti": 0.0,
+    "ours_dots": 38000,
+    "best_other_dti": 0.13215463311922815,
+    "best_other_label": "dotted-h19-5-d2-8-20261002-e56ea318af89-nan",
+    "best_other_organizer_score": 0.26,
+    "ours_beats_best_other": false,
+    "n_scored_artifacts_evaluated": 10,
+    "rank_of_ours": 11,
+    "n_artifacts": 11,
+    "spearman_holdout_vs_organizer": -0.9141,
+    "spearman_p": 0.00021,
+    "kendall_holdout_vs_organizer": -0.814,
+    "kendall_p": 0.00147,
+    "spearman_ndots_vs_organizer": -0.8896,
+    "spearman_holdout_vs_ndots": 0.9509,
+    "best_organizer_label": "h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros",
+    "best_organizer_score": 0.2778,
+    "best_organizer_holdout_dti": 0.005250990336397872,
+    "best_holdout_label": "dotted-h19-5-d2-8-20261002-e56ea318af89-nan",
+    "best_holdout_dti": 0.13215463311922815,
+    "best_holdout_organizer_score": 0.26,
+    "holdout_is_valid_selector": false,
+    "finding": "The segmented catalogue-withholding holdout is ANTI-CORRELATED with the organizer's confirmed score across these artifacts. The highest-scoring file (0.2778) has the second-lowest holdout DTI (0.0053); the lowest-scoring files (0.2600) have the highest (0.1322). Mechanism: the holdout's withheld truth IS public catalogue, so it rewards dots that hug the catalogue, while the organizer's private set is faults NOT in the public catalogue, so it rewards dots that avoid it. The 0.2778 file was built by DELETING 6,436 dots within 3 px of the catalogue, which raised its organizer score 0.2600 -> 0.2778 and simultaneously collapses its holdout DTI 0.1322 -> 0.0053. The two objectives are in direct opposition.",
+    "irregularity": "IR-62-HOLDOUT-01",
+    "partial_spearman_holdout_vs_organizer_given_ndots": -0.681,
+    "partial_spearman_p": 0.03017,
+    "count_matched_pairs": 8,
+    "count_matched_pairs_where_lower_holdout_has_higher_organizer": 7,
+    "confound_ruled_out": true
+  },
+  "elapsed_seconds": 94.2
+}
