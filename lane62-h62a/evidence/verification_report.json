@@ -196,183 +196,183 @@
       "group": "C",
       "claim": "file_exists",
       "ok": true,
-      "measured": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "measured": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif",
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "driver_is_gtiff",
       "ok": true,
       "measured": "GTiff",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "single_band",
       "ok": true,
       "measured": "count=1",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "dtype_float32",
       "ok": true,
       "measured": "float32",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "epsg_32611",
       "ok": true,
       "measured": "32611",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "shape_matches_official",
       "ok": true,
       "measured": "3730x3292",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "resolution_100m",
       "ok": true,
       "measured": "(100.0, 100.0)",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "transform_matches_official",
       "ok": true,
       "measured": "(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "bounds_match_training",
       "ok": true,
       "measured": "(243350.0, 4135550.0, 572550.0, 4508550.0)",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "transform_identical_to_sample_submission_bytes",
       "ok": true,
       "measured": "(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "no_nan_anywhere",
       "ok": true,
       "measured": "nan=0",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "no_inf_anywhere",
       "ok": true,
       "measured": "inf=0",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "no_float32_sentinel",
       "ok": true,
       "measured": "sentinel_cells=0",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "min_ge_0",
       "ok": true,
       "measured": "0.0",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "max_le_1",
       "ok": true,
       "measured": "1.0",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "zero_cells_outside_0_1",
       "ok": true,
       "measured": "n=0",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "nodata_tag_absent_or_zero",
       "ok": true,
       "measured": "None",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "all_finite_inside_footprint",
       "ok": true,
       "measured": "non_finite_inside=0",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "inside_footprint_range_0_1",
       "ok": true,
       "measured": "min=0.0,max=1.0",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "outside_footprint_all_zero",
       "ok": true,
       "measured": "unique_outside=[0.0]",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "footprint_pixel_count_matches_spec",
       "ok": true,
       "measured": "5167373",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "nonzero_pixels_inside_footprint",
       "ok": true,
       "measured": "positive_px=38000",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "not_blank",
       "ok": true,
       "measured": "positive_px=38000",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "not_a_blanket",
       "ok": true,
       "measured": "positive_px=38000",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "zero_dots_exactly_on_mapped_catalogue",
       "ok": true,
       "measured": "n=0",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
       "claim": "values_are_binary_or_probability",
       "ok": true,
       "measured": "n_unique=2, min=0.0, max=1.0",
-      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
     },
     {
       "group": "C",
@@ -435,77 +435,77 @@
       "claim": "e0_data_verification.json exists and parses",
       "ok": true,
       "measured": "3856",
-      "source": "/home/user/62GEMSDOE/evidence/e0_data_verification.json"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/evidence/e0_data_verification.json"
     },
     {
       "group": "E",
       "claim": "e1_lane_surfaces.json exists and parses",
       "ok": true,
       "measured": "474",
-      "source": "/home/user/62GEMSDOE/evidence/e1_lane_surfaces.json"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/evidence/e1_lane_surfaces.json"
     },
     {
       "group": "E",
       "claim": "e2_enrichment.json exists and parses",
       "ok": true,
       "measured": "16344",
-      "source": "/home/user/62GEMSDOE/evidence/e2_enrichment.json"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/evidence/e2_enrichment.json"
     },
     {
       "group": "E",
       "claim": "e2_canary.json exists and parses",
       "ok": true,
       "measured": "620",
-      "source": "/home/user/62GEMSDOE/evidence/e2_canary.json"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/evidence/e2_canary.json"
     },
     {
       "group": "E",
       "claim": "e2b_traces.json exists and parses",
       "ok": true,
       "measured": "236",
-      "source": "/home/user/62GEMSDOE/evidence/e2b_traces.json"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/evidence/e2b_traces.json"
     },
     {
       "group": "E",
       "claim": "e3_holdout.json exists and parses",
       "ok": true,
       "measured": "20379",
-      "source": "/home/user/62GEMSDOE/evidence/e3_holdout.json"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/evidence/e3_holdout.json"
     },
     {
       "group": "E",
       "claim": "e3_canary_withheld.json exists and parses",
       "ok": true,
       "measured": "312",
-      "source": "/home/user/62GEMSDOE/evidence/e3_canary_withheld.json"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/evidence/e3_canary_withheld.json"
     },
     {
       "group": "E",
       "claim": "e5_emission.json exists and parses",
       "ok": true,
       "measured": "1004",
-      "source": "/home/user/62GEMSDOE/evidence/e5_emission.json"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/evidence/e5_emission.json"
     },
     {
       "group": "E",
       "claim": "e6_submission.json exists and parses",
       "ok": true,
       "measured": "4837",
-      "source": "/home/user/62GEMSDOE/evidence/e6_submission.json"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/evidence/e6_submission.json"
     },
     {
       "group": "E",
       "claim": "e7_uniqueness.json exists and parses",
       "ok": true,
       "measured": "543942",
-      "source": "/home/user/62GEMSDOE/evidence/e7_uniqueness.json"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/evidence/e7_uniqueness.json"
     },
     {
       "group": "E",
       "claim": "e8_run_card.json exists and parses",
       "ok": true,
       "measured": "13963",
-      "source": "/home/user/62GEMSDOE/evidence/e8_run_card.json"
+      "source": "/home/user/62GEMSDOE/lane62-h62a/evidence/e8_run_card.json"
     },
     {
       "group": "E",
