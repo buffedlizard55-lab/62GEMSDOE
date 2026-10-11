@@ -1,0 +1,456 @@
+{
+  "evidence_class": "MEASURED",
+  "started_utc": "2026-10-11T22:04:51+00:00",
+  "params": {
+    "budget": 40000,
+    "spacing": 2,
+    "fill_spacing": 9999,
+    "min_step": 12.0,
+    "max_step": 60.0,
+    "sep_px": 6,
+    "max_seeds": 12000,
+    "trace_max_px": 100,
+    "trace_min_score": 0.02,
+    "seed_min_step": 25.0,
+    "no_fill": true,
+    "skip_uniqueness": true,
+    "no_controls": false,
+    "ladder": "40000,80000,120000",
+    "emit": true,
+    "rebuild_field": false,
+    "name": "gems62-lahontan-datumstep-min12max60-seed25-traceonly.tif",
+    "note": "Lahontan bench datum-step lane: matched filter over 12 trends on pluvial tread pixels, per-limb stability gate, trace-only emission",
+    "out": "/tmp/repro62.json"
+  },
+  "field": {
+    "pluvial_window": [
+      1120.0,
+      1520.0
+    ],
+    "iso_block": 50,
+    "min_step_m": 12.0,
+    "max_step_m": 60.0,
+    "limb_tolerance_m": 10.0,
+    "min_side_cells": 3.0,
+    "xcross": [
+      -1,
+      0,
+      1
+    ],
+    "n_band": 2521687,
+    "n_bench": 955946,
+    "n_step_flagged": 388955,
+    "n_habitat": 1643507,
+    "azimuths": [
+      0.0,
+      15.0,
+      30.0,
+      45.0,
+      60.0,
+      75.0,
+      90.0,
+      105.0,
+      120.0,
+      135.0,
+      150.0,
+      165.0
+    ],
+    "legs_j": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "legs_out": [
+      7,
+      8,
+      9,
+      10
+    ],
+    "flank_px": 4,
+    "min_relief_m": 6.0,
+    "max_slope_deg": 7.0,
+    "max_planarity_m": 3.0,
+    "dem_sha256": "d32762a38222764389e948da423ebc6cadd00ac617ad3938d3dd79c6cfe14431",
+    "evidence_max": 1.0,
+    "step_median_on_flag": 16.42333984375
+  },
+  "holdout": {
+    "evaluator": "gems62_bench.holdout_segmented v2 (template copy)",
+    "cells": 16,
+    "n_truth_total": 45260
+  },
+  "leakage_canary": {
+    "bench": {
+      "n_cells": 8,
+      "mean": 0.494919943652786,
+      "min": 0.48358817737985704,
+      "max": 0.5049867971125661,
+      "leakage_flag": false
+    },
+    "abs_anomaly": {
+      "n_cells": 8,
+      "mean": 0.48632731972320187,
+      "min": 0.42194620457920035,
+      "max": 0.5216936796443548,
+      "leakage_flag": false
+    },
+    "step": {
+      "n_cells": 8,
+      "mean": 0.5060954957318723,
+      "min": 0.4897655565126993,
+      "max": 0.5177230940488337,
+      "leakage_flag": false
+    },
+    "evidence": {
+      "n_cells": 8,
+      "mean": 0.5096146639982321,
+      "min": 0.49312659752781723,
+      "max": 0.522084596823498,
+      "leakage_flag": false
+    },
+    "slope": {
+      "n_cells": 8,
+      "mean": 0.5829980273772937,
+      "min": 0.5002509149943803,
+      "max": 0.6343461917688776,
+      "leakage_flag": false
+    }
+  },
+  "budget_ladder": [
+    {
+      "budget": 40000,
+      "emitted": 35263,
+      "n_from_traces": 40000,
+      "trace_px_total": 78929,
+      "holdout_dti": 0.030034027574788135,
+      "ci95": [
+        0.023220189530987905,
+        0.03333450870377951
+      ],
+      "n_truth": 22641,
+      "coverage": 0.041940309278057294,
+      "holdout_dti_detached": 0.033045806392175206,
+      "control_random_dots": 0.00012318263001583133,
+      "control_random_lines": 0.00010588395157650369
+    },
+    {
+      "budget": 80000,
+      "emitted": 68595,
+      "n_from_traces": 80000,
+      "trace_px_total": 157712,
+      "holdout_dti": 0.03899755846736399,
+      "ci95": [
+        0.03342686336929102,
+        0.042725122315406615
+      ],
+      "n_truth": 22641,
+      "coverage": 0.07628565535656362,
+      "holdout_dti_detached": 0.04192059745302901,
+      "control_random_dots": 0.00020315298729465058,
+      "control_random_lines": 0.00016149559034533506
+    },
+    {
+      "budget": 120000,
+      "emitted": 71088,
+      "n_from_traces": 83023,
+      "trace_px_total": 163572,
+      "holdout_dti": 0.03974559469734168,
+      "ci95": [
+        0.03409858747765862,
+        0.04426744264681496
+      ],
+      "n_truth": 22641,
+      "coverage": 0.07942755634110064,
+      "holdout_dti_detached": 0.04294947325145281,
+      "control_random_dots": 0.00023599981427309546,
+      "control_random_lines": 0.0001858813852651138
+    }
+  ],
+  "chosen_budget": 120000,
+  "emission": {
+    "n_dots": 63750,
+    "n_seed_candidates": 4924,
+    "n_from_traces": 74440,
+    "trace_px_total": 163572,
+    "n_traces_listed": 50,
+    "traces": [
+      {
+        "seed": [
+          1460,
+          907
+        ],
+        "azimuth_deg": 15.0,
+        "n_px": 28,
+        "n_dots": 14
+      },
+      {
+        "seed": [
+          158,
+          3062
+        ],
+        "azimuth_deg": 120.0,
+        "n_px": 16,
+        "n_dots": 8
+      },
+      {
+        "seed": [
+          433,
+          1060
+        ],
+        "azimuth_deg": 30.0,
+        "n_px": 42,
+        "n_dots": 12
+      },
+      {
+        "seed": [
+          1729,
+          1175
+        ],
+        "azimuth_deg": 0.0,
+        "n_px": 29,
+        "n_dots": 11
+      },
+      {
+        "seed": [
+          214,
+          2976
+        ],
+        "azimuth_deg": 45.0,
+        "n_px": 11,
+        "n_dots": 6
+      },
+      {
+        "seed": [
+          259,
+          555
+        ],
+        "azimuth_deg": 15.0,
+        "n_px": 81,
+        "n_dots": 41
+      },
+      {
+        "seed": [
+          1490,
+          912
+        ],
+        "azimuth_deg": 150.0,
+        "n_px": 19,
+        "n_dots": 6
+      },
+      {
+        "seed": [
+          1504,
+          1564
+        ],
+        "azimuth_deg": 120.0,
+        "n_px": 35,
+        "n_dots": 12
+      },
+      {
+        "seed": [
+          1446,
+          1540
+        ],
+        "azimuth_deg": 105.0,
+        "n_px": 130,
+        "n_dots": 52
+      },
+      {
+        "seed": [
+          544,
+          2166
+        ],
+        "azimuth_deg": 105.0,
+        "n_px": 90,
+        "n_dots": 45
+      },
+      {
+        "seed": [
+          268,
+          915
+        ],
+        "azimuth_deg": 30.0,
+        "n_px": 66,
+        "n_dots": 33
+      },
+      {
+        "seed": [
+          1064,
+          1040
+        ],
+        "azimuth_deg": 90.0,
+        "n_px": 20,
+        "n_dots": 10
+      },
+      {
+        "seed": [
+          164,
+          438
+        ],
+        "azimuth_deg": 75.0,
+        "n_px": 20,
+        "n_dots": 10
+      },
+      {
+        "seed": [
+          1324,
+          292
+        ],
+        "azimuth_deg": 0.0,
+        "n_px": 14,
+        "n_dots": 7
+      },
+      {
+        "seed": [
+          1585,
+          1388
+        ],
+        "azimuth_deg": 165.0,
+        "n_px": 37,
+        "n_dots": 16
+      },
+      {
+        "seed": [
+          54,
+          2978
+        ],
+        "azimuth_deg": 105.0,
+        "n_px": 25,
+        "n_dots": 13
+      },
+      {
+        "seed": [
+          1998,
+          1566
+        ],
+        "azimuth_deg": 60.0,
+        "n_px": 94,
+        "n_dots": 43
+      },
+      {
+        "seed": [
+          1208,
+          1022
+        ],
+        "azimuth_deg": 165.0,
+        "n_px": 29,
+        "n_dots": 10
+      },
+      {
+        "seed": [
+          2124,
+          1053
+        ],
+        "azimuth_deg": 30.0,
+        "n_px": 28,
+        "n_dots": 14
+      },
+      {
+        "seed": [
+          470,
+          2196
+        ],
+        "azimuth_deg": 30.0,
+        "n_px": 13,
+        "n_dots": 7
+      }
+    ],
+    "min_px_from_catalogue": 2.8284271247461903,
+    "median_px_from_catalogue": 20.808652046684813,
+    "habitat_fraction": 0.038789004245190314
+  },
+  "holdout_final": {
+    "dti": 0.00018346775122689234,
+    "ci95": [
+      0.00012680234991319057,
+      0.0002099693567602327
+    ],
+    "coverage": 0.00034606074392726937,
+    "n_truth": 22641,
+    "n_emitted": 63750,
+    "detached_dti": 0.00024115170966620042,
+    "detached_ci95": [
+      0.0002101804985329595,
+      0.00025833072310896125
+    ]
+  },
+  "submission": {
+    "file": "gems62-lahontan-datumstep-min12max60-seed25-traceonly.tif",
+    "sha256": "12aa5d4534b5ddcae90e6e2ec10e1f10262df437358ccd9316b8ba9bcf8ca503",
+    "bytes": 179828,
+    "note": "Lahontan bench datum-step lane: matched filter over 12 trends on pluvial tread pixels, per-limb stability gate, trace-only emission",
+    "checks_passed": true,
+    "validator": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_template": true,
+      "nodata_unset_or_nan": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_no_nan": true,
+      "in_footprint_no_inf": true,
+      "in_footprint_no_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_on_catalogue": true,
+      "nonempty": true,
+      "zero_dots_on_mapped_catalogue": true,
+      "transform_matches": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "no_float32_sentinel": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_range_0_1_legacy": true,
+      "whole_raster_all_finite": true,
+      "whole_raster_range_0_1": true
+    },
+    "info": {
+      "path": "/home/user/62GEMSDOE/lane62-bench/docs/downloads/.gems62-lahontan-datumstep-min12max60-seed25-traceonly.enmapj3h.tif",
+      "bytes": 179828,
+      "sha256": "12aa5d4534b5ddcae90e6e2ec10e1f10262df437358ccd9316b8ba9bcf8ca503",
+      "positive_pixels": 63750,
+      "positive_in_footprint": 63750,
+      "on_catalogue_positive": 0,
+      "unique_positive_values": [
+        1.0
+      ],
+      "in_footprint_min": 0.0,
+      "in_footprint_max": 1.0,
+      "n_nan": 0,
+      "n_inf": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "bands": 1,
+      "dtype": "float32",
+      "height": 3730,
+      "width": 3292,
+      "crs": "EPSG:32611",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "res": [
+        100.0,
+        100.0
+      ],
+      "nodata": null
+    }
+  },
+  "emission_sha256": "d3fef68540d95898eaec09be215c5ff29807b5218b959e4c095709c46ed146a0",
+  "uniqueness": {
+    "skipped": true,
+    "reason": "--skip-uniqueness"
+  },
+  "runtime_s": 184.9,
+  "finished_utc": "2026-10-11T22:07:56+00:00"
+}

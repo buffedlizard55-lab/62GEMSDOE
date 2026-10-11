@@ -1,0 +1,125 @@
+{
+ "mine": "lane62-bench/docs/downloads/gems62-lahontan-datumstep-min12max60-seed25-traceonly.tif",
+ "my_support_n": 63750,
+ "near_radius_px": 3,
+ "stride_px": 4,
+ "rows": [
+  {
+   "raster": "docs/downloads/gems62-lahontan-isobase-99dots-nan.tif",
+   "support_n": 99,
+   "near_frac": 0.0026,
+   "overlap_frac": 0.6566,
+   "iou_3px": 0.0018,
+   "spearman": -0.0002
+  },
+  {
+   "raster": "docs/downloads/gems62-lahontan-isobase-99dots-zeros.tif",
+   "support_n": 99,
+   "near_frac": 0.0026,
+   "overlap_frac": 0.6566,
+   "iou_3px": 0.0018,
+   "spearman": -0.0002
+  },
+  {
+   "raster": "docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif",
+   "support_n": 1660,
+   "near_frac": 0.0048,
+   "overlap_frac": 0.1024,
+   "iou_3px": 0.0056,
+   "spearman": -0.0008
+  },
+  {
+   "raster": "lane62/docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif",
+   "support_n": 86968,
+   "near_frac": 0.6763,
+   "overlap_frac": 0.3545,
+   "iou_3px": 0.2789,
+   "spearman": 0.0337
+  },
+  {
+   "raster": "lane62/docs/downloads/gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif",
+   "support_n": 87,
+   "near_frac": 0.0011,
+   "overlap_frac": 0.3103,
+   "iou_3px": 0.0013,
+   "spearman": -0.0002
+  },
+  {
+   "raster": "lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-nan.tif",
+   "support_n": 38000,
+   "near_frac": 0.2488,
+   "overlap_frac": 0.2369,
+   "iou_3px": 0.1358,
+   "spearman": 0.0135
+  },
+  {
+   "raster": "lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif",
+   "support_n": 38000,
+   "near_frac": 0.2488,
+   "overlap_frac": 0.2369,
+   "iou_3px": 0.1358,
+   "spearman": 0.0135
+  }
+ ],
+ "null_test": {
+  "question": "near_frac is directional and grows with the sibling's support area, so 0.68 is not evidence of agreement without a chance level: how much of this lane's support falls within 300 m of the sibling's, for dot sets of the same size drawn from the same pools?",
+  "note": "habitat_and_footprint is the fair pool (this lane can only emit on tread habitat); footprint is permissive and understates chance, so it inflates the enrichment.",
+  "pools": [
+   "footprint",
+   "habitat_and_footprint"
+  ],
+  "rows": {
+   "lane62/docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif": {
+    "observed_near_frac": 0.6763,
+    "null_footprint": {
+     "mean": 0.335,
+     "sd": 0.0014,
+     "draws": 5,
+     "pool_px": 5167373,
+     "enrichment": 2.02
+    },
+    "null_habitat_and_footprint": {
+     "mean": 0.5759,
+     "sd": 0.0015,
+     "draws": 5,
+     "pool_px": 1643507,
+     "enrichment": 1.17
+    }
+   },
+   "lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-nan.tif": {
+    "observed_near_frac": 0.2488,
+    "null_footprint": {
+     "mean": 0.1777,
+     "sd": 0.0017,
+     "draws": 5,
+     "pool_px": 5167373,
+     "enrichment": 1.4
+    },
+    "null_habitat_and_footprint": {
+     "mean": 0.2148,
+     "sd": 0.002,
+     "draws": 5,
+     "pool_px": 1643507,
+     "enrichment": 1.16
+    }
+   },
+   "lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif": {
+    "observed_near_frac": 0.2488,
+    "null_footprint": {
+     "mean": 0.1766,
+     "sd": 0.0007,
+     "draws": 5,
+     "pool_px": 5167373,
+     "enrichment": 1.41
+    },
+    "null_habitat_and_footprint": {
+     "mean": 0.2164,
+     "sd": 0.002,
+     "draws": 5,
+     "pool_px": 1643507,
+     "enrichment": 1.15
+    }
+   }
+  }
+ }
+}
