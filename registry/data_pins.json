@@ -85,7 +85,8 @@
    "nodata": -999999.0,
    "valid_cells": 5167187,
    "min_m": 1027.9,
-   "max_m": 3138.6
+   "max_m": 3138.6,
+   "footprint_cells_with_elevation": 5165644
   }
  },
  "grid": {
@@ -128,5 +129,17 @@
    "FNw": 0.3333333333333333,
    "DTI": 0.8620689655172413
   }
+ },
+ "footprint_coverage_cross_check": {
+  "note": "measured here by intersecting all three shipped mirrors, using the same loader the lane uses (rasterio nodata -> NaN). IR-62-007. Do NOT recompute this with np.isfinite() on a raw np.asarray read: the DEM's nodata sentinel is -999999.0, which is finite, and an unguarded mask silently reports full coverage.",
+  "labels_footprint_cells": 5167373,
+  "template_footprint_cells": 5167373,
+  "labels_and_template_identical_elementwise": true,
+  "dem_valid_cells": 5167187,
+  "cells_with_label_but_no_dem_elevation": 1729,
+  "cells_with_dem_elevation_but_no_label": 1543,
+  "cells_covered_by_both": 5165644,
+  "consequence": "a DEM-reading lane can only map the cells covered by both; the 1,729 labelled cells without elevation are unreachable for this lane and for every sibling lane that reads this DEM",
+  "raw_dem_nodata_sentinel": -999999.0
  }
 }

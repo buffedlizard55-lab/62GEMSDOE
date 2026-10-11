@@ -46,82 +46,235 @@ RUN_NAME = "gems62-lahontan-isobase"
 
 
 def save_profile_png(rows: list[dict], out: Path, title: str,
-                     label: str = "") -> None:
-    """Render the elevation-versus-distance profile (main deliverable figure)."""
+                     label: str = "", *, flags: list[dict] | None = None,
+                     radius_m: dict | None = None) -> None:
+    """Render the first deliverable: datum elevation and residual vs distance.
+
+    Two panels, because the two questions are different:
+
+    * top -- the datum elevation itself, against the smooth isobase.  The
+      y-limits are set from the published deformed-highstand window and the
+      2nd/98th percentile of the plotted values, **not** from the raw min/max:
+      a single poorly-supported bench must not be able to set the scale.
+    * bottom -- the residual (elevation minus isobase), which is where a step
+      actually shows.  The +-3 m constructional band is drawn, and every
+      flagged location is marked with its jump.
+
+    The isobase is drawn as a broken polyline: consecutive benches in track
+    order are only joined when they are genuinely adjacent along the track, so
+    the curve shows the isobase rather than the gaps between distant benches.
+    """
     try:
         from PIL import Image, ImageDraw
     except ImportError:  # pragma: no cover
         return
-    W, H = 1400, 720
+    W, H = 1400, 860
     img = Image.new("RGB", (W, H), (12, 14, 20))
     d = ImageDraw.Draw(img)
-    L, R, T, B = 90, W - 60, 70, H - 110
+    L, R = 96, W - 250
+    d.text((14, 14), title, fill=(235, 240, 250))
+    if label:
+        d.text((14, 34), label, fill=(150, 160, 175))
     if not rows:
-        d.text((L, T), "no benches survived the datum filters", fill=(230, 120, 120))
+        d.text((L, 90), "no benches survived the datum filters", fill=(230, 120, 120))
         img.save(out)
         return
+
     xs = np.array([r["distance_track_m"] for r in rows], dtype=float)
     zs = np.array([r["elevation_m"] for r in rows], dtype=float)
     ib = np.array([r["isobase_m"] for r in rows], dtype=float)
     res = np.array([r["residual_m"] for r in rows], dtype=float)
     x0, x1 = 0.0, max(xs.max(), 1.0)
-    lo = float(min(zs.min(), ib.min())) - 3.0
-    hi = float(max(zs.max(), ib.max())) + 3.0
+    flag_x = np.array([f["distance_track_m"] for f in (flags or [])], dtype=float)
+    flag_j = np.array([f["residual_jump_m"] for f in (flags or [])], dtype=float)
+
+    # Highstand window from the literature, widened to include the 2-98 pct of
+    # what is actually plotted, so a single outlier cannot set the scale.
+    lo_z = min(np.percentile(zs, 2), float(np.percentile(ib, 2))) - 2.0
+    hi_z = max(np.percentile(zs, 98), float(np.percentile(ib, 98))) + 2.0
+    panel_h = 250
+    T1, B1 = 78, 78 + panel_h
+    T2, B2 = B1 + 96, B1 + 96 + panel_h
+    lo_r = min(float(np.percentile(res, 2)), -6.0) - 1.0
+    hi_r = max(float(np.percentile(res, 98)), 14.0) + 1.0
 
     def px(v):
         return L + (v - x0) / max(x1 - x0, 1e-9) * (R - L)
 
-    def py(v):
-        return B - (v - lo) / max(hi - lo, 1e-9) * (B - T)
+    def clamp(v, lo, hi):
+        return float(min(max(v, lo), hi))
 
-    # grid
-    for i in range(6):
-        v = lo + (hi - lo) * i / 5
-        y = py(v)
-        d.line([(L, y), (R, y)], fill=(38, 42, 54))
-        d.text((10, y - 6), f"{v:8.1f} m", fill=(150, 160, 175))
-    n_ticks = 10
+    for (T, B, lo, hi, lbl) in ((T1, B1, lo_z, hi_z, "elevation (m)"),
+                                (T2, B2, lo_r, hi_r, "residual (m)")):
+        def py(v, T=T, B=B, lo=lo, hi=hi):
+            return B - (clamp(v, lo, hi) - lo) / max(hi - lo, 1e-9) * (B - T)
+        for i in range(5):
+            v = lo + (hi - lo) * i / 4
+            y = py(v)
+            d.line([(L, y), (R, y)], fill=(38, 42, 54))
+            d.text((12, y - 6), f"{v:8.1f}", fill=(150, 160, 175))
+        d.text((12, T - 20), lbl, fill=(170, 180, 195))
+    n_ticks = 8
     for i in range(n_ticks + 1):
         v = x0 + (x1 - x0) * i / n_ticks
         x = px(v)
-        d.line([(x, T), (x, B)], fill=(28, 32, 42))
-        d.text((x - 18, B + 8), f"{v/1000:5.1f}", fill=(150, 160, 175))
-    d.text(((L + R) / 2 - 70, B + 40), "along-shoreline distance (km)", fill=(200, 208, 220))
-    d.text((10, 20), title, fill=(235, 240, 250))
-    if label:
-        d.text((10, 40), label, fill=(150, 160, 175))
+        d.line([(x, T1), (x, B2)], fill=(28, 32, 42))
+        d.text((x - 20, B2 + 8), f"{v/1000:5.1f}", fill=(150, 160, 175))
+    d.text(((L + R) / 2 - 80, B2 + 34), "along-shoreline distance (km)", fill=(200, 208, 220))
+
+    def py1(v):
+        return B1 - (clamp(v, lo_z, hi_z) - lo_z) / max(hi_z - lo_z, 1e-9) * (B1 - T1)
+
+    def py2(v):
+        return B2 - (clamp(v, lo_r, hi_r) - lo_r) / max(hi_r - lo_r, 1e-9) * (B2 - T2)
 
     order = np.argsort(xs)
-    ib_line = [(px(xs[i]), py(ib[i])) for i in order]
-    if len(ib_line) > 1:
-        d.line(ib_line, fill=(90, 170, 240))
-    for i in order:
+    # broken polyline: only join benches that are adjacent along the track
+    seg: list[tuple[float, float]] = []
+    for k, i in enumerate(order):
+        gap_track = xs[i] - xs[order[k - 1]]
+        gap_plan = np.hypot(rows[i]["x"] - rows[order[k - 1]]["x"],
+                            rows[i]["y"] - rows[order[k - 1]]["y"]) if k else 0.0
+        if k and (gap_track > 3000.0 or gap_plan > 6000.0):
+            if len(seg) > 1:
+                d.line(seg, fill=(88, 132, 190))
+            seg = []
+        seg.append((px(xs[i]), py1(ib[i])))
+    if len(seg) > 1:
+        d.line(seg, fill=(88, 132, 190))
+    for k, i in enumerate(order):
         col = (240, 200, 90) if abs(res[i]) >= lahontan.ELEVATION_RESOLUTION_M else (120, 210, 150)
-        d.ellipse([px(xs[i]) - 3, py(zs[i]) - 3, px(xs[i]) + 3, py(zs[i]) + 3], fill=col)
-    d.text((R - 300, T + 6), "isobase (smooth, robust)", fill=(90, 170, 240))
-    d.text((R - 300, T + 22), "bench datum (residual < 3 m)", fill=(120, 210, 150))
-    d.text((R - 300, T + 38), "FLAGGED step (residual >= 3 m)", fill=(240, 200, 90))
+        d.ellipse([px(xs[i]) - 3, py1(zs[i]) - 3, px(xs[i]) + 3, py1(zs[i]) + 3], fill=col)
+        d.ellipse([px(xs[i]) - 2, py2(res[i]) - 2, px(xs[i]) + 2, py2(res[i]) + 2],
+                  fill=(120, 160, 210))
+    # +-3 m constructional band on the residual panel
+    for v in (3.0, -3.0):
+        y = py2(v)
+        for x in range(int(L), int(R), 12):
+            d.line([(x, y), (x + 6, y)], fill=(90, 96, 110))
+    d.line([(L, py2(0.0)), (R, py2(0.0))], fill=(60, 66, 80))
+    for k in range(flag_x.size):
+        x = px(flag_x[k])
+        y = py2(flag_j[k])
+        d.line([(x, T2), (x, B2)], fill=(150, 110, 60))
+        d.ellipse([x - 4, y - 4, x + 4, y + 4], outline=(240, 200, 90), width=2)
+    cols = [((120, 210, 150), "datum, |res| < 3 m"),
+            ((240, 200, 90), "datum, |res| >= 3 m"),
+            ((88, 132, 190), "local isobase (z - res)"),
+            ((120, 160, 210), "residual (z - isobase)"),
+            ((240, 200, 90), "FLAGGED step (circled)")]
+    for i, ((r, g, b), txt) in enumerate(cols):
+        y = 52 + 14 * i
+        d.text((R + 12, y), txt, fill=(r, g, b))
+    if radius_m:
+        d.text((R + 12, 52 + 14 * len(cols) + 6),
+               f"step gate {radius_m.get('significance_gate_m', 0):.2f} m",
+               fill=(150, 160, 175))
+        d.text((R + 12, 52 + 14 * len(cols) + 20),
+               f"resolution {radius_m.get('resolution_gate_m', 0):.0f} m",
+               fill=(150, 160, 175))
+        d.text((R + 12, 52 + 14 * len(cols) + 34),
+               f"accepted {radius_m.get('pairs_accepted', 0)}"
+               f" / borderline {radius_m.get('pairs_rejected_as_borderline', 0)}",
+               fill=(150, 160, 175))
     img.save(out)
 
 
-def save_map_png(dem, footprint, catalogue, band, dots, out: Path) -> None:
+def save_map_png(dem, footprint, catalogue, band, dots, out: Path, *,
+                 flags: list[dict] | None = None) -> None:
+    """Spatial context figure: relief, the datum band, the catalogue, the dots.
+
+    Drawn in two stages on purpose.  The context layers are rasterised at full
+    grid resolution and then downsampled; the *markers* are drawn afterwards in
+    output-pixel coordinates, because a one-pixel dot bleached out completely by
+    a 4x bilinear reduction is invisible -- which is exactly what happened on the
+    first version of this figure.  A reader must be able to see what was emitted.
+    """
     try:
-        from PIL import Image
+        from PIL import Image, ImageDraw
     except ImportError:  # pragma: no cover
         return
+    import rasterio
+
     H, W = dem.shape
-    def norm(a, lo, hi, bg=40):
+    scale = 4
+    dw, dh = W // scale, H // scale
+
+    def norm(a, lo, hi):
         a = np.asarray(a, dtype=float)
         o = np.clip((a - lo) / (hi - lo), 0, 1)
         o[~np.isfinite(a)] = 0.0
         return o
+
     shade = norm(dem, 1050, 2200)
     rgb = np.stack([shade, shade, shade], axis=-1)
-    rgb[band & footprint] = rgb[band & footprint] * 0.35 + np.array([0.15, 0.45, 0.85]) * 0.65
+    sel = band & footprint
+    rgb[sel] = rgb[sel] * 0.35 + np.array([0.15, 0.45, 0.85]) * 0.65
     rgb[catalogue] = np.array([0.95, 0.25, 0.25])
-    rgb[dots] = np.array([1.0, 0.85, 0.10])
-    img = Image.fromarray((np.clip(rgb, 0, 1) * 255).astype(np.uint8))
-    img = img.resize((W // 4, H // 4), Image.BILINEAR)
+    base = Image.fromarray((np.clip(rgb, 0, 1) * 255).astype(np.uint8)).resize(
+        (dw, dh), Image.BILINEAR)
+
+    # margin for the title, legend and scale bar
+    pad_l, pad_t, pad_r, pad_b = 16, 54, 268, 54
+    img = Image.new("RGB", (dw + pad_l + pad_r, dh + pad_t + pad_b), (12, 14, 20))
+    img.paste(base, (pad_l, pad_t))
+    d = ImageDraw.Draw(img)
+    d.rectangle([pad_l, pad_t, pad_l + dw, pad_t + dh], outline=(60, 66, 80))
+
+    def to_px(col, row):
+        """Grid (col, row) -> output pixel.  Everything drawn goes through here."""
+        return (pad_l + col / scale, pad_t + row / scale)
+
+    def world_to_grid(X, Y):
+        """Projected metres -> fractional (col, row) on this grid."""
+        col = (X - TRANSFORM[2]) / TRANSFORM[0]
+        row = (Y - TRANSFORM[5]) / TRANSFORM[4]
+        return col, row
+
+    def check_inside(x, y, what):
+        # A silently off-canvas marker is indistinguishable from "nothing was
+        # found"; the first version of this figure drew its step circle
+        # 100,000 px away because world metres were fed to the grid helper.
+        # x, y are image pixels, so the pad has to come off before comparing.
+        if not (0.0 <= x - pad_l <= dw and 0.0 <= y - pad_t <= dh):
+            raise ValueError(f"{what} drew at ({x - pad_l:.0f}, {y - pad_t:.0f}), outside "
+                             f"the {dw}x{dh} map area -- wrong coordinate units?")
+
+    dot_rows, dot_cols = np.nonzero(dots)
+    for r, c in zip(dot_rows, dot_cols):
+        x, y = to_px(c, r)
+        d.ellipse([x - 2.0, y - 2.0, x + 2.0, y + 2.0], fill=(255, 216, 26))
+    for f in flags or []:
+        col, row = world_to_grid(f["x"], f["y"])
+        x, y = to_px(col, row)
+        check_inside(x, y, "step location")
+        d.ellipse([x - 15, y - 15, x + 15, y + 15], outline=(255, 216, 26), width=3)
+        d.text((x + 18, y - 6), f"STEP {f['jump_m']:+.1f} m", fill=(255, 216, 26))
+
+    d.text((pad_l, 16), "Lake Lahontan highstand datum: mapped benches, catalogue and emitted dots",
+           fill=(235, 240, 250))
+    d.text((pad_l, 34), f"{int(sel.sum()):,} datum cells · {int(catalogue.sum()):,} catalogue cells · "
+                        f"{int(dots.sum()):,} emitted dots", fill=(150, 160, 175))
+
+    legend = [((150, 190, 240), "highstand datum band (1313.5-1345.8 m)"),
+              ((242, 64, 64), "USGS / INGENIOUS catalogue"),
+              ((255, 216, 26), "emitted dots"),
+              ((255, 216, 26), "circled: surviving step location")]
+    for i, (col, txt) in enumerate(legend):
+        y = pad_t + 8 + 20 * i
+        d.rectangle([pad_l + dw + 14, y + 4, pad_l + dw + 26, y + 14], fill=col)
+        d.text((pad_l + dw + 32, y), txt, fill=(200, 208, 220))
+
+    # scale bar: 50 km = 500 cells / scale px
+    bar_px = 50_000 / 100.0 / scale
+    y = pad_t + dh - 22
+    d.line([(pad_l + 20, y), (pad_l + 20 + bar_px, y)], fill=(235, 240, 250), width=4)
+    d.text((pad_l + 20, y - 18), "50 km", fill=(235, 240, 250))
+    # north arrow (north is -row)
+    ax, ay = pad_l + dw - 34, pad_t + 34
+    d.line([(ax, ay + 18), (ax, ay - 10)], fill=(235, 240, 250), width=3)
+    d.polygon([(ax, ay - 18), (ax - 6, ay - 6), (ax + 6, ay - 6)], fill=(235, 240, 250))
+    d.text((ax - 4, ay + 22), "N", fill=(235, 240, 250))
     img.save(out)
 
 
@@ -190,15 +343,30 @@ def main() -> int:
     idx = np.nonzero(keep)[0]
     benches = [benches[i] for i in idx]
     residual_g = residual_global[idx]
+    # ``local_isobase`` returns rho = r - level (the deviation of the datum from
+    # the local isobase).  That IS the residual: the local isobase elevation is
+    # z - rho, so the profile's isobase column is b.z - residual.  Subtracting
+    # rho from the global residual instead would leave the smoothed *level*,
+    # which is not an offset of the datum and has a far smaller spread -- the
+    # first version did that and silently measured isobase-level changes rather
+    # than shoreline steps.  Keep the subtraction in one place: here.
     rho, info_local = lahontan.local_isobase(benches, residual_g)
-    residual = residual_g - rho
+    residual = rho
     print(f"      local strand isobase sigma = {info_local['residual_sigma_m']:.2f} m "
           f"(published elevation resolution = {lahontan.ELEVATION_RESOLUTION_M} m)")
 
     print("[4/7] flagging datum offsets")
-    steps = lahontan.flag_steps(benches, residual, threshold_m=args.step_threshold_m)
+    step_stats: dict = {}
+    steps = lahontan.flag_steps(benches, residual, threshold_m=args.step_threshold_m,
+                                stats=step_stats)
     defl = lahontan.flag_deflections(benches)
-    print(f"      step flags = {len(steps):,}; deflection flags = {len(defl):,}")
+    print(f"      step locations = {len(steps):,} (of {step_stats['pairs_clearing_resolution_gate']} "
+          f"pairs clearing the {step_stats['resolution_gate_m']:.0f} m resolution gate; "
+          f"significance gate {step_stats['significance_gate_m']:.2f} m); "
+          f"deflection locations = {len(defl):,}")
+    for f in steps:
+        print(f"        STEP  {f.residual_jump_m:+6.2f} m over {f.pair_distance_m:5.0f} m "
+              f"({f.n_pairs} pair(s))")
 
     print("[5/7] seeding and extending traces on DEM evidence")
     az_f, coh_f, rel_f = emit.structure_tensor(dem, footprint)
@@ -277,15 +445,63 @@ def main() -> int:
     track_azimuth = float(np.median([b.azimuth_deg for b in benches if b.is_elongated])) \
         if any(b.is_elongated for b in benches) else 0.0
     profiles = lahontan.shoreline_profile(benches, residual, track_deg=track_azimuth)
+    # distance along the track, for flag markers
+    _by_bench = {r["bench"]: r for r in profiles}
+    for f in steps + defl:
+        r = _by_bench.get(f.bench_a)
+        f_dist = r["distance_track_m"] if r else 0.0
+        setattr(f, "_dist", f_dist)
+
+    flagged_rows = [
+        {"distance_track_m": getattr(f, "_dist", 0.0),
+         "residual_jump_m": getattr(f, "residual_jump_m", 0.0),
+         "az_change_deg": getattr(f, "az_change_deg", 0.0)}
+        for f in steps
+    ]
 
     save_profile_png(profiles, ev / f"{tag}-profile.png",
-                     "Lake Lahontan highstand datum: elevation vs along-shoreline distance",
+                     "Lake Lahontan highstand datum: elevation and residual vs along-shoreline distance",
                      f"track azimuth {track_azimuth:.1f} deg | {len(benches)} benches | "
-                     f"isobase residual sigma {info['residual_sigma_m']:.2f} m")
-    save_map_png(dem, footprint, catalogue, band, raster > 0, ev / f"{tag}-map.png")
+                     f"local strand isobase sigma {info_local['residual_sigma_m']:.2f} m "
+                     f"(global {info['residual_sigma_m']:.2f} m) | "
+                     f"{len(steps)} step location(s), {len(defl)} deflection location(s)",
+                     flags=flagged_rows, radius_m=step_stats)
+    save_map_png(dem, footprint, catalogue, band, raster > 0, ev / f"{tag}-map.png",
+                 flags=[{"x": f.x, "y": f.y, "jump_m": f.residual_jump_m} for f in steps])
 
     card = {
         "run_card_version": "parallel-run protocol v1",
+        "gates": {
+            "isobase_order": args.isobase_order,
+            "bench_slope_max_deg": args.bench_slope_max_deg,
+            "bench_min_cells": args.bench_min_cells,
+            "step_threshold_m": args.step_threshold_m,
+            "step_significance": step_stats,
+            "deflection_min_deg": args.deflection_min_deg,
+            "min_trace_length_m": args.min_trace_length_m,
+            "coherence_min": args.coherence_min,
+            "relief_min_m": args.relief_min_m,
+            "spacing_m": args.spacing_m,
+            "exclusion_m": args.exclusion_m,
+        },
+        "step_pair_test": {
+            "pairs_within_radius": step_stats.get("pairs_within_radius"),
+            "pairs_clearing_resolution_gate": step_stats.get("pairs_clearing_resolution_gate"),
+            "pairs_accepted": step_stats.get("pairs_accepted"),
+            "pairs_rejected_as_borderline": step_stats.get("pairs_rejected_as_borderline"),
+            "significance_gate_m": step_stats.get("significance_gate_m"),
+            "robust_sigma_m": step_stats.get("robust_sigma_m"),
+            "borderline_candidates": step_stats.get("borderline_candidates", []),
+        },
+        "step_locations_detail": [
+            {"x": float(f.x), "y": float(f.y), "jump_m": float(f.residual_jump_m),
+             "pair_distance_m": float(f.pair_distance_m), "az_deg": float(f.az_deg),
+             "n_pairs": int(f.n_pairs)} for f in steps
+        ],
+        "deflection_locations_detail": [
+            {"x": float(f.x), "y": float(f.y), "az_change_deg": float(f.az_change_deg),
+             "gap_m": float(f.gap_m), "n_pairs": int(f.n_pairs)} for f in defl
+        ],
         "slug": tag,
         "lane": "datum-offset: Lake Lahontan shorelines as a strain gauge",
         "hypothesis": (
@@ -343,8 +559,10 @@ def main() -> int:
         "counts": {
             "benches": len(benches),
             "datum_cells": int(band.sum()),
-            "step_flags": len(steps),
-            "deflection_flags": len(defl),
+            "step_locations": len(steps),
+            "step_pairs_clearing_resolution_gate": step_stats["pairs_clearing_resolution_gate"],
+            "step_pairs_rejected_as_borderline": step_stats["pairs_rejected_as_borderline"],
+            "deflection_locations": len(defl),
             "traces": len(traces),
             "dots": int(rows.size),
             "traces_longer_than_1km": int(sum(1 for t in traces if t.length_m >= 1000)),

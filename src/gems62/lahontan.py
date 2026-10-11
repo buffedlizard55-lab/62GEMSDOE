@@ -68,6 +68,11 @@ BENCH_MIN_CELLS = 8
 
 #: Two benches closer than this in plan view can be contrasted for a step.
 STEP_PAIR_RADIUS_M = 5000.0
+#: The regional isobase signal is smooth on the 100 km scale (22 m of total
+#: Lahontan deflection across the basin, ~0.1 m/km).  A local plane is not
+#: allowed to claim a steeper gradient than this.
+GRADIENT_MAX_M_PER_KM = 0.5
+
 #: An azimuth change of this size or more is a lateral deflection.
 DEFLECTION_MIN_DEG = 35.0
 
@@ -326,6 +331,8 @@ class StepFlag:
     bench_a: int
     bench_b: int
     kind: str = "elevation_step"
+    n_pairs: int = 1                                     # pairs merged into this location
+    cluster_jump_range_m: tuple[float, float] | None = None
 
 
 @dataclass
@@ -341,6 +348,7 @@ class DeflectionFlag:
     bench_a: int
     bench_b: int
     kind: str = "lateral_deflection"
+    n_pairs: int = 1
 
 
 def level_structure(residual: np.ndarray, weights: np.ndarray,
@@ -426,6 +434,7 @@ def local_isobase(
     min_neighbours: int = 6,
     huber_k: float = 1.345,
     iters: int = 8,
+    support_quantile: float = 0.10,
 ) -> tuple[np.ndarray, dict]:
     """Locally robust isobase fitted to *one* isochronous strand.
 
@@ -467,7 +476,24 @@ def local_isobase(
             s = max(s, 1e-6)
             u = np.abs(rr) / (s * huber_k)
             w = np.where(u <= 1.0, 1.0, 1.0 / np.maximum(u, 1e-9))
-        level[i] = float(coef[0])
+        # Support guards.  The regional signal is smooth on the 100 km scale --
+        # 22 m of total deflection across the basin, i.e. ~0.1 m/km -- so a local
+        # plane that has to extrapolate a steep gradient several kilometres to
+        # reach the bench is fitting noise.  Two guards make that impossible:
+        #   (1) cap the fitted gradient at GRADIENT_MAX_M_PER_KM;
+        #   (2) clamp the resulting level to the band the bench's own neighbours
+        #       occupy, widened by the robust scatter.
+        # Without them the first run produced a +25.7 m phantom offset on one
+        # bench, far outside the +-4 m band that defined the strand, and the
+        # profile's y-axis was then set by that artifact.
+        g = float(np.hypot(coef[1], coef[2]))
+        if g > GRADIENT_MAX_M_PER_KM:
+            coef[1:3] *= GRADIENT_MAX_M_PER_KM / g
+        q = support_quantile
+        lo_b, hi_b = np.quantile(zz, [q, 1.0 - q])
+        spread = 1.4826 * np.median(np.abs(zz - np.median(zz)))
+        pad = max(1.0, 2.0 * spread)
+        level[i] = float(np.clip(coef[0], lo_b - pad, hi_b + pad))
         n_used[i] = int(sel.size)
 
     rho = r - level
@@ -479,6 +505,11 @@ def local_isobase(
         "residual_sigma_m": sigma,
         "n_benches": n,
         "median_neighbours": int(np.median(n_used)) if n else 0,
+        "support_guards": {
+            "gradient_max_m_per_km": GRADIENT_MAX_M_PER_KM,
+            "quantile": support_quantile,
+            "rule": "fitted gradient capped; level clamped to the neighbourhood band",
+        },
     }
     return rho, info
 
@@ -489,31 +520,170 @@ def flag_steps(
     *,
     threshold_m: float = ELEVATION_RESOLUTION_M,
     radius_m: float = STEP_PAIR_RADIUS_M,
+    cluster_m: float = 3000.0,
+    z_min: float = 2.5,
+    max_pair_m: float = 5000.0,
+    stats: dict | None = None,
 ) -> list[StepFlag]:
-    """Flag bench pairs that are close in plan view but differ in residual.
+    """Flag *locations* where two nearby benches differ in datum residual.
 
-    The threshold defaults to the published 3 m elevation resolution: a smaller
-    difference is not separable from the natural scatter of beach-crest heights.
+    Two gates must both pass, and the second one is the important one:
+
+    * ``threshold_m`` (default the published 3 m elevation resolution) -- a
+      smaller difference is not separable from the natural scatter of beach
+      crests.  On its own this gate is **at the noise level** and flags noise:
+      in this lane 43 of the 73 bench pairs inside 5 km cleared it, which cannot
+      be a handful of tectonic offsets.
+    * A robust significance gate.  Nearby benches of one isochronous strand are
+      drawn from one local population, so the difference of two residuals has
+      scatter ``sqrt(2) * sigma`` with ``sigma`` estimated robustly (1.4826 MAD,
+      ~2.99 m here, which is also the published method resolution).  A step is
+      called only when ``|jump| >= z_min * sqrt(2) * sigma`` -- with the default
+      ``z_min = 2.5`` that is ~10.6 m, i.e. an offset that cannot be constructional
+      scatter.  ``max_pair_m`` additionally demands the offset be *sharp* at the
+      scale of the datum, rather than a regional gradient.
+
+    ``stats``, if given, is filled with the counts behind the decision so a
+    reader can see what was rejected rather than only what survived.
     """
-    flags: list[StepFlag] = []
+    res = np.asarray(residual, dtype=float)
+    # Two scatter estimates, because they fail differently.
+    #
+    #  * ``sigma_global`` -- 1.4826 MAD of the whole strand.  Standard, but it is
+    #    MASKED by the very thing it is meant to detect: a single 13 m offset in a
+    #    short strand raises the estimate so far that the offset no longer clears
+    #    its own gate.  Measured: a synthetic 12 m step over 20 km pushed this to
+    #    6.02 m and rejected itself.
+    #  * ``sigma_pairs`` -- derived from the median absolute difference between
+    #    benches that are already close together (<= radius_m).  Under a normal
+    #    model with scatter s, |difference| of two draws has median 0.6745*sqrt(2)*s,
+    #    so s = median|jump| / 0.9539.  A median over pairs tolerates up to half of
+    #    them being offsets, so it cannot be masked by a handful of faults.
+    #
+    # The gate uses ``sigma_pairs``; ``sigma_global`` is reported alongside so a
+    # reader can see both and judge the disagreement.
+    sigma_global = float(1.4826 * np.median(np.abs(res - np.median(res)))) if res.size else 0.0
+    # first pass: the pairwise scatter estimate
+    near_jumps: list[float] = []
+    for i, bi in enumerate(benches):
+        for j in range(i + 1, len(benches)):
+            bj = benches[j]
+            if float(np.hypot(bi.x - bj.x, bi.y - bj.y)) <= radius_m:
+                near_jumps.append(abs(float(res[i] - res[j])))
+    sigma_pairs = (float(np.median(near_jumps)) / 0.9539) if near_jumps else sigma_global
+    if not np.isfinite(sigma_pairs) or sigma_pairs <= 0:
+        sigma_pairs = max(sigma_global, 1e-9)
+    gate = max(float(threshold_m), float(z_min * np.sqrt(2.0) * sigma_pairs))
+
+    n_near = n_res = n_borderline = 0
+    borderline: list[dict] = []
+    pairs: list[StepFlag] = []
     for i, bi in enumerate(benches):
         for j in range(i + 1, len(benches)):
             bj = benches[j]
             d = float(np.hypot(bi.x - bj.x, bi.y - bj.y))
             if d > radius_m:
                 continue
-            jump = float(residual[i] - residual[j])
+            n_near += 1
+            if d > max_pair_m:
+                continue
+            jump = float(res[i] - res[j])
             if abs(jump) < threshold_m:
                 continue
+            n_res += 1
+            if abs(jump) < gate:
+                n_borderline += 1
+                borderline.append({
+                    "x": 0.5 * (bi.x + bj.x), "y": 0.5 * (bi.y + bj.y),
+                    "jump_m": jump, "pair_distance_m": d,
+                    "z": abs(jump) / (np.sqrt(2.0) * max(sigma_pairs, 1e-9)),
+                })
+                continue
             az = float(np.degrees(np.arctan2(bj.x - bi.x, bj.y - bi.y)) % 180.0)
-            flags.append(
+            pairs.append(
                 StepFlag(
                     x=0.5 * (bi.x + bj.x), y=0.5 * (bi.y + bj.y),
                     residual_jump_m=jump, pair_distance_m=d, az_deg=az,
                     bench_a=i, bench_b=j,
                 )
             )
-    return flags
+    locs = _cluster_locations(pairs, cluster_m)
+    if stats is not None:
+        stats.update({
+            "robust_sigma_m_global_mad": round(sigma_global, 3),
+            "robust_sigma_m": round(sigma_pairs, 3),
+            "sigma_estimator": "median|jump| over pairs within radius_m, / 0.9539",
+            "z_min": z_min,
+            "significance_gate_m": round(gate, 3),
+            "significance_gate_if_global_mad_m": round(
+                max(float(threshold_m), z_min * np.sqrt(2.0) * max(sigma_global, 1e-9)), 3),
+            "resolution_gate_m": float(threshold_m),
+            "pairs_within_radius": n_near,
+            "pairs_clearing_resolution_gate": n_res,
+            "pairs_rejected_as_borderline": n_borderline,
+            "pairs_accepted": len(pairs),
+            "locations": len(locs),
+        })
+        # Worst-first, capped: the candidates a reader should see were REJECTED.
+        stats["borderline_candidates"] = sorted(
+            borderline, key=lambda f: -abs(f["jump_m"]))[:20]
+    return locs
+
+
+def _cluster_locations(pairs: list[StepFlag], cluster_m: float) -> list[StepFlag]:
+    """Merge flags that describe the SAME place into one location.
+
+    One datum offset shows up as many qualifying bench pairs, so a raw pair
+    count overstates the evidence: 43 pairs in this lane's first guarded run
+    collapsed to a handful of distinct places.  The brief asks for "a handful
+    of convincing" offsets, so the reported unit is a *location*: the pair with
+    the largest |jump| in a connected group, carrying the group's statistics.
+    """
+    if not pairs:
+        return []
+    parent = list(range(len(pairs)))
+
+    def find(a: int) -> int:
+        while parent[a] != a:
+            parent[a] = parent[parent[a]]
+            a = parent[a]
+        return a
+
+    def union(a: int, b: int) -> None:
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[rb] = ra
+
+    cells: dict[tuple[int, int], int] = {}
+    for k, f in enumerate(pairs):
+        key = (int(f.x // cluster_m), int(f.y // cluster_m))
+        for dr in (-1, 0, 1):
+            for dc in (-1, 0, 1):
+                other = cells.get((key[0] + dr, key[1] + dc))
+                if other is not None:
+                    g = pairs[other]
+                    if float(np.hypot(f.x - g.x, f.y - g.y)) <= cluster_m:
+                        union(k, other)
+        cells.setdefault(key, k)
+
+    groups: dict[int, list[int]] = {}
+    for k in range(len(pairs)):
+        groups.setdefault(find(k), []).append(k)
+
+    out: list[StepFlag] = []
+    for members in groups.values():
+        best = max(members, key=lambda k: abs(pairs[k].residual_jump_m))
+        f = pairs[best]
+        out.append(StepFlag(
+            x=f.x, y=f.y, residual_jump_m=f.residual_jump_m,
+            pair_distance_m=f.pair_distance_m, az_deg=f.az_deg,
+            bench_a=f.bench_a, bench_b=f.bench_b,
+            n_pairs=len(members),
+            cluster_jump_range_m=(float(min(pairs[k].residual_jump_m for k in members)),
+                                  float(max(pairs[k].residual_jump_m for k in members))),
+        ))
+    out.sort(key=lambda f: -abs(f.residual_jump_m))
+    return out
 
 
 def flag_deflections(
@@ -543,7 +713,39 @@ def flag_deflections(
                     bench_a=i, bench_b=j,
                 )
             )
-    return flags
+    # The same "one place, many pairs" accounting as the step detector: report
+    # locations, so a single bent shoreline is not counted four times.
+    if not flags:
+        return []
+    parent = list(range(len(flags)))
+
+    def find(a: int) -> int:
+        while parent[a] != a:
+            parent[a] = parent[parent[a]]
+            a = parent[a]
+        return a
+
+    for i in range(len(flags)):
+        for j in range(i + 1, len(flags)):
+            if float(np.hypot(flags[i].x - flags[j].x, flags[i].y - flags[j].y)) <= 3000.0:
+                ra, rb = find(i), find(j)
+                if ra != rb:
+                    parent[rb] = ra
+
+    groups: dict[int, list[int]] = {}
+    for k in range(len(flags)):
+        groups.setdefault(find(k), []).append(k)
+    out: list[DeflectionFlag] = []
+    for members in groups.values():
+        best = max(members, key=lambda k: flags[k].az_change_deg)
+        f = flags[best]
+        out.append(DeflectionFlag(
+            x=f.x, y=f.y, az_change_deg=f.az_change_deg, gap_m=f.gap_m,
+            az_in_deg=f.az_in_deg, az_out_deg=f.az_out_deg,
+            bench_a=f.bench_a, bench_b=f.bench_b, n_pairs=len(members),
+        ))
+    out.sort(key=lambda f: -f.az_change_deg)
+    return out
 
 
 def datum_offset_surface(
