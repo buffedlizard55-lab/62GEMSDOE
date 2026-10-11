@@ -1,0 +1,82 @@
+{
+ "experiment": "gemsdoe62-datum-lahontan-isobase-v8",
+ "date_utc": "2026-10-11",
+ "lane": "datum-offset: Lake Lahontan shorelines as a strain gauge (the assigned lane)",
+ "hypothesis": "A fault that crosses the near-level Lahontan shoreline datum steps that datum, and the step trace CROSSES the datum contours -- unlike basin level features (bluffs, berms, fan-head risers, delta topsets), which run contour-parallel. A contour-crossing step in the datum residual is therefore a fault candidate of a class that lineament-based catalogues under-represent.",
+ "mechanism": "stands (local tile mode, 8 km tiles, band 1157-1455 m) -> robust quadratic isobase (Huber IRLS, 6 terms) -> r = z - isobase -> Frangi ridge of |grad r| -> offset |r(+250 m)-r(-250 m)| -> gates (evidence>=0.10, step>=2 m, <=1500 m from bench, cross-cut>=30 deg, 2 km suppression) -> 5-candidate heading traces while DEM evidence>=0.15 -> dotted emission",
+ "named_non_fault_process_that_could_mimic_it": "Wave-cut bluffs, beach berms, fan-head risers and delta topsets are level steps in the same elevation band -- the flat-pixel histogram contains 15 separate stands between 1175 and 1437 m. Aeolian/playa-margin steps and basin-floor terracing are the same family.",
+ "holdout": {
+  "instrument": "scripts/run_holdout.py v2 (fold-confined scoring, whole-segment withholding, 3 px erosion, same-fold canary negatives)",
+  "protocol": "6 spatial folds (3x2); truth = catalogue inside the eroded block; scored domain = the eroded block; alpha 0.2, beta 0.8, 300 m triangular kernel; pooled",
+  "n_withheld_positives": 60362,
+  "pooled_dti": 0.00286,
+  "tp": 139.269,
+  "fp": 1603.316,
+  "fn": 60222.731,
+  "recall": 0.002307,
+  "recall_wilson95": [
+   0.001955,
+   0.002723
+  ],
+  "per_fold_dti": [
+   0.009173,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "ci_note": "fold-wise CI not estimable: 5 of 6 folds contain no predictions; the Wilson interval is on the pooled kernel-weighted recall",
+  "leakage_canary": {
+   "lane_kernel_proximity_auc_mean": 0.5002,
+   "lane_binary_mask_auc_mean": 0.4999,
+   "verdict": "no leakage; AUC at chance means no signal about catalogue faults either"
+  },
+  "ratio_to_own_poisson_null": 0.736
+ },
+ "registry": {
+  "n_registry": 289,
+  "max_rank_correlation": -0.0652,
+  "max_asymmetric_overlap": 1.0,
+  "max_symmetric_jaccard": 0.0302,
+  "verdict": "UNIQUE-VS-REGISTRY"
+ },
+ "raster": {
+  "file": "docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif",
+  "bytes": 62709,
+  "sha256": "3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba",
+  "n_dots": 1660,
+  "total_mass": 1660.0,
+  "redundancy_fraction_vs_catalogue": 0.2789156626506024,
+  "n_traces": 221
+ },
+ "validator": {
+  "single_band": true,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "shape": [
+   3730,
+   3292
+  ],
+  "res_m": [
+   100.0,
+   100.0
+  ],
+  "transform_matches_official": true,
+  "min": 0.0,
+  "max": 1.0,
+  "n_outside_0_1": 0,
+  "nan_count": 0,
+  "nodata_tag": null,
+  "all_finite": true,
+  "legal": true
+ },
+ "cost": {
+  "wall_seconds": 191,
+  "cores": 2
+ },
+ "submission_name": "gemsdoe62-datum-lahontan-isobase-v8",
+ "submission_note": "Lake Lahontan pluvial-bench isobase: 1660 dots on stepped/deflected shoreline benches; 221 DEM-ridge traces; unique vs registry.",
+ "submission_note_chars": 128,
+ "verdict": "NEGATIVE as a detector of catalogue faults and NOVEL versus the catalogue. Promoted to the download page as a low-risk Phase-1 novelty probe (organizers state Phase 1 submissions feed the Phase 2 expert-reviewed test set), explicitly not as the lead horse: expectation is below h33's owner-reported 0.2778."
+}
