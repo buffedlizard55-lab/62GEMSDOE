@@ -1,0 +1,26 @@
+# byte-level noise and sandbox caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynpy_cache/
+.venv/
+venv/
+.DS_Store
+
+# large derived rasters stay in the external cache, never in git
+*.npy
+*.npy.tmp
+/home/user/datacache/
+
+# scratch experiment output that is not an evidence artifact
+out/*.npy
+out/*.tmp
+*.swp
+
+# the submission raster, its receipt and the run card ARE deliverables:
+#   docs/downloads/*.tif, docs/downloads/*.zip, docs/downloads/*.json
+#   evidence/*.json, docs/assets/*.png
+# so nothing below is ignored on purpose
+# (a previous lane lost a submission because a wildcard swallowed docs/downloads)
