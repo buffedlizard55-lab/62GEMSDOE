@@ -10,6 +10,16 @@
 <nav><div class="w"><a href="index.html">Home</a><a href="executive-summary.html">How to submit</a><a href="analysis.html">Why 0.2778</a><a href="method.html">Method</a><a href="results.html">Results</a><a href="hypotheses.html">Hypotheses</a><a href="profiles.html">Shoreline profiles</a><a href="sources.html">Sources</a><a href="irregularities.html" class="on">Irregularities</a><a href="run-card.html">Run card</a><a href="limitations.html">Limitations</a><a href="leaderboard.html">Leaderboard</a></div></nav>
 <main><div class="w"><h2>Irregularities flagged for review</h2>
 <p>Everything found that does not behave as the brief, the organiser's documentation, or an earlier version of this code implied. Several are bugs this session found in its own first implementation; two are defects in the tasking protocol itself (<b>IR-62-HOLDOUT-01</b> and <b>IR-62-UNIQ-01</b>) and are the reason the artifact is marked <b>not validated for submission</b>. Each is listed with the measurement that exposed it and, where it is a code bug, the regression test that stops it returning.</p>
+<div class="card"><h3 style="margin-top:0"><code>IR-62-TRUNK-01</code>
+<span class="pill warn">medium -- pre-existing on main, not caused here</span>
+<span class="pill warn">open -- reported, deliberately not fixed from this lane</span></h3>
+<p><b>The repository root&#x27;s own test suite cannot be collected</b></p>
+<p>On a clean checkout of main, `pytest tests/` at the repository root aborts during collection with 2 errors and 0 tests run. `src/gems62/lahontan.py` line 50 does `from .grid import PIXEL_M`, but `src/gems62/grid.py` never defines `PIXEL_M` (it is used at lines 108 and 239 of lahontan.py). Separately `tests/test_metric.py` line 17 imports `brute_force_components` from `gems62.metric`, which that module does not define. This is why the `lane62-ci` GitHub Actions workflow reports failure.</p>
+<p class="small"><b>Evidence:</b> Reproduced here after merging origin/main: `pytest tests -q --collect-only` -&gt; &#x27;ImportError: cannot import name brute_force_components from gems62.metric&#x27;, &#x27;Interrupted: 2 errors during collection&#x27;, &#x27;no tests collected, 2 errors in 0.36s&#x27;. The same failure is visible on main BEFORE this branch merged: Actions run 38173668340 (workflow lane62-ci, on the PR #7 merge commit) completed with conclusion &#x27;failure&#x27;. Independently documented as IR-62-11 by the lane62/ session, which also declined to fix it from another lane.</p>
+<p class="small"><b>Resolution:</b> NOT fixed from this lane, following the convention lane62/ set: another session&#x27;s source tree at the repository root is theirs to repair, and two sessions silently editing the same module is how work gets clobbered. This lane&#x27;s own suite (lane62-h62a/tests, 41 tests) and its CI workflow both pass. Recorded here so the trunk&#x27;s red build is not mistaken for damage from this merge, and so whoever owns the root lane sees a second independent reproduction with the exact line numbers.</p>
+<p class="small"><b>Unblock:</b> In the root lane: define PIXEL_M = 100.0 in src/gems62/grid.py (it is the 100 m pixel size, already implied by the official transform), and either implement brute_force_components in src/gems62/metric.py or drop that import from tests/test_metric.py. Two-line fix, but it belongs to that lane&#x27;s author.</p>
+<p class="small"><b>Source for manual review:</b> <a href="https://github.com/buffedlizard55-lab/62GEMSDOE/actions/runs/38173668340">https://github.com/buffedlizard55-lab/62GEMSDOE/actions/runs/38173668340</a></p>
+</div>
 <div class="card"><h3 style="margin-top:0"><code>IR-62-HOLDOUT-01</code>
 <span class="pill no">CRITICAL -- invalidates the promotion gate</span>
 <span class="pill warn">open -- measured, not fixable inside this repository</span></h3>
@@ -110,7 +120,7 @@
 <p class="small"><b>Unblock:</b> 1 m lidar: a lateral offset of a shoreline bench is a metre-scale feature</p>
 
 </div></div></main>
-<footer><div class="w">Built 2026-10-11 21:24 UTC from
+<footer><div class="w">Built 2026-10-11 21:31 UTC from
 <code>evidence/*.json</code> by <code>scripts/build_site.py</code>. Every number on this site is
 labelled <b>HOLDOUT-DTI</b> or <b>ORGANIZER-CONFIRMED</b>. No projection is written as a score.
 <a href="../README.md">README</a> · <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">repository</a></div></footer>

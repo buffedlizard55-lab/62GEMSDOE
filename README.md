@@ -362,3 +362,14 @@ in places that file does not cover.
 
 **All three lanes therefore agree on the operative conclusion:** the format-legal artefact to spend
 a slot on is the v8 file at the root, and the local holdout must not be used as the promotion gate.
+
+One note on the trunk's build, so it is not misread as damage from this merge: `pytest tests/` at
+the repository root still cannot collect, and the `lane62-ci` workflow is red for that reason. This
+predates `lane62-h62a/` — Actions run
+[38173668340](https://github.com/buffedlizard55-lab/62GEMSDOE/actions/runs/38173668340) on the
+PR #7 merge commit already concluded `failure`. Reproduced independently here and recorded as
+`IR-62-TRUNK-01`: `src/gems62/lahontan.py:50` imports a `PIXEL_M` that `src/gems62/grid.py` never
+defines, and `tests/test_metric.py:17` imports a `brute_force_components` that
+`src/gems62/metric.py` never defines. Both are two-line fixes but belong to the root lane's author;
+`lane62/` reached the same conclusion and likewise did not touch it (`IR-62-11`). This lane's own
+suite — `pytest lane62-h62a/tests -q`, 41 tests — and its `ci` workflow are green.
