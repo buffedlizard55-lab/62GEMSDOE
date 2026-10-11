@@ -72,18 +72,26 @@ def curl_json(url: str, payload_path: pathlib.Path) -> tuple[int, dict | None]:
 
 
 def tnm_url_for_tile(tile: str, cache: pathlib.Path) -> tuple[str | None, dict]:
-    """Ask the authoritative TNM API for the 1/3 arc-second GeoTIFF covering `tile`."""
+    """Ask the authoritative TNM API for the 1/3 arc-second GeoTIFF covering `tile`.
+
+    Query strategy: a *tiny* bbox at the tile centre (0.005 deg), so every product that
+    contains that point is returned and the exact tile cannot be pushed off the result list
+    by neighbouring tiles.  With `max=1` in a coarse bbox the requested tile was missing from
+    the first page and the whole run silently produced an empty mosaic (receipt kept, so the
+    failure is visible) -- this is the fix for that defect.
+    """
     lat_n = int(tile.split("w")[0][1:])
     lon_w = int(tile.split("w")[1])
-    # exact 1x1 degree box of the requested tile (n<lat>w<lon> spans [lat-1,lat] x [-lon,-lon+1])
-    bbox = f"{-(lon_w):.6f},{lat_n - 1:.6f},{-(lon_w - 1):.6f},{lat_n:.6f}"
+    lat_c = lat_n - 0.5          # tile n<lat> spans [lat-1, lat]
+    lon_c = -(lon_w - 0.5)       # tile w<lon> spans [-lon, -lon+1]
+    bbox = f"{lon_c - 0.005:.6f},{lat_c - 0.005:.6f},{lon_c + 0.005:.6f},{lat_c + 0.005:.6f}"
     params = urllib.parse.urlencode({
         "datasets": NED_13, "bbox": bbox, "prodFormats": "GeoTIFF",
-        "max": "6", "outputFormat": "JSON",
+        "max": "30", "outputFormat": "JSON",
     })
     url = f"{TNM_API}?{params}"
     code, body = curl_json(url, cache)
-    rec = {"tile": tile, "api_url": url, "api_http": code,
+    rec = {"tile": tile, "bbox_deg": bbox, "api_url": url, "api_http": code,
            "api_total": (body or {}).get("total"), "candidates": []}
     if not body:
         return None, rec
@@ -92,13 +100,25 @@ def tnm_url_for_tile(tile: str, cache: pathlib.Path) -> tuple[str | None, dict]:
     for it in body.get("items", []):
         urls = [u for u in (it.get("downloadURL") or "").split(",") if u.strip()]
         for u in urls:
+            base = u.rsplit("/", 1)[-1]
             rec["candidates"].append({"title": it.get("title"), "url": u,
                                       "bytes": it.get("sizeInBytes"), "format": it.get("format")})
-            if want in u and u.endswith(".tif"):
+            if base.startswith(want) and base.endswith(".tif"):
                 # prefer the seamless "current" product over historical dated products
-                score = (0 if "/current/" in u else 1, 0 if not it.get("title", "").count(" 20") else 1)
+                score = (0 if "/current/" in u else 1,
+                         0 if base == f"{want}.tif" else 1)
                 if best is None or score < best[0]:
                     best = (score, u)
+    if best is None:
+        # documented static layout fallback, HTTP-checked before it is trusted
+        cand = (f"https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/"
+                f"current/{tile}/USGS_13_{tile}.tif")
+        r = subprocess.run(["curl", "-sS", "-o", "/dev/null", "-w", "%{http_code}",
+                            "--head", "--max-time", "60", cand], capture_output=True, text=True)
+        code2 = int(r.stdout.strip() or 0) if (r.stdout or "").strip().isdigit() else 0
+        rec["pattern_fallback"] = {"url": cand, "http_head": code2}
+        if code2 == 200:
+            return cand, rec
     return (best[1] if best else None), rec
 
 
@@ -115,28 +135,38 @@ def download(url: str, dest: pathlib.Path) -> dict:
     return out
 
 
-def reproject_to_grid(src_path: pathlib.Path, res: float, bounds: tuple[float, float, float, float]):
-    """Reproject one NED tile into the UTM 11N analysis grid at `res` m, aligned to the
-    competition grid origin (so res=25 nests 4x4 inside the official 100 m pixels)."""
+def reproject_tile_to_utm(src_path: pathlib.Path, res: float, roi: tuple[float, float]) -> tuple:
+    """Reproject one NED tile into UTM 11N at `res` m on a grid *snapped to the ROI origin*.
+
+    Returns (array, dst_transform, meta).  The snapped grid is what makes the county-sized
+    mosaic seamless: every tile lands on the same 25 m lattice as the ROI, so pasting is an
+    integer offset and there is no half-pixel seam that a scarp detector could mistake for a
+    fault step.
+    """
+    import math
+
     import rasterio
-    from rasterio.warp import calculate_default_transform, reproject, Resampling
+    from rasterio.warp import reproject, transform_bounds, Resampling
     from rasterio.transform import from_origin
 
-    x0, y0, x1, y1 = bounds
-    w = int(round((x1 - x0) / res))
-    h = int(round((y1 - y0) / res))
-    dst_transform = from_origin(x0, y1, res, res)
+    x0, y1 = roi
     with rasterio.open(src_path) as src:
+        left, bottom, right, top = transform_bounds(src.crs, GRID["crs"], *src.bounds,
+                                                    densify_pts=21)
+        tx0 = x0 + res * math.floor((left - x0) / res) - res
+        ty1 = y1 - res * math.floor((y1 - top) / res) + res
+        w = int(math.ceil((right - tx0) / res)) + 1
+        h = int(math.ceil((ty1 - bottom) / res)) + 1
+        dst_transform = from_origin(tx0, ty1, res, res)
         arr = np.full((h, w), np.nan, dtype=np.float32)
-        reproject(
-            source=rasterio.band(src, 1),
-            destination=arr,
-            src_transform=src.transform, src_crs=src.crs,
-            dst_transform=dst_transform, dst_crs=GRID["crs"],
-            resampling=Resampling.bilinear, dst_nodata=np.nan,
-        )
+        reproject(source=rasterio.band(src, 1), destination=arr,
+                  src_transform=src.transform, src_crs=src.crs,
+                  dst_transform=dst_transform, dst_crs=GRID["crs"],
+                  resampling=Resampling.bilinear, dst_nodata=np.nan)
         meta = {"src_crs": str(src.crs), "src_shape": [src.height, src.width],
-                "src_res": [abs(src.res[0]), abs(src.res[1])], "src_dtype": src.dtypes[0]}
+                "src_res": [abs(src.res[0]), abs(src.res[1])], "src_dtype": src.dtypes[0],
+                "dst_shape": [h, w], "dst_transform": list(dst_transform)[:6],
+                "utm_bounds": [left, bottom, right, top]}
     return arr, dst_transform, meta
 
 
@@ -207,16 +237,25 @@ def main() -> int:
             entry["status"] = "http-error"
             receipt["tiles"].append(entry); continue
         try:
-            arr, tr, meta = reproject_to_grid(raw, args.res, bounds)
+            arr, tr, meta = reproject_tile_to_utm(raw, args.res, (x0, y1))
+            tx0, ty1 = tr.c, tr.f
+            col0 = int(round((tx0 - x0) / args.res))
+            row0 = int(round((y1 - ty1) / args.res))
+            th, tw = arr.shape
+            r1, c1 = min(h, row0 + th), min(w, col0 + tw)
+            row0c, col0c = max(0, row0), max(0, col0)
+            sub = arr[row0c - row0:r1 - row0, col0c - col0:c1 - col0]
+            tgt = mosaic[row0c:r1, col0c:c1]
+            take = (~np.isfinite(tgt)) & np.isfinite(sub)
+            tgt[take] = sub[take]
             entry.update({"status": "ok", "src_meta": meta, "dst_shape": list(arr.shape),
-                          "dst_transform": list(tr)[:6]})
-            dmin = float(np.nanmin(arr)) if np.isfinite(arr).any() else None
-            dmax = float(np.nanmax(arr)) if np.isfinite(arr).any() else None
-            entry["z_min"] = dmin; entry["z_max"] = dmax
+                          "paste_row0": row0c, "paste_col0": col0c})
+            tile_vals = arr[np.isfinite(arr)]
+            entry["z_min"] = float(tile_vals.min()) if tile_vals.size else None
+            entry["z_max"] = float(tile_vals.max()) if tile_vals.size else None
             entry["valid_fraction"] = float(np.isfinite(arr).mean())
-            take = ~np.isfinite(mosaic) & np.isfinite(arr)
-            mosaic[take] = arr[take]
-            log(f"{tile}: ok {entry['download']['bytes']/1e6:.0f} MB -> {arr.shape} z=[{dmin:.0f},{dmax:.0f}]")
+            log(f"{tile}: ok {entry['download']['bytes']/1e6:.0f} MB -> {arr.shape} "
+                f"z=[{entry['z_min']:.0f},{entry['z_max']:.0f}] pasted=({row0c},{col0c})")
         except Exception as exc:
             entry["status"] = f"reproject-failed: {exc}"
             log(f"{tile}: reproject failed {exc}")
@@ -225,6 +264,10 @@ def main() -> int:
         receipt["tiles"].append(entry)
 
     valid = np.isfinite(mosaic)
+    if not valid.any():
+        log("FATAL: mosaic has zero valid cells -- no tile produced data; receipt written")
+        (out / "receipt.json").write_text(json.dumps(receipt, indent=1))
+        return 2
     receipt["mosaic"] = {"shape": [h, w], "valid_cells": int(valid.sum()),
                          "valid_fraction": float(valid.mean()),
                          "z_min": float(mosaic[valid].min()) if valid.any() else None,
