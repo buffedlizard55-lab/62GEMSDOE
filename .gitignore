@@ -1,8 +1,19 @@
-# ---- lane62 (independent re-derivation, arena/4e304372) --------------------
-# Large rasters are re-creatable and stay out of git:
-#   lane62/data/**          -> bash lane62/scripts/download_competition_data.sh
-#   *-nanoutside.tif        -> python3 lane62/scripts/make_variants.py
-#   plain_mask.npy          -> python3 lane62/scripts/run_lane.py
+# Large inputs are restored by scripts/fetch_3dep.py + .github/workflows/dem-fetch.yml, not committed.
+data/training_features.tif
+data/geodawn_dem_a2_100m.tif
+data/tmp_stack/
+*.part
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+build/
+
+# ---- lane62/ (independent re-derivation, arena/4e304372-62gemsdoe) ---------
+# Large rasters there are re-creatable and stay out of git:
+#   lane62/data/**       -> bash lane62/scripts/download_competition_data.sh
+#   *-nanoutside.tif     -> python3 lane62/scripts/make_variants.py
+#   plain_mask.npy       -> python3 lane62/scripts/run_lane.py
 lane62/data/**/*.tif
 lane62/data/**/*.npy
 lane62/evidence/plain_mask.npy

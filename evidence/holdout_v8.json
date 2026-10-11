@@ -1,0 +1,176 @@
+{
+ "emission": "v8.tif",
+ "emission_sha256": "3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba",
+ "protocol": {
+  "folds": 6,
+  "buffer_px": 3,
+  "truth": "visible catalogue",
+  "masking": "visible catalogue pixel-exact",
+  "alpha": 0.2,
+  "beta": 0.8,
+  "kernel_radius_px": 3.0
+ },
+ "pooled": {
+  "tp": 139.2691692919031,
+  "fp": 1603.3155854314705,
+  "fn": 60222.7308307081,
+  "dti": 0.0028633750240036407,
+  "n_truth": 60362,
+  "n_pred": 1660
+ },
+ "folds": [
+  {
+   "fold": [
+    0,
+    0
+   ],
+   "rows": [
+    0,
+    1243
+   ],
+   "cols": [
+    0,
+    1645
+   ],
+   "n_truth": 18548,
+   "n_pred": 1641,
+   "tp": 139.2691692919031,
+   "fp": 1584.3155854314705,
+   "fn": 18408.730830708097,
+   "dti": 0.009172633639184207,
+   "recall": 0.007508581480046533
+  },
+  {
+   "fold": [
+    0,
+    1
+   ],
+   "rows": [
+    0,
+    1243
+   ],
+   "cols": [
+    1645,
+    3291
+   ],
+   "n_truth": 11590,
+   "n_pred": 14,
+   "tp": 0.0,
+   "fp": 14.0,
+   "fn": 11590.0,
+   "dti": 0.0,
+   "recall": 0.0
+  },
+  {
+   "fold": [
+    1,
+    0
+   ],
+   "rows": [
+    1243,
+    2486
+   ],
+   "cols": [
+    0,
+    1645
+   ],
+   "n_truth": 15343,
+   "n_pred": 5,
+   "tp": 0.0,
+   "fp": 5.0,
+   "fn": 15343.0,
+   "dti": 0.0,
+   "recall": 0.0
+  },
+  {
+   "fold": [
+    1,
+    1
+   ],
+   "rows": [
+    1243,
+    2486
+   ],
+   "cols": [
+    1645,
+    3291
+   ],
+   "n_truth": 3297,
+   "n_pred": 0,
+   "tp": 0.0,
+   "fp": 0.0,
+   "fn": 3297.0,
+   "dti": 0.0,
+   "recall": 0.0
+  },
+  {
+   "fold": [
+    2,
+    0
+   ],
+   "rows": [
+    2486,
+    3730
+   ],
+   "cols": [
+    0,
+    1645
+   ],
+   "n_truth": 4505,
+   "n_pred": 0,
+   "tp": 0.0,
+   "fp": 0.0,
+   "fn": 4505.0,
+   "dti": 0.0,
+   "recall": 0.0
+  },
+  {
+   "fold": [
+    2,
+    1
+   ],
+   "rows": [
+    2486,
+    3730
+   ],
+   "cols": [
+    1645,
+    3291
+   ],
+   "n_truth": 7079,
+   "n_pred": 0,
+   "tp": 0.0,
+   "fp": 0.0,
+   "fn": 7079.0,
+   "dti": 0.0,
+   "recall": 0.0
+  }
+ ],
+ "canary": {
+  "lane_kernel_proximity": {
+   "auc_per_fold": [
+    0.5016392743666205,
+    0.49990465293668956,
+    0.49995175807363096,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "auc_mean": 0.5002492808961568,
+   "verdict": "ok"
+  },
+  "lane_binary_mask": {
+   "auc_per_fold": [
+    0.49952909487325586,
+    0.4999930233856114,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "auc_mean": 0.4999203530431446,
+   "verdict": "ok"
+  }
+ },
+ "note": "proxy instrument: truth is the visible catalogue, so a genuinely new fault cannot be rewarded here; a positive result licenses packaging, never a score claim"
+}

@@ -1,0 +1,165 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Executive summary — how to make a GEMS submission</title><link rel="stylesheet" href="assets/site.css"></head><body><header>
+  <span class="brand">62GEMSDOE · datum-offset lane</span>
+  <nav>
+    <a href="index.html" class="">Overview</a>
+    <a href="executive-summary.html" class="active">How to submit</a>
+    <a href="results.html">Prior results</a>
+    <a href="research/sources.html">Sources</a>
+    <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">GitHub</a>
+  </nav>
+</header>
+<main>
+<h1>Executive summary — exactly how to make a submission into the competition</h1>
+<p class="sub">Written so that someone who has never opened the competition can go from this page to a
+scored submission without reading any code.</p>
+
+<div class="dl">
+  <h2>⬇ The submission file, and whether to upload it</h2>
+  <p><b>OK TO DOWNLOAD</b> for inspection. &nbsp;
+     <span class="verdict v-no">NOT CLEARED TO SUBMIT — do not spend a weekly slot</span></p>
+  <a class="btn" href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">Download gems62-lahontan-isobase-99dots-zeros.tif</a>
+  <a class="btn sec" href="downloads/gems62-lahontan-isobase-99dots-nan.tif">NaN-outside twin</a>
+  <table>
+    <tr><th>sampled dots</th><td class="n">99</td></tr>
+    <tr><th>hard upper bound</th><td class="n"><b>0.0103</b> — with every dot placed perfectly (|G| = 12,000)</td></tr>
+    <tr><th>sha256</th><td class="mono">fc628410873f018d998ca60e0a00228c999aff035e2e9dc22ccd571a6e8c0348</td></tr>
+    <tr><th>format checks</th><td>PASS — and section 2 explains the "values must be in range [0, 1]" error</td></tr>
+  </table>
+  <p>Reason: a 99-dot file cannot beat the incumbent family even with flawless placement, because the
+  metric charges β = 0.8 per <i>missing</i> truth cell. Section 4 gives the mass and quality needed instead.
+  The artifact is still useful as Phase-2 evidence, and it is fully reproducible from this repository.</p>
+</div>
+
+<div class="card hi">
+<h2 style="border:0;margin-top:0;padding-top:0">The 60-second version</h2>
+<ol>
+  <li>Log in to <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">the competition data tab</a>
+      and accept the rules. Download <code>sample_submission.tif</code> — it defines the grid.</li>
+  <li>Produce a single-band float32 GeoTIFF that matches the grid exactly:
+      <b>EPSG 32611, 100 m, shape 3730 × 3292, transform</b>
+      <code>(100, 0, 243350, 0, −100, 4508550)</code>, values in <b>[0, 1]</b>, null/NaN outside the data bounds.</li>
+  <li>Open <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submit/">the submission form</a>,
+      <b>choose your file</b>, paste a short <b>Note</b> (&le; 140 characters so you can tell submissions apart later),
+      and press Submit. Uploading does not consume a slot until you confirm; a scored submission does.</li>
+  <li>Budget: <b>up to three scored submissions per week</b>. Spend them deliberately.</li>
+</ol>
+</div>
+
+<h2>1. The file the portal wants — the exact contract</h2>
+<p>Verbatim from the problem description, “# Submission format”:</p>
+<ul>
+  <li>“same projected coordinate reference system as the training data … <b>EPSG 32611</b>”</li>
+  <li>“same resolution … <b>100m</b>”</li>
+  <li>“same bounds as the training data, and <b>data outside the bounds is null or nan</b>”</li>
+  <li>“a single layer with datatype of <b>32-bit float (float32)</b> with values <b>between 0 and 1</b>”</li>
+</ul>
+<p>A single-band <code>.tif</code>, or a <code>.zip</code> containing one, is accepted.</p>
+
+<h2>2. The error you already hit, and why</h2>
+<div class="card">
+<p><b>“Predicted values must be in range [0, 1]”</b> — this is a range check that sees a value outside
+[0, 1]. The three common causes, in order:</p>
+<ol>
+  <li><b>A float32 nodata sentinel.</b> GeoTIFFs written by GIS tools often carry <code>-3.4028235e38</code>
+      (“−FLT_MAX”). It is a legitimate nodata marker but it is far outside [0, 1], and if the portal reads
+      it as data the check fails. <b>Fix:</b> write <code>nodata=None</code>, or use NaN.</li>
+  <li><b>A NaN nodata tag with NaN cells counted as data.</b> NaN fails any
+      <code>all(v &gt;= 0 and v &lt;= 1)</code> test. Five of the sibling repositories' artifacts are
+      NaN-outside; they are exactly the files that produced this error for the owner.</li>
+  <li><b>Genuine out-of-range data</b> — an unnormalised probability or a scaled integer.</li>
+</ol>
+<p><b>The safe pattern used here:</b> write every cell <i>outside</i> the survey footprint as a <b>finite
+0.0</b> with <code>nodata=None</code>, and every finite value in the footprint in [0, 1]. No sentinel, no NaN,
+nothing for a range check to trip on. This repository ships both encodings so you can choose:
+<code>-zeros.tif</code> (all finite) and <code>-nan.tif</code> (NaN outside, matching the page's wording literally).</p>
+</div>
+
+<h2>3. Which of our files to upload</h2>
+<div class="card">
+<p><span class="verdict v-no">DO NOT SUBMIT THIS WEEK</span></p>
+<p>The current artifact has a hard upper bound of <b>0.0103</b> —
+even if all 99 dots landed exactly on truth pixels — because the metric charges
+β = 0.8 per missing truth cell. Uploading it would spend one of three weekly slots on a file that cannot
+beat the incumbent family. It is <b>OK TO DOWNLOAD</b> and inspect, and it is useful Phase-2 evidence.</p>
+<a class="btn" href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">Download for inspection</a>
+<a class="btn sec" href="downloads/gems62-lahontan-isobase-99dots-nan.tif">NaN-outside twin</a>
+</div>
+
+<h2>4. What to upload instead — the numbers the metric demands</h2>
+<p>For unit-valued, non-overlapping dots the published index reduces to
+<code>DTI = c·N / (α·N + β·|G|)</code>. Clearing a target therefore has exactly two routes: more mass, or
+better placement. At a target of <b>0.3195</b>, with |G| = 12,000:</p>
+<table>
+  <tr><th>route</th><th class="n">requirement</th><th>what it means in practice</th></tr>
+  <tr><td>mass at the family's own placement quality</td><td class="n">46,402 dots at c = 0.130</td>
+      <td>emit ~46,000 dots, not 37–45 k, while keeping every dot's credit profile unchanged</td></tr>
+  <tr><td>placement quality at a moderate mass</td><td class="n">22,536 dots at c = 0.200</td>
+      <td>~22,500 dots each averaging within ~240 m of a truth pixel</td></tr>
+  <tr><td>fixed at 40,000 dots</td><td class="n">c ≥ 0.1406</td>
+      <td>a 15 % improvement in mean credit over the family's 0.122</td></tr>
+  <tr><td>fixed at 25,000 dots</td><td class="n">c ≥ 0.1866</td>
+      <td>a 53 % improvement in mean credit — the highest-leverage single change</td></tr>
+</table>
+<p>And the rule that decides whether one more dot is worth emitting — profitable iff its credit exceeds
+α·DTI, i.e. within <b>281 m</b> of a truth pixel at DTI = 0.3195. Dots beyond 300 m contribute
+nothing at all and cost α each.</p>
+<p class="sub">Label: <b>MODEL</b>. The model's own validity check: applied to the two owner-recorded rows of
+the family it reproduces 0.2778 to within 0.02 %. It is not a score and not a projection written as a score.
+For reference, a 225-dot file with flawless placement would score 0.0233.</p>
+
+<h2>5. The single most important rule the competition states</h2>
+<div class="card hi">
+<p>From the problem description: the test set is faults <b>“not included in the existing USGS fault
+database”</b>, and after the Initial prize round “<b>an expert panel will use submitted predictions to update
+fault labels for the full region</b>”, after which the same submissions are rescored:</p>
+<p style="color:var(--warn)">“Predictions that helped experts identify previously-unmapped faults can score
+higher here than in the Initial Prize Round.”</p>
+<p>Two consequences most entries miss:</p>
+<ol>
+  <li><b>The final round rewards defensible placements</b>, because a human panel decides which of your
+      locations become new labels. A blanket of dots that no geologist can confirm adds nothing there.</li>
+  <li><b>The initial round rewards mass geometry</b>, because the score is a weighted-count ratio in which
+      every emitted unit costs α = 0.2 and every missed truth cell costs β = 0.8.</li>
+</ol>
+<p>Those two pull in opposite directions. The winning play is the one that satisfies both: mass placed on
+structures an expert can independently confirm.</p>
+</div>
+
+<h2>6. Checklist before you press Submit</h2>
+<table>
+  <tr><th>#</th><th>check</th><th>how</th></tr>
+  <tr><td>1</td><td>single band, float32, EPSG:32611, shape (3730, 3292), exact transform</td><td><code>python -m gems62.validate</code> or a <code>rasterio</code> one-liner</td></tr>
+  <tr><td>2</td><td>no non-finite value inside the footprint</td><td><code>np.isfinite(a[foot]).all()</code></td></tr>
+  <tr><td>3</td><td>every finite value in [0, 1]</td><td><code>a[foot].min() &gt;= 0 and a[foot].max() &lt;= 1</code></td></tr>
+  <tr><td>4</td><td>no out-of-range nodata sentinel</td><td>the file's <code>nodata</code> must be <code>None</code> or NaN</td></tr>
+  <tr><td>5</td><td>unique vs every earlier raster you own — <b>both before placement (on the surface) and on the final dots</b></td><td>rank correlation &lt; 0.90 and dot overlap &lt; 70 %; <code>scripts/lane_check_surface.py</code> does the pre-placement half and <code>run_lane.py</code> records both</td></tr>
+  <tr><td>6</td><td>you know the file's hard upper bound before you spend the slot</td><td><code>gems62.score_model.perfect_placement_ceiling(n_dots)</code></td></tr>
+  <tr><td>7</td><td>a note under 140 characters that identifies this submission to you later</td><td>e.g. <code>gems62-lahontan-isobase-99dots</code></td></tr>
+</table>
+
+<h2>7. Things that will get a submission rejected or disqualified — not technical</h2>
+<ul>
+  <li><b>Eligibility.</b> The rules restrict entrants to U.S. citizens/permanent residents, U.S.-incorporated
+      entities and U.S. academics, with FFRDC/DOE/FCOC/MFTRP exclusions. Verify before entering.</li>
+  <li><b>Generative-AI disclosure.</b> Rule §3.2 requires a narrative statement of how generative AI was used,
+      including in submission elements.</li>
+  <li><b>External data licence.</b> Any external dataset must be licensed for use in the challenge and
+      shareable with the sponsor. USGS 3DEP and the GeoDAWN release are US Government works (public domain);
+      INGENIOUS/GDR 1391 is CC BY 4.0.</li>
+  <li><b>No automated leaderboard monitoring.</b> DrivenData's Terms of Use prohibit automated
+      monitoring/copying, and manual monitoring without written consent. This repository contains no scraper,
+      no feed and no monitor, and fetches no leaderboard page.</li>
+</ul>
+<p class="sub">Official links: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">competition</a> ·
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem description</a> ·
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/">about</a> ·
+<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">official rules (PDF)</a> ·
+<a href="https://github.com/drivendataorg/gems-prize-reference-solution">reference solution</a> ·
+<a href="https://epsg.io/32611">EPSG 32611</a> ·
+<a href="https://en.wikipedia.org/wiki/Tversky_index">Tversky index</a></p>
+</main>
+<footer>Local format checks are not organizer acceptance. Verify the portal's behaviour with your own upload.
+<a href="index.html">← Overview</a></footer>
+</body></html>
