@@ -1,0 +1,135 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Overview · 62GEMSDOE</title><link rel="stylesheet" href="assets/site.css">
+</head><body><header><div class="wrap"><strong>62GEMSDOE</strong> &nbsp;
+<small class="mut">Lake Lahontan shoreline datum-offset lane · DOE GEMS Prize</small>
+<div style="margin-top:9px"><nav><a href="index.html">Overview</a><a href="executive-summary.html">How to submit</a><a href="results.html">Results</a><a href="profiles.html">Profiles (deliverable 1)</a><a href="research.html">Research & hypotheses</a><a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a></nav></div></div></header>
+<main class="wrap">
+<h1>Lake Lahontan shorelines as a strain gauge</h1>
+<p class="mut">62GEMSDOE · one lane of a parallel DOE GEMS Prize effort · session
+2026-10-11 · branch <code>arena/4e304372-62gemsdoe</code></p>
+
+
+<div class="banner warn"><h3 style="margin-top:0">Answer to "is it OK to download and
+submit this file?" &nbsp;<span class="pill ok">DOWNLOAD: YES</span>
+<span class="pill warn">SUBMIT: LEGAL &amp; UNIQUE, BUT NOT RECOMMENDED</span></h3>
+<ul class="tight">
+<li><b>Download — yes.</b> The file is a valid GeoTIFF: single band, <code>float32</code>,
+EPSG:32611, 3730×3292, the sample submission's exact transform, every one of the
+12,279,160 cells finite, values in [0, 1], <b>no <code>nodata</code> tag</b>, zero
+positive mass outside the footprint, and <b>0 dots on the mapped catalogue</b>. The
+portal error <code>"Predicted values must be in range [0, 1]"</code> cannot occur for
+these bytes: 14/14 format checks pass on the re-read file
+(<a href="downloads/gems62-lahontan-datum-break-dotted-primary-zeros.json">receipt</a>).</li>
+<li><b>Uniqueness — unique under the informative reading.</b>
+321 of 508 registry comparators (from
+513 rasters across the group's public repositories) are
+<i>discriminating</i>, i.e. their 3 px dilation does not already cover the map; against
+those, the worst one-sided 3 px overlap is
+<b>0.4066</b>
+(<code>riftline-context-distance-20260925T011817Z-7b6010637a.tif</code>), against the
+0.70 limit. The heavy-overlap cases are <b>blankets, not shared lanes</b>: the largest
+one-sided overlap anywhere in the registry is 1.0000 against a raster that is positive on
+100 % of the footprint, and next
+<b>0.9416</b> against
+<code>gems61-lane-buried-step-gravinversion-hgm-r3-k400k-b2zeros.tif</code>, whose own 3 px dilation
+already covers 89.9 % of the map while sharing only
+6.65 % of our exact pixels (Jaccard
+0.0147). The <i>strict</i> reading is <b>not satisfiable by any
+file</b>: the top comparator has 5,167,373 positive
+pixels — the entire footprint — so every prediction scores 1.0 against it.
+<b>Copying test:</b> the largest exact pixel overlap with any <i>discriminating</i>
+comparator is <b>10.81 %</b> of our dots
+(<code>concordance_surface.tif</code>), i.e. these dots were not copied from a
+registry raster.</li>
+<li><b>Score — do not expect more than a few points.</b> On the independent
+off-catalogue truth the file reaches HOLDOUT-DTI <b>0.096746</b> and it beats a
+matched random control drawn from <i>its own spatial stratum</i> by only
+<b>+0.010418</b>. On the whole-catalogue holdout it
+<b>loses</b> to that control (0.027196 vs 0.048565).
+Its dots carry a mean credit of <b>0.0400</b> per dot, below
+the marginal bar of 0.0556 at the current family best —
+so the file is <b>not</b> a leaderboard play, and no weekly slot is recommended.</li>
+</ul></div>
+
+<h2>One-click submission file</h2>
+<div class="card">
+<p style="margin-top:0"><a class="dl"
+ href="downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif">⬇ Download gems62-lahontan-datum-break-dotted-primary-zeros.tif</a>
+&nbsp; <span class="mut">518,595 bytes ·
+sha256 <code>f58ae055030e5eddc3ec704d6958019be4220188efc03367e089baf024f32e59</code></span></p>
+<p style="margin-bottom:0"><b>Name to give the submission</b> (the competition asks for a
+unique name): <code>gems62-lahontan-datum-break-dotted-primary</code><br>
+<b>Note to paste into the form</b> (≤140 chars):
+<code>Lahontan highstand datum-offset lane: 86,968 dots on shoreline datum breaks,
+dotted 283 m, 0 on catalogue; UNSCORED</code></p>
+</div>
+<p class="mut">A second artefact exists for audit only and is
+<span class="pill bad">DO NOT SUBMIT</span> — see below.</p>
+
+<h2>The brief's questions, answered with measurements</h2>
+<div class="grid">
+<div class="card"><div class="k">0.4133</div><div>Public leaderboard #1 as read
+2026-10-11. The brief's 0.3195 and 0.3774 are <b>stale</b>; 0.2778 now sits at rank 23.</div></div>
+<div class="card"><div class="k">0.096746</div><div>HOLDOUT-DTI of the shipped file on
+independent off-catalogue truth (79,615 px). Not a score.</div></div>
+<div class="card"><div class="k">0.55×</div>
+<div>This lane's best mean credit per dot
+(0.161) over the best registered prior field's
+(0.293) on the <i>same</i> instrument. The lane
+<b>loses</b>.</div></div>
+<div class="card"><div class="k">3.57 m</div><div>RMS of the robust
+quadratic isobase fit to the highstand band (86 blocks of
+20×20 km).</div></div>
+</div>
+
+<h3>Why did the dotted H19-5 family score ~0.26, and why did thinning to 37,654 dots
+reach 0.2778?</h3>
+<p>The metric is a budget, and the identity
+<code>DTI = T / (0.2·T + 0.2·F + 0.8·K)</code> (K = withheld truth pixels) is exact. Every
+unit of prediction mass that is not the best cover of a truth pixel costs 0.2 and can earn
+at most 1. Thinning a thick surface while keeping its geometry removes mass that was
+<em>already</em> covered, raising credit per emitted pixel. Two independent routes to the
+break-even credit per dot: the metric algebra gives
+<code>α·s = 0.2 × 0.2778 = 0.0556</code>; the group
+measured ≈0.0548 empirically. This repository re-derives the bar from the published
+formulas and uses it as the selector on every candidate.</p>
+
+<h3>Can this lane beat 0.2778?</h3>
+<p><b>No, and the measurement that says so is the point of this session.</b> The lane's
+<i>most selective</i> dot class — one dot per flagged datum break — carries mean credit
+<b>0.161</b> per dot, well above
+the bar, but it is only ≈90 dots, which cannot move a denominator of
+0.8·K ≈ 6,300. At the mass end the credit per dot collapses
+(0.0401 at
+35,651 dots). Critically, the <i>same-instrument</i> control
+(<a href="results.html">Results</a>) shows a registered prior field reaching
+0.293 with 45,000 dots — roughly double this lane's best dot
+class <i>and</i> 500× the count. The lane is dominated; it does not get a slot.</p>
+
+<p class='mut'>profile data unavailable</p>
+
+<h2>The lane, in one paragraph</h2>
+<p>The Sehoo (Lahontan) highstand shoreline formed at 13,070 ± 60 <sup>14</sup>C yr B.P. =
+15,475 ± 720 cal yr B.P. on a near-level water plane (Adams &amp; Wesnousky 1998). Because
+it was level when formed, its present elevation about a smooth isobase is a <i>strain
+measurement</i>: a fault that breaks the datum produces a step or a lateral deflection in
+it. That is the mechanism this lane exploits — and it is also why the lane is small: the
+faults that offset the Lahontan shoreline are, for the most part, the ones already mapped
+(Pyramid Lake, Wassuk, Smith Valley), so the lane buys defensibility rather than area.</p>
+
+<h2>Second artefact — audit only</h2>
+<div class="banner bad"><b>gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif</b> (87 dots, sha256
+<code>0cb75334251abd7ef29565039cd13a50e60bafb12a35a257d8a4b0dbfb477edf</code>) is the lane's most conservative reading — one dot at
+each of the top 120 flagged breaks, mean credit
+0.120 per dot. It <b>fails</b> the uniqueness gate's informative
+leg: 0.9885 of its dots
+lie within 3 px of
+<code>gems41-h42-basinmargin-s4-n40000-20261006T015229Z-allfinite.tif</code>. Under the
+parallel-run protocol that is a logged duplicate, so it is published as evidence and
+<b>must not be submitted</b>.</div>
+</main>
+<footer><div class="wrap">Every number on this site is read from
+<code>evidence/*.json</code> at build time by <code>scripts/build_site.py</code>.
+Nothing here is an organizer score. Generated 2026-10-11T20:18:20Z.
+</div></footer></body></html>

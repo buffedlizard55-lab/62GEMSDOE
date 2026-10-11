@@ -1,0 +1,16 @@
+{
+ "rule": "AUC above 0.90 means leakage until proven otherwise.",
+ "truth": "instrument B",
+ "auc": {
+  "cross_max": 0.5863709289383569,
+  "upface_max": 0.579053325219646,
+  "step_max": 0.5555564279772687,
+  "curv_prof_absmax": 0.6913222633548752,
+  "hs_lineament": 0.7159857774493193,
+  "lidar_relief": 0.5724615461338054,
+  "neg_abs_zeta": 0.33111716311174577
+ },
+ "max_auc": 0.7159857774493193,
+ "verdict": "pass",
+ "evidence_class": "MEASURED"
+}

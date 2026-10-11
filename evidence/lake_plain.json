@@ -1,0 +1,7 @@
+{
+ "definition": "terrain at or below the fitted highstand isobase and no more than 400 m below it, morphologically cleaned and reduced to its largest connected component. This is the area inundated at the Sehoo highstand -- the datum's own footprint.",
+ "px": 929614,
+ "km2": 9296.1,
+ "n_components": 24,
+ "evidence_class": "MEASURED"
+}

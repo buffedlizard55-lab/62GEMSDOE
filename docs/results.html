@@ -1,0 +1,130 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Results · 62GEMSDOE</title><link rel="stylesheet" href="assets/site.css">
+</head><body><header><div class="wrap"><strong>62GEMSDOE</strong> &nbsp;
+<small class="mut">Lake Lahontan shoreline datum-offset lane · DOE GEMS Prize</small>
+<div style="margin-top:9px"><nav><a href="index.html">Overview</a><a href="executive-summary.html">How to submit</a><a href="results.html">Results</a><a href="profiles.html">Profiles (deliverable 1)</a><a href="research.html">Research & hypotheses</a><a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a></nav></div></div></header>
+<main class="wrap">
+<h1>Results</h1>
+<h2>Verdicts for the two artefacts (the parallel-run protocol's gates, applied)</h2>
+<table><tr><th>artefact</th><th>dots</th><th>gate verdict</th><th>one-sided 3 px overlap vs discriminating comparators (limit 0.70)</th><th>worst |ρ| (limit 0.90)</th><th>disposition</th></tr>
+<tr><td>gems62-lahontan-datum-break-dotted-primary-zeros.tif</td><td>86,968</td><td><b>UNIQUE</b></td><td>0.4066 (<code>riftline-context-distance-20260925T011817Z-7b6010637a.tif</code>)</td><td>0.0325</td><td>downloadable; <b>no weekly slot recommended</b> (score is below the bar at this mass)</td></tr>
+<tr><td>gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif</td><td>87</td><td><b>DUPLICATE</b></td><td>0.9885 (<code>gems41-h42-basinmargin-s4-n40000-20261006T015229Z-allfinite.tif</code>)</td><td>0.0178</td><td><b>DO NOT SUBMIT</b> — protocol-defined duplicate</td></tr></table>
+<p class="mut">Both rows use the same rule set and the same 508-comparator registry. The
+secondary's overlap is with a different lane's dot set, which is exactly the condition the
+protocol names as lane drift.</p>
+
+<p class="mut">Every figure below is MEASURED (reproducible from the pinned bytes) or
+HOLDOUT-DTI. None is an organizer score.</p>
+
+<h2>Instruments</h2>
+<table>
+<tr><th>instrument</th><th>truth</th><th>truth px</th><th>why it is here</th><th>its limit</th></tr>
+<tr><td><b>A</b> — catalogue-segment holdout</td><td>whole catalogue segments hidden by a
+2×2 spatial block, dilated by the 300 m kernel radius; visible catalogue masked
+pixel-exactly; pooled over the whole grid</td><td>369,289</td>
+<td>the protocol's stated instrument</td><td>IR-30-046: ranking by this proxy is
+<b>anti-correlated</b> with the public portal scores, because the portal's truth is faults
+<i>absent</i> from the catalogue and catalogue pixels earn nothing</td></tr>
+<tr><td><b>B</b> — independent off-catalogue</td><td>SGMC 1:750k state-map fault traces
+rasterised to this grid, minus the competition catalogue — i.e. "mapped but not
+catalogued", the class the competition scores</td><td>79,615</td>
+<td>an independent compilation not used by the organizer</td><td>1:750k generalisation is
+coarse, and it is still not the organizer's private expert set</td></tr>
+<tr><td><b>B′</b> — mass-matched</td><td>B subsampled to the 7,905 px
+inferred hidden test mass, 10 independent draws</td><td>7,905</td>
+<td>corrects B's 10.07× mass bias, which would otherwise push the budget too high</td>
+<td>the 7,905 px figure is a MODEL, the group's published inference from
+the 0.2778 file</td></tr>
+</table>
+
+<h2>The shipped primary</h2>
+<div class="card">
+<p><b>gems62-lahontan-datum-break-dotted-primary-zeros.tif</b> — 86,968 dots, sha256 <code>f58ae055030e5eddc3ec704d6958019be4220188efc03367e089baf024f32e59</code></p>
+<table>
+<tr><th>quantity</th><th>value</th><th>class</th></tr>
+<tr><td>HOLDOUT-DTI, instrument A (catalogue-segment holdout)</td>
+<td>0.027196 &nbsp; 95% CI 0.026848–0.027535</td>
+<td>HOLDOUT-DTI</td></tr>
+<tr><td>same-stratum random control, same dot count (5 draws)</td>
+<td>0.048565</td><td>MEASURED control</td></tr>
+<tr><td><b>edge, instrument A</b></td><td><b>-0.021369</b> (loses)</td>
+<td>MEASURED</td></tr>
+<tr><td>HOLDOUT-DTI, instrument B (SGMC off-catalogue)</td><td>0.096746</td>
+<td>HOLDOUT-DTI</td></tr>
+<tr><td>same-stratum random control, instrument B</td><td>0.086328</td>
+<td>MEASURED control</td></tr>
+<tr><td><b>edge, instrument B</b></td><td><b>+0.010418</b></td>
+<td>MEASURED</td></tr>
+<tr><td>HOLDOUT-DTI, instrument B′ (mass-matched)</td>
+<td>0.032842</td><td>HOLDOUT-DTI</td></tr>
+<tr><td>same-stratum random control, instrument B′</td>
+<td>0.029129</td><td>MEASURED control</td></tr>
+<tr><td><b>edge, instrument B′</b></td><td><b>+0.003713</b></td>
+<td>MEASURED</td></tr>
+<tr><td>mean realised credit per dot (instrument B)</td>
+<td>0.0400 (median 0.0000)</td>
+<td>MEASURED</td></tr>
+<tr><td>marginal bar α·s at s = 0.2778</td>
+<td>0.0556</td><td>DERIVED from the published formula</td></tr>
+<tr><td>share of dots clearing that bar</td>
+<td>0.076</td><td>MEASURED</td></tr>
+</table>
+<p class="mut">The median credit of 0 is the honest headline: most emitted dots land
+nowhere near an independent fault; the mean survives only because a minority land on one.
+That variance is why the same-stratum control is the right comparator rather than a
+random-over-the-map one.</p>
+</div>
+
+<h2>Selection sweep (the rule was fixed before the numbers)</h2>
+<p>Product form is fixed by the lane brief: dot trains through flagged datum breaks,
+thinned to 282.8 m spacing, pruned 3 px off the catalogue. Within that form the budget was
+chosen by argmax of mean DTI on B′.</p>
+<table><tr><th>top-ranked flags used</th><th>half-length (px)</th><th>dots</th><th>DTI (B)</th><th>DTI (B′)</th><th>mean credit/dot</th></tr><tr><td>3552</td><td>20</td><td>25439</td><td>0.035664441862319325</td><td>0.021243463392318446</td><td>0.04153679227257263</td></tr><tr><td>3552</td><td>30</td><td>35651</td><td>0.04635535110403971</td><td>0.024109551791810048</td><td>0.04014630846887837</td></tr><tr><td>3552</td><td>45</td><td>49909</td><td>0.06157477645177956</td><td>0.027586733416451216</td><td>0.03957042751151019</td></tr><tr><td>3552</td><td>60</td><td>63108</td><td>0.07451444121334203</td><td>0.029536077715066535</td><td>0.039447511856359294</td></tr><tr><td>3552</td><td>90</td><td>86968</td><td>0.09674616479345947</td><td>0.03284233518636465</td><td>0.039966848578051016</td></tr><tr><td>2000</td><td>45</td><td>28888</td><td>0.03557276384630946</td><td>0.019904666214494864</td><td>0.03585634505720508</td></tr></table>
+<p class="mut">Note the trap this exposes: <b>B′ rises monotonically all the way to the
+largest budget tested</b>, because adding mass to a small-DTI file always helps while the
+marginal dot's credit stays above a tiny bar. The selector alone would therefore have
+grown the file without limit; the uniqueness gate and the lane's own "emit dotted lines /
+only the convincing ones" instruction are what actually bound it.</p>
+
+<h2>Why the lane does not get a slot — the same-instrument control</h2>
+<p>An absolute mean credit is meaningless; only a comparison on the same truth can decide.
+Reusing the group's own prior submissions <b>for learning only</b> as a comparison set:</p>
+<table><tr><th>registry raster (learning-only comparator)</th><th>dots</th><th>mean credit/dot (instrument B)</th></tr><tr><td>gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif</td><td>45000</td><td>0.292941827420781</td></tr><tr><td>gemsdoe31-add-arm-d28-20261004-8acb75e1-allfinite.tif</td><td>55304</td><td>0.10503138633266866</td></tr><tr><td>gemsdoe31-add-arm-d28-20261004-8acb75e1-nan.tif</td><td>55304</td><td>0.10503138633266866</td></tr><tr><td>gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</td><td>44090</td><td>0.09891666376188589</td></tr><tr><td>gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif</td><td>44090</td><td>0.09891666376188589</td></tr><tr><td>gems29-refd28-repro-20261003-1cc7dc534d51-nan.tif</td><td>44090</td><td>0.09891666376188589</td></tr><tr><td>gems29-refd28-repro-20261003-1cc7dc534d51-zeros.tif</td><td>44090</td><td>0.09891666376188589</td></tr><tr><td>gemsdoe29-historical-d28-20261002-e56ea318af89-nan.tif</td><td>44090</td><td>0.09891666376188589</td></tr></table>
+<p>The lane's most selective dot class reaches
+0.161 per dot on
+88 dots. The best registered field reaches
+0.293 per dot on
+45,000 dots — <b>roughly double the credit density and
+500× the count</b>, i.e. it dominates this lane on both axes of the metric. Ratio
+lane/best-champion = 0.550.</p>
+<div class="banner warn"><b>Forward lead for the selector, from the same measurement.</b>
+The registry raster with the highest mean credit per dot on instrument B is
+<code>gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif</code>
+(0.293), roughly 3× the 0.2778
+family's own dots. If instrument B predicts the portal at all, that family is where this
+group's remaining headroom sits — not here.</div>
+
+<h2>Economics (experiment 3)</h2>
+<table><tr><th>flags used</th><th>half-length</th><th>dots</th><th>mean credit/dot</th><th>share clearing bar</th><th>DTI (B)</th></tr><tr><td>50</td><td>4</td><td>87</td><td>0.15695380133822556</td><td>0.3103448275862069</td><td>0.0006211824560898369</td></tr><tr><td>50</td><td>9</td><td>186</td><td>0.14517477566315184</td><td>0.26881720430107525</td><td>0.0012782520001092814</td></tr><tr><td>50</td><td>16</td><td>314</td><td>0.14005062632264134</td><td>0.25796178343949044</td><td>0.0019965481085185838</td></tr><tr><td>50</td><td>30</td><td>573</td><td>0.11579850628902809</td><td>0.2198952879581152</td><td>0.0029892895897072123</td></tr><tr><td>200</td><td>4</td><td>400</td><td>0.11918833396390902</td><td>0.2375</td><td>0.001884502335097681</td></tr><tr><td>200</td><td>9</td><td>772</td><td>0.1014325046595322</td><td>0.19430051813471502</td><td>0.0031261351933620117</td></tr><tr><td>200</td><td>16</td><td>1297</td><td>0.08717990277024312</td><td>0.16730917501927525</td><td>0.004547919229402046</td></tr><tr><td>200</td><td>30</td><td>2311</td><td>0.0765481848667369</td><td>0.14322803980960624</td><td>0.007166801273569656</td></tr><tr><td>600</td><td>4</td><td>1210</td><td>0.0880662178021406</td><td>0.16859504132231404</td><td>0.004156104837456473</td></tr><tr><td>600</td><td>9</td><td>2227</td><td>0.07575193421783417</td><td>0.14414009878760664</td><td>0.006624735281289484</td></tr><tr><td>600</td><td>16</td><td>3725</td><td>0.0652501478612839</td><td>0.12778523489932886</td><td>0.009361236796097345</td></tr><tr><td>600</td><td>30</td><td>6550</td><td>0.05791433716273137</td><td>0.11206106870229007</td><td>0.01436171935803441</td></tr><tr><td>1200</td><td>4</td><td>2520</td><td>0.060519606586453424</td><td>0.11785714285714285</td><td>0.005899700590618611</td></tr><tr><td>1200</td><td>9</td><td>4558</td><td>0.05365580659518816</td><td>0.10530934620447564</td><td>0.009405098167245515</td></tr><tr><td>1200</td><td>16</td><td>7320</td><td>0.04873442696957122</td><td>0.09644808743169399</td><td>0.013336983327591883</td></tr><tr><td>1200</td><td>30</td><td>12614</td><td>0.04419637476208465</td><td>0.08641192325986999</td><td>0.020453080674986697</td></tr><tr><td>2000</td><td>4</td><td>4307</td><td>0.04599249308818184</td><td>0.0907824471790109</td><td>0.007547424277009892</td></tr><tr><td>2000</td><td>9</td><td>7528</td><td>0.04222548377582885</td><td>0.08262486716259299</td><td>0.011897949349225891</td></tr><tr><td>2000</td><td>16</td><td>11891</td><td>0.04002258237351907</td><td>0.07778992515347742</td><td>0.017348496583826218</td></tr><tr><td>2000</td><td>30</td><td>20184</td><td>0.03677434948883644</td><td>0.0714922711058264</td><td>0.026273709021922966</td></tr><tr><td>3552</td><td>4</td><td>7798</td><td>0.04173077013823498</td><td>0.0843806104129264</td><td>0.012049798446658901</td></tr><tr><td>3552</td><td>9</td><td>13641</td><td>0.04106743330532564</td><td>0.08166556704053955</td><td>0.01976766604947289</td></tr><tr><td>3552</td><td>16</td><td>21154</td><td>0.040862456112677706</td><td>0.08003214522076203</td><td>0.029713240714167297</td></tr><tr><td>3552</td><td>30</td><td>35651</td><td>0.04014630846887837</td><td>0.07783792880985106</td><td>0.04635535110403971</td></tr></table>
+
+<h2>Leakage canary</h2>
+<p>Rule: a single feature reaching AUC &gt; 0.90 against the holdout truth is leakage until
+proven otherwise. Maximum here is <b>0.7160</b> — <b>pass</b>.</p>
+<table><tr><th>feature</th><th>AUC vs instrument B</th></tr><tr><td>hs_lineament</td><td>0.7159857774493193</td></tr><tr><td>curv_prof_absmax</td><td>0.6913222633548752</td></tr><tr><td>cross_max</td><td>0.5863709289383569</td></tr><tr><td>upface_max</td><td>0.579053325219646</td></tr><tr><td>lidar_relief</td><td>0.5724615461338054</td></tr><tr><td>step_max</td><td>0.5555564279772687</td></tr><tr><td>neg_abs_zeta</td><td>0.33111716311174577</td></tr></table>
+
+<h2>Uniqueness gate</h2>
+<table><tr><th>comparator</th><th>positives</th><th>3 px dilation coverage</th><th>one-sided 3 px overlap</th><th>Jaccard</th></tr><tr><td>17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif</td><td>5167373</td><td>1.0</td><td>1.0</td><td>0.016830215275731013</td></tr><tr><td>gems61-lane-buried-step-gravinversion-hgm-r3-k400k-b2zeros.tif</td><td>311617</td><td>0.8990697981353388</td><td>0.9415532149756232</td><td>0.014717263571654057</td></tr><tr><td>13gems_20261001_r13-lattice-s5_v2_nan-outside.tif</td><td>206895</td><td>1.0</td><td>0.8388717689265017</td><td>0.01243044908787101</td></tr><tr><td>13gems_20261001_r13-lattice-s5_v2_zerofill.tif</td><td>206895</td><td>1.0</td><td>0.8388717689265017</td><td>0.01243044908787101</td></tr><tr><td>session7-superseded-13gems_20261001_r13-lattice-s5_A_zerofill.tif</td><td>206895</td><td>1.0</td><td>0.8388717689265017</td><td>0.01243044908787101</td></tr><tr><td>session7-superseded-13gems_20261001_r13-lattice-s5_B_nan-outside.tif</td><td>206895</td><td>1.0</td><td>0.8388717689265017</td><td>0.01243044908787101</td></tr><tr><td>latest.tif</td><td>206895</td><td>1.0</td><td>0.8388717689265017</td><td>0.01243044908787101</td></tr><tr><td>latest_zerofill.tif</td><td>206895</td><td>1.0</td><td>0.8388717689265017</td><td>0.01243044908787101</td></tr><tr><td>gems-cleanup-a-20260928T195952Z-curv_scarp.tif</td><td>362327</td><td>0.851023527815778</td><td>0.8297534725416245</td><td>0.014615320342439304</td></tr><tr><td>13gems-composite-20260929T183221Z.tif</td><td>507776</td><td>0.8191409832423554</td><td>0.7985235948854751</td><td>0.013689851238767913</td></tr><tr><td>13gems-composite-20260929T183221Z_allfinite.tif</td><td>507776</td><td>0.8191409832423554</td><td>0.7985235948854751</td><td>0.013689851238767913</td></tr><tr><td>tensor-continuous-1875224px-20261009T202053Z-nan.tif</td><td>1875224</td><td>0.7535525304637385</td><td>0.7860707386624965</td><td>0.017464241861082534</td></tr></table>
+<p>Verdict <b>UNIQUE</b>: the informative leg is
+0.4066 over
+321 discriminating comparators (limit 0.70), and the correlation
+leg is passing. The strict leg is
+<b>degenerate</b>: 17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif carries
+5,167,373 positives, its 3 px dilation covers
+1.000 of the footprint, and any file
+therefore scores 1.0 against it.</p>
+</main>
+<footer><div class="wrap">Every number on this site is read from
+<code>evidence/*.json</code> at build time by <code>scripts/build_site.py</code>.
+Nothing here is an organizer score. Generated 2026-10-11T20:18:20Z.
+</div></footer></body></html>

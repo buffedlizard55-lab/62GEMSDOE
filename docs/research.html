@@ -1,0 +1,105 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Research · 62GEMSDOE</title><link rel="stylesheet" href="assets/site.css">
+</head><body><header><div class="wrap"><strong>62GEMSDOE</strong> &nbsp;
+<small class="mut">Lake Lahontan shoreline datum-offset lane · DOE GEMS Prize</small>
+<div style="margin-top:9px"><nav><a href="index.html">Overview</a><a href="executive-summary.html">How to submit</a><a href="results.html">Results</a><a href="profiles.html">Profiles (deliverable 1)</a><a href="research.html">Research & hypotheses</a><a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a></nav></div></div></header>
+<main class="wrap">
+<h1>Research &amp; hypotheses</h1>
+<p class="mut">Five candidate geological hypotheses, each naming the layers, the physical
+signature, why it should catch a fault the catalogue misses, and how it differs from
+anything already implemented — ranked by expected metric improvement and implementation
+cost. None is validated unless the evidence column says so.</p>
+
+<h2>The lane's mechanism, and its ceiling</h2>
+<p>The Sehoo highstand shoreline is a near-level datum (15,475 ± 720 cal yr B.P.). Its
+present elevation about a smooth isobase is a strain measurement, and a fault that breaks
+it leaves a step or a lateral deflection. Verified literature, with links on
+<a href="sources.html">Sources</a>:</p>
+<ul class="tight">
+<li>Briggs &amp; Wesnousky 2004, JGR 109 B08402: the Pyramid Lake fault zone offsets
+post-Lahontan surfaces, ≥4 surface ruptures since desiccation, 2.6 ± 0.3 mm/yr right-lateral.</li>
+<li>Dong et al. 2014, Geosphere 10(1) 40–48: a strike-slip fault <i>outboard</i> of the
+Wassuk Range front right-laterally displaces Lahontan recessional shorelines 13.5–13.9 m.</li>
+<li>Pierce, Wesnousky &amp; Owen 2016, SCEC poster #097: lidar reveals two previously
+unmapped NW-striking fault segments near the centre of Smith Valley that offset Holocene
+sediments.</li>
+<li>Adams, Wesnousky &amp; Bills 1999; Adams et al. 2008: the highstand shoreline runs
+~1,340 m near the basin centre to ~1,318 m at the northern edge — post-pluvial isostatic
+rebound and northward tilting.</li>
+</ul>
+<p><b>The ceiling is structural, not an implementation defect.</b> The faults that offset
+the Lahontan shoreline are largely the ones already mapped, and the organizer masks
+catalogue pixels out of scoring entirely. So the lane's honest scope is the handful of
+<i>unmapped</i> breaks, exactly as its brief anticipated ("if only a handful are
+convincing, emit only those"). This session measured that handful and found it does not
+carry a leaderboard score.</p>
+
+<h2>Ranked hypotheses</h2>
+<div class="card"><h3 style="margin-top:0">H62-A — Datum-break dot trains (THIS SESSION&#x27;S PRODUCT)</h3>
+<table>
+<tr><th style="width:210px">layer(s)</th><td>GeoDAWN 100 m DEM (absolute elevation); fitted quadratic isobase; DEM-ridge evidence E = 0.30·cross_max + 0.20·upface_max + 0.20·step_max + 0.20·curv_prof_absmax + 0.10·hs_lineament</td></tr>
+<tr><th>physical signature</th><td>Along-trace change in the datum residual ζ = z − isobase (vertical_step) and change of trace heading (lateral_deflection)</td></tr>
+<tr><th>why it beats the catalogue</th><td>A fault not in the catalogue still cuts the datum; the flag is where. Because the catalogue is masked, only off-catalogue flags can score.</td></tr>
+<tr><th>differs from what exists how</th><td>catalogue-masked emission with 3 px prune; 86,968 dots; still only +0.010418 over a same-stratum control</td></tr>
+<tr><th>validation status</th><td>HOLDOUT-DTI A 0.027196 (CI 0.026848–0.027535), B 0.096746, B′ 0.032842</td></tr>
+<tr><th>implementation cost</th><td>low</td></tr>
+<tr><th>verdict</th><td><b>NEGATIVE for a slot (dominated on the same instrument); unique, format-valid, delivered</b></td></tr>
+</table></div><div class="card"><h3 style="margin-top:0">H62-B — Per-flag credit gating with an independent compilation as the screen</h3>
+<table>
+<tr><th style="width:210px">layer(s)</th><td>the same flag set, screened by agreement between two independent compilations (SGMC 1:750k state map; the group&#x27;s own derived fault rasters) before emission</td></tr>
+<tr><th>physical signature</th><td>Only flags where two compilations both miss a mapped trace can be candidates for a genuinely new fault</td></tr>
+<tr><th>why it beats the catalogue</th><td>Directly targets the scoreable class (mapped-but-not-catalogued or unmapped), unlike the catalogue proxy</td></tr>
+<tr><th>differs from what exists how</th><td>none yet</td></tr>
+<tr><th>validation status</th><td>not run — this session's budget of 3 experiments was spent on the lane's own product</td></tr>
+<tr><th>implementation cost</th><td>low (reuses this session&#x27;s flag set and the registry already downloaded)</td></tr>
+<tr><th>verdict</th><td><b>ranked highest of the untested ideas; requires no new external data</b></td></tr>
+</table></div><div class="card"><h3 style="margin-top:0">H62-C — Rebound-corrected isobase from an external geoid/rebound model</h3>
+<table>
+<tr><th style="width:210px">layer(s)</th><td>DEM + a published isostatic-rebound or geoid model for the Lahontan basin (e.g. the viscosity models of Bills, Adams &amp; Wesnousky)</td></tr>
+<tr><th>physical signature</th><td>Residual after removing a physically-modelled rebound surface rather than a fitted quadratic</td></tr>
+<tr><th>why it beats the catalogue</th><td>A real rebound model has structure the quadratic cannot express, so the residual is closer to pure tectonic signal; it would also repair IR-62-03</td></tr>
+<tr><th>differs from what exists how</th><td>none</td></tr>
+<tr><th>validation status</th><td>not run</td></tr>
+<tr><th>implementation cost</th><td>medium — needs a published model grid, or the ability to evaluate one of the group&#x27;s published viscosity profiles for the basin</td></tr>
+<tr><th>verdict</th><td><b>viable without new &lt;i&gt;data&lt;/i&gt; only if a model grid is obtainable; otherwise blocked (see next-steps)</b></td></tr>
+</table></div><div class="card"><h3 style="margin-top:0">H62-D — Shoreline zone as a mask for other lanes&#x27; fields, at higher density</h3>
+<table>
+<tr><th style="width:210px">layer(s)</th><td>any high-credit field (e.g. the registry&#x27;s best-credit raster) restricted to the shoreline zone, thinned at the measured optimum</td></tr>
+<tr><th>physical signature</th><td>Reuse of an existing detector, restricted to where the datum exists</td></tr>
+<tr><th>why it beats the catalogue</th><td>The datum is a physical reason to believe a fault would be expressed; restricting a good detector to it raises precision</td></tr>
+<tr><th>differs from what exists how</th><td>would inherit the source field&#x27;s catalogue fit</td></tr>
+<tr><th>validation status</th><td>not run</td></tr>
+<tr><th>implementation cost</th><td>low</td></tr>
+<tr><th>verdict</th><td><b>this is essentially &#x27;graft&#x27;, and the same-instrument measurement above says the source field already dominates the lane, so restricting it is unlikely to raise its own credit; deprioritised</b></td></tr>
+</table></div><div class="card"><h3 style="margin-top:0">H62-E — 1 m lidar shoreline pick over the full pluvial margin</h3>
+<table>
+<tr><th style="width:210px">layer(s)</th><td>USGS 3DEP 1 m lidar DEM (public domain) over the Lahontan shoreline; the competition&#x27;s own 1m_DEM_links.csv points at these tiles</td></tr>
+<tr><th>physical signature</th><td>Direct metre-scale pick of the constructional berms instead of a 100 m proxy</td></tr>
+<tr><th>why it beats the catalogue</th><td>This is the only way to fix the lane&#x27;s core defect: at 100 m the shoreline is sub-pixel, which is why the median per-dot credit is 0</td></tr>
+<tr><th>differs from what exists how</th><td>n/a</td></tr>
+<tr><th>validation status</th><td>not run</td></tr>
+<tr><th>implementation cost</th><td>high — needs the 1 m DEM tiles and reprojection to the 100 m grid, and the sandbox cannot reach the USGS 3DEP endpoints (verified 2026-10-11: TLS unreachable)</td></tr>
+<tr><th>verdict</th><td><b>blocked on network access; named source: USGS 3DEP / The National Map, public domain</b></td></tr>
+</table></div>
+<h2>Why the top-ranked candidate was not built here</h2>
+<p>The parallel-run protocol caps this session at <b>3 experiments</b>. They were:
+(1) the lane's own product and its holdout, (2) the selectivity sweep, (3) the emission
+economics. H62-B is the highest-value untested idea and is handed forward with the flag set
+already on disk (<code>evidence/profiles.json</code>) and the registry already downloaded
+(<code>~/.cache/gems62_registry</code>, rebuilt by <code>scripts/build_registry.sh</code>).</p>
+
+<h2>What would have to be true for this lane to win a slot</h2>
+<ol>
+<li>A metre-scale pick of the berms (H62-E), because at 100 m the shoreline is sub-pixel
+and the per-dot credit collapses.</li>
+<li>Or a per-flag screen that raises precision enough to clear the marginal bar α·s ≈
+0.0556 per dot at a useful dot count — H62-B is the test.</li>
+<li>Or a rebound model good enough that the residual is tectonic rather than fitted —
+H62-C.</li>
+</ol>
+</main>
+<footer><div class="wrap">Every number on this site is read from
+<code>evidence/*.json</code> at build time by <code>scripts/build_site.py</code>.
+Nothing here is an organizer score. Generated 2026-10-11T20:18:20Z.
+</div></footer></body></html>

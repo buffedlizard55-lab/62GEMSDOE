@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+*.egg-info/
+# Large rasters are re-creatable and stay out of git:
+#   data/**          -> bash scripts/download_competition_data.sh
+#   -nanoutside.tif  -> python3 scripts/make_variants.py
+#   plain_mask.npy   -> python3 scripts/run_lane.py
+data/**/*.tif
+data/**/*.npy
+evidence/plain_mask.npy
+docs/downloads/*-nanoutside.tif

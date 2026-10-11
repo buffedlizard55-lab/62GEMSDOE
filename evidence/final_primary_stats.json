@@ -1,0 +1,37 @@
+{
+ "n_dots": 86968,
+ "instrumentA": {
+  "tp": 8541.368909078614,
+  "fp": 84650.9652469821,
+  "fn": 360747.6310909214,
+  "n_truth": 369289,
+  "n_predicted": 86968,
+  "dti": 0.02719577791531498,
+  "coverage": 0.023129226456998758
+ },
+ "instrumentA_ci95": [
+  0.028097692982777103,
+  0.02881930479011156
+ ],
+ "n_truth_A": 369289,
+ "instrumentB": {
+  "tp": 7930.923325320072,
+  "fp": 83492.16311286406,
+  "fn": 71684.07667467993,
+  "n_truth": 79615,
+  "n_predicted": 86968,
+  "dti": 0.09674616479345947,
+  "coverage": 0.09961594329360135
+ },
+ "instrumentB_prime_dti": 0.03284233518636465,
+ "hidden_mass_px": 7905,
+ "mean_credit_per_dot": 0.039966848578051016,
+ "median_credit_per_dot": 0.0,
+ "frac_dots_clearing_bar_at_0p2778": 0.07625793395271824,
+ "control_same_stratum": {
+  "instrumentA": 0.04856457400225137,
+  "instrumentB": 0.08632811038351249,
+  "instrumentB_prime": 0.02912910620477438,
+  "description": "random pixels drawn from the 3 px dilation of this file's own positives (the same spatial stratum), matched dot count, 5 realisations"
+ }
+}

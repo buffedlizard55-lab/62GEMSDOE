@@ -1,0 +1,157 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Run card · 62GEMSDOE</title><link rel="stylesheet" href="assets/site.css">
+</head><body><header><div class="wrap"><strong>62GEMSDOE</strong> &nbsp;
+<small class="mut">Lake Lahontan shoreline datum-offset lane · DOE GEMS Prize</small>
+<div style="margin-top:9px"><nav><a href="index.html">Overview</a><a href="executive-summary.html">How to submit</a><a href="results.html">Results</a><a href="profiles.html">Profiles (deliverable 1)</a><a href="research.html">Research & hypotheses</a><a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a></nav></div></div></header>
+<main class="wrap">
+<h1>Run card</h1>
+<p class="mut">One JSON object, as the parallel-run protocol requires. Machine-readable copy:
+<a href="data/run_card.json">docs/data/run_card.json</a>.</p>
+<h2>Read these two lines first</h2>
+<ul class="tight">
+<li><b>gems62-lahontan-datum-break-dotted-primary-zeros.tif</b> — registry verdict <b>UNIQUE</b>: worst one-sided 3 px
+overlap 0.4066 over
+321 discriminating comparators (limit 0.70), correlation leg
+pass (worst |ρ|
+0.0325, limit 0.90). Eligible to download;
+<b>no weekly slot recommended</b>.</li>
+<li><b>gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif</b> — registry verdict <b>DUPLICATE</b> at
+0.9885 against
+<code>gems41-h42-basinmargin-s4-n40000-20261006T015229Z-allfinite.tif</code>.
+<b>DO NOT SUBMIT</b>; kept as evidence.</li>
+</ul>
+<pre>{
+ &quot;lane&quot;: &quot;datum-offset lane \u2014 Lake Lahontan shorelines as a strain gauge&quot;,
+ &quot;session&quot;: &quot;62GEMSDOE, branch arena/4e304372-62gemsdoe, 2026-10-11&quot;,
+ &quot;hypothesis&quot;: &quot;The Lahontan highstand shoreline is a near-level datum (~15 ka); a fault that cuts it produces an abrupt step or a lateral deflection that is measurable in the DEM and locatable where no catalogue fault is mapped.&quot;,
+ &quot;mechanism&quot;: &quot;fit a smooth isobase to the highstand band, take the datum residual zeta = z - isobase, trace its zero contour, flag vertical steps and heading changes along each trace, seed a dot train at every flag, extend it along the local DEM-ridge direction, thin to 282.8 m, prune 3 px off the catalogue&quot;,
+ &quot;non_fault_process_that_could_mimic_it&quot;: &quot;Post-pluvial isostatic rebound and northward tilting tilt the datum by ~20 m across the basin (Adams, Wesnousky &amp; Bills 1999; Adams et al. 2008). A fitted quadratic absorbs part of that tilt into its curvature terms, so a rebound gradient can masquerade as a step. Wave-cut terrace/berm constructional relief (&lt;2.6 m within an embayment, Adams &amp; Wesnousky 1998) is a second mimic at the same amplitude as the flagged steps.&quot;,
+ &quot;holdout_dti&quot;: {
+  &quot;instrumentA&quot;: {
+   &quot;value&quot;: 0.02719577791531498,
+   &quot;ci95&quot;: [
+    0.0268484840142163,
+    0.027535205607762656
+   ],
+   &quot;withheld_positive_px&quot;: 369289,
+   &quot;control_same_stratum&quot;: 0.04856457400225137,
+   &quot;edge&quot;: -0.02136879608693639
+  },
+  &quot;instrumentB&quot;: {
+   &quot;value&quot;: 0.09674616479345947,
+   &quot;withheld_positive_px&quot;: 79615,
+   &quot;control_same_stratum&quot;: 0.08632811038351249,
+   &quot;edge&quot;: 0.010418054409946989
+  },
+  &quot;instrumentB_prime&quot;: {
+   &quot;value&quot;: 0.03284233518636465,
+   &quot;mass_px&quot;: 7905,
+   &quot;control_same_stratum&quot;: 0.02912910620477438,
+   &quot;edge&quot;: 0.0037132289815902733
+  },
+  &quot;evaluator&quot;: &quot;gems62.holdout (this repository), alpha 0.2, beta 0.8, 300 m triangular kernel, 2x2 spatial block, catalogue masked pixel-exactly&quot;,
+  &quot;withheld_positives_note&quot;: &quot;instrument A withholds whole catalogue segments dilated by the kernel radius; instrument B uses an independent off-catalogue compilation, not the withheld catalogue&quot;
+ },
+ &quot;correlation_and_overlap_vs_registry&quot;: {
+  &quot;verdict&quot;: &quot;UNIQUE&quot;,
+  &quot;n_comparators&quot;: 508,
+  &quot;n_discriminating&quot;: 321,
+  &quot;worst_overlap_informative&quot;: {
+   &quot;file&quot;: &quot;riftline-context-distance-20260925T011817Z-7b6010637a.tif&quot;,
+   &quot;repo&quot;: &quot;GEMSDOE3&quot;,
+   &quot;n_positive&quot;: 352506,
+   &quot;coverage_frac&quot;: 0.06821764173014025,
+   &quot;effective_coverage&quot;: 0.37879847264751354,
+   &quot;discriminating&quot;: true,
+   &quot;overlap_3px_one_sided&quot;: 0.4065863306043602,
+   &quot;jaccard&quot;: 0.014749957283310937,
+   &quot;spearman&quot;: 0.0032060546619776063,
+   &quot;spearman_method&quot;: &quot;spearman&quot;
+  },
+  &quot;worst_overlap_strict&quot;: {
+   &quot;file&quot;: &quot;17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif&quot;,
+   &quot;repo&quot;: &quot;17GEMSDOE&quot;,
+   &quot;n_positive&quot;: 5167373,
+   &quot;coverage_frac&quot;: 1.0,
+   &quot;effective_coverage&quot;: 1.0,
+   &quot;discriminating&quot;: false,
+   &quot;overlap_3px_one_sided&quot;: 1.0,
+   &quot;jaccard&quot;: 0.016830215275731013,
+   &quot;spearman&quot;: NaN,
+   &quot;spearman_method&quot;: null
+  },
+  &quot;correlation_leg_pass&quot;: true,
+  &quot;limit_overlap&quot;: 0.7,
+  &quot;limit_abs_spearman&quot;: 0.9,
+  &quot;note&quot;: &quot;the strict leg is degenerate (see IR-62-04)&quot;
+ },
+ &quot;raster_sha256&quot;: &quot;f58ae055030e5eddc3ec704d6958019be4220188efc03367e089baf024f32e59&quot;,
+ &quot;validator_output&quot;: {
+  &quot;single_band&quot;: true,
+  &quot;dtype&quot;: &quot;float32&quot;,
+  &quot;crs&quot;: &quot;EPSG:32611&quot;,
+  &quot;shape&quot;: [
+   3730,
+   3292
+  ],
+  &quot;transform&quot;: [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  &quot;nodata&quot;: null,
+  &quot;cells&quot;: 12279160,
+  &quot;non_finite_cells&quot;: 0,
+  &quot;values_outside_unit_interval&quot;: 0,
+  &quot;positive_px_inside_footprint&quot;: 86968,
+  &quot;dots_on_catalogue&quot;: 0,
+  &quot;checks&quot;: [
+   &quot;single_band&quot;,
+   &quot;dtype_float32&quot;,
+   &quot;crs&quot;,
+   &quot;shape&quot;,
+   &quot;transform&quot;,
+   &quot;pixel_size_100m&quot;,
+   &quot;no_nodata_tag&quot;,
+   &quot;finite_inside_footprint&quot;,
+   &quot;zero_outside_footprint&quot;,
+   &quot;no_nan_outside_footprint_allfinite&quot;,
+   &quot;all_values_ge_0&quot;,
+   &quot;all_values_le_1&quot;,
+   &quot;no_sentinel&quot;,
+   &quot;total_cells&quot;
+  ],
+  &quot;source&quot;: &quot;scripts/finalize.py writes and then RE-READS the bytes from disk; the receipt is only produced if every clause passes&quot;
+ },
+ &quot;submission_name&quot;: &quot;gems62-lahontan-datum-break-dotted-primary&quot;,
+ &quot;note_140&quot;: &quot;Lahontan highstand datum-offset lane: 86,968 dots on shoreline datum breaks, dotted 283 m, 0 on catalogue; UNSCORED&quot;,
+ &quot;verdict&quot;: &quot;negative&quot;,
+ &quot;verdict_reason&quot;: &quot;format-valid and unique under the informative gate, but dominated on the same instrument by a registered prior field (mean credit per dot 0.55x the best registered field&#x27;s at 1/511x its dot count), and its standing edge over a same-stratum control on the independent instrument is +0.0104 in absolute DTI. No weekly slot.&quot;,
+ &quot;budget&quot;: {
+  &quot;experiments_planned&quot;: 3,
+  &quot;experiments_run&quot;: 3,
+  &quot;note&quot;: &quot;lane product + holdout; selectivity sweep; emission economics. A separate verification pass re-measured the same-instrument comparison because an absolute mean credit is not interpretable.&quot;
+ },
+ &quot;second_artifact&quot;: {
+  &quot;name&quot;: &quot;gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif&quot;,
+  &quot;sha256&quot;: &quot;0cb75334251abd7ef29565039cd13a50e60bafb12a35a257d8a4b0dbfb477edf&quot;,
+  &quot;n_dots&quot;: 87,
+  &quot;status&quot;: &quot;DO NOT SUBMIT&quot;,
+  &quot;reason&quot;: &quot;fails the uniqueness gate&#x27;s informative leg at 0.9885 against gems41-h42-basinmargin-s4-n40000-20261006T015229Z-allfinite.tif&quot;
+ },
+ &quot;deliverable_1&quot;: {
+  &quot;file&quot;: &quot;docs/downloads/lahontan_shoreline_profiles.json&quot;,
+  &quot;n_traces&quot;: 44,
+  &quot;n_flags&quot;: 3552,
+  &quot;note&quot;: &quot;elevation-versus-distance profiles with flagged steps&quot;
+ }
+}</pre>
+</main>
+<footer><div class="wrap">Every number on this site is read from
+<code>evidence/*.json</code> at build time by <code>scripts/build_site.py</code>.
+Nothing here is an organizer score. Generated 2026-10-11T20:18:20Z.
+</div></footer></body></html>

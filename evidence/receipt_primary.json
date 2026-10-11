@@ -1,0 +1,125 @@
+{
+ "file": "/home/user/62GEMSDOE/docs/downloads/gems62-lahontan-datum-step-dotted-primary-zeros.tif",
+ "bytes": 407401,
+ "sha256": "042982c22daf8f4fe2b510ac21fe1bceaf2cb7aa6bf1de2f279675052431e6b1",
+ "meta": {
+  "height": 3730,
+  "width": 3292,
+  "count": 1,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "nodata": null,
+  "bounds": [
+   243350.0,
+   4135550.0,
+   572550.0,
+   4508550.0
+  ]
+ },
+ "n_finite": 12279160,
+ "n_non_finite": 0,
+ "n_non_finite_inside_footprint": 0,
+ "n_positive_inside_footprint": 49070,
+ "min_inside": 0.0,
+ "max_inside": 1.0,
+ "portal_error_cannot_occur": true,
+ "checks": [
+  {
+   "check": "single_band",
+   "ok": true,
+   "detail": 1
+  },
+  {
+   "check": "dtype_float32",
+   "ok": true,
+   "detail": "float32"
+  },
+  {
+   "check": "crs",
+   "ok": true,
+   "detail": "EPSG:32611"
+  },
+  {
+   "check": "shape",
+   "ok": true,
+   "detail": [
+    3730,
+    3292
+   ]
+  },
+  {
+   "check": "transform",
+   "ok": true,
+   "detail": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+   ]
+  },
+  {
+   "check": "pixel_size_100m",
+   "ok": true,
+   "detail": [
+    100.0,
+    -100.0
+   ]
+  },
+  {
+   "check": "no_nodata_tag",
+   "ok": true,
+   "detail": null
+  },
+  {
+   "check": "finite_inside_footprint",
+   "ok": true,
+   "detail": 0
+  },
+  {
+   "check": "zero_outside_footprint",
+   "ok": true,
+   "detail": 0.0
+  },
+  {
+   "check": "no_nan_outside_footprint_allfinite",
+   "ok": true,
+   "detail": 0
+  },
+  {
+   "check": "all_values_ge_0",
+   "ok": true,
+   "detail": 0.0
+  },
+  {
+   "check": "all_values_le_1",
+   "ok": true,
+   "detail": 1.0
+  },
+  {
+   "check": "no_sentinel",
+   "ok": true,
+   "detail": null
+  },
+  {
+   "check": "total_cells",
+   "ok": true,
+   "detail": 12279160
+  }
+ ],
+ "dots_on_catalogue": {
+  "n_positive": 49070,
+  "n_positive_on_catalogue": 0,
+  "mass_on_catalogue": 0.0,
+  "n_positive_outside_footprint": 0
+ }
+}

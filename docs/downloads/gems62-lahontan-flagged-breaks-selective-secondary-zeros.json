@@ -1,0 +1,231 @@
+{
+ "file": "/home/user/62GEMSDOE/docs/downloads/gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif",
+ "bytes": 191897,
+ "sha256": "0cb75334251abd7ef29565039cd13a50e60bafb12a35a257d8a4b0dbfb477edf",
+ "meta": {
+  "height": 3730,
+  "width": 3292,
+  "count": 1,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "nodata": null,
+  "bounds": [
+   243350.0,
+   4135550.0,
+   572550.0,
+   4508550.0
+  ]
+ },
+ "n_finite": 12279160,
+ "n_non_finite": 0,
+ "n_non_finite_inside_footprint": 0,
+ "n_positive_inside_footprint": 87,
+ "min_inside": 0.0,
+ "max_inside": 1.0,
+ "portal_error_cannot_occur": true,
+ "checks": [
+  {
+   "check": "single_band",
+   "ok": true,
+   "detail": 1
+  },
+  {
+   "check": "dtype_float32",
+   "ok": true,
+   "detail": "float32"
+  },
+  {
+   "check": "crs",
+   "ok": true,
+   "detail": "EPSG:32611"
+  },
+  {
+   "check": "shape",
+   "ok": true,
+   "detail": [
+    3730,
+    3292
+   ]
+  },
+  {
+   "check": "transform",
+   "ok": true,
+   "detail": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+   ]
+  },
+  {
+   "check": "pixel_size_100m",
+   "ok": true,
+   "detail": [
+    100.0,
+    -100.0
+   ]
+  },
+  {
+   "check": "no_nodata_tag",
+   "ok": true,
+   "detail": null
+  },
+  {
+   "check": "finite_inside_footprint",
+   "ok": true,
+   "detail": 0
+  },
+  {
+   "check": "zero_outside_footprint",
+   "ok": true,
+   "detail": 0.0
+  },
+  {
+   "check": "no_nan_outside_footprint_allfinite",
+   "ok": true,
+   "detail": 0
+  },
+  {
+   "check": "all_values_ge_0",
+   "ok": true,
+   "detail": 0.0
+  },
+  {
+   "check": "all_values_le_1",
+   "ok": true,
+   "detail": 1.0
+  },
+  {
+   "check": "no_sentinel",
+   "ok": true,
+   "detail": null
+  },
+  {
+   "check": "total_cells",
+   "ok": true,
+   "detail": 12279160
+  }
+ ],
+ "dots_on_catalogue": {
+  "n_positive": 87,
+  "n_positive_on_catalogue": 0,
+  "mass_on_catalogue": 0.0,
+  "n_positive_outside_footprint": 0
+ },
+ "uniqueness": {
+  "n_positive": 87,
+  "verdict": "DUPLICATE",
+  "strict_leg_pass": false,
+  "informative_leg_pass": false,
+  "correlation_leg_pass": true,
+  "n_comparators": 508,
+  "n_discriminating": 321,
+  "worst_overlap_all": {
+   "file": "17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+   "repo": "17GEMSDOE",
+   "n_positive": 5167373,
+   "coverage_frac": 1.0,
+   "effective_coverage": 1.0,
+   "discriminating": false,
+   "overlap_3px_one_sided": 1.0,
+   "jaccard": 1.6836407977515848e-05,
+   "spearman": NaN,
+   "spearman_method": null
+  },
+  "worst_overlap_discriminating": {
+   "file": "gems41-h42-basinmargin-s4-n40000-20261006T015229Z-allfinite.tif",
+   "repo": "GEMSDOE41",
+   "n_positive": 40000,
+   "coverage_frac": 0.007740877231041769,
+   "effective_coverage": 0.3793029843210467,
+   "discriminating": true,
+   "overlap_3px_one_sided": 0.9885057471264368,
+   "jaccard": 7.484283005688056e-05,
+   "spearman": -0.0003925315367743681,
+   "spearman_method": "spearman"
+  },
+  "worst_spearman": {
+   "file": "gems41-h43-completion-v1-20261006T023145Z-8f1f3ba6d176.tif",
+   "repo": "GEMSDOE41",
+   "n_positive": 20000,
+   "coverage_frac": 0.0038704386155208846,
+   "effective_coverage": 0.18965149216052335,
+   "discriminating": true,
+   "overlap_3px_one_sided": 0.3563218390804598,
+   "jaccard": 9.957679860592482e-05,
+   "spearman": 0.017799453257657222,
+   "spearman_method": "spearman"
+  },
+  "worst_jaccard_among_nondiscriminating": {
+   "file": "17GEMSDOE_D-supervised-expression_86125863_20260930T034153Z.tif",
+   "repo": "17GEMSDOE",
+   "n_positive": 170401,
+   "coverage_frac": 0.03297633052616871,
+   "effective_coverage": 1.0,
+   "discriminating": false,
+   "overlap_3px_one_sided": 0.5977011494252874,
+   "jaccard": 0.00011732407255320646,
+   "spearman": 0.005472127978522844,
+   "spearman_method": "spearman"
+  },
+  "rule": {
+   "effective_discriminating": 0.5,
+   "overlap_limit": 0.7,
+   "rho_limit": 0.9,
+   "note": "a comparator whose 3 px dilation covers more than 50% of the footprint cannot discriminate: any file scores 1.0 against it."
+  }
+ },
+ "stats": {
+  "n_dots": 87,
+  "instrumentA": {
+   "tp": 38.483621718544214,
+   "fp": 77.9457313789971,
+   "fn": 369250.51637828146,
+   "n_truth": 369289,
+   "n_predicted": 87,
+   "dti": 0.00013025228439210877,
+   "coverage": 0.00010421004069588917
+  },
+  "instrumentA_ci95": [
+   0.00010606783090546673,
+   0.00015695064002497705
+  ],
+  "n_truth_A": 369289,
+  "instrumentA_note": "truth = whole catalogue segments hidden by a 2x2 spatial block and dilated by the 300 m kernel radius; visible catalogue masked; pooled over the whole grid",
+  "instrumentB": {
+   "tp": 32.28877363673738,
+   "fp": 76.55520708724583,
+   "fn": 79582.71122636326,
+   "n_truth": 79615,
+   "n_predicted": 87,
+   "dti": 0.0005067785856467985,
+   "coverage": 0.00040556143486450267
+  },
+  "instrumentB_ci_placeholder": null,
+  "instrumentB_prime_dti": 0.0004382092610823284,
+  "hidden_mass_px": 7905,
+  "mean_credit_per_dot": 0.12005509095119726,
+  "median_credit_per_dot": 0.0,
+  "frac_dots_clearing_bar_at_0p2778": 0.26436781609195403,
+  "credit_bar_at_s_0p2778": 0.05556,
+  "control_same_stratum": {
+   "instrumentA": 0.0001902561381069676,
+   "instrumentB": 0.00043878554366607567,
+   "instrumentB_prime": 0.0004300229593117431,
+   "edge_instrumentA": -6.000385371485883e-05,
+   "edge_instrumentB": 6.79930419807228e-05,
+   "edge_instrumentB_prime": 8.186301770585279e-06,
+   "description": "random pixels from the 3 px dilation of this file's own positives (same spatial stratum), matched dot count, 5 realisations"
+  }
+ }
+}

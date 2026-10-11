@@ -1,0 +1,198 @@
+{
+ "generated_utc": "2026-10-11T20:36:53Z",
+ "grid": {
+  "epsg": 32611,
+  "height": 3730,
+  "width": 3292,
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "total_cells": 12279160
+ },
+ "files": [
+  {
+   "path": "data/official/sample_submission.tif",
+   "bytes": 1599597,
+   "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+   "dtype": "float32",
+   "shape": [
+    3730,
+    3292
+   ],
+   "count": 1,
+   "crs": "EPSG:32611",
+   "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+   ],
+   "nodata": null,
+   "n_finite": 5167373,
+   "on_competition_grid": true,
+   "present": true
+  },
+  {
+   "path": "data/official/existing_faults.tif",
+   "bytes": 425830,
+   "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+   "dtype": "int8",
+   "shape": [
+    3730,
+    3292
+   ],
+   "count": 1,
+   "crs": "EPSG:32611",
+   "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+   ],
+   "nodata": -1.0,
+   "n_finite": 12279160,
+   "on_competition_grid": true,
+   "present": true
+  },
+  {
+   "path": "data/official/labels.tif",
+   "bytes": 425830,
+   "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+   "dtype": "int8",
+   "shape": [
+    3730,
+    3292
+   ],
+   "count": 1,
+   "crs": "EPSG:32611",
+   "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+   ],
+   "nodata": -1.0,
+   "n_finite": 12279160,
+   "on_competition_grid": true,
+   "present": true
+  },
+  {
+   "path": "data/external/geodawn_dem_a2_100m.tif",
+   "bytes": 49531304,
+   "sha256": "d32762a38222764389e948da423ebc6cadd00ac617ad3938d3dd79c6cfe14431",
+   "dtype": "float32",
+   "shape": [
+    3730,
+    3292
+   ],
+   "count": 1,
+   "crs": "EPSG:32611",
+   "transform": [
+    100.0,
+    0.0,
+    243349.965575182,
+    0.0,
+    -100.0,
+    4508550.0
+   ],
+   "nodata": -999999.0,
+   "n_finite": 12279160,
+   "on_competition_grid": false,
+   "present": true
+  },
+  {
+   "path": "data/external/topo_10m_derived_100m_u8.tif",
+   "bytes": 32523329,
+   "sha256": "a6398d9950965dec6aae6ccecdaa6ced48645d133eab222cbdd11def9bdabfa4",
+   "dtype": "uint8",
+   "shape": [
+    3730,
+    3292
+   ],
+   "count": 9,
+   "crs": "EPSG:32611",
+   "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+   ],
+   "nodata": 0.0,
+   "n_finite": 12279160,
+   "on_competition_grid": true,
+   "present": true
+  },
+  {
+   "path": "data/external/lidar_scarp_features_u8.tif",
+   "bytes": 36943606,
+   "sha256": "d580bb8bdcdb941e32fefb8b38044bc5bf04e199bf2e83498c3576e6fc465568",
+   "dtype": "uint8",
+   "shape": [
+    3730,
+    3292
+   ],
+   "count": 12,
+   "crs": "EPSG:32611",
+   "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+   ],
+   "nodata": 0.0,
+   "n_finite": 12279160,
+   "on_competition_grid": true,
+   "present": true
+  },
+  {
+   "path": "data/external/derived_sgmc_faults_100m.tif",
+   "bytes": 198602,
+   "sha256": "643cbe992ef4ba37588fb469163ed8291e3ceb23d6c1f78a3cfaa462430c2da0",
+   "dtype": "uint8",
+   "shape": [
+    3730,
+    3292
+   ],
+   "count": 1,
+   "crs": "EPSG:32611",
+   "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+   ],
+   "nodata": null,
+   "n_finite": 12279160,
+   "on_competition_grid": true,
+   "present": true
+  }
+ ],
+ "notes": [
+  "training_features.tif is NOT present. The DrivenData data page requires a login (verified 2026-10-11: it redirects to /accounts/login/), so the 19 organizer bands are unavailable from this sandbox. This lane does not need them; any hypothesis that does must be marked blocked."
+ ],
+ "grid_contract": {
+  "footprint_px": 5167373,
+  "catalogue_px": 60988,
+  "active_px": 5106385,
+  "footprint_plus_outside": 12279160,
+  "matches_declared_total": true
+ },
+ "contract_ok": true
+}
