@@ -81,5 +81,21 @@
     "The highest-expected-value action this session's inversion exposes is protocol-blocked: a field covering S* projects (same scale) at 0.505 x DTI(S*) ~ 0.34-0.42, but ~100 % of its dots fall within 3 px of the incumbent h33 field, i.e. the protocol's own definition of a duplicate. It was NOT emitted. See datum62/docs/decision-note.md.",
     "The two instruments every prior session optimised against are both uncorrelated-or-worse with the portal: the catalogue-segment holdout is documented anti-correlated (IR-30-046) and the SGMC off-catalogue instrument measures Spearman -0.928 over the 15 artifacts with owner-reported scores. Every artifact promoted on those instruments was promoted on an inverted or uninformative signal.",
     "Lane deviation, declared: the artifact is not shoreline-datum geometry."
-  ]
+  ],
+  "comparison_to_previous_artifact": {
+    "v8": {
+      "file": "docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif",
+      "dots": 1660,
+      "dti_vs_S_star": 0.00246,
+      "projection": 0.0012
+    },
+    "this_session": {
+      "file": "docs/downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif",
+      "dots": 46598,
+      "dti_vs_S_star": 0.21777,
+      "projection": 0.11
+    },
+    "ratio": "89x on DTI(S*)",
+    "evidence": "datum62/evidence/v8_vs_new_on_instrument.json"
+  }
 }

@@ -1,0 +1,22 @@
+{
+  "comparison": {
+    "v8_1660dots": {
+      "dots": 1660,
+      "dti_Sstar": 0.00246,
+      "tp": 17.5,
+      "fp": 1640.4
+    },
+    "new_46598dots": {
+      "dots": 46598,
+      "dti_Sstar": 0.21777,
+      "tp": 3354.5,
+      "fp": 39750.9
+    }
+  },
+  "instrument": "DTI vs leaderboard-inverted surrogate S* (8,479 px), exact published metric, catalogue NOT masked",
+  "projection_scale": 0.5051724416901521,
+  "projected_portal": {
+    "v8_1660dots": 0.0012,
+    "new_46598dots": 0.11
+  }
+}
