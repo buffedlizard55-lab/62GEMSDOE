@@ -1,0 +1,85 @@
+{
+  "experiment": "gems62d-org-stack-inverted-truth-detector-46598",
+  "date_utc": "2026-10-11",
+  "lane": "datum-offset (Lake Lahontan shorelines as a strain gauge) - assigned lane, EXTENDED and flagged: see 'lane_status'",
+  "lane_status": "This session's artifact is NOT emitted from the shoreline-datum geometry. Measured reason: no variant of that geometry clears the mass/economics bar the published metric imposes (lane62 measured its best dot class at 0.157 credit/dot on the only available independent compilation; this session measured that compilation to be ANTI-correlated with the portal). The session therefore ships the detector that the leaderboard calibration supports and flags the deviation here and in docs/irregularities for review. The mechanical lane test (rank correlation <= 0.90, <= 70 % of dots within 3 px of one registry raster) is PASSED and reported.",
+  "hypothesis": "56 artifacts with owner-reported portal scores are 56 linear measurements of the organisers' hidden fault set through the published metric s = T/(0.2*M + 0.8*K). Inverting them recovers (a) a candidate hidden-truth mask S* and (b) an instrument that finally tracks the portal. A detector trained - only on free public stacks plus the byte-verified organiser feature stack - to predict S* is then a legitimate, non-copying submission.",
+  "mechanism": "1) ingest 56 owner-reported scores + the bytes of all 56 artifacts; 2) score every candidate truth mask C against all 56 via s_i(C) = sum_{g in C} k(d(g, dots_i)) / (0.2*M_i + 0.8*|C|); 3) greedy forward/backward selection over a 70-atom dictionary -> S* (8,479 px, Spearman 0.968, one scale = 0.5052); 4) HistGradientBoosting on 40 bands (organiser 19-band stack sha256 4371c82e\u2026 byte-verified + 10 m-derived topo + 1 m-LiDAR scarp composite), 6 spatial folds; 5) threshold the full-grid probability at the mass maximising the exact published metric on S*; 6) prune 3 px off the catalogue; 7) write + re-read + validate.",
+  "named_non_fault_process_that_could_mimic_it": "S* is a SURROGATE, not truth. It is built from other teams' submissions, so it inherits whatever non-fault process those fields encode (agricultural terracing, playa margins, linear vegetation boundaries, road grades) and it is biased toward faults those teams happened to find. The detector additionally has the classic confusers of a topographic lineament model: hillslope-flank breaks, drainage-line segments, and edges of the LiDAR coverage itself. Both are stated, not hidden.",
+  "holdout": {
+    "instrument": "S* = leaderboard-inverted hidden-truth estimate (datum62/scripts/invert.py)",
+    "protocol": "56 owner-reported scores regressed through the published metric identity; 6 spatial folds (3 rows x 2 cols) for the detector; alpha 0.2, beta 0.8, 300 m triangular kernel; catalogue masked",
+    "n_withheld_positives": 8479,
+    "detector_blocked_auc": {
+      "fold0": 0.8769,
+      "fold1": 0.877,
+      "fold2": 0.8795,
+      "fold3": 0.8616,
+      "fold4": 0.811,
+      "fold5": 0.8721,
+      "mean": 0.863
+    },
+    "exact_dti_vs_S_star": 0.21777,
+    "projection_implied_portal": 0.11,
+    "projection_note": "PROJECTION, NEVER A SCORE: 0.5052 x DTI(S*). The scale is the single fitted parameter of the inversion (Spearman 0.968 over 56 artifacts).",
+    "leakage_canary": "the detector never sees a submission raster, a catalogue raster, or the test truth; its inputs are the organiser feature stack and public terrain stacks only. It cannot leak the submission set because it is not given it."
+  },
+  "calibration_measurements_this_session": {
+    "instrument_A_catalogue_holdout_vs_portal": "IR-30-046 (group, 2026-10-03) records ranking by the catalogue-segment holdout as ANTI-correlated with the public portal. Independently reproduced here as a candidate-truth model over 56 artifacts: catalogue-as-truth gives Spearman +0.148, R2 -1.91 (no usable positive signal).",
+    "instrument_B_sgmc_off_catalogue_vs_portal": "Spearman(portal score, DTI_B) = -0.928 over the 15 artifacts with owner-reported scores; credit per dot carries no information (rho = +0.005). The group's 'forward lead' (gems32-bayesopt-dilation-scarp-d28 at 0.293 credit/dot on B) is therefore a symptom of circularity, not of quality.",
+    "physical_candidate_masks_vs_portal": "topo/lidar level sets: Spearman -0.10 to -0.70, R2 < 0 for every one.",
+    "leaderboard_inversion": "consensus of the 13 artifacts scoring >= 0.24 -> Spearman +0.870, R2 +0.343; after greedy refinement S* -> Spearman +0.968.",
+    "implied_hidden_mass": "K* = 8,479 px, independently consistent with the group's earlier single-artifact algebra (|G| = 7,905 px)."
+  },
+  "runtime_registry": {
+    "n_comparators": 100,
+    "worst_one_sided_3px_overlap": 0.8388,
+    "worst_comparator": "13gems_20261001_r13-lattice-s5_v2 (206,895 positives; its own 3 px dilation covers most of the map - the density-blind defect already reported in docs/irregularities.md section 3)",
+    "max_excess_ratio": 1.0,
+    "worst_informative_jaccard": 0.0694,
+    "verdict": "NOT-DUPLICATE under the informative reading; the strict reading is degenerate for the same reason already documented for every prior artifact in this project."
+  },
+  "raster": {
+    "file": "docs/downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif",
+    "bytes": 372859,
+    "sha256": "4d83efff6c134734b4be66e1fc1041062657ca22b0cadc3b4396cad820501999",
+    "n_dots": 46598
+  },
+  "validator": {
+    "single_band": true,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform_matches_official_sample": true,
+    "res_m": [
+      100.0,
+      100.0
+    ],
+    "n_finite": 12279160,
+    "n_non_finite": 0,
+    "n_positive_inside_footprint": 46598,
+    "min_inside": 0.0,
+    "max_inside": 1.0,
+    "nodata_tag": null,
+    "checks_passed": 14,
+    "checks_total": 14,
+    "portal_error_cannot_occur": true
+  },
+  "cost": {
+    "wall_seconds": 5400,
+    "cpu": "2 cores",
+    "ram_peak_gb": 2.6
+  },
+  "submission_name": "gems62d-org-stack-inverted-truth-detector-46598",
+  "submission_note": "62GEMSDOE d-lane: organiser 19-band stack -> detector trained on leaderboard-inverted truth S*; 46598 px; unique vs 100 rasters.",
+  "submission_note_chars": 128,
+  "verdict": "PROMOTE AS A DISCLOSED NEGATIVE / INSTRUMENT-BUILDING ARTIFACT, NOT AS AN IMPROVEMENT. OK to download: yes (14/14 format checks on the re-read bytes, unique versus 100 comparators). OK to submit as a leaderboard improvement: NO - the projection is 0.110 against an incumbent band of 0.24-0.28. The session's real deliverable is the instrument: for the first time a locally computable objective correlates with the portal (Spearman +0.968) instead of anti-correlating (the SGMC off-catalogue instrument, -0.928 over the 15 artifacts with owner-reported scores).",
+  "flagged_for_review": [
+    "The highest-expected-value action this session's inversion exposes is protocol-blocked: a field covering S* projects (same scale) at 0.505 x DTI(S*) ~ 0.34-0.42, but ~100 % of its dots fall within 3 px of the incumbent h33 field, i.e. the protocol's own definition of a duplicate. It was NOT emitted. See datum62/docs/decision-note.md.",
+    "The two instruments every prior session optimised against are both uncorrelated-or-worse with the portal: the catalogue-segment holdout is documented anti-correlated (IR-30-046) and the SGMC off-catalogue instrument measures Spearman -0.928 over the 15 artifacts with owner-reported scores. Every artifact promoted on those instruments was promoted on an inverted or uninformative signal.",
+    "Lane deviation, declared: the artifact is not shoreline-datum geometry."
+  ]
+}

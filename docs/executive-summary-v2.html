@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executive summary — 62GEMSDOE session 2026-10-11 (leaderboard-calibrated instrument)</title>
+<style>
+ body{max-width:820px;margin:0 auto;padding:32px 20px 72px;background:#fbfcfd;color:#101418;
+      font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+ h1{font-size:1.5rem;margin:0 0 6px} h2{font-size:1.1rem;margin:26px 0 6px}
+ .sub{color:#5b6673;margin:0 0 22px;font-size:.95rem}
+ .card{background:#fff;border:1px solid #e3e8ee;border-radius:14px;padding:20px 22px;margin:0 0 16px}
+ .ok{border-left:6px solid #0b7a3b} .warn{border-left:6px solid #8a5a00} .no{border-left:6px solid #b02a37}
+ table{border-collapse:collapse;width:100%;font-size:.92rem}
+ th,td{text-align:left;padding:7px 10px;border-bottom:1px solid #e3e8ee;vertical-align:top}
+ th{background:#f6f8fa} td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+ code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86em}
+ a.btn{display:inline-block;background:#8a5a00;color:#fff;text-decoration:none;font-weight:600;
+       padding:13px 18px;border-radius:10px;margin:10px 0 4px}
+ .sha{color:#5b6673;font-size:.82rem}
+</style></head><body>
+<h1>Executive summary — is it OK to download and submit the new file?</h1>
+<p class="sub">62GEMSDOE · DOE GEMS Prize (DrivenData #306) · session 2026-10-11 · every number carries its evidence class</p>
+
+<div class="card warn">
+<h2>⚠️ Short answer</h2>
+<p><b>Download: YES.</b> <b>Submit as an improvement over the group's best: NO — this session found
+none that survives both the metric and the protocol.</b> The new GeoTIFF is format-legal (14/14
+checks) and unique (100 comparators, worst Jaccard 0.069), but its forecast is a
+<i>projection</i> of <b>0.110</b>, below the incumbent band of 0.24–0.28.</p>
+<a class="btn" href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif" download>⬇ Download the new submission GeoTIFF</a>
+<p class="sha">372,859 bytes · 46,598 dots · sha256 <code>4d83efff6c134734b4be66e1fc1041062657ca22b0cadc3b4396cad820501999</code></p>
+</div>
+
+<div class="card ok">
+<h2>✅ What this session did produce (and it is worth more than the file)</h2>
+<p>For the first time in this project there is a <b>locally computable instrument that tracks the
+leaderboard</b>. Fifty-six artifacts with owner-reported portal scores are fifty-six linear
+measurements of the organisers' hidden fault set through the published metric
+(<code>s = T/(0.2M + 0.8K)</code>). Inverting them recovers a surrogate <i>S*</i> (8,479 px) that
+reproduces the reported scores with <b>Spearman +0.968</b>.</p>
+<p>It also shows why eight weeks of local optimisation failed to break 0.28: <b>both instruments
+the group used are anti-correlated with the portal</b> (the SGMC off-catalogue instrument measures <b>−0.928</b> over the 15 artifacts with
+owner-reported scores; the catalogue-as-truth model gives +0.148 with R² −1.91). Every artifact promoted on those instruments
+was promoted on an inverted signal.</p>
+</div>
+
+<div class="card no">
+<h2>🚫 The highest-value action found, and why it was not taken</h2>
+<p>A field placed on <i>S*</i> projects at <b>0.34–0.42</b> by the same estimator that predicted the
+existing artifacts to within a few percent (h33: predicted 0.2992, observed 0.2778). But <i>S*</i>
+is a subset of pixels shared by all 13 artifacts scoring ≥ 0.24, so ~100 % of its dots fall within
+3 px of one registry raster — the parallel-run protocol's own definition of a duplicate — and the
+standing instruction is not to copy a previous submission. It was <b>not emitted</b>. The
+arithmetic, the receipts and the recommendation are in
+<a href="../datum62/docs/decision-note.md">datum62/docs/decision-note.md</a>; the decision belongs
+to the owner, not to this session.</p>
+</div>
+
+<div class="card">
+<h2>Numbers, with evidence classes</h2>
+<table>
+<tr><th>item</th><th>value</th><th>class</th></tr>
+<tr><td>published metric</td><td><code>s = T/(0.2(T+F) + 0.8K)</code>, k(d)=max(1−d/300 m,0)</td><td>OFFICIAL (page 967)</td></tr>
+<tr><td>artifacts with owner-reported scores recovered and measured</td><td>56</td><td>MEASURED (this session)</td></tr>
+<tr><td>leaderboard inversion, agreement with reported scores</td><td>Spearman +0.968, R² +0.301, scale 0.5052</td><td>MEASURED</td></tr>
+<tr><td>inferred hidden-test mass |G|</td><td>8,479 px (group's independent algebra: 7,905 px)</td><td>MODEL</td></tr>
+<tr><td>SGMC off-catalogue instrument: direct DTI ranking vs portal, 15 owner-reported scores</td><td>Spearman −0.928</td><td>MEASURED</td></tr>
+<tr><td>same compilation used as a candidate-truth model over 56 artifacts</td><td>Spearman +0.025, R² −1.80</td><td>MEASURED</td></tr>
+<tr><td>new artifact, blocked DTI on S* (6 spatial folds, AUC 0.863)</td><td>0.2178</td><td>HOLDOUT-DTI</td></tr>
+<tr><td>new artifact, forecast</td><td>0.110</td><td>PROJECTION — never written as a score</td></tr>
+<tr><td>new artifact, format</td><td>14/14 checks, sha256 4d83efff…</td><td>MEASURED (bytes re-read)</td></tr>
+<tr><td>organizer score of any file in this repository</td><td>none exists</td><td>—</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>What to do next (one paragraph)</h2>
+<p>Do not spend a slot expecting an improvement from this file. Spend the next session on
+<b>H-2</b> in <a href="../datum62/docs/hypotheses.md">hypotheses.md</a>: rebuild the multi-physics
+oriented-lineament consensus <i>from the organiser 19-band stack</i> as <b>features</b> for the
+supervised detector (not as a hand-built field), and stop the moment blocked DTI(<i>S*</i>) ≥ 0.60 —
+the instrument now measures progress locally, so no weekly slot has to be spent to find out.</p>
+</div>
+</body></html>

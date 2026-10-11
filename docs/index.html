@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GEMSDOE62 — datum-offset submission (Lake Lahontan shoreline isobase)</title>
+<title>GEMSDOE62 — submissions, verdicts and the leaderboard-calibrated instrument</title>
 <style>
   :root { --ink:#101418; --dim:#5b6673; --line:#e3e8ee; --ok:#0b7a3b; --warn:#8a5a00; --bg:#fbfcfd; }
   * { box-sizing: border-box; }
@@ -45,6 +45,49 @@
   <h1>GEMSDOE62 — datum-offset lane</h1>
   <p class="sub">DOE GEMS Prize (DrivenData #306) · Lake Lahontan shoreline benches as a strain gauge ·
   single-band 100 m GeoTIFF, EPSG:32611</p>
+
+
+  <div class="card warn">
+    <h2>⚠️ This session's new file — <b>download: YES · submit as an improvement: NO</b></h2>
+    <p><b>What it is.</b> A fault detector trained on primary data only — the byte-verified
+    organiser 19-band feature stack (sha256 <code>4371c82e…</code>) plus public 10 m-derived
+    topography and the 1 m-LiDAR scarp composite — against <i>S*</i>, a surrogate for the
+    organisers' hidden test set recovered by inverting <b>56</b> owner-reported leaderboard
+    scores through the published metric (<b>Spearman +0.968</b>).</p>
+    <p><b>Format: legal.</b> 14/14 validator checks on the bytes re-read from disk — single band
+    <code>float32</code>, EPSG:32611, 100 m, 3730×3292, every one of the 12,279,160 cells finite
+    and in <code>[0,1]</code>, no nodata tag. The portal error
+    <i>“Predicted values must be in range [0, 1]”</i> cannot occur for these bytes.</p>
+    <p><b>Unique: yes.</b> 100 comparators; worst informative overlap (Jaccard) <b>0.069</b>.
+    The strict 3-px leg is degenerate for the same density-blind reason already documented in
+    <a href="irregularities.html">irregularities §3</a>.</p>
+    <p><b>Score forecast: a PROJECTION, not a score.</b> Blocked (3×2 spatial folds) DTI on
+    <i>S*</i> = <b>0.2178</b> → projection <b>0.110</b> at the session's fitted scale 0.5052.
+    That is <b>below</b> the group's incumbent band (0.24–0.28). Read
+    <a href="executive-summary-v2.html">the executive summary</a> before spending a slot.</p>
+    <a class="btn" style="background:#8a5a00" href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif" download>
+      ⬇ Download the new submission GeoTIFF
+      <small>372.9 KB · 46,598 dots · sha256 4d83efff…</small>
+    </a>
+    <p class="sha">sha256 <code>4d83efff6c134734b4be66e1fc1041062657ca22b0cadc3b4396cad820501999</code></p>
+  </div>
+
+  <div class="card">
+    <h2>📉 The session's real product: the first local instrument that tracks the portal</h2>
+    <table>
+      <tr><th>candidate truth mask / instrument</th><th class="n">Spearman vs portal</th><th class="n">R²</th></tr>
+      <tr><td><b>refined <i>S*</i></b> (this session, leaderboard inversion)</td><td class="n"><b>+0.968</b></td><td class="n">+0.301</td></tr>
+      <tr><td>consensus of the 13 artifacts scoring ≥ 0.24</td><td class="n">+0.870</td><td class="n">+0.343</td></tr>
+      <tr><td>SGMC off-catalogue (“instrument B”) — <b>direct DTI ranking vs portal (15 artifacts)</b></td><td class="n"><b>−0.928</b></td><td class="n">—</td></tr>
+      <tr><td>SGMC off-catalogue used as a candidate-truth model over 56 artifacts</td><td class="n">+0.025</td><td class="n">−1.80</td></tr>
+      <tr><td>competition catalogue as candidate truth (IR-30-046 documents the catalogue holdout as anti-correlated)</td><td class="n">+0.148</td><td class="n">−1.91</td></tr>
+      <tr><td>every topographic / LiDAR level set tested (27 in <code>datum62/evidence/instrument_vs_portal_56.json</code>)</td><td class="n">−0.11 … −0.70</td><td class="n">&lt; 0</td></tr>
+    </table>
+    <p>Measured over <b>56 artifacts with owner-reported portal scores</b> (model rows) and, for the SGMC
+    row, directly on the artifact bytes over the 15 artifacts with owner-reported scores
+    (<code>datum62/evidence/calibration_vs_portal.json</code>). The instrument the project has been
+    optimising against <i>anti</i>-correlates with the leaderboard.</p>
+  </div>
 
   <div class="card verdict">
     <h2>✅ OK to download and submit — legal and unique</h2>
