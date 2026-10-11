@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Method · 62GEMSDOE</title>
+<meta name="description" content="The lane method, step by step, with the metric transcribed and cross-checked">
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header><div class="w"><h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
+<span class="sub">DOE GEMS Prize · DrivenData #306 · datum-offset lane H62-A</span></div></header>
+<nav><div class="w"><a href="index.html">Home</a><a href="executive-summary.html">How to submit</a><a href="analysis.html">Why 0.2778</a><a href="method.html" class="on">Method</a><a href="results.html">Results</a><a href="hypotheses.html">Hypotheses</a><a href="profiles.html">Shoreline profiles</a><a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a><a href="limitations.html">Limitations</a><a href="leaderboard.html">Leaderboard</a></div></nav>
+<main><div class="w"><h2 id="metric">0. The metric, transcribed and cross-checked</h2>
+<p>From <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/#performance-metric">the
+organiser's problem-description page</a>:</p>
+<pre><code>k(d) = max(1 − d/R, 0)                     R = 300 m = 3 px at 100 m
+
+TP_w = Σ_{g∈G} max_{x : d(x,g) ≤ R} p(x)·k(d(x,g))
+FP_w = Σ_{x : p(x)&gt;0} p(x)·[1 − max_{g∈G} k(d(x,g))]
+FN_w = Σ_{g∈G} [1 − max_{x : d(x,g) ≤ R} p(x)·k(d(x,g))]
+
+DTI(α,β) = TP_w / (TP_w + α·FP_w + β·FN_w + ε)      α = 0.2, β = 0.8</code></pre>
+<p>Three independent checks in <code>tests/test_gems62.py</code>: the organiser's worked example
+(TP<sub>w</sub>=3.00, FP<sub>w</sub>=1.89, FN<sub>w</sub>=2.00 → 0.60); agreement of the fast
+vectorised implementation with a literal O(|G||P|) brute-force transcription of the three sums
+on random grids; and the algebraic identity <code>DTI = T/(0.2(T+F)+0.8|G|)</code> together with
+<code>FN_w = |G| − TP_w</code>. The reference solution's
+<code>TverskyLoss(alpha=0.2, beta=0.8, mode="binary")</code> independently confirms the
+parameters.</p>
+<h2>1. Data, verified before use</h2>
+<p>The three official rasters are sha256-pinned and the pins are re-checked on every run; a
+mismatch aborts the run rather than proceeding with unverified data.</p>
+<table><thead><tr><th>file</th><th>bytes</th><th>sha256 (pin == measured)</th></tr></thead><tbody>
+<tr><td><code>training_features.tif</code></td><td class='num'>418,912,844</td><td class='num small'>4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5</td></tr><tr><td><code>labels.tif</code></td><td class='num'>425,830</td><td class='num small'>7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093</td></tr><tr><td><code>sample_submission.tif</code></td><td class='num'>1,599,597</td><td class='num small'>2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc</td></tr>
+</tbody></table>
+<p class="small">Geometry: 3730×3292, 19 bands,
+float32, EPSG:32611, [100.0, 100.0] m,
+transform <code>[100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0]</code>, footprint
+<b>5,167,373</b> px, label positives <b>60,988</b> px,
+label values <code>[-1, 0, 1]</code>.</p>
+<p class="small"><b>IR-62-SENTINEL-01:</b> 58171
+sentinel cells across the 19 bands lie inside the footprint (= 19 × 3,061 + 12).</p>
+<h2>2. The lane, step by step</h2>
+<h3>2.1 Pluvial-lake-margin band</h3>
+<p>Topographic position index <code>TPI = det_elev − smooth(det_elev, σ=25 px = 2.5 km)</code>,
+NaN-weighted so the footprint edge does not leak. The margin band is
+<code>TPI ∈ [-400.0, -40.0) m</code> and
+<code>slope ∈ [1.0, 30.0]°</code> →
+<b>1,177,085</b> px
+(22.8% of the footprint).
+A Gaussian weight floor of 0.35 marks the pixels whose TPI is trustworthy; the rest are excluded
+rather than filled.</p>
+<h3>2.2 The isobase fit</h3>
+<p><code>isobase = smooth(det_elev restricted to the margin band, σ=60.0 px
+= 6 km)</code>. A <b>local</b> smooth fit rather than one
+global plane, because post-pluvial rebound is <i>differential</i>: the datum tilts between the
+Lahontan sub-basins (Pyramid Lake / Winnemucca / Lahontan Reservoir / Walker / Carson Sink /
+Smith Valley), so a single plane over a 330 × 373 km footprint would be geologically wrong.
+6 km is long enough to be a datum and short enough to follow rebound between sub-basins.</p>
+<h3>2.3 Benches</h3>
+<p><code>bench = margin ∧ slope ∈ [3,22]° ∧ |plan curvature| ≤ its 55th percentile in-band</code>
+→ <b>375,991</b> px. Plan curvature is the curvature of the contour line: near
+zero means straight-to-gently-arcuate, which is what a wave-cut bench is, and it rejects gullies,
+fan heads and ridge crests. <b>IR-62-BENCH-01:</b> an earlier version also required the residual
+to be small, which is circular and produced zero flags; the residual test now lives only in the
+step flag.</p>
+<h3>2.4 Flagging steps — a bounded throw window</h3>
+<p><code>step = bench ∧ |resid − median| ∈ [15.0,
+130.0) m</code> → <b>271,102</b> px. The window is
+measured, not chosen: catalogue enrichment by |isobase residual| inside the bench band is
+2.26–2.77× below 210 m, then 1.45× (210–260), 1.16× (260–320), 0.66× (320–400) and
+<b>0.00× above 400 m</b> (403 px, not one mapped fault). An unbounded outlier test keeps exactly
+the depleted tail. The bounds also have an independent physical meaning: 1–8 mm/yr over 15 kyr is
+15–120 m of throw, which brackets the slow-to-fast range of Great Basin faults.</p>
+<h3>2.5 Flagging lateral deflections</h3>
+<p>Azimuth kinks: <code>|Δstrike| &gt; 22.0°</code> over 3 px, computed in
+the double-angle representation so the [0,π) fold of a strike is handled as a proper circle →
+<b>1,173</b> px. <b>IR-62-DEFL-01:</b> this flag measured 1.12×
+enrichment, i.e. no signal at 100 m. It is kept because the lane specifies it and reported as a
+negative rather than dropped.</p>
+<h3>2.6 Seeding and extending traces</h3>
+<p>Each flag seeds a trace that walks both ways <b>along the local isobase strike</b> while
+DEM-ridge evidence stays above 0.55. Evidence =
+0.65·(0.60·rank|profile curvature| + 0.40·rank(sclope in [3,25]°)) + 0.35·(rank TMI-HG,
+rank isostatic-gravity HG), all rank-normalised inside the footprint so the combination is
+scale-free. Result: <b>200,181</b> traces,
+<b>595,434</b> px, median length
+1.0 px, mean 3.89,
+p90 10.0, max 160.
+<b>IR-62-EXT-01:</b> the first version derived the walk direction from the evidence gradient and
+produced median length 1 px — the traces never extended. Direction now comes from the isobase
+strike, which is well posed; evidence is only the stopping criterion, which is what the lane text
+says.</p>
+<h3>2.7 Habitat weighting from visible faults only</h3>
+<p>A 9×8 binning of (TPI, slope) gives a smoothed per-pixel enrichment weight
+(Laplace prior count 40 so sparse bins cannot fabricate a rate). Under the holdout the weights
+are rebuilt <b>from the visible faults only</b>, per fold — never from the withheld ones.</p>
+<h3>2.8 Emission</h3>
+<p>Greedy non-maximum suppression in priority order at ≥3 px
+separation, capped at the budget, then every dot within
+3.0 px of a mapped catalogue fault is
+deleted. Values are strictly binary {0.0, 1.0}; outside the footprint 0.0; no nodata tag.</p>
+<h2>3. Measured habitat enrichment</h2>
+<p class="small">Base rate 1.1803% over 5,167,373 footprint px and
+60,988 catalogue positives. Top 16 of 72 cells by enrichment.</p>
+<table><thead><tr><th>TPI (m)</th><th>slope (°)</th><th>px</th><th>catalogue positives</th>
+<th>enrichment</th></tr></thead><tbody><tr><td class='num'>[-1000000000, -300)</td><td class='num'>[15, 25)</td><td class='num'>112</td><td class='num'>26</td><td class='num'><b>19.669×</b></td></tr><tr><td class='num'>[-1000000000, -300)</td><td class='num'>[10, 15)</td><td class='num'>189</td><td class='num'>28</td><td class='num'><b>12.552×</b></td></tr><tr><td class='num'>[-300, -200)</td><td class='num'>[10, 15)</td><td class='num'>878</td><td class='num'>73</td><td class='num'><b>7.045×</b></td></tr><tr><td class='num'>[-300, -200)</td><td class='num'>[6, 10)</td><td class='num'>1,372</td><td class='num'>94</td><td class='num'><b>5.805×</b></td></tr><tr><td class='num'>[-300, -200)</td><td class='num'>[15, 25)</td><td class='num'>1,245</td><td class='num'>81</td><td class='num'><b>5.512×</b></td></tr><tr><td class='num'>[-300, -200)</td><td class='num'>[25, 35)</td><td class='num'>820</td><td class='num'>53</td><td class='num'><b>5.476×</b></td></tr><tr><td class='num'>[-1000000000, -300)</td><td class='num'>[6, 10)</td><td class='num'>461</td><td class='num'>28</td><td class='num'><b>5.146×</b></td></tr><tr><td class='num'>[-200, -120)</td><td class='num'>[10, 15)</td><td class='num'>9,363</td><td class='num'>387</td><td class='num'><b>3.502×</b></td></tr><tr><td class='num'>[-200, -120)</td><td class='num'>[15, 25)</td><td class='num'>9,546</td><td class='num'>369</td><td class='num'><b>3.275×</b></td></tr><tr><td class='num'>[-300, -200)</td><td class='num'>[-1000000000, 1)</td><td class='num'>525</td><td class='num'>18</td><td class='num'><b>2.905×</b></td></tr><tr><td class='num'>[-200, -120)</td><td class='num'>[6, 10)</td><td class='num'>16,088</td><td class='num'>505</td><td class='num'><b>2.660×</b></td></tr><tr><td class='num'>[60, 120)</td><td class='num'>[-1000000000, 1)</td><td class='num'>507</td><td class='num'>14</td><td class='num'><b>2.340×</b></td></tr><tr><td class='num'>[-120, -60)</td><td class='num'>[6, 10)</td><td class='num'>85,004</td><td class='num'>2,347</td><td class='num'><b>2.339×</b></td></tr><tr><td class='num'>[-1000000000, -300)</td><td class='num'>[3, 6)</td><td class='num'>616</td><td class='num'>17</td><td class='num'><b>2.338×</b></td></tr><tr><td class='num'>[-120, -60)</td><td class='num'>[10, 15)</td><td class='num'>52,938</td><td class='num'>1,440</td><td class='num'><b>2.305×</b></td></tr><tr><td class='num'>[-120, -60)</td><td class='num'>[15, 25)</td><td class='num'>45,357</td><td class='num'>1,210</td><td class='num'><b>2.260×</b></td></tr></tbody></table>
+<p>The physically coherent reading: the most fault-rich terrain in this footprint is
+<b>deep topographic position with a scarp-scale slope</b> — the basin-side toe of a range front.
+That is exactly where a pluvial-lake shoreline is cut, and exactly where a fault that offsets it
+will show. Range crests (TPI &gt; +120 m) are depleted to 0.28–0.34×, which is why a detector
+that ranks by "roughness" or by residual magnitude alone loses.</p></div></main>
+<footer><div class="w">Built 2026-10-11 21:31 UTC from
+<code>evidence/*.json</code> by <code>scripts/build_site.py</code>. Every number on this site is
+labelled <b>HOLDOUT-DTI</b> or <b>ORGANIZER-CONFIRMED</b>. No projection is written as a score.
+<a href="../README.md">README</a> · <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">repository</a></div></footer>
+</body></html>

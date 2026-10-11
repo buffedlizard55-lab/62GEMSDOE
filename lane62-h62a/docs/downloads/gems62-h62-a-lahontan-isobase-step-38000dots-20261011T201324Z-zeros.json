@@ -1,0 +1,195 @@
+{
+  "artifact": "gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.json",
+  "artifact_kind": "submission_candidate",
+  "geometry": {
+    "height": 3730,
+    "width": 3292,
+    "count": 1,
+    "dtype": "float32",
+    "epsg": 32611,
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "res_m": [
+      100.0,
+      100.0
+    ],
+    "bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "nodata": null,
+    "compression": "Compression.deflate"
+  },
+  "bytes": 141486,
+  "sha256": "eabd03c1ca1a5380d100024b3ed7c7401a847bdab5913a423c396bb50f624ed5",
+  "values": {
+    "min": 0.0,
+    "max": 1.0,
+    "n_nan": 0,
+    "n_positive": 38000,
+    "n_unique": 2
+  },
+  "validator": {
+    "ok": true,
+    "n_pass": 26,
+    "n_fail": 0,
+    "checks": [
+      {
+        "check": "file_exists",
+        "ok": true,
+        "detail": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+      },
+      {
+        "check": "driver_is_gtiff",
+        "ok": true,
+        "detail": "GTiff"
+      },
+      {
+        "check": "single_band",
+        "ok": true,
+        "detail": "count=1"
+      },
+      {
+        "check": "dtype_float32",
+        "ok": true,
+        "detail": "float32"
+      },
+      {
+        "check": "epsg_32611",
+        "ok": true,
+        "detail": "32611"
+      },
+      {
+        "check": "shape_matches_official",
+        "ok": true,
+        "detail": "3730x3292"
+      },
+      {
+        "check": "resolution_100m",
+        "ok": true,
+        "detail": "(100.0, 100.0)"
+      },
+      {
+        "check": "transform_matches_official",
+        "ok": true,
+        "detail": "(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)"
+      },
+      {
+        "check": "bounds_match_training",
+        "ok": true,
+        "detail": "(243350.0, 4135550.0, 572550.0, 4508550.0)"
+      },
+      {
+        "check": "transform_identical_to_sample_submission_bytes",
+        "ok": true,
+        "detail": "(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)"
+      },
+      {
+        "check": "no_nan_anywhere",
+        "ok": true,
+        "detail": "nan=0"
+      },
+      {
+        "check": "no_inf_anywhere",
+        "ok": true,
+        "detail": "inf=0"
+      },
+      {
+        "check": "no_float32_sentinel",
+        "ok": true,
+        "detail": "sentinel_cells=0"
+      },
+      {
+        "check": "min_ge_0",
+        "ok": true,
+        "detail": "0.0"
+      },
+      {
+        "check": "max_le_1",
+        "ok": true,
+        "detail": "1.0"
+      },
+      {
+        "check": "zero_cells_outside_0_1",
+        "ok": true,
+        "detail": "n=0"
+      },
+      {
+        "check": "nodata_tag_absent_or_zero",
+        "ok": true,
+        "detail": "None"
+      },
+      {
+        "check": "all_finite_inside_footprint",
+        "ok": true,
+        "detail": "non_finite_inside=0"
+      },
+      {
+        "check": "inside_footprint_range_0_1",
+        "ok": true,
+        "detail": "min=0.0,max=1.0"
+      },
+      {
+        "check": "outside_footprint_all_zero",
+        "ok": true,
+        "detail": "unique_outside=[0.0]"
+      },
+      {
+        "check": "footprint_pixel_count_matches_spec",
+        "ok": true,
+        "detail": "5167373"
+      },
+      {
+        "check": "nonzero_pixels_inside_footprint",
+        "ok": true,
+        "detail": "positive_px=38000"
+      },
+      {
+        "check": "not_blank",
+        "ok": true,
+        "detail": "positive_px=38000"
+      },
+      {
+        "check": "not_a_blanket",
+        "ok": true,
+        "detail": "positive_px=38000"
+      },
+      {
+        "check": "zero_dots_exactly_on_mapped_catalogue",
+        "ok": true,
+        "detail": "n=0"
+      },
+      {
+        "check": "values_are_binary_or_probability",
+        "ok": true,
+        "detail": "n_unique=2, min=0.0, max=1.0"
+      }
+    ]
+  },
+  "ok_to_submit": true,
+  "failed_checks": [],
+  "twins": {
+    "nan": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-nan.tif",
+    "zip": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.zip"
+  },
+  "scored": false,
+  "scored_note": "ORGANIZER-CONFIRMED scores live only in registry/organizer_scores.json and only when copied from a submission-page receipt. This artifact has never been scored.",
+  "submission_name": "gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z",
+  "submission_note": "H62-A Lahontan isobase step/deflection traces; arm A3; 38000 dots; UNSCORED",
+  "hypothesis": "H62-A",
+  "lane": "Datum-offset lane -- Lake Lahontan shorelines as a strain gauge",
+  "holdout_dti": 0.1224,
+  "holdout_dti_ci": [
+    0.1154,
+    0.1284
+  ],
+  "holdout_label": "HOLDOUT-DTI gems62.holdout_segmented v1, 4 folds, 81,993 withheld positives"
+}

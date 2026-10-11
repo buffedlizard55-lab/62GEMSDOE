@@ -1,0 +1,13 @@
+{
+  "threshold": 0.9,
+  "aucs": {
+    "tpi": 0.4337706466962551,
+    "slope": 0.5576879311800699,
+    "isobase_residual_abs": 0.4295633673406141,
+    "ridge_evidence": 0.562874261660035,
+    "habitat_enrichment_full_catalogue": 0.6509995578519341,
+    "det_elev": 0.48456553374753464
+  },
+  "any_above_threshold": false,
+  "note": "AUC > 0.90 means leakage until proven otherwise. habitat_enrichment_full_catalogue is measured against the same catalogue it was fit on and is reported only to show the ceiling of that mistake; it is NOT used in the holdout, where the weights are rebuilt from visible faults per fold."
+}

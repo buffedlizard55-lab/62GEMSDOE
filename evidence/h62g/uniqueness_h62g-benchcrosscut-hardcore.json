@@ -2,8 +2,8 @@
  "submission": "gems62-h62g-benchcrosscut-hardcore-zeros.tif",
  "sha256": "79eb0a7ddc2dcfb4667bff41bbc237f8d5663dd63e025eed79af8c8f984ed500",
  "n_dots": 10000,
- "n_comparators": 85,
- "n_discriminating": 82,
+ "n_comparators": 86,
+ "n_discriminating": 86,
  "strict_leg_all_comparators": {
   "worst_3px": 0.8616,
   "worst_jaccard": 0.1082,
@@ -11,9 +11,9 @@
  },
  "informative_leg": {
   "worst_3px": 0.8616,
-  "worst_jaccard": 0.1082,
+  "worst_jaccard": 0.1279,
   "worst_rho": 0.0183,
-  "n": 82
+  "n": 86
  },
  "worst_exact_overlap_frac": 0.155,
  "verdict": "DUPLICATE-DRIFT",
@@ -782,6 +782,16 @@
    "jaccard_3px": 0.0026,
    "exact_overlap_frac": 0.0001,
    "spearman": -0.0002
+  },
+  {
+   "file": "gems62-lahontan-datumstep-min12max60-seed25-traceonly.tif",
+   "n_dots": 63750,
+   "halo_coverage_of_footprint": null,
+   "my_dots_within_3px_of_theirs": 0.5188,
+   "jaccard_3px": 0.1279,
+   "exact_overlap_frac": 0.0565,
+   "spearman": 0.0172,
+   "note": "added after origin/main merged PR #9 (a third sibling lane, lane62-bench/)"
   }
  ]
 }

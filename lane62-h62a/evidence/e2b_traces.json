@@ -1,0 +1,12 @@
+{
+  "n_seeds": 272275,
+  "n_traces": 200181,
+  "n_traced_px": 595434,
+  "len_mean_px": 3.887986372333039,
+  "len_median_px": 1.0,
+  "len_p90_px": 10.0,
+  "len_max_px": 160,
+  "min_evidence": 0.55,
+  "max_len_px": 120,
+  "taper": 0.15
+}

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sources · 62GEMSDOE</title>
+<meta name="description" content="Every source with links for manual review">
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header><div class="w"><h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
+<span class="sub">DOE GEMS Prize · DrivenData #306 · datum-offset lane H62-A</span></div></header>
+<nav><div class="w"><a href="index.html">Home</a><a href="executive-summary.html">How to submit</a><a href="analysis.html">Why 0.2778</a><a href="method.html">Method</a><a href="results.html">Results</a><a href="hypotheses.html">Hypotheses</a><a href="profiles.html">Shoreline profiles</a><a href="sources.html" class="on">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a><a href="limitations.html">Limitations</a><a href="leaderboard.html">Leaderboard</a></div></nav>
+<main><div class="w"><h2>Sources, with links for manual review</h2>
+<p>Every external claim on this site traces to one of these. The <b>verified-from</b> column says which artifact was actually read, so a reviewer can check the chain without trusting this page.</p>
+<table><thead><tr><th>source</th><th>what it establishes</th><th>class</th></tr></thead><tbody>
+<tr><td><a href='https://www.drivendata.org/competitions/306/competition-doe-gems/'>Competition home</a><div class='small mut'>https://www.drivendata.org/competitions/306/competition-doe-gems/</div></td><td>DrivenData #306, The Geologic Enhanced Mapping System (GEMS) Prize Challenge</td><td><span class='pill info'>organiser</span></td></tr>
+<tr><td><a href='https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/'>Problem description &amp; performance metric</a><div class='small mut'>https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/</div></td><td>DTI definition, alpha=0.2, beta=0.8, R=300 m triangular kernel, worked example (TP_w=3.00, FP_w=1.89, FN_w=2.00 -&gt; 0.60), submission format</td><td><span class='pill info'>organiser</span></td></tr>
+<tr><td><a href='https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/'>About / resources</a><div class='small mut'>https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/</div></td><td>additional resources</td><td><span class='pill info'>organiser</span></td></tr>
+<tr><td><a href='https://www.drivendata.org/competitions/306/competition-doe-gems/data/'>Data download (login required)</a><div class='small mut'>https://www.drivendata.org/competitions/306/competition-doe-gems/data/</div></td><td>training_features.tif, labels, sample_submission.tif, 1m_DEM_links.csv</td><td><span class='pill info'>organiser</span></td></tr>
+<tr><td><a href='https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/'>Leaderboard</a><div class='small mut'>https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/</div></td><td>current standings</td><td><span class='pill info'>organiser</span></td></tr>
+<tr><td><a href='https://www.drivendata.org/competitions/306/competition-doe-gems/rules/'>Rules</a><div class='small mut'>https://www.drivendata.org/competitions/306/competition-doe-gems/rules/</div></td><td>external-data licensing condition</td><td><span class='pill info'>organiser</span></td></tr>
+<tr><td><a href='https://github.com/drivendataorg/gems-prize-reference-solution'>Reference solution</a><div class='small mut'>https://github.com/drivendataorg/gems-prize-reference-solution</div></td><td>U-Net + Monte Carlo CV, TverskyLoss(alpha=0.2, beta=0.8); confirms the loss parameters</td><td><span class='pill info'>organiser</span></td></tr>
+<tr><td><a href='https://docs.nlr.gov/docs/fy26osti/96647.pdf'>GEMS technical PDF (OSTI 96647)</a><div class='small mut'>https://docs.nlr.gov/docs/fy26osti/96647.pdf</div></td><td>challenge outline as cited in the tasking brief</td><td><span class='pill info'>cited-in-brief</span></td></tr>
+<tr><td><a href='https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and'>GeoDAWN survey</a><div class='small mut'>https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and</div></td><td>USGS airborne magnetic &amp; radiometric surveys, northwestern Great Basin, NV</td><td><span class='pill info'>USGS</span></td></tr>
+<tr><td><a href='https://gbcge.org/current-projects/ingenious/'>INGENIOUS project</a><div class='small mut'>https://gbcge.org/current-projects/ingenious/</div></td><td>Great Basin Center for Geothermal Energy; source of part of the label set</td><td><span class='pill info'>GBCGE</span></td></tr>
+<tr><td><a href='https://epsg.io/32611'>EPSG:32611</a><div class='small mut'>https://epsg.io/32611</div></td><td>WGS 84 / UTM zone 11N -- the submission CRS</td><td><span class='pill info'>EPSG</span></td></tr>
+<tr><td><a href='https://en.wikipedia.org/wiki/Tversky_index'>Tversky index</a><div class='small mut'>https://en.wikipedia.org/wiki/Tversky_index</div></td><td>the similarity measure the DTI is a distance-weighted form of</td><td><span class='pill info'>reference</span></td></tr>
+<tr><td><a href='https://gdr.openei.org/submissions/1391'>OpenEI GDR submission 1391</a><div class='small mut'>https://gdr.openei.org/submissions/1391</div></td><td>geothermal data resource cited in the tasking brief</td><td><span class='pill info'>OpenEI</span></td></tr>
+<tr><td><a href='https://community.drivendata.org/c/gems-prize-challenge/111'>DrivenData GEMS forum</a><div class='small mut'>https://community.drivendata.org/c/gems-prize-challenge/111</div></td><td>organiser answers, incl. known-fault masking (thread 11516)</td><td><span class='pill info'>organiser</span></td></tr>
+</tbody></table>
+<h2>Literature cited in the lane brief</h2><table><thead><tr><th>reference</th><th>venue</th><th>what the brief uses it for</th><th>verification status</th></tr></thead><tbody>
+<tr><td>Briggs &amp; Wesnousky 2004</td><td>JGR</td><td>Used features displaced since the Lahontan highstand to constrain slip on the Pyramid Lake fault zone. Cited in the tasking brief.</td><td><span class='pill warn'>cited-in-brief</span> — <span class='small'>named in the tasking paragraph; the full text is NOT reachable from this sandbox (egress allowlist covers github.com, pypi.org and registry.npmjs.org only), so no quantitative claim from these papers is reproduced here. Only the qualitative mechanism — that Lahontan shoreline features are used as displaced datums — is used, and it is implemented from the provided raster alone.</span></td></tr>
+<tr><td>Dong et al.</td><td>Geosphere</td><td>Documented Lahontan shorelines displaced along a strike-slip fault outboard of the Wassuk Range front. Cited in the tasking brief.</td><td><span class='pill warn'>cited-in-brief</span> — <span class='small'>named in the tasking paragraph; the full text is NOT reachable from this sandbox (egress allowlist covers github.com, pypi.org and registry.npmjs.org only), so no quantitative claim from these papers is reproduced here. Only the qualitative mechanism — that Lahontan shoreline features are used as displaced datums — is used, and it is implemented from the provided raster alone.</span></td></tr>
+<tr><td>Pierce &amp; Wesnousky 2016</td><td>SCEC poster</td><td>Two previously unmapped NW-striking segments in Smith Valley&#x27;s basin centre offsetting Holocene sediments. Cited in the tasking brief.</td><td><span class='pill warn'>cited-in-brief</span> — <span class='small'>named in the tasking paragraph; the full text is NOT reachable from this sandbox (egress allowlist covers github.com, pypi.org and registry.npmjs.org only), so no quantitative claim from these papers is reproduced here. Only the qualitative mechanism — that Lahontan shoreline features are used as displaced datums — is used, and it is implemented from the provided raster alone.</span></td></tr>
+</tbody></table>
+<h2>Data provenance actually used</h2>
+<table><thead><tr><th>artifact</th><th>route</th><th>verification</th></tr></thead><tbody>
+<tr><td><code>training_features.tif</code></td>
+<td>DrivenData data tab requires login and is not reachable from this sandbox. Restored from the
+in-organisation git bridge <code>buffedlizard55-lab/6GEMSDOE : data/bridge/</code> (5 parts,
+reassembled by concatenation).</td>
+<td>sha256 <code>4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5</code> — matches
+the pin published in that repository's <code>data/bridge/manifest.json</code>, which itself
+records the Dropbox mirror URL and the original data-tab URL.</td></tr>
+<tr><td><code>labels.tif</code></td><td>same bridge (<code>existing_faults.tif</code>)</td>
+<td>sha256 <code>7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093</code> — matches the pin</td></tr>
+<tr><td><code>sample_submission.tif</code></td><td>same bridge (<code>example_submission.tif</code>)</td>
+<td>sha256 <code>2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc</code> — matches the pin</td></tr>
+<tr><td>band inventory (19 bands)</td><td>read from the TIFF <code>DESCRIPTION</code> and
+<code>data_category</code> tags of the pinned file itself</td>
+<td>not assumed; re-read every run and stored in
+<code>evidence/e0_data_verification.json</code></td></tr>
+<tr><td>registry of earlier rasters</td>
+<td><code>scripts/build_registry.py</code> over every <code>*GEMSDOE*</code> repository in the
+same GitHub organisation, fetching each <code>.tif</code> under a downloads/submissions directory
+through the GitHub contents API</td>
+<td>709 rasters compared, 1
+errors</td></tr>
+</tbody></table>
+<p class="small"><b>IR-62-DATA-01:</b> <code>1m_DEM_links.csv</code> (USGS 3DEP 1 m lidar) is NOT
+available in this sandbox. That is why the lane works in detrended-elevation space and why
+IR-62-DEM-01 stays open.</p></div></main>
+<footer><div class="w">Built 2026-10-11 21:31 UTC from
+<code>evidence/*.json</code> by <code>scripts/build_site.py</code>. Every number on this site is
+labelled <b>HOLDOUT-DTI</b> or <b>ORGANIZER-CONFIRMED</b>. No projection is written as a score.
+<a href="../README.md">README</a> · <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">repository</a></div></footer>
+</body></html>
