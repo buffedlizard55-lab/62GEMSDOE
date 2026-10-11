@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Irregularities · 62GEMSDOE</title>
+<meta name="description" content="Everything irregular found in the data, the metric, or this session&#x27;s own code">
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header><div class="w"><h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
+<span class="sub">DOE GEMS Prize · DrivenData #306 · datum-offset lane H62-A</span></div></header>
+<nav><div class="w"><a href="index.html">Home</a><a href="executive-summary.html">How to submit</a><a href="analysis.html">Why 0.2778</a><a href="method.html">Method</a><a href="results.html">Results</a><a href="hypotheses.html">Hypotheses</a><a href="profiles.html">Shoreline profiles</a><a href="sources.html">Sources</a><a href="irregularities.html" class="on">Irregularities</a><a href="run-card.html">Run card</a><a href="limitations.html">Limitations</a><a href="leaderboard.html">Leaderboard</a></div></nav>
+<main><div class="w"><h2>Irregularities flagged for review</h2>
+<p>Everything found that does not behave as the brief, the organiser's documentation, or an earlier version of this code implied. Several are bugs this session found in its own first implementation; two are defects in the tasking protocol itself (<b>IR-62-HOLDOUT-01</b> and <b>IR-62-UNIQ-01</b>) and are the reason the artifact is marked <b>not validated for submission</b>. Each is listed with the measurement that exposed it and, where it is a code bug, the regression test that stops it returning.</p>
+<div class="card"><h3 style="margin-top:0"><code>IR-62-HOLDOUT-01</code>
+<span class="pill no">CRITICAL -- invalidates the promotion gate</span>
+<span class="pill warn">open -- measured, not fixable inside this repository</span></h3>
+<p><b>The hide-and-recover holdout is ANTI-correlated with the organiser&#x27;s score</b></p>
+<p>The parallel-run protocol gates every submission on the segmented holdout, and the standing instruction is not to spend a weekly slot on an idea that has not beaten the current holdout best. Scoring 10 ORGANIZER-CONFIRMED artifacts as FROZEN dot masks on one identical holdout shows that gate points the wrong way: Spearman(HOLDOUT-DTI, ORGANIZER-CONFIRMED) = -0.9141 (p = 0.0002), Kendall tau -0.8140 (p = 0.0015). It is not merely a dot-count artefact: the partial Spearman controlling for n_dots is -0.6810 (p = 0.0302), and in 7 of 8 count-matched pairs (|Delta dots| &lt;= 1,500) the file with the LOWER holdout carries the HIGHER organiser score. The cleanest case is h33-h33-2-b2 (37,654 dots, HOLDOUT 0.0053, ORGANIZER 0.2778) against h36-1-rung30-blind-r1 (37,660 dots -- six apart -- HOLDOUT 0.0368, ORGANIZER 0.2710): a 7x holdout difference in the wrong direction.</p>
+<p class="small"><b>Evidence:</b> evidence/e9_frozen_artifact_holdout.json, produced by scripts/compare_holdout.py over registry/organizer_scores.json. Mechanism, measured directly: the holdout withholds whole segments of the PUBLIC catalogue and scores their recovery, while the organiser&#x27;s Initial Prize Round scores a PRIVATE set of faults labelled before the competition. The holdout therefore rewards dots that hug the catalogue and the organiser rewards dots that avoid it. The 0.2778 file was built by DELETING 6,436 dots within 3 px of the mapped catalogue, which raised its organiser score 0.2600 -&gt; 0.2778 and collapses its holdout DTI 0.1322 -&gt; 0.0053. Our own artifact has zero dots within 3 px of any catalogue pixel (minimum distance 3.2 px, median 18.9 px), so its frozen HOLDOUT-DTI is exactly 0.0000 -- by construction, not by failure. The same is true of the winner.</p>
+<p class="small"><b>Resolution:</b> NOT papered over and NOT worked around. The run card&#x27;s verdict is &#x27;negative&#x27; and the artifact is marked ok_to_submit = false, because the repository has no valid instrument with which to justify spending a slot. The E3 arm-A3 number (0.1224) remains a correct measurement of the PROCEDURE under per-fold visible-only pruning, and is reported as such, but it is no longer presented as a promotion argument. Fixing the gate needs a hidden truth set that is not the public catalogue, which this sandbox cannot obtain.</p>
+<p class="small"><b>Unblock:</b> Either (a) obtain the organiser&#x27;s private label set -- not public -- or (b) accept that selection between off-catalogue artifacts is a human judgement informed by the ORGANIZER-CONFIRMED budget ladder, not a holdout decision. Option (b) is what the protocol already implies when it says promotion is a separate selector step.</p>
+<p class="small"><b>Source for manual review:</b> <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/</a></p>
+</div>
+<div class="card"><h3 style="margin-top:0"><code>IR-62-DEM-01</code>
+<span class="pill no">high</span>
+<span class="pill warn">open -- worked around</span></h3>
+<p><b>No absolute-elevation band exists in the official feature stack</b></p>
+<p>The lane is specified as &#x27;map shoreline benches in the DEM&#x27;. training_features.tif has 19 bands and the only topographic ones are band 12 &#x27;Detrended elevation - topography with regional trends removed&#x27; and band 19 its slope. A Lahontan isobase is an ABSOLUTE elevation datum, so the detrending operator removes part of the signal the lane needs. Verified by reading the band DESCRIPTION tags from the sha256-pinned file itself.</p>
+<p class="small"><b>Evidence:</b> evidence/e0_data_verification.json -&gt; spec.band_descriptions</p>
+<p class="small"><b>Resolution:</b> The isobase is fit in detrended-elevation space (6 km Gaussian through the pluvial-lake-margin band) and the flags are residuals against that fit. A smooth detrend and a smooth isobase tilt are degenerate at long wavelength, so the fit absorbs the unknown trend and the residual keeps the short-wavelength step signal. The absolute shoreline elevation (the ~1177 m class number) cannot be used and is not claimed anywhere on this site.</p>
+<p class="small"><b>Unblock:</b> 1m_DEM_links.csv from the DrivenData data tab, or USGS 3DEP directly. Free, public domain. Not reachable from this sandbox.</p>
+
+</div>
+<div class="card"><h3 style="margin-top:0"><code>IR-62-SENTINEL-01</code>
+<span class="pill no">high</span>
+<span class="pill ok">closed -- root cause of the portal error</span></h3>
+<p><b>3,061 cells inside the submission footprint carry the float32 nodata sentinel</b></p>
+<p>training_features.tif uses -3.4028234663852886e+38 as nodata. Re-measured here: 7,113,308 cells carry it, and 3,061 of those lie INSIDE the submission footprint (sample_submission.tif is finite there) in all 19 bands; band 6 &#x27;tc&#x27; has 12 extra (3,073). Writing those values through unchanged puts cells outside [0, 1] and the portal returns &#x27;Predicted values must be in range [0, 1]&#x27;.</p>
+<p class="small"><b>Evidence:</b> evidence/e0_data_verification.json -&gt; spec.sentinel_cells_inside_footprint = 58,171 (= 19 bands x 3,061 + 12)</p>
+<p class="small"><b>Resolution:</b> submission_writer.py writes an all-finite artifact: zeros outside the footprint, no nodata tag, every one of the 12,279,160 cells finite and in [0, 1]. validate.py re-opens the bytes from disk and asserts it. This is the form the group&#x27;s organiser-confirmed 0.2778 file was shipped in.</p>
+<p class="small"><b>Unblock:</b> none needed</p>
+
+</div>
+<div class="card"><h3 style="margin-top:0"><code>IR-62-BENCH-01</code>
+<span class="pill warn">medium</span>
+<span class="pill ok">closed -- bug found and fixed in this session</span></h3>
+<p><b>The bench mask circularly excluded the residuals it was meant to flag</b></p>
+<p>The first implementation of bench_pixels() required |elev - isobase| to be below the 60th percentile of the in-band residual, and flag_steps() then looked for residual outliers inside that set. The two conditions are contradictory: the run produced n_steps = 0 over the entire 5.17 M-pixel footprint.</p>
+<p class="small"><b>Evidence:</b> first run: n_bench=230,025, n_steps=0, step_threshold_m=127.7</p>
+<p class="small"><b>Resolution:</b> bench_pixels() is now geometric only (margin band + slope window + plan curvature percentile). The residual test lives solely in flag_steps(). tests/test_gems62.py::test_bench_pixels_no_longer_excludes_large_residuals asserts the regression cannot return.</p>
+<p class="small"><b>Unblock:</b> none needed</p>
+
+</div>
+<div class="card"><h3 style="margin-top:0"><code>IR-62-STEP-01</code>
+<span class="pill warn">medium</span>
+<span class="pill ok">closed -- measured and corrected</span></h3>
+<p><b>An unbounded isobase-residual outlier test selects DEPLETED terrain</b></p>
+<p>Flagging steps as &#x27;residual &gt; k * MAD&#x27; keeps exactly the pixels the lane should reject. Measured catalogue enrichment by |isobase residual| inside the bench band: 2.26-2.77x below 210 m, then 1.45x at 210-260 m, 1.16x at 260-320 m, 0.66x at 320-400 m, and 0.00x above 400 m (403 px, not one mapped fault). The unbounded k=2.5 flag scored 1.21x over 14,586 px -- below the 2.44x of the bench band it was drawn from.</p>
+<p class="small"><b>Evidence:</b> evidence/e2_enrichment.json</p>
+<p class="small"><b>Resolution:</b> flag_steps() takes a bounded throw window [15, 130) m. The bounds have an independent physical meaning: a structure offsetting the ~15 ka highstand at 1-8 mm/yr accumulates 15-120 m of throw in 15 kyr, which brackets the slow-to-fast range of Great Basin faults. Below ~15 m the step is under what a 100 m pixel can express; above ~130 m it is the range front or a canyon head, not a displaced shoreline.</p>
+<p class="small"><b>Unblock:</b> none needed</p>
+
+</div>
+<div class="card"><h3 style="margin-top:0"><code>IR-62-EXT-01</code>
+<span class="pill warn">medium</span>
+<span class="pill ok">closed -- bug found and fixed in this session</span></h3>
+<p><b>Trace extension walked across the structure instead of along it</b></p>
+<p>extend_traces() originally derived its walk direction from the gradient of the smoothed evidence field, on the argument that evidence ridges run along the structure. On this data that direction is far too noisy: median trace length 1 px, mean 2.4 px -- the traces never extended at all.</p>
+<p class="small"><b>Evidence:</b> first run: n_traces=1,943, traced_px=3,801, len_mean=2.4, len_median=1</p>
+<p class="small"><b>Resolution:</b> The walk direction is now the strike of the fitted isobase (local_strike()), which is well posed, and the evidence field is used only as the stopping criterion -- which is what the lane text actually says. tests/test_gems62.py::test_extend_traces_walks_along_strike_not_across_it asserts a north strike yields a north-south trace and no east-west motion.</p>
+<p class="small"><b>Unblock:</b> none needed</p>
+
+</div>
+<div class="card"><h3 style="margin-top:0"><code>IR-62-NMS-01</code>
+<span class="pill info">low</span>
+<span class="pill ok">closed -- bug found and fixed in this session</span></h3>
+<p><b>The greedy dot thinning was O(k^2) and could not finish a fold</b></p>
+<p>_greedy_thin() compared each candidate against a growing Python list via np.asarray(taken_y), which is O(k^2): at a 38,000-dot budget that is ~1.4e9 element conversions per holdout fold.</p>
+<p class="small"><b>Evidence:</b> code inspection; the first holdout run did not complete a fold</p>
+<p class="small"><b>Resolution:</b> Replaced with a spatial hash of cell size min_sep, O(1) amortised, with an early break at the budget.</p>
+<p class="small"><b>Unblock:</b> none needed</p>
+
+</div>
+<div class="card"><h3 style="margin-top:0"><code>IR-62-HOLDOUT-01</code>
+<span class="pill no">high</span>
+<span class="pill warn">open -- structural, cannot be fixed here</span></h3>
+<p><b>The holdout&#x27;s truth is the visible catalogue, so it cannot reward a new fault</b></p>
+<p>The competition&#x27;s hidden test set is a set of faults NOT in the USGS/INGENIOUS catalogue. Every holdout in this repository can only score against catalogue faults, and this lane&#x27;s whole premise is that it finds structures the catalogue is missing. A holdout win is therefore necessary but not sufficient, and a holdout loss does not prove the lane wrong.</p>
+<p class="small"><b>Evidence:</b> same limitation recorded as IR-32-PROXY-01 in buffedlizard55-lab/GEMSDOE32</p>
+<p class="small"><b>Resolution:</b> Reported, not hidden. Every score on this site is labelled HOLDOUT-DTI and carries the evaluator version, the withheld-positive count and a 95% CI. No projection is ever written as a score.</p>
+<p class="small"><b>Unblock:</b> the organiser&#x27;s hidden label set, which no participant has</p>
+
+</div>
+<div class="card"><h3 style="margin-top:0"><code>IR-62-DATA-01</code>
+<span class="pill warn">medium</span>
+<span class="pill warn">open -- access limitation</span></h3>
+<p><b>No DrivenData authentication in this sandbox</b></p>
+<p>The data tab redirects to login. training_features.tif, labels.tif, sample_submission.tif and 1m_DEM_links.csv cannot be downloaded directly.</p>
+<p class="small"><b>Evidence:</b> curl https://www.drivendata.org/ from this sandbox -&gt; connection refused (egress allowlist)</p>
+<p class="small"><b>Resolution:</b> The three rasters were restored from the in-organisation git bridge (buffedlizard55-lab/6GEMSDOE : data/bridge/) and re-verified against the published sha256 pins -- all three match exactly. 1m_DEM_links.csv is NOT available and is the reason IR-62-DEM-01 stays open.</p>
+<p class="small"><b>Unblock:</b> run scripts/download_competition_data.sh on a machine with DrivenData login</p>
+
+</div>
+<div class="card"><h3 style="margin-top:0"><code>IR-62-DEFL-01</code>
+<span class="pill info">low</span>
+<span class="pill warn">open -- honest negative</span></h3>
+<p><b>Lateral deflections along strike carry no catalogue enrichment at 100 m</b></p>
+<p>The lane asks for &#x27;abrupt steps OR lateral deflections along strike&#x27;. The azimuth-kink flag (&gt;22 deg over 3 px) selects 1,173-4,399 px and measures 1.12x enrichment -- at the footprint mean, i.e. no signal. Broken out by habitat it is 0.75x, 1.42x, 0.90x, 0.52x across habitat bins: inconsistent.</p>
+<p class="small"><b>Evidence:</b> measured in this session; recorded in evidence/e1_lane_surfaces.json</p>
+<p class="small"><b>Resolution:</b> Kept in the emission as low-priority seeds because the lane specifies them, but they contribute ~0.4% of the flag set and are not relied on. The finding is reported rather than quietly dropped.</p>
+<p class="small"><b>Unblock:</b> 1 m lidar: a lateral offset of a shoreline bench is a metre-scale feature</p>
+
+</div></div></main>
+<footer><div class="w">Built 2026-10-11 21:20 UTC from
+<code>evidence/*.json</code> by <code>scripts/build_site.py</code>. Every number on this site is
+labelled <b>HOLDOUT-DTI</b> or <b>ORGANIZER-CONFIRMED</b>. No projection is written as a score.
+<a href="../README.md">README</a> · <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">repository</a></div></footer>
+</body></html>

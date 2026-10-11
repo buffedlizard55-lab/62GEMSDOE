@@ -1,0 +1,98 @@
+{
+  "_comment": [
+    "Provenance and integrity manifest for the three official competition rasters",
+    "used by this repository. The pins below were published in the in-organisation",
+    "git bridge (buffedlizard55-lab/6GEMSDOE : data/bridge/manifest.json, itself",
+    "generated 2026-09-17T01:02:28+00:00 by scripts/make_data_bridge.py) and were",
+    "INDEPENDENTLY RE-MEASURED here on 2026-10-11 by scripts/verify_all.py group B.",
+    "All three match exactly. Nothing in this file is asserted without a measurement."
+  ],
+  "verified_utc": "2026-10-11T20:13:24Z",
+  "verified_by": "scripts/run_lane.py E0 -> gems62.grid.load_stack(verify=True)",
+  "evidence": "evidence/e0_data_verification.json",
+  "official_source": {
+    "data_tab": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
+    "requires_login": true,
+    "reachable_from_this_sandbox": false,
+    "note": "IR-62-DATA-01. Restored instead from the in-organisation git bridge and re-verified against these pins."
+  },
+  "name_mapping": {
+    "gems-geodawn-numerical-features.tif": "training_features.tif",
+    "existing_faults.tif": "labels.tif",
+    "example_submission.tif": "sample_submission.tif"
+  },
+  "files": [
+    {
+      "canonical": "training_features.tif",
+      "bytes": 418912844,
+      "sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+      "height": 3730, "width": 3292, "count": 19, "dtype": "float32",
+      "epsg": 32611, "res_m": [100.0, 100.0],
+      "transform": [100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0],
+      "bounds": [243350.0, 4135550.0, 572550.0, 4508550.0],
+      "nodata": -3.4028234663852886e+38,
+      "sentinel_cells_total": 7113308,
+      "sentinel_cells_inside_footprint_per_band": 3061,
+      "sentinel_cells_inside_footprint_all_bands": 58171,
+      "valid_feature_pixels": 5164300,
+      "band_inventory": [
+        [1, "mag_anom", "Magnetic anomaly - deviation from expected Earth's magnetic field", "magnetic_data"],
+        [2, "rtp", "Reduced to pole magnetic data - magnetic anomaly corrected for latitude effects", "magnetic_data"],
+        [3, "tmi_hg", "Total magnetic intensity horizontal gradient - rate of change in horizontal direction", "magnetic_data"],
+        [4, "geod_2ndinv", "Geodetic second invariant - measure of strain rate tensor magnitude", "geodetic_strain"],
+        [5, "iso_grav_anom_slope", "Isostatic gravity anomaly slope - gradient of gravity after isostatic correction", "gravity_data"],
+        [6, "tc", "Tilt angle or total curvature - magnetic field derivative for edge detection", "magnetic_data"],
+        [7, "geod_shearrate", "Geodetic shear rate - rate of angular deformation from GPS/InSAR", "geodetic_strain"],
+        [8, "geod_dilaterate", "Geodetic dilatation rate - rate of volumetric strain (expansion/contraction)", "geodetic_strain"],
+        [9, "tmi_vg", "Total magnetic intensity vertical gradient - rate of change in vertical direction", "magnetic_data"],
+        [10, "deq_n100a15", "Distance to earthquake (n=100km radius, a=15 degrees azimuth parameters)", "seismic"],
+        [11, "iso_grav_anom_vg", "Isostatic gravity anomaly vertical gradient - vertical rate of change", "gravity_data"],
+        [12, "det_elev", "Detrended elevation - topography with regional trends removed", "topographic"],
+        [13, "iso_grav_anom", "Isostatic gravity anomaly - gravity after compensating for topographic mass", "gravity_data"],
+        [14, "tmi", "Total magnetic intensity - total strength of magnetic field", "magnetic_data"],
+        [15, "depth_to_base_surf", "Depth to basement surface - thickness of sedimentary cover", "subsurface"],
+        [16, "ieq_n100a15", "Earthquake intensity or density (n=100km radius, a=15 degrees parameters)", "seismic"],
+        [17, "cond_surf", "Conductivity surface - electrical conductivity of subsurface", "subsurface"],
+        [18, "iso_grav_anom_hg", "Isostatic gravity anomaly horizontal gradient - horizontal rate of change", "gravity_data"],
+        [19, "det_elev_slope", "Detrended elevation slope - gradient of elevation after detrending", "topographic"]
+      ],
+      "band_inventory_note": "Read from the TIFF DESCRIPTION and data_category tags of the pinned file itself, not assumed. IR-62-DEM-01: there is NO absolute-elevation band; bands 12 and 19 are the only topographic layers and both are derived from DETRENDED elevation."
+    },
+    {
+      "canonical": "labels.tif",
+      "bridge_name": "existing_faults.tif",
+      "bytes": 425830,
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "dtype": "int8", "nodata": -1.0,
+      "unique": [-1, 0, 1],
+      "counts": {"-1": 7111787, "0": 5106385, "1": 60988},
+      "positive_pixels": 60988
+    },
+    {
+      "canonical": "sample_submission.tif",
+      "bridge_name": "example_submission.tif",
+      "bytes": 1599597,
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "dtype": "float32", "nodata": "NaN",
+      "finite_cells": 5167373, "nan_cells": 7111787,
+      "finite_unique": {"0.0": 5106385, "1.0": 60988}
+    }
+  ],
+  "unavailable": [
+    {
+      "file": "1m_DEM_links.csv",
+      "what_it_is": "index of USGS 3DEP 1 m lidar DEM download links for the study area",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
+      "status": "NOT AVAILABLE in this sandbox",
+      "consequence": "IR-62-DEM-01 stays open. The lane must fit its isobase in detrended-elevation space and cannot resolve metre-scale shoreline benches.",
+      "free_and_official": true
+    },
+    {
+      "file": "GeoDAWN radiometric grid",
+      "source": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+      "status": "NOT AVAILABLE (usgs.gov is outside this sandbox's egress allowlist)",
+      "consequence": "hypothesis H62-C is data-blocked",
+      "free_and_official": true
+    }
+  ]
+}

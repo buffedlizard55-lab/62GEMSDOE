@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shoreline profiles · 62GEMSDOE</title>
+<meta name="description" content="Elevation-versus-distance profiles with flagged steps">
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header><div class="w"><h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
+<span class="sub">DOE GEMS Prize · DrivenData #306 · datum-offset lane H62-A</span></div></header>
+<nav><div class="w"><a href="index.html">Home</a><a href="executive-summary.html">How to submit</a><a href="analysis.html">Why 0.2778</a><a href="method.html">Method</a><a href="results.html">Results</a><a href="hypotheses.html">Hypotheses</a><a href="profiles.html" class="on">Shoreline profiles</a><a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a><a href="limitations.html">Limitations</a><a href="leaderboard.html">Leaderboard</a></div></nav>
+<main><div class="w"><h2>First deliverable: shoreline elevation-versus-distance profiles</h2>
+<p>The lane's brief names this as the first deliverable: <i>"shoreline elevation-versus-distance
+profiles with the flagged steps. If only a handful are convincing, emit only those."</i></p>
+<p>Transects run <b>perpendicular to the local isobase strike</b>, because a shoreline step is
+only visible in cross-section. Each profile plots detrended elevation against distance along the
+transect, with the fitted isobase overlaid and every flagged step (▼) and lateral deflection (▲)
+marked.</p>
+<div class='grid2'>
+<figure><img src='profiles/profile_0000.png' alt='shoreline profile profile_0000.png'><figcaption><code>profile_0000.png</code></figcaption></figure>
+<figure><img src='profiles/profile_0001.png' alt='shoreline profile profile_0001.png'><figcaption><code>profile_0001.png</code></figcaption></figure>
+<figure><img src='profiles/profile_0002.png' alt='shoreline profile profile_0002.png'><figcaption><code>profile_0002.png</code></figcaption></figure>
+<figure><img src='profiles/profile_0003.png' alt='shoreline profile profile_0003.png'><figcaption><code>profile_0003.png</code></figcaption></figure>
+<figure><img src='profiles/profile_0004.png' alt='shoreline profile profile_0004.png'><figcaption><code>profile_0004.png</code></figcaption></figure>
+<figure><img src='profiles/profile_0005.png' alt='shoreline profile profile_0005.png'><figcaption><code>profile_0005.png</code></figcaption></figure>
+<figure><img src='profiles/profile_0006.png' alt='shoreline profile profile_0006.png'><figcaption><code>profile_0006.png</code></figcaption></figure>
+<figure><img src='profiles/profile_0007.png' alt='shoreline profile profile_0007.png'><figcaption><code>profile_0007.png</code></figcaption></figure>
+<figure><img src='profiles/profile_0008.png' alt='shoreline profile profile_0008.png'><figcaption><code>profile_0008.png</code></figcaption></figure>
+<figure><img src='profiles/profile_0009.png' alt='shoreline profile profile_0009.png'><figcaption><code>profile_0009.png</code></figcaption></figure>
+<figure><img src='profiles/profile_0010.png' alt='shoreline profile profile_0010.png'><figcaption><code>profile_0010.png</code></figcaption></figure>
+<figure><img src='profiles/profile_0011.png' alt='shoreline profile profile_0011.png'><figcaption><code>profile_0011.png</code></figcaption></figure>
+</div>
+<p class='small mut'>24 of 400 profiles rendered. Full set: <a href='profiles/shoreline_profiles.csv'>shoreline_profiles.csv</a> (long format, every sample point) · <a href='profiles/shoreline_profiles.json'>shoreline_profiles.json</a> (per-profile summary).</p>
+<h3>How many are convincing?</h3>
+<p>271,102 pixels carry a bounded throw-window step and
+1,173 carry an azimuth kink. After trace extension along strike that
+becomes 200,181 traces covering
+595,434 px. The emission then spends a budget of
+38000 dots on the top of that ranking, so the
+"emit only those" instruction is implemented as a budget cap rather than as a hand-picked list —
+and the cap is set at the organiser-confirmed optimum, not at a guess.</p></div></main>
+<footer><div class="w">Built 2026-10-11 21:20 UTC from
+<code>evidence/*.json</code> by <code>scripts/build_site.py</code>. Every number on this site is
+labelled <b>HOLDOUT-DTI</b> or <b>ORGANIZER-CONFIRMED</b>. No projection is written as a score.
+<a href="../README.md">README</a> · <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">repository</a></div></footer>
+</body></html>

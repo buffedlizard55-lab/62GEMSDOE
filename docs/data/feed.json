@@ -1,0 +1,145 @@
+{
+  "built_utc": "2026-10-11T21:20:01.417594+00:00",
+  "lane": "H62-A lahontan-isobase-strain-gauge",
+  "submission": {
+    "name": "gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z",
+    "note": "H62-A Lahontan isobase step/deflection traces; arm A3; 38000 dots; UNSCORED",
+    "note_chars": 75,
+    "tif": "docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif",
+    "zip": "docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.zip",
+    "sha256": "eabd03c1ca1a5380d100024b3ed7c7401a847bdab5913a423c396bb50f624ed5",
+    "bytes": 141486,
+    "n_positive": 38000,
+    "okay_to_download_and_submit": false,
+    "verdict": "negative",
+    "verdict_reason": "IR-62-HOLDOUT-01: the promotion gate is invalid. Across 10 ORGANIZER-CONFIRMED artifacts scored on one identical frozen holdout, HOLDOUT-DTI is ANTI-correlated with the organizer's score (Spearman -0.9141, p=0.00021; partial Spearman controlling for dot count -0.681, p=0.03017; 7 of 8 count-matched pairs go the same way). The standing instruction is not to spend a slot on an idea that has not beaten the current holdout best; the shipped artifact scores 0.0000 against a best of 0.13215463311922815, and no valid instrument exists to overrule that. IR-62-UNIQ-01: the uniqueness rule says DUPLICATE and this repository will not overrule its own tasking protocol autonomously. The literal leg fires against 64 comparators; calibrating it with two nulls waives all but 2 distinct fields, and those bind only marginally (their habitat nulls sit within 0.0282 of the 0.70 waiver cliff, and which of them binds flips with the null seed). Meanwhile every statistic that can actually detect COPYING is far inside its limit: max Jaccard 0.02532 (limit 0.5), max signed rho 0.0647 (limit 0.9), max mutual containment 0.3195. is_a_copy = False. So the honest reading is that the artifact is NOT a copy and the overlap leg is mis-specified for a lane-conformant artifact -- but that is a human judgement to make, not an autonomous one.",
+    "organizer_confirmed_score": null
+  },
+  "holdout": {
+    "pooled_dti": 0.12237012069736972,
+    "ci95": [
+      0.11540764822985965,
+      0.1283613950152348
+    ],
+    "best_arm": "A3",
+    "evaluator": "gems62.holdout_segmented v1",
+    "withheld_positives": 81993,
+    "controls": {
+      "random_lines": 0.02279550276072926,
+      "random_dots": 0.055458264207717545,
+      "catalogue_offset": 0.03857455904400445
+    },
+    "all_arms": {
+      "A1": 0.10832841490488743,
+      "A2": 0.11169704743207226,
+      "A3": 0.12237012069736972
+    }
+  },
+  "uniqueness": {
+    "verdict": "DUPLICATE",
+    "n_registry": 709,
+    "worst_rho": {
+      "name": "GEMSDOE48__gemsdoe48-h50-plausibility-20261007-5b59e106.tif",
+      "value": 0.06473241166153065
+    },
+    "worst_overlap": {
+      "name": "57GEMSDOE__gems57-h57g-width-normalized-b1329dc0f248-RESEARCH-DO-NOT-SUBMIT.tif",
+      "value": 1.0
+    }
+  },
+  "validator": {
+    "ok": true,
+    "n_pass": 26,
+    "n_fail": 0,
+    "nan": 0,
+    "vmin": 0.0,
+    "vmax": 1.0,
+    "epsg": 32611,
+    "shape": [
+      3730,
+      3292
+    ]
+  },
+  "data": {
+    "spec": {
+      "height": 3730,
+      "width": 3292,
+      "count": 19,
+      "dtype": "float32",
+      "epsg": 32611,
+      "res": [
+        100.0,
+        100.0
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "footprint": 5167373,
+      "positives": 60988,
+      "labels_unique": [
+        -1,
+        0,
+        1
+      ],
+      "sentinel_cells_inside_footprint": 58171,
+      "valid_feature_pixels": 5164300,
+      "band_descriptions": [
+        "Magnetic anomaly - deviation from expected Earth's magnetic field",
+        "Reduced to pole magnetic data - magnetic anomaly corrected for latitude effects",
+        "Total magnetic intensity horizontal gradient - rate of change in horizontal direction",
+        "Geodetic second invariant - measure of strain rate tensor magnitude",
+        "Isostatic gravity anomaly slope - gradient of gravity after isostatic correction",
+        "Tilt angle or total curvature - magnetic field derivative for edge detection",
+        "Geodetic shear rate - rate of angular deformation from GPS/InSAR",
+        "Geodetic dilatation rate - rate of volumetric strain (expansion/contraction)",
+        "Total magnetic intensity vertical gradient - rate of change in vertical direction",
+        "Distance to earthquake (n=100km radius, a=15\u00b0 azimuth parameters)",
+        "Isostatic gravity anomaly vertical gradient - vertical rate of change",
+        "Detrended elevation - topography with regional trends removed",
+        "Isostatic gravity anomaly - gravity after compensating for topographic mass",
+        "Total magnetic intensity - total strength of magnetic field",
+        "Depth to basement surface - thickness of sedimentary cover",
+        "Earthquake intensity or density (n=100km radius, a=15\u00b0 parameters)",
+        "Conductivity surface - electrical conductivity of subsurface",
+        "Isostatic gravity anomaly horizontal gradient - horizontal rate of change",
+        "Detrended elevation slope - gradient of elevation after detrending"
+      ],
+      "band_categories": [
+        "magnetic_data",
+        "magnetic_data",
+        "magnetic_data",
+        "geodetic_strain",
+        "gravity_data",
+        "magnetic_data",
+        "geodetic_strain",
+        "geodetic_strain",
+        "magnetic_data",
+        "seismic",
+        "gravity_data",
+        "topographic",
+        "gravity_data",
+        "magnetic_data",
+        "subsurface",
+        "seismic",
+        "subsurface",
+        "gravity_data",
+        "topographic"
+      ],
+      "sha256": {
+        "training_features.tif": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+        "labels.tif": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+        "sample_submission.tif": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"
+      }
+    },
+    "pins": {
+      "training_features.tif": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+      "labels.tif": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "sample_submission.tif": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"
+    }
+  }
+}

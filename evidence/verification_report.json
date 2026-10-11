@@ -1,0 +1,658 @@
+{
+  "n_checks": 93,
+  "n_pass": 93,
+  "n_fail": 0,
+  "checks": [
+    {
+      "group": "A",
+      "claim": "alpha = 0.2 as published",
+      "ok": true,
+      "measured": "0.2",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/#performance-metric"
+    },
+    {
+      "group": "A",
+      "claim": "beta = 0.8 as published",
+      "ok": true,
+      "measured": "0.8",
+      "source": "same page"
+    },
+    {
+      "group": "A",
+      "claim": "R = 300 m = 3 px at 100 m",
+      "ok": true,
+      "measured": "3.0",
+      "source": "same page"
+    },
+    {
+      "group": "A",
+      "claim": "k(d) = max(1 - d/R, 0)",
+      "ok": true,
+      "measured": "61 sample distances",
+      "source": "same page, 'triangular kernel'"
+    },
+    {
+      "group": "A",
+      "claim": "published worked example TP=3.00 FP=1.89 FN=2.00 -> 0.60",
+      "ok": true,
+      "measured": "0.6027",
+      "source": "same page, #scoring-example"
+    },
+    {
+      "group": "A",
+      "claim": "vectorised DTI == literal O(|G||P|) transcription of the three sums",
+      "ok": true,
+      "measured": "max abs diff 1.42e-14 over 8 random grids",
+      "source": "src/gems62/metric.py : dti vs dti_bruteforce"
+    },
+    {
+      "group": "A",
+      "claim": "identity DTI = T/(0.2(T+F)+0.8|G|) and FN_w = |G| - TP_w",
+      "ok": true,
+      "measured": "6 random grids",
+      "source": "algebraic consequence of the published FN_w"
+    },
+    {
+      "group": "A",
+      "claim": "break-even bar at the group's best score is k > alpha*DTI",
+      "ok": true,
+      "measured": "0.05556",
+      "source": "derived in src/gems62/metric.py; verified by finite difference in the test suite"
+    },
+    {
+      "group": "A",
+      "claim": "the (2,2)-diagonal kernel weight still clears that bar",
+      "ok": true,
+      "measured": "k(2,2) = 0.25464 > 0.05556",
+      "source": "attainable_kernel_weights()"
+    },
+    {
+      "group": "A",
+      "claim": "the (2,2) diagonal is the smallest nonzero lattice weight and it clears the bar",
+      "ok": true,
+      "measured": "k(2,2)=0.05719 > bar 0.05556; weights (desc) = 1.00000, 0.66667, 0.52860, 0.33333, 0.25464, 0.05719",
+      "source": "attainable_kernel_weights(): the (2,2) diagonal sits at Euclidean 2.828 px, so k = 1 - 2.828/3 = 0.05719, which still clears k > alpha*DTI at 0.2778. A dot placed there earns credit; one at (3,0) does not."
+    },
+    {
+      "group": "A",
+      "claim": "every lattice offset outside radius 3 scores exactly zero",
+      "ok": true,
+      "measured": "25 nonzero offsets, max |d| = 2.8284 px; k(3+eps) = 0.0",
+      "source": "k(d) = max(1 - d/R, 0) with R = 3 px, from the organiser's published formula on page 967; zeros are excluded from attainable_kernel_weights()"
+    },
+    {
+      "group": "B",
+      "claim": "training_features.tif sha256 matches the published pin",
+      "ok": true,
+      "measured": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+      "source": "buffedlizard55-lab/6GEMSDOE : data/bridge/manifest.json"
+    },
+    {
+      "group": "B",
+      "claim": "labels.tif sha256 matches the published pin",
+      "ok": true,
+      "measured": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "source": "buffedlizard55-lab/6GEMSDOE : data/bridge/manifest.json"
+    },
+    {
+      "group": "B",
+      "claim": "sample_submission.tif sha256 matches the published pin",
+      "ok": true,
+      "measured": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "source": "buffedlizard55-lab/6GEMSDOE : data/bridge/manifest.json"
+    },
+    {
+      "group": "B",
+      "claim": "shape is 3730 x 3292",
+      "ok": true,
+      "measured": "3730x3292",
+      "source": "sample_submission.tif, re-read"
+    },
+    {
+      "group": "B",
+      "claim": "CRS is EPSG:32611 (UTM zone 11N)",
+      "ok": true,
+      "measured": "32611",
+      "source": "https://epsg.io/32611 and the organiser's submission-format section"
+    },
+    {
+      "group": "B",
+      "claim": "resolution is 100 x 100 m",
+      "ok": true,
+      "measured": "(100.0, 100.0)",
+      "source": "organiser: 'same resolution as the training data (100m)'"
+    },
+    {
+      "group": "B",
+      "claim": "transform origin is 243350 E / 4508550 N",
+      "ok": true,
+      "measured": "(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)",
+      "source": "training_features.tif, re-read"
+    },
+    {
+      "group": "B",
+      "claim": "19 bands",
+      "ok": true,
+      "measured": "19",
+      "source": "training_features.tif"
+    },
+    {
+      "group": "B",
+      "claim": "dtype float32",
+      "ok": true,
+      "measured": "float32",
+      "source": "same"
+    },
+    {
+      "group": "B",
+      "claim": "footprint is 5,167,373 px",
+      "ok": true,
+      "measured": "5,167,373",
+      "source": "finite cells of sample_submission.tif"
+    },
+    {
+      "group": "B",
+      "claim": "label positives are 60,988 px",
+      "ok": true,
+      "measured": "60,988",
+      "source": "labels.tif == 1"
+    },
+    {
+      "group": "B",
+      "claim": "label values are exactly {-1, 0, 1}",
+      "ok": true,
+      "measured": "[-1, 0, 1]",
+      "source": "labels.tif, int8, nodata -1"
+    },
+    {
+      "group": "B",
+      "claim": "band 12 is 'Detrended elevation' and band 19 its slope",
+      "ok": true,
+      "measured": "12='Detrended elevation - topography with re' 19='Detrended elevation slope - gradient of '",
+      "source": "TIFF DESCRIPTION tags, re-read"
+    },
+    {
+      "group": "B",
+      "claim": "there is NO absolute-elevation band (IR-62-DEM-01)",
+      "ok": true,
+      "measured": "all 19 DESCRIPTION tags scanned",
+      "source": "TIFF tags, re-read"
+    },
+    {
+      "group": "B",
+      "claim": "sentinel cells inside the footprint = 19 x 3,061 + 12 = 58,171",
+      "ok": true,
+      "measured": "58171",
+      "source": "measured here; independently reported as 3,061 by buffedlizard55-lab/GEMSDOE32"
+    },
+    {
+      "group": "B",
+      "claim": "valid-feature pixels = footprint - (3,061 all-band + 12 tc-only)",
+      "ok": true,
+      "measured": "5,164,300 = 5,167,373 - 3,073",
+      "source": "all 19 bands re-read: 3,061 in-footprint cells carry the float32 sentinel in every band, and band 6 (tc) has 12 more of its own, so 3,073 cells are invalid in at least one band (IR-62-SENTINEL-01)"
+    },
+    {
+      "group": "C",
+      "claim": "file_exists",
+      "ok": true,
+      "measured": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "driver_is_gtiff",
+      "ok": true,
+      "measured": "GTiff",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "single_band",
+      "ok": true,
+      "measured": "count=1",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "dtype_float32",
+      "ok": true,
+      "measured": "float32",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "epsg_32611",
+      "ok": true,
+      "measured": "32611",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "shape_matches_official",
+      "ok": true,
+      "measured": "3730x3292",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "resolution_100m",
+      "ok": true,
+      "measured": "(100.0, 100.0)",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "transform_matches_official",
+      "ok": true,
+      "measured": "(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "bounds_match_training",
+      "ok": true,
+      "measured": "(243350.0, 4135550.0, 572550.0, 4508550.0)",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "transform_identical_to_sample_submission_bytes",
+      "ok": true,
+      "measured": "(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "no_nan_anywhere",
+      "ok": true,
+      "measured": "nan=0",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "no_inf_anywhere",
+      "ok": true,
+      "measured": "inf=0",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "no_float32_sentinel",
+      "ok": true,
+      "measured": "sentinel_cells=0",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "min_ge_0",
+      "ok": true,
+      "measured": "0.0",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "max_le_1",
+      "ok": true,
+      "measured": "1.0",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "zero_cells_outside_0_1",
+      "ok": true,
+      "measured": "n=0",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "nodata_tag_absent_or_zero",
+      "ok": true,
+      "measured": "None",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "all_finite_inside_footprint",
+      "ok": true,
+      "measured": "non_finite_inside=0",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "inside_footprint_range_0_1",
+      "ok": true,
+      "measured": "min=0.0,max=1.0",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "outside_footprint_all_zero",
+      "ok": true,
+      "measured": "unique_outside=[0.0]",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "footprint_pixel_count_matches_spec",
+      "ok": true,
+      "measured": "5167373",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "nonzero_pixels_inside_footprint",
+      "ok": true,
+      "measured": "positive_px=38000",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "not_blank",
+      "ok": true,
+      "measured": "positive_px=38000",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "not_a_blanket",
+      "ok": true,
+      "measured": "positive_px=38000",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "zero_dots_exactly_on_mapped_catalogue",
+      "ok": true,
+      "measured": "n=0",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "values_are_binary_or_probability",
+      "ok": true,
+      "measured": "n_unique=2, min=0.0, max=1.0",
+      "source": "/home/user/62GEMSDOE/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif"
+    },
+    {
+      "group": "C",
+      "claim": "sha256 of the bytes on disk matches the run card",
+      "ok": true,
+      "measured": "eabd03c1ca1a5380d100024b3ed7c7401a847bdab5913a423c396bb50f624ed5",
+      "source": "compare with evidence/e8_run_card.json -> raster_sha256"
+    },
+    {
+      "group": "D",
+      "claim": "dot count equals the budget",
+      "ok": true,
+      "measured": "38,000",
+      "source": "scripts/run_lane.py --budget 38000"
+    },
+    {
+      "group": "D",
+      "claim": "values are strictly binary {0.0, 1.0}",
+      "ok": true,
+      "measured": "[0.0, 1.0]",
+      "source": "organiser-confirmed ladder: every file above 0.24 is binary"
+    },
+    {
+      "group": "D",
+      "claim": "minimum dot separation is >= 3 px",
+      "ok": true,
+      "measured": "3.000 px",
+      "source": "emission.py min_sep=3"
+    },
+    {
+      "group": "D",
+      "claim": "zero dots within 3 px of a mapped catalogue fault",
+      "ok": true,
+      "measured": "0.0000% within 3 px",
+      "source": "organiser-confirmed +0.0178 for this deletion (0.2600 -> 0.2778)"
+    },
+    {
+      "group": "D",
+      "claim": "median dot-to-catalogue distance is reported",
+      "ok": true,
+      "measured": "median 18.9 px (1887 m)",
+      "source": "distance_transform_edt"
+    },
+    {
+      "group": "D",
+      "claim": "all dots are inside the footprint",
+      "ok": true,
+      "measured": "0 outside",
+      "source": "sample_submission.tif finiteness"
+    },
+    {
+      "group": "D",
+      "claim": "outside the footprint every cell is exactly 0.0",
+      "ok": true,
+      "measured": "unique [0.0]",
+      "source": "the zeros-outside policy that closes the range-error mechanism M1/M2"
+    },
+    {
+      "group": "E",
+      "claim": "e0_data_verification.json exists and parses",
+      "ok": true,
+      "measured": "3856",
+      "source": "/home/user/62GEMSDOE/evidence/e0_data_verification.json"
+    },
+    {
+      "group": "E",
+      "claim": "e1_lane_surfaces.json exists and parses",
+      "ok": true,
+      "measured": "474",
+      "source": "/home/user/62GEMSDOE/evidence/e1_lane_surfaces.json"
+    },
+    {
+      "group": "E",
+      "claim": "e2_enrichment.json exists and parses",
+      "ok": true,
+      "measured": "16344",
+      "source": "/home/user/62GEMSDOE/evidence/e2_enrichment.json"
+    },
+    {
+      "group": "E",
+      "claim": "e2_canary.json exists and parses",
+      "ok": true,
+      "measured": "620",
+      "source": "/home/user/62GEMSDOE/evidence/e2_canary.json"
+    },
+    {
+      "group": "E",
+      "claim": "e2b_traces.json exists and parses",
+      "ok": true,
+      "measured": "236",
+      "source": "/home/user/62GEMSDOE/evidence/e2b_traces.json"
+    },
+    {
+      "group": "E",
+      "claim": "e3_holdout.json exists and parses",
+      "ok": true,
+      "measured": "20379",
+      "source": "/home/user/62GEMSDOE/evidence/e3_holdout.json"
+    },
+    {
+      "group": "E",
+      "claim": "e3_canary_withheld.json exists and parses",
+      "ok": true,
+      "measured": "312",
+      "source": "/home/user/62GEMSDOE/evidence/e3_canary_withheld.json"
+    },
+    {
+      "group": "E",
+      "claim": "e5_emission.json exists and parses",
+      "ok": true,
+      "measured": "1004",
+      "source": "/home/user/62GEMSDOE/evidence/e5_emission.json"
+    },
+    {
+      "group": "E",
+      "claim": "e6_submission.json exists and parses",
+      "ok": true,
+      "measured": "4837",
+      "source": "/home/user/62GEMSDOE/evidence/e6_submission.json"
+    },
+    {
+      "group": "E",
+      "claim": "e7_uniqueness.json exists and parses",
+      "ok": true,
+      "measured": "543942",
+      "source": "/home/user/62GEMSDOE/evidence/e7_uniqueness.json"
+    },
+    {
+      "group": "E",
+      "claim": "e8_run_card.json exists and parses",
+      "ok": true,
+      "measured": "13963",
+      "source": "/home/user/62GEMSDOE/evidence/e8_run_card.json"
+    },
+    {
+      "group": "E",
+      "claim": "run card carries 'hypothesis' (protocol section 5)",
+      "ok": true,
+      "measured": "str",
+      "source": "protocol section 5"
+    },
+    {
+      "group": "E",
+      "claim": "run card carries 'mechanism' (protocol section 5)",
+      "ok": true,
+      "measured": "str",
+      "source": "protocol section 5"
+    },
+    {
+      "group": "E",
+      "claim": "run card carries 'named_non_fault_process_that_could_mimic_it' (protocol section 5)",
+      "ok": true,
+      "measured": "str",
+      "source": "protocol section 5"
+    },
+    {
+      "group": "E",
+      "claim": "run card carries 'holdout' (protocol section 5)",
+      "ok": true,
+      "measured": "dict",
+      "source": "protocol section 5"
+    },
+    {
+      "group": "E",
+      "claim": "run card carries 'correlation_and_overlap_vs_registry' (protocol section 5)",
+      "ok": true,
+      "measured": "dict",
+      "source": "protocol section 5"
+    },
+    {
+      "group": "E",
+      "claim": "run card carries 'raster_sha256' (protocol section 5)",
+      "ok": true,
+      "measured": "str",
+      "source": "protocol section 5"
+    },
+    {
+      "group": "E",
+      "claim": "run card carries 'validator' (protocol section 5)",
+      "ok": true,
+      "measured": "dict",
+      "source": "protocol section 5"
+    },
+    {
+      "group": "E",
+      "claim": "run card carries 'submission_name' (protocol section 5)",
+      "ok": true,
+      "measured": "str",
+      "source": "protocol section 5"
+    },
+    {
+      "group": "E",
+      "claim": "run card carries 'submission_note' (protocol section 5)",
+      "ok": true,
+      "measured": "str",
+      "source": "protocol section 5"
+    },
+    {
+      "group": "E",
+      "claim": "run card carries 'verdict' (protocol section 5)",
+      "ok": true,
+      "measured": "str",
+      "source": "protocol section 5"
+    },
+    {
+      "group": "E",
+      "claim": "submission note is <= 140 characters",
+      "ok": true,
+      "measured": "75",
+      "source": "protocol section 5"
+    },
+    {
+      "group": "E",
+      "claim": "organizer_confirmed_score is null (nothing here has been scored)",
+      "ok": true,
+      "measured": "None",
+      "source": "protocol section 3"
+    },
+    {
+      "group": "E",
+      "claim": "holdout block labels evaluator version, withheld positives and CI",
+      "ok": true,
+      "measured": "['evaluator', 'alpha', 'beta', 'radius_m', 'n_withheld_positives_total', 'pooled_dti', 'ci95', 'controls_mean', 'beats_random_lines', 'best_arm', 'all_arms']",
+      "source": "protocol section 3"
+    },
+    {
+      "group": "E",
+      "claim": "no artifact of THIS repository appears in the organizer ledger",
+      "ok": true,
+      "measured": "no_score_in_this_repo=true",
+      "source": "registry/organizer_scores.json"
+    },
+    {
+      "group": "F",
+      "claim": "run-card sha256 == sha256 of the bytes on disk",
+      "ok": true,
+      "measured": "eabd03c1ca1a5380d100024b3ed7c7401a847bdab5913a423c396bb50f624ed5",
+      "source": "evidence/e8_run_card.json vs re-read"
+    },
+    {
+      "group": "F",
+      "claim": "run-card validator block == the receipt on disk",
+      "ok": true,
+      "measured": "26 pass / 0 fail",
+      "source": "same"
+    },
+    {
+      "group": "F",
+      "claim": "the site's download name == the file actually written",
+      "ok": true,
+      "measured": "gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif",
+      "source": "evidence/e6_submission.json"
+    },
+    {
+      "group": "F",
+      "claim": "uniqueness gate ran against a non-empty registry",
+      "ok": true,
+      "measured": "709 rasters",
+      "source": "scripts/build_registry.py over every *GEMSDOE* repo in the organisation"
+    },
+    {
+      "group": "F",
+      "claim": "uniqueness verdict is recorded, whatever it is",
+      "ok": true,
+      "measured": "DUPLICATE",
+      "source": "evidence/e7_uniqueness.json"
+    },
+    {
+      "group": "F",
+      "claim": "no projection is written as a score anywhere in the run card",
+      "ok": true,
+      "measured": "scored=False, projected_score=None",
+      "source": "protocol section 3: a projection is never written as a score"
+    },
+    {
+      "group": "F",
+      "claim": "no page claims a score for this repository's artifact",
+      "ok": true,
+      "measured": "none found",
+      "source": "grep of docs/*.html"
+    }
+  ]
+}

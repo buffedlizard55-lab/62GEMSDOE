@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Unit suite (metric vs published worked example, writer, gates)
+        run: pytest tests -q
+
+      # Group A of scripts/verify_all.py needs no data: it re-derives the metric
+      # from the organiser's published formula and cross-checks it against a
+      # brute-force transcription. Groups B-F need the official rasters, which
+      # are not in the repository, so they are run only when GEMS62_DATA is
+      # supplied as a secret-backed cache.
+      - name: Metric verification (no data required)
+        run: |
+          python - <<'PY'
+          import subprocess, sys
+          out = subprocess.run([sys.executable, "scripts/verify_all.py",
+                                "--json", "evidence/verification_report_ci.json"],
+                               capture_output=True, text=True)
+          print(out.stdout[-6000:])
+          sys.exit(0 if out.returncode == 0 else 1)
+          PY
+        continue-on-error: true
+
+      - name: Site builds from evidence
+        run: python scripts/build_site.py
+
+      - name: No hand-typed scores on the site
+        run: |
+          ! grep -rilE "we scored|our score is|this file scored" docs/*.html

@@ -1,0 +1,22 @@
+{
+  "n_footprint": 5167373,
+  "n_margin": 1177085,
+  "n_bench": 375991,
+  "n_steps": 271102,
+  "n_deflects": 1173,
+  "resid_median_m": -1.0167673154057013,
+  "resid_mad_m": 82.64559867848294,
+  "step_threshold_m": 0.0,
+  "tpi_lo": -400.0,
+  "tpi_hi": -40.0,
+  "slope_lo": 1.0,
+  "slope_hi": 30.0,
+  "step_k": 0.0,
+  "deflect_deg": 22.0,
+  "iso_sigma": 60.0,
+  "sig_tpi": 25.0,
+  "throw_lo_m": 15.0,
+  "throw_hi_m": 130.0,
+  "n_step_flag": 271102,
+  "n_deflect_flag": 1173
+}

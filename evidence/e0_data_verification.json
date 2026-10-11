@@ -1,0 +1,125 @@
+{
+  "ok": true,
+  "spec": {
+    "height": 3730,
+    "width": 3292,
+    "count": 19,
+    "dtype": "float32",
+    "epsg": 32611,
+    "res": [
+      100.0,
+      100.0
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "footprint": 5167373,
+    "positives": 60988,
+    "labels_unique": [
+      -1,
+      0,
+      1
+    ],
+    "sentinel_cells_inside_footprint": 58171,
+    "valid_feature_pixels": 5164300,
+    "band_descriptions": [
+      "Magnetic anomaly - deviation from expected Earth's magnetic field",
+      "Reduced to pole magnetic data - magnetic anomaly corrected for latitude effects",
+      "Total magnetic intensity horizontal gradient - rate of change in horizontal direction",
+      "Geodetic second invariant - measure of strain rate tensor magnitude",
+      "Isostatic gravity anomaly slope - gradient of gravity after isostatic correction",
+      "Tilt angle or total curvature - magnetic field derivative for edge detection",
+      "Geodetic shear rate - rate of angular deformation from GPS/InSAR",
+      "Geodetic dilatation rate - rate of volumetric strain (expansion/contraction)",
+      "Total magnetic intensity vertical gradient - rate of change in vertical direction",
+      "Distance to earthquake (n=100km radius, a=15\u00b0 azimuth parameters)",
+      "Isostatic gravity anomaly vertical gradient - vertical rate of change",
+      "Detrended elevation - topography with regional trends removed",
+      "Isostatic gravity anomaly - gravity after compensating for topographic mass",
+      "Total magnetic intensity - total strength of magnetic field",
+      "Depth to basement surface - thickness of sedimentary cover",
+      "Earthquake intensity or density (n=100km radius, a=15\u00b0 parameters)",
+      "Conductivity surface - electrical conductivity of subsurface",
+      "Isostatic gravity anomaly horizontal gradient - horizontal rate of change",
+      "Detrended elevation slope - gradient of elevation after detrending"
+    ],
+    "band_categories": [
+      "magnetic_data",
+      "magnetic_data",
+      "magnetic_data",
+      "geodetic_strain",
+      "gravity_data",
+      "magnetic_data",
+      "geodetic_strain",
+      "geodetic_strain",
+      "magnetic_data",
+      "seismic",
+      "gravity_data",
+      "topographic",
+      "gravity_data",
+      "magnetic_data",
+      "subsurface",
+      "seismic",
+      "subsurface",
+      "gravity_data",
+      "topographic"
+    ],
+    "sha256": {
+      "training_features.tif": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+      "labels.tif": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "sample_submission.tif": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"
+    }
+  },
+  "expected": {
+    "height": 3730,
+    "width": 3292,
+    "count": 19,
+    "dtype": "float32",
+    "epsg": 32611,
+    "res": [
+      100.0,
+      100.0
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "footprint": 5167373,
+    "positives": 60988
+  },
+  "sha256_pins": {
+    "training_features.tif": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "labels.tif": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+    "sample_submission.tif": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"
+  },
+  "band_index": {
+    "mag_anom": 1,
+    "rtp": 2,
+    "tmi_hg": 3,
+    "geod_2ndinv": 4,
+    "iso_grav_anom_slope": 5,
+    "tc": 6,
+    "geod_shearrate": 7,
+    "geod_dilaterate": 8,
+    "tmi_vg": 9,
+    "deq_n100a15": 10,
+    "iso_grav_anom_vg": 11,
+    "det_elev": 12,
+    "iso_grav_anom": 13,
+    "tmi": 14,
+    "depth_to_base_surf": 15,
+    "ieq_n100a15": 16,
+    "cond_surf": 17,
+    "iso_grav_anom_hg": 18,
+    "det_elev_slope": 19
+  }
+}
