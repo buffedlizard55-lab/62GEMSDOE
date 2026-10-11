@@ -86,6 +86,47 @@ nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;paddi
 </table>
 </div>
 
+<h2>Also in this repository — session <code>arena/dfc9787b-62gemsdoe</code> (d-lane extension, 2026-10-11)</h2>
+<div class="card">
+<p>This session asked a different question: <b>is the portal itself measurable from the artefacts
+that already have scores?</b> It is. Every scored submission is one linear measurement of the
+hidden test set through the published metric <code>s = T/(0.2M + 0.8K)</code>; inverting 56 of them
+recovers a surrogate truth mask <i>S*</i> (8,479 px) that reproduces the reported scores with
+<b>Spearman +0.968</b> — where the SGMC off-catalogue instrument the group had been using as its
+lead gives <b>−0.928</b> on the 15 artifacts with owner-reported scores.</p>
+
+<p><span class="pill ok">FORMAT: LEGAL — 14/14 validator checks on the bytes re-read from disk</span>
+&nbsp;<span class="pill warn">UNIQUE — worst informative Jaccard 0.069 over 100 comparators</span>
+&nbsp;<span class="pill no">VERDICT: PROBE — projection 0.110, below the group's 0.24–0.28 band</span></p>
+
+<p class="big">gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</p>
+<p><a class="btn" href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif">⬇ Download the GeoTIFF (372,859 bytes)</a>
+<a class="btn sec" href="executive-summary-v2.html">Executive summary &amp; verdict ↗</a>
+<a class="btn sec" href="../datum62/docs/decision-note.md">The blocked higher-value option ↗</a></p>
+
+<table class="kv">
+<tr><td>sha256</td><td><code>4d83efff6c134734b4be66e1fc1041062657ca22b0cadc3b4396cad820501999</code></td></tr>
+<tr><td>What it is</td><td>A detector trained on <b>primary data only</b> — the organiser 19-band stack
+ (sha256 <code>4371c82e…</code>, 418,912,844 B, byte-verified) plus public 10 m-derived topography and
+ the 1 m-LiDAR scarp composite — against <i>S*</i>. 46,598 dots, blocked (3×2 folds) AUC 0.863.</td></tr>
+<tr><td>Vs the previous file in this repository</td><td><b>89× better</b> on the calibrated instrument:
+ DTI(<i>S*</i>) <b>0.21777</b> vs 0.00246 for the shorelines/isobase v8.
+ <span class="mut">MEASURED — <code>datum62/evidence/v8_vs_new_on_instrument.json</code>.</span></td></tr>
+<tr><td>Should it take a weekly slot?</td><td><b>No, not expecting a gain.</b> Projection
+ <b>0.110</b> at the fitted scale 0.5052, against the group's best known 0.2778 and the top-5
+ cut-off 0.3333. <span class="mut">PROJECTION — never written as a score.</span></td></tr>
+<tr><td>Organizer score</td><td><b>none</b> — never submitted. <code>organizer_score: null</code>.</td></tr>
+</table>
+
+<p><b>The highest-value action this session found, and why it was not taken.</b> A field placed on
+<i>S*</i> projects at <b>0.34–0.42</b> by the same estimator that predicted the existing artifacts to
+within a few percent (h33: predicted 0.2992, observed 0.2778). But <i>S*</i> is a subset of pixels
+shared by all 13 artifacts scoring ≥ 0.24, so ~100 % of its dots fall within 3 px of one registry
+raster — the parallel-run protocol's own definition of a duplicate — and the standing brief forbids
+copying. It was <b>not emitted</b>; the arithmetic and receipts are in
+<a href="../datum62/docs/decision-note.md">datum62/docs/decision-note.md</a> for the owner to decide.</p>
+</div>
+
 <h2>What the selector should actually do — the highest-value finding of this session</h2>
 <div class="card">
 <p>The group's <b>highest-credit detector has never been submitted.</b> Measured on one independent

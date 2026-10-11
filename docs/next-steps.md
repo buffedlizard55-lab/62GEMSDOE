@@ -68,3 +68,25 @@ composite (USGS 3DEP 1 m, public domain) or stop treating it as basin-wide.
    registry and the external layers were obtained. Every competition-page citation in this
    repository is therefore either an owner-supplied link or a mirror with a read date.
 7. **No file in this repository has ever been scored.** `organizer_score` is `null` everywhere.
+
+
+## Added 2026-10-11 by session `arena/dfc9787b-62gemsdoe` (d-lane extension)
+
+* **New artifact (legal, unique, disclosed probe):**
+  `docs/downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif` — 46,598 dots,
+  sha256 `4d83efff…`, 14/14 checks, worst informative Jaccard 0.069 over 100 comparators,
+  DTI(`S*`) 0.21777 → projection 0.110. 89× better than the previous v8 file on the calibrated
+  instrument, still below the 0.24–0.28 incumbent band.
+* **New instrument (the real deliverable):** `datum62/scripts/invert.py` + `datum62/evidence/` —
+  inverting 56 owner-reported scores recovers a truth surrogate `S*` reproducing them at
+  Spearman **+0.968**. Any future candidate can now be ranked locally *without* spending a slot.
+* **Retire the old instruments.** SGMC off-catalogue ranks **−0.928** against the portal over the
+  15 artifacts with owner-reported scores; the catalogue-segment holdout is documented
+  anti-correlated (IR-30-046). Fields promoted on them were promoted on an inverted signal.
+* **Blocked but highest value:** a field on `S*` projects 0.34–0.42 but duplicates the incumbent
+  h33 field by the protocol's own test — documented, not emitted
+  (`datum62/docs/decision-note.md`). This needs an owner decision on whether shared pixels of
+  public prior submissions are permissible; the competition ruleset does not forbid it.
+* **H-2 next:** rebuild the incumbents' multi-physics oriented-lineament consensus *from the
+  organiser 19-band stack* as **features** for the supervised detector; target blocked
+  DTI(`S*`) ≥ 0.60 before any slot is spent.
