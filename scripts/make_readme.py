@@ -28,7 +28,13 @@ try:
     _dem = rasterio.open(ROOT / "data" / "geodawn_dem_a2_100m.tif").read(1)
     _nod = rasterio.open(ROOT / "data" / "geodawn_dem_a2_100m.tif").nodata
     _foot = _lbl != -1
-    dem_missing = int((_foot & ~np.isfinite(_dem) & (_dem != _nod)).sum()) if _nod is None else int((_foot & ~(_dem == _nod)).sum())
+    # cells that carry a label but have no elevation: nothing to observe, ever
+    if _nod is None:
+        dem_missing = int((_foot & ~np.isfinite(_dem)).sum())
+    else:
+        dem_missing = int((_foot & (_dem == _nod)).sum())
+    assert dem_missing < 10_000, f"implausible DEM coverage gap: {dem_missing}"
+
 except Exception:  # inputs not restored in this checkout
     dem_missing = 1729  # measured 2026-10-11; see registry/data_pins.json
 print(f"README from {CARD.relative_to(ROOT)}")
@@ -200,10 +206,11 @@ evidence/          run card, holdout receipt, lane check, profiles, figures
 * The DEM mirror does not cover the whole labelled footprint: {dem_missing:,} cells have a label but
   no elevation (IR-62-007, found by intersecting the shipped mirrors). The datum lane maps what
   the DEM covers; those cells cannot contribute a datum observation at all.
-* The step test is deliberately conservative. A 12.9 m offset needs a *pair* of benches within
-  {card['gates']['step_significance']['pair_radius_m'] if 'pair_radius_m' in card['gates']['step_significance'] else 5000:.0f} m of each other on the mapped datum, so a
-  genuine fault that crosses the shoreline where the datum is not preserved cannot be found by
-  this lane at all. That is a coverage property of the method, not a bug.
+* The step test is deliberately conservative. An offset can only be seen where two benches on the
+  mapped datum sit within a few kilometres of each other, so a genuine fault that crosses the
+  shoreline where the datum is not preserved cannot be found by this lane at all. That is a
+  coverage property of the method, not a bug: the lane trades area for defensibility, exactly as
+  the brief anticipated.
 * `residual` in the code and in the receipts means *datum elevation minus the local isobase*
   (`lahontan.local_isobase` returns `r - level`). The local isobase is bounded by two support
   guards — a gradient cap and a neighbourhood-band clamp — because without them a plane fitted

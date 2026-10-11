@@ -163,13 +163,14 @@ evidence/          run card, holdout receipt, lane check, profiles, figures
   3.43 m vs 2.99 m — and both accept the same single location, which is why the finding is
   reported as robust to the choice. If a future lane finds them disagreeing strongly, that is
   the first thing to investigate.
-* The DEM mirror does not cover the whole labelled footprint: 5,165,644 cells have a label but
+* The DEM mirror does not cover the whole labelled footprint: 1,729 cells have a label but
   no elevation (IR-62-007, found by intersecting the shipped mirrors). The datum lane maps what
   the DEM covers; those cells cannot contribute a datum observation at all.
-* The step test is deliberately conservative. A 12.9 m offset needs a *pair* of benches within
-  5000 m of each other on the mapped datum, so a
-  genuine fault that crosses the shoreline where the datum is not preserved cannot be found by
-  this lane at all. That is a coverage property of the method, not a bug.
+* The step test is deliberately conservative. An offset can only be seen where two benches on the
+  mapped datum sit within a few kilometres of each other, so a genuine fault that crosses the
+  shoreline where the datum is not preserved cannot be found by this lane at all. That is a
+  coverage property of the method, not a bug: the lane trades area for defensibility, exactly as
+  the brief anticipated.
 * `residual` in the code and in the receipts means *datum elevation minus the local isobase*
   (`lahontan.local_isobase` returns `r - level`). The local isobase is bounded by two support
   guards — a gradient cap and a neighbourhood-band clamp — because without them a plane fitted
