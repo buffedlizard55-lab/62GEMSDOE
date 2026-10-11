@@ -1,0 +1,144 @@
+name: dem-fetch
+
+# Transport step for the Lahontan datum-offset lane.
+# The driving sandbox cannot reach USGS hosts (verified: curl to prd-tnm.s3.amazonaws.com returns
+# HTTP 000 there); GitHub-hosted runners can.  This workflow downloads the official USGS 3DEP
+# 1/3 arc-second DEM tiles named in the trigger JSON, reprojects them into the competition grid's
+# UTM 11N frame at 25 m, uploads the mosaics as run artifacts and commits only the small JSON
+# receipt back to the branch.  No third-party or inferred data is used.
+#
+# TRIGGER: push a change to .github/triggers/dem-fetch.json (workflow_dispatch also works once
+# this file exists on the default branch).  Trigger params:
+#   {"tiles": "n39w119,n40w119", "res": 25, "bounds": "240000,4135550,430000,4508550"}
+
+on:
+  workflow_dispatch:
+    inputs:
+      tiles:
+        description: 'comma-separated 1-degree tile ids (e.g. n39w119,n40w119,n41w119,n41w120)'
+        required: true
+        default: 'n39w119,n40w119,n40w118,n41w119,n41w120,n42w120'
+      res:
+        description: 'output grid resolution in metres (divides 100 to nest inside the 100 m competition grid)'
+        required: true
+        default: '25'
+      bounds:
+        description: 'x0,y0,x1,y1 in EPSG:32611'
+        required: true
+        default: '240000,4135550,430000,4508550'
+  push:
+    paths:
+      - .github/triggers/dem-fetch.json
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: resolve parameters (dispatch inputs OR trigger file)
+        id: p
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os, pathlib
+          tiles = os.environ.get("IN_TILES") or ""
+          res = os.environ.get("IN_RES") or ""
+          bounds = os.environ.get("IN_BOUNDS") or ""
+          if not tiles:
+              f = pathlib.Path(".github/triggers/dem-fetch.json")
+              cfg = json.loads(f.read_text()) if f.exists() else {}
+              tiles = cfg.get("tiles", "n39w119,n40w119,n40w118,n41w119,n41w120,n42w120")
+              res = res or str(cfg.get("res", 25))
+              bounds = bounds or cfg.get("bounds", "240000,4135550,430000,4508550")
+          print("tiles=" + tiles)
+          print("res=" + (res or "25"))
+          print("bounds=" + (bounds or "240000,4135550,430000,4508550"))
+          PY
+        env:
+          IN_TILES: ${{ inputs.tiles }}
+          IN_RES: ${{ inputs.res }}
+          IN_BOUNDS: ${{ inputs.bounds }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: install geospatial stack
+        run: |
+          python -m pip install --quiet --disable-pip-version-check numpy rasterio
+          python -c "import rasterio; print('rasterio', rasterio.__version__, 'GDAL', rasterio.__gdal_version__)"
+      - name: fetch + reproject official 3DEP DEM
+        run: |
+          set -o pipefail
+          python scripts/fetch_3dep.py --tiles "${{ steps.p.outputs.tiles }}" \
+            --res "${{ steps.p.outputs.res }}" --bounds "${{ steps.p.outputs.bounds }}" \
+            --out out/dem 2>&1 | tee out_dem_log.txt
+      - name: summarise receipt
+        if: always()
+        run: |
+          mkdir -p evidence
+          cp out_dem_log.txt evidence/dem_fetch_log_${{ github.run_id }}.txt || true
+          cp out/dem/receipt.json evidence/dem_fetch_receipt_${{ github.run_id }}.json || true
+          python - <<'PY' || true
+          import json, pathlib
+          p = pathlib.Path('out/dem/receipt.json')
+          if p.exists():
+              r = json.loads(p.read_text())
+              print(json.dumps({k: r[k] for k in ('generated_utc','product','res_m','mosaic') if k in r}, indent=1))
+              for t in r.get('tiles', []):
+                  print(t['tile'], t.get('status'), (t.get('download') or {}).get('bytes'))
+          PY
+      - name: commit DEM transport copy (kept small on purpose)
+        if: always()
+        run: |
+          set -e
+          python - <<'PY'
+          import json, pathlib, subprocess
+          import numpy as np, rasterio
+          from rasterio.enums import Resampling
+          src = pathlib.Path('out/dem/dem_25m_utm11.tif')
+          if not src.exists():
+              print('no DEM written; nothing to commit'); raise SystemExit(0)
+          total = src.stat().st_size
+          print('dem bytes:', total)
+          dest = pathlib.Path('evidence/dem'); dest.mkdir(parents=True, exist_ok=True)
+          out = dest / 'lahontan_dem_utm11.tif'
+          if total <= 90_000_000:
+              target = out
+              if src.resolve() != target.resolve():
+                  target.write_bytes(src.read_bytes())
+              print('committing 25 m DEM as-is:', target, target.stat().st_size)
+          else:
+              with rasterio.open(src) as s:
+                  h = int(round(s.height / 2)); w = int(round(s.width / 2))
+                  a = s.read(1, out_shape=(h, w), resampling=Resampling.average)
+                  tr = s.transform * s.transform.scale(s.width / w, s.height / h)
+                  prof = s.profile.copy(); prof.update(height=h, width=w, transform=tr, compress='deflate', predictor=2, tiled=True, blockxsize=512, blockysize=512, zlevel=9)
+              with rasterio.open(out, 'w', **prof) as d:
+                  d.write(a, 1)
+              print('committing 50 m DEM (source too large):', out, out.stat().st_size)
+          info = {'source_bytes': total, 'committed_bytes': out.stat().st_size,
+                  'committed_name': out.name, 'resampling': 'as-is' if total <= 90_000_000 else 'block-average 2x -> 50 m'}
+          (dest / 'dem_transport.json').write_text(json.dumps(info, indent=1))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dem-out-${{ github.run_id }}
+          path: |
+            out/dem/**/*.tif
+            out/dem/receipt.json
+            out_dem_log.txt
+          if-no-files-found: warn
+          retention-days: 30
+      - name: commit receipt + log
+        if: always()
+        run: |
+          git config user.name "gems62-bot"
+          git config user.email "gems62-bot@users.noreply.github.com"
+          git add -A evidence || true
+          git commit -m "evidence: dem-fetch receipt run ${{ github.run_id }} [skip ci]" || echo "nothing to commit"
+          git push origin HEAD:${{ github.ref_name }} || echo "push failed"

@@ -1,0 +1,101 @@
+{
+ "generated_by": "lane62/scripts/crosscheck_sibling_lane.py",
+ "convention": "positivity = value>0; 3 px = binary_dilation(iterations=3); effective coverage vs the competition footprint",
+ "targets": [
+  "docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif",
+  "docs/downloads/gems62-lahontan-isobase-99dots-zeros.tif",
+  "docs/downloads/gems62-lahontan-isobase-99dots-nan.tif"
+ ],
+ "pairs": [
+  {
+   "mine": "gems62-lahontan-datum-break-dotted-primary-zeros.tif",
+   "theirs": "gemsdoe62-datum-lahontan-isobase-v8.tif",
+   "n_positive_mine": 86968,
+   "n_positive_theirs": 1660,
+   "coverage_theirs": 0.00032124640508823343,
+   "effective_coverage_theirs": 0.005548467277279964,
+   "discriminating": true,
+   "overlap_3px_one_sided": 0.009888694692300616,
+   "exact_overlap_fraction_of_mine": 0.0005174316990157299,
+   "jaccard": 0.0005079981486289694,
+   "spearman": 0.002113790994074453,
+   "spearman_method": "spearman",
+   "duplicate_under_protocol": false
+  },
+  {
+   "mine": "gems62-lahontan-datum-break-dotted-primary-zeros.tif",
+   "theirs": "gems62-lahontan-isobase-99dots-zeros.tif",
+   "n_positive_mine": 86968,
+   "n_positive_theirs": 99,
+   "coverage_theirs": 1.9158671146828378e-05,
+   "effective_coverage_theirs": 0.0003355670279656607,
+   "discriminating": true,
+   "overlap_3px_one_sided": 0.0009428755404286634,
+   "exact_overlap_fraction_of_mine": 4.599392880139822e-05,
+   "jaccard": 4.594374188805807e-05,
+   "spearman": -0.0006650757085919949,
+   "spearman_method": "spearman",
+   "duplicate_under_protocol": false
+  },
+  {
+   "mine": "gems62-lahontan-datum-break-dotted-primary-zeros.tif",
+   "theirs": "gems62-lahontan-isobase-99dots-nan.tif",
+   "n_positive_mine": 86968,
+   "n_positive_theirs": 99,
+   "coverage_theirs": 1.9158671146828378e-05,
+   "effective_coverage_theirs": 0.0003355670279656607,
+   "discriminating": true,
+   "overlap_3px_one_sided": 0.0009428755404286634,
+   "exact_overlap_fraction_of_mine": 4.599392880139822e-05,
+   "jaccard": 4.594374188805807e-05,
+   "spearman": -0.0006650757085919949,
+   "spearman_method": "spearman",
+   "duplicate_under_protocol": false
+  },
+  {
+   "mine": "gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif",
+   "theirs": "gemsdoe62-datum-lahontan-isobase-v8.tif",
+   "n_positive_mine": 87,
+   "n_positive_theirs": 1660,
+   "coverage_theirs": 0.00032124640508823343,
+   "effective_coverage_theirs": 0.005548467277279964,
+   "discriminating": true,
+   "overlap_3px_one_sided": 0.0,
+   "exact_overlap_fraction_of_mine": 0.0,
+   "jaccard": 0.0,
+   "spearman": -7.747206321361024e-05,
+   "spearman_method": "spearman",
+   "duplicate_under_protocol": false
+  },
+  {
+   "mine": "gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif",
+   "theirs": "gems62-lahontan-isobase-99dots-zeros.tif",
+   "n_positive_mine": 87,
+   "n_positive_theirs": 99,
+   "coverage_theirs": 1.9158671146828378e-05,
+   "effective_coverage_theirs": 0.0003355670279656607,
+   "discriminating": true,
+   "overlap_3px_one_sided": 0.0,
+   "exact_overlap_fraction_of_mine": 0.0,
+   "jaccard": 0.0,
+   "spearman": -2.2361182901683065e-05,
+   "spearman_method": "spearman",
+   "duplicate_under_protocol": false
+  },
+  {
+   "mine": "gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif",
+   "theirs": "gems62-lahontan-isobase-99dots-nan.tif",
+   "n_positive_mine": 87,
+   "n_positive_theirs": 99,
+   "coverage_theirs": 1.9158671146828378e-05,
+   "effective_coverage_theirs": 0.0003355670279656607,
+   "discriminating": true,
+   "overlap_3px_one_sided": 0.0,
+   "exact_overlap_fraction_of_mine": 0.0,
+   "jaccard": 0.0,
+   "spearman": -2.2361182901683065e-05,
+   "spearman_method": "spearman",
+   "duplicate_under_protocol": false
+  }
+ ]
+}

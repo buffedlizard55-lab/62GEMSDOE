@@ -1,0 +1,179 @@
+{
+ "purpose": "verify EXP-3's finding on the SAME instrument with the SAME masking",
+ "instrument_B": {
+  "truth": "SGMC 1:750k off-catalogue",
+  "truth_px": 79615
+ },
+ "lane_variants": {
+  "N50_half1": {
+   "n_dots": 35,
+   "mean_credit_instrumentB": 0.1572830345310612,
+   "instrumentA_dti": 0.00011241860832075803
+  },
+  "N50_half4": {
+   "n_dots": 88,
+   "mean_credit_instrumentB": 0.16117700222312037,
+   "instrumentA_dti": 0.00017100191848499167
+  },
+  "N120_half6": {
+   "n_dots": 321,
+   "mean_credit_instrumentB": 0.1071853437834151,
+   "instrumentA_dti": 0.00033777473814150657
+  },
+  "N3552_half30": {
+   "n_dots": 34101,
+   "mean_credit_instrumentB": 0.03878038618790147,
+   "instrumentA_dti": 0.012510919623233252
+  }
+ },
+ "champion_family": [
+  {
+   "file": "gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif",
+   "repo": "docs",
+   "n_dots": 45000,
+   "mean_credit_instrumentB": 0.292941827420781
+  },
+  {
+   "file": "gemsdoe31-add-arm-d28-20261004-8acb75e1-allfinite.tif",
+   "repo": "docs",
+   "n_dots": 55304,
+   "mean_credit_instrumentB": 0.10503138633266866
+  },
+  {
+   "file": "gemsdoe31-add-arm-d28-20261004-8acb75e1-nan.tif",
+   "repo": "docs",
+   "n_dots": 55304,
+   "mean_credit_instrumentB": 0.10503138633266866
+  },
+  {
+   "file": "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+   "repo": "docs",
+   "n_dots": 44090,
+   "mean_credit_instrumentB": 0.09891666376188589
+  },
+  {
+   "file": "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+   "repo": "docs",
+   "n_dots": 44090,
+   "mean_credit_instrumentB": 0.09891666376188589
+  },
+  {
+   "file": "gems29-refd28-repro-20261003-1cc7dc534d51-nan.tif",
+   "repo": "docs",
+   "n_dots": 44090,
+   "mean_credit_instrumentB": 0.09891666376188589
+  },
+  {
+   "file": "gems29-refd28-repro-20261003-1cc7dc534d51-zeros.tif",
+   "repo": "docs",
+   "n_dots": 44090,
+   "mean_credit_instrumentB": 0.09891666376188589
+  },
+  {
+   "file": "gemsdoe29-historical-d28-20261002-e56ea318af89-nan.tif",
+   "repo": "docs",
+   "n_dots": 44090,
+   "mean_credit_instrumentB": 0.09891666376188589
+  },
+  {
+   "file": "gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+   "repo": "docs",
+   "n_dots": 44090,
+   "mean_credit_instrumentB": 0.09891666376188589
+  },
+  {
+   "file": "gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+   "repo": "docs",
+   "n_dots": 44090,
+   "mean_credit_instrumentB": 0.09891666376188589
+  },
+  {
+   "file": "gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca-nanoutside.tif",
+   "repo": "docs",
+   "n_dots": 44090,
+   "mean_credit_instrumentB": 0.09891666376188589
+  },
+  {
+   "file": "gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+   "repo": "docs",
+   "n_dots": 44090,
+   "mean_credit_instrumentB": 0.09891666376188589
+  },
+  {
+   "file": "gemsdoe31-reference-d28-offcat-44090-20261004-nan.tif",
+   "repo": "docs",
+   "n_dots": 44090,
+   "mean_credit_instrumentB": 0.09891666376188589
+  },
+  {
+   "file": "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+   "repo": "docs",
+   "n_dots": 44090,
+   "mean_credit_instrumentB": 0.09891666376188589
+  },
+  {
+   "file": "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+   "repo": "docs",
+   "n_dots": 44090,
+   "mean_credit_instrumentB": 0.09891666376188589
+  },
+  {
+   "file": "gems29-wormrank-d28-20261003-59dcaf6dd11d-nan.tif",
+   "repo": "docs",
+   "n_dots": 41338,
+   "mean_credit_instrumentB": 0.09766141463531565
+  },
+  {
+   "file": "gems29-wormrank-d28-20261003-59dcaf6dd11d-zeros.tif",
+   "repo": "docs",
+   "n_dots": 41338,
+   "mean_credit_instrumentB": 0.09766141463531565
+  },
+  {
+   "file": "gems29-wormrank-d28-20261003-73a8c4d12139-nan.tif",
+   "repo": "history",
+   "n_dots": 41349,
+   "mean_credit_instrumentB": 0.0976549490181627
+  },
+  {
+   "file": "gems29-wormrank-d28-20261003-73a8c4d12139-zeros.tif",
+   "repo": "history",
+   "n_dots": 41349,
+   "mean_credit_instrumentB": 0.0976549490181627
+  },
+  {
+   "file": "gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-allfinite.tif",
+   "repo": "docs",
+   "n_dots": 40199,
+   "mean_credit_instrumentB": 0.08441258193207439
+  },
+  {
+   "file": "gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+   "repo": "docs",
+   "n_dots": 40199,
+   "mean_credit_instrumentB": 0.08441258193207439
+  },
+  {
+   "file": "gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif",
+   "repo": "docs",
+   "n_dots": 65236,
+   "mean_credit_instrumentB": 0.07103236032379201
+  },
+  {
+   "file": "h56-final-dotted-ridge-d2p8-20261009T190421Z.tif",
+   "repo": "docs",
+   "n_dots": 37654,
+   "mean_credit_instrumentB": 0.06568031569367012
+  },
+  {
+   "file": "h56-dotted-ridge-d2p8-20261009-20261009T190143Z.tif",
+   "repo": "docs",
+   "n_dots": 40199,
+   "mean_credit_instrumentB": 0.06442959124220958
+  }
+ ],
+ "best_champion_mean_credit": 0.292941827420781,
+ "lane_best_mean_credit": 0.16117700222312037,
+ "reused_for": "LEARNING ONLY -- the group's own prior submissions, used as a comparison set. No byte of any of them enters this repository's candidate raster.",
+ "ratio_lane_over_best_champion": 0.550201395417685
+}

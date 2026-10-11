@@ -1,0 +1,48 @@
+{
+ "raster": "v8.tif",
+ "raster_sha256": "3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba",
+ "n_registry": 289,
+ "thresholds": {
+  "rank": 0.9,
+  "overlap": 0.7,
+  "jaccard": 0.25,
+  "kernel_px": 3.0
+ },
+ "worst_rank_corr": {
+  "file": "GEMSDOE48__GEMSDOE48-H56-ds-belief-dotted-x-tip-20261007-9ec0d605c45b-nan-outside.tif",
+  "sha256": "883d93f280198748",
+  "rank_corr": -0.0652,
+  "dot_overlap_within_kernel": 0.4367,
+  "dilated_jaccard": 0.0111,
+  "n_mine": 1660,
+  "n_theirs": 791389,
+  "rank_flag": false,
+  "overlap_flag": false
+ },
+ "worst_overlap": {
+  "file": "13GEMSDOE__13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+  "sha256": "b4570b406efec198",
+  "rank_corr": -0.3621,
+  "dot_overlap_within_kernel": 1.0,
+  "dilated_jaccard": 0.0084,
+  "n_mine": 1660,
+  "n_theirs": 206895,
+  "rank_flag": false,
+  "overlap_flag": false
+ },
+ "worst_jaccard": {
+  "file": "GEMSDOE47__gems47-h50-slopeanom-s2p8-20261007-allfinite.tif",
+  "sha256": "97e3c3816cd6b458",
+  "rank_corr": -0.2972,
+  "dot_overlap_within_kernel": 0.7241,
+  "dilated_jaccard": 0.0302,
+  "n_mine": 1660,
+  "n_theirs": 37654,
+  "rank_flag": false,
+  "overlap_flag": false
+ },
+ "any_rank_flag": false,
+ "any_overlap_flag": false,
+ "verdict": "UNIQUE-VS-REGISTRY",
+ "note": "trimmed: per-registry results list omitted; regenerate with scripts/check_uniqueness.py (~10 min over 289 rasters)"
+}

@@ -1,0 +1,224 @@
+{
+ "lane": "datum-offset lane \u2014 Lake Lahontan shorelines as a strain gauge",
+ "session": "62GEMSDOE, branch arena/4e304372-62gemsdoe, 2026-10-11",
+ "hypothesis": "The Lahontan highstand shoreline is a near-level datum (~15 ka); a fault that cuts it produces an abrupt step or a lateral deflection that is measurable in the DEM and locatable where no catalogue fault is mapped.",
+ "mechanism": "fit a smooth isobase to the highstand band, take the datum residual zeta = z - isobase, trace its zero contour, flag vertical steps and heading changes along each trace, seed a dot train at every flag, extend it along the local DEM-ridge direction, thin to 282.8 m, prune 3 px off the catalogue",
+ "non_fault_process_that_could_mimic_it": "Post-pluvial isostatic rebound and northward tilting tilt the datum by ~20 m across the basin (Adams, Wesnousky & Bills 1999; Adams et al. 2008). A fitted quadratic absorbs part of that tilt into its curvature terms, so a rebound gradient can masquerade as a step. Wave-cut terrace/berm constructional relief (<2.6 m within an embayment, Adams & Wesnousky 1998) is a second mimic at the same amplitude as the flagged steps.",
+ "holdout_dti": {
+  "instrumentA": {
+   "value": 0.02719577791531498,
+   "ci95": [
+    0.0268484840142163,
+    0.027535205607762656
+   ],
+   "withheld_positive_px": 369289,
+   "control_same_stratum": 0.04856457400225137,
+   "edge": -0.02136879608693639
+  },
+  "instrumentB": {
+   "value": 0.09674616479345947,
+   "withheld_positive_px": 79615,
+   "control_same_stratum": 0.08632811038351249,
+   "edge": 0.010418054409946989
+  },
+  "instrumentB_prime": {
+   "value": 0.03284233518636465,
+   "mass_px": 7905,
+   "control_same_stratum": 0.02912910620477438,
+   "edge": 0.0037132289815902733
+  },
+  "evaluator": "gems62.holdout (this repository), alpha 0.2, beta 0.8, 300 m triangular kernel, 2x2 spatial block, catalogue masked pixel-exactly",
+  "withheld_positives_note": "instrument A withholds whole catalogue segments dilated by the kernel radius; instrument B uses an independent off-catalogue compilation, not the withheld catalogue"
+ },
+ "correlation_and_overlap_vs_registry": {
+  "verdict": "UNIQUE",
+  "n_comparators": 508,
+  "n_discriminating": 321,
+  "worst_overlap_informative": {
+   "file": "riftline-context-distance-20260925T011817Z-7b6010637a.tif",
+   "repo": "GEMSDOE3",
+   "n_positive": 352506,
+   "coverage_frac": 0.06821764173014025,
+   "effective_coverage": 0.37879847264751354,
+   "discriminating": true,
+   "overlap_3px_one_sided": 0.4065863306043602,
+   "jaccard": 0.014749957283310937,
+   "spearman": 0.0032060546619776063,
+   "spearman_method": "spearman"
+  },
+  "worst_overlap_strict": {
+   "file": "17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+   "repo": "17GEMSDOE",
+   "n_positive": 5167373,
+   "coverage_frac": 1.0,
+   "effective_coverage": 1.0,
+   "discriminating": false,
+   "overlap_3px_one_sided": 1.0,
+   "jaccard": 0.016830215275731013,
+   "spearman": NaN,
+   "spearman_method": null
+  },
+  "correlation_leg_pass": true,
+  "limit_overlap": 0.7,
+  "limit_abs_spearman": 0.9,
+  "note": "the strict leg is degenerate (see IR-62-04)"
+ },
+ "sibling_lane_crosscheck": {
+  "note": "main already carries an independently merged datum-offset lane (v8). These candidates were compared against its shipped TIFs with the same convention as the registry gate; none is a duplicate.",
+  "pairs": [
+   {
+    "mine": "gems62-lahontan-datum-break-dotted-primary-zeros.tif",
+    "theirs": "gemsdoe62-datum-lahontan-isobase-v8.tif",
+    "n_positive_mine": 86968,
+    "n_positive_theirs": 1660,
+    "coverage_theirs": 0.00032124640508823343,
+    "effective_coverage_theirs": 0.005548467277279964,
+    "discriminating": true,
+    "overlap_3px_one_sided": 0.009888694692300616,
+    "exact_overlap_fraction_of_mine": 0.0005174316990157299,
+    "jaccard": 0.0005079981486289694,
+    "spearman": 0.002113790994074453,
+    "spearman_method": "spearman",
+    "duplicate_under_protocol": false
+   },
+   {
+    "mine": "gems62-lahontan-datum-break-dotted-primary-zeros.tif",
+    "theirs": "gems62-lahontan-isobase-99dots-zeros.tif",
+    "n_positive_mine": 86968,
+    "n_positive_theirs": 99,
+    "coverage_theirs": 1.9158671146828378e-05,
+    "effective_coverage_theirs": 0.0003355670279656607,
+    "discriminating": true,
+    "overlap_3px_one_sided": 0.0009428755404286634,
+    "exact_overlap_fraction_of_mine": 4.599392880139822e-05,
+    "jaccard": 4.594374188805807e-05,
+    "spearman": -0.0006650757085919949,
+    "spearman_method": "spearman",
+    "duplicate_under_protocol": false
+   },
+   {
+    "mine": "gems62-lahontan-datum-break-dotted-primary-zeros.tif",
+    "theirs": "gems62-lahontan-isobase-99dots-nan.tif",
+    "n_positive_mine": 86968,
+    "n_positive_theirs": 99,
+    "coverage_theirs": 1.9158671146828378e-05,
+    "effective_coverage_theirs": 0.0003355670279656607,
+    "discriminating": true,
+    "overlap_3px_one_sided": 0.0009428755404286634,
+    "exact_overlap_fraction_of_mine": 4.599392880139822e-05,
+    "jaccard": 4.594374188805807e-05,
+    "spearman": -0.0006650757085919949,
+    "spearman_method": "spearman",
+    "duplicate_under_protocol": false
+   },
+   {
+    "mine": "gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif",
+    "theirs": "gemsdoe62-datum-lahontan-isobase-v8.tif",
+    "n_positive_mine": 87,
+    "n_positive_theirs": 1660,
+    "coverage_theirs": 0.00032124640508823343,
+    "effective_coverage_theirs": 0.005548467277279964,
+    "discriminating": true,
+    "overlap_3px_one_sided": 0.0,
+    "exact_overlap_fraction_of_mine": 0.0,
+    "jaccard": 0.0,
+    "spearman": -7.747206321361024e-05,
+    "spearman_method": "spearman",
+    "duplicate_under_protocol": false
+   },
+   {
+    "mine": "gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif",
+    "theirs": "gems62-lahontan-isobase-99dots-zeros.tif",
+    "n_positive_mine": 87,
+    "n_positive_theirs": 99,
+    "coverage_theirs": 1.9158671146828378e-05,
+    "effective_coverage_theirs": 0.0003355670279656607,
+    "discriminating": true,
+    "overlap_3px_one_sided": 0.0,
+    "exact_overlap_fraction_of_mine": 0.0,
+    "jaccard": 0.0,
+    "spearman": -2.2361182901683065e-05,
+    "spearman_method": "spearman",
+    "duplicate_under_protocol": false
+   },
+   {
+    "mine": "gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif",
+    "theirs": "gems62-lahontan-isobase-99dots-nan.tif",
+    "n_positive_mine": 87,
+    "n_positive_theirs": 99,
+    "coverage_theirs": 1.9158671146828378e-05,
+    "effective_coverage_theirs": 0.0003355670279656607,
+    "discriminating": true,
+    "overlap_3px_one_sided": 0.0,
+    "exact_overlap_fraction_of_mine": 0.0,
+    "jaccard": 0.0,
+    "spearman": -2.2361182901683065e-05,
+    "spearman_method": "spearman",
+    "duplicate_under_protocol": false
+   }
+  ]
+ },
+ "raster_sha256": "f58ae055030e5eddc3ec704d6958019be4220188efc03367e089baf024f32e59",
+ "validator_output": {
+  "single_band": true,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "shape": [
+   3730,
+   3292
+  ],
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "nodata": null,
+  "cells": 12279160,
+  "non_finite_cells": 0,
+  "values_outside_unit_interval": 0,
+  "positive_px_inside_footprint": 86968,
+  "dots_on_catalogue": 0,
+  "checks": [
+   "single_band",
+   "dtype_float32",
+   "crs",
+   "shape",
+   "transform",
+   "pixel_size_100m",
+   "no_nodata_tag",
+   "finite_inside_footprint",
+   "zero_outside_footprint",
+   "no_nan_outside_footprint_allfinite",
+   "all_values_ge_0",
+   "all_values_le_1",
+   "no_sentinel",
+   "total_cells"
+  ],
+  "source": "scripts/finalize.py writes and then RE-READS the bytes from disk; the receipt is only produced if every clause passes"
+ },
+ "submission_name": "gems62-lahontan-datum-break-dotted-primary",
+ "note_140": "Lahontan highstand datum-offset lane: 86,968 dots on shoreline datum breaks, dotted 283 m, 0 on catalogue; UNSCORED",
+ "verdict": "negative",
+ "verdict_reason": "format-valid and unique under the informative gate, but dominated on the same instrument by a registered prior field (mean credit per dot 0.55x the best registered field's at 1/511x its dot count), and its standing edge over a same-stratum control on the independent instrument is +0.0104 in absolute DTI. No weekly slot.",
+ "budget": {
+  "experiments_planned": 3,
+  "experiments_run": 3,
+  "note": "lane product + holdout; selectivity sweep; emission economics. A separate verification pass re-measured the same-instrument comparison because an absolute mean credit is not interpretable."
+ },
+ "second_artifact": {
+  "name": "gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif",
+  "sha256": "0cb75334251abd7ef29565039cd13a50e60bafb12a35a257d8a4b0dbfb477edf",
+  "n_dots": 87,
+  "status": "DO NOT SUBMIT",
+  "reason": "fails the uniqueness gate's informative leg at 0.9885 against gems41-h42-basinmargin-s4-n40000-20261006T015229Z-allfinite.tif"
+ },
+ "deliverable_1": {
+  "file": "docs/downloads/lahontan_shoreline_profiles.json",
+  "n_traces": 44,
+  "n_flags": 3552,
+  "note": "elevation-versus-distance profiles with flagged steps"
+ }
+}

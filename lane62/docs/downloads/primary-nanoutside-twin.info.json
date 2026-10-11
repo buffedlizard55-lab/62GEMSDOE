@@ -1,0 +1,6 @@
+{
+ "name": "gems62-lahontan-datum-break-dotted-primary-nanoutside.tif",
+ "sha256": "62623f82b46f20a07fcd9ae1605e728a461c48126159384c8ba8ec30b00f2561",
+ "bytes": 49139392,
+ "note": "published-format twin: NaN outside the footprint, bit-identical in-footprint values to the primary.  The all-finite primary is the one recommended for upload because it cannot trip a whole-raster range check."
+}

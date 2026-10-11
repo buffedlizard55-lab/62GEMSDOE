@@ -1,0 +1,636 @@
+{
+ "run_card_version": "parallel-run protocol v1",
+ "gates": {
+  "isobase_order": 3,
+  "bench_slope_max_deg": 3.0,
+  "bench_min_cells": 4,
+  "step_threshold_m": 3.0,
+  "step_significance": {
+   "robust_sigma_m_global_mad": 2.989,
+   "robust_sigma_m": 3.428,
+   "sigma_estimator": "median|jump| over pairs within radius_m, / 0.9539",
+   "z_min": 2.5,
+   "significance_gate_m": 12.118,
+   "significance_gate_if_global_mad_m": 10.566,
+   "resolution_gate_m": 3.0,
+   "pairs_within_radius": 73,
+   "pairs_clearing_resolution_gate": 43,
+   "pairs_rejected_as_borderline": 42,
+   "pairs_accepted": 1,
+   "locations": 1,
+   "borderline_candidates": [
+    {
+     "x": 438279.1113147045,
+     "y": 4449933.463124141,
+     "jump_m": -10.07547187438755,
+     "pair_distance_m": 3787.0471445052276,
+     "z": 2.078577962147617
+    },
+    {
+     "x": 384488.1818181818,
+     "y": 4459050.909090909,
+     "jump_m": -8.681400027061347,
+     "pair_distance_m": 1453.2778567518378,
+     "z": 1.7909798173035274
+    },
+    {
+     "x": 308708.3333333334,
+     "y": 4357383.333333334,
+     "jump_m": 8.336917806102472,
+     "pair_distance_m": 3975.515340458429,
+     "z": 1.719912857684794
+    },
+    {
+     "x": 335842.14836223505,
+     "y": 4344204.238921002,
+     "jump_m": -7.983040452775375,
+     "pair_distance_m": 2439.5051790661355,
+     "z": 1.6469076746919586
+    },
+    {
+     "x": 362869.64285714284,
+     "y": 4364259.523809524,
+     "jump_m": -7.965156732706802,
+     "pair_distance_m": 2578.5057481852846,
+     "z": 1.6432182488388383
+    },
+    {
+     "x": 303676.2755102041,
+     "y": 4350531.632653061,
+     "jump_m": -7.529800688138131,
+     "pair_distance_m": 4046.102789373408,
+     "z": 1.5534039462225449
+    },
+    {
+     "x": 305080.0647088103,
+     "y": 4383967.44026879,
+     "jump_m": 7.167116631782363,
+     "pair_distance_m": 2708.4829672216024,
+     "z": 1.478581933302259
+    },
+    {
+     "x": 292500.0,
+     "y": 4351118.75,
+     "jump_m": -7.127122217235986,
+     "pair_distance_m": 3254.540098078375,
+     "z": 1.4703310533711242
+    },
+    {
+     "x": 267422.4137931034,
+     "y": 4450755.172413792,
+     "jump_m": -7.066088662635545,
+     "pair_distance_m": 4106.728622178279,
+     "z": 1.4577397819025886
+    },
+    {
+     "x": 298750.4166666666,
+     "y": 4486725.416666666,
+     "jump_m": -6.928378605010817,
+     "pair_distance_m": 4832.847820442675,
+     "z": 1.4293300861073495
+    },
+    {
+     "x": 326205.23313492065,
+     "y": 4353766.493055556,
+     "jump_m": -6.736661817173495,
+     "pair_distance_m": 3967.874116864568,
+     "z": 1.389778758373966
+    },
+    {
+     "x": 304946.875,
+     "y": 4406309.375,
+     "jump_m": 6.683989199708038,
+     "pair_distance_m": 4743.194137393071,
+     "z": 1.378912354970008
+    },
+    {
+     "x": 385500.0,
+     "y": 4460313.333333334,
+     "jump_m": 6.305605696027191,
+     "pair_distance_m": 1782.4826631542046,
+     "z": 1.3008515334227275
+    },
+    {
+     "x": 335564.49961729813,
+     "y": 4411755.668771528,
+     "jump_m": -6.1712660559390855,
+     "pair_distance_m": 4939.910966461721,
+     "z": 1.2731371574797195
+    },
+    {
+     "x": 327729.269005848,
+     "y": 4447858.830409356,
+     "jump_m": -6.05875169608859,
+     "pair_distance_m": 3160.8866620413182,
+     "z": 1.2499253544271105
+    },
+    {
+     "x": 325689.5717977113,
+     "y": 4351040.439276486,
+     "jump_m": 5.964491282594379,
+     "pair_distance_m": 1582.9493475999125,
+     "z": 1.2304793552089448
+    },
+    {
+     "x": 306009.375,
+     "y": 4406636.875,
+     "jump_m": 5.95613963367701,
+     "pair_distance_m": 3076.7743864313484,
+     "z": 1.2287564033111418
+    },
+    {
+     "x": 330328.34870443563,
+     "y": 4356100.702678964,
+     "jump_m": -5.899281357135637,
+     "pair_distance_m": 4597.433175345963,
+     "z": 1.2170264950688265
+    },
+    {
+     "x": 331394.40509317815,
+     "y": 4413227.947128763,
+     "jump_m": -5.839871406480208,
+     "pair_distance_m": 4754.255725087322,
+     "z": 1.2047701744017454
+    },
+    {
+     "x": 306551.84757053293,
+     "y": 4337814.327978056,
+     "jump_m": -5.530464138034732,
+     "pair_distance_m": 2892.1768097345657,
+     "z": 1.1409392057347667
+    }
+   ]
+  },
+  "deflection_min_deg": 35.0,
+  "min_trace_length_m": 400.0,
+  "coherence_min": 0.15,
+  "relief_min_m": 4.0,
+  "spacing_m": 300.0,
+  "exclusion_m": 200.0
+ },
+ "step_pair_test": {
+  "pairs_within_radius": 73,
+  "pairs_clearing_resolution_gate": 43,
+  "pairs_accepted": 1,
+  "pairs_rejected_as_borderline": 42,
+  "significance_gate_m": 12.118,
+  "robust_sigma_m": 3.428,
+  "borderline_candidates": [
+   {
+    "x": 438279.1113147045,
+    "y": 4449933.463124141,
+    "jump_m": -10.07547187438755,
+    "pair_distance_m": 3787.0471445052276,
+    "z": 2.078577962147617
+   },
+   {
+    "x": 384488.1818181818,
+    "y": 4459050.909090909,
+    "jump_m": -8.681400027061347,
+    "pair_distance_m": 1453.2778567518378,
+    "z": 1.7909798173035274
+   },
+   {
+    "x": 308708.3333333334,
+    "y": 4357383.333333334,
+    "jump_m": 8.336917806102472,
+    "pair_distance_m": 3975.515340458429,
+    "z": 1.719912857684794
+   },
+   {
+    "x": 335842.14836223505,
+    "y": 4344204.238921002,
+    "jump_m": -7.983040452775375,
+    "pair_distance_m": 2439.5051790661355,
+    "z": 1.6469076746919586
+   },
+   {
+    "x": 362869.64285714284,
+    "y": 4364259.523809524,
+    "jump_m": -7.965156732706802,
+    "pair_distance_m": 2578.5057481852846,
+    "z": 1.6432182488388383
+   },
+   {
+    "x": 303676.2755102041,
+    "y": 4350531.632653061,
+    "jump_m": -7.529800688138131,
+    "pair_distance_m": 4046.102789373408,
+    "z": 1.5534039462225449
+   },
+   {
+    "x": 305080.0647088103,
+    "y": 4383967.44026879,
+    "jump_m": 7.167116631782363,
+    "pair_distance_m": 2708.4829672216024,
+    "z": 1.478581933302259
+   },
+   {
+    "x": 292500.0,
+    "y": 4351118.75,
+    "jump_m": -7.127122217235986,
+    "pair_distance_m": 3254.540098078375,
+    "z": 1.4703310533711242
+   },
+   {
+    "x": 267422.4137931034,
+    "y": 4450755.172413792,
+    "jump_m": -7.066088662635545,
+    "pair_distance_m": 4106.728622178279,
+    "z": 1.4577397819025886
+   },
+   {
+    "x": 298750.4166666666,
+    "y": 4486725.416666666,
+    "jump_m": -6.928378605010817,
+    "pair_distance_m": 4832.847820442675,
+    "z": 1.4293300861073495
+   },
+   {
+    "x": 326205.23313492065,
+    "y": 4353766.493055556,
+    "jump_m": -6.736661817173495,
+    "pair_distance_m": 3967.874116864568,
+    "z": 1.389778758373966
+   },
+   {
+    "x": 304946.875,
+    "y": 4406309.375,
+    "jump_m": 6.683989199708038,
+    "pair_distance_m": 4743.194137393071,
+    "z": 1.378912354970008
+   },
+   {
+    "x": 385500.0,
+    "y": 4460313.333333334,
+    "jump_m": 6.305605696027191,
+    "pair_distance_m": 1782.4826631542046,
+    "z": 1.3008515334227275
+   },
+   {
+    "x": 335564.49961729813,
+    "y": 4411755.668771528,
+    "jump_m": -6.1712660559390855,
+    "pair_distance_m": 4939.910966461721,
+    "z": 1.2731371574797195
+   },
+   {
+    "x": 327729.269005848,
+    "y": 4447858.830409356,
+    "jump_m": -6.05875169608859,
+    "pair_distance_m": 3160.8866620413182,
+    "z": 1.2499253544271105
+   },
+   {
+    "x": 325689.5717977113,
+    "y": 4351040.439276486,
+    "jump_m": 5.964491282594379,
+    "pair_distance_m": 1582.9493475999125,
+    "z": 1.2304793552089448
+   },
+   {
+    "x": 306009.375,
+    "y": 4406636.875,
+    "jump_m": 5.95613963367701,
+    "pair_distance_m": 3076.7743864313484,
+    "z": 1.2287564033111418
+   },
+   {
+    "x": 330328.34870443563,
+    "y": 4356100.702678964,
+    "jump_m": -5.899281357135637,
+    "pair_distance_m": 4597.433175345963,
+    "z": 1.2170264950688265
+   },
+   {
+    "x": 331394.40509317815,
+    "y": 4413227.947128763,
+    "jump_m": -5.839871406480208,
+    "pair_distance_m": 4754.255725087322,
+    "z": 1.2047701744017454
+   },
+   {
+    "x": 306551.84757053293,
+    "y": 4337814.327978056,
+    "jump_m": -5.530464138034732,
+    "pair_distance_m": 2892.1768097345657,
+    "z": 1.1409392057347667
+   }
+  ]
+ },
+ "step_locations_detail": [
+  {
+   "x": 439575.85567811556,
+   "y": 4452804.379278391,
+   "jump_m": 12.925566864559404,
+   "pair_distance_m": 2537.2460081431923,
+   "az_deg": 30.399544392638518,
+   "n_pairs": 1
+  }
+ ],
+ "deflection_locations_detail": [
+  {
+   "x": 327307.75211352657,
+   "y": 4355684.36745169,
+   "az_change_deg": 87.67677260961653,
+   "gap_m": 1536.0870085874558,
+   "n_pairs": 6
+  },
+  {
+   "x": 361163.2478632479,
+   "y": 4340729.487179488,
+   "az_change_deg": 72.70613996001677,
+   "gap_m": 2754.8854193509756,
+   "n_pairs": 1
+  },
+  {
+   "x": 292500.0,
+   "y": 4351118.75,
+   "az_change_deg": 71.48747969880068,
+   "gap_m": 3254.540098078375,
+   "n_pairs": 1
+  },
+  {
+   "x": 413518.43565088755,
+   "y": 4482051.263560157,
+   "az_change_deg": 64.83851893491402,
+   "gap_m": 4941.399035189955,
+   "n_pairs": 1
+  }
+ ],
+ "slug": "gems62-lahontan-isobase-99dots",
+ "lane": "datum-offset: Lake Lahontan shorelines as a strain gauge",
+ "hypothesis": "The Lahontan highstand shoreline is an isochronous near-level datum formed immediately prior to 13.07 +/- 0.06 ka. After removing a smooth isobase (isostatic rebound + regional tilt), abrupt steps and lateral deflections of that datum mark faults that displace the shoreline. The competition's hidden labels are expert-identified faults absent from the USGS/INGENIOUS catalogue, and a shoreline offset is exactly the surface expression an expert maps.",
+ "mechanism": "Wave-planed highstand benches are mapped in the DEM inside the published deformed-elevation window (1313.5-1345.8 m); a robust 2-D polynomial isobase is fitted to the bench elevations; residuals above the published 3 m elevation resolution, and azimuth changes above 35 deg between nearby elongated benches, are flagged; a trace is seeded at each flag and extended while the local structure tensor (coherence >= 0.15, cross-strike relief >= 4 m) supports it; unit dots are emitted at 300 m kernel-matched spacing with a 200 m catalogue exclusion.",
+ "named_non_fault_process_that_could_mimic_it": "(a) Beach-ridge constructional scatter -- crests build 1-3 m above still water, which is why the step threshold defaults to the published 3 m resolution; (b) fluvial and deltaic terraces graded to lower still-water levels, which sit inside the elevation window without being the highstand datum; (c) alluvial-fan and bajada construction surfaces that are flat enough to pass the slope gate; (d) eolian (dune) crests; (e) differential rebound and sediment compaction producing steps at the lake-margin sediment/bedrock contact with no fault.",
+ "holdout": {
+  "label": "HOLDOUT-DTI",
+  "evaluator": "gems62.holdout.v1 (4 spatial quadrants, whole segments, 300 m buffer)",
+  "withheld_segments": 3199,
+  "withheld_positive_cells": 60988,
+  "design": "4 spatial quadrants; whole 8-connected catalogue segments withheld per fold; visible faults masked pixel-exactly out of the scored footprint; a 300 m gap around visible faults is excluded from false-positive accounting; truth is never dilated",
+  "leak_free_reason": "the lane does not read the catalogue for placement (the only catalogue term is an exclusion gate that can only remove mass), so withheld positives cannot help it",
+  "pooled_dti": 2.6027063966964748e-05,
+  "ci95_cluster_bootstrap_whole_segments": [
+   5.517209120036438e-06,
+   0.00016180041394316518
+  ],
+  "bootstrap_n": 60,
+  "validity_note": "Catalogue-truth proxy. The competition target is faults ABSENT from the catalogue; they are masked out of scoring, so this number cannot measure the lane's performance on the real target. It is a leak-free lower bound on recovering a mapped-fault population."
+ },
+ "raster_sha256": "fc628410873f018d998ca60e0a00228c999aff035e2e9dc22ccd571a6e8c0348",
+ "raster_bytes": 56048,
+ "raster_path": "docs/downloads/gems62-lahontan-isobase-99dots-zeros.tif",
+ "nan_twin_sha256": "8675fa33d4d0b181c793c4733cb45b464a0eb227db8ae09e0f2a444d2dc2f181",
+ "nan_twin_path": "docs/downloads/gems62-lahontan-isobase-99dots-nan.tif",
+ "validator_output": {
+  "passed": true,
+  "failures": [],
+  "notes": [],
+  "detail": {
+   "path": "docs/downloads/gems62-lahontan-isobase-99dots-zeros.tif",
+   "sha256": "fc628410873f018d998ca60e0a00228c999aff035e2e9dc22ccd571a6e8c0348",
+   "bytes": 56048,
+   "count": 1,
+   "dtype": "float32",
+   "crs": "EPSG:32611",
+   "shape": [
+    3730,
+    3292
+   ],
+   "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+   ],
+   "nodata": null,
+   "values_min": 0.0,
+   "values_max": 1.0,
+   "nan_inside_footprint": 0,
+   "nan_outside_footprint": 0,
+   "outside_encoding": "all finite outside the footprint",
+   "positive_cells": 99,
+   "max_positive_value": 1.0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "passed": true,
+   "failures": [],
+   "notes": []
+  }
+ },
+ "isobase": {
+  "global": {
+   "n_benches": 650,
+   "order": 3,
+   "x0": 348501.7689184912,
+   "y0": 4399462.911268859,
+   "terms": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     1
+    ],
+    [
+     0,
+     2
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     1,
+     0
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     0
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     0
+    ]
+   ],
+   "coef": [
+    1329.7520039226824,
+    -0.010398999532598662,
+    -0.0003136399378238097,
+    8.315984909289343e-07,
+    -0.02144496668216633,
+    -0.00031426636108978313,
+    6.036036352551984e-06,
+    -0.00010292292440096786,
+    7.715952103913923e-06,
+    1.830208959065995e-06
+   ],
+   "residual_sigma_m": 12.163092917535485,
+   "residual_p16_m": -10.57891253295269,
+   "residual_p84_m": 11.39709565973516,
+   "residual_median_m": -0.7848444763581028,
+   "irls_iters": 12,
+   "huber_k": 1.345
+  },
+  "levels": {
+   "modes": [
+    {
+     "value_m": -10.21494133684837,
+     "mass_cells": 1565.111111111111,
+     "fraction": 0.058368935096363025
+    },
+    {
+     "value_m": -7.214941336848369,
+     "mass_cells": 1940.333333333333,
+     "fraction": 0.07236239625073033
+    },
+    {
+     "value_m": -4.214941336848369,
+     "mass_cells": 5139.333333333333,
+     "fraction": 0.1916652508836558
+    },
+    {
+     "value_m": -1.2149413368483692,
+     "mass_cells": 10399.777777777777,
+     "fraction": 0.3878471948849486
+    },
+    {
+     "value_m": 1.7850586631516308,
+     "mass_cells": 4255.11111111111,
+     "fraction": 0.1586892473697514
+    },
+    {
+     "value_m": 4.785058663151631,
+     "mass_cells": 3514.444444444444,
+     "fraction": 0.1310669755145508
+    }
+   ],
+   "n_modes": 6,
+   "dominant_m": -1.2149413368483692,
+   "bin_m": 1.0,
+   "strand_tolerance_m": 4.0,
+   "strand_benches": 176,
+   "strand_cells": 60227
+  },
+  "local_strand": {
+   "radius_m": 12000.0,
+   "min_neighbours": 6,
+   "huber_k": 1.345,
+   "residual_sigma_m": 2.98855393702501,
+   "n_benches": 176,
+   "median_neighbours": 6,
+   "support_guards": {
+    "gradient_max_m_per_km": 0.5,
+    "quantile": 0.1,
+    "rule": "fitted gradient capped; level clamped to the neighbourhood band"
+   }
+  }
+ },
+ "emission": {
+  "n_traces": 5,
+  "n_sampled": 114,
+  "n_dropped_outside_footprint": 0,
+  "n_dropped_catalogue_exclusion": 6,
+  "n_dots": 99,
+  "spacing_m": 300.0,
+  "exclusion_m": 200.0,
+  "min_separation_m": 270.0
+ },
+ "counts": {
+  "benches": 176,
+  "datum_cells": 90664,
+  "step_locations": 1,
+  "step_pairs_clearing_resolution_gate": 43,
+  "step_pairs_rejected_as_borderline": 42,
+  "deflection_locations": 4,
+  "traces": 5,
+  "dots": 99,
+  "traces_longer_than_1km": 5,
+  "mean_trace_length_m": 6560.000000003228
+ },
+ "correlation_overlap_vs_registry": {
+  "n_registry": 21,
+  "n_vacuous": 3,
+  "max_abs_rho": 0.0006223534344613031,
+  "rho_limit": 0.9,
+  "max_frac3px_non_vacuous": 0.40404040404040403,
+  "max_frac3px_all": 1.0,
+  "overlap_limit": 0.7,
+  "rho_trip": false,
+  "overlap_trip": false,
+  "closest_non_vacuous": "gems61c_gravstep_liveband_40k",
+  "vacuous_aliases": [
+   "gems13_r11_greedy_mp",
+   "gems13_r13_lattice_s5_00904",
+   "gems13_r14_union_tips10_lat6"
+  ],
+  "passed": true,
+  "verdict": "DISTINCT LANE"
+ },
+ "correlation_overlap_vs_registry_surface_before_placement": {
+  "full": {
+   "cells": 60227,
+   "max_abs_rho": 0.015551258242103785,
+   "max_frac3px_non_vacuous": 0.37421754362661264,
+   "rho_limit": 0.9,
+   "overlap_limit": 0.7,
+   "n_registry": 21,
+   "n_vacuous": 3,
+   "closest_non_vacuous": "gems61c_gravstep_liveband_40k",
+   "passed": true,
+   "verdict": "DISTINCT LANE"
+  },
+  "evidence": {
+   "cells": 16156,
+   "max_abs_rho": 0.007957380885532076,
+   "max_frac3px_non_vacuous": 0.29902203515721715,
+   "rho_limit": 0.9,
+   "overlap_limit": 0.7,
+   "n_registry": 21,
+   "n_vacuous": 3,
+   "closest_non_vacuous": "gems61c_gravstep_liveband_40k",
+   "passed": true,
+   "verdict": "DISTINCT LANE"
+  }
+ },
+ "score_model": {
+  "target_dti": 0.3195,
+  "truth_mass_cells": 12000,
+  "observed_family_mean_credit": 0.13,
+  "perfect_placement_ceiling_at_225_dots": 0.02332814930015552,
+  "mass_required_at_observed_credit": 46402.420574886535,
+  "mass_required_at_credit_0.20": 22536.37031594416,
+  "credit_required_at_40000_dots": 0.14058,
+  "credit_required_at_25000_dots": 0.18658800000000003,
+  "marginal_bar_credit": 0.0639,
+  "marginal_bar_distance_m": 280.83000000000004,
+  "label": "MODEL (algebra on the published metric with an inherited G input), NOT a score and NOT a projection written as a score",
+  "in_family_check": {
+   "note": "the algebra reproduces the two owner-reported rows of the same artifact family to within 0.02 % (c=0.122, N=40,199 -> 0.27802 vs owner-reported 0.2778); the fit is not a score, it is the reason the model is believed for the ranking question",
+   "reproduced_02778": 0.2780234469778569,
+   "reproduced_02600": 0.29205016831360625
+  },
+  "this_artifact_ceiling": 0.01029127424686584,
+  "this_artifact_ceiling_note": "hard upper bound on this file: even with EVERY dot landing on a truth pixel the index cannot exceed this value, because FN_w is charged 0.8 per missing truth cell and only 0.2 per emitted cell"
+ },
+ "safe_to_upload": false,
+ "upload_decision": "DO NOT SPEND A WEEKLY SLOT. The file is unique and format-valid, and it is OK TO DOWNLOAD for inspection, but its hard upper bound (perfect placement, 99 dots, |G|=12,000) is 0.0103. The protocol gate 'do not spend a submission slot on an idea that has not beaten the current holdout best' is not met. Use it as evidence for the Phase-2 defensibility case, not as an initial-round scorer.",
+ "verdict": "negative"
+}
