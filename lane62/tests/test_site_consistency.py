@@ -165,6 +165,18 @@ def test_out_of_footprint_cells_are_zero_and_footprint_is_not_blank(site):
     assert rec["n_positive_inside_footprint"] == site["files"]["primary"]["stats"]["n_dots"]
 
 
+def test_sibling_lane_crosscheck_is_distinct_and_reported():
+    x = load(EV / "crosscheck_sibling_lane.json")
+    assert x["pairs"], "the sibling-lane comparison must have run"
+    for row in x["pairs"]:
+        assert row["duplicate_under_protocol"] is False, row
+        assert row["overlap_3px_one_sided"] <= 0.70, row
+        assert abs(row["spearman"]) <= 0.90, row
+    t = text_of("index")
+    assert "Sibling-lane cross-check" in t
+    assert f"{x['pairs'][0]['overlap_3px_one_sided']:.4f}" in t
+
+
 def test_no_page_promises_a_score_it_does_not_have():
     for page in PAGES:
         t = text_of(page)

@@ -146,7 +146,7 @@ is why this lane's negative result matters.
 ## 4. REPRODUCE
 
 ```bash
-git clone https://github.com/buffedlizard55-lab/62GEMSDOE && cd 62GEMSDOE
+git clone https://github.com/buffedlizard55-lab/62GEMSDOE && cd 62GEMSDOE/lane62
 python3 -m pip install -r requirements.txt
 
 bash scripts/download_competition_data.sh     # hash-checks data/official/; never logs in
@@ -168,6 +168,41 @@ contract, and the suite on every push.
 
 ---
 
+## 4b. THIS LANE SHARES AN ASSIGNMENT WITH A SIBLING LANE ALREADY ON `main`
+
+`main` carries an **independently merged datum-offset lane** (the sibling session's v8/v99
+work: `docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif`, `src/gems62/{datum,emit,uniqueness,score_model}.py`,
+`registry/`, `tools/`). A naive merge of this branch was add/add-conflicted in ten files because
+both sessions used the same root paths. This session therefore lives entirely under `lane62/`
+and touches **none** of the sibling lane's files; the sibling lane is left canonical at the root.
+
+**Are the two artefacts copies of each other? No.** `lane62/scripts/crosscheck_sibling_lane.py`
+re-runs the protocol's duplicate test against the sibling's shipped TIFs, with the same
+convention as the 508-raster gate (positivity `value > 0`, "within 3 px" =
+`binary_dilation(iterations=3)`, rank correlation sampled from the footprint):
+
+| this lane's file | sibling file | one-sided 3 px overlap | exact pixel overlap | Spearman | verdict |
+|---|---|---|---|---|---|
+| primary (86,968 dots) | `gemsdoe62-datum-lahontan-isobase-v8.tif` | 0.0099 | 0.0005 | +0.0021 | distinct |
+| primary | `gems62-lahontan-isobase-99dots-zeros.tif` | 0.0009 | 0.0000 | −0.0007 | distinct |
+| primary | `gems62-lahontan-isobase-99dots-nan.tif` | 0.0009 | 0.0000 | −0.0007 | distinct |
+| secondary (87 dots) | all three | 0.0000 | 0.0000 | −0.0001…0.0000 | distinct |
+
+Evidence: `lane62/evidence/crosscheck_sibling_lane.json`. The two lanes agree on the physics and
+disagree on the emission: the sibling ships 99-dot/segment geometry (`UNIQUE-VS-REGISTRY`,
+worst rank correlation −0.065), this lane ships an 86,968-dot dotted field and reaches a
+**negative** verdict because its credit per dot sits below the marginal bar (§3).
+
+**One defect found while merging, reported and not fixed (out of lane).** After the merge the
+repository-root suite cannot collect on a clean `origin/main` worktree either:
+`src/gems62/lahontan.py` imports `PIXEL_M` from `src/gems62/grid.py` (not defined there), and
+`tests/test_metric.py` imports `brute_force_components` from `src/gems62/metric.py` (not defined
+there; both symbols exist in `src/gems62/superseded_20261011/`). Guessing which variant is
+canonical would be a silent overwrite of another session's files, so it is logged as `IR-62-11`
+and left to the lane that owns them. This lane's own suite is independent and green.
+
+---
+
 ## 5. WHAT IS STILL BLOCKED, AND WHAT TO DO NEXT
 
 **Blocked here (flagged as irregularities, not worked around):**
@@ -184,6 +219,10 @@ contract, and the suite on every push.
 
 **Next steps, in priority order (handed to the next session):**
 
+0. **Read `main`'s sibling lane before spending anything.** It is the same assignment, it is
+   already merged, and its README states its own honest expectation. The only reason this lane
+   exists as a separate tree is that both sessions were told to stay in-lane; nothing here
+   should be promoted over the sibling's v8 without the selector comparing the two.
 1. **H62-B — per-flag screening on two independent compilations.** Highest value, lowest
    cost: the flag set is already on disk (`evidence/profiles.json`, 3,552 flags) and the
    registry is already downloaded. Ask whether flags that *two* independent compilations both

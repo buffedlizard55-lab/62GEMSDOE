@@ -42,6 +42,14 @@ pixels — the entire footprint — so every prediction scores 1.0 against it.
 comparator is <b>10.81 %</b> of our dots
 (<code>concordance_surface.tif</code>), i.e. these dots were not copied from a
 registry raster.</li>
+<li><b>Sibling-lane cross-check.</b> Another session shipped a datum-offset lane to
+<i>main</i> before this one merged (the v8 TIF at the repository root). These candidates are
+<b>not</b> copies of it: against <code>gemsdoe62-datum-lahontan-isobase-v8.tif</code> the primary scores
+one-sided 3 px overlap <b>0.0099</b>, exact pixel
+overlap 0.0005 of its dots, and rank
+correlation +0.0021. Computed in
+<code>lane62/scripts/crosscheck_sibling_lane.py</code>, same convention as the 508-raster
+gate.</li>
 <li><b>Score — do not expect more than a few points.</b> On the independent
 off-catalogue truth the file reaches HOLDOUT-DTI <b>0.096746</b> and it beats a
 matched random control drawn from <i>its own spatial stratum</i> by only

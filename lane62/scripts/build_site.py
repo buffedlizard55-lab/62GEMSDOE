@@ -36,6 +36,7 @@ e3 = J("exp3_economics")
 ver = J("verify_economics")
 hold = J("holdout")
 gate = J("uniqueness_gate")
+xchk = J("crosscheck_sibling_lane")
 
 P = site["files"]["primary"]
 S = site["files"]["secondary"]
@@ -234,6 +235,14 @@ pixels — the entire footprint — so every prediction scores 1.0 against it.
 comparator is <b>{COPY_EXACT*100:.2f} %</b> of our dots
 (<code>{html.escape(COPY['file'])}</code>), i.e. these dots were not copied from a
 registry raster.</li>
+<li><b>Sibling-lane cross-check.</b> Another session shipped a datum-offset lane to
+<i>main</i> before this one merged (the v8 TIF at the repository root). These candidates are
+<b>not</b> copies of it: against <code>{xchk['pairs'][0]['theirs']}</code> the primary scores
+one-sided 3 px overlap <b>{money(xchk['pairs'][0]['overlap_3px_one_sided'],4)}</b>, exact pixel
+overlap {money(xchk['pairs'][0]['exact_overlap_fraction_of_mine'],4)} of its dots, and rank
+correlation {xchk['pairs'][0]['spearman']:+.4f}. Computed in
+<code>lane62/scripts/crosscheck_sibling_lane.py</code>, same convention as the 508-raster
+gate.</li>
 <li><b>Score — do not expect more than a few points.</b> On the independent
 off-catalogue truth the file reaches HOLDOUT-DTI <b>{money(gB['dti'])}</b> and it beats a
 matched random control drawn from <i>its own spatial stratum</i> by only
@@ -829,6 +838,24 @@ IRR = [
  ("IR-62-09", "Low", "Fixed — bootstrap interval did not contain its own point estimate",
   "An earlier draft of src/gems62/holdout.py computed the confidence interval with the algebra T/(0.2T+0.2F+0.8n) while the point estimate came from dti_from_components; the two agreed only to the third decimal place.",
   "The bootstrap now recomputes the plug-in value and raises AssertionError unless it equals the pooled DTI to 1e-9. Covered by tests/test_holdout.py."),
+ ("IR-62-11", "High", "Reported, not fixed — out of lane",
+  "After merging <code>main</code>, the repository-root suite cannot even collect: "
+  "<code>src/gems62/lahontan.py</code> imports <code>PIXEL_M</code> from "
+  "<code>src/gems62/grid.py</code>, which does not define it, and "
+  "<code>tests/test_metric.py</code> imports <code>brute_force_components</code> from "
+  "<code>src/gems62/metric.py</code>, which does not define it (both symbols exist in "
+  "<code>src/gems62/superseded_20261011/</code>). Reproduced on a clean "
+  "<code>origin/main</code> worktree, so it is not caused by this branch.",
+  "Left for the lane that owns those files — guessing which variant is canonical would be "
+  "a silent overwrite. This lane's suite (<code>lane62/tests</code>) is independent and "
+  "green: 45 passed."),
+ ("IR-62-12", "Low", "Disclosed — independent re-derivation of an assigned lane",
+  "This session was assigned the same lane as a sibling session that had already merged to "
+  "<code>main</code> (v8 datum-offset). The naive merge was add/add everywhere, because both "
+  "sessions used the same root paths.",
+  "Instead of overwriting, this session's whole tree lives under <code>lane62/</code>; the "
+  "two artefacts are <b>distinct</b> (3 px overlap 0.0099, exact overlap 0.0005, |ρ| 0.0021) "
+  "and the sibling lane is left canonical at the root."),
  ("IR-62-10", "Low", "Fixed — rank-correlation leg sampled the wrong population",
   "The gate first sampled this file's own positive pixels for the correlation leg, which makes one side constant and the coefficient undefined.",
   "The sample is now drawn from the valid footprint, so the leg measures the correlation of two value fields as intended."),
@@ -900,6 +927,11 @@ card = {
         correlation_leg_pass=GATE_P["correlation_leg_pass"],
         limit_overlap=0.70, limit_abs_spearman=0.90,
         note="the strict leg is degenerate (see IR-62-04)"),
+    "sibling_lane_crosscheck": dict(
+        note="main already carries an independently merged datum-offset lane (v8). These "
+             "candidates were compared against its shipped TIFs with the same convention "
+             "as the registry gate; none is a duplicate.",
+        pairs=xchk["pairs"]),
     "raster_sha256": P["receipt"]["sha256"],
     "validator_output": dict(
         single_band=True, dtype="float32", crs="EPSG:32611",
