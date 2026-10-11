@@ -69,7 +69,7 @@ before gating (one is still computed, for the profiles and maps).
    mapped catalogue are deleted (the family's forensic rule, and required by
    `zero_on_catalogue`).
 
-## Validation — `tests/test_lahontan.py`, 21 passed
+## Validation — `tests/test_bench62_lahontan.py`, 21 passed
 
 * `_at` shift helper vs an explicit index loop (5 offsets) + the zeroed edge strip.
 * the shared metric reproduces the organiser's worked example (TP 3.00 / FP 1.89 /
@@ -235,7 +235,7 @@ a measurement, and it is what the run card records.
 
 ```bash
 PY=/home/user/.venv/bin/python            # numpy 2.4, scipy 1.17, rasterio 1.4.4
-$PY -m pytest tests/test_lahontan.py -q    # 21 passed
+$PY -m pytest tests/test_bench62_lahontan.py -q    # 21 passed
 $PY lane62-bench/scripts/run_lane62.py --rebuild-field --min-step 12 --max-step 60 \
     --seed-min-step 25 --sep-px 6 --max-seeds 12000 --trace-max-px 100 \
     --trace-min-score 0.02 --no-fill --ladder 40000,80000,120000 --emit \

@@ -107,7 +107,7 @@ exact verdict as on file.
 
 ## Tests
 
-`lane62-bench/tests/test_lahontan.py` — 21 passed: shift-helper equivalence, the organiser's
+`lane62-bench/tests/test_bench62_lahontan.py` — 21 passed: shift-helper equivalence, the organiser's
 worked DTI example, fast-vs-brute-force metric identity, amplitude recovery at five
 trends with zero spurious flags, spike veto, noise survival, isobase/profile API,
 and two pinned limitations (flat azimuth response on a straight scarp; a 600 m

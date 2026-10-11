@@ -16,6 +16,16 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+# This file is deliberately NOT named test_lahontan.py.  Under a root-wide
+# ``pytest`` run, pytest imports test modules by basename with prepend import mode,
+# and ``lane62/tests/test_lahontan.py`` (a sibling lane, same idea, different
+# detector) is found first -- my file then fails to collect with "import file
+# mismatch", which reads as a broken lane rather than a collision.  A unique
+# basename costs nothing and survives the trunk gaining more lanes.  The
+# pre-existing root-collection failures in ``tests/`` and ``lane62-h62a/tests/`` are
+# the sibling of this problem (their ``from gems62 import ...`` resolves against
+# ``lane62/src/gems62``) and are recorded upstream as IR-62-TRUNK-01.
+
 
 from gems62_bench import lahontan, metric  # noqa: E402
 
