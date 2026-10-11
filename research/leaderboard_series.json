@@ -1,0 +1,303 @@
+{
+ "note": "Daily snapshots of the OFFICIAL public leaderboard, machine-fetched from https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/ by the scheduled workflow of sibling repository buffedlizard55-lab/12GEMSDOE and mirrored here from its committed evidence/. This sandbox cannot reach drivendata.org, so these rows are MIRROR-OF-OFFICIAL, each with the fetch timestamp of the sibling runner -- they are not re-verified here and are not organizer receipts for any local file.",
+ "source_repository": "https://github.com/buffedlizard55-lab/12GEMSDOE",
+ "official_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+ "snapshots": [
+  {
+   "fetched_utc": "",
+   "source": "58GEMSDOE__evidence_official_leaderboard_observation_20261011_review.json",
+   "n_rows": 7,
+   "top5_cutoff": null,
+   "top_score": 0.4133,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "5GEMSDOE__data_evidence_leaderboard_leaderboard_snapshot_2026-09-26.json",
+   "n_rows": 50,
+   "top5_cutoff": null,
+   "top_score": 0.3049,
+   "source_url": null
+  },
+  {
+   "fetched_utc": "",
+   "source": "60GEMSDOE__registry_leaderboard_snapshot_2026-10-04.json",
+   "n_rows": 25,
+   "top5_cutoff": null,
+   "top_score": 0.3262,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "60GEMSDOE__registry_leaderboard_snapshot_2026-10-11.json",
+   "n_rows": 50,
+   "top5_cutoff": null,
+   "top_score": 0.4133,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE23__docs_data_leaderboard.json",
+   "n_rows": 50,
+   "top5_cutoff": null,
+   "top_score": 0.4133,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE32__registry_leaderboard_snapshot_2026-10-04.json",
+   "n_rows": 25,
+   "top5_cutoff": null,
+   "top_score": 0.3262,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE34__docs_data_leaderboard-regression.json",
+   "n_rows": 42,
+   "top5_cutoff": null,
+   "top_score": 0.2778,
+   "source_url": null
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE3__provenance_leaderboard-recheck.json",
+   "n_rows": 4,
+   "top5_cutoff": null,
+   "top_score": 0.3049,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE47__docs_data_leaderboard-read-20261006.json",
+   "n_rows": 20,
+   "top5_cutoff": null,
+   "top_score": 0.3774,
+   "source_url": null
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE47__docs_data_leaderboard-read-20261007.json",
+   "n_rows": 3,
+   "top5_cutoff": null,
+   "top_score": 0.3774,
+   "source_url": null
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE47__evidence_leaderboard-read-20261006.json",
+   "n_rows": 20,
+   "top5_cutoff": null,
+   "top_score": 0.3774,
+   "source_url": null
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE52__docs_data_h82_leaderboard_snapshot_2026-10-09.json",
+   "n_rows": 48,
+   "top5_cutoff": null,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE52__docs_data_h84_leaderboard_snapshot_2026-10-10.json",
+   "n_rows": 48,
+   "top5_cutoff": null,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE52__docs_data_leaderboard.json",
+   "n_rows": 48,
+   "top5_cutoff": null,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE52__docs_data_leaderboard_snapshot_2026-10-07.json",
+   "n_rows": 3,
+   "top5_cutoff": null,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE52__registry_leaderboard_snapshot_2026-10-07.json",
+   "n_rows": 3,
+   "top5_cutoff": null,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE52__registry_leaderboard_snapshot_2026-10-08.json",
+   "n_rows": 22,
+   "top5_cutoff": null,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE52__registry_leaderboard_snapshot_2026-10-09.json",
+   "n_rows": 48,
+   "top5_cutoff": null,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE52__registry_leaderboard_snapshot_2026-10-10.json",
+   "n_rows": 48,
+   "top5_cutoff": null,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "",
+   "source": "GEMSDOE52__registry_leaderboard_snapshot_2026-10-11.json",
+   "n_rows": 48,
+   "top5_cutoff": null,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-09-27",
+   "source": "11GEMSDOE__docs_leaderboard.json",
+   "n_rows": 24,
+   "top5_cutoff": null,
+   "top_score": 0.3049,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-09-28T22:32:20+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-09-28.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.2806,
+   "top_score": 0.3168,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-09-29T21:23:48+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-09-29.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.2843,
+   "top_score": 0.3168,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-09-30T21:25:15+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-09-30.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.2854,
+   "top_score": 0.3168,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-10-01T21:49:37+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-10-01.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.2901,
+   "top_score": 0.3168,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-10-02T21:19:00+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-10-02.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.2941,
+   "top_score": 0.3195,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-10-03T19:49:52+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-10-03.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.2941,
+   "top_score": 0.3195,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-10-04T20:10:22+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-10-04.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.2998,
+   "top_score": 0.3262,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-10-05T23:09:47+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-10-05.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.3163,
+   "top_score": 0.3262,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-10-06T21:33:00Z",
+   "source": "GEMSDOE52__registry_leaderboard_snapshot_2026-10-06.json",
+   "n_rows": 24,
+   "top5_cutoff": null,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-10-06T21:37:00+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-10-06.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.322,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-10-07T21:58:11+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-10-07.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.322,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-10-08T22:03:33+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-10-08.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.3222,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-10-09T21:40:11+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-10-09.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.3222,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-10-10T20:33:36+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-10-10.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.3262,
+   "top_score": 0.3774,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-10-11T20:57:47+00:00",
+   "source": "12GEMSDOE__docs_leaderboard.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.3333,
+   "top_score": 0.4133,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "fetched_utc": "2026-10-11T20:57:47+00:00",
+   "source": "12GEMSDOE__evidence_leaderboard_2026-10-11.json",
+   "n_rows": 50,
+   "top5_cutoff": 0.3333,
+   "top_score": 0.4133,
+   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  }
+ ]
+}

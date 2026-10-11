@@ -18,3 +18,8 @@ lane62/data/**/*.tif
 lane62/data/**/*.npy
 lane62/evidence/plain_mask.npy
 lane62/docs/downloads/*-nanoutside.tif
+
+# External rasters fetched from sibling public repositories (not committed; see
+# scripts/fetch_external.py).  The 100 m DEM is hash-pinned in registry/data_pins.json.
+data/external/*.tif
+data/external/*.npy

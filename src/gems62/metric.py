@@ -15,12 +15,19 @@ brute-force O(|G|*|P|) transcription of the formulas above.
 """
 from __future__ import annotations
 
+from dataclasses import dataclass
+from math import ceil, hypot
+
 import numpy as np
 from scipy.ndimage import distance_transform_edt
 
 ALPHA = 0.2
 BETA = 0.8
 RADIUS_PX = 3.0
+#: The same kernel radius in metres.  IR-62-11 FIX: ``score_model`` imported this name
+#: and raised ImportError on a clean checkout.  3.0 px x 100 m = 300 m, which is what the
+#: published metric states, so the two spellings are the same quantity, not two models.
+RADIUS_M = 300.0
 EPS = 1e-12
 
 
@@ -118,3 +125,183 @@ def credit_audit(mask: np.ndarray) -> dict:
     return dict(n_emitted=n, total_mass=float(m.sum()),
                 redundancy_fraction=float((best[pos] > 0).mean()),
                 mean_self_kernel=float(best[pos].mean()))
+
+
+# =====================================================================================
+# Metres-based API (IR-62-11 fix, 2026-10-11)
+# -------------------------------------------------------------------------------------
+# ``holdout.py``, ``validate.py`` and ``tests/test_metric.py`` are written against a
+# metres-based metric API (``dti_components`` returning a ``Components`` record,
+# ``brute_force_components``, ``maximum_useful_distance_m``, ``unit_dot_dti``).  A later
+# rewrite of this module kept only the pixel-based helpers, so those imports raised
+# ImportError.  The functions below are restored *additively* from the archived variant in
+# ``superseded_20261011/metric.py``; they are the same published index, expressed in
+# metres, and ``tests/test_metric.py::test_fast_path_matches_brute_force`` cross-checks the
+# fast path against the O(|G|*|P|) transcription on random fields.
+#
+# ``kernel`` is shared: it is ``max(1 - d/radius, 0)`` and every metres-based caller below
+# passes ``radius_m`` explicitly, so there is no ambiguity with ``RADIUS_PX``.
+# =====================================================================================
+
+
+@dataclass(frozen=True)
+class Components:
+    tp_w: float
+    fp_w: float
+    fn_w: float
+    dti: float
+
+    def as_dict(self) -> dict:
+        return {"TPw": self.tp_w, "FPw": self.fp_w, "FNw": self.fn_w, "DTI": self.dti}
+
+
+def _offsets(radius_m: float, pixel_m: float) -> tuple[tuple[int, int, float], ...]:
+    reach = int(ceil(radius_m / pixel_m))
+    out = []
+    for dy in range(-reach, reach + 1):
+        for dx in range(-reach, reach + 1):
+            d = hypot(dy * pixel_m, dx * pixel_m)
+            w = max(1.0 - d / radius_m, 0.0)
+            if w > 0.0:
+                out.append((dy, dx, float(w)))
+    return tuple(out)
+
+
+def _shift(values: np.ndarray, dy: int, dx: int) -> np.ndarray:
+    """``values[y+dy, x+dx]`` sampled at ``(y, x)``; zero outside the grid."""
+    arr = np.asarray(values)
+    h, w = arr.shape
+    out = np.zeros(arr.shape, dtype=np.float64)
+    y0, y1 = max(0, -dy), min(h, h - dy)
+    x0, x1 = max(0, -dx), min(w, w - dx)
+    if y0 < y1 and x0 < x1:
+        out[y0:y1, x0:x1] = arr[y0 + dy:y1 + dy, x0 + dx:x1 + dx]
+    return out
+
+
+@dataclass(frozen=True)
+class Precomputed:
+    """Truth-derived fields that do not depend on the prediction."""
+
+    truth: np.ndarray
+    k_to_truth: np.ndarray
+
+    @classmethod
+    def build(cls, truth: np.ndarray, *, radius_m: float = RADIUS_M,
+              pixel_m: float = 100.0) -> "Precomputed":
+        t = np.asarray(truth).astype(bool)
+        d = (distance_transform_edt(~t, sampling=(pixel_m, pixel_m))
+             if t.any() else np.full(t.shape, np.inf))
+        return cls(truth=t, k_to_truth=kernel(d, radius_m))
+
+
+def dti_components(
+    prediction: np.ndarray,
+    truth: np.ndarray | None = None,
+    *,
+    valid: np.ndarray | None = None,
+    pixel_size_m: float | tuple[float, float] = 100.0,
+    radius_m: float = RADIUS_M,
+    alpha: float = ALPHA,
+    beta: float = BETA,
+    epsilon: float = EPS,
+    precomputed: "Precomputed | None" = None,
+) -> Components:
+    """Exact DTI and its three weighted components, in metres.
+
+    ``valid`` is the scored footprint.  Non-finite or out-of-range predictions inside
+    ``valid`` raise, which is what makes this module also a [0, 1] gate.
+    """
+    pred = np.asarray(prediction, dtype=np.float64)
+    if pred.ndim != 2:
+        raise ValueError("prediction must be 2-D")
+    if valid is None:
+        valid = np.ones(pred.shape, dtype=bool)
+    else:
+        valid = np.asarray(valid, dtype=bool)
+        if valid.shape != pred.shape:
+            raise ValueError("valid mask shape must match prediction")
+    if np.any(~np.isfinite(pred[valid])):
+        raise ValueError("prediction has non-finite values inside the scored footprint")
+    if np.any((pred[valid] < 0.0) | (pred[valid] > 1.0)):
+        raise ValueError("prediction has values outside [0,1] inside the scored footprint")
+
+    p = np.where(valid, pred, 0.0)
+    row_m = float(np.asarray(pixel_size_m).reshape(-1)[0])
+
+    if precomputed is None:
+        if truth is None:
+            raise ValueError("truth is required unless precomputed is supplied")
+        g = np.asarray(truth).astype(bool) & valid
+        precomputed = Precomputed.build(g, radius_m=radius_m, pixel_m=row_m)
+
+    fp = float(np.sum(p * (1.0 - precomputed.k_to_truth)))
+    if not precomputed.truth.any():
+        return Components(0.0, fp, 0.0, 0.0 / (0.0 + alpha * fp + epsilon))
+
+    best = np.zeros(p.shape, dtype=np.float64)
+    for dy, dx, w in _offsets(radius_m, row_m):
+        np.maximum(best, _shift(p, dy, dx) * w, out=best)
+    tp = float(best[precomputed.truth].sum())
+    fn = float(precomputed.truth.sum() - tp)
+    return Components(tp, fp, fn, tp / (tp + alpha * fp + beta * fn + epsilon))
+
+
+def dti(prediction: np.ndarray, truth: np.ndarray, **kw) -> float:
+    return dti_components(prediction, truth, **kw).dti
+
+
+def brute_force_components(
+    prediction: np.ndarray,
+    truth: np.ndarray,
+    *,
+    pixel_size_m: float = 100.0,
+    radius_m: float = RADIUS_M,
+    alpha: float = ALPHA,
+    beta: float = BETA,
+) -> Components:
+    """O(N_truth * N_pred) reference implementation, used only to test the fast path."""
+    p = np.asarray(prediction, dtype=np.float64)
+    g = np.asarray(truth).astype(bool)
+    yy, xx = np.nonzero(p > 0)
+    py, px = np.nonzero(g)
+    tp = 0.0
+    for y, x in zip(py, px):
+        d = np.hypot((yy - y) * pixel_size_m, (xx - x) * pixel_size_m)
+        w = kernel(d, radius_m) * p[yy, xx]
+        tp += float(w.max()) if w.size else 0.0
+    if py.size:
+        fp = 0.0
+        for y, x in zip(yy, xx):
+            d = np.hypot((py - y) * pixel_size_m, (px - x) * pixel_size_m)
+            fp += float(p[y, x] * (1.0 - kernel(d, radius_m).max()))
+    else:
+        fp = float(p.sum())
+    fn = float(py.size - tp)
+    return Components(tp, fp, fn, tp / (tp + alpha * fp + beta * fn + EPS))
+
+
+def maximum_useful_distance_m(dti_value: float, radius_m: float = RADIUS_M,
+                              alpha: float = ALPHA) -> float:
+    """Distance beyond which appending one unit dot *lowers* the index.
+
+    Appending a unit dot with truth-credit ``c`` raises the denominator by exactly
+    ``alpha`` and the numerator by ``c``, so it is profitable iff ``c > alpha * DTI``,
+    i.e. iff it lies within ``R * (1 - alpha * DTI)`` of a truth pixel.  At DTI = 0.2778
+    the bar is ``c > 0.0556``, i.e. 283 m.  Accounting identity, not a geological claim.
+    """
+    return radius_m * (1.0 - alpha * dti_value)
+
+
+def unit_dot_dti(n_dots: int, mean_credit: float, truth_mass: float,
+                 alpha: float = ALPHA, beta: float = BETA) -> float:
+    """Closed form for non-overlapping unit dots: ``c / (alpha + beta*G/N)``.
+
+    Consequences used by the emission design: at fixed ``mean_credit`` the index
+    *increases* with ``n_dots`` (coverage beats pruning at equal placement quality), and at
+    fixed mass it is *linear* in ``mean_credit`` (placement quality is the only lever at
+    constant mass).
+    """
+    if n_dots <= 0:
+        return 0.0
+    return mean_credit / (alpha + beta * truth_mass / n_dots)

@@ -12,25 +12,71 @@ so this lane buys **defensibility more than area**.
 
 ---
 
+## Session status — 2026-10-11 (`arena/2b64062a-62gemsdoe`)
+
+Read this before anything else. Four things changed this session:
+
+1. **The shared tools are fixed, once, in the template** (`IR-62-11`, `IR-62-12`). On a clean
+   checkout 6 of 9 root modules raised `ImportError` and 14 `lane62` tests errored for a file that
+   was present. Now: root **18 passed**, `lane62` **46 passed**, plus 9 new tests.
+2. **A score-anchored registry exists** — 87 distinct group rasters with owner-reported scores and
+   18 measured structural properties each: [`research/registry_index.json`](research/registry_index.json),
+   [`research/registry_measurements.json`](research/registry_measurements.json).
+3. **The leaderboard is a committed time series** — 37 timestamped mirrors of the official page:
+   [`research/leaderboard_series.json`](research/leaderboard_series.json).
+4. **Two hypotheses screened; one refuted, one quarantined** —
+   [`docs/hypotheses-2026-10-11.md`](docs/hypotheses-2026-10-11.md).
+
+The analysis that matters is
+[`docs/research/leaderboard-arithmetic.md`](docs/research/leaderboard-arithmetic.md): why
+`h33-2-b2` scored 0.2778, the arithmetic that explains it, and the credit-per-dot table that says
+what beating it requires.
+
+---
+
 ## ⬇ Is it OK to download and submit the generated file?
 
-### ✅ YES — [`docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif`](docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif)
+### ❌ FORMAT LEGAL, VERDICT NEGATIVE — do not spend a weekly slot on it
 
-62,709 bytes · sha256 `3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba` ·
-`legal = true` · **UNIQUE-VS-REGISTRY** across 289 prior rasters (worst rank correlation −0.065,
-worst symmetric overlap 0.030).
+**[`docs/downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif`](docs/downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif)**
+· 98,893 bytes · 10,000 isolated single-pixel dots ·
+sha256 `79eb0a7ddc2dcfb4667bff41bbc237f8d5663dd63e025eed79af8c8f984ed500`
 
-**Spend a weekly slot on it only as a low-risk Phase-1 novelty probe, not as the lead horse.**
-The honest expectation is below the group's best scored artifact (`gems32-h33-h33-2-b2-…-zeros`,
-0.2778, OWNER-REPORTED). The reason is not a low local score — it is that **no local instrument can
-score this task**: on the catalogue-based proxy a uniform-random field beats that same 0.2778
-artifact by 10× (0.0669 vs 0.0067). Full argument and receipts:
-[`docs/executive-summary.md`](docs/executive-summary.md), [`docs/run-card.md`](docs/run-card.md),
-one-click page: [`docs/index.html`](docs/index.html).
+* **Will the portal accept it? Yes.** All 14 validator checks pass on the **re-read bytes**: single
+  band, `float32`, EPSG:32611, 3730×3292, the sample submission's exact geotransform,
+  `n_outside_0_1 = 0`, `nan_count = 0`, `nodata = null`. The error *“Predicted values must be in
+  range [0, 1]”* cannot occur for these bytes.
+* **Should it take a slot? No.** Its mean 300 m kernel credit on an independent off-catalogue
+  instrument is **0.0420** at 10,000 dots against an **isolated-random control of 0.0451** — no edge
+  over chance. Submission note (117/140 chars):
+  `H62-G Lahontan bench cross-cut, 10k isolated dots; credit at isolated-random control. NEGATIVE - do not spend a slot.`
+* **A second file this session built is quarantined.** `gems62-h62i-scarpcrosscut-hardcore-zeros.tif`
+  is the only variant that beats chance (**2.00× control**) but is **DUPLICATE-DRIFT**: 87.5 % of its
+  dots lie within 3 px of `gemsdoe23-h30-arrangement-matched-habitat`, symmetric Jaccard **0.4465**
+  (limit 0.25). Logged and stopped, as the protocol requires.
 
-Every generated file is published here with an explicit verdict. Read
-[`docs/executive-summary.md`](docs/executive-summary.md) for the one-page answer, and
-[`docs/run-card.md`](docs/run-card.md) for the current candidate's full evidence class.
+One-click page: [`docs/index.html`](docs/index.html) · how to submit:
+[`docs/executive-summary.md`](docs/executive-summary.md) · run card:
+[`docs/run-card.md`](docs/run-card.md) · what would actually beat 0.2778:
+[`docs/research/leaderboard-arithmetic.md`](docs/research/leaderboard-arithmetic.md)
+
+### What the selector should do instead — the highest-value finding of this session
+
+The group's **highest-credit detector has never been submitted**:
+`GEMSDOE32 → docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif`
+(302,357 bytes, 45,000 dots) measures **0.29294** mean credit per dot on the same instrument that
+scores the submitted champion family at **0.09892** — 3.0×. Discount that number hard (it is a
+proxy, and the closed form turns it into an implausible 0.71), but even at a 4× discount it clears
+the top-5 cut-off. Promotion is a selector step, not a lane step, and this session did **not** copy
+the file — the brief forbids copying a previous submission.
+
+### The brief's headline numbers are stale
+
+Official public leaderboard, scraped **2026-10-11T20:57:47Z** (mirrored from
+[`GEMSDOE/12`](https://github.com/buffedlizard55-lab/12GEMSDOE); this sandbox cannot reach
+`drivendata.org`): #1 **0.4133**, top-5 cut-off **0.3333**, `0.3195` is **rank 9**, and the group's
+best `0.2778` is **rank 23 of 50**. 37 snapshots:
+[`research/leaderboard_series.json`](research/leaderboard_series.json).
 
 The rule this repository enforces mechanically (`src/gems62/grid.py::write_submission` +
 `check_submission`, re-read from disk after writing):

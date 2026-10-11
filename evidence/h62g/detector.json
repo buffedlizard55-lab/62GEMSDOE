@@ -1,0 +1,26 @@
+{
+ "datum_window_m": [
+  1308.0,
+  1360.0
+ ],
+ "dem_valid_frac_of_footprint": 0.9996654005816882,
+ "lidar_coverage_frac": 0.31716013147479144,
+ "control_isolated_random": {
+  "M": 44090,
+  "mean_credit_instrumentB": 0.04514488736099354
+ },
+ "n_candidates": 84497,
+ "n_after_hardcore": 10331,
+ "credit_curve": [
+  {
+   "M": 5000,
+   "mean_credit_instrumentB": 0.057189,
+   "marginal_credit_of_last_1000": 0.034044
+  },
+  {
+   "M": 10000,
+   "mean_credit_instrumentB": 0.04202,
+   "marginal_credit_of_last_1000": 0.024504
+  }
+ ]
+}
