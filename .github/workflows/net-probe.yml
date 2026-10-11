@@ -1,32 +1,39 @@
 name: net-probe
 on:
-  push:
-    paths:
-      - .github/workflows/net-probe.yml
   workflow_dispatch:
-permissions:
-  contents: write
 jobs:
   probe:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: probe official sources
-        run: |
-          set -x
-          date -u
-          curl -sS -o /dev/null -w "tnm-api %{http_code}\n" --max-time 60 "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=National%20Elevation%20Dataset%20(NED)%201%2F3%20arc-second&bbox=-119.5,39.5,-119.0,40.0&prodFormats=GeoTIFF&max=1" || true
-          curl -sS -o /dev/null -w "3dep-13-head %{http_code} size=%{size_download}\n" -r 0-1023 --max-time 120 "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n40w120/USGS_13_n40w120.tif" || true
-          curl -sS -o /dev/null -w "3dep-1m-head %{http_code} size=%{size_download}\n" -r 0-1023 --max-time 120 "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NV_LasVegas_2021_B21/TIFF/USGS_1M_11_x42y425_NV_LasVegas_2021_B21.tif" || true
-      - name: write receipt
+        with:
+          ref: ${{ github.ref_name }}
+      - name: probe official sources (verbatim results, never silent)
         run: |
           mkdir -p evidence
-          curl -sS --max-time 60 "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=National%20Elevation%20Dataset%20(NED)%201%2F3%20arc-second&bbox=-119.5,39.5,-119.0,40.0&prodFormats=GeoTIFF&max=2" -o evidence/tnm_probe.json || true
-          ls -la evidence || true
+          {
+            echo "probe_utc: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "runner: $(uname -srm)"
+            for u in \
+              "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n40w120/USGS_13_n40w120.tif" \
+              "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/n40w120/USGS_13_n40w120.tif" \
+              "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1/TIFF/current/n40w120/USGS_1_n40w120.tif" \
+              "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=National+Elevation+Dataset+(NED)+1%2F3+arc-second&bbox=-119.5,39.9,-119.4,40.0&prodFormats=GeoTIFF&max=2" \
+              "https://www.sciencebase.gov/catalog/item/60e5b4c1d34e86b938954d2f" \
+              "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2020-05-15&endtime=2020-05-16&minmagnitude=5&maxlatitude=39&minlatitude=37&maxlongitude=-117&minlongitude=-120" \
+              "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_N40_00_W120_00_DEM/Copernicus_DSM_COG_10_N40_00_W120_00_DEM.tif" \
+              ; do
+              echo "---- $u"
+              curl -sS -L -o /dev/null -w 'http_code=%{http_code} size=%{size_download} content_type=%{content_type}\n' -r 0-8191 --max-time 90 "$u" 2>&1 || echo "curl_exit=$?"
+            done
+          } 2>&1 | tee evidence/net_probe.txt
+          test -s evidence/net_probe.txt
       - name: commit receipt
         run: |
           git config user.name "gems62-bot"
           git config user.email "gems62-bot@users.noreply.github.com"
-          git add -A evidence || true
-          git commit -m "net-probe receipt [skip ci]" || echo "nothing to commit"
-          git push || echo "push failed"
+          git add evidence/net_probe.txt
+          git commit -m "evidence: network probe receipt [skip ci]" || echo "nothing to commit"
+          git push origin HEAD:${{ github.ref_name }}
