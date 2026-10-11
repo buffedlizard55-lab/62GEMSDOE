@@ -82,7 +82,11 @@ See [`irregularities.md`](irregularities.md) §2.
 3. Submission name: `gemsdoe62-datum-lahontan-isobase-v8`; note (≤ 140 characters, site has
    previously accepted longer but the stated limit is 140):
    > `Lake Lahontan pluvial-bench isobase: 1660 dots on stepped/deflected shoreline benches; 221 DEM-ridge traces; unique vs registry.`
-4. If you have only one slot in the week, spend it on the group's h33 lineage, not on this file.
+4. If you have only one slot in the week, spend it on the group's h33 lineage, not on this file —
+   and read [`why-h33-scored.md`](why-h33-scored.md) first: it derives the recall floor that the
+   0.2778 necessarily implies (≥ 0.235) and the marginal bar for adding a dot (`p > 0.2·DTI`,
+   i.e. > 0.056 at that operating point), which is the quantitative case for emitting *more*,
+   not merely *better*.
 
 ## 5. Where this leaves the effort (limitations, stated plainly)
 
