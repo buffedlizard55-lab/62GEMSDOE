@@ -58,14 +58,40 @@ class Grid:
         return self.footprint & ~self.catalogue
 
 
+def official_path(root: str | Path, name: str) -> Path:
+    """Resolve one of the three official rasters, with a documented fallback chain.
+
+    IR-62-12 FIX (2026-10-11).  ``load_grid`` hard-coded ``data/official/``, which only
+    exists after ``scripts/download_competition_data.sh`` has run *inside* ``lane62/``.  The
+    same three rasters are also committed at the repository root (``<repo>/data/``, sha256
+    pinned in ``registry/data_pins.json``), and when the lane suite is run from a fresh
+    checkout 14 tests errored with ``No such file or directory`` for a file that *was*
+    present.  The chain below is: ``lane62/data/official/`` (the lane's own pinned copy),
+    then ``<repo>/data/`` (the shared pinned copy), and only then the historical relative
+    path so the original error message is unchanged when neither exists.  The bytes are the
+    same hash in both places, so this changes nothing about what is measured.
+    """
+    # ``.resolve()`` is load-bearing: ``Path(".").parent`` is ``Path(".")``, so without it
+    # the parent-directory fallback silently pointed back at the lane root and the chain
+    # returned the missing candidate (found while re-running the suite, 2026-10-11).
+    root = Path(root).resolve()
+    cands = [root / "data/official" / name,
+             root.parent / "data" / name,
+             root / "data" / name]
+    for c in cands:
+        if c.exists():
+            return c
+    return cands[0]
+
+
 def load_grid(root: str | Path = ".") -> Grid:
     root = Path(root)
-    with rasterio.open(root / "data/official/sample_submission.tif") as d:
+    with rasterio.open(official_path(root, "sample_submission.tif")) as d:
         tmpl = d.read(1)
         assert d.height == HEIGHT and d.width == WIDTH, (d.height, d.width)
         assert str(d.crs) == CRS, d.crs
         assert tuple(d.transform)[:6] == TRANSFORM, tuple(d.transform)
-    with rasterio.open(root / "data/official/existing_faults.tif") as d:
+    with rasterio.open(official_path(root, "existing_faults.tif")) as d:
         ex = d.read(1)
         assert d.height == HEIGHT and d.width == WIDTH
         assert tuple(d.transform)[:6] == TRANSFORM

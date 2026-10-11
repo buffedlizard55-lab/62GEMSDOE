@@ -1,0 +1,28 @@
+{
+ "instrument": "SGMC 1:750k off-catalogue, catalogue masked",
+ "note": "mass-matched isolated-random control, 5 seeds each. Mean 300 m kernel credit is a spatial average and is nearly independent of M for an isolated random field, which is why the 44,090-dot control is also a fair reference -- but this removes any doubt.",
+ "controls": {
+  "5000": {
+   "credits": [
+    0.03935,
+    0.04541,
+    0.04291,
+    0.04393,
+    0.04238
+   ],
+   "mean": 0.04279,
+   "sd": 0.00201
+  },
+  "10000": {
+   "credits": [
+    0.04013,
+    0.04478,
+    0.04387,
+    0.04433,
+    0.04338
+   ],
+   "mean": 0.0433,
+   "sd": 0.00165
+  }
+ }
+}

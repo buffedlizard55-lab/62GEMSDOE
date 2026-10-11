@@ -7,7 +7,16 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .venv/
+venv/
 build/
+out/
+tmp/
+.DS_Store
+*.egg-info/
+data/raw/
+data/*.tif
+data/*.npy
+data/*.npz
 
 # ---- lane62/ (independent re-derivation, arena/4e304372-62gemsdoe) ---------
 # Large rasters there are re-creatable and stay out of git:
@@ -18,3 +27,20 @@ lane62/data/**/*.tif
 lane62/data/**/*.npy
 lane62/evidence/plain_mask.npy
 lane62/docs/downloads/*-nanoutside.tif
+
+# External rasters fetched from sibling public repositories (not committed; see
+# scripts/fetch_external.py).  The 100 m DEM is hash-pinned in registry/data_pins.json.
+data/external/*.tif
+data/external/*.npy
+# ---- lane62-h62a/ (third independent re-derivation, arena/fe0bc9db-62gemsdoe) --
+# The three official rasters are ~420 MB and are sha256-pinned, never committed:
+#   lane62-h62a/data/**  -> bash lane62-h62a/scripts/download_competition_data.sh
+#   or export GEMS62_DATA=/path/to/dir   (see lane62-h62a/src/gems62/paths.py)
+lane62-h62a/data/**/*.tif
+lane62-h62a/data/**/*.npy
+lane62-h62a/data/**/*.npz
+# CI-only artifact; the committed report is lane62-h62a/evidence/verification_report.json
+lane62-h62a/evidence/verification_report_ci.json
+# NOTE: the three shipped files under lane62-h62a/docs/downloads/ (-zeros.tif, its
+# -nan twin and the .zip) are deliberately TRACKED, not ignored: they are the
+# one-click deliverable the site points at, and together they are 432 kB.

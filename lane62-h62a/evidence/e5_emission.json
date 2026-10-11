@@ -1,0 +1,43 @@
+{
+  "best_arm": "A3",
+  "n_traces": 200181,
+  "n_traced_px": 595434,
+  "n_seeds": 272275,
+  "emission": {
+    "n_eligible": 595434,
+    "budget": 38000,
+    "min_sep": 3,
+    "prune_cat_px": 3.0,
+    "n_pruned_on_catalogue": 99156,
+    "n_allowed_after_prune": 496278,
+    "dot_dist_to_catalogue_px": {
+      "min": 3.1622776601683795,
+      "p25": 8.48528137423857,
+      "median": 18.867962264113206,
+      "p75": 40.52159917870962,
+      "max": 217.1013588165675,
+      "frac_within_3px": 0.0,
+      "frac_within_2px": 0.0
+    },
+    "footprint_fraction": 0.007353833369489681,
+    "n_dots": 38000
+  },
+  "trace_length_histogram": {
+    "n": 200181.0,
+    "mean_px": 3.887986372333039,
+    "median_px": 1.0,
+    "max_px": 160
+  },
+  "credit_bar_at_best_organizer_score": {
+    "dti": 0.2778,
+    "bar": 0.05556,
+    "attainable_kernel_weights": [
+      1.0,
+      0.6666666666666667,
+      0.5285954792089682,
+      0.33333333333333337,
+      0.2546440075000701,
+      0.05719095841793653
+    ]
+  }
+}

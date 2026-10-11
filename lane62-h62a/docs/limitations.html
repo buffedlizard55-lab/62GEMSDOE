@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Limitations · 62GEMSDOE</title>
+<meta name="description" content="Limitations, unblocks, and what a next session should do first">
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header><div class="w"><h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
+<span class="sub">DOE GEMS Prize · DrivenData #306 · datum-offset lane H62-A</span></div></header>
+<nav><div class="w"><a href="index.html">Home</a><a href="executive-summary.html">How to submit</a><a href="analysis.html">Why 0.2778</a><a href="method.html">Method</a><a href="results.html">Results</a><a href="hypotheses.html">Hypotheses</a><a href="profiles.html">Shoreline profiles</a><a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a><a href="limitations.html" class="on">Limitations</a><a href="leaderboard.html">Leaderboard</a></div></nav>
+<main><div class="w"><h2>Limitations, and what would unblock each</h2>
+<p>Stated up front rather than at the end. A limitation that is not written down is a limitation
+that will be rediscovered badly.</p>
+<table><thead><tr><th>#</th><th>limitation</th><th>effect on this lane</th><th>unblock</th>
+<th>free &amp; official?</th></tr></thead><tbody>
+<tr><td>1</td><td><b>No absolute-elevation band</b> (IR-62-DEM-01). Only <i>detrended</i>
+elevation (band 12) and its slope (band 19).</td>
+<td>An isobase is an absolute datum; detrending removes part of it. The fit is done in
+detrended-elevation space, so the absolute shoreline elevation cannot be used.</td>
+<td><code>1m_DEM_links.csv</code> from the DrivenData data tab → USGS 3DEP 1 m lidar.</td>
+<td>Yes — USGS 3DEP is public domain. <b>Not obtainable from this sandbox</b> (egress allowlist).</td></tr>
+<tr><td>2</td><td><b>100 m pixels.</b></td>
+<td>A 15–45 m shoreline step is 0.15–0.45 px of relief. The physical throw window had to be
+widened to 15–130 m to be detectable at all.</td>
+<td>same 1 m lidar source</td><td>Yes, as above</td></tr>
+<tr><td>3</td><td><b>Holdout truth is the visible catalogue</b> (IR-62-HOLDOUT-01).</td>
+<td>The lane's premise is that it finds faults the catalogue misses, so the instrument cannot
+directly reward success. A holdout win is necessary, not sufficient; a holdout loss does not
+disprove the lane.</td><td>the organiser's hidden label set</td><td>No — nobody has it</td></tr>
+<tr><td>4</td><td><b>No organiser score exists</b> for any artifact here.</td>
+<td>Every number is HOLDOUT-DTI or ORGANIZER-CONFIRMED-from-an-earlier-file. The promote/negative
+verdict is computed from the holdout and the gates, not from a score.</td>
+<td>a weekly submission slot — a separate selector step</td><td>n/a</td></tr>
+<tr><td>5</td><td><b>Lateral deflections carry no signal at 100 m</b> (IR-62-DEFL-01).</td>
+<td>Half the lane's flagging criterion is a measured null. Kept because the lane specifies it;
+reported rather than dropped.</td><td>1 m lidar</td><td>Yes, as above</td></tr>
+<tr><td>6</td><td><b>Radiometrics are absent from the stack.</b></td>
+<td>Blocks hypothesis H62-C (K/Th clay-cap breach), the one signature diagnostic of
+<i>geothermal</i> rather than merely structural.</td>
+<td>USGS GeoDAWN release, ScienceBase item 657e1d85d34e23d3533209f7</td>
+<td>Yes — public domain. Obtainability from this sandbox <b>unverified</b>.</td></tr>
+<tr><td>7</td><td><b>No GPU / no model training.</b></td>
+<td>This lane is deterministic signal processing, so nothing is lost — but the reference
+solution's U-Net route cannot be reproduced or blended here.</td>
+<td>a GPU runner plus <code>pip install torch segmentation-models-pytorch</code></td>
+<td>Yes (software), no (hardware in sandbox)</td></tr>
+</tbody></table>
+<h2>What a next session should do first</h2>
+<ol>
+<li><b>Obtain the 1 m lidar.</b> It closes limitations 1, 2 and 5 at once and is the single
+highest-leverage unblock in this repository. Free, public domain, USGS 3DEP.</li>
+<li><b>Implement H62-B</b> (isobase-parallel strike continuity: gaps between collinear mapped
+traces). No new data, ~3 h, and it targets catalogue incompleteness more directly than anything
+here.</li>
+<li><b>Obtain the GeoDAWN radiometric grid</b> and implement H62-C. Highest ceiling of the five.</li>
+<li><b>Re-run the holdout at a finer buffer</b> (2 px and 5 px) to check that the A3 result is not
+an artefact of the 3 px buffer choice.</li>
+<li><b>Do not spend a slot</b> on any file whose holdout DTI does not beat the current holdout
+best, per the brief.</li>
+</ol></div></main>
+<footer><div class="w">Built 2026-10-11 21:31 UTC from
+<code>evidence/*.json</code> by <code>scripts/build_site.py</code>. Every number on this site is
+labelled <b>HOLDOUT-DTI</b> or <b>ORGANIZER-CONFIRMED</b>. No projection is written as a score.
+<a href="../README.md">README</a> · <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">repository</a></div></footer>
+</body></html>

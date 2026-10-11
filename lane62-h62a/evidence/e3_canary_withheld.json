@@ -1,0 +1,12 @@
+{
+  "threshold": 0.9,
+  "aucs_vs_withheld_truth": {
+    "ridge_evidence": 0.5846687300536931,
+    "habitat_from_visible_only": 0.6626862831464582,
+    "isobase_residual_abs": 0.44211024278792344,
+    "step_z": 0.4463564179368944
+  },
+  "any_above_threshold": false,
+  "n_withheld": 20003,
+  "n_visible": 39898
+}

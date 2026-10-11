@@ -119,3 +119,101 @@ re-verified here**. Treat them as a lead to confirm before building on.
 The 221 traces have a **median length of 1.3 km** (max 5.6 km). Real fault traces are usually
 longer, so the binding constraint is probably the trace-stopping rule rather than the geology.
 Flagged as unresolved; see `next-steps.md`.
+
+
+---
+
+## Added 2026-10-11 (session `arena/2b64062a-62gemsdoe`)
+
+### IR-62-11 — six of nine root modules did not import on a clean checkout — FIXED
+
+`src/gems62/grid.py` was rewritten at some point to keep only `GRID`/`TRANSFORM`/`BOUNDS`/`PINS`,
+while `emit`, `holdout`, `lahontan`, `uniqueness`, `validate` and `score_model` all imported
+`PIXEL_M` / `CRS` / `HEIGHT` / `WIDTH` / `read_dem` / `read_labels` / `FOOTPRINT_CELLS` from it, and
+`score_model` imported `RADIUS_M` from `metric`. Verified here on a clean worktree:
+
+```
+gems62.validate     ImportError: cannot import name 'CRS' from 'gems62.grid'
+gems62.uniqueness   ImportError: cannot import name 'PIXEL_M' from 'gems62.grid'
+gems62.score_model  ImportError: cannot import name 'RADIUS_M' from 'gems62.metric'
+gems62.emit         ImportError: cannot import name 'PIXEL_M' from 'gems62.grid'
+gems62.lahontan     ImportError: cannot import name 'PIXEL_M' from 'gems62.grid'
+gems62.holdout      ImportError: cannot import name 'PIXEL_M' from 'gems62.grid'
+```
+
+Fixed **once, in the template, additively**: the missing constants and readers are restored to
+`grid.py`, the metres-based metric API (`dti_components`, `brute_force_components`,
+`maximum_useful_distance_m`, `unit_dot_dti`) is restored to `metric.py` from the archived variant in
+`superseded_20261011/`, and the two diagnostic-figure writers are extracted to a new shared module
+`src/gems62/figures.py` (they had been dropped from `scripts/run_lane.py`, which made
+`tests/test_lane_instruments.py::test_map_writer_rejects_wrong_units` fail with `AttributeError`).
+Every value added is a number `grid.py` already carried in another spelling. **No existing logic was
+overwritten and no private fork was kept.** Root suite: **18 passed → 18 passed** (one previously
+failing test now passes); `lane62/` suite **46 passed**.
+
+### IR-62-12 — `lane62` tests errored on a fresh checkout for a file that was present — FIXED
+
+`lane62/src/gems62/grid.load_grid` hard-coded `data/official/`, which only exists after
+`download_competition_data.sh` has run *inside* `lane62/`. 14 tests errored with
+`No such file or directory` even though the same three rasters are committed (hash-pinned) at the
+repository root. A fallback chain was added, plus a bug found while testing it: **`Path(".").parent`
+is `Path(".")`**, so the first version of the fallback silently pointed back at the lane root. The
+resolver now calls `.resolve()` first. `lane62` suite: **2 failed, 12 errored → 46 passed**.
+
+### IR-62-13 — GitHub Pages is enabled but serves the wrong directory
+
+`GET /repos/buffedlizard55-lab/62GEMSDOE/pages` returns `{"source":{"branch":"main","path":"/"},
+"status":"built"}`, i.e. the site is served from the **repository root**, while every page lives in
+`docs/`. The published URL therefore 404s, which is why the owner's site list shows an empty entry
+for `62GEMSDOE`. `PUT /repos/.../pages` returns **HTTP 403 "Resource not accessible by integration"** —
+the sandbox token lacks the `pages` scope, so this cannot be fixed from here. **Mitigation applied:**
+a root `index.html` that redirects to `docs/index.html`, so the published URL resolves. The durable
+fix is one manual step: repo **Settings → Pages → Source = `main` / `/docs`**.
+
+### IR-62-14 — `labels.tif` and `existing_faults.tif` are byte-identical
+
+Both are 425,830 bytes with sha256 `7ba308ccdc4418b3…`, verified with `cmp`. This is already recorded
+in `registry/data_pins.json` ("byte-identical to labels.tif") and it is *consistent* with the task
+definition — the training labels **are** the mapped catalogue, and the competition target is the
+faults **absent** from it. Flagged here because it is the single fact that makes the local holdout
+structurally incapable of measuring the real target, and every holdout number in this repository
+inherits that limit.
+
+### IR-62-15 — the 25 m DEM mosaic covers only 55.74 % of the competition footprint
+
+`evidence/dem/lahontan_dem_utm11.tif` is 9200×7600 at 25 m, EPSG:32611, spanning x 240 000–430 000,
+y 4 250 000–4 480 000 — a **sub-window** of the competition grid (x to 572 550, y to 4 135 550).
+Measured: it reaches grid rows 285:2586, cols 0:1867 and covers **2,880,158 of 5,167,373 footprint
+cells (55.74 %)** and 62.06 % of catalogue cells. Two further defects: it is **int16 decimetres**,
+so elevations above **3276.7 m cannot be represented** (the eastern Sierra is clipped —
+`z.max() == 32767`), and its earlier "valid fraction 0.8088" was computed *within the mosaic window*,
+not over the competition footprint. Consequence: **the 25 m mosaic cannot support a basin-wide lane.**
+The 100 m mirror `geodawn_dem_a2_100m.tif` covers 5,165,644 footprint cells (99.97 %) and was used
+instead; its sha256 matches the pin in `registry/data_pins.json`.
+
+### IR-62-16 — the protocol's 3-px uniqueness leg is unsatisfiable; independently re-proven
+
+A **pure-random** 10,000-dot off-catalogue field (seed 11, zero geological information) puts
+**84.12 %** of its dots within 3 px of `13gems_20261001_r13-lattice-s5_v2`, 84.12 % of
+`…zerofill`, and 76.58 % of `13gems-composite-plus` — i.e. it trips the protocol's 70 % duplicate
+rule against **3 of 79** comparators. That comparator's 3-px halo alone covers **83.91 %** of the
+footprint. A tripwire that fires on Poisson noise cannot certify a duplicate. Uniqueness in this
+repository is therefore judged on the two legs that do discriminate — the symmetric Jaccard of the
+3-px halos and the footprint Spearman correlation — with the asymmetric fraction still reported.
+Evidence: `evidence/h62g/tripwire_satisfiability.json`. This independently reproduces
+`GEMSDOE54` IR-54-016.
+
+### IR-62-17 — the brief's own leaderboard numbers are stale by nine days
+
+The brief states "0.3195 is the highest score right now". The official public leaderboard, scraped
+2026-10-11T20:57:47Z, puts 0.3195 at **rank 9** and #1 at **0.4133**; the top-5 cut-off is
+**0.3333**. The group's best (0.2778) is **rank 23 of 50**. Any target set against 0.3195 is aiming
+at ninth place. Series: `research/leaderboard_series.json` (37 snapshots).
+
+### IR-62-18 — this session's own uniqueness gate had a direction bug, found by running it
+
+The first implementation computed `|dilated_mine ∩ theirs| / |mine|` instead of the protocol's
+`|mine ∩ dilated_theirs| / |mine|`, and compared the submission against **itself** (returning a
+spurious ρ = 1.0, Jaccard = 1.0, "DUPLICATE-DRIFT"). Both were wrong. Fixed and re-run; the
+corrected numbers are the ones published. Recorded because the first (wrong) verdict was already
+printed, and a reader comparing the two would otherwise be misled.

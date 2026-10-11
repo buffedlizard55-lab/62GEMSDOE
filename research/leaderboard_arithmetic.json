@@ -1,0 +1,89 @@
+{
+ "isolation": {
+  "isolated_lt_0p05": {
+   "n": 29,
+   "max": 0.2778,
+   "median": 0.1839
+  },
+  "clustered_ge_0p23": {
+   "n": 56,
+   "max": 0.2477,
+   "median": 0.1152
+  },
+  "claim": "every one of the top distinct score levels is an isolated single-pixel field; every raster with mean self-kernel >= 0.23 scores <= 0.2477"
+ },
+ "truth_mass_bound": {
+  "N_upper": 13688.0,
+  "derivation": "T cannot increase under thinning; the documented pair (44,090 dots -> 0.2600) and (37,654 dots -> 0.2778) is the same field thinned, so 0.26*(0.2*A1+0.8N) >= 0.2778*(0.2*A2+0.8N) with A=M*(1-redun)"
+ },
+ "champion_implied": {
+  "10000": {
+   "champion_credit": 0.11364,
+   "recall_T": 4278.9,
+   "recall_frac": 0.4279
+  },
+  "12000": {
+   "champion_credit": 0.12544,
+   "recall_T": 4723.4,
+   "recall_frac": 0.3936
+  },
+  "13841": {
+   "champion_credit": 0.13631,
+   "recall_T": 5132.5,
+   "recall_frac": 0.3708
+  }
+ },
+ "asymptote": "DTI -> mean_credit / alpha = 5 * mean_credit as M -> infinity",
+ "credit_required_by_target_and_mass": {
+  "target_0.2778": {
+   "M_20000": 0.1889,
+   "M_37654": 0.12639,
+   "M_44090": 0.11605,
+   "M_60000": 0.10001,
+   "M_80000": 0.0889,
+   "M_120000": 0.07778,
+   "M_200000": 0.06889
+  },
+  "target_0.3195": {
+   "M_20000": 0.21726,
+   "M_37654": 0.14536,
+   "M_44090": 0.13347,
+   "M_60000": 0.11502,
+   "M_80000": 0.10224,
+   "M_120000": 0.08946,
+   "M_200000": 0.07924
+  },
+  "target_0.3333": {
+   "M_20000": 0.22664,
+   "M_37654": 0.15164,
+   "M_44090": 0.13923,
+   "M_60000": 0.11999,
+   "M_80000": 0.10666,
+   "M_120000": 0.09332,
+   "M_200000": 0.08266
+  },
+  "target_0.3585": {
+   "M_20000": 0.24378,
+   "M_37654": 0.1631,
+   "M_44090": 0.14976,
+   "M_60000": 0.12906,
+   "M_80000": 0.11472,
+   "M_120000": 0.10038,
+   "M_200000": 0.08891
+  },
+  "target_0.4133": {
+   "M_20000": 0.28104,
+   "M_37654": 0.18803,
+   "M_44090": 0.17265,
+   "M_60000": 0.14879,
+   "M_80000": 0.13226,
+   "M_120000": 0.11572,
+   "M_200000": 0.1025
+  }
+ },
+ "same_mass_control": {
+  "note": "GEMSDOE34 h34-scatter has the SAME 37,654 dots and scores 0.0778; placement quality alone spans 3.6x at identical mass",
+  "credit_h34": 0.03435,
+  "credit_h33": 0.12544
+ }
+}

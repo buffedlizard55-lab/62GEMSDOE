@@ -1,0 +1,31 @@
+{
+  "csv": "/home/user/62GEMSDOE/docs/profiles/shoreline_profiles.csv",
+  "json": "/home/user/62GEMSDOE/docs/profiles/shoreline_profiles.json",
+  "pngs": [
+    "profile_0000.png",
+    "profile_0001.png",
+    "profile_0002.png",
+    "profile_0003.png",
+    "profile_0004.png",
+    "profile_0005.png",
+    "profile_0006.png",
+    "profile_0007.png",
+    "profile_0008.png",
+    "profile_0009.png",
+    "profile_0010.png",
+    "profile_0011.png",
+    "profile_0012.png",
+    "profile_0013.png",
+    "profile_0014.png",
+    "profile_0015.png",
+    "profile_0016.png",
+    "profile_0017.png",
+    "profile_0018.png",
+    "profile_0019.png",
+    "profile_0020.png",
+    "profile_0021.png",
+    "profile_0022.png",
+    "profile_0023.png"
+  ],
+  "n_profiles": 400
+}

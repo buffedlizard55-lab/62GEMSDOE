@@ -1,0 +1,90 @@
+{
+ "status": "NOT COMPLETED - do not read as a clearance",
+ "reason": "the exact-protocol pass (scripts/uniqueness_gate62.py, full-resolution ranks over 753 rasters, ~25 min per candidate) was interrupted after the inventory-glob bug was fixed but before it finished; the record below is what that partial run wrote",
+ "previous": {
+  "candidate_sha256": "d3fef68540d95898eaec09be215c5ff29807b5218b959e4c095709c46ed146a0",
+  "surface_sha256": "ae4222f9546bcdf604a5dcd73f4474cf5dbe7e1625f5fa34f42db134bd20aa76",
+  "started_utc": "2026-10-11T21:43:47+00:00",
+  "runtime_s": 0.2,
+  "emission": {
+   "evidence_class": "MEASURED",
+   "phase": "unspecified",
+   "verdict": "UNCHECKED_INCOMPLETE_INVENTORY",
+   "unique": false,
+   "duplicate_count": 0,
+   "candidate_support_pixels": 63750,
+   "rho_limit": 0.9,
+   "overlap_limit": 0.7,
+   "overlap_radius_px": 3,
+   "rank_rule": "signed full-footprint Spearman > 0.90 against any one raster",
+   "overlap_rule": "more than 70% of candidate positive pixels within 3 pixels of any one raster's positive pixels",
+   "jaccard_diagnostic_only": true,
+   "inventory": {
+    "declared_scope_complete": false,
+    "organizer_registry_complete": false,
+    "scope": null,
+    "verified": false,
+    "raster_count": 0,
+    "error_count": 2,
+    "errors": [
+     {
+      "error": "inventory is not complete for its declared scope"
+     },
+     {
+      "error": "inventory contains no raster records"
+     }
+    ]
+   },
+   "candidate_errors": [],
+   "worst_spearman": null,
+   "worst_overlap": null,
+   "rows": []
+  },
+  "evidence_surface": {
+   "evidence_class": "MEASURED",
+   "phase": "unspecified",
+   "verdict": "INVALID_CANDIDATE",
+   "unique": false,
+   "duplicate_count": 0,
+   "candidate_support_pixels": 1436363,
+   "rho_limit": 0.9,
+   "overlap_limit": 0.7,
+   "overlap_radius_px": 3,
+   "rank_rule": "signed full-footprint Spearman > 0.90 against any one raster",
+   "overlap_rule": "more than 70% of candidate positive pixels within 3 pixels of any one raster's positive pixels",
+   "jaccard_diagnostic_only": true,
+   "inventory": {
+    "declared_scope_complete": false,
+    "organizer_registry_complete": false,
+    "scope": null,
+    "verified": false,
+    "raster_count": 0,
+    "error_count": 2,
+    "errors": [
+     {
+      "error": "inventory is not complete for its declared scope"
+     },
+     {
+      "error": "inventory contains no raster records"
+     }
+    ]
+   },
+   "candidate_errors": [
+    "candidate has positive support outside the footprint"
+   ],
+   "worst_spearman": null,
+   "worst_overlap": null,
+   "rows": []
+  }
+ },
+ "screening_pass": {
+  "file": "evidence/uniqueness_screen62.json",
+  "verdict": "PASS",
+  "n_rasters": 753,
+  "stride_px": 4,
+  "worst_spearman_emission": 0.0365,
+  "worst_spearman_surface": 0.1286,
+  "worst_support_overlap_emission": 0.38
+ },
+ "to_finish": "run: /home/user/.venv/bin/python scripts/uniqueness_gate62.py"
+}

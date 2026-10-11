@@ -1,0 +1,35 @@
+{
+ "exact_protocol": {
+  "status": "not completed",
+  "note": "interrupted; rerun scripts/uniqueness_gate62.py"
+ },
+ "screening": {
+  "stride_px": 4,
+  "n_rasters": 753,
+  "runtime_s": 169.8,
+  "worst_spearman_emission": [
+   0.036490916205130196,
+   "0f1be73cdcd91d82300e5182.tif"
+  ],
+  "worst_spearman_surface": [
+   0.128597030460689,
+   "2505ac5fa1db2ba142b1ecbe.tif"
+  ],
+  "worst_support_overlap_emission": [
+   0.3799661876584953,
+   "7bfc92ac536cf83a5caf24a8.tif"
+  ],
+  "worst_support_overlap_surface": [
+   0.15722738799661876,
+   "7bfc92ac536cf83a5caf24a8.tif"
+  ],
+  "candidate_sha256": "d3fef68540d95898eaec09be215c5ff29807b5218b959e4c095709c46ed146a0",
+  "rules": "rho_limit 0.90; support overlap_limit 0.70 within 3 px (protocol constants). Screening pass at 4-px stride; the exact-protocol pass is scripts/uniqueness_gate62.py",
+  "verdict": "PASS"
+ },
+ "limits": {
+  "rho_limit": 0.9,
+  "overlap_limit": 0.7,
+  "overlap_radius_px": 3
+ }
+}

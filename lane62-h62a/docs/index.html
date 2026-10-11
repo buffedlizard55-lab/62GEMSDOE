@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Home · 62GEMSDOE</title>
+<meta name="description" content="One-click submission file, status, and the headline holdout measurement">
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header><div class="w"><h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
+<span class="sub">DOE GEMS Prize · DrivenData #306 · datum-offset lane H62-A</span></div></header>
+<nav><div class="w"><a href="index.html" class="on">Home</a><a href="executive-summary.html">How to submit</a><a href="analysis.html">Why 0.2778</a><a href="method.html">Method</a><a href="results.html">Results</a><a href="hypotheses.html">Hypotheses</a><a href="profiles.html">Shoreline profiles</a><a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a><a href="run-card.html">Run card</a><a href="limitations.html">Limitations</a><a href="leaderboard.html">Leaderboard</a></div></nav>
+<main><div class="w"><div class="dl">
+<h2>⬇ ONE-CLICK SUBMISSION FILE</h2>
+<p style="font-size:17px;margin:2px 0 14px"><b>Is it OK to <u>download</u> this file?</b>
+&nbsp;<span class="pill ok">YES — FORMAT-VALID</span>
+&nbsp; 26/26 checks pass.</p>
+<p style="font-size:17px;margin:2px 0 12px"><b>Is it OK to <u>submit</u> this file?</b>
+&nbsp;<span class="pill no">NO — NOT VALIDATED</span>
+&nbsp;<span class="pill warn">NEGATIVE RESULT</span></p>
+<div class="callout warn">
+<p style="margin:0 0 6px"><b>Format-valid (26/26) and NOT a copy of any registry raster by any statistic that can detect copying (max Jaccard 0.02532 vs a 0.50 limit; max signed rho 0.0647 vs a 0.90 limit; max mutual containment 0.3195). But two things block an autonomous promotion: (1) the only holdout instrument in this repository is provably anti-correlated with the organizer&#x27;s metric, so there is no valid way to show this beats the current best; (2) the uniqueness rule as written returns DUPLICATE, and overruling a leg of the tasking protocol is a human decision. Spending a weekly slot on it would be a guess presented as a result.</b></p>
+<p class="small" style="margin:0">Two irregularities are open and both need a human decision, not an
+autonomous one:</p>
+<ul class="small" style="margin:6px 0 0">
+<li><b>IR-62-HOLDOUT-01 — the promotion gate is broken.</b> Across
+10
+ORGANIZER-CONFIRMED artifacts scored on one identical holdout, HOLDOUT-DTI is
+<b>anti-correlated</b> with the organizer's score: Spearman
+<b>-0.9141</b>
+(p=0.0002), and it survives controlling for dot count
+(partial Spearman -0.6810,
+p=0.0302).
+7 of
+8 count-matched pairs go the same way.
+The withheld truth <i>is</i> public catalogue, so the holdout rewards dots that hug the
+catalogue, while the organizer's private set rewards dots that avoid it. Our artifact has
+zero dots within 3 px of the catalogue and therefore scores
+0.0000 on it — by construction, not by
+failure. <a href="results.html#frozen">The full table</a>.</li>
+<li><b>IR-62-UNIQ-01 — the uniqueness rule returns DUPLICATE, and the artifact is
+still not a copy.</b> 64 comparator rows put
+&gt;70% of our dots within 3 px. Calibrating that leg with two nulls — dots scattered anywhere
+in the footprint, and dots scattered through <i>our own</i> catalogue-free lane habitat — waives
+all but <b>2</b> distinct fields, and those bind only
+marginally: their habitat nulls sit within 0.028 of
+the 0.70 waiver cliff, and <i>which</i> of them binds flips with the null seed. So the rule's
+answer is <b>DUPLICATE</b> and this repository does not overrule its own tasking
+protocol autonomously.<br>
+But every statistic that can actually detect <b>copying</b> is far inside its limit: max Jaccard
+<b>0.0253</b> (limit 0.50), max signed rho
+<b>+0.0647</b> (limit 0.90, most negative
+-1.0000 — anti-correlation, the opposite of copying), max mutual
+containment <b>0.3195</b>.
+<code>is_a_copy = False</code>. Against the 0.2778 file specifically we
+share 1,421 exact pixels of its
+37,654, and
+58.3%
+of our dots are in places it does not cover. Overriding the rule is your call.
+<a href="results.html#uniq-null">Calibration table</a> ·
+<a href="irregularities.html">details</a>.</li>
+</ul>
+<p class="small" style="margin:8px 0 0">So: the file is <b>safe to download, inspect and learn
+from</b>, and it is <b>not a copy</b> of anything in the 709-raster
+registry by any statistic that can detect copying. What this repository cannot do is
+<i>validate</i> spending a weekly submission slot on it: the only instrument it has for that
+decision is provably pointed the wrong way, and its own uniqueness rule returns DUPLICATE on a
+leg that a random dot set would also trip.</p>
+</div>
+<p><a class="btn" href="downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif" download>Download gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif</a>
+<a class="btn sec" href="downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.zip" download>.zip (single GeoTIFF inside)</a>
+<a class="btn ghost" href="downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.json">format receipt</a></p>
+<table>
+<tr><th style="width:34%">Field</th><th>Value to use on the submission form</th></tr>
+<tr><td><b>File to submit</b></td><td><code>gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif</code> (or the .zip)</td></tr>
+<tr><td><b>Unique submission name</b></td><td><code>62GEMSDOE-gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z</code></td></tr>
+<tr><td><b>Note (optional)</b> — 75/140 chars</td><td><code>H62-A Lahontan isobase step/deflection traces; arm A3; 38000 dots; UNSCORED</code></td></tr>
+<tr><td>sha256</td><td class="num small">eabd03c1ca1a5380d100024b3ed7c7401a847bdab5913a423c396bb50f624ed5</td></tr>
+<tr><td>Geometry</td><td>single band · float32 · EPSG:32611 · 100 m ·
+ 3730×3292 · transform
+ <code>[100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0]</code></td></tr>
+<tr><td>Values</td><td class="num">min 0.000000 · max 1.000000 ·
+ NaN cells 0 · positive px 38000 · nodata tag
+ </td></tr>
+</table>
+<p class="small mut">Full instructions, including what to paste in each field of the DrivenData
+form, are on the <a href="executive-summary.html">executive summary / how-to-submit</a> page.</p>
+</div>
+<h2>Status at a glance</h2><div class='grid3'>
+<div class="kpi"><div class="l">HOLDOUT-DTI (best arm)</div><div class="big">0.1224</div><div class="small mut">A3 · 95% CI 0.1154–0.1284<br>81993 withheld positives</div></div>
+<div class="kpi"><div class="l">Random-lines control</div><div class="big">0.0228</div><div class="small mut">same evaluator, same budget</div></div>
+<div class="kpi"><div class="l">Dots emitted</div><div class="big">38,000</div><div class="small mut">0.735% of footprint</div></div>
+<div class="kpi"><div class="l">Uniqueness</div><div class="big">DUPLICATE</div><div class="small mut">709 earlier rasters scanned</div></div>
+<div class="kpi"><div class="l">Validator</div><div class="big">26/26</div><div class="small mut">checks re-read from the bytes on disk</div></div>
+<div class="kpi"><div class="l">Organiser score</div><div class="big">none</div><div class="small mut">no artifact in this repo has been scored</div></div>
+</div>
+<div class="card"><h3 style="margin-top:0">Should this be given a weekly submission slot?</h3>
+<p><b>NO — honest negative.</b> IR-62-HOLDOUT-01: the promotion gate is invalid. Across 10 ORGANIZER-CONFIRMED artifacts scored on one identical frozen holdout, HOLDOUT-DTI is ANTI-correlated with the organizer&#x27;s score (Spearman -0.9141, p=0.00021; partial Spearman controlling for dot count -0.681, p=0.03017; 7 of 8 count-matched pairs go the same way). The standing instruction is not to spend a slot on an idea that has not beaten the current holdout best; the shipped artifact scores 0.0000 against a best of 0.13215463311922815, and no valid instrument exists to overrule that. IR-62-UNIQ-01: the uniqueness rule says DUPLICATE and this repository will not overrule its own tasking protocol autonomously. The literal leg fires against 64 comparators; calibrating it with two nulls waives all but 2 distinct fields, and those bind only marginally (their habitat nulls sit within 0.0282 of the 0.70 waiver cliff, and which of them binds flips with the null seed). Meanwhile every statistic that can actually detect COPYING is far inside its limit: max Jaccard 0.02532 (limit 0.5), max signed rho 0.0647 (limit 0.9), max mutual containment 0.3195. is_a_copy = False. So the honest reading is that the artifact is NOT a copy and the overlap leg is mis-specified for a lane-conformant artifact -- but that is a human judgement to make, not an autonomous one.</p>
+<p class="small">Read the <a href="analysis.html">arithmetic</a> before disagreeing: this lane is
+geographically confined to pluvial-lake margins, and the metric charges false negatives over the
+<b>whole</b> hidden set. A confined file cannot reach 0.2778. Its value is defensibility — its
+seeds are structures that demonstrably offset a ~15 ka surface, which is the class the expert
+panel adds in the Final Prize Round.</p></div>
+<h2>What this is</h2>
+<p>62GEMSDOE implements one lane of the <b>DOE GEMS Prize</b> (Drivendata #306, GeoDAWN region,
+northwestern Great Basin, Nevada): use the ~15 ka <b>Lake Lahontan highstand shoreline</b> as a
+near-level datum, find where that datum is <b>stepped in elevation</b> or <b>deflected laterally
+along strike</b>, and ship those structures as a legal, unique GeoTIFF.</p>
+<p>It has four parts: an exact re-implementation of the organiser's metric
+(<a href="method.html#metric">verified against the published worked example and a brute-force
+transcription</a>); the lane detector itself (<a href="method.html">isobase fit, throw-window
+flags, strike-parallel trace extension</a>); a preregistered spatially-blocked
+<a href="results.html">hide-and-recover holdout</a> with equal-budget controls; and a fail-closed
+<a href="executive-summary.html">submission writer</a> whose output is validated by re-reading
+the bytes from disk.</p>
+<h2>The portal error <code>"Predicted values must be in range [0, 1]"</code> — root-caused</h2>
+<p>Two different failures produce that one message, and both are measured here rather than guessed.</p>
+<table><thead><tr><th>mechanism</th><th>measured</th><th>fix</th></tr></thead><tbody>
+<tr><td><b>M1 — the float32 sentinel.</b> <code>training_features.tif</code> uses
+<code>-3.4028234663852886e+38</code> as nodata.</td>
+<td><b>7,113,308</b> cells carry it, of which <b>3,061</b> lie <i>inside</i> the submission
+footprint, in all 19 bands (band 6 has 12 extra). Recorded as
+<code>sentinel_cells_inside_footprint = 58171</code>
+= 19×3,061 + 12.</td>
+<td>Never written through. The primary artifact is all-finite.</td></tr>
+<tr><td><b>M2 — the NaN sentinel.</b> A raster with <code>nodata=NaN</code> and NaN outside the
+footprint is legal today ("data outside the bounds is null or nan") but is one validator change
+away from the same rejection.</td><td><code>sample_submission.tif</code> carries
+5167373 finite and 7,111,787 NaN cells.</td>
+<td>The primary download is <b>zeros outside, no nodata tag</b>. A NaN-outside twin is also
+produced and labelled as the twin.</td></tr>
+</tbody></table>
+<p>Every file offered here is single-band float32, EPSG:32611, 100 m,
+3730×3292,
+<b>all 12,279,160 cells finite</b>,
+min 0.000000, max 1.000000, <b>zero NaN</b>, <b>no nodata tag</b>,
+and <b>zero dots exactly on a mapped catalogue pixel</b>. Each download ships a JSON receipt
+produced by re-opening the file from disk.</p>
+<h2>The headline measurement</h2>
+<table><thead><tr><th>arm</th><th>what it is</th><th>HOLDOUT-DTI</th><th>95% CI</th><th>random lines</th><th>random dots</th><th>catalogue offset</th></tr></thead><tbody><tr><td><b>A1</b></td><td>lane-faithful: throw-window bench + azimuth kinks, extended along isobase strike; no catalogue term</td><td class='num'>0.1083</td><td class='num small'>0.1022–0.1137</td><td class='num'>0.0228</td><td class='num'>0.0555</td><td class='num'>0.0386</td></tr><tr><td><b>A2</b></td><td>band-only ablation: whole margin band ranked by habitat + evidence; NO isobase</td><td class='num'>0.1117</td><td class='num small'>0.1064–0.1168</td><td class='num'>0.0228</td><td class='num'>0.0555</td><td class='num'>0.0386</td></tr><tr><td><b>A3</b></td><td>lane + habitat: throw-window bench ∩ measured habitat ≥ 2.0</td><td class='num'>0.1224</td><td class='num small'>0.1154–0.1284</td><td class='num'>0.0228</td><td class='num'>0.0555</td><td class='num'>0.0386</td></tr></tbody></table>
+<p class='small mut'>Evaluator <code>gems62.holdout_segmented v1</code> · α=0.2 β=0.8 R=300 m · 81993 withheld positives pooled across 4 folds · whole fault segments withheld with a  px buffer · visible faults masked pixel-exactly · catalogue-derived weights rebuilt from visible faults only, per fold.</p>
+<p><a class='btn sec' href='results.html'>Full results &amp; controls</a><a class='btn ghost' href='run-card.html'>The run card</a></p>
+<h2>Honest limits of this page</h2>
+<ul class="small">
+<li><b>No score here is organiser-verified.</b> Every number is HOLDOUT-DTI (with evaluator
+version, withheld-positive count and 95% CI) or ORGANIZER-CONFIRMED (copied from a
+submission-page receipt for an <i>earlier</i> file).</li>
+<li><b>The holdout's truth is the visible catalogue</b>, so it cannot reward a genuinely new
+fault (IR-62-HOLDOUT-01). A holdout win is necessary, not sufficient.</li>
+<li><b>There is no absolute DEM in the official stack</b> (IR-62-DEM-01). The isobase is fit in
+detrended-elevation space; absolute Lahontan shoreline elevations are not used or claimed.</li>
+<li><b>The submitted file is a candidate, not a proven improvement.</b></li>
+</ul></div></main>
+<footer><div class="w">Built 2026-10-11 21:31 UTC from
+<code>evidence/*.json</code> by <code>scripts/build_site.py</code>. Every number on this site is
+labelled <b>HOLDOUT-DTI</b> or <b>ORGANIZER-CONFIRMED</b>. No projection is written as a score.
+<a href="../README.md">README</a> · <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">repository</a></div></footer>
+</body></html>
