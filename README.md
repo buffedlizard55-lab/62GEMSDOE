@@ -10,6 +10,83 @@
 
 ## 📌 Standing Brief & Operating Prompt (Read First Every Session)
 
+## Session status — 2026-10-12 (`arena/61e7859a-62gemsdoe`)
+
+### ⬇ Submit this file: `docs/downloads/gems62-h63-diffuse-isolated-offcat-40k-zeros.tif`
+
+**OK to download and OK to submit.** Format receipt re-read from the bytes: single band, `float32`,
+EPSG:32611, 3730×3292, the sample submission's exact transform, `nodata = null`, all-finite,
+**0 NaN, 0 values outside [0, 1]** — so the portal error *"Predicted values must be in range [0, 1]"*
+cannot occur for these bytes. sha256
+`fa0b254e191cbbc10caf5e76717f56aab3a69b9f0363fb3a16e0116bc225d319`, 184,739 bytes.
+
+[**⬇ Download**](docs/downloads/gems62-h63-diffuse-isolated-offcat-40k-zeros.tif) ·
+[submit here ↗](https://www.drivendata.org/competitions/306/competition-doe-gems/submit/) ·
+[how to submit, step by step](docs/executive-summary.html) ·
+[the audit behind the verdict](docs/research/instrument-audit-2026-10-12.html)
+
+Submission note (≤ 140 chars): `62 H63: 40k isolated dots, exact 300 m spacing, off-catalogue, diffuse, nine-band consensus order. Receipt-validated shape.`
+
+**What it is.** 40,000 unit dots on an integer hexagonal lattice at exactly 300 m spacing — every dot
+≥ 300 m from its neighbours (0.0 % closer), > 300 m from the masked catalogue (0.00 % on catalogue
+pixels), capped at 90 dots per 10 km block so the field stays diffuse (570 blocks used), ordered by
+this repository's own nine-band evidence consensus with a fixed seed. Built by
+`scripts/build_h63_diffuse_isolated.py`; run card in `build/h63/…-runcard.json`.
+
+**What it is worth (honest band): 0.18–0.29, most likely ≈ 0.26.** Basis: the nine owner-reported
+receipts at this mass and spacing — 0.2376, 0.2449, 0.2600, 0.2632, 0.2649, 0.2708 ×2, 0.2750,
+0.2778 — and nothing better. **No claim above 0.3195 is made: no instrument in this repository can
+support one.**
+
+### What this session measured — and why the old promotion rule is withdrawn
+
+1. **The SGMC-off-catalogue credit proxy is INVERTED.** Against the 42 owner-reported scores
+   (`scripts/proxy_dti_regression.py` → `research/proxy_dti_regression.json`),
+   Spearman(proxy DTI, score) = **−0.615** overall and −0.48 … −0.66 mass-matched. The field that
+   maximised proxy credit (57,783 dots filling the published USGS fault-map gaps, proxy DTI 0.7605)
+   scored **0.0360 — the worst of the set**. Every earlier "credit enrichment" number in this repo
+   (champion 1.45×, the kernel-credit table) is therefore an audit diagnostic with the sign reversed;
+   it must never promote or reject a field again. (IR-62-11C-04)
+2. **Geometry explains a little, then fails.** Spearman(score, coverage-per-dot) = +0.55,
+   (score, mass) = −0.48 — but two same-shape counterexamples break it: `h34-scatter-q50`
+   (M = 37,654, *better* isolation, C/M 8.42 vs the champion's 8.04) scored **0.0778**, and
+   `gemsdoe29-repo-c0-habitat-emission` (M = 37,913, 300 m) scored **0.0041**.
+3. **The family's top scores are one arrangement, re-submitted.** 3-px-dilated Jaccard: champion vs
+   `h27-4-solo-d2-8` **0.948** (containment 1.00), champion vs `d28-poisson300m-offcat` **0.893**,
+   `h27-4` vs `d28` **0.943**. The apparent "eight methods agree at 0.24–0.28" is one dot set.
+4. **Lane 11 c is closed as a negative.** Final field: 682 dots, sha256 `b9cd6972…`, validator
+   passed — but its mean SGMC-off-catalogue credit is **0.415 × the footprint-uniform value** (worse
+   than throwing the same dots uniformly at the same datum bands), uniqueness clean (max Jaccard
+   0.0105), holdout DTI 7.9 × 10⁻⁵, canary AUC 0.499. The lane's independent refutation stands: its
+   step loci are anti-selected for mapped faults — pooled **0.81 ×** a uniform cell of the *same datum
+   band* (`scripts/lane_11c_null_test.py` → `evidence/lane11c_null_test.json`).
+5. **What would beat 0.3195 is data, not modelling.** The metric pays only for per-dot credit against
+   the hidden truth. This repo has no fault map that is *positively* correlated with it. The next
+   step is to acquire an independent, higher-resolution compilation for the GeoDAWN AOI and re-run the
+   42-receipt audit with a **positive** Spearman as the pass condition — before any further slot.
+
+### Added later in the same session
+
+* **The information-free ceiling of the metric** (`evidence/metric_ceiling.json`,
+  `scripts/metric_ceiling.py`): `TP_w + FN_w = |G|`, so `DTI = TP_w/(0.2M + 0.8|G| + 0.2(TP_w − M_cov))`
+  and an information-free field of the group's mass scores at most **0.086** (cross-checked against a
+  measured uniform control: 0.0745 vs 0.0785 predicted). The group's best field is **3.24 ×** chance,
+  the 36–42 k family 2.97–3.24 ×, the target 0.3195 **3.50 ×**, the leader 0.4275 **4.69 ×**. That is the
+  answer to "why does h33-2-b2 score 0.2778", and it converts the goal into *+45 % information per dot*.
+* **The catalogue-absent population instrument fails too** (`research/offcatalogue_instrument_validation.json`):
+  the USGS SGMC Nevada faults that the competition catalogue omits give Spearman −0.378 for the aggregate
+  proxy and −0.562 for coverage, flat at 0.201–0.205 across the whole 0.245–0.278 score range — so
+  **IR-62-11C-05: no in-repo truth proxy may promote or reject a field**.
+* **The uniqueness tripwire is density-blind, measured**: an information-free 40 k control
+  (`evidence/control_40k_uniqueness.json`) trips the same `overlap_flag` at Jaccard 0.331 twice.
+* **The assigned datum lane is closed with a measurement** (`docs/research/datum-lane-2026-10-12.md`):
+  the Lahontan bench elevation is only resolvable to 6.59 m (median residual IQR) in this DEM, and every
+  basin's flatness maximum sits at its own floor. The lane's only emission (682 dots, 0.415 × uniform)
+  is explained, and H64 is re-scoped onto 1 m lidar rather than rejected on physics.
+* **Four new hypotheses + one acquisition hypothesis, ranked** (`docs/research/hypotheses-2026-10-12.md`).
+
+## Session status — 2026-10-11b (`arena/d0303476-62gemsdoe`)
+
 ```text
 Review the repo. 
 

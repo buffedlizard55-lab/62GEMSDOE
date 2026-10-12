@@ -86,6 +86,34 @@
   "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
   "verdict": "ANOTHER LANE'S NEGATIVE (session arena/778884cc, experiment h62n) - format-legal 14/14, unique, OK to download; their own verdict is NEGATIVE as an improvement (projection 0.0210 on the kernel-fixed instrument) and this gate has nothing to add to that"
  },
+ "gems62-h63-diffuse-isolated-offcat-40k-nan.tif": {
+  "artifact_of": "scripts/build_h63_diffuse_isolated.py (session arena/61e7859a, 2026-10-12)",
+  "evidence": [
+   "evidence/h63_diffuse_isolated_runcard.json"
+  ],
+  "expected_value_label": "same field as the -zeros twin; no separate score is expected",
+  "note": "identical predictions to the -zeros file; this file is the probe that shows what the NaN encoding looks like to the validator, and it is labelled illegal rather than OK to submit",
+  "ok_to_submit": false,
+  "organizer_score": null,
+  "organizer_score_note": "never submitted",
+  "verdict": "FORMAT PROBE TWIN, NOT THE SUBMISSION - the same dot set as the -zeros file encoded with NaN outside the footprint and a NaN nodata tag, so it fails this repository's stricter convention (no_nodata_tag, no_nan_anywhere) and is kept only to keep the two encodings of one field comparable. The published contract permits null/nan outside the footprint, but a float32 nodata sentinel is one of the two mechanisms behind the portal error 'Predicted values must be in range [0, 1]', so the -zeros twin is the one offered for submission"
+ },
+ "gems62-h63-diffuse-isolated-offcat-40k-zeros.tif": {
+  "artifact_of": "scripts/build_h63_diffuse_isolated.py (session arena/61e7859a, 2026-10-12)",
+  "evidence": [
+   "evidence/h63_diffuse_isolated_runcard.json",
+   "evidence/h63_diffuse_uniqueness.json",
+   "evidence/metric_ceiling.json",
+   "docs/research/instrument-audit-2026-10-12.md (\u00a75\u2013\u00a78)",
+   "docs/research/hypotheses-2026-10-12.md"
+  ],
+  "expected_value_label": "expected 0.18-0.29, most likely ~0.26 - the band of the nine owner-reported receipts at this mass and spacing (0.2376, 0.2449, 0.2600, 0.2632, 0.2649, 0.2708 x2, 0.2750, 0.2778), discounted by two same-shape counterexamples at 0.0778 and 0.0041",
+  "note": "40,000 unit dots, integer hex rows 3 px apart with a 1 px stagger, so nn_min is exactly 300 m; every dot at least 300 m from a catalogue pixel; 570 ten-km blocks capped at 90 dots; ordered by this repository's nine-band evidence consensus (seed 626311). Legal on re-read: single band float32 EPSG:32611 3730x3292, sample_submission geotransform, 0 NaN, 0 outside [0,1], 0.00% on the catalogue. Maximum 3-px-dilated Jaccard against the 233-raster registry is 0.345, while the family's own top submissions score 0.893-0.948 against each other; the information-free 40k control trips the same tripwire at 0.331, so the flag is density-blind at this mass.",
+  "ok_to_submit": false,
+  "organizer_score": null,
+  "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score. Nothing in evidence/ supports a claim above 0.3195: the metric's information-free ceiling at this mass is 0.086 (evidence/metric_ceiling.json) and no in-repo truth proxy ranks fields (IR-62-11C-04, IR-62-11C-05)",
+  "verdict": "OK TO SUBMIT AS A MEASURED PROBE - format-legal 14/14 (single band float32 EPSG:32611 3730x3292, sample geotransform, 0 NaN, 0 outside [0,1], 0.00% on the masked catalogue), UNIQUE (max 3-px-dilated Jaccard 0.345 against 233 registry rasters, while the family's own top submissions score 0.893-0.948 against each other, and an information-free 40k control trips the same tripwire at 0.331), and the only shape the family's 42 owner-reported scores reward. Not marked ok_to_submit because no organiser-confirmed score exists anywhere in this repository: passing the format contract is not a claim of merit"
+ },
  "gems62-lahontan-isobase-99dots-nan.tif": {
   "artifact_of": "scripts/make_control.py",
   "evidence": [

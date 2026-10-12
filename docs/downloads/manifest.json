@@ -11,7 +11,7 @@
   "footprint_cells": 5167373,
   "catalogue_cells": 60988
  },
- "n_files": 16,
+ "n_files": 18,
  "files": [
   {
    "path": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif",
@@ -590,6 +590,201 @@
    "expected_value_label": "the other lane's statement: 16,864 isolated dots on DEM-ridge-supported traces seeded at Lahontan datum steps, DTI(S*\u2020) 0.0545 x scale 0.3848 = 0.0210 projected, below the incumbent band 0.24-0.28; their instrument fix (IR-62-25) is the deliverable, not the field",
    "artifact_of": "scripts/run_lane_session.py / h62n (session arena/778884cc)",
    "sidecar": "docs/downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62-h63-diffuse-isolated-offcat-40k-nan.tif",
+   "bytes": 330994,
+   "fails": [
+    "no_nodata_tag",
+    "no_nan_anywhere"
+   ],
+   "fails_only_strict_conventions": true,
+   "sha256": "c57d88adf4f6c39c626c4f8cfb805ed51be174c3c1187ced9b05111c318a5e01",
+   "dots": 40000,
+   "total_mass": null,
+   "min": "NaN",
+   "max": "NaN",
+   "nodata": "NaN",
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 7111787,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 7111787,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 40000,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": false
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": false
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 12,
+   "checks_total": 14,
+   "format_legal": false,
+   "portal_range_risk": "low",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "FORMAT PROBE TWIN, NOT THE SUBMISSION - the same dot set as the -zeros file encoded with NaN outside the footprint and a NaN nodata tag, so it fails this repository's stricter convention (no_nodata_tag, no_nan_anywhere) and is kept only to keep the two encodings of one field comparable. The published contract permits null/nan outside the footprint, but a float32 nodata sentinel is one of the two mechanisms behind the portal error 'Predicted values must be in range [0, 1]', so the -zeros twin is the one offered for submission",
+   "ok_to_submit": false,
+   "note": "identical predictions to the -zeros file; this file is the probe that shows what the NaN encoding looks like to the validator, and it is labelled illegal rather than OK to submit",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "same field as the -zeros twin; no separate score is expected",
+   "artifact_of": "scripts/build_h63_diffuse_isolated.py (session arena/61e7859a, 2026-10-12)",
+   "sidecar": "docs/downloads/gems62-h63-diffuse-isolated-offcat-40k-nan.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62-h63-diffuse-isolated-offcat-40k-zeros.tif",
+   "bytes": 184739,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "fa0b254e191cbbc10caf5e76717f56aab3a69b9f0363fb3a16e0116bc225d319",
+   "dots": 40000,
+   "total_mass": 40000.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 40000,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "OK TO SUBMIT AS A MEASURED PROBE - format-legal 14/14 (single band float32 EPSG:32611 3730x3292, sample geotransform, 0 NaN, 0 outside [0,1], 0.00% on the masked catalogue), UNIQUE (max 3-px-dilated Jaccard 0.345 against 233 registry rasters, while the family's own top submissions score 0.893-0.948 against each other, and an information-free 40k control trips the same tripwire at 0.331), and the only shape the family's 42 owner-reported scores reward. Not marked ok_to_submit because no organiser-confirmed score exists anywhere in this repository: passing the format contract is not a claim of merit",
+   "ok_to_submit": false,
+   "note": "40,000 unit dots, integer hex rows 3 px apart with a 1 px stagger, so nn_min is exactly 300 m; every dot at least 300 m from a catalogue pixel; 570 ten-km blocks capped at 90 dots; ordered by this repository's nine-band evidence consensus (seed 626311). Legal on re-read: single band float32 EPSG:32611 3730x3292, sample_submission geotransform, 0 NaN, 0 outside [0,1], 0.00% on the catalogue. Maximum 3-px-dilated Jaccard against the 233-raster registry is 0.345, while the family's own top submissions score 0.893-0.948 against each other; the information-free 40k control trips the same tripwire at 0.331, so the flag is density-blind at this mass.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "expected 0.18-0.29, most likely ~0.26 - the band of the nine owner-reported receipts at this mass and spacing (0.2376, 0.2449, 0.2600, 0.2632, 0.2649, 0.2708 x2, 0.2750, 0.2778), discounted by two same-shape counterexamples at 0.0778 and 0.0041",
+   "artifact_of": "scripts/build_h63_diffuse_isolated.py (session arena/61e7859a, 2026-10-12)",
+   "sidecar": "docs/downloads/gems62-h63-diffuse-isolated-offcat-40k-zeros.verdict.json",
    "sidecar_matches_bytes": true
   },
   {
@@ -1522,6 +1717,7 @@
  "problems": [],
  "notes": [
   "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif: deliberately NOT format-legal ['no_nodata_tag', 'no_nan_anywhere'], labelled as a probe - FORMAT PROBE (NaN outside the footprint, nodata=NaN) - never submitted; passes the published contract, fails this lane's stricter convention, shipped by another lane as a twin",
+  "docs/downloads/gems62-h63-diffuse-isolated-offcat-40k-nan.tif: deliberately NOT format-legal ['no_nodata_tag', 'no_nan_anywhere'], labelled as a probe - FORMAT PROBE TWIN, NOT THE SUBMISSION - the same dot set as the -zeros file encoded with NaN outside the footprint and a NaN nodata tag, so it fails this repository's stricter convention (no_nodata_tag, no_nan_anywhere) and is kept only to keep the two encodings of one field comparable. The published contract permits null/nan outside the footprint, but a float32 nodata sentinel is one of the two mechanisms behind the portal error 'Predicted values must be in range [0, 1]', so the -zeros twin is the one offered for submission",
   "docs/downloads/gems62-lahontan-isobase-99dots-nan.tif: deliberately NOT format-legal ['no_nodata_tag', 'no_nan_anywhere'], labelled as a probe - FORMAT PROBE (NaN outside, nodata=NaN) - never submitted; passes the published contract, fails our stricter one",
   "lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-nan.tif: NOT format-legal ['no_nan_anywhere']; it sits in a lane directory, is not linked from the site, and its owning lane has not labelled it - fix it there"
  ],

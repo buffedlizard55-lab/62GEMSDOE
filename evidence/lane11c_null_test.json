@@ -1,0 +1,108 @@
+{
+ "question": "is a datum-offset locus better than a random cell on the same datum?",
+ "instruments": {
+  "sgmc_off_catalogue_cells": 79615,
+  "catalogue_cells": 60988
+ },
+ "by_datum": {
+  "sehoo_highstand": {
+   "band_lo_m": 1313.0,
+   "band_hi_m": 1348.0,
+   "band_cells": 183271,
+   "n_loci": 128,
+   "band_uniform": {
+    "k_off": 0.02953768127790124,
+    "k_cat": 0.04210345467288268
+   },
+   "footprint_uniform": {
+    "k_off": 0.052278290658045644,
+    "k_cat": 0.04120851499951102
+   },
+   "loci": {
+    "k_off": 0.027399196185887827,
+    "k_cat": 0.03199276916114879,
+    "frac_within_300m_cat": 0.0625,
+    "frac_within_300m_off": 0.046875
+   },
+   "ratio_vs_band_uniform": {
+    "k_off": 0.927601456868135,
+    "k_cat": 0.7598609047573995
+   },
+   "ratio_vs_footprint_uniform": {
+    "k_off": 0.524102755484242,
+    "k_cat": 0.7763630686892847
+   }
+  },
+  "younger_dryas": {
+   "band_lo_m": 1222.0,
+   "band_hi_m": 1242.0,
+   "band_cells": 108346,
+   "n_loci": 57,
+   "band_uniform": {
+    "k_off": 0.008340162934017662,
+    "k_cat": 0.01503070487736235
+   },
+   "footprint_uniform": {
+    "k_off": 0.051759675878199594,
+    "k_cat": 0.040379804572325415
+   },
+   "loci": {
+    "k_off": 0.06014750501684875,
+    "k_cat": 0.046783625730994156,
+    "frac_within_300m_cat": 0.05263157894736842,
+    "frac_within_300m_off": 0.12280701754385964
+   },
+   "ratio_vs_band_uniform": {
+    "k_off": 7.2117901643768265,
+    "k_cat": 3.112537044184447
+   },
+   "ratio_vs_footprint_uniform": {
+    "k_off": 1.1620533551714527,
+    "k_cat": 1.1585897016217273
+   }
+  },
+  "late_holocene": {
+   "band_lo_m": 1196.0,
+   "band_hi_m": 1212.0,
+   "band_cells": 139721,
+   "n_loci": 74,
+   "band_uniform": {
+    "k_off": 0.00450679274413898,
+    "k_cat": 0.03179336719513453
+   },
+   "footprint_uniform": {
+    "k_off": 0.051752711422632984,
+    "k_cat": 0.03956136224354779
+   },
+   "loci": {
+    "k_off": 0.0,
+    "k_cat": 0.022522522522522525,
+    "frac_within_300m_cat": 0.02702702702702703,
+    "frac_within_300m_off": 0.0
+   },
+   "ratio_vs_band_uniform": {
+    "k_off": 0.0,
+    "k_cat": 0.7084031831006953
+   },
+   "ratio_vs_footprint_uniform": {
+    "k_off": 0.0,
+    "k_cat": 0.5693060411789993
+   }
+  }
+ },
+ "pooled": {
+  "n_loci": 259,
+  "loci": {
+   "k_off": 0.02677801118823946,
+   "k_cat": 0.03254211500370803
+  },
+  "band_uniform": {
+   "k_off": 0.01412821231868596,
+   "k_cat": 0.029642508915126518
+  },
+  "ratio_vs_band_uniform": {
+   "k_off": 1.895357359035643,
+   "k_cat": 1.0978191858483966
+  }
+ }
+}
