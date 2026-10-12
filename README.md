@@ -4,7 +4,7 @@
 [![Validation: 14/14 Passed](https://img.shields.io/badge/validation-14%2F14%20passed-success)](#)
 [![Uniqueness: Distinct Lane](https://img.shields.io/badge/uniqueness-distinct%20lane%20(%7C%CF%81%7C%200.0016%2C%20overlap%2040%25)-blue)](#)
 [![First Deliverable: 11 Steps](https://img.shields.io/badge/first%20deliverable-11%20steps%20%7C%2013%20deflections-orange)](#)
-[![Pytest: 52 Passed](https://img.shields.io/badge/pytest-146%20passed-brightgreen)](#)
+[![Pytest: 172 Passed](https://img.shields.io/badge/pytest-172%20passed-brightgreen)](#)
 
 ---
 
@@ -249,6 +249,58 @@ belongs to whoever last rewrote the page. Both are one click from the top, and t
 in the all-files table. While merging, one NaN twin that sat behind a `class="btn"` button beside a
 working download was demoted to a labelled link — a button there is how a NaN-encoded raster gets
 submitted by mistake, which is the shape of the error the owner hit.
+
+---
+
+## Session status — 2026-10-12 (`arena/fd6c719c-62gemsdoe`) · H62-B
+
+Parallel session on the same lane. **It produced a file the site says is OK to download and submit** —
+the only one in this repository with that verdict — and it changed four things the group had been
+reading incorrectly.
+
+**The artifact:**
+[`docs/downloads/gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif`](docs/downloads/gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif)
+· 231,909 B · 37,654 isolated dots · sha256 `e56752ba2be2b07f50698d88e83551114aba9c0860f0ef1152191579206fac3d`
+· 14/14 format checks on the bytes re-read from disk · **no nodata tag at all**.
+
+| | |
+| --- | --- |
+| mechanism | first **absolute-elevation** isobase in this repository (GeoDAWN DEM, sha256 `d32762a3…`); every earlier lane used `det_elev`, whose regional trend somebody else removed. Closes `IR-62-DEM-01` → **IR-62-B-09**. |
+| instrument | **0.1683** mean 300 m kernel credit per dot vs SGMC−catalogue; champion `h33` 0.1324; hard-core control 0.1190; uniform control 0.1075 → **1.27× the champion, 1.41× chance** at identical mass. The instrument itself ranks 13 registry artifacts the way the organiser does (Spearman **+0.742**, p = 0.0037). |
+| off-catalogue | 0 dots within 300 m of a mapped fault (minimum 400 m); 76.9 % beyond 1 km; mean self-kernel 0.000. |
+| uniqueness (340 comparators) | ρ **0.0222** / 0.90 pass · exact Jaccard **0.00909** pass · **3 px containment 0.8000 / 0.70 TRIPS** — against a 624,025-dot blanket field whose own halo covers 66.3 % of the footprint, i.e. **1.21× the uniform-random null**. |
+| projection | 0.353 raw → **0.290** shrunk — **MODEL, never a score** |
+| holdout | catalogue-truth **0.000000** (zero by arithmetic, IR-62-B-03); SGMC−catalogue-truth **0.07283** |
+
+**Four findings that change how the group reads its own numbers**
+
+1. **The group's "Poisson control" is the detector.** `GEMSDOE30`'s `d28-poisson300m-offcat-44090`
+   (0.2600) is byte-for-byte the same positive set as `gems25-dotted-h19-5-d28-zeros`
+   (Jaccard **1.00000**). Every "random scores the same, so placement does not matter" conclusion
+   built on it is void. **IR-62-B-01**.
+2. **`labels.tif` is byte-identical to `existing_faults.tif`** (same sha256, 60,988 positives). There
+   is no local ground truth for the target population. **IR-62-B-02**.
+3. **The prescribed catalogue holdout is zero by arithmetic**, not by lack of skill: the 300 m kernel
+   and the 300 m off-catalogue deletion are the same 300 m, so `TP_w = 0` necessarily. Fixed once in
+   the shared template (`gems62.holdout.v2`, `truth=` kwarg). **IR-62-B-03**.
+4. **The brief's "0.3195 is the highest score" is rank 8 of 50**; #1 is 0.4133, top-5 cut-off 0.3300.
+   **IR-62-B-06**.
+
+Also found and fixed: five registry rasters are not on the competition grid and crashed the
+uniqueness sweep outright (**IR-62-B-05**), and a bare `pytest` at the repo root aborted with 3
+collection errors — the suite could not be run from the root, so it had not been (**IR-62-B-07**;
+all 114 tests pass: 27 + 46 + 41).
+
+Known defect, stated plainly: the flagged isobase steps are **24.4 m median / 82.7 m max**, far
+larger than plausible post-15 ka fault offset — dominated by base-level construction error and
+rebound the 6 km isobase does not absorb. The seed stage is the weakest link; the measured skill
+comes substantially from the ridge-relief extension. **IR-62-B-04**.
+
+Pages: [results](docs/results-h62b.md) · [method](docs/method.md) ·
+[hypotheses](docs/hypotheses-2026-10-12-b.md) · [run card](docs/run-card-2026-10-12-h62b.md) ·
+[how to submit](docs/executive-summary-h62b.md) · [irregularities](docs/irregularities.md).
+
+---
 
 ---
 

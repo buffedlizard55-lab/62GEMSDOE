@@ -238,5 +238,28 @@
   ],
   "submission_name": "gems62f-h2r-ventcons-125890-20261012T012736Z-zeros",
   "submission_note": "62f: H2R multi-physics lineament consensus x vent prior, 125,890 isolated off-catalogue dots, S*v2-blocked CV. Unique vs 56 rasters. Legal."
+ },
+ "gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif": {
+  "artifact_of": "scripts/run_h62b.py + scripts/finalize_h62b.py (session arena/fd6c719c-62gemsdoe)",
+  "evidence": [
+   "evidence/run_card_h62b.json",
+   "evidence/uniqueness_h62b.json",
+   "evidence/uniqueness_h62b_verdict.json",
+   "evidence/exp1_instrument_calibration.json",
+   "evidence/exp3_h62b_artifact_final.json",
+   "evidence/exp3_h62b_band_flags.json",
+   "evidence/figures_h62b.json",
+   "docs/results-h62b.md",
+   "docs/method.md",
+   "docs/run-card-2026-10-12-h62b.md",
+   "docs/irregularities.md (IR-62-B-01 .. IR-62-B-10)"
+  ],
+  "expected_value_label": "MODEL 0.353 raw / 0.290 after the calibration regression shrinks it (OLS slope 0.325, intercept 0.175, r = 0.826, residual +/-0.12). A projection, never a score.",
+  "note": "H62-B, datum-offset lane, 2026-10-12. 37,654 isolated dots at a 300 m hard core, none within 300 m of a mapped fault; 76.9 % beyond 1 km. First absolute-elevation isobase in this repository (IR-62-B-09 closes IR-62-DEM-01). Independent instrument: 0.1683 mean 300 m kernel credit per dot vs champion h33 0.1324 vs hard-core control 0.1190 - 1.27x the champion, 1.41x chance, at identical mass. Uniqueness over 340 registry rasters: worst Spearman rho 0.0222 (limit 0.90, pass), worst exact Jaccard 0.00909 (pass), worst 3 px containment 0.8000 (limit 0.70, TRIPS) - and it trips against a 624,025-dot blanket field whose own 3 px halo covers 66.3 % of the footprint, so 1.21x the uniform-random null (IR-62-B-10). Reported, not suppressed: the selector decides.",
+  "ok_to_submit": false,
+  "organizer_score": null,
+  "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+  "verdict": "PROMOTE (one protocol leg trips) - format-legal 14/14 on the bytes re-read from disk, new mechanism, 1.27x the group champion on a score-calibrated instrument, off-catalogue by construction. The tripped leg is the 70 %-within-3-px rule against two blanket comparators at 1.21x and 1.27x the uniform-random null; rho and Jaccard say independent. The selector weighs it.",
+  "ok_to_submit_note": "This lane's verdict is PROMOTE; this flag is a different question and is deliberately false. The rule in tests/test_download_manifest.py is that a claim of legality is not a claim of merit, and no file in this repository has an organiser-confirmed score. The two statements are consistent: the bytes are legal and the mechanism measures better than the champion on a calibrated instrument, and nobody here knows what it scores. Promotion is the selector's decision, under the weekly cap, and it is separate from this gate."
  }
 }

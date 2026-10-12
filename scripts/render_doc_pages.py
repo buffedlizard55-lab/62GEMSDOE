@@ -37,7 +37,13 @@ RENDERED = ["irregularities", "next-steps", "run-card", "hypotheses-2026-10-11",
             # renderer: this repository has already lost a day to two sessions rendering pages two
             # different ways, and the merge that landed H62-R deleted that lane's private renderer
             # (scripts/md_to_site.py) for exactly that reason.
-            "executive-summary-h62r", "hypotheses-h62r"]
+            "executive-summary-h62r", "hypotheses-h62r",
+            # session arena/fd6c719c (H62-B, datum-offset, 2026-10-12): the page names carry the
+            # lane suffix because two lanes created docs/hypotheses-2026-10-12.* on the same day
+            # (IR-62-J-09). This lane's private renderer (scripts/md2html.py) was deleted in the
+            # same merge for the same reason H62-R's was.
+            "method", "results-h62b", "hypotheses-2026-10-12-b", "next-steps-h62b",
+            "executive-summary-h62b", "run-card-2026-10-12-h62b"]
 # Pages with a sibling .md and .html that are *not* generated here, and why (a hand-written pair is allowed
 # only when it is declared; see IR-62-J-07 and IR-62-J-09).
 HAND_WRITTEN = {
@@ -91,7 +97,7 @@ def md_to_html(md: str) -> str:
                 body = lines[i].rstrip().strip()
                 body = body[1:] if body.startswith("|") else body
                 body = body[:-1] if body.endswith("|") else body
-                cells = [x.strip().replace("\\|", "|").replace("\|", "|")
+                cells = [x.strip().replace("\\|", "|").replace(r"\|", "|")
                          for x in re.split(r"(?<!\\)\|", body)]
                 i += 1
                 if set("".join(cells)) <= set("-: "):

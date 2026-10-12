@@ -1,0 +1,185 @@
+{
+ "lane_id": "H62-B",
+ "lane": "datum-offset: pluvial depositional datum as a strain gauge",
+ "package_version": "1.0.0",
+ "generated_utc": "2026-10-12T01:44:20Z",
+ "hypothesis": "A 15 ka pluvial depositional surface is a near-level datum. Where its base-level surface is stepped or its contour deflected, a structure younger than the datum cuts it; such basin-margin structures are the class the USGS/INGENIOUS catalogue is incomplete for.",
+ "mechanism": "base level = smooth(min-filter(DEM, 1.7 km)); HAB = z - base; pluvial band = HAB<=120 m & slope<=6 deg & relief<=60 m; isobase = 6 km smooth of the base level over the band (absorbs rebound); flags = |resid| >= 2.5 MAD per 50 km tile and contour-azimuth kinks >= 25 deg over 300 m; each flag seeds a trace that is marched along the local structure azimuth while cross-strike relief holds (>= 33 m, the 25th percentile); dots are emitted at a 300 m hard core, >= 300 m off every mapped fault, ranked by trace relief, capped at 37,654.",
+ "named_non_fault_process_that_could_mimic_it": "Differential post-pluvial isostatic rebound itself: rebound varies between sub-basins, so a purely isostatic warp of the datum produces steps and azimuth kinks with no fault at all. Secondary mimics: alluvial-fan toes and debris-flow lobes; the 12-14 ka Truckee/Carson/Walker channel and delta margins (erosional); bedrock lithologic contacts expressed as differential erosion. The 6 km isobase is the control for the first; the relief gate and the ridge march are the controls for the others.",
+ "raster_sha256": "e56752ba2be2b07f50698d88e83551114aba9c0860f0ef1152191579206fac3d",
+ "raster_bytes": 231909,
+ "validator": {
+  "ok": true,
+  "failures": [],
+  "no_nan_inside_footprint": true,
+  "values_in_0_1": true,
+  "crs": "EPSG:32611",
+  "shape": [
+   3730,
+   3292
+  ],
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "nodata": null
+ },
+ "submission_format_receipt": {
+  "file": "gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif",
+  "bytes": 231909,
+  "sha256": "e56752ba2be2b07f50698d88e83551114aba9c0860f0ef1152191579206fac3d",
+  "driver": "GTiff",
+  "count": 1,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "shape": [
+   3730,
+   3292
+  ],
+  "res": [
+   100.0,
+   100.0
+  ],
+  "nodata": null,
+  "width_height_match": true,
+  "crs_match": true,
+  "transform_match": true,
+  "all_finite": true,
+  "nan_count": 0,
+  "min": 0.0,
+  "max": 1.0,
+  "n_outside_0_1": 0,
+  "n_positive": 37654,
+  "total_mass": 37654.0,
+  "legal": true
+ },
+ "structural_stats": {
+  "M": 37654,
+  "mean_self_kernel": 0.0,
+  "redundancy_fraction": 0.0,
+  "dcat_median_m": 2247.220505424423,
+  "dcat_mean_m": 3110.114674105207,
+  "dcat_p10_m": 538.5164807134504,
+  "dcat_p90_m": 6900.507219744116,
+  "frac_within_200m_of_catalogue": 0.0,
+  "frac_beyond_1km": 0.7689754076592128,
+  "frac_on_catalogue": 0.0,
+  "block_entropy_bits": 2.2620120001345434,
+  "block_counts": [
+   11087,
+   10351,
+   8340,
+   1591,
+   1341,
+   4944
+  ]
+ },
+ "instrument": {
+  "name": "mean 300 m kernel credit per dot vs SGMC-minus-catalogue, catalogue+3px masked",
+  "metric": "gems62.metric.dti_components (alpha 0.2, beta 0.8)",
+  "M": 37654,
+  "mean_credit_per_dot": 0.1682551499930521,
+  "control_hardcore_poisson": 0.119,
+  "champion_h33": 0.1324,
+  "lane_previous_H62A": 0.1347,
+  "ratio_to_control": 1.4139088234710262,
+  "ratio_to_champion": 1.270809289977735,
+  "coverage_of_sgmc_offcat": 0.10656282135196514,
+  "projection_dti": {
+   "N6000": 0.3530308207558148,
+   "N10000": 0.3530308207558147,
+   "N13704": 0.3530308207558148
+  },
+  "projection_shrunk_by_calibration": {
+   "N6000": 0.28973501674563984,
+   "N10000": 0.2897350167456398,
+   "N13704": 0.28973501674563984
+  },
+  "calibration_regression": {
+   "slope": 0.325,
+   "intercept": 0.175,
+   "r": 0.826,
+   "p": 0.0005
+  }
+ },
+ "holdout": {
+  "evaluator": "gems62.holdout.v2 (4 spatial quadrants, whole segments, 300 m buffer, parameterised truth; IR-62-HOLDOUT-02)",
+  "A_catalogue_truth": {
+   "pooled_dti": 0.0,
+   "withheld_cells_total": 60988,
+   "note": "IR-62-HOLDOUT-02: identically 0 by arithmetic -- no dot lies within the 300 m kernel of any catalogue pixel. Bug/leakage screen only, never a quality measure."
+  },
+  "B_sgmc_offcatalogue_truth": {
+   "pooled_dti": 0.07282616575825851,
+   "ci95": null,
+   "fold_dti": [
+    0.07347479920513249,
+    0.0852184515600372,
+    0.027763060492436605,
+    0.07379743051692375
+   ],
+   "fold_dti_spread": 0.05745539106760059,
+   "n_folds": 4,
+   "buffer_m": 300.0,
+   "withheld_segments_total": 3306,
+   "withheld_cells_total": 79615,
+   "folds": [
+    {
+     "fold": "nw",
+     "withheld_segments": 1336,
+     "withheld_cells": 30620,
+     "tp_w": 2320.640300259603,
+     "fp_w": 33184.1927856985,
+     "fn_w": 28283.3596997404,
+     "dti": 0.07347479920513249
+    },
+    {
+     "fold": "ne",
+     "withheld_segments": 1131,
+     "withheld_cells": 29609,
+     "tp_w": 2627.7969850566706,
+     "fp_w": 33176.25070129229,
+     "fn_w": 26966.20301494333,
+     "dti": 0.0852184515600372
+    },
+    {
+     "fold": "sw",
+     "withheld_segments": 239,
+     "withheld_cells": 3653,
+     "tp_w": 259.62548095116404,
+     "fp_w": 31941.734180800257,
+     "fn_w": 3379.374519048836,
+     "dti": 0.027763060492436605
+    },
+    {
+     "fold": "se",
+     "withheld_segments": 600,
+     "withheld_cells": 15733,
+     "tp_w": 1427.7676077786643,
+     "fp_w": 32423.823169412328,
+     "fn_w": 14293.232392221336,
+     "dti": 0.07379743051692375
+    }
+   ],
+   "note": "Catalogue-truth proxy. The competition target is faults ABSENT from the catalogue; they are masked out of scoring, so this number cannot measure the lane's performance on the real target. It is a leak-free lower bound on recovering a mapped-fault population."
+  },
+  "label": "HOLDOUT-DTI (evaluator gems62.holdout.v2, whole-segment hide-and-recover)"
+ },
+ "submission_name": "gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros",
+ "submission_note": "H62-B Lahontan base-level isobase steps/deflections, ridge-relief traced, 37654 isolated dots, >=300 m off catalogue. UNSCORED",
+ "submission_note_chars": 126,
+ "organizer_confirmed_score": null,
+ "seconds": 30.2
+}

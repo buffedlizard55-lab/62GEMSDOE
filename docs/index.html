@@ -37,7 +37,7 @@ page is merged below)</p>
 
 <nav>
 <a href="#download">⬇ Download &amp; verdict</a>
-<a href="#allfiles">⬇ All 22 files + verdicts</a>
+<a href="#allfiles">⬇ All 23 files + verdicts</a>
 <a href="executive-summary.html">How to submit</a>
 <a href="#h62r">H62-R — multi-level datum stack</a>
 <a href="#h62j">H62-J datum doublet</a>
@@ -430,6 +430,68 @@ copying. It was <b>not emitted</b>; the arithmetic and receipts are in
 <a href="../datum62/docs/decision-note.md">datum62/docs/decision-note.md</a> for the owner to decide.</p>
 </div>
 
+<!-- ==================== H62-B, session arena/fd6c719c-62gemsdoe ==================== -->
+<h2 id="h62b">Session 2026-10-12 — H62-B: the pluvial depositional datum as a strain gauge (session <code>arena/fd6c719c-62gemsdoe</code>)</h2>
+<div class="card hi">
+<p><b>One of four parallel sessions on this lane on the same day.</b> This one fitted the isobase on
+<b>absolute elevation</b> for the first time in this repository — every earlier lane used
+<code>det_elev</code>, a band whose regional trend had been removed by an operator nobody here can
+inspect (<b>IR-62-B-09</b>, which closes <code>IR-62-DEM-01</code>). Write-up:
+<a href="results-h62b.html">results</a> · <a href="method.html">method</a> ·
+<a href="hypotheses-2026-10-12-b.html">hypotheses</a> ·
+<a href="run-card-2026-10-12-h62b.html">run card</a> ·
+<a href="executive-summary-h62b.html">how to submit it</a>.</p>
+
+<h3>Verdict: PROMOTE — with one protocol leg tripped, reported rather than suppressed</h3>
+<p><span class="pill ok">FORMAT LEGAL 14/14</span> <span class="pill ok">NEW MECHANISM</span>
+<span class="pill ok">1.27× THE CHAMPION</span> <span class="pill warn">ONE LEG TRIPS</span>
+<span class="pill no">NOT FLAGGED ok_to_submit — NO RECEIPT EXISTS</span></p>
+<p class="mut">Two different questions, both answered honestly. <b>This lane's verdict is <i>promote</i></b>: the bytes are legal, the mechanism is new, and it measures 1.27× the champion on a score-calibrated instrument. <b>The gate's <code>ok_to_submit</code> flag is false</b>, because that flag means "an organiser has confirmed a score", and no file in this repository has one — a claim of legality is not a claim of merit. Promotion is the selector's decision, under the weekly cap.</p>
+<table>
+<tr><th>question</th><th>answer</th><th>class</th></tr>
+<tr><td>Will the portal accept it?</td><td><b>Yes.</b> Single band <code>float32</code>, EPSG:32611, 3730×3292, the sample submission's exact geotransform, values only <code>{0.0, 1.0}</code>, 0 NaN, <b>no nodata tag at all</b> — so the two mechanisms behind <i>"Predicted values must be in range [0, 1]"</i> are structurally absent. All 14 checks re-run on the bytes read back from disk.</td><td>MEASURED</td></tr>
+<tr><td>Is it a copy of an earlier submission?</td><td><b>No.</b> Worst Spearman ρ over 340 registry rasters <b>0.0222</b> (limit 0.90); worst exact Jaccard <b>0.00909</b>.</td><td>MEASURED</td></tr>
+<tr><td>Does it beat the group champion on an instrument that is calibrated against organiser scores?</td><td><b>Yes.</b> Mean 300 m kernel credit per dot vs SGMC-minus-catalogue: this file <b>0.1683</b>, champion <code>h33</code> 0.1324, hard-core control 0.1190, uniform control 0.1075 — <b>1.27× the champion, 1.41× chance</b>, at identical mass (37,654). The instrument ranks 13 registry artifacts the way the organiser does (Spearman +0.742, p = 0.0037).</td><td>MEASURED</td></tr>
+<tr><td>Is it off the catalogue, where the competition actually scores?</td><td><b>Yes.</b> 0 dots within 300 m of a mapped fault (minimum 400 m); 76.9 % beyond 1 km; mean self-kernel 0.000, so no two dots are within 300 m of each other.</td><td>MEASURED</td></tr>
+<tr><td>What is it <i>projected</i> to score?</td><td>0.353 raw → <b>0.290</b> after the calibration regression shrinks it (slope 0.325, intercept 0.175, r = 0.826, residual ±0.12). Two formulas in this repo give 0.3484 and 0.3530 (<b>IR-62-B-08</b>).</td><td><b>MODEL — never a score</b></td></tr>
+<tr><td><b>Which leg trips?</b></td><td>80.0 % of its dots fall within 3 px of <code>GEMSDOE3__coverage-v3-wide</code> — a <b>624,025-dot blanket field</b> whose own 3 px halo covers 66.3 % of the footprint. A uniform-random dot scores 0.663 on the same leg, so the ratio is <b>1.21× chance</b> (a second comparator: 1.27×). This is the third independent quantification of <code>IR-62-UNIQ-01</code>; see <b>IR-62-B-10</b>.</td><td>MEASURED, not suppressed</td></tr>
+</table>
+
+<p><a class="btn" href="downloads/gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif">⬇ Download the GeoTIFF (231,909 bytes, sha256 e56752ba2be2b07f…)</a>
+<a class="btn sec" href="run-card-2026-10-12-h62b.html">Run card</a>
+<a class="btn sec" href="evidence/uniqueness_h62b.json">Uniqueness sweep (340 comparators)</a></p>
+<p class="mut">Submission note, 126/140 characters:
+<code>H62-B Lahontan base-level isobase steps/deflections, ridge-relief traced, 37654 isolated dots, &gt;=300 m off catalogue. UNSCORED</code></p>
+
+<h3>What this session found that changes how the group should read its own numbers</h3>
+<ul>
+<li><b>The group's "Poisson control" is the detector.</b> <code>GEMSDOE30</code>'s
+<code>d28-poisson300m-offcat-44090</code> at 0.2600 is <b>byte-for-byte the same positive set</b> as
+<code>gems25-dotted-h19-5-d28-zeros</code> (Jaccard 1.00000). Every "random scores the same as the
+detector" conclusion built on it is void. Controls rebuilt here: hard-core 0.1190, uniform 0.1075.
+<b>IR-62-B-01</b>.</li>
+<li><b><code>labels.tif</code> is byte-identical to <code>existing_faults.tif</code></b> (same sha256,
+same 60,988 positives). There is no local ground truth for the target population at all.
+<b>IR-62-B-02</b>.</li>
+<li><b>The prescribed catalogue holdout is zero by arithmetic.</b> The scoring kernel and the
+off-catalogue deletion are the same 300 m, so any off-catalogue emission has
+<code>TP_w = 0</code> necessarily — the better it is, the more certainly it scores zero. Fixed once in
+the shared template: <code>gems62.holdout.evaluate</code> now takes a <code>truth</code> argument
+(<code>gems62.holdout.v2</code>). <b>IR-62-B-03</b>.</li>
+<li><b>The flagged steps are too large to be fault offset</b> (median 24.4 m, max 82.7 m) — they are
+dominated by base-level construction error and rebound the 6 km isobase does not absorb. The seed
+stage is this lane's weakest link. <b>IR-62-B-04</b>.</li>
+<li><b>5 of 345 registry rasters are not on the competition grid</b> and crashed the uniqueness sweep
+outright — so the lane-drift check had silently never completed. Fixed in the template: skipped and
+counted. <b>IR-62-B-05</b>.</li>
+<li><b>The brief's "0.3195 is the highest score" is rank 8 of 50</b>; #1 is 0.4133 and the top-5 cut-off
+is 0.3300. <b>IR-62-B-06</b>.</li>
+<li><b>A bare <code>pytest</code> at the repo root aborted with 3 collection errors</b> — the suite
+could not be run from the root, which means it had not been. Fixed with a root
+<code>pytest.ini</code>; all 114 tests pass (27 + 46 + 41). <b>IR-62-B-07</b>.</li>
+</ul>
+</div>
+
 <!-- ==================== EVERY FILE, GENERATED FROM THE BYTES ==================== -->
 <h2 id="allfiles">Every downloadable file in this repository, with the verdict its bytes carry</h2>
 <p class="mut">This table is generated by <code>scripts/audit_downloads.py --write</code> and is
@@ -444,6 +506,7 @@ organiser's own <code>sample_submission.tif</code> does not satisfy them (see
 <tr><th>file</th><th>dots</th><th>size</th><th>checks</th><th>sha256</th><th>verdict</th></tr>
 <tr><td><a href="downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif">gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif</a><span class="pill no">not legal: no_nodata_tag, no_nan_anywhere</span> <span class="pill warn">range risk low</span></td><td>440</td><td>125,332 B</td><td>12/14</td><td><code>fa7a68ba411da82e…</code></td><td>FORMAT PROBE (NaN outside the footprint, nodata=NaN) - never submitted; passes the published contract, fails this lane's stricter convention, shipped by another lane as a twin</td></tr>
 <tr><td><a href="downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif">gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif</a><span class="pill ok">legal</span></td><td>440</td><td>57,178 B</td><td>14/14</td><td><code>f1db3dc711cc8e2d…</code></td><td>ANOTHER LANE'S DELIVERABLE (sessions arena/d4d2e53a + 778884cc) - format-legal 14/14 on the bytes, unique against 21 registry comparators, and their run card recommends 'promote-to-defensibility-slot'. This gate does not confirm or deny that: 440 dots cannot move the metric under any instrument, and their own numbers put the projection at 0.0295-0.0210 on the kernel-fixed instrument</td></tr>
+<tr><td><a href="downloads/gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif">gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif</a><span class="pill ok">legal</span></td><td>37,654</td><td>231,909 B</td><td>14/14</td><td><code>e56752ba2be2b07f…</code></td><td>PROMOTE, ONE LEG TRIPS (session arena/fd6c719c) - 14/14 legal on the bytes re-read from disk, new mechanism (first absolute-elevation isobase here, IR-62-B-09), 1.27x the group champion on an instrument calibrated against organiser scores, off-catalogue by construction. The 70 %-within-3px leg fires against two blanket comparators at 1.21x and 1.27x the uniform-random null (IR-62-B-10); rho 0.0222 and Jaccard 0.00909 over 340 say independent. No organiser score exists for it or for any file here</td></tr>
 <tr><td><a href="downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif">gems62-h62g-benchcrosscut-hardcore-zeros.tif</a><span class="pill ok">legal</span></td><td>10,000</td><td>98,893 B</td><td>14/14</td><td><code>79eb0a7ddc2dcfb4…</code></td><td>NEGATIVE RESULT - do not submit</td></tr>
 <tr><td><a href="downloads/gems62-h62i-scarpcrosscut-hardcore-zeros.tif">gems62-h62i-scarpcrosscut-hardcore-zeros.tif</a><span class="pill ok">legal</span></td><td>60,000</td><td>282,543 B</td><td>14/14</td><td><code>aaadb736f1b60379…</code></td><td>DUPLICATE-DRIFT OF A SIBLING LANE'S FILE - do not submit</td></tr>
 <tr><td><a href="downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif">gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif</a><span class="pill ok">legal</span></td><td>10,870</td><td>91,954 B</td><td>14/14</td><td><code>7e67bf2d4ea506a8…</code></td><td>DECISION-LEVEL GATES PASS - 14/14 legal, UNIQUE-VS-REGISTRY, model DTI 0.0375 with the official metric (information-positive, score-negative: its own ceiling is 5 x 0.041 = 0.203 < 0.2778), so it is a probe, not a submitted field</td></tr>

@@ -1,0 +1,91 @@
+{
+ "n_registry": 340,
+ "n_vacuous": 32,
+ "max_abs_rho": 0.02217716427497223,
+ "rho_limit": 0.9,
+ "max_frac3px_non_vacuous": 0.7999946884793117,
+ "max_frac3px_all": 1.0,
+ "overlap_limit": 0.7,
+ "rho_trip": false,
+ "overlap_trip": true,
+ "closest_non_vacuous": "GEMSDOE3__coverage-v3-wide-20260925T054019Z-0ac095a7ed.tif",
+ "vacuous_aliases": [
+  "13GEMSDOE__13gems-composite-20260928T040920Z.tif",
+  "13GEMSDOE__13gems-composite-20260928T040920Z_allfinite.tif",
+  "13GEMSDOE__13gems-composite-20260929T183221Z.tif",
+  "13GEMSDOE__13gems-composite-20260929T183221Z_allfinite.tif",
+  "13GEMSDOE__13gems-composite-plus-20260929T183249Z.tif",
+  "13GEMSDOE__13gems-composite-plus-20260929T183249Z_allfinite.tif",
+  "13GEMSDOE__13gems-r11-greedy-mp.tif",
+  "13GEMSDOE__13gems-r11-greedy-mp_allfinite.tif",
+  "13GEMSDOE__13gems-r6-ensemble-20260929T182914Z.tif",
+  "13GEMSDOE__13gems-r6-ensemble-20260929T182914Z_allfinite.tif",
+  "13GEMSDOE__13gems-r8-ensemble-20260930T014614Z.tif",
+  "13GEMSDOE__13gems-r8-ensemble-20260930T014614Z_allfinite.tif",
+  "13GEMSDOE__13gems-toporef-holdoutref.tif",
+  "13GEMSDOE__13gems-toporef-holdoutref_allfinite.tif",
+  "13GEMSDOE__13gems_20261001_r11-greedy-mp_v2_nan-outside.tif",
+  "13GEMSDOE__13gems_20261001_r11-greedy-mp_v2_zerofill.tif",
+  "13GEMSDOE__13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+  "13GEMSDOE__13gems_20261001_r13-lattice-s5_v2_zerofill.tif",
+  "13GEMSDOE__13gems_20261001_r14-union-tips10-lat6_nan-outside.tif",
+  "13GEMSDOE__13gems_20261001_r14-union-tips10-lat6_zerofill.tif",
+  "13GEMSDOE__latest.tif",
+  "13GEMSDOE__latest_zerofill.tif",
+  "13GEMSDOE__session7-superseded-13gems_20261001_r11-greedy-mp_A_zerofill.tif",
+  "13GEMSDOE__session7-superseded-13gems_20261001_r11-greedy-mp_B_nan-outside.tif",
+  "13GEMSDOE__session7-superseded-13gems_20261001_r13-lattice-s5_A_zerofill.tif",
+  "13GEMSDOE__session7-superseded-13gems_20261001_r13-lattice-s5_B_nan-outside.tif",
+  "15GEMSDOE__gems-cleanup-a-20260928T195952Z-curv_scarp.tif",
+  "5GEMSDOE__gems-density-probe-20260925T184215Z-9cdae9b4.tif",
+  "5GEMSDOE__pindrop-v4-discovery-37f9d5b855.tif",
+  "5GEMSDOE__pindrop-v4-nodes-f347b70daa.tif",
+  "GEMSDOE3__pindrop-v4-discovery-20260925T152423Z-37f9d5b855.tif",
+  "GEMSDOE3__pindrop-v4-nodes-20260925T152420Z-f347b70daa.tif"
+ ],
+ "passed": false,
+ "verdict": "DUPLICATE - STOP",
+ "n_skipped_not_on_grid": 5,
+ "skipped_sample": [
+  {
+   "alias": "5GEMSDOE__proxy_window.tif",
+   "path": "/tmp/registry/5GEMSDOE__proxy_window.tif",
+   "shape": [
+    512,
+    512
+   ]
+  },
+  {
+   "alias": "GEMSDOE2__proxy_window.tif",
+   "path": "/tmp/registry/GEMSDOE2__proxy_window.tif",
+   "shape": [
+    512,
+    512
+   ]
+  },
+  {
+   "alias": "GEMSDOE36__GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif",
+   "path": "/tmp/registry/GEMSDOE36__GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif",
+   "shape": [
+    32,
+    48
+   ]
+  },
+  {
+   "alias": "GEMSDOE3__proxy_window.tif",
+   "path": "/tmp/registry/GEMSDOE3__proxy_window.tif",
+   "shape": [
+    512,
+    512
+   ]
+  },
+  {
+   "alias": "GEMSDOE__proxy_window.tif",
+   "path": "/tmp/registry/GEMSDOE__proxy_window.tif",
+   "shape": [
+    512,
+    512
+   ]
+  }
+ ]
+}
