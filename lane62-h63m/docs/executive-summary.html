@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>How to submit — H63M</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;
+ --warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+ font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.9em;margin:.2em 0 .1em}h2{font-size:1.35em;margin:1.6em 0 .5em;
+ border-bottom:1px solid var(--bd);padding-bottom:.3em}
+h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.9em}
+pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.85em}
+table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}
+.mut{color:var(--mut)}.card{background:var(--card);border:1px solid var(--bd);
+ border-radius:8px;padding:18px;margin:14px 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
+.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
+.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
+.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
+.hero{border:2px solid var(--ok);border-radius:10px;padding:22px;margin:18px 0;
+ background:rgba(63,185,80,.06)}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;
+ border-radius:8px;margin:8px 8px 8px 0}
+.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+.kv td:first-child{width:32%;color:var(--mut)}
+.big{font-size:1.5em;font-weight:700}
+.small{font-size:.85em}
+</style></head><body><div class="wrap">
+<h1>How to submit — one page, no ambiguity</h1>
+<nav>
+<a href="index.html">⬇ Download &amp; verdict</a>
+<a href="executive-summary.html">How to submit</a>
+<a href="method.html">Method</a>
+<a href="results.html">Results</a>
+<a href="profiles.html">Shoreline profiles</a>
+<a href="leaderboard.html">Leaderboard &amp; calibration</a>
+<a href="run-card.html">Run card</a>
+<a href="sources.html">Sources</a>
+<a href="irregularities.html">Irregularities</a>
+<a href="limitations.html">Limitations</a>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
+</nav>
+<div class="hero">
+<h2 style="border:0;margin-top:0">Step 1 — download the file (one click)</h2>
+<p><a class="btn" href="downloads/gems62-h63m-multiline-corroborated-90000-zeros.tif">⬇
+gems62-h63m-multiline-corroborated-90000-zeros.tif · 338,731 bytes</a></p>
+<p class="small mut">Single-band GeoTIFF. Values are exactly 0.0 or 1.0. Outside the competition
+footprint the file is all-finite 0.0 with <b>no nodata tag</b> — which is what removes both causes
+of the portal error <i>“Predicted values must be in range [0, 1]”</i>.</p>
+</div>
+
+<h2>Step 2 — open the submission page</h2>
+<p><a class="btn sec" href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">
+drivendata.org → competition 306 → Submit ↗</a></p>
+
+<h2>Step 3 — attach the file and paste the note</h2>
+<p>The form has two fields: <b>File to submit</b> and <b>Note (optional)</b>. Use this note
+(137 characters; the limit is 140):</p>
+<pre>H63M: 90k dots; rank-average corroboration of DEM scarp curvature, local relief and a directional line filter, &gt;=300 m off the catalogue.</pre>
+<p><button class="btn sec" onclick="navigator.clipboard.writeText(document.querySelector('pre').textContent)">
+copy the note</button></p>
+
+<h2>Step 4 — press <i>Create submission</i></h2>
+<p>The portal scores it against the expert-updated hidden label set and returns a
+distance-weighted Tversky index. <b>Paste that number back into
+<code>evidence/h63_organizer_receipt.json</code></b> — until then every DTI on this site is a
+proxy or a model value, never a receipt.</p>
+
+<h2>Why this file will not be rejected</h2>
+<table>
+<tr><th>requirement</th><th>this file</th><th>how it is guaranteed</th></tr>
+<tr><td>single band</td><td>count = 1</td><td>written by one code path, then re-read from disk</td></tr>
+<tr><td>float32</td><td>float32</td><td>re-read and asserted against the sample submission</td></tr>
+<tr><td>EPSG:32611</td><td>EPSG:32611</td><td><code>crs_match = True</code></td></tr>
+<tr><td>3730 × 3292, 100 m, same origin</td>
+<td>3730 × 3292</td><td><code>transform_match = True</code></td></tr>
+<tr><td>values in [0, 1]</td><td>min 0.0, max 1.0,
+0 out of range</td><td>asserted before writing and re-counted after</td></tr>
+<tr><td>no NaN</td><td>0 NaN, <code>all_finite = True</code></td>
+<td>zeros outside the footprint, no nodata sentinel</td></tr>
+<tr><td>no nodata tag</td><td><code>None</code></td>
+<td>removes both mechanisms behind the portal error</td></tr>
+</table>
+<p class="mut">Validator output: <code>passed = True</code>,
+failures [], unique positive values [1.0],
+positive cells 90000, outside encoding “all finite outside the footprint”,
+NaN inside the footprint 0.</p>
+
+<h2>What to expect</h2>
+<p>The calibrated instrument puts this file in the band
+<b>0.294 – 0.539</b>
+(mid 0.416) against a group best of <b>0.2778</b> and a top-5 cut-off of
+<b>0.3333</b>. That is a <b>MODEL</b> number computed from a proxy measurement
+and a transfer constant — it is <i>not</i> a score and the organizer's number can land anywhere.
+Negative outcomes are deliverables: if it lands below 0.2778, the transfer constant was
+detector-specific and the calibration table on the <a href="leaderboard.html">leaderboard page</a>
+is the thing to fix next.</p>
+</div></body></html>

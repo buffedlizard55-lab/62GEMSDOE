@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>H63M — 62GEMSDOE</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;
+ --warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+ font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.9em;margin:.2em 0 .1em}h2{font-size:1.35em;margin:1.6em 0 .5em;
+ border-bottom:1px solid var(--bd);padding-bottom:.3em}
+h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.9em}
+pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.85em}
+table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}
+.mut{color:var(--mut)}.card{background:var(--card);border:1px solid var(--bd);
+ border-radius:8px;padding:18px;margin:14px 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
+.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
+.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
+.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
+.hero{border:2px solid var(--ok);border-radius:10px;padding:22px;margin:18px 0;
+ background:rgba(63,185,80,.06)}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;
+ border-radius:8px;margin:8px 8px 8px 0}
+.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+.kv td:first-child{width:32%;color:var(--mut)}
+.big{font-size:1.5em;font-weight:700}
+.small{font-size:.85em}
+</style></head><body><div class="wrap">
+<h1>62GEMSDOE · H63M — multi-channel lineament corroboration</h1>
+<p class="mut">DOE GEMS Prize · DrivenData #306 · northwestern Great Basin (GeoDAWN) ·
+session 2026-10-11 · branch <code>arena/4ef3d5d6-62gemsdoe</code> · lane: datum-offset
+(Lake Lahontan shorelines)</p>
+<nav>
+<a href="index.html">⬇ Download &amp; verdict</a>
+<a href="executive-summary.html">How to submit</a>
+<a href="method.html">Method</a>
+<a href="results.html">Results</a>
+<a href="profiles.html">Shoreline profiles</a>
+<a href="leaderboard.html">Leaderboard &amp; calibration</a>
+<a href="run-card.html">Run card</a>
+<a href="sources.html">Sources</a>
+<a href="irregularities.html">Irregularities</a>
+<a href="limitations.html">Limitations</a>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
+</nav>
+
+<div class="hero" id="download">
+<h2 style="border:0;margin-top:0">The submission file — and whether you should submit it</h2>
+<p><span class="pill ok">FORMAT: LEGAL — every validator check passes</span>
+&nbsp;<span class="pill ok">UNIQUE — clears the lane-drift gate where the gate is informative</span>
+&nbsp;<span class="pill warn">SCORE: MODEL PROJECTION, NOT A RECEIPT</span></p>
+
+<p class="big">gems62-h63m-multiline-corroborated-90000</p>
+<p><a class="btn" href="downloads/gems62-h63m-multiline-corroborated-90000-zeros.tif">⬇ Download the GeoTIFF
+ (338,731 bytes)</a>
+<a class="btn sec" href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">
+Submit it here ↗</a></p>
+
+<table class="kv">
+<tr><td>sha256</td><td><code>3b04880d5cd9f72806b35e19e23be80a421d90d595466ce19ac5315a61cdfacf</code></td></tr>
+<tr><td>Submission name</td><td><code>gems62-h63m-multiline-corroborated-90000</code></td></tr>
+<tr><td>Submission note (137 chars, limit 140)</td><td><code>H63M: 90k dots; rank-average corroboration of DEM scarp curvature, local relief and a directional line filter, &gt;=300 m off the catalogue.</code></td></tr>
+<tr><td>Is it safe to submit (will the portal accept the bytes)?</td>
+<td><b>Yes.</b> Single band <code>float32</code>, EPSG:32611, 3730×3292, the sample submission's
+exact geotransform, <b>0 cells outside [0,1]</b>, <b>0 NaN</b>,
+<code>nodata = null</code>. The portal error <i>“Predicted values must be in range [0, 1]”</i> is
+caused by an out-of-range nodata sentinel or a NaN nodata tag; both are structurally absent.
+Re-read from disk after writing — <code>legal = True</code>.</td></tr>
+<tr><td>Should it take a weekly slot?</td>
+<td><b>Yes — it is the best artifact this repository has produced.</b> Its measured credit per
+unit emitted mass on the USGS SGMC <i>off-catalogue</i> fault set is
+<b>0.1885</b>, against <b>0.1433</b> for
+the group's best <i>submitted</i> artifact (0.2778) and <b>0.1037</b> for a
+random emission at the same mass and in the same off-catalogue domain — a lift of
+<b>1.82×</b> over chance and
+<b>1.32×</b> the champion.
+See <a href="results.html">Results</a> for the projection and its uncertainty band.</td></tr>
+<tr><td>Organizer score</td><td><b>none yet</b> — never submitted.
+<code>organizer_score: null</code>. Every DTI on this site is a <b>proxy</b> or a
+<b>model</b> value.</td></tr>
+</table>
+</div>
+
+<h2>What this session found — read this before anything else</h2>
+<div class="card">
+<ol>
+<li><b>The official 19-band GeoDAWN stack has no spatially transferable fault signal.</b>
+A gradient-boosted model trained on the catalogue and tested on withheld 512 px spatial blocks
+reaches <b>AUC 0.5176</b> / 0.5
+/ 0.5048 / 0.4968 in the four
+folds — chance. That is the measured reason the group's supervised branch (0.1563) loses to its
+heuristic branch (0.2778). <a href="results.html">Evidence</a>.</li>
+<li><b>A calibrated proxy instrument exists, and it is the one thing that can rank artifacts
+without a submission slot.</b> Across nine score-anchored registry rasters spanning 0.1563–0.2778,
+credit-per-unit-mass measured against the USGS SGMC off-catalogue faults tracks the owner-reported
+live score almost monotonically, with transfer ratio <i>r</i> = 0.7753
+(IQR [0.7635, 0.7902]). <a href="leaderboard.html">The table</a>.</li>
+<li><b>The chosen emission clears that instrument.</b> 0.1885
+credit per unit mass at 90,000 dots, 1.82× a mass-matched random
+control. <a href="method.html">How it is built</a>.</li>
+<li><b>The assigned lane returns a negative result, again.</b> 479 shoreline benches mapped on the
+pinned 100 m DEM; the robust isobase leaves a residual scatter of
+<b>10.3 m</b> — 3.4×
+the published 3 m resolution of the elevation method — and <b>0 steps</b>
+clear the significance gate. <a href="profiles.html">The profiles (first deliverable)</a>.</li>
+<li><b>The protocol's 3-px overlap tripwire is unsatisfiable against dense registry rasters</b>,
+measured with a random control: for three of the 21 registry rasters a <i>random</i> emission
+already puts 100% of its dots within 3 px.
+<a href="irregularities.html">Detail</a>.</li>
+</ol>
+</div>
+
+<h2>At a glance</h2>
+<table>
+<tr><th>quantity</th><th>value</th><th>class</th></tr>
+<tr><td>emitted dots (mass)</td><td>90,000 cells, value 1.0</td><td>MEASURED</td></tr>
+<tr><td>credit per unit mass vs SGMC off-catalogue faults</td>
+<td><b>0.18848</b></td><td>MEASURED (proxy)</td></tr>
+<tr><td>same, random control at matched mass and domain</td>
+<td>0.10365</td><td>MEASURED</td></tr>
+<tr><td>same, group's best submitted artifact (0.2778)</td>
+<td>0.14328</td><td>MEASURED (proxy) + OWNER-REPORT score</td></tr>
+<tr><td>median distance to the catalogue</td><td>2400 m;
+79% beyond 1 km</td><td>MEASURED</td></tr>
+<tr><td>mean self-kernel (redundancy)</td><td>0.0391</td><td>MEASURED</td></tr>
+<tr><td>projected DTI</td>
+<td><b>[0.294, 0.539]</b></td>
+<td>MODEL — never a score</td></tr>
+<tr><td>supervised holdout AUC (4 spatial folds)</td>
+<td>0.5176, 0.5, 0.5048, 0.4968</td>
+<td>HOLDOUT-DTI (proxy)</td></tr>
+<tr><td>lane: benches / flagged steps</td>
+<td>479 / <b>0</b></td><td>MEASURED</td></tr>
+<tr><td>uniqueness: worst rank correlation vs registry</td>
+<td>-0.824 (gems49_gate_ortho_w025_02376.tif)</td>
+<td>MEASURED</td></tr>
+<tr><td>uniqueness: overlap vs the 0.2778 champion</td>
+<td>0.187
+(dilated Jaccard 0.242)</td>
+<td>MEASURED</td></tr>
+</table>
+</div></body></html>

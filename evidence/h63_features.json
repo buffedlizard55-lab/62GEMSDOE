@@ -1,0 +1,84 @@
+{
+ "generated_utc": "2026-10-12T00:10:24Z",
+ "stack": {
+  "file": "data/training_features.tif",
+  "sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+  "bytes": 418912844,
+  "bands": [
+   "mag_anom",
+   "rtp",
+   "tmi_hg",
+   "geod_2ndinv",
+   "iso_grav_anom_slope",
+   "tc",
+   "geod_shearrate",
+   "geod_dilaterate",
+   "tmi_vg",
+   "deq_n100a15",
+   "iso_grav_anom_vg",
+   "det_elev",
+   "iso_grav_anom",
+   "tmi",
+   "depth_to_base_surf",
+   "ieq_n100a15",
+   "cond_surf",
+   "iso_grav_anom_hg",
+   "det_elev_slope"
+  ]
+ },
+ "dem": {
+  "file": "data/external/geodawn_dem_a2_100m.tif",
+  "sha256": "d32762a38222764389e948da423ebc6cadd00ac617ad3938d3dd79c6cfe14431",
+  "bytes": 49531304
+ },
+ "design": {
+  "path": "data/h63/design.f32",
+  "shape": [
+   5164273,
+   28
+  ],
+  "dtype": "float32",
+  "sha256": "e35f27795be74b3261c5632d1995b868d0fbb862148798666e11736d5e71bb08",
+  "bytes": 578398576,
+  "feature_names": [
+   "stack_mag_anom",
+   "stack_rtp",
+   "stack_tmi_hg",
+   "stack_geod_2ndinv",
+   "stack_iso_grav_anom_slope",
+   "stack_tc",
+   "stack_geod_shearrate",
+   "stack_geod_dilaterate",
+   "stack_tmi_vg",
+   "stack_deq_n100a15",
+   "stack_iso_grav_anom_vg",
+   "stack_det_elev",
+   "stack_iso_grav_anom",
+   "stack_tmi",
+   "stack_depth_to_base_surf",
+   "stack_ieq_n100a15",
+   "stack_cond_surf",
+   "stack_iso_grav_anom_hg",
+   "stack_det_elev_slope",
+   "dem_elev",
+   "dem_slope_deg",
+   "dem_gradmag",
+   "dem_tpi3",
+   "dem_tpi9",
+   "dem_tpi21",
+   "dem_laplacian",
+   "dem_relief15",
+   "dem_abstpi9"
+  ]
+ },
+ "masks": {
+  "footprint_cells": 5167373,
+  "usable_cells": 5164273,
+  "catalogue_cells": 60988,
+  "catalogue_cells_in_usable": 60894,
+  "proxy_off_cells": 61664,
+  "proxy_off_cells_in_usable": 61628,
+  "proxy_off_overlap_with_catalogue": 0
+ },
+ "seconds": 20.9
+}
