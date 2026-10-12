@@ -16,7 +16,7 @@ The JSON card required by protocol item 5 is committed verbatim at
 | uniqueness | max 38.4 % of dots within 3 px of any scored comparator (limit 70 %); full 379-comparator scan in `build/uniqueness_h62n.json` → committed under `evidence/` |
 | validator | legal on the re-read bytes; float32; EPSG:32611; 3730×3292; no NaN; no nodata tag; `n_outside_0_1 = 0` |
 | submission note | `H62-N Lahontan local-mode isobase, block-balanced trace network; 16,864 isolated dots >=300m off-catalogue; unique vs 379 rasters.` (130/140) |
-| verdict | **NEGATIVE as an improvement** (projection below the incumbent band and below the repo's best on the fixed instrument); **OK to download**; the positive deliverables are IR-62-19/20/22 and the lane-family table |
+| verdict | **NEGATIVE as an improvement** (projection below the incumbent band and below the repo's best on the fixed instrument); **OK to download**; the positive deliverables are IR-62-25/20/22 and the lane-family table |
 
 Everything below this line is history from earlier sessions.
 

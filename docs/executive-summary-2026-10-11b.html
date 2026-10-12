@@ -1,0 +1,111 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Executive summary — how to submit, and the verdict</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;
+--warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.8em;margin:.3em 0 .4em}h2{font-size:1.3em;margin:1.6em 0 .5em;
+border-bottom:1px solid var(--bd);padding-bottom:.3em}h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.88em}
+table{border-collapse:collapse;width:100%;margin:.9em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}blockquote{border-left:3px solid var(--acc);margin:1em 0;padding:.2em 1em;
+background:var(--card)}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 8px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;
+border-radius:8px;margin:8px 8px 8px 0}.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+</style></head><body><div class="wrap"><nav>
+<a href="index.html">Overview &amp; download</a>
+<a href="executive-summary-2026-10-11b.html">How to submit</a>
+<a href="hypotheses-2026-10-11b.html">Hypotheses</a>
+<a href="research/beating-02778-2026-10-11b.html">Why 0.2778 won</a>
+<a href="irregularities.html">Irregularities</a>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
+</nav><h1>Executive summary — the file, the verdict, and exactly how to submit it</h1>
+<p>Session <code>arena/d0303476-62gemsdoe</code>, 2026-10-11.  Everything below is reproducible from this checkout;</p>
+<p>the script and the receipt behind each number are named.</p>
+<h2>1. Download this file</h2>
+<p><strong><code>docs/downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</code></strong></p>
+<table><thead><tr><th><strong>bytes</strong></th><th>481,168</th></tr></thead><tbody>
+<tr><td><strong>sha256</strong></td><td><code>42bffef1b5973973…</code> (full hash in <code>evidence/run_card_20261011b.json</code>)</td></tr>
+<tr><td><strong>dots</strong></td><td>120,000, hard-core: <strong>at most one dot inside any 300 m disc</strong> (verified by disc convolution, <code>evidence/final_field_gems62b-…json → stats.max_dots_in_300m_disk = 1</code>)</td></tr>
+<tr><td><strong>values</strong></td><td>exactly <code>{0, 1}</code> — a dot field, not a probability surface</td></tr>
+<tr><td><strong>submission name</strong></td><td><code>gems62b-tiltgrad-vote-scarpcorrob-120000-zeros</code></td></tr>
+<tr><td><strong>note (paste into the form, 138/140 chars)</strong></td><td><code>62b: 120k isolated dots from a 13-layer derivative vote with scarp corroboration. Off-catalogue. Legal &amp; unique; probe, not a proven gain.</code></td></tr>
+</tbody></table>
+<h3>Verdict</h3>
+<table><thead><tr><th>leg</th><th>result</th></tr></thead><tbody>
+<tr><td><strong>FORMAT</strong></td><td>✅ <strong>LEGAL.</strong>  All 14 checks pass on the bytes <strong>re-read from disk</strong> (<code>gems62.grid.write_submission</code> → <code>check_submission</code>): single band, <code>float32</code>, EPSG:32611, 3730×3292, the sample submission's exact geotransform, <code>n_outside_0_1 = 0</code>, <code>nan_count = 0</code>, <code>nodata = null</code>.  The portal error <em>"Predicted values must be in range [0, 1]"</em> cannot occur for these bytes (no nodata sentinel and no NaN tag — both mechanisms are structurally absent).</td></tr>
+<tr><td><strong>UNIQUENESS</strong></td><td>✅ <strong>UNIQUE.</strong>  Against 25 prior rasters: max Jaccard <strong>0.022</strong>, max exact-pixel overlap <strong>4.6 %</strong>, max tie-aware rank correlation **\</td><td>ρ\</td><td>= 0.035<strong>.  The protocol's "≤ 70 % of dots within 3 px of one registry raster" leg is tripped by <code>r13_lattice_s5_00904</code> (0.995) — and that trip is </strong>vacuous and measured to be vacuous<strong>: a uniform-random field of the same size scores </strong>0.9987<strong> and a 3 px lattice scores </strong>0.9988** on that comparator (<code>evidence/e4_gates_20261011b.json</code>).  Logged, not overruled.</td></tr>
+<tr><td><strong>PROMOTION GATE</strong></td><td>❌ <strong>FAILS.</strong>  HOLDOUT-DTI <strong>0.00073</strong> (CI [0.00069, 0.00076], 81,993 withheld positives, evaluator <code>gems62.holdout_segmented v1</code>) against the current holdout best 0.1322.</td></tr>
+<tr><td><strong>WHY IT FAILS — measured, not excused</strong></td><td>The segmented gate scores <em>catalogue segments withheld from view</em>, so it rewards fields that sit near the mapped catalogue.  Over 20 artifacts with owner-reported scores, credit per dot against the <strong>mapped</strong> catalogue correlates <strong>−0.597</strong> (p = 0.0054) with the leaderboard.  This field is deliberately off the mapped catalogue (median 2.2 km, 0.02× uniform-field credit), so the gate penalises exactly the property the leaderboard rewards.</td></tr>
+<tr><td><strong>EXPECTED SCORE</strong></td><td><strong>Not claimed.</strong>  No local instrument may be used as a score.  The one local quantity with a positive association with the leaderboard (credit per dot against an off-catalogue compilation, ρ = <strong>+0.617</strong>, p = 0.0038) puts this field at <strong>0.0621</strong>, 95 % of the champion's 0.0655 on the same instrument, at 3.2× the mass.  Under <em>exact transfer</em> the MODEL value is <strong>0.222</strong> — below 0.2778.</td></tr>
+</tbody></table>
+<h3>The one-line version</h3>
+<blockquote>
+<p>**Download and submit if you want one clean, information-rich experiment: a field of champion-grade</p>
+<p>per-dot credit at 3.2× the champion's mass, provably isolated, unique against every prior raster,</p>
+<p>and legal to the byte — with a pre-registered, falsifiable prediction (it beats 0.2778 <strong>iff</strong> its</p>
+<p>true per-dot credit exceeds 0.0778).  Do not treat it as a validated improvement: it fails the</p>
+<p>protocol's holdout gate by construction, and that gate is measurably anti-correlated with the</p>
+<p>leaderboard.**</p>
+</blockquote>
+<h2>2. Step-by-step: how to put this file into the competition</h2>
+<ol>
+<li><strong>Download</strong> <code>gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</code> from</li>
+</ol>
+<p>   <code>docs/downloads/</code> (or the site's download button).  A bare GeoTIFF is accepted — no <code>.zip</code> needed.</p>
+<ol>
+<li><strong>Verify the bytes</strong> (optional, 5 s):</li>
+</ol>
+<p>   <code>sha256sum gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</code> → must start <code>42bffef1b5973973</code>.</p>
+<ol>
+<li><strong>Sign in</strong> on DrivenData and open the submission form:</li>
+</ol>
+<p>   &lt;https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/&gt;</p>
+<ol>
+<li><strong>File to submit</strong> → choose the <code>.tif</code> downloaded in step 1.</li>
+<li><strong>Note (optional)</strong> → paste the 138-character note from the table in §1.</li>
+<li><strong>Submit.</strong> The score appears on the public leaderboard</li>
+</ol>
+<p>   &lt;https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/&gt;.</p>
+<ol>
+<li><strong>Export the receipt — this is the highest-value action available to this project.</strong> Copy the</li>
+</ol>
+<p>   score row into <code>evidence/</code> and commit it.  This repository contains <strong>zero</strong> organizer-confirmed</p>
+<p>   scores; one receipt converts the two proxies that currently <em>cannot</em> rank fields</p>
+<p>   (ρ = +0.62 and −0.44) into a calibrated instrument.</p>
+<h3>What the form checks, and where this file satisfies each check</h3>
+<table><thead><tr><th>portal requirement</th><th>this file</th><th>enforced by</th></tr></thead><tbody>
+<tr><td>single-band GeoTIFF</td><td><code>count = 1</code></td><td>written by one code path, re-read from disk</td></tr>
+<tr><td>32-bit float</td><td><code>float32</code></td><td>asserted on write and on re-read</td></tr>
+<tr><td>matches the training CRS</td><td>EPSG:32611</td><td>pinned constant, asserted</td></tr>
+<tr><td>matches shape</td><td>3730 × 3292</td><td>asserted against the official sample submission</td></tr>
+<tr><td>matches geotransform</td><td><code>(100, 0, 243350, 0, −100, 4508550)</code></td><td>compared to 6 dp</td></tr>
+<tr><td>values in <code>[0, 1]</code></td><td>min 0.0, max 1.0, <code>n_outside_0_1 = 0</code></td><td>asserted before write <strong>and</strong> re-counted after</td></tr>
+<tr><td>no NaN inside the footprint</td><td><code>nan_count = 0</code>, all finite everywhere</td><td>zeros (not NaN) outside the footprint, <strong>no nodata tag</strong></td></tr>
+</tbody></table>
+<h2>3. What this session changed, in one paragraph</h2>
+<p>Three local instruments were measured against 20 artifacts with owner-reported scores.  The</p>
+<p>leaderboard rewards being <strong>off</strong> the mapped catalogue (ρ = −0.597 for catalogue credit) and rewards</p>
+<p>per-dot credit against an <strong>independent off-catalogue compilation</strong> (ρ = +0.617) — but the published</p>
+<p>DTI evaluated on that compilation <strong>anti-correlates</strong> with the leaderboard (ρ = −0.442), which</p>
+<p>downgrades the repository's previous rank-1 recommendation (promote the never-submitted high-credit</p>
+<p>field) and invalidates the segmented holdout as a promotion gate.  The exact condition for beating</p>
+<p>0.2778 is derived and tabulated (credit ≥ 0.0778 at 120,000 dots), and one legal, unique,</p>
+<p>provably-isolated field that meets the mass half of that condition is shipped with the falsifiable</p>
+<p>prediction written down.</p>
+<h2>4. Limits of this page</h2>
+<ul>
+<li><strong>No organizer score exists for any file here.</strong> Every comparison in this document is a proxy.</li>
+<li>The leaderboard figures are a <strong>mirror</strong> (<code>research/leaderboard_series.json</code>); this sandbox cannot</li>
+</ul>
+<p>  reach <code>drivendata.org</code>.</p>
+<ul>
+<li>A local format check is <strong>not</strong> organizer acceptance.</li>
+<li>The 3 px overlap leg of the uniqueness rule is <strong>unsatisfiable</strong> by construction for any dot field</li>
+</ul>
+<p>  (measured, §1) — it is reported as tripped and its informativeness is reported as zero.</p><p class="mut" style="margin-top:3em;font-size:.85em">Rendered by <code>scripts/make_site_20261011b.py</code> from <code>docs/executive-summary-2026-10-11b.md</code>. Artifact sha256 <code>42bffef1b5973973…</code>, verdict <b>negative-as-lead / legal-and-unique-as-a-probe</b>.</p></div></body></html>

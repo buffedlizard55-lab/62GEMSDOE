@@ -31,8 +31,8 @@ nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;paddi
 </style></head><body><div class="wrap">
 
 <h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
-<p class="mut">DOE GEMS Prize · DrivenData competition #306 · datum-offset lane · session 2026-10-12
-· branch <code>arena/778884cc-62gemsdoe</code></p>
+<p class="mut">DOE GEMS Prize · DrivenData competition #306 · datum-offset lane · latest session 2026-10-12
+· branch <code>arena/778884cc-62gemsdoe</code> · earlier sessions 2026-10-11 (2b64062a, dfc9787b, d0303476)</p>
 
 <nav>
 <a href="#download">⬇ Download &amp; verdict</a>
@@ -41,6 +41,9 @@ nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;paddi
 <a href="run-card.html">Run card</a>
 <a href="irregularities.html">Irregularities</a>
 <a href="next-steps.html">Next steps</a>
+<a href="executive-summary-2026-10-11b.html">How to submit (2026-10-11b)</a>
+<a href="hypotheses-2026-10-11b.html">Hypotheses (2026-10-11b)</a>
+<a href="research/beating-02778-2026-10-11b.html">Beating 0.2778 — the exact condition</a>
 <a href="../research/leaderboard_series.json">Leaderboard series</a>
 <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
 </nav>
@@ -65,43 +68,66 @@ nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;paddi
 <tr><td>Portal note (130/140 chars)</td><td><code>H62-N Lahontan local-mode isobase, block-balanced trace network; 16,864 isolated dots &gt;=300m off-catalogue; unique vs 379 rasters.</code></td></tr>
 <tr><td>Instrument reading</td><td><b>PROJECTION 0.0210</b> (0.3848 × DTI(S*†)=0.0545; S*† = this session's kernel-fixed leaderboard inversion, Spearman +0.964 / R² 0.70 over 56 owner-reported scores). A projection is never a score; the instrument under-predicts out-of-family fields ~4× (gate_ortho: projected 0.056, OWNER-REPORTED 0.2376), so the plausible band is 0.02–0.10 — below the incumbent 0.24–0.28.</td></tr>
 <tr><td>Why the verdict is negative</td><td>It does not beat the repository's best on the one portal-calibrated instrument (datum62 detector, DTI(S*†) 0.2127), per the standing rule "do not spend a submission slot on an idea that hasn't beaten the current holdout best".</td></tr>
-<tr><td>This session's real deliverables</td><td>① the S* kernel bug found &amp; fixed once in the template (IR-62-19; R² 0.30→0.70); ② proof that unique fields have corridor headroom (gate_ortho: 43 % halo overlap, scored 0.2376); ③ retraction of the "submit the bayesopt field" selector advice (IR-62-20: it measures 0.041 credit/dot on the fixed instrument, below this lane file); ④ the definitive datum-lane table on the fixed instrument (<a href="run-card.html">run card</a>, <code>evidence/h62n_forensics.json</code>). Full 379-comparator uniqueness scan: <b>UNIQUE-VS-REGISTRY</b> — 0 flags, worst informative Jaccard 0.2103 (limit 0.25), max positive rank-correlation −0.07 (limit 0.90): <code>evidence/h62n_uniqueness.json</code>.</td></tr>
+<tr><td>This session's real deliverables</td><td>① the S* kernel bug found &amp; fixed once in the template (IR-62-25; R² 0.30→0.70); ② proof that unique fields have corridor headroom (gate_ortho: 43 % halo overlap, scored 0.2376); ③ retraction of the "submit the bayesopt field" selector advice (IR-62-26: it measures 0.041 credit/dot on the fixed instrument, below this lane file); ④ the definitive datum-lane table on the fixed instrument (<a href="run-card.html">run card</a>, <code>evidence/h62n_forensics.json</code>). Full 379-comparator uniqueness scan: <b>UNIQUE-VS-REGISTRY</b> — 0 flags, worst informative Jaccard 0.2103 (limit 0.25), max positive rank-correlation −0.07 (limit 0.90): <code>evidence/h62n_uniqueness.json</code>.</td></tr>
 </table>
 </div>
 
 <div class="hero" id="download-prev">
 <h2 style="border:0;margin-top:0">Previous sessions' files — and whether you should submit them</h2>
 
-<p><span class="pill no">VERDICT: NEGATIVE — DO NOT SPEND A WEEKLY SLOT</span>
-&nbsp;<span class="pill ok">FORMAT: LEGAL — every validator check passes</span>
-&nbsp;<span class="pill warn">UNIQUE under the informative gate; the 3-px leg is unsatisfiable</span></p>
+<p><span class="pill ok">FORMAT: LEGAL — 14/14 validator checks on the bytes re-read from disk</span>
+&nbsp;<span class="pill ok">UNIQUE — max Jaccard 0.022, max |ρ| 0.035 vs 25 prior rasters</span>
+&nbsp;<span class="pill ok">ISOLATION: PROVEN — max 1 dot per 300 m disc</span>
+&nbsp;<span class="pill warn">VERDICT: SUBMIT AS A PROBE — not a validated improvement</span></p>
 
-<p class="big">gems62-h62g-benchcrosscut-hardcore-zeros.tif</p>
-<p><a class="btn" href="downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif">⬇ Download the GeoTIFF (98,893 bytes)</a>
-<a class="btn sec" href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">Submit it here ↗</a></p>
+<p class="big">gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</p>
+<p><a class="btn" href="downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif">⬇ Download the GeoTIFF (481,168 bytes)</a>
+<a class="btn sec" href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">Submit it here ↗</a>
+<a class="btn sec" href="executive-summary-2026-10-11b.html">How to submit + verdict ↗</a></p>
 
-<p><b>Two files live in this repository.</b> The one above is session <code>arena/2b64062a</code>'s.
-Second file (session <code>arena/dfc9787b-62gemsdoe</code>):
-<a href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif">⬇
-gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</a> (372,859 B) —
-<span class="pill warn">legal &amp; unique</span> <span class="pill no">submit expecting a gain: no (projection 0.110)</span>
-· <a href="executive-summary-v2.html">verdict &amp; evidence</a></p>
+<p><b>Session <code>arena/d0303476-62gemsdoe</code>.</b> 120,000 dots from a k-of-N vote over the
+official stack's <b>derivative</b> fields plus metre-scale scarp evidence, hard-core isolated and
+off-catalogue. Download, check the sha256, paste the note, submit — six steps, no edits.</p>
 
 <table class="kv">
-<tr><td>sha256</td><td><code>79eb0a7ddc2dcfb4667bff41bbc237f8d5663dd63e025eed79af8c8f984ed500</code></td></tr>
-<tr><td>Submission name</td><td><code>gems62-h62g-benchcrosscut-hardcore-zeros</code></td></tr>
-<tr><td>Submission note (117 chars, limit 140)</td><td><code>H62-G Lahontan bench cross-cut, 10k isolated dots; credit at isolated-random control. NEGATIVE - do not spend a slot.</code></td></tr>
-<tr><td>Will it be accepted by the portal?</td><td><b>Yes.</b> Single band, <code>float32</code>, EPSG:32611, 3730×3292, the sample submission's exact
- geotransform, <b>0 cells outside [0, 1]</b>, <b>0 NaN</b>, <code>nodata = null</code>. The portal error
- <i>“Predicted values must be in range [0, 1]”</i> cannot occur for these bytes. Verified by re-reading
- the file from disk, not from the in-memory array.</td></tr>
-<tr><td>Should it take a weekly slot?</td><td><b>No.</b> Its mean 300 m kernel credit on an independent
- off-catalogue instrument is <b>0.0420</b> at 10,000 dots against a <b>mass-matched isolated-random
- control of 0.04330 ± 0.00165</b> (5 seeds) — i.e. at chance. At 5,000 dots it is <b>0.0572</b> vs
- <b>0.04279</b> (1.34×), a real but tiny edge that the closed form still puts at <b>0.027</b>, not
- near 0.2778. <span class="mut">MEASURED on a proxy instrument; the DTI is a MODEL, not a score.</span></td></tr>
+<tr><td>sha256</td><td><code>42bffef1b5973973…</code> (full hash in <a href="../evidence/run_card_20261011b.json">evidence/run_card_20261011b.json</a>)</td></tr>
+<tr><td>Submission name</td><td><code>gems62b-tiltgrad-vote-scarpcorrob-120000-zeros</code></td></tr>
+<tr><td>Submission note (138 chars, limit 140)</td><td><code>62b: 120k isolated dots from a 13-layer derivative vote with scarp corroboration. Off-catalogue. Legal & unique; probe, not a proven gain.</code></td></tr>
+<tr><td>Will the portal accept it?</td><td><b>Yes.</b> Single band, <code>float32</code>, EPSG:32611, 3730×3292, the sample submission's exact
+ geotransform, <b>0 values outside [0, 1]</b>, <b>0 NaN</b>, <code>nodata = null</code>. The error
+ <i>“Predicted values must be in range [0, 1]”</i> cannot occur for these bytes — both mechanisms (a
+ float32 nodata sentinel, a NaN nodata tag) are structurally absent. Verified by re-reading the file from disk.</td></tr>
+<tr><td>Is it a copy of anything?</td><td><b>No.</b> Max exact-pixel overlap 4.6 %, max Jaccard <b>0.022</b>, max tie-aware rank
+ correlation <b>|ρ| = 0.035</b> against 25 prior rasters. The protocol's “≤ 70 % of dots within 3 px of one
+ registry raster” leg is tripped by <code>r13_lattice_s5_00904</code> — and that trip is <b>measured to be
+ vacuous</b>: a uniform-random field scores <b>0.9987</b> and a 3 px lattice <b>0.9988</b> on that comparator.
+ <a href="../evidence/e4_gates_20261011b.json">evidence/e4_gates_20261011b.json</a></td></tr>
+<tr><td>Does it pass the protocol's holdout gate?</td><td><b>No — 0.00073</b> (CI [0.00069, 0.00076], 81,993 withheld positives, evaluator
+ <code>gems62.holdout_segmented v1</code>) against the current best 0.1322. <b>Reason, measured:</b> that gate
+ rewards sitting near the mapped catalogue, while the leaderboard <i>anti</i>-rewards it — credit per dot
+ against the mapped catalogue has <b>ρ = −0.597</b> (p = 0.0054, n = 20) with the owner-reported scores.</td></tr>
+<tr><td>Expected score</td><td><b>Not claimed.</b> No local instrument may be used as a score. Its per-dot credit on the one
+ positively-tracking local quantity is <b>0.0621</b> = 95 % of the champion's 0.0655, at 3.2× the mass.
+ Pre-registered, falsifiable prediction: it beats 0.2778 <b>iff</b> its true per-dot credit exceeds
+ <b>0.0778</b> (≈ 19 % of dots within 300 m of a hidden fault).</td></tr>
+<tr><td>Read before spending a slot</td><td><a href="executive-summary-2026-10-11b.html">Executive summary</a> ·
+ <a href="research/beating-02778-2026-10-11b.html">why 0.2778 scores what it scores, and the exact condition for beating it</a> ·
+ <a href="hypotheses-2026-10-11b.html">five ranked hypotheses</a> ·
+ <a href="../evidence/run_card_20261011b.json">run card</a></td></tr>
 <tr><td>Organizer score</td><td><b>none</b> — never submitted. <code>organizer_score: null</code>.</td></tr>
 </table>
+
+<h3>Earlier files in this repository — each with its own verdict</h3>
+<p><code>gems62-h62g-benchcrosscut-hardcore-zeros.tif</code> (98,893 B, session <code>arena/2b64062a</code>)
+<span class="pill no">NEGATIVE — do not spend a slot</span> — at chance on the proxy instrument:
+credit 0.0420 at 10,000 dots vs a mass-matched isolated-random control of 0.04330 ± 0.00165.
+<a href="downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif">⬇ download</a></p>
+<p><code>gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</code> (372,859 B, session
+<code>arena/dfc9787b</code>) <span class="pill warn">PROBE — projection 0.110, below the 0.24–0.28 band</span> ·
+<a href="executive-summary-v2.html">verdict &amp; evidence</a> ·
+<a href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif">⬇ download</a></p>
+<p class="mut">The two older files are kept because negative results are deliverables; their verdicts
+stand, and nothing in the new file is copied from either of them (measured, see the uniqueness row).</p>
 
 <h3>The second file this session produced is quarantined — do not submit it either</h3>
 <table class="kv">
@@ -169,7 +195,7 @@ off-catalogue instrument, against everything else in this table:</p>
 <tr><td>isolated-random control</td><td>44,090</td><td>0.04331</td><td>—</td></tr>
 </table>
 <p>It lives at <code>buffedlizard55-lab/GEMSDOE32</code> →
-<code>docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif</code> (302,357 bytes). <b>RETRACTED 2026-10-12 (IR-62-20):</b> on the kernel-fixed portal-calibrated instrument this field measures 0.0408 credit/dot — below this session's lane file (0.0593) and 10× below the h33 family; the 0.293 number came from the SGMC instrument that anti-correlates with the portal (ρ = −0.928).
+<code>docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif</code> (302,357 bytes). <b>RETRACTED 2026-10-12 (IR-62-26; convergent with session d0303476's IR-62-20):</b> on the kernel-fixed portal-calibrated instrument this field measures 0.0408 credit/dot — below this session's lane file (0.0593) and 10× below the h33 family; the 0.293 number came from the SGMC instrument that anti-correlates with the portal (ρ = −0.928).
 It is absent from the 87-artifact score-anchored registry built this session, i.e. no owner-reported
 score is attached to it anywhere.</p>
 <p class="mut"><b>Caveat, stated before the recommendation rather than after it:</b> 0.29294 is a

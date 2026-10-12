@@ -218,9 +218,20 @@ spurious ρ = 1.0, Jaccard = 1.0, "DUPLICATE-DRIFT"). Both were wrong. Fixed and
 corrected numbers are the ones published. Recorded because the first (wrong) verdict was already
 printed, and a reader comparing the two would otherwise be misled.
 
+## Added 2026-10-11 by session `arena/d0303476-62gemsdoe`
+
+| ID | Irregularity |
+| --- | --- |
+| **IR-62-19** | **The protocol's rank-correlation leg was computed with ordinal ranks.** `np.argsort(np.argsort(mask))` on two sparse binary rasters over 12,279,160 cells is dominated by the arbitrary ordering of the ~12M tied zeros: measured values were **0.95–0.976 for every comparator pair**, i.e. the statistic reported "ρ ≈ 0.97" between fields that share 1.1 % of their pixels. Re-computed tie-aware on a fixed 300,000-pixel sample (average ranks), the same comparison gives **max \|ρ\| = 0.035**. `scripts/build_final_field.py` now uses the tie-aware form; earlier reports of this statistic in this repository should be re-read with this in mind. The superseded 120 k probe that carried the old check (`docs/downloads/probe-120k.tif`) has been removed from the download directory — the field it probed is now the shipped artifact, and its receipt survives at `evidence/final_field_probe-120k.json`. |
+| **IR-62-20** | **The SGMC 1:750 k instrument cannot rank fields.** Over 20 owner-reported scores, its per-dot credit correlates **+0.617** with the leaderboard but the published DTI evaluated on it correlates **−0.442** (p = 0.0513). The repository's previous rank-1 next step ("submit the never-scored high-credit field") rests on the first quantity and is downgraded here. Evidence: `evidence/e2b_reference_frame_20261011b.json`, `evidence/e4_gates_20261011b.json`. |
+| **IR-62-21** | **`docs/data.md` §1 says the official feature stack is 35 bands.** The file says 19 (`count = 19`, sha256 `4371c82e…` = the pin), and each band carries its own `band_name` tag — so the band names are no longer second-hand (contradicting `docs/data.md` §5 and `docs/research/sources.md` §1). One-line doc fix outstanding. |
+| **IR-62-22** | **The 3-px overlap leg of the lane rule is vacuous for every field.** Measured on `r13_lattice_s5_00904.tif` (5 px lattice, 206,895 dots): a *uniform-random* field of 120,000 dots scores **0.9987** and a 3 px lattice scores **0.9988** — both higher than any real field's 0.995. Any submission trips the "duplicate" leg against that comparator, so the leg carries no information about copying. Confirms and quantifies `IR-62-UNIQ-01`. |
+| **IR-62-23** | **Three copies of the holdout evaluator existed** (`src/gems62/holdout.py`, `lane62/src/…`, `lane62-h62a/src/…`), each with a different API — the "private fork" the protocol forbids, in the same repository. Promoted to one: `src/gems62/holdout_segmented.py` (from the copy that produced every quoted HOLDOUT-DTI), with `tests/test_holdout_segmented.py` asserting elementwise equality between the promoted module and the original on a synthetic fixture. `src/gems62/metric.py::dti_binary` gained the `valid=`/`known=` keywords additively so only one call signature exists. |
+| **IR-62-24** | **One defect ID was reused.** `src/gems62/metric.py` cites its keyword-form fix as `IR-62-13`, and this register's `IR-62-13` is the GitHub Pages directory. The citation in the code was stale; it is corrected to `IR-62-18`, which is the entry describing the unification of the holdout evaluator that the fix belongs to. Rule for the next session: **the register is authoritative for IDs; code cites the register, never its own numbering.** |
+
 ## Added 2026-10-12 (session `arena/778884cc-62gemsdoe`)
 
-### IR-62-19 — the group's best local instrument (the S* leaderboard inversion) had a kernel-radius bug — FOUND, FIXED ONCE IN THE TEMPLATE, RE-RUN
+### IR-62-25 — the group's best local instrument (the S* leaderboard inversion) had a kernel-radius bug — FOUND, FIXED ONCE IN THE TEMPLATE, RE-RUN
 `datum62/scripts/invert.py` built the kernel table in **pixel** units (`KERN[j] = max(1 − j/3, 0)`,
 zero at j ≥ 3 px = 300 m) but indexed it with **quarter-pixel** indices (`KERN[(dm*4).astype(int)]`),
 so every dot-to-truth distance ≥ 0.75 px (75 m) contributed **zero** credit. The committed evidence
@@ -238,7 +249,7 @@ instrument still under-predicts out-of-family fields (gate_ortho 0.0557 projecte
 observed) — it is a **floor** instrument for novel placements, never a ceiling. Evidence:
 `evidence/sstar_fixed/inverse_truth_fixed.json`, `evidence/h62n_forensics.json`.
 
-### IR-62-20 — the standing "selector rank-1" recommendation is retracted
+### IR-62-26 — the standing "selector rank-1" recommendation is retracted
 `docs/next-steps.md` item 1 and `docs/research/leaderboard-arithmetic.md` §5 told the selector to
 submit `gems32-bayesopt-dilation-scarp-d28` (45,000 dots) because it measures 0.29294 credit/dot on
 the SGMC off-catalogue instrument — 3× the champion family. That instrument is measured
@@ -247,9 +258,12 @@ finding). On the kernel-fixed portal-calibrated instrument the same file measure
 credit/dot, DTI(S*†) 0.0766, projection 0.0295** — below this session's lane file (0.0593/dot) and
 10× below the h33 family (0.42/dot). The rank-1 advice is retracted wherever it appears; the pages
 carry the retraction inline. Do not spend a slot on the bayesopt field on the strength of the old
-number.
+number. Convergent finding: session `arena/d0303476` independently downgraded the same rank-1
+advice from the correlation side (their IR-62-20: SGMC per-dot credit ρ = +0.617 with the
+leaderboard but SGMC-evaluated DTI ρ = −0.442); this entry adds the direct measurement on the
+portal-calibrated instrument.
 
-### IR-62-21 — two disclosures about this session's artifact
+### IR-62-27 — two disclosures about this session's artifact
 (a) **Southern-block loci are not necessarily Lahontan.** The z-band gate (1189–1463 m) plus the
 bench gate cannot distinguish Lake Lahontan's own margins from other pluvial-lake benches and playas
 at similar elevations in the southern blocks (822 + 2,688 dots). The lane's coverage statement is
@@ -259,7 +273,7 @@ be wrong. (b) **`tools/fetch_registry.py` clobbers same-named files across repos
 the S* work used the 60GEMSDOE normalized registry instead, whose bytes are sha-verified against
 `research/registry_index.json` pins.
 
-### IR-62-22 — corridor headroom is now measured, not speculated
+### IR-62-28 — corridor headroom is now measured, not speculated
 gate_ortho (OWNER-REPORTED 0.2376) keeps only **43.4 %** of its dots within 3 px of h33-2-b2 and
 **22.5 %** within 3 px of S*†, with median nearest-neighbour distance 3.6 px — i.e. a field can sit
 *beside* the champion's corridors, pass the protocol's 70 % tripwire with room to spare, and still

@@ -1,0 +1,160 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Why 0.2778 scores what it scores — and the exact condition for beating it</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;
+--warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.8em;margin:.3em 0 .4em}h2{font-size:1.3em;margin:1.6em 0 .5em;
+border-bottom:1px solid var(--bd);padding-bottom:.3em}h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.88em}
+table{border-collapse:collapse;width:100%;margin:.9em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}blockquote{border-left:3px solid var(--acc);margin:1em 0;padding:.2em 1em;
+background:var(--card)}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 8px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;
+border-radius:8px;margin:8px 8px 8px 0}.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+</style></head><body><div class="wrap"><nav>
+<a href="../index.html">Overview &amp; download</a>
+<a href="../executive-summary-2026-10-11b.html">How to submit</a>
+<a href="../hypotheses-2026-10-11b.html">Hypotheses</a>
+<a href="../research/beating-02778-2026-10-11b.html">Why 0.2778 won</a>
+<a href="../irregularities.html">Irregularities</a>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
+</nav><h1>Why <code>h33-2-b2</code> scores 0.2778 — and the exact condition for beating it</h1>
+<p>Session <code>arena/d0303476-62gemsdoe</code>, 2026-10-11. Every number below is labelled and traceable to a</p>
+<p>script in this checkout or to a file in <code>evidence/</code>.</p>
+<table><thead><tr><th>label</th><th>meaning</th></tr></thead><tbody>
+<tr><td><strong>MEASURED</strong></td><td>computed in this checkout from bytes on disk; script named</td></tr>
+<tr><td><strong>INHERITED</strong></td><td>quoted from another session's committed evidence, with its own label kept</td></tr>
+<tr><td><strong>OFFICIAL</strong></td><td>read from the organizer's own pages</td></tr>
+<tr><td><strong>MODEL</strong></td><td>algebra applied to the above. <strong>A projection is never written as a score.</strong></td></tr>
+</tbody></table>
+<p>---</p>
+<h2>1. The artifact, measured from its bytes</h2>
+<p><code>gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</code></p>
+<p>(sha256 <code>c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9</code>, 219,065 B,</p>
+<p>fetched this session from <code>buffedlizard55-lab/60GEMSDOE</code> into <code>build/registry/champion_h33_2_b2_02778.tif</code>)</p>
+<table><thead><tr><th>property</th><th>value</th><th>class</th></tr></thead><tbody>
+<tr><td>dots</td><td><strong>37,654</strong>, one per connected component (<code>n_components == M</code>)</td><td>MEASURED (<code>research/registry_measurements.json</code>)</td></tr>
+<tr><td>values</td><td>exactly <code>{0, 1}</code></td><td>MEASURED</td></tr>
+<tr><td>mean self-kernel within 300 m</td><td>0.0173</td><td>MEASURED (<code>registry_measurements.json</code>)</td></tr>
+<tr><td>dots on the mapped catalogue</td><td><strong>0.0 %</strong></td><td>MEASURED</td></tr>
+<tr><td>median distance of a dot to the mapped catalogue</td><td><strong>1,964.7 m</strong></td><td>MEASURED (this session: 1,965 m)</td></tr>
+<tr><td>mean 300 m kernel credit per dot against SGMC 1:750 k <strong>minus</strong> the catalogue</td><td>0.0655 (3.8× the uniform-field value 0.01706)</td><td>MEASURED (<code>evidence/e2b_reference_frame_20261011b.json</code>)</td></tr>
+<tr><td>live score</td><td>0.2778</td><td><strong>OWNER-REPORTED</strong> (no receipt in this repository)</td></tr>
+</tbody></table>
+<h2>2. The arithmetic — this <em>is</em> the explanation</h2>
+<p>The published index is</p>
+<p><code>DTI = TP_w / (TP_w + 0.2·FP_w + 0.8·FN_w)</code> with a triangular kernel <code>k(d) = max(1 − d/300 m, 0)</code></p>
+<p><strong>[OFFICIAL, competition page 967</strong>, quoted in <code>docs/sources.md</code><strong>]</strong>, implemented and tested in</p>
+<p><code>src/gems62/metric.py</code> (the page's own worked example <code>3.00/(3.00+0.2·1.89+0.8·2.00) = 0.60</code> is</p>
+<p>reproduced in <code>tests/test_metric.py</code>).</p>
+<p>Writing <code>T = TP_w</code>, <code>F = FP_w</code>, <code>K = |G|</code> (hidden truth pixels, so <code>FN_w = K − T</code>):</p>
+<p>```</p>
+<p>DTI = T / ( 0.2·(T+F) + 0.8·K )            [exact rewriting of the published formula]</p>
+<p>```</p>
+<p>Three consequences, each of which is a design rule:</p>
+<p><strong>(a) A dot is worth placing iff its realised credit <code>k</code> exceeds <code>0.2·DTI</code>.</strong>  Adding one unit dot</p>
+<p>changes the denominator by exactly <code>0.2</code> and the numerator by <code>k</code>, so <code>dDTI &gt; 0 ⟺ k &gt; 0.2·DTI</code></p>
+<p>(<code>src/gems62/metric.py::marginal_bar</code>).  For a field already scoring 0.2778 the bar is</p>
+<p><strong>0.0556</strong>, which corresponds to roughly a <strong>14 % chance of lying within 300 m of a hidden fault</strong></p>
+<p>if the offsets are spread over the kernel disc (credit ≈ 0.4·P under that assumption — the</p>
+<p>assumption is named because the number depends on it).</p>
+<p><strong>(b) At large mass <code>DTI → 5·c</code></strong> where <code>c</code> is the mean credit per dot, because the <code>0.8·K</code> term</p>
+<p>becomes negligible next to <code>0.2·M</code>.  Rank 1 (0.4133, MIRROR-OF-OFFICIAL) therefore implies</p>
+<p><code>c ≳ 0.0827</code>; the top-5 cut-off 0.3333 implies <code>c ≳ 0.0667</code>.</p>
+<p><strong>(c) The dependency on mass is explicit and provable.</strong>  If every dot is isolated (no second dot</p>
+<p>inside its kernel) and carries mean credit <code>c</code>:</p>
+<p>```</p>
+<p>DTI(c, M, K) = c·M / ( 0.2·M + 0.8·K ) = c / ( 0.2 + 0.8·K/M )</p>
+<p>```</p>
+<p>With the planning value <code>K = 12,000</code> <strong>[INHERITED</strong>: <code>docs/research/leaderboard-arithmetic.md</code></p>
+<p>derives <code>K ≤ 13,688</code> from the 0.26 → 0.2778 thinning; that is a bound, not a measurement<strong>]</strong>:</p>
+<table><thead><tr><th>to reach</th><th>at M = 37,654</th><th>60,000</th><th>120,000</th><th>240,000</th><th>∞</th></tr></thead><tbody>
+<tr><td>0.2778 (rank 23)</td><td><strong>0.1264</strong></td><td>0.1000</td><td><strong>0.0778</strong></td><td>0.0663</td><td>0.0556</td></tr>
+<tr><td>0.3333 (top-5)</td><td>0.1516</td><td>0.1200</td><td>0.0933</td><td>0.0795</td><td>0.0667</td></tr>
+<tr><td>0.4133 (rank 1)</td><td>0.1880</td><td>0.1488</td><td>0.1157</td><td>0.0986</td><td>0.0827</td></tr>
+</tbody></table>
+<p>The champion's own implied credit is <strong>0.1264</strong> — i.e. the champion is already a strong detector,</p>
+<p>and the table says the same detector at 120,000 dots would need only 0.0778 to match it.  **Mass is</p>
+<p>a real lever, but only if the extra dots keep most of the credit.**  In the group's own history they</p>
+<p>did not: within the dotted family the mass–score relation is <em>inverted</em> (44,090 → 0.2600; 60,069 →</p>
+<p>0.2477; 121,131 → 0.1922; 123,939 → 0.2296) — all OWNER-REPORTED.</p>
+<h2>3. What this session added: the local instruments, measured on 20 artifacts</h2>
+<p><code>evidence/e2b_reference_frame_20261011b.json</code> and <code>evidence/e4_gates_20261011b.json</code> measure every</p>
+<p>prior artifact the same way, on the same grid, with one code path.  Over the 20 artifacts that</p>
+<p>carry an owner-reported score:</p>
+<table><thead><tr><th>quantity</th><th>Spearman vs leaderboard</th><th>p</th><th>class</th></tr></thead><tbody>
+<tr><td>mean credit per dot against SGMC 1:750 k <strong>minus</strong> catalogue</td><td><strong>+0.617</strong></td><td>0.0038</td><td>MEASURED</td></tr>
+<tr><td>mean credit per dot against the <strong>mapped catalogue</strong></td><td><strong>−0.597</strong></td><td>0.0054</td><td>MEASURED</td></tr>
+<tr><td>the published DTI itself, evaluated on the SGMC instrument</td><td><strong>−0.442</strong></td><td>0.0513</td><td>MEASURED</td></tr>
+</tbody></table>
+<p>The last row is the decisive one and it is <em>new</em>: the instrument's <strong>per-dot credit</strong> tracks the</p>
+<p>leaderboard positively, while <strong>the same instrument's metric value</strong> tracks it negatively, because</p>
+<p>the metric's denominator (field size) flips the sign inside this set.  The two highest DTI values on</p>
+<p>that instrument belong to <code>r13_lattice_s5_00904</code> (0.2539 → leaderboard <strong>0.0904</strong>) and to the</p>
+<p>never-submitted <code>gems32-bayesopt-dilation-scarp-d28</code> (0.3960 → <strong>unscored</strong>).</p>
+<p><strong>Consequences, stated plainly:</strong></p>
+<ol>
+<li>A per-dot credit is not a score, and a projected score must not be acted on.  The repository's</li>
+</ol>
+<p>   previous rank-1 next step ("submit the never-scored high-credit field") rested on a per-dot</p>
+<p>   credit measured on an instrument whose metric value is anti-correlated with the leaderboard.  It</p>
+<p>   is downgraded here.</p>
+<ol>
+<li>The <em>only</em> locally measurable quantity with a positive, significant association with the</li>
+</ol>
+<p>   leaderboard found in this session is **credit per dot against an off-catalogue fault</p>
+<p>   compilation** (+0.62).</p>
+<ol>
+<li>The strongest <em>negative</em> association is credit per dot against the <strong>mapped</strong> catalogue</li>
+</ol>
+<p>   (−0.60): the leaderboard rewards fields that do <strong>not</strong> hug the mapped faults.  That is</p>
+<p>   consistent with the organizers' own definition — a "new fault" is one <em>not</em> captured by</p>
+<p>   USGS/INGENIOUS <strong>[OFFICIAL, thread 11536</strong>, quoted in <code>docs/sources.md</code><strong>]</strong>.</p>
+<h2>4. So: can a submission beat 0.2778?</h2>
+<p>**Yes, and the condition is exact and checkable — but it is a condition on a quantity this checkout</p>
+<p>cannot measure.**</p>
+<ul>
+<li>Beating 0.2778 requires, at 120,000 isolated dots, a mean per-dot credit <code>c ≥ 0.0778</code></li>
+</ul>
+<p>  (≈ 19 % of dots within 300 m of a hidden fault).  Reaching the top-5 cut-off 0.3333 requires</p>
+<p>  <code>c ≥ 0.0933</code>.  <strong>MODEL, from §2(c); the uncertainty is entirely in <code>c</code>, not in the algebra.</strong></p>
+<ul>
+<li>The champion already operates at <code>c = 0.1264</code> (implied), so it is <em>not</em> the mass that is missing</li>
+</ul>
+<p>  at 37,654 dots — it is either more mass at acceptable credit, or genuinely better placement.</p>
+<ul>
+<li>This session's field (<code>gems62b-tiltgrad-vote-scarpcorrob-120000-zeros</code>) measures <strong>c = 0.0621</strong></li>
+</ul>
+<p>  per dot on the off-catalogue compilation at 120,000 dots — 95 % of the champion's own 0.0655 on</p>
+<p>  the same instrument, at 3.2× the mass.  Under <em>exact transfer</em> of that instrument the field's</p>
+<p>  MODEL value is 0.222, i.e. <strong>below 0.2778</strong>.  The pre-registered prediction in the run card is</p>
+<p>  therefore: this file beats 0.2778 <strong>iff</strong> its true per-dot credit exceeds 0.0778, and the only</p>
+<p>  way to learn that number is a submission receipt.</p>
+<h2>5. What would actually move the line</h2>
+<ol>
+<li><strong>One ORGANIZER-CONFIRMED number.</strong>  There is still not one anywhere in this repository.  Until</li>
+</ol>
+<p>   one exists, every comparison here is a proxy argument, and §3 shows proxies cannot rank fields.</p>
+<ol>
+<li><strong>A detector with a higher floor of credit, not a larger field.</strong>  §2(c) makes mass cheap and</li>
+</ol>
+<p>   quality expensive; the group's own history (0.2778 vs 0.0778 at identical mass) shows quality</p>
+<p>   spans 3.6× while mass spans ~1.4× within its family.</p>
+<ol>
+<li><strong>Stop using the SGMC instrument as a promotion gate</strong>, for the measured reason in §3 — and stop</li>
+</ol>
+<p>   using the segmented catalogue holdout as one: <code>IR-62-HOLDOUT-01</code> records</p>
+<p>   Spearman(HOLDOUT-DTI, organizer score) = <strong>−0.9141</strong> (INHERITED, <code>lane62-h62a/evidence/</code>), and</p>
+<p>   this session's own field fails that gate at 0.00073 <em>by construction</em> precisely because it obeys</p>
+<p>   the leaderboard's own preference for being off the mapped catalogue (−0.60, §3).</p>
+<ol>
+<li><strong>What the gate should be instead</strong>: a <em>paired</em> test — submit two fields that differ in exactly</li>
+</ol>
+<p>   one design variable, at the same mass, and let the leaderboard say which is better.  The</p>
+<p>   submission page is the only instrument in this project that measures the target quantity.</p><p class="mut" style="margin-top:3em;font-size:.85em">Rendered by <code>scripts/make_site_20261011b.py</code> from <code>docs/research/beating-02778-2026-10-11b.md</code>. Artifact sha256 <code>42bffef1b5973973…</code>, verdict <b>negative-as-lead / legal-and-unique-as-a-probe</b>.</p></div></body></html>

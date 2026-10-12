@@ -22,7 +22,7 @@
   "lines": "16,51",
   "defect": "kernel table defined in pixel units (zero at j>=3 px) indexed with quarter-pixel indices (dm*4): effective support 0.75 px = 75 m instead of 3 px = 300 m",
   "impact_measured": "every high-scoring artifact outside the 13-field consensus was under-predicted 4x-37x (gate_ortho 0.0064 vs observed 0.2376; h59-cover 0.0219 vs 0.2296); after the single-change fix: h59-cover 0.1596, gate_ortho 0.0557; R\u00b2 0.3007 -> 0.7007",
-  "fix": "applied once in the template (datum62/scripts/invert.py comment + scripts/reconstruct_sstar.py); IR-62-19",
+  "fix": "applied once in the template (datum62/scripts/invert.py comment + scripts/reconstruct_sstar.py); IR-62-25",
   "reproducible": "scripts/reconstruct_sstar.py -> evidence/sstar_fixed/"
  },
  "gate_ortho_forensics": {
@@ -48,7 +48,7 @@
    "h33_family_repro_per_dot": 0.4246,
    "h32d_submodular_per_dot": 0.3981
   },
-  "verdict": "RETRACT the rank-1 selector recommendation: it was measured on the SGMC off-catalogue instrument (Spearman -0.928 vs the portal over 15 owner-reported scores). On the portal-calibrated instrument the bayesopt field is BELOW this session's lane field per dot and 10x below the h33 family. IR-62-20."
+  "verdict": "RETRACT the rank-1 selector recommendation: it was measured on the SGMC off-catalogue instrument (Spearman -0.928 vs the portal over 15 owner-reported scores). On the portal-calibrated instrument the bayesopt field is BELOW this session's lane field per dot and 10x below the h33 family. IR-62-26."
  },
  "lane_family_on_fixed_instrument": [
   {

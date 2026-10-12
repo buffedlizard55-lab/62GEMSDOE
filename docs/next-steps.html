@@ -81,4 +81,40 @@ hr{border:0;border-top:1px solid var(--bd);margin:2em 0}
 <ol>
 <li><b>No file in this repository has ever been scored.</b> <code>organizer_score</code> is <code>null</code> everywhere.</li>
 </ol>
+
+<h2>Added 2026-10-11b — session <code>arena/d0303476-62gemsdoe</code> (ranked, with the measurement that produced the rank)</h2>
+<ol>
+<li><b>Get one ORGANIZER-CONFIRMED score into <code>evidence/</code> — the single highest-value action.</b>
+Over <b>20</b> owner-reported scores, measured on one code path: credit per dot vs SGMC-1:750k-minus-catalogue
+<b>ρ = +0.617</b> (p = 0.0038); credit per dot vs the <b>mapped</b> catalogue <b>ρ = −0.597</b> (p = 0.0054);
+and the published <b>DTI evaluated on that instrument</b> <b>ρ = −0.442</b> (p = 0.0513). A per-dot credit is
+not a score, and no projection may drive promotion. <span class="mut">Receipts: <code>evidence/e2b_reference_frame_20261011b.json</code>,
+<code>evidence/e4_gates_20261011b.json</code>.</span></li>
+<li><b>Retire both promotion gates.</b> The segmented catalogue holdout is anti-correlated with the
+leaderboard (<code>IR-62-HOLDOUT-01</code>, ρ = −0.9141), and the field shipped this session fails it at 0.00073
+<em>because</em> it obeys the leaderboard's own preference (stay off the mapped catalogue).</li>
+<li><b>Spend the next slot on a paired experiment, not a bigger field.</b> <code>DTI = c/(0.2 + 0.8K/M)</code> is
+exact; one field at 120,000 dots with the same detector as a 40,000-dot field measures <code>dc/dM</code>, which no
+local instrument can supply.</li>
+<li><b>H62-M — along-strike catalogue extension</b> (untried; specified in
+<a href="hypotheses-2026-10-11b.html">the hypothesis page</a>). The only construction that targets by design
+the population the organizers include ("newly mapped geometry of existing systems"), and its dots are
+off-catalogue by construction.</li>
+<li><b>Screen H62-Q — geothermal proximity — before the next structural bet.</b> It is the only untried
+hypothesis that speaks to the competition's stated purpose, it needs one free official dataset (DOE
+Geothermal Data Repository wells/springs, <code>https://gdr.openei.org/</code>), and it needs the GitHub-runner
+transport that already exists for the DEM. The test is fixed in advance: per-dot credit inside vs outside a
+5/10/20 km buffer, with a mass-matched random control. Below 1.0× it dies; above 1.5× it multiplies H62-L.</li>
+<li><b>Resolve <code>IR-62-21</code> / <code>docs/data.md</code> §1:</b> the official stack carries <b>19</b> bands with their own
+<code>band_name</code> tags (verified from the bytes, sha256 <code>4371c82e…</code> = the pin), not the 35 the docs claim.</li>
+</ol>
+<h3>Stated limits of the 2026-10-11b delivery</h3>
+<ul>
+<li><b>No organizer score exists for any file here.</b> Every comparison is a proxy.</li>
+<li><code>drivendata.org</code> and the USGS hosts remain unreachable; GitHub is the transport.</li>
+<li>The 1 m LiDAR scarp composite covers 75 % of the footprint and the 3 m product 58 % — about a quarter of
+the grid is mapped only from 10 m topography, which caps every LiDAR-driven field.</li>
+<li>The protocol's "≤ 70 % of dots within 3 px" leg is unsatisfiable by any field (measured: uniform-random
+0.9987, 3 px lattice 0.9988).</li>
+</ul>
 </div></body></html>

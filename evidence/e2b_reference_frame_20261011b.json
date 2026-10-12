@@ -1,0 +1,290 @@
+{
+ "experiment": "E2b reference frame",
+ "generated_utc": "2026-10-12T00:05:01Z",
+ "note": "owner_reported_score is the value quoted on the group's own sites (research/registry_index.json); it is NOT an organizer receipt.",
+ "footprint_cells": 5167373,
+ "catalogue_cells": 60988,
+ "sgmc_offcat_cells": 62703,
+ "blanket_credit_whole_grid": {
+  "cat": 0.01719643920660019,
+  "sgmc": 0.017064880579710007
+ },
+ "blanket_credit_inside_footprint_cat": 0.04076375439763069,
+ "rows": [
+  {
+   "name": "champion_h33_2_b2_02778",
+   "owner_reported_score": 0.2778,
+   "n_dots": 37654,
+   "credit_cat": 0.007381365168839693,
+   "credit_sgmc": 0.06550227105617523,
+   "dcat_med_m": 1964.6883544921875,
+   "dsgmc_med_m": 1702.9385986328125,
+   "enrichment_cat": 0.18107667652096146,
+   "enrichment_sgmc": 3.8384253994755086
+  },
+  {
+   "name": "anderson_geothermal_02750",
+   "owner_reported_score": 0.275,
+   "n_dots": 38854,
+   "credit_cat": 0.007432684302330017,
+   "credit_sgmc": 0.06473159790039062,
+   "dcat_med_m": 1923.5384521484375,
+   "dsgmc_med_m": 1711.7242431640625,
+   "enrichment_cat": 0.18233561682831712,
+   "enrichment_sgmc": 3.793264042958257
+  },
+  {
+   "name": "h36_1_rung30_r1_02710",
+   "owner_reported_score": 0.271,
+   "n_dots": 37660,
+   "credit_cat": 0.033469997346401215,
+   "credit_sgmc": 0.06321590393781662,
+   "dcat_med_m": 1772.0045166015625,
+   "dsgmc_med_m": 1676.305419921875,
+   "enrichment_cat": 0.8210724905247341,
+   "enrichment_sgmc": 3.7044445545654607
+  },
+  {
+   "name": "h27_4_r1_solo_d2_8_02708",
+   "owner_reported_score": 0.2708,
+   "n_dots": 40199,
+   "credit_cat": 0.03385111689567566,
+   "credit_sgmc": 0.06297457218170166,
+   "dcat_med_m": 1769.1806640625,
+   "dsgmc_med_m": 1664.3316650390625,
+   "enrichment_cat": 0.8304219617622656,
+   "enrichment_sgmc": 3.6903025419690234
+  },
+  {
+   "name": "h38_1_hf_euler_02707",
+   "owner_reported_score": 0.2707,
+   "n_dots": 37860,
+   "credit_cat": 0.033293191343545914,
+   "credit_sgmc": 0.06313043087720871,
+   "dcat_med_m": 1769.1806640625,
+   "dsgmc_med_m": 1676.305419921875,
+   "enrichment_cat": 0.8167351568942092,
+   "enrichment_sgmc": 3.6994358432411323
+  },
+  {
+   "name": "h32_1_prethin_02649",
+   "owner_reported_score": 0.2649,
+   "n_dots": 42294,
+   "credit_cat": 0.06279933452606201,
+   "credit_sgmc": 0.060406628996133804,
+   "dcat_med_m": 1612.4515380859375,
+   "dsgmc_med_m": 1627.8819580078125,
+   "enrichment_cat": 1.5405679740262612,
+   "enrichment_sgmc": 3.539821372553685
+  },
+  {
+   "name": "h33d_tip_stepover_02632",
+   "owner_reported_score": 0.2632,
+   "n_dots": 41865,
+   "credit_cat": 0.05398683622479439,
+   "credit_sgmc": 0.06117038056254387,
+   "dcat_med_m": 1664.3316650390625,
+   "dsgmc_med_m": 1649.2421875,
+   "enrichment_cat": 1.3243833160748377,
+   "enrichment_sgmc": 3.584577124745597
+  },
+  {
+   "name": "d28_poisson300m_offcat_02600",
+   "owner_reported_score": 0.26,
+   "n_dots": 44090,
+   "credit_cat": 0.08969790488481522,
+   "credit_sgmc": 0.057953301817178726,
+   "dcat_med_m": 1500.0,
+   "dsgmc_med_m": 1612.4515380859375,
+   "enrichment_cat": 2.2004328651835054,
+   "enrichment_sgmc": 3.3960566876796485
+  },
+  {
+   "name": "h25_dotted_d2_8_02600",
+   "owner_reported_score": 0.26,
+   "n_dots": 44090,
+   "credit_cat": 0.08969790488481522,
+   "credit_sgmc": 0.057953301817178726,
+   "dcat_med_m": 1500.0,
+   "dsgmc_med_m": 1612.4515380859375,
+   "enrichment_cat": 2.2004328651835054,
+   "enrichment_sgmc": 3.3960566876796485
+  },
+  {
+   "name": "h25_1_dotted_d1_5_02477",
+   "owner_reported_score": 0.2477,
+   "n_dots": 60069,
+   "credit_cat": 0.09017693251371384,
+   "credit_sgmc": 0.05820346623659134,
+   "dcat_med_m": 1486.60693359375,
+   "dsgmc_med_m": 1603.1219482421875,
+   "enrichment_cat": 2.2121841779852147,
+   "enrichment_sgmc": 3.410716293309122
+  },
+  {
+   "name": "topo_gap_closure_02449",
+   "owner_reported_score": 0.2449,
+   "n_dots": 61328,
+   "credit_cat": 0.08950694650411606,
+   "credit_sgmc": 0.05796969309449196,
+   "dcat_med_m": 1414.213623046875,
+   "dsgmc_med_m": 1612.4515380859375,
+   "enrichment_cat": 2.195748351121418,
+   "enrichment_sgmc": 3.397017214607257
+  },
+  {
+   "name": "gate_ortho_w025_02376",
+   "owner_reported_score": 0.2376,
+   "n_dots": 40000,
+   "credit_cat": 0.0,
+   "credit_sgmc": 0.08533082902431488,
+   "dcat_med_m": 1920.9373779296875,
+   "dsgmc_med_m": 1300.0,
+   "enrichment_cat": 0.0,
+   "enrichment_sgmc": 5.000376570215938
+  },
+  {
+   "name": "h59_cover_ds_belief_02296",
+   "owner_reported_score": 0.2296,
+   "n_dots": 123939,
+   "credit_cat": 0.08590718358755112,
+   "credit_sgmc": 0.06343206018209457,
+   "dcat_med_m": 1486.60693359375,
+   "dsgmc_med_m": 1513.2745361328125,
+   "enrichment_cat": 2.10744041752308,
+   "enrichment_sgmc": 3.717111285121722
+  },
+  {
+   "name": "h19_5_powerlaw_01922",
+   "owner_reported_score": 0.1922,
+   "n_dots": 121131,
+   "credit_cat": 0.0875043198466301,
+   "credit_sgmc": 0.06085244193673134,
+   "dcat_med_m": 1456.02197265625,
+   "dsgmc_med_m": 1562.0499267578125,
+   "enrichment_cat": 2.1466207207772823,
+   "enrichment_sgmc": 3.565945958572037
+  },
+  {
+   "name": "h19_4_multiline_01894",
+   "owner_reported_score": 0.1894,
+   "n_dots": 123779,
+   "credit_cat": 0.08661989867687225,
+   "credit_sgmc": 0.062093544751405716,
+   "dcat_med_m": 1476.4822998046875,
+   "dsgmc_med_m": 1529.705810546875,
+   "enrichment_cat": 2.124924456955978,
+   "enrichment_sgmc": 3.6386744379116487
+  },
+  {
+   "name": "calib_h28ridge_01839",
+   "owner_reported_score": 0.1839,
+   "n_dots": 69281,
+   "credit_cat": 0.14686225354671478,
+   "credit_sgmc": 0.0376644991338253,
+   "dcat_med_m": 800.0,
+   "dsgmc_med_m": 2061.552734375,
+   "enrichment_cat": 3.602765636210654,
+   "enrichment_sgmc": 2.207135230621424
+  },
+  {
+   "name": "hedge_v2_01563",
+   "owner_reported_score": 0.1563,
+   "n_dots": 227507,
+   "credit_cat": 0.3267005980014801,
+   "credit_sgmc": 0.03901490569114685,
+   "dcat_med_m": 670.8203735351562,
+   "dsgmc_med_m": 1868.1541748046875,
+   "enrichment_cat": 8.014487449185223,
+   "enrichment_sgmc": 2.286268896457162
+  },
+  {
+   "name": "calib_h25ctx_01280",
+   "owner_reported_score": 0.128,
+   "n_dots": 174232,
+   "credit_cat": 0.18686729669570923,
+   "credit_sgmc": 0.03917123004794121,
+   "dcat_med_m": 608.2762451171875,
+   "dsgmc_med_m": 1923.5384521484375,
+   "enrichment_cat": 4.58415323752835,
+   "enrichment_sgmc": 2.295429485426078
+  },
+  {
+   "name": "calib_d15_02477",
+   "owner_reported_score": null,
+   "n_dots": 60069,
+   "credit_cat": 0.09017693251371384,
+   "credit_sgmc": 0.05820346623659134,
+   "dcat_med_m": 1486.60693359375,
+   "dsgmc_med_m": 1603.1219482421875,
+   "enrichment_cat": 2.2121841779852147,
+   "enrichment_sgmc": 3.410716293309122
+  },
+  {
+   "name": "r13_lattice_s5_00904",
+   "owner_reported_score": 0.0904,
+   "n_dots": 206895,
+   "credit_cat": 0.040680523961782455,
+   "credit_sgmc": 0.040537431836128235,
+   "dcat_med_m": 2319.482666015625,
+   "dsgmc_med_m": 2617.25048828125,
+   "enrichment_cat": 0.9979582244796109,
+   "enrichment_sgmc": 2.375488749937511
+  },
+  {
+   "name": "h52_coincidence8_80k",
+   "owner_reported_score": null,
+   "n_dots": 80000,
+   "credit_cat": 0.02466263435781002,
+   "credit_sgmc": 0.0608815923333168,
+   "dcat_med_m": 2051.828369140625,
+   "dsgmc_med_m": 1780.4493408203125,
+   "enrichment_cat": 0.6050138099949764,
+   "enrichment_sgmc": 3.5676541683921585
+  },
+  {
+   "name": "h60_officialstack_50k",
+   "owner_reported_score": null,
+   "n_dots": 50000,
+   "credit_cat": 0.0,
+   "credit_sgmc": 0.08983878791332245,
+   "dcat_med_m": 2692.582275390625,
+   "dsgmc_med_m": 1208.3045654296875,
+   "enrichment_cat": 0.0,
+   "enrichment_sgmc": 5.264542432259384
+  },
+  {
+   "name": "h60_union_d2_75308",
+   "owner_reported_score": null,
+   "n_dots": 75308,
+   "credit_cat": 0.0,
+   "credit_sgmc": 0.0285783801227808,
+   "dcat_med_m": 3238.8271484375,
+   "dsgmc_med_m": 2517.935791015625,
+   "enrichment_cat": 0.0,
+   "enrichment_sgmc": 1.6746897225146857
+  },
+  {
+   "name": "gems32_probe_s1_anchor_02600",
+   "owner_reported_score": 0.26,
+   "n_dots": 44090,
+   "credit_cat": 0.08969790488481522,
+   "credit_sgmc": 0.057953301817178726,
+   "dcat_med_m": 1500.0,
+   "dsgmc_med_m": 1612.4515380859375,
+   "enrichment_cat": 2.2004328651835054,
+   "enrichment_sgmc": 3.3960566876796485
+  },
+  {
+   "name": "bayesopt_dilation_scarp_d28",
+   "owner_reported_score": null,
+   "n_dots": 45000,
+   "credit_cat": 0.05569683015346527,
+   "credit_sgmc": 0.23147639632225037,
+   "dcat_med_m": 1802.775634765625,
+   "dsgmc_med_m": 1000.0,
+   "enrichment_cat": 1.3663321982114223,
+   "enrichment_sgmc": 13.564489668768838
+  }
+ ]
+}
