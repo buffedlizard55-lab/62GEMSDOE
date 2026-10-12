@@ -78,7 +78,8 @@ def test_uniqueness_numbers_on_the_pages_match_the_evidence():
     assert card["correlation_and_overlap_vs_registry"]["max_jaccard_vs_any_comparator"] == max_jac
     assert card["raster_sha256"] == ev["receipt"]["sha256"]
     # the two pages must quote the same hash and the same verdict
-    for page in (ROOT / "docs" / "index.html",
+    # docs/index.html carries the 2026-10-12 session; this session's page is preserved verbatim
+    for page in (ROOT / "docs" / "index-2026-10-11b-superseded.html",
                  ROOT / "docs" / "executive-summary-2026-10-11b.html"):
         text = page.read_text()
         assert ev["receipt"]["sha256"][:16] in text, f"{page.name} lacks the sha256"

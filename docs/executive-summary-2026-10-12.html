@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to make a GEMS submission — 2026-10-12</title>
+<style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;--warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+ font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.9em;margin:.2em 0 .1em}h2{font-size:1.35em;margin:1.6em 0 .5em;border-bottom:1px solid var(--bd);padding-bottom:.3em}
+h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.9em}
+pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.85em}
+table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}
+.mut{color:var(--mut)}.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:18px;margin:14px 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600;margin:2px 0}
+.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
+.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
+.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
+.hero{border:3px solid var(--no);border-radius:10px;padding:22px;margin:18px 0;background:rgba(248,81,73,.07)}
+.btn{display:inline-block;background:#30363d;color:#fff;font-weight:600;padding:12px 22px;border-radius:8px;margin:8px 8px 8px 0;border:1px solid var(--bd)}
+.btn:hover{background:#3d444d;text-decoration:none}
+.kv{font-size:.88em}.kv td:first-child{width:38%;color:var(--mut)}
+.big{font-size:1.5em;font-weight:700;word-break:break-all}
+</style></head><body><div class="wrap">
+<h1>How to make a competition submission</h1>
+<p class="mut">Executive summary · session 2026-10-12 · DOE GEMS Prize · DrivenData competition #306 ·
+<a href="index.html">← back to the front page</a></p>
+
+<div class="hero">
+<h2 style="border:0;margin-top:0">Read this first: the file generated this session must NOT be uploaded</h2>
+<p><code>gems62e-h62n-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-zeros.tif</code> is format-legal and isolated, but it fails the repository's own uniqueness gate
+(87.84 % of its dots within 3 px of <code>GEMSDOE22__gems22-h23-b-dti-optimal-emission-1…</code>, limit
+70 %). Uploading it would (a) breach the parallel-run protocol this
+repository operates under, and (b) spend a weekly submission slot on a field with no evidence of a
+gain. The steps below are written so that a future session can follow them once a field actually
+passes.</p>
+</div>
+
+<h2>1. The exact click path</h2>
+<ol>
+<li>Sign in at <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">https://www.drivendata.org/competitions/306/competition-doe-gems/</a>.</li>
+<li>Open <b>Submit</b> (also reachable from
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">the submissions page</a>)
+and upload the single <code>.tif</code> — or a <code>.zip</code> containing exactly one GeoTIFF.</li>
+<li>Paste the submission <b>name</b> and the <b>short note</b> (both below), then confirm.</li>
+<li>Wait for the portal's receipt. <b>The receipt score is the only ORGANIZER-CONFIRMED number that
+exists.</b> Nothing produced in this repository is organizer-confirmed, and no projection may ever be
+written into a score column.</li>
+<li>Record the receipt: the score, the UTC timestamp, the exact filename and its sha256, into
+<code>research/leaderboard_series.json</code> and the session's run card.</li>
+</ol>
+
+<h2>2. The file</h2>
+<table class="kv">
+<tr><td>path in this repository</td><td><code>docs/downloads/gems62e-h62n-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-zeros.tif</code></td></tr>
+<tr><td>bytes</td><td>243,379</td></tr>
+<tr><td>sha256</td><td><code>2f20698c5cbd886aca7cbbb6875d96015b15e736bfb28644aa286e478d543ddf</code></td></tr>
+<tr><td>bands / dtype</td><td>1 band, float32</td></tr>
+<tr><td>CRS / resolution</td><td>EPSG:32611, 100 m</td></tr>
+<tr><td>shape</td><td>3730 × 3292 (rows × cols)</td></tr>
+<tr><td>transform</td><td>[100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0]</td></tr>
+<tr><td>nodata</td><td>None — deliberately absent (see §4)</td></tr>
+<tr><td>value range</td><td>[0, 1], all finite,
+0 NaN inside the footprint</td></tr>
+<tr><td>dots</td><td>40,000 single-pixel values of 1.0 on an all-zero grid; minimum
+dot-to-dot separation 400 m</td></tr>
+<tr><td>format receipt (from the bytes re-read from disk)</td>
+<td>legal = True; validator passed = True;
+failures = []</td></tr>
+</table>
+
+<h2>3. The unique submission filename</h2>
+<p><code>gems62e-h62n-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-zeros.tif</code></p>
+<p class="mut">Convention: <code>&lt;repo&gt;&lt;lane&gt;-h&lt;hypothesis id&gt;-&lt;what it
+is&gt;-&lt;n dots&gt;dots-&lt;UTC date&gt;-&lt;first 12 hex of the file's own sha256&gt;-&lt;outside
+encoding&gt;</code>. The embedded hash makes the name self-authenticating: anyone can check that the
+bytes they downloaded are the bytes that were named, and two artifacts can never share a name.
+A NaN-outside twin is also published (<code>gems62e-h62n-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-nan.tif</code>) for viewers that need the footprint
+encoded as NaN; <b>upload the <code>-zeros</code> file</b>, because NaN outside the footprint is one
+of the two mechanisms behind the portal's range rejection.</p>
+
+<h2>4. The regression this repository must never repeat</h2>
+<p>A previous upload was rejected with <b>"Predicted values must be in range [0, 1]"</b>. Two
+mechanisms produce that message, and <code>src/gems62/grid.py::write_submission</code> removes both,
+then re-reads the bytes from disk and re-counts before returning a receipt:</p>
+<ul>
+<li>a float32 sentinel such as <code>-3.4028234663852886e+38</code> (the organiser stack's nodata)
+left anywhere in the array;</li>
+<li>a NaN nodata <i>tag</i> written into the TIFF metadata, which the portal reads as an out-of-range
+value even when every finite pixel is inside [0, 1].</li>
+</ul>
+<p>The shipped file carries <b>no nodata tag at all</b> and encodes "outside the footprint" as 0.0.</p>
+
+<h2>5. The short note (133/140 characters)</h2>
+<p><code>62e: 40k isolated dots, blocked OOF detector on the 19-band stack x LiDAR scarp. Uniqueness gate: DUPLICATE-STOP. Not for submission.</code></p>
+
+<h2>6. What a future session must do before spending a slot</h2>
+<ol>
+<li>Beat the best local evidence. The protocol forbids spending a slot on an idea that has not beaten
+the current holdout best — and this session's own instruments are documented as unable to rank a
+<i>new</i> field at all (see <a href="index.html#why">why no gain can be certified</a>). Any claim of
+improvement must be MEASURED, not MODEL.</li>
+<li>Clear the uniqueness gate mechanically: ρ ≤ 0.90 and ≤ 70 % within 3 px against <i>every</i>
+non-vacuous registry raster, checked on the surface <i>before</i> placement and on the final dots,
+plus the isolated-random control (without it the 3 px leg is density-blind — IR-62-22).</li>
+<li>Close the arrangement gap. Inside the M ≈ 37,000-44,000 band, every field scoring 0.26-0.2778
+carries dens21 8.75-9.62 and coh21 0.307-0.336; this field carries 4.56 and
+0.1593. Dots must lie along coherent corridors, and a hard-core selection of a smooth
+probability surface does not produce that (experiment 11 refuted the smooth fix).</li>
+<li>Keep the isolation: at least 400 m between any two dots, so no dot competes with another inside
+one 300 m kernel (self-kernel must stay ≈ 0).</li>
+<li>Keep it off the catalogue: catalogue fault pixels are masked out of scoring, so any dot on them is
+pure FP mass.</li>
+</ol>
+
+<h2>7. Labels used throughout this repository</h2>
+<table>
+<tr><th>label</th><th>meaning</th></tr>
+<tr><td><b>ORGANIZER-CONFIRMED</b></td><td>a score that appeared on a submission-page receipt. None
+exists in this repository.</td></tr>
+<tr><td><b>HOLDOUT-DTI</b></td><td>evaluator version, number of withheld positives, and a 95 % CI.
+This session's: <code>gems62.holdout_segmented v1</code>, 81,993 withheld
+positives over 2297 segments, pooled DTI 0.0000, CI
+[0.0000, 0.0000] — retired as a gate by
+IR-62-HOLDOUT-01.</td></tr>
+<tr><td><b>MEASURED-INSTRUMENT</b></td><td>a locally measured quantity with a stated held-out
+agreement against owner-reported scores, usable for ranking only.</td></tr>
+<tr><td><b>MODEL</b></td><td>arithmetic on the published metric with inherited assumptions. Never
+written as a score.</td></tr>
+<tr><td><b>OWNER-REPORTED / MIRROR</b></td><td>a number attached to a fetched raster, or a mirror of
+the leaderboard, that this sandbox could not confirm with the organiser.</td></tr>
+</table>
+
+<p class="mut">Generated by <code>scripts/make_site_20261012.py</code> from
+<code>evidence/run_card_20261012.json</code>.</p>
+</div></body></html>

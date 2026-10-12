@@ -140,3 +140,54 @@ composite (USGS 3DEP 1 m, public domain) or stop treating it as basin-wide.
   58 %, so ~25 % of the grid is mapped only from 10 m topography.
 * The protocol's "≤ 70 % of dots within 3 px of one registry raster" leg is **unsatisfiable by any
   field** (measured: uniform-random 0.9987, 3 px lattice 0.9988 against the same comparator).
+
+## Added 2026-10-12 by session `arena/90112fbe-62gemsdoe`
+
+**This session's outcome in one line:** a format-legal, perfectly isolated, champion-profile-matched
+40,000-dot field was built from the organiser's own 19-band stack — and it **tripped the uniqueness
+gate** (87.84 % of its dots within 3 px of one registry raster, limit 70 %; 32.45 % exact pixel
+overlap = 3.24× chance), so it is published for inspection and **must not be submitted**.
+
+### Ranked next steps
+
+1. **Emit from evidence the comparators do not share.** The duplicate trip is a consequence of shared
+   inputs, not of copying: `GEMSDOE22 h23-b` is a "DTI-optimal emission" over the same public layers.
+   The only emission geometry in the registry that is *not* derivable from the 19-band stack is a
+   **corridor trace**: seed on a LiDAR scarp ridge, extend along structure-tensor coherence while the
+   evidence holds, dot every 300 m along the trace. That is also what the top family's arrangement
+   implies (dens21 8.75-9.62, coh21 0.307-0.336).
+2. **Add the arrangement gate to the protocol.** Experiment 10 shows that inside a mass band the
+   arrangement separates 0.2778 from 0.0778, and experiment 11 shows a smooth density multiplier
+   cannot fix it (dens21 4.56 → 4.44). Any future field should be rejected before the uniqueness check
+   unless `dens21 ∈ [7, 12]` and `coh21 ≥ 0.25`. Implement as
+   `src/gems62/arrangement.py` (one shared tool, not a fork).
+3. **Fix the uniqueness tool's density-blind legs once, in the template** (`IR-62-28`): normalise
+   Jaccard-3px by the isolated-random control for the same comparator; keep the exact-pixel leg
+   absolute (chance is computable in closed form as `positives / footprint`).
+4. **Retire the segmented holdout formally** (`IR-62-27`): its positives are mapped catalogue
+   segments, so it returns exactly 0.0 for any off-catalogue design and 0.0575 for random dots. If a
+   hide-and-recover instrument is still wanted, the withheld positives must come from an
+   *expert-mapped new-fault* set, which the organiser will not share (forum 11527) — so the honest
+   status is that no local instrument can rank a new field.
+5. **De-duplicate the registry before every fit** (`IR-62-25`): 79 rows → 47 distinct fields. Also
+   re-derive `research/registry_index.json`'s sha column (`IR-62-26`) or stop quoting it as a pin.
+6. **Re-run cost for a fresh session.** `/tmp/*` and `build/*` are outside the snapshot: re-fetch the
+   87 registry rasters and the 419 MB stack (both via `api.github.com`), then `exp6` (517 s),
+   `exp8` (39 s), `exp9` (16 s), `exp10` (85 s), `exp11` (11 s), `exp12` (139 s). Dependencies:
+   `pip install --break-system-packages numpy scipy rasterio pillow pytest scikit-learn matplotlib`.
+
+### Limitations this session could not remove
+
+* **Still zero organizer-confirmed scores.** Every number here is MEASURED on fetched bytes,
+  OWNER-REPORTED, MIRROR, or MODEL.
+* **No instrument available in this sandbox can certify placement quality.** `h34-scatter` matched the
+  champion's mass and SGMC credit and beat its LiDAR mean, and scored 0.0778 against 0.2778.
+* `drivendata.org` and USGS hosts are unreachable; only `github.com`, `api.github.com`,
+  `codeload.github.com`, `pypi.org` and `registry.npmjs.org` are. Forum threads 11516/11527/11536
+  could not be re-read this session and are carried as OWNER-REPORTED.
+* The LiDAR scarp composite covers **75.34 %** of the scoring footprint (bands 6-8: 62.07 %); the
+  25 m DEM covers **52.21 %**. The remaining area is mapped from 10 m topography and the organiser's
+  geophysics only.
+* The lane's own datum-only emission is measured below chance (0.61× isolated-random control) and the
+  pluvial lake-flat habitat 0.03×; `lane_datumband` yields **59** hard-core dots. The lane survives
+  as three detector features, not as an emitter.
