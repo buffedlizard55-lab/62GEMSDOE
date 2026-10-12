@@ -1,0 +1,25 @@
+{
+ "verdict": "NEGATIVE RESULT - do not submit",
+ "ok_to_submit": false,
+ "note": "The lake-flat bench cross-cut rule finds nothing that an independent compilation does not already place better at random. Kept because a measured negative, with its control, is the useful artifact.",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+ "expected_value_label": "instrument-B credit 0.0420 vs mass-matched isolated-random control 0.04330 +- 0.00165 (0.97x, i.e. below chance)",
+ "artifact_of": "scripts/run_h62g.py",
+ "evidence": [
+  "evidence/h62g/control_mass_matched.json",
+  "evidence/h62g/mass_selection.json",
+  "docs/hypotheses-2026-10-11.md"
+ ],
+ "name": "gems62-h62g-benchcrosscut-hardcore-zeros.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "79eb0a7ddc2dcfb4667bff41bbc237f8d5663dd63e025eed79af8c8f984ed500",
+ "bytes": 98893,
+ "dots": 10000,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

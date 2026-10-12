@@ -78,9 +78,7 @@ def test_uniqueness_numbers_on_the_pages_match_the_evidence():
     assert card["correlation_and_overlap_vs_registry"]["max_jaccard_vs_any_comparator"] == max_jac
     assert card["raster_sha256"] == ev["receipt"]["sha256"]
     # the two pages must quote the same hash and the same verdict
-    # 2026-10-12: the hero now quotes the H63 artifact; this archived artifact's hash is
-    # checked on the pages that still describe it.
-    for page in (ROOT / "docs" / "run-card.html",
+    for page in (ROOT / "docs" / "index-20261011b.html",
                  ROOT / "docs" / "executive-summary-2026-10-11b.html"):
         text = page.read_text()
         assert ev["receipt"]["sha256"][:16] in text, f"{page.name} lacks the sha256"

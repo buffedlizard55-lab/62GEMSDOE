@@ -53,7 +53,7 @@ def build_surfaces(data: str, *, order: int, slope_max_deg: float, min_cells: in
     idx = np.nonzero(keep)[0]
     benches = [benches[i] for i in idx]
     rho, _ = lahontan.local_isobase(benches, (bz - ib)[idx])
-    residual = (bz - ib)[idx] - rho
+    residual = rho
 
     full, evid = lahontan.datum_offset_surface(
         benches, residual, dem.shape, step_threshold_m=step_threshold_m)

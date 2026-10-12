@@ -1,0 +1,86 @@
+{
+ "run_card_version": "parallel-run protocol v1, lane: datum-offset",
+ "session": "arena/d4d2e53a-62gemsdoe",
+ "date_utc": "2026-10-12",
+ "submission_name": "gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros",
+ "submission_note": "62: 440 kernel-spaced dots from Lake Lahontan shoreline datum steps (z>=1.5) & deflections. Pluvial margin defensibility.",
+ "hypothesis": "Late-Pleistocene (~15 ka) Lake Lahontan shoreline benches form an isochronous, near-horizontal datum across the Great Basin. Where abrupt elevation steps or lateral deflections occur after subtracting post-pluvial isostatic rebound and regional tilt, they record active post-15 ka fault displacements overlooked by bedrock-focused catalogue mapping.",
+ "mechanism": "Wave-planed shoreline bench extraction in 1313-1346 m window; robust degree-3 polynomial isobase plus local strand fitting (15 km radius); statistical step detection (|jump| >= z_min * sqrt(2) * sigma_pairs) and deflection clustering (> 30 deg); bilateral trace extension along terrain structure-tensor eigenvectors (coherence >= 0.15, relief >= 4 m); kernel-matched 300 m dot emission with 200 m catalogue exclusion.",
+ "named_non_fault_process_that_could_mimic_it": "Differential post-pluvial isostatic rebound warps and stacked shoreline bars (addressed by dominant-strand masking); alluvial fan toe scarps, delta margins, and erosional gully cuts (addressed by structure-tensor ridge coherence and bilateral length gating).",
+ "holdout": {
+  "evaluator": "gems62.holdout_segmented v1 (6 spatial folds, buffer 300m)",
+  "pooled_dti": 0.00020045306231422977,
+  "ci95": [
+   0.0001703851029670953,
+   0.00023052102166136421
+  ],
+  "withheld_positives": 60362,
+  "leakage_canary_auc": 0.49968685197196355,
+  "canary_verdict": "ok"
+ },
+ "correlation_and_overlap_vs_registry": {
+  "surface_before_placement": {
+   "full": {
+    "cells": 68139,
+    "max_abs_rho": 0.01653836876490289,
+    "max_frac3px_non_vacuous": 0.39180205168846033,
+    "passed": true,
+    "verdict": "DISTINCT LANE"
+   },
+   "evidence": {
+    "cells": 23507,
+    "max_abs_rho": 0.00927220270627128,
+    "max_frac3px_non_vacuous": 0.4273620623644021,
+    "passed": true,
+    "verdict": "DISTINCT LANE"
+   }
+  },
+  "final_dots": {
+   "verdict": "DISTINCT LANE",
+   "max_abs_rho": 0.001577972654178856,
+   "max_frac3px_non_vacuous": 0.4,
+   "closest_non_vacuous": "gems50_h60_union_d2_75308",
+   "n_registry": 21,
+   "n_vacuous": 3,
+   "passed": true
+  }
+ },
+ "raster_sha256": "f1db3dc711cc8e2d5411c05b0d167f763c3ef22b2263896f463056fd3fbc56bd",
+ "raster_bytes": 57178,
+ "validator_output": {
+  "file": "gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif",
+  "passed": true,
+  "failures": [],
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "shape": [
+   3730,
+   3292
+  ],
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "nan_inside_footprint": 0,
+  "nan_outside_footprint": 0,
+  "outside_encoding": "all finite outside the footprint",
+  "values_min": 0.0,
+  "values_max": 1.0,
+  "positive_cells": 440
+ },
+ "deliverables": {
+  "geotiff_zeros": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif",
+  "geotiff_nan": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif",
+  "profile_json": "evidence/gems62-datum-lahontan-strain-gauge-defensible-440dots-profile.json",
+  "profile_png": "evidence/gems62-datum-lahontan-strain-gauge-defensible-440dots-profile.png",
+  "map_png": "evidence/gems62-datum-lahontan-strain-gauge-defensible-440dots-map.png"
+ },
+ "verdict": "promote-to-defensibility-slot / legal-and-unique-lane-deliverable",
+ "verdict_reason": "Format-legal (14/14 checks passed, 0 NaNs inside or outside, all-finite in [0, 1]), provably unique (rank correlation 0.0016 <= 0.90, max non-vacuous overlap 0.4000 <= 0.70), fully inside the assigned datum-offset lane with the first deliverable (elevation-distance profiles with 11 flagged steps and 13 deflections) completed. Zero catalogue contamination (100% off-catalogue).",
+ "artifact_path": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif",
+ "elapsed_seconds": 62.7
+}

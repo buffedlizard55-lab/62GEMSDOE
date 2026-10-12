@@ -1,0 +1,37 @@
+{
+ "file": "h62j1.tif",
+ "bytes": 86109,
+ "sha256": "cd531b48b4cfc152ec119a303c8ccaacba3c66f1e166efc60385658bed97d0e8",
+ "driver": "GTiff",
+ "count": 1,
+ "dtype": "float32",
+ "crs": "EPSG:32611",
+ "transform": [
+  100.0,
+  0.0,
+  243350.0,
+  0.0,
+  -100.0,
+  4508550.0
+ ],
+ "shape": [
+  3730,
+  3292
+ ],
+ "res": [
+  100.0,
+  100.0
+ ],
+ "nodata": null,
+ "width_height_match": true,
+ "crs_match": true,
+ "transform_match": true,
+ "all_finite": true,
+ "nan_count": 0,
+ "min": 0.0,
+ "max": 1.0,
+ "n_outside_0_1": 0,
+ "n_positive": 8571,
+ "total_mass": 8571.0,
+ "legal": true
+}

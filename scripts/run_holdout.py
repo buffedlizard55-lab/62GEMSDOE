@@ -75,6 +75,10 @@ def main() -> int:
     ap.add_argument("--folds", type=int, default=6)
     ap.add_argument("--min-fault-px", type=int, default=250)
     ap.add_argument("--buffer-px", type=int, default=3)
+    ap.add_argument("--fields", default=None,
+                    help="optional .npz of same-shape 100 m feature arrays; each is scored "
+                         "stand-alone against the withheld truth (the protocol's leakage canary: "
+                         "AUC > 0.90 means leakage until proven otherwise)")
     args = ap.parse_args()
 
     import rasterio
@@ -157,6 +161,30 @@ def main() -> int:
                             auc_mean=float(np.nanmean(aucs)) if aucs else None,
                             verdict=("LEAKAGE-SUSPECT" if (np.nanmean(aucs) if aucs else 0) > 0.90
                                      else "ok"))
+    extra_canary: dict[str, dict] = {}
+    if args.fields:
+        fz = np.load(args.fields)
+        for name in fz.files:
+            f = np.asarray(fz[name], np.float32)
+            if f.shape != (H, W):
+                extra_canary[name] = dict(error=f"shape {f.shape} != {(H, W)}")
+                continue
+            f = np.nan_to_num(f, nan=0.0, posinf=0.0, neginf=0.0).ravel()
+            aucs = []
+            for fold in folds:
+                rr0, rr1 = fold["rows"]; cc0, cc1 = fold["cols"]
+                inner = np.zeros((H, W), bool); inner[rr0:rr1, cc0:cc1] = True
+                interior = ndimage.binary_erosion(inner, iterations=args.buffer_px, border_value=0)
+                interior &= footprint
+                pos = np.nonzero((known & interior).ravel())[0]
+                neg = np.nonzero((interior & ~known).ravel())[0]
+                stride = max(1, neg.size // 200000)
+                aucs.append(auc(f, pos, neg[::stride]))
+            mean = float(np.nanmean(aucs)) if aucs else float("nan")
+            extra_canary[name] = dict(auc_per_fold=[float(a) for a in aucs], auc_mean=mean,
+                                       verdict="LEAKAGE-SUSPECT" if mean > 0.90 else "ok")
+        canary["user_fields"] = extra_canary
+
     report = dict(
         emission=pathlib.Path(args.emission).name,
         emission_sha256=grid.sha256(args.emission),
