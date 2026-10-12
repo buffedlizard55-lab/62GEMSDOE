@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""H63 — choose the emission density and mass on the calibrated proxy instrument.
+"""H63M — choose the emission density and mass on the calibrated proxy instrument.
 
 `h63_emit.py --stage measure` fixed the belief fields.  This script sweeps the two
 remaining policy axes -- **non-maximum-suppression radius** (how densely the dots are

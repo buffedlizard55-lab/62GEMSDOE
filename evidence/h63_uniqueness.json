@@ -1,5 +1,5 @@
 {
- "raster": "gems62-h63-multiline-corroborated-90000-zeros.tif",
+ "raster": "gems62-h63m-multiline-corroborated-90000-zeros.tif",
  "raster_sha256": "3b04880d5cd9f72806b35e19e23be80a421d90d595466ce19ac5315a61cdfacf",
  "n_registry": 21,
  "thresholds": {

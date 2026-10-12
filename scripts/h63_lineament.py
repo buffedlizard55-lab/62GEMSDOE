@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""H63 — catalogue-free lineament detectors, measured on two free truth proxies.
+"""H63M — catalogue-free lineament detectors, measured on two free truth proxies.
 
 Why catalogue-free: a detector that never reads the catalogue cannot leak it, so the
 whole catalogue (and the whole SGMC off-catalogue set) can be used as the instrument

@@ -1,0 +1,26 @@
+{
+ "verdict": "FORMAT PROBE TWIN, NOT THE SUBMISSION - the same dot set as the -zeros file encoded with NaN outside the footprint and a NaN nodata tag, so it fails this repository's stricter convention (no_nodata_tag, no_nan_anywhere) and is kept only to keep the two encodings of one field comparable. The published contract permits null/nan outside the footprint, but a float32 nodata sentinel is one of the two mechanisms behind the portal error 'Predicted values must be in range [0, 1]', so the -zeros twin is the one offered for submission",
+ "ok_to_submit": false,
+ "note": "identical predictions to the -zeros file; this file is the probe that shows what the NaN encoding looks like to the validator, and it is labelled illegal rather than OK to submit",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted",
+ "expected_value_label": "same field as the -zeros twin; no separate score is expected",
+ "artifact_of": "scripts/build_h63_diffuse_isolated.py (session arena/61e7859a, 2026-10-12)",
+ "evidence": [
+  "evidence/h63_diffuse_isolated_runcard.json"
+ ],
+ "name": "gems62-h63-diffuse-isolated-offcat-40k-nan.tif",
+ "format_legal": false,
+ "fails": [
+  "no_nodata_tag",
+  "no_nan_anywhere"
+ ],
+ "portal_range_risk": "low",
+ "nonfinite_pixels": 7111787,
+ "sha256": "c57d88adf4f6c39c626c4f8cfb805ed51be174c3c1187ced9b05111c318a5e01",
+ "bytes": 330994,
+ "dots": 40000,
+ "checks_passed": 12,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

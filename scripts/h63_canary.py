@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""H63 — leakage canary: score every feature ALONE on the held-out spatial blocks.
+"""H63M — leakage canary: score every feature ALONE on the held-out spatial blocks.
 
 Protocol rule 4: *"Test each feature alone on the holdout before trusting any result.
 AUC above 0.90 means leakage until proven otherwise."*

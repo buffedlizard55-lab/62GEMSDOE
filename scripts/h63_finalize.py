@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""H63 — write, certify and describe the submission raster.
+"""H63M — write, certify and describe the submission raster.
 
 The emission decided by ``evidence/h63_policy.json``:
   belief  = dem3  = rank-average of {dem_scarp_curvature, dem_local_relief_tpi3,
@@ -31,13 +31,13 @@ from gems62.validate import validate_submission  # noqa: E402
 
 OUT = HERE / "data" / "h63"
 EV = HERE / "evidence"
-DL = HERE / "lane62-h63" / "docs" / "downloads"
+DL = HERE / "lane62-h63m" / "docs" / "downloads"
 
 FIELD = "dem3"
 RADIUS_PX = 1
 MASS = 90_000
 OFFCAT_M = 300
-NAME = "gems62-h63-multiline-corroborated-90000"
+NAME = "gems62-h63m-multiline-corroborated-90000"
 
 
 def log(m: str) -> None:

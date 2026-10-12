@@ -1,0 +1,27 @@
+{
+ "verdict": "FORMAT PROBE (NaN outside the footprint, nodata=NaN) - never submitted; passes the published contract, fails this lane's stricter convention, shipped by another lane as a twin",
+ "ok_to_submit": false,
+ "note": "440 dots, 125,332 B, non-finite outside the footprint with a NaN nodata tag, so portal range risk is 'low' (a masked reader never sees the NaN) rather than 'high'. Same convention label as gems62-lahontan-isobase-99dots-nan.tif; nothing here claims NaN is rejected by the portal.",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+ "expected_value_label": "no score expected - it exists to record what the NaN twin of the same field looks like to the portal's validator",
+ "artifact_of": "scripts/run_lane_session.py (session arena/d4d2e53a)",
+ "evidence": [
+  "docs/downloads/gems62-lahontan-isobase-99dots-nan.verdict.json",
+  "docs/irregularities.md (IR-62-J-01)"
+ ],
+ "name": "gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif",
+ "format_legal": false,
+ "fails": [
+  "no_nodata_tag",
+  "no_nan_anywhere"
+ ],
+ "portal_range_risk": "low",
+ "nonfinite_pixels": 7111787,
+ "sha256": "fa7a68ba411da82e3265f48ec6bf3638d70875df8de65e666e3cfacd008ab39f",
+ "bytes": 125332,
+ "dots": 440,
+ "checks_passed": 12,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

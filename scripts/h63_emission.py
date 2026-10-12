@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""H63 — emission-policy sweep on the cached, spatially-blocked holdout probabilities.
+"""H63M — emission-policy sweep on the cached, spatially-blocked holdout probabilities.
 
 Reads the per-fold out-of-sample probability fields written by ``h63_train.py`` and
 evaluates emission policies the way the protocol asks:

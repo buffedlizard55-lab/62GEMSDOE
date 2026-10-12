@@ -45,6 +45,10 @@ lane62-h62a/evidence/verification_report_ci.json
 # -nan twin and the .zip) are deliberately TRACKED, not ignored: they are the
 # one-click deliverable the site points at, and together they are 432 kB.
 
+# GDR-1391 CSV extracts on the competition grid (scripts/fetch_external.py, sha-pinned):
+# re-creatable from the sibling public repo, so they stay out of git.
+data/external/*.csv
+
 # ---- H63 (session arena/4ef3d5d6-62gemsdoe) -----------------------------------------
 # All heavy inputs are re-derivable from hash-pinned sources (see registry/data_pins.json
 # and evidence/h63_features.json) and stay out of git.  Reproduction:

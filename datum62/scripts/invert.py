@@ -13,7 +13,14 @@ from scipy.ndimage import binary_dilation, distance_transform_edt
 ROOT = Path(__file__).resolve().parents[2]
 G60 = Path("/tmp/g60/x/60GEMSDOE-main"); BUILD = Path("/tmp/datum62build")
 OUT = ROOT / "datum62" / "evidence"
-R = 3.0; KERN = np.maximum(1.0 - np.arange(24) / R, 0.0).astype(np.float32)
+R = 3.0  # px; official kernel support = 300 m at 100 m pixels
+# FIX 2026-10-12 (session arena/778884cc, IR-62-25): the table below was defined in PIXEL units
+# (zero at j >= 3) but indexed with QUARTER-pixel indices (dm*4), shrinking the effective kernel
+# to 75 m and zeroing every contribution beyond 0.75 px.  The table is now defined on the same
+# quarter-pixel grid used for indexing (zero at j >= 12  <=>  dm >= 3 px = 300 m).  The committed
+# evidence (datum62/evidence/inverse_truth.json) was produced with the buggy kernel; the corrected
+# reconstruction is scripts/reconstruct_sstar.py -> evidence/sstar_fixed/.
+KERN = np.maximum(1.0 - np.arange(24) / (R * 4), 0.0).astype(np.float32)
 def rd(p, idx=1):
     with rasterio.open(p) as d: return d.read(idx).astype(np.float32)
 with rasterio.open(ROOT / "data/sample_submission.tif") as d: tmpl = d.read(1)

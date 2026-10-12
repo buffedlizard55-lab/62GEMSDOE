@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""H63 — is the 3-px lane-drift tripwire satisfiable against these registry rasters?
+"""H63M — is the 3-px lane-drift tripwire satisfiable against these registry rasters?
 
 The parallel-run protocol says: *"if more than 70 % of your dots fall within 3 px of one
 registry raster's dots you have drifted into another lane"*.  That test is only meaningful
@@ -29,7 +29,7 @@ from gems62.grid import HEIGHT, WIDTH, PIXEL_M  # noqa: E402
 
 OUT = HERE / "data" / "h63"
 REG = HERE / "data" / "registry"
-RASTER = HERE / "lane62-h63/docs/downloads/gems62-h63-multiline-corroborated-90000-zeros.tif"
+RASTER = HERE / "lane62-h63m/docs/downloads/gems62-h63m-multiline-corroborated-90000-zeros.tif"
 MASS = 90_000
 OFFCAT_M = 300
 

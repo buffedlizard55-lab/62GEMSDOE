@@ -1,0 +1,57 @@
+{
+ "evaluator": "gems62.levels v1",
+ "n_seeds": 828,
+ "n_traces": 771,
+ "trace_km": 6983.000000001456,
+ "emission": {
+  "n_traces": 771,
+  "n_sampled": 24037,
+  "n_dropped_outside_footprint": 0,
+  "n_dropped_catalogue_exclusion": 2195,
+  "n_dots": 14765,
+  "spacing_m": 300.0,
+  "exclusion_m": 300.0,
+  "min_separation_m": 300.0,
+  "max_kernel_mass_from_other_dots": 0.0,
+  "n_dots_with_kernel_overlap": 0,
+  "frac_dots_with_kernel_overlap": 0.0,
+  "_note": "isolation is measured against the metric kernel k(d)=max(1-d/300m,0); a neighbour at exactly 300 m contributes 0"
+ },
+ "receipt": {
+  "file": "gems62-h62r-multilevel-datum-repeat-offset-zeros.tif",
+  "bytes": 116946,
+  "sha256": "d5a15369fdd8863f73691ad01d2557feafd8f901d442d593c4f4b9bd858b4731",
+  "driver": "GTiff",
+  "count": 1,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "shape": [
+   3730,
+   3292
+  ],
+  "res": [
+   100.0,
+   100.0
+  ],
+  "nodata": null,
+  "width_height_match": true,
+  "crs_match": true,
+  "transform_match": true,
+  "all_finite": true,
+  "nan_count": 0,
+  "min": 0.0,
+  "max": 1.0,
+  "n_outside_0_1": 0,
+  "n_positive": 14765,
+  "total_mass": 14765.0,
+  "legal": true
+ }
+}

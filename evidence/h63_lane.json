@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-12T01:54:32Z",
+ "generated_utc": "2026-10-12T02:12:57Z",
  "evidence_class": "MEASURED (src/gems62/lahontan.py on the pinned 100 m DEM)",
  "dem": {
   "path": "data/external/geodawn_dem_a2_100m.tif",
@@ -31373,5 +31373,5 @@
    }
   ]
  },
- "seconds": 3.4
+ "seconds": 2.8
 }

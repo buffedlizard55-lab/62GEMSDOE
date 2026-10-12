@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""H63 — spatially-blocked hide-and-recover training + emission-policy sweep.
+"""H63M — spatially-blocked hide-and-recover training + emission-policy sweep.
 
 Instrument (the protocol's hide-and-recover, built on the template's own metric)
 ------------------------------------------------------------------------------

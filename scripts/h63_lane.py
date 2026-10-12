@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""H63 — the lane's FIRST DELIVERABLE, rebuilt on the full-footprint 100 m DEM.
+"""H63M — the lane's FIRST DELIVERABLE, rebuilt on the full-footprint 100 m DEM.
 
 The brief: *"Map shoreline benches in the DEM and fit a smooth isobase, allowing for
 post-pluvial isostatic rebound. Flag abrupt steps or lateral deflections along strike ...
@@ -29,7 +29,7 @@ from gems62.grid import PIXEL_M, HEIGHT, WIDTH  # noqa: E402
 import gems62.lahontan as L  # noqa: E402
 
 EV = HERE / "evidence"
-DOCS = HERE / "lane62-h63" / "docs"
+DOCS = HERE / "lane62-h63m" / "docs"
 DEM = HERE / "data" / "external" / "geodawn_dem_a2_100m.tif"
 DEM_SHA = "d32762a38222764389e948da423ebc6cadd00ac617ad3938d3dd79c6cfe14431"
 

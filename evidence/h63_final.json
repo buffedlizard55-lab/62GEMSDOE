@@ -1,8 +1,8 @@
 {
- "generated_utc": "2026-10-12T01:47:35Z",
+ "generated_utc": "2026-10-12T02:12:54Z",
  "submission": {
-  "name": "gems62-h63-multiline-corroborated-90000",
-  "path": "lane62-h63/docs/downloads/gems62-h63-multiline-corroborated-90000-zeros.tif",
+  "name": "gems62-h63m-multiline-corroborated-90000",
+  "path": "lane62-h63m/docs/downloads/gems62-h63m-multiline-corroborated-90000-zeros.tif",
   "sha256": "3b04880d5cd9f72806b35e19e23be80a421d90d595466ce19ac5315a61cdfacf",
   "bytes": 338731
  },
@@ -14,7 +14,7 @@
   "value": 1.0
  },
  "format_receipt": {
-  "file": "gems62-h63-multiline-corroborated-90000-zeros.tif",
+  "file": "gems62-h63m-multiline-corroborated-90000-zeros.tif",
   "bytes": 338731,
   "sha256": "3b04880d5cd9f72806b35e19e23be80a421d90d595466ce19ac5315a61cdfacf",
   "driver": "GTiff",
@@ -88,5 +88,5 @@
   "blocks_occupied_of_1600": 721
  },
  "evidence_class": "MEASURED for every 'measured' key (exact 300 m kernel on the two free truth proxies); the DTI columns are PROXY values, not organiser scores",
- "seconds": 16.9
+ "seconds": 15.5
 }

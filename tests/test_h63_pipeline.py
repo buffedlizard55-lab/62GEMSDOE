@@ -1,4 +1,4 @@
-"""H63 regression tests — the invariants that must hold for the shipped artifact.
+"""H63M regression tests — the invariants that must hold for the shipped artifact.
 
 They read only the committed evidence JSONs and the shipped raster bytes, so they run
 anywhere without the heavy inputs.
@@ -14,7 +14,7 @@ import pytest
 HERE = pathlib.Path(__file__).resolve().parents[1]
 EV = HERE / "evidence"
 TIF = (HERE / "lane62-h63" / "docs" / "downloads"
-       / "gems62-h63-multiline-corroborated-90000-zeros.tif")
+       / "gems62-h63m-multiline-corroborated-90000-zeros.tif")
 
 
 def _load(name):

@@ -58,7 +58,7 @@
   "class": "MEASURED"
  },
  "raster": {
-  "name": "gems62-h63-multiline-corroborated-90000",
+  "name": "gems62-h63m-multiline-corroborated-90000",
   "sha256": "3b04880d5cd9f72806b35e19e23be80a421d90d595466ce19ac5315a61cdfacf",
   "bytes": 338731,
   "n_dots": 90000
@@ -73,7 +73,7 @@
   "transform_match": true,
   "nodata_tag": null
  },
- "submission_note": "H63: 90k dots; rank-average corroboration of DEM scarp curvature, local relief and a directional line filter, >=300 m off the catalogue.",
+ "submission_note": "H63M: 90k dots; rank-average corroboration of DEM scarp curvature, local relief and a directional line filter, >=300 m off the catalogue.",
  "verdict": "promote",
  "lane_result": {
   "benches": 479,

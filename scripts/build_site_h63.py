@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the H63 site from the evidence JSONs.  No number is typed by hand here.
+"""Build the H63M site from the evidence JSONs.  No number is typed by hand here.
 
 Every figure on every page comes from ``evidence/h63_*.json`` or from the pinned
 registry/leaderboard files, so a reviewer can diff the page against the data.
@@ -12,7 +12,7 @@ import sys
 
 HERE = pathlib.Path(__file__).resolve().parents[1]
 EV = HERE / "evidence"
-DOCS = HERE / "lane62-h63" / "docs"
+DOCS = HERE / "lane62-h63m" / "docs"
 DOCS.mkdir(parents=True, exist_ok=True)
 (DOCS / ".nojekyll").write_text("")
 
@@ -76,6 +76,34 @@ def esc(s) -> str:
     return (str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
 
 
+
+def _insert_after_current_hero(text: str, banner: str) -> str:
+    """Put the H63M card after the session hero that already owns the top of the page.
+
+    The landing page is shared.  ``tests/test_docs_current_20261012.py`` asserts that the
+    *first* ``class="btn" href="downloads/...tif"`` on the page is the currently active
+    session's artifact, so a second lane may advertise its file only below that hero, never
+    above it.  The hero is located by div nesting rather than by line number so the patch
+    survives edits elsewhere on the page.
+    """
+    start = text.find('<div class="hero" id="download">')
+    if start < 0:
+        return text.replace('<h1>62GEMSDOE', banner + '<h1>62GEMSDOE', 1)
+    depth, i = 0, start
+    while i < len(text):
+        if text.startswith("<div", i):
+            depth += 1
+            i += 4
+        elif text.startswith("</div>", i):
+            depth -= 1
+            i += 6
+            if depth == 0:
+                return text[:i] + "\n" + banner + text[i:]
+        else:
+            i += 1
+    return text
+
+
 def main() -> int:
     fin = json.loads((EV / "h63_final.json").read_text())
     pol = json.loads((EV / "h63_policy.json").read_text())
@@ -100,12 +128,12 @@ def main() -> int:
             and r["mass_target"] == 90000][0]
 
     champ = [r for r in cal["rasters"] if r["alias"] == "gemsdoe32_h33_2_b2_02778_zeros"][0]
-    NOTE = ("H63: 90k dots; rank-average corroboration of DEM scarp curvature, local relief "
+    NOTE = ("H63M: 90k dots; rank-average corroboration of DEM scarp curvature, local relief "
             "and a directional line filter, >=300 m off the catalogue.")
 
     # ---------------------------------------------------------------- index
     idx = f"""
-<h1>62GEMSDOE · H63 — multi-channel lineament corroboration</h1>
+<h1>62GEMSDOE · H63M — multi-channel lineament corroboration</h1>
 <p class="mut">DOE GEMS Prize · DrivenData #306 · northwestern Great Basin (GeoDAWN) ·
 session 2026-10-11 · branch <code>arena/4ef3d5d6-62gemsdoe</code> · lane: datum-offset
 (Lake Lahontan shorelines)</p>
@@ -207,7 +235,7 @@ already puts {max(r['random_frac_within_3px'] for r in uctl['rows']):.0%} of its
 <td>MEASURED</td></tr>
 </table>
 """
-    (DOCS / "index.html").write_text(page("H63 — 62GEMSDOE", idx))
+    (DOCS / "index.html").write_text(page("H63M — 62GEMSDOE", idx))
 
     # -------------------------------------------------------- exec summary
     ex = f"""
@@ -269,7 +297,7 @@ Negative outcomes are deliverables: if it lands below 0.2778, the transfer const
 detector-specific and the calibration table on the <a href="leaderboard.html">leaderboard page</a>
 is the thing to fix next.</p>
 """
-    (DOCS / "executive-summary.html").write_text(page("How to submit — H63", ex))
+    (DOCS / "executive-summary.html").write_text(page("How to submit — H63M", ex))
 
     # ------------------------------------------------------------- method
     ch_rows = "".join(
@@ -354,7 +382,7 @@ removes plateaus without pulling dots apart to the kernel distance.</li>
 instrument; the shipped point is the <b>arg-max of the pessimistic projection</b>, not of the
 optimistic one.</p>
 """
-    (DOCS / "method.html").write_text(page("Method — H63", meth))
+    (DOCS / "method.html").write_text(page("Method — H63M", meth))
 
     # ------------------------------------------------------------ results
     hold_rows = "".join(
@@ -458,7 +486,7 @@ off-catalogue domain, and the MODEL projection band. Top 18 rows of
 <p>Random control credit/mass by mass:
 {", ".join(f"{int(k)//1000}k → {v:.4f}" for k, v in sorted(ctrl.items(), key=lambda kv: int(kv[0])))}.</p>
 """
-    (DOCS / "results.html").write_text(page("Results — H63", res))
+    (DOCS / "results.html").write_text(page("Results — H63M", res))
 
     # ----------------------------------------------------------- profiles
     dom_rows = "".join(
@@ -525,7 +553,7 @@ faults: an azimuth change of a bench trace can equally be produced by two unrela
 different lithology, by a change in fetch, or by the 8-connected labelling splitting one trace.
 None of them was used in the shipped raster.</p>
 """
-    (DOCS / "profiles.html").write_text(page("Shoreline profiles — H63", pr))
+    (DOCS / "profiles.html").write_text(page("Shoreline profiles — H63M", pr))
 
     # --------------------------------------------------------- leaderboard
     lb_rows = "".join(
@@ -579,7 +607,7 @@ terrain, which is the single largest known bias in <code>c_proxy</code>.</li>
 It is a selector decision, not a lane decision.</li>
 </ul>
 """
-    (DOCS / "leaderboard.html").write_text(page("Leaderboard — H63", lead))
+    (DOCS / "leaderboard.html").write_text(page("Leaderboard — H63M", lead))
 
     # ------------------------------------------------------------ sources
     src = """
@@ -641,7 +669,7 @@ of the Wassuk Range front).</li>
 segments offsetting Holocene sediments in Smith Valley's basin centre, found in lidar).</li>
 </ul>
 """
-    (DOCS / "sources.html").write_text(page("Sources — H63", src))
+    (DOCS / "sources.html").write_text(page("Sources — H63M", src))
 
     # ------------------------------------------------------ irregularities
     unsat = [r for r in uctl["rows"] if not r["test_satisfiable"]]
@@ -697,7 +725,7 @@ out-of-domain and got AUC 0.50. The 0.2298 should not be used to argue for the s
 “Beat 0.3195” is a target for ninth place. The 37-snapshot series is in
 <a href="../../research/leaderboard_series.json"><code>research/leaderboard_series.json</code></a>.</p>
 """
-    (DOCS / "irregularities.html").write_text(page("Irregularities — H63", irr))
+    (DOCS / "irregularities.html").write_text(page("Irregularities — H63M", irr))
 
     # ---------------------------------------------------------- limitations
     lim = """
@@ -743,7 +771,7 @@ curve with slowly varying azimuth, and a Hough / tensor-voting step on top of th
 the obvious next detector.</li>
 </ol>
 """
-    (DOCS / "limitations.html").write_text(page("Limitations — H63", lim))
+    (DOCS / "limitations.html").write_text(page("Limitations — H63M", lim))
 
     # ------------------------------------------------------------ run card
     run_card = {
@@ -837,33 +865,42 @@ the obvious next detector.</li>
 <pre>{esc(json.dumps(run_card, indent=1))}</pre>
 <p><a href="../../evidence/h63_run_card.json">evidence/h63_run_card.json</a></p>
 """
-    (DOCS / "run-card.html").write_text(page("Run card — H63", rc_html))
+    (DOCS / "run-card.html").write_text(page("Run card — H63M", rc_html))
 
     # --------------------------------------------------- patch root landing
     root = HERE / "docs" / "index.html"
     if root.exists():
         t = root.read_text()
-        if "h63" not in t:
+        if "h63m-multiline" not in t:
             banner = ('<div class="hero" style="border-color:var(--ok);'
                       'background:rgba(63,185,80,.06)">\n'
-                      '<h2 style="border:0;margin-top:0">Session 2026-10-11 · H63 — the file to '
-                      'download and submit</h2>\n'
+                      '<h2 style="border:0;margin-top:0">Session 2026-10-11 · H63M — '
+                      'multi-line corroboration</h2>\n'
+                      '<p class="mut" style="margin-top:-.6em">A second file, '
+                      '<code>gems62-h63-diffuse-isolated-offcat-40k-zeros.tif</code> from session '
+                      '<code>arena/61e7859a</code>, is also labelled “H63”. Different method, '
+                      'different bytes; the submission notes say which is which.</p>\n'
                       f'<p><span class="pill ok">FORMAT LEGAL</span> '
                       f'<span class="pill ok">UNIQUE where the gate is informative</span> '
                       f'<span class="pill warn">SCORE IS A MODEL PROJECTION</span></p>\n'
                       f'<p class="big">{esc(sub["name"])}</p>\n'
-                      f'<p><a class="btn" href="../lane62-h63/docs/downloads/'
-                      f'{esc(sub["name"])}-zeros.tif">⬇ Download ({sub["bytes"]:,} bytes)</a>\n'
-                      '<a class="btn sec" href="../lane62-h63/docs/executive-summary.html">'
+                      f'<p><a class="btn" href="downloads/{esc(sub["name"])}-zeros.tif">'
+                      f'⬇ Download ({sub["bytes"]:,} bytes)</a>\n'
+                      '<a class="btn sec" href="../lane62-h63m/docs/executive-summary.html">'
                       'How to submit</a>\n'
-                      '<a class="btn sec" href="../lane62-h63/docs/index.html">Full H63 report</a>'
+                      '<a class="btn sec" href="../lane62-h63m/docs/index.html">Full H63M report</a>'
                       '</p>\n'
-                      f'<p class="small">Measured credit per unit mass '
+                      '<p class="small"><b>No file in this repository has an '
+                      'organiser-confirmed score.</b> 14/14 byte checks pass (float32, no nodata '
+                      'tag, values exactly {0.0, 1.0}), so the portal error “values must be in '
+                      '[0, 1]” cannot fire; the expected value below is a MODEL projection, and '
+                      'whether to submit is the selector’s decision. '
+                      f'Measured credit per unit mass '
                       f'<b>{meas["proxy_off"]["credit_per_mass"]:.4f}</b> vs '
                       f'<b>{champ["proxy"]["cm"]:.4f}</b> for the group\'s best submitted '
                       f'artifact (0.2778) and <b>{ctrl["90000"]:.4f}</b> for a matched random '
                       f'control. sha256 <code>{esc(sub["sha256"])}</code>.</p>\n</div>\n')
-            t = t.replace('<h1>62GEMSDOE', banner + '<h1>62GEMSDOE', 1)
+            t = _insert_after_current_hero(t, banner)
             root.write_text(t)
             print("patched root docs/index.html")
     print("site written to", DOCS)

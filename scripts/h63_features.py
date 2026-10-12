@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""H63 — build the flat design matrix for the competition grid.
+"""H63M — build the flat design matrix for the competition grid.
 
 Inputs (all hash-pinned, see evidence/h63_data.json):
   data/training_features.tif        19-band GeoDAWN numerical stack (official, sha256 pinned)

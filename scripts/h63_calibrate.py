@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""H63 — calibrate the proxy instrument against the group's score-anchored registry.
+"""H63M — calibrate the proxy instrument against the group's score-anchored registry.
 
 The problem this solves
 -----------------------

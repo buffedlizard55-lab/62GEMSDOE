@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""H63 — the final lane-63 emission: multi-channel lineament corroboration, measured.
+"""H63M — the final lane-63 emission: multi-channel lineament corroboration, measured.
 
 Physical basis
 --------------
