@@ -1,0 +1,179 @@
+{
+ "generated_utc": "2026-10-12T02:09:56Z",
+ "evidence_class": "MEASURED \u2014 each channel scored alone, rank-normalised, on the four held-out spatial-block cores; evaluator sklearn roc_auc_score",
+ "question": "protocol rule 4: does any single channel alone reach AUC > 0.90 on the holdout, which would mean leakage?",
+ "answer": "no \u2014 the highest single-channel AUC is 0.5766 (dem_slope_deg); the AUC-0.50 model result is therefore absence of transferable signal, not one broken channel",
+ "max_auc_catalogue": 0.5766,
+ "n_features": 28,
+ "rows": [
+  {
+   "feature": "dem_slope_deg",
+   "auc_catalogue_mean": 0.5766,
+   "auc_proxy_off_mean": 0.7334,
+   "verdict": "ok"
+  },
+  {
+   "feature": "dem_gradmag",
+   "auc_catalogue_mean": 0.5766,
+   "auc_proxy_off_mean": 0.7334,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_geod_2ndinv",
+   "auc_catalogue_mean": 0.576,
+   "auc_proxy_off_mean": 0.4974,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_geod_shearrate",
+   "auc_catalogue_mean": 0.5726,
+   "auc_proxy_off_mean": 0.5093,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_ieq_n100a15",
+   "auc_catalogue_mean": 0.5704,
+   "auc_proxy_off_mean": 0.4876,
+   "verdict": "ok"
+  },
+  {
+   "feature": "dem_relief15",
+   "auc_catalogue_mean": 0.5688,
+   "auc_proxy_off_mean": 0.7559,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_det_elev_slope",
+   "auc_catalogue_mean": 0.558,
+   "auc_proxy_off_mean": 0.7506,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_deq_n100a15",
+   "auc_catalogue_mean": 0.5525,
+   "auc_proxy_off_mean": 0.5015,
+   "verdict": "ok"
+  },
+  {
+   "feature": "dem_laplacian",
+   "auc_catalogue_mean": 0.5386,
+   "auc_proxy_off_mean": 0.5301,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_iso_grav_anom_slope",
+   "auc_catalogue_mean": 0.5357,
+   "auc_proxy_off_mean": 0.4336,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_geod_dilaterate",
+   "auc_catalogue_mean": 0.5352,
+   "auc_proxy_off_mean": 0.4531,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_iso_grav_anom_vg",
+   "auc_catalogue_mean": 0.5273,
+   "auc_proxy_off_mean": 0.4633,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_tmi_hg",
+   "auc_catalogue_mean": 0.526,
+   "auc_proxy_off_mean": 0.4949,
+   "verdict": "ok"
+  },
+  {
+   "feature": "dem_elev",
+   "auc_catalogue_mean": 0.515,
+   "auc_proxy_off_mean": 0.7113,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_depth_to_base_surf",
+   "auc_catalogue_mean": 0.5121,
+   "auc_proxy_off_mean": 0.3424,
+   "verdict": "ok"
+  },
+  {
+   "feature": "dem_tpi3",
+   "auc_catalogue_mean": 0.5,
+   "auc_proxy_off_mean": 0.5,
+   "verdict": "ok"
+  },
+  {
+   "feature": "dem_tpi9",
+   "auc_catalogue_mean": 0.5,
+   "auc_proxy_off_mean": 0.5,
+   "verdict": "ok"
+  },
+  {
+   "feature": "dem_tpi21",
+   "auc_catalogue_mean": 0.5,
+   "auc_proxy_off_mean": 0.5,
+   "verdict": "ok"
+  },
+  {
+   "feature": "dem_abstpi9",
+   "auc_catalogue_mean": 0.5,
+   "auc_proxy_off_mean": 0.5,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_iso_grav_anom_hg",
+   "auc_catalogue_mean": 0.4991,
+   "auc_proxy_off_mean": 0.5017,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_rtp",
+   "auc_catalogue_mean": 0.4968,
+   "auc_proxy_off_mean": 0.5141,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_mag_anom",
+   "auc_catalogue_mean": 0.489,
+   "auc_proxy_off_mean": 0.5031,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_tmi",
+   "auc_catalogue_mean": 0.4861,
+   "auc_proxy_off_mean": 0.5202,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_tmi_vg",
+   "auc_catalogue_mean": 0.4859,
+   "auc_proxy_off_mean": 0.5026,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_det_elev",
+   "auc_catalogue_mean": 0.4829,
+   "auc_proxy_off_mean": 0.6981,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_cond_surf",
+   "auc_catalogue_mean": 0.4828,
+   "auc_proxy_off_mean": 0.5125,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_iso_grav_anom",
+   "auc_catalogue_mean": 0.4596,
+   "auc_proxy_off_mean": 0.5978,
+   "verdict": "ok"
+  },
+  {
+   "feature": "stack_tc",
+   "auc_catalogue_mean": 0.447,
+   "auc_proxy_off_mean": 0.388,
+   "verdict": "ok"
+  }
+ ],
+ "seconds": 121.0
+}

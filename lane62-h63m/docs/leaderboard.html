@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Leaderboard — H63M</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;
+ --warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+ font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.9em;margin:.2em 0 .1em}h2{font-size:1.35em;margin:1.6em 0 .5em;
+ border-bottom:1px solid var(--bd);padding-bottom:.3em}
+h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.9em}
+pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.85em}
+table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}
+.mut{color:var(--mut)}.card{background:var(--card);border:1px solid var(--bd);
+ border-radius:8px;padding:18px;margin:14px 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
+.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
+.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
+.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
+.hero{border:2px solid var(--ok);border-radius:10px;padding:22px;margin:18px 0;
+ background:rgba(63,185,80,.06)}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;
+ border-radius:8px;margin:8px 8px 8px 0}
+.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+.kv td:first-child{width:32%;color:var(--mut)}
+.big{font-size:1.5em;font-weight:700}
+.small{font-size:.85em}
+</style></head><body><div class="wrap">
+<h1>Leaderboard and the calibration that connects it to this work</h1>
+<nav>
+<a href="index.html">⬇ Download &amp; verdict</a>
+<a href="executive-summary.html">How to submit</a>
+<a href="method.html">Method</a>
+<a href="results.html">Results</a>
+<a href="profiles.html">Shoreline profiles</a>
+<a href="leaderboard.html">Leaderboard &amp; calibration</a>
+<a href="run-card.html">Run card</a>
+<a href="sources.html">Sources</a>
+<a href="irregularities.html">Irregularities</a>
+<a href="limitations.html">Limitations</a>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
+</nav>
+<p class="mut">Mirrored from
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">the
+official public leaderboard</a>, fetched 2026-10-11T20:57:47+00:00 (this sandbox cannot reach
+drivendata.org; the scrape is mirrored from a sibling repository's scheduled workflow).
+MIRROR-OF-OFFICIAL.</p>
+<table><tr><th>rank</th><th>participant</th><th>public DW-Tversky</th></tr><tr><td>1</td><td>xiaofanhu</td><td>0.4133</td></tr><tr><td>2</td><td>cfld__</td><td>0.3585</td></tr><tr><td>3</td><td>JerryDataWorks</td><td>0.3418</td></tr><tr><td>4</td><td>alexoktaba</td><td>0.3361</td></tr><tr><td>5</td><td>joeyfezster</td><td>0.3333</td></tr><tr><td>6</td><td>Batik Shirt Brothers 1d 15h ago ⸱ 26 submissions</td><td>0.33</td></tr><tr><td>7</td><td>nchuzhoy</td><td>0.3262</td></tr><tr><td>8</td><td>kinghorton42</td><td>0.3261</td></tr><tr><td>9</td><td>DARD</td><td>0.3195</td></tr><tr><td>10</td><td>mzoorob</td><td>0.3129</td></tr><tr><td>11</td><td>ruping</td><td>0.3104</td></tr><tr><td>12</td><td>newway</td><td>0.308</td></tr></table>
+<p>Top-5 cut-off <b>0.3333</b>. The number in the standing brief (0.3195) is
+<b>rank 9</b>,
+not first; the group's own best (0.2778) is
+rank 23</p>
+
+<h2>How to read a projected DTI</h2>
+<pre>DTI = T / ( α·S + β·K )        T = c_hidden · S
+  →  DTI = c_hidden / ( α + β·K/S )
+  →  c_hidden = r · c_proxy        (r calibrated on score-anchored registry rasters)</pre>
+<p>With <code>S = 90,000</code>, <code>c_proxy =
+0.18848</code>, <code>r ∈ [0.478, 0.775]</code> and
+<code>K ∈ [8,000, 12,000]</code>:</p>
+<table>
+<tr><th></th><th>K = 8,000</th><th>K = 9,400</th><th>K = 12,000</th></tr>
+<tr><td>r = 0.478 (pessimistic)</td>
+<td>0.332</td>
+<td>0.318</td>
+<td>0.294</td></tr>
+<tr><td>r = 0.775 (optimistic)</td>
+<td>0.539</td>
+<td>0.515</td>
+<td>0.476</td></tr>
+</table>
+<p><b>Every cell of that table is a MODEL.</b> It is conditioned on a proxy truth set (a 1:750 k
+geologic compilation), on a transfer constant fitted to nine owner-reported scores, and on a
+planning value for the hidden truth mass. It is not a score, and the organizer's number can land
+outside the band. The one number on this page that is MEASURED is the credit per unit mass.</p>
+
+<h2>What would move the band</h2>
+<ul>
+<li>A second, independent proxy truth set. The SGMC compilation favours bedrock faults in rough
+terrain, which is the single largest known bias in <code>c_proxy</code>.</li>
+<li>An organizer receipt for <i>any</i> file in this repository. Three uploads
+(<code>λ</code> = 1.0, 0.5, and a null-mass probe) identify <code>T</code>, <code>K</code> and
+<code>F</code> exactly from the leaderboard returns, because
+<code>DTI(λp) = λT / (λα(T+F) + βK)</code>. That converts the whole projection into a measurement.
+It is a selector decision, not a lane decision.</li>
+</ul>
+</div></body></html>

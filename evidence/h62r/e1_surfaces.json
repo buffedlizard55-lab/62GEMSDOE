@@ -1,0 +1,66 @@
+{
+ "evaluator": "gems62.levels v1",
+ "levels": [
+  {
+   "level": {
+    "elev_m": 1455.0,
+    "block_support": 7,
+    "confirmed": true,
+    "level_index": 0
+   },
+   "n_bench": 25044,
+   "n_step": 3164,
+   "n_deflect": 0,
+   "resid_median_m": 0.4448444004516432,
+   "resid_mad_m": 26.690822499439932
+  },
+  {
+   "level": {
+    "elev_m": 1389.0,
+    "block_support": 7,
+    "confirmed": true,
+    "level_index": 1
+   },
+   "n_bench": 22763,
+   "n_step": 3301,
+   "n_deflect": 0,
+   "resid_median_m": 2.7329001945945492,
+   "resid_mad_m": 25.539983510102648
+  },
+  {
+   "level": {
+    "elev_m": 1325.0,
+    "block_support": 12,
+    "confirmed": true,
+    "level_index": 2
+   },
+   "n_bench": 21324,
+   "n_step": 2866,
+   "n_deflect": 0,
+   "resid_median_m": 1.8454420822857855,
+   "resid_mad_m": 25.285925231664635
+  },
+  {
+   "level": {
+    "elev_m": 1278.0,
+    "block_support": 7,
+    "confirmed": true,
+    "level_index": 3
+   },
+   "n_bench": 18080,
+   "n_step": 2880,
+   "n_deflect": 0,
+   "resid_median_m": 2.093109737183454,
+   "resid_mad_m": 22.670534778308593
+  }
+ ],
+ "bench_threshold": 0.5,
+ "level_tol_m": 10.0,
+ "throw_window_m": [
+  15.0,
+  140.0
+ ],
+ "iso_tile_px": 40,
+ "wide_m": 45.0,
+ "k_mad": 1.5
+}
