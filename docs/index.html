@@ -98,9 +98,12 @@ Nothing here justifies a claim above 0.3195.</p>
  <code>scripts/build_h63_diffuse_isolated.py</code> (seed 626311). Maximum dilated Jaccard against the 233-raster
  registry cache is <b>0.345</b> (<code>gems32-bayesopt-dilation-scarp-d28</code>, containment 0.52) — above the repo's
  0.25 tripwire but <b>far below</b> the 0.893–0.948 that the family's own top submissions score against each other;
- the tripwire cannot certify anything at this mass (a density-blind control is measured in
- <code>evidence/control_40k_uniqueness.json</code>). Our field is less similar to any prior submission than the prior
- submissions are to one another. <a href="research/instrument-audit-2026-10-12.html">audit §3</a></td></tr>
+ the tripwire cannot certify anything at this mass — measured, not argued: an
+ <b>information-free control</b> (40,000 dots drawn uniformly on the same lattice, seed 7,
+ <code>evidence/control_40k_uniqueness.json</code>) trips the <i>same</i> overlap flag at Jaccard <b>0.3306</b> and
+ <b>0.3318</b> against the same dense 13GEMS lattices, with a worst rank correlation of −0.8558 — i.e. the flag fires
+ on a random field at the same magnitude, so at 40 k dots it separates nothing. Our field is less similar to any
+ prior submission than the prior submissions are to one another. <a href="research/instrument-audit-2026-10-12.html">audit §3</a></td></tr>
 <tr><td>Expected score</td><td><b>0.18–0.29, most likely ≈ 0.26.</b> Basis: the nine owner-reported receipts at this
  mass and spacing (0.2376, 0.2449, 0.2600, 0.2632, 0.2649, 0.2708 ×2, 0.2750, 0.2778). Two same-shape counterexamples
  (0.0778, 0.0041) show the shape is not sufficient. <b>No claim above 0.3195 is made</b> — no instrument in this
@@ -121,9 +124,17 @@ Nothing here justifies a claim above 0.3195.</p>
  get an independent higher-resolution fault compilation, re-run <code>scripts/proxy_dti_regression.py</code> against
  the 42 receipts, and require a <b>positive</b> Spearman before spending a slot. Ranked designs:
  <a href="research/hypotheses-2026-10-12.html">four geological hypotheses + one acquisition hypothesis</a>.</td></tr>
+<tr><td>The assigned lane, closed with a measurement</td><td>The datum lane's first deliverable — Lahontan
+ shoreline elevation-vs-distance profiles with flagged steps — was built and <b>it does not resolve</b>: across 7
+ sub-basins and 28 stage profiles the bench elevation is only good to <b>6.59 m</b> (median residual IQR) against the
+ 1–2 m a step signal needs, and every basin's largest flatness excess sits at its own floor, not at a shoreline. The
+ one stand that clears that confound is basin 75 at <b>1320 m</b> (+0.490), in one basin of seven. This is why the
+ lane's only emission earned 0.415 × uniform. <a href="research/datum-lane-2026-10-12.html">the profiles, the plot and
+ the verdict</a></td></tr>
 <tr><td>Read before spending a slot</td><td><a href="executive-summary.html">How to submit</a> ·
  <a href="research/instrument-audit-2026-10-12.html">instrument audit (this session)</a> ·
  <a href="research/hypotheses-2026-10-12.html">hypotheses, ranked</a> ·
+ <a href="research/datum-lane-2026-10-12.html">datum lane, closed</a> ·
  <a href="research/why-02778-2026-10-12.html">why 0.2778 scores what it scores</a> ·
  <a href="run-card.html">run card</a></td></tr>
 <tr><td>Organizer score</td><td><b>none</b> — never submitted. <code>organizer_score: null</code>.</td></tr>

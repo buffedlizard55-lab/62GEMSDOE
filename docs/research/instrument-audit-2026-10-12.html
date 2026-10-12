@@ -31,7 +31,8 @@ nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;paddi
 </style></head><body><div class="wrap">
 <nav><a href="../index.html">← Submission &amp; verdict</a>
 <a href="instrument-audit-2026-10-12.html">Instrument audit</a>
-<a href="hypotheses-2026-10-12.html">Hypotheses</a></nav>
+<a href="hypotheses-2026-10-12.html">Hypotheses</a>
+<a href="datum-lane-2026-10-12.html">Datum lane</a></nav>
 <h1>Instrument audit, 2026-10-12 — which score predictors survive, and what we are submitting</h1>
 <p>*Session: arena/61e7859a-62gemsdoe. Every number below is a measurement made in this repo and is</p>
 <p>reproducible with the named script; nothing is quoted from a sibling site without saying so.*</p>
@@ -146,8 +147,12 @@ nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;paddi
 <p><strong>Uniqueness (honest statement).</strong> The repo's drift tripwire (dilated Jaccard &gt; 0.25) fires at</p>
 <p><strong>0.345</strong> against <code>gems32-bayesopt-dilation-scarp-d28</code> (containment 0.52). The same tripwire fires</p>
 <p>at <strong>0.893–0.948</strong> between the family's own top submissions (§3), so at 40 k dots it cannot certify</p>
-<p>anything; a density-blind control (uniform 40 k hard-core draw, seed 7) is measured in</p>
-<p><code>evidence/control_40k_uniqueness.json</code>. Our field is *less* similar to any prior submission than the</p>
+<p>anything — and the control now proves it. An <strong>information-free field</strong> (40,000 dots drawn uniformly</p>
+<p>on the same hard-core lattice, seed 7, <code>evidence/control_40k_uniqueness.json</code>, 234 registry rasters)</p>
+<p>trips the same <code>overlap_flag</code> twice, at dilated Jaccard <strong>0.3306</strong> (<code>13gems r13-lattice-s5_v2</code>) and</p>
+<p><strong>0.3318</strong> (<code>13gems r14-union-tips10-lat6</code>), with worst rank correlation −0.8558. A random draw</p>
+<p>therefore scores the tripwire as hard as a designed field does: at this mass the flag is a</p>
+<p>density detector, not a copy detector. Our field is *less* similar to any prior submission than the</p>
 <p>prior submissions are to each other, and it is not a copy: the dot set is constructed here.</p>
 <p><strong>Expected score.</strong> Receipts at this mass and spacing: 0.2376, 0.2449, 0.2600, 0.2632, 0.2649,</p>
 <p>0.2708, 0.2708, 0.2750, 0.2778 — <strong>most likely ≈ 0.26, band 0.18–0.29</strong>. Two same-shape</p>

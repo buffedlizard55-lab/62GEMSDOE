@@ -123,8 +123,12 @@ Geometry versus the champion: C/M 8.20 vs 8.04; nn median 316 m vs 300 m; d_cat 
 **Uniqueness (honest statement).** The repo's drift tripwire (dilated Jaccard > 0.25) fires at
 **0.345** against `gems32-bayesopt-dilation-scarp-d28` (containment 0.52). The same tripwire fires
 at **0.893–0.948** between the family's own top submissions (§3), so at 40 k dots it cannot certify
-anything; a density-blind control (uniform 40 k hard-core draw, seed 7) is measured in
-`evidence/control_40k_uniqueness.json`. Our field is *less* similar to any prior submission than the
+anything — and the control now proves it. An **information-free field** (40,000 dots drawn uniformly
+on the same hard-core lattice, seed 7, `evidence/control_40k_uniqueness.json`, 234 registry rasters)
+trips the same `overlap_flag` twice, at dilated Jaccard **0.3306** (`13gems r13-lattice-s5_v2`) and
+**0.3318** (`13gems r14-union-tips10-lat6`), with worst rank correlation −0.8558. A random draw
+therefore scores the tripwire as hard as a designed field does: at this mass the flag is a
+density detector, not a copy detector. Our field is *less* similar to any prior submission than the
 prior submissions are to each other, and it is not a copy: the dot set is constructed here.
 
 **Expected score.** Receipts at this mass and spacing: 0.2376, 0.2449, 0.2600, 0.2632, 0.2649,

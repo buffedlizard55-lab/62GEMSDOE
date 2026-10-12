@@ -67,6 +67,26 @@ support one.**
    step is to acquire an independent, higher-resolution compilation for the GeoDAWN AOI and re-run the
    42-receipt audit with a **positive** Spearman as the pass condition — before any further slot.
 
+### Added later in the same session
+
+* **The information-free ceiling of the metric** (`evidence/metric_ceiling.json`,
+  `scripts/metric_ceiling.py`): `TP_w + FN_w = |G|`, so `DTI = TP_w/(0.2M + 0.8|G| + 0.2(TP_w − M_cov))`
+  and an information-free field of the group's mass scores at most **0.086** (cross-checked against a
+  measured uniform control: 0.0745 vs 0.0785 predicted). The group's best field is **3.24 ×** chance,
+  the 36–42 k family 2.97–3.24 ×, the target 0.3195 **3.50 ×**, the leader 0.4275 **4.69 ×**. That is the
+  answer to "why does h33-2-b2 score 0.2778", and it converts the goal into *+45 % information per dot*.
+* **The catalogue-absent population instrument fails too** (`research/offcatalogue_instrument_validation.json`):
+  the USGS SGMC Nevada faults that the competition catalogue omits give Spearman −0.378 for the aggregate
+  proxy and −0.562 for coverage, flat at 0.201–0.205 across the whole 0.245–0.278 score range — so
+  **IR-62-11C-05: no in-repo truth proxy may promote or reject a field**.
+* **The uniqueness tripwire is density-blind, measured**: an information-free 40 k control
+  (`evidence/control_40k_uniqueness.json`) trips the same `overlap_flag` at Jaccard 0.331 twice.
+* **The assigned datum lane is closed with a measurement** (`docs/research/datum-lane-2026-10-12.md`):
+  the Lahontan bench elevation is only resolvable to 6.59 m (median residual IQR) in this DEM, and every
+  basin's flatness maximum sits at its own floor. The lane's only emission (682 dots, 0.415 × uniform)
+  is explained, and H64 is re-scoped onto 1 m lidar rather than rejected on physics.
+* **Four new hypotheses + one acquisition hypothesis, ranked** (`docs/research/hypotheses-2026-10-12.md`).
+
 ## Session status — 2026-10-11b (`arena/d0303476-62gemsdoe`)
 
 **Read this first.** One new artifact, one new measurement that changes what should be promoted, and
