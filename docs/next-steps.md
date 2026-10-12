@@ -201,3 +201,34 @@ and `docs/run-card.html`. Where the two disagree the disagreement is named, not 
    Next step: add all three to `.github/workflows/ci.yml` so a stale site claim cannot be merged.
 7. **Still true from before:** holdout and SGMC instruments are diagnostic, never gating; `S*` is never a
    placement objective; no file here has an organiser-confirmed score.
+## Added 2026-10-12 by session `arena/7b275dfb-62gemsdoe` (branch `arena/7b275dfb-62gemsdoe`)
+
+### Ranked, with the measurement that produced the rank
+
+1. **Spend one weekly slot on a receipt — still the highest-value action.** This session shipped the
+   group's best primary-data detector on the fixed-kernel instrument (blocked DTI(S\* v2) 0.1979 at
+   125,890 dots, +15 % over raw bands) but every number is still a proxy. One ORGANIZER-CONFIRMED
+   row in `evidence/` calibrates everything.
+2. **Mass-credit transfer experiment (H62-N), now runnable from an own field.** The pre-registered
+   condition from `docs/research/beating-02778-2026-10-11b.md`: at 120k isolated dots the hidden-set
+   credit must exceed 0.0778 per dot to beat 0.2778. This session's field is the first own field with
+   a measured same-instrument improvement; re-emit its OOF ranking at 40k and 200k to measure
+   `dc/dM` directly, as the 2026-10-11b session prescribed.
+3. **H62-M — along-strike catalogue extension**, still untried and still the only construction that
+   targets "newly mapped geometry of existing systems" by design (specified in
+   `docs/hypotheses-2026-10-11b.md`).
+4. **Vent-node point process (H62-Z5)** — the surviving half of the geothermal hypothesis after the
+   proximity refutation (e5: 0.64× control). Cross-K test of vent points against lineament nodes;
+   if the node interaction fails too, retire the vent family with a measured negative.
+5. **Fix `docs/data.md` §1 (IR-62-21)** — the stack is 19 bands, not 35. One-line edit, done in
+   passing if a session touches that file.
+
+### Limitations this session could not remove
+
+* **Zero ORGANIZER-CONFIRMED scores.** Every comparison remains a proxy argument.
+* The h30 proximity (0.692 vs 0.70, IR-62-26) needs a human eye before the slot is spent: the
+  letter of the protocol passes, the spirit is "disclosed enrichment".
+* The S\* v2 instrument is still a *fit to 56 self-reported scores* — its truth is the group's
+  behaviour, not the organizers' labels. A detector trained toward it inherits that limitation.
+* `drivendata.org` and USGS/GDR hosts remain unreachable from the sandbox; all transport is GitHub
+  mirrors with sha256 receipts.

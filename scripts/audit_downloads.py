@@ -330,10 +330,17 @@ def main() -> int:
 def cross_check_page(root: pathlib.Path, name: str, row: dict, pages: list[str]) -> list[str]:
     """The page may not print a hash or a byte count that disagrees with the bytes.
 
-    Only what a page can plausibly state is checked, in the table row that mentions the file:
+    Only what a page can plausibly state is checked, in the table row that **links** the file:
     any hex token of length >= 8 must be a prefix of the file's sha256, and any integer of at
     least four digits written next to a B/byte unit must equal the file's size.  A stale hash on
     the site is the exact failure this repo has been built to make impossible.
+
+    IR-62-B-13: "mentions" used to be the test, and it is wrong. Prose in one file's verdict
+    column legitimately names a *different* file -- on 2026-10-12 the H63M row says "NOT the same
+    artifact as gems62-h63-diffuse-isolated-offcat-40k-zeros.tif" while printing H63M's own hash
+    and byte count, so the gate read H63M's numbers as a claim about the H63 file and failed the
+    audit on a page that was correct. The claim a row can make about a file is the one it links
+    to, so that is what is checked now.
     """
     out = []
     sha, size = row.get("sha256") or "", row.get("bytes")
@@ -344,7 +351,11 @@ def cross_check_page(root: pathlib.Path, name: str, row: dict, pages: list[str])
         html = f.read_text(errors="ignore")
         for m in re.finditer(r"<tr[^>]*>(.*?)</tr>", html, re.S):
             tr = m.group(1)
-            if name not in tr:
+            # IR-62-B-13: a row may only be held to a claim about a file it LINKS to. A row that
+            # merely names another file in its verdict prose is not claiming that file's bytes.
+            # The href may carry any prefix (downloads/, a sibling lane's directory), so match
+            # on the file name at the end of the target.
+            if not re.search(r'href="[^"]*' + re.escape(name) + r'"', tr):
                 continue
             for hexm in re.finditer(r"(?<![0-9a-f/])([0-9a-f]{16,64})(?![0-9a-f])", tr):
                 tok = hexm.group(1)

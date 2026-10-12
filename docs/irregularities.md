@@ -512,6 +512,19 @@ no pair, or if an exempt page has no recorded reason.
 **The rule:** **one list, imported; no copied lists in CI.** If a workflow names files, it will drift the
 first time a file is renamed — and a rename is exactly what a collision (IR-62-J-09) forces. When you fix a
 CI-only failure, ask which of the copies was authoritative, then delete the copies rather than the check.
+## Added 2026-10-12 by session `arena/7b275dfb-62gemsdoe` — numbered `IR-62-H2R-nn`
+
+Numbered in a lane namespace for the same reason as `IR-62-J-nn` (see the note above): by the
+time this session merged, `IR-62-25`…`IR-62-28` were allocated to session `arena/778884cc` on
+`main`, and the register is authoritative (`IR-62-24`). The kernel defect below is **the same
+defect as `IR-62-25`**, found independently in parallel; that entry is the authoritative one and
+this row is the cross-confirmation with a second reconstruction.
+
+| ID | Irregularity |
+| --- | --- |
+| **IR-62-H2R-01** | **Independent second discovery of the S* kernel defect (`IR-62-25`).** **The shared S* inversion fitted a 75 m kernel, not the published 300 m one.** `datum62/scripts/invert.py` quantises pixel distances on a quarter-pixel lattice (`j = dm*4`) but divides by `R=3` (`KERN = 1 - j/3`), so the triangle reaches zero at `j=3` → `dm=0.75 px` = 75 m; the surrounding `dm > 3` cutoff shows the intent was 3 px = 300 m. The metric itself (`src/gems62/metric.py`) is correct and tested against the page's worked example — only the *instrument* was wrong. Fixed once, in the template sense: `scripts/rebuild_sstar_20261012.py` re-runs the identical greedy inversion with `KERN = 1 - j/12`. The fixed instrument (S* v2, K = 18,899 px) explains **R² = 0.727** of the 56 owner-reported scores (old: 0.301) at Spearman 0.959 (old: 0.968). Every S*-based number produced before 2026-10-12 (including `datum62/evidence/*`) was fitted on the narrow kernel and is not comparable to S* v2 numbers without re-running. |
+| **IR-62-H2R-02** | **This session's field sits at 0.692 on the duplicate tripwire's asymmetric leg** (125,890 dots within 3 px of `gemsdoe23-h30-arrangement-matched-habitat`, limit 0.70). A mass-matched isolated-random control scores 0.410 against the same comparator, so the overlap is a genuine 1.69× enrichment — two fields built from overlapping geophysical corridors — and it is *disclosed on the landing page and in the run card*, not buried. The leg did not trip (0.692 against a 0.70 limit), the rank-correlation leg passed (max 0.501 against a 0.90 limit), and the symmetric Jaccard is 0.368. Flagged for reviewer attention because the margin to the letter-threshold is 0.8 percentage points. |
+
 
 ---
 
@@ -646,3 +659,22 @@ lanes on the same day, and this register's rule (`IR-62-J-09`) is that a date is
 | **IR-62-H62R-03** | **A statistic can be wrong in the direction of flattering the job.** This lane's own isolation check counted dots inside a radius-3 disc **whose boundary it included**, so two dots exactly 300 m apart — where `k(300 m) = 0` exactly — were reported as sharing a disc, and (after the first fix) a dot counted as its own neighbour, making the receipt read "100 % of dots overlap" while an independent k-d tree read "minimum nearest-neighbour 300.000000 m, mean self-kernel 0.000000". The check now measures kernel mass received from *other* dots: **0 of 14,765**. Rule: state the boundary convention in the statistic's own name, and cross-check an isolation claim two independent ways. |
 | **IR-62-H62R-04** | **A hand-written hero drifted from the receipts, and only the test suite noticed.** When this lane replaced another as the current artifact, `docs/index.html` was hand-edited: it advertised 27,623 dots and sha `bd4690db` from an intermediate run while the receipts described 14,765 dots and sha `d5a15369`. Two re-runs in between changed the artifact after the page was written. Cures: the lane's block is **generated** by `scripts/update_h62r_section.py` (which refuses to write if the sidecar and the validation receipt disagree), `evidence/h62r_artifact.json` records which file the lane shipped, and `tests/test_shipped_artifact_h62r.py` re-derives every number in the block from the bytes. |
 | **IR-62-H62R-05** | **Merging two lanes put a NaN-encoded raster behind a download button.** The merge with `main` found `gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif` reachable through a `class="btn"` link sitting directly beside "Download Official GeoTIFF" — the other encoding of the same 440 dots, carrying 7,111,787 NaN cells. That is the exact shape of the failure the owner hit ("Predicted values must be in range [0, 1]"): two buttons, one of which the portal rejects. It was demoted to a labelled plain link (`not legal: no_nan_anywhere`), and `tests/test_downloads_are_submittable.py` now fails if any download **button** targets a raster that does not pass all 14 format checks, or if an approval block links one. The files themselves are kept: a labelled negative is a deliverable, an unlabelled download is a trap. |
+
+
+### IR-62-B-13 — the download-claim gate read one file's numbers as a claim about another (fixed)
+
+`scripts/audit_downloads.py::cross_check_page` decided which table row a file's hash and byte count
+belonged to by asking whether the row *mentions* the filename. On 2026-10-12 the H63M row's verdict
+prose reads "NOT the same artifact as `gems62-h63-diffuse-isolated-offcat-40k-zeros.tif`" while
+printing **H63M's** hash and byte count, so the gate reported H63M's numbers as a stale claim about
+the H63 file:
+
+    docs/index.html: prints hash 3b04880d5cd9f728 for gems62-h63-diffuse-isolated-offcat-40k-zeros.tif,
+                     whose sha256 starts fa0b254e191cbbc1
+    docs/index.html: prints 338,731 B for ... the file on disk is 184,739 B
+
+Both statements are individually true and both files are correct; the page was never wrong. The check
+now keys on the row's own link target — the claim a row can make about a file is the one it
+links to, whatever directory the href carries. Found
+because this lane's merge inherited it and the gate failed: a defect that only another lane's prose
+could surface. Fixed in the shared tool, not worked around in this lane's page.
