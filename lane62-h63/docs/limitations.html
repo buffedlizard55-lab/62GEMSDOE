@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Limitations — H63</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;
+ --warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+ font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.9em;margin:.2em 0 .1em}h2{font-size:1.35em;margin:1.6em 0 .5em;
+ border-bottom:1px solid var(--bd);padding-bottom:.3em}
+h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.9em}
+pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.85em}
+table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}
+.mut{color:var(--mut)}.card{background:var(--card);border:1px solid var(--bd);
+ border-radius:8px;padding:18px;margin:14px 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
+.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
+.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
+.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
+.hero{border:2px solid var(--ok);border-radius:10px;padding:22px;margin:18px 0;
+ background:rgba(63,185,80,.06)}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;
+ border-radius:8px;margin:8px 8px 8px 0}
+.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+.kv td:first-child{width:32%;color:var(--mut)}
+.big{font-size:1.5em;font-weight:700}
+.small{font-size:.85em}
+</style></head><body><div class="wrap">
+<h1>Limitations — what is in the way of winning</h1>
+<ol>
+<li><b>No organizer receipt exists for any file in this repository.</b> Every DTI on this site is
+either a proxy measurement against a free truth set or a model projection. Until a file is
+uploaded, the calibration constant <i>r</i> rests on nine owner-reported scores that this project
+cannot independently verify.</li>
+<li><b>The only proxy truth set is a 1:750 k geologic compilation.</b> The USGS SGMC maps bedrock
+faults; it under-represents the young, small, basin-floor faults that a geothermal exploration
+programme cares about, and it favours rough terrain. A detector that finds mountains will score
+well on it whether or not it finds faults.</li>
+<li><b>The official feature stack does not generalize spatially.</b> Measured: AUC 0.50 on
+held-out 512 px blocks. Either the 100 m resampling destroys the signal, or fault location at
+pixel scale is not recoverable from these bands. Both readings are recorded; they cannot be
+separated without the organizer's truth.</li>
+<li><b>The sandbox cannot reach drivendata.org, USGS hosts, or any non-GitHub host.</b> The DEM,
+the feature stack and the proxy catalogue were all obtained through sibling GitHub repositories.
+New external data has to be fetched the same way (or through the repository's
+<code>dem-fetch</code> GitHub Actions workflow, which does have unrestricted egress).</li>
+<li><b>2 CPUs and 3 GB of RAM.</b> A 19-band, 5.16 M-cell design matrix is 578 MB in float32;
+several candidate designs had to be re-written to stream channels one at a time. Anything larger
+than a shallow boosting ensemble is out of reach here.</li>
+<li><b>The weekly submission cap is a hard constraint the lanes cannot see.</b> Promotion to a
+real slot is a separate selector step; this session produces and ranks, it does not submit.</li>
+<li><b>The datum lane cannot resolve what it is asked to resolve at 100 m.</b> Measured: 10.3 m
+of isobase residual scatter against a 3 m method resolution. Lidar at 1 m, transported through
+the <code>dem-fetch</code> workflow, is the only way to test the lane as written.</li>
+</ol>
+<h2>What to do next, in priority order</h2>
+<ol>
+<li>Spend one slot on the identification experiment: upload this file, then a <code>λ = 0.5</code>
+re-emission and a null-mass probe. Three returns identify <code>T</code>, <code>K</code> and
+<code>F</code> exactly and turn every projection on this site into a measurement.</li>
+<li>Build a second proxy truth set that is not a bedrock compilation — the INGENIOUS project's
+own interpretation products, or the Nevada Bureau of Mines and Geology Quaternary fault database
+rasterised on this grid.</li>
+<li>Fetch 1 m / 3 m lidar through the <code>dem-fetch</code> workflow and re-run the datum lane on
+it. This is the only way to test the assigned hypothesis rather than a 100 m surrogate of it.</li>
+<li>Add orientation-consistency along strike: the current channels are pointwise. A fault is a
+curve with slowly varying azimuth, and a Hough / tensor-voting step on top of the belief field is
+the obvious next detector.</li>
+</ol>
+</div></body></html>

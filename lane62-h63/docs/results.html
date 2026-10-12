@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Results — H63</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;
+ --warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+ font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.9em;margin:.2em 0 .1em}h2{font-size:1.35em;margin:1.6em 0 .5em;
+ border-bottom:1px solid var(--bd);padding-bottom:.3em}
+h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.9em}
+pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.85em}
+table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}
+.mut{color:var(--mut)}.card{background:var(--card);border:1px solid var(--bd);
+ border-radius:8px;padding:18px;margin:14px 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
+.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
+.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
+.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
+.hero{border:2px solid var(--ok);border-radius:10px;padding:22px;margin:18px 0;
+ background:rgba(63,185,80,.06)}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;
+ border-radius:8px;margin:8px 8px 8px 0}
+.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+.kv td:first-child{width:32%;color:var(--mut)}
+.big{font-size:1.5em;font-weight:700}
+.small{font-size:.85em}
+</style></head><body><div class="wrap">
+<h1>Results</h1>
+<nav>
+<a href="index.html">⬇ Download &amp; verdict</a>
+<a href="executive-summary.html">How to submit</a>
+<a href="method.html">Method</a>
+<a href="results.html">Results</a>
+<a href="profiles.html">Shoreline profiles</a>
+<a href="leaderboard.html">Leaderboard &amp; calibration</a>
+<a href="run-card.html">Run card</a>
+<a href="sources.html">Sources</a>
+<a href="irregularities.html">Irregularities</a>
+<a href="limitations.html">Limitations</a>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
+</nav>
+<h2>1. The supervised branch has no spatial generalization</h2>
+<p><b>HOLDOUT-DTI</b> — evaluator <code>src/gems62/metric.py</code>; 4 spatially blocked folds of
+512 px blocks withheld whole with a 3 px collar; every catalogue-derived feature built only from
+the visible faults; visible faults masked pixel-exactly. 45k catalogue positives and 400k
+negatives per fold, gradient boosting, 250 iterations.</p>
+<table>
+<tr><th>fold</th><th>AUC vs withheld catalogue</th><th>AUC vs withheld SGMC off-catalogue</th>
+<th>withheld catalogue positives</th><th>withheld SGMC positives</th></tr>
+<tr><td>0</td><td>0.5176</td><td>0.4877</td><td>15,266</td><td>18,123</td></tr><tr><td>1</td><td>0.5</td><td>0.5</td><td>14,930</td><td>9,603</td></tr><tr><td>2</td><td>0.5048</td><td>0.4574</td><td>14,963</td><td>17,740</td></tr><tr><td>3</td><td>0.4968</td><td>0.479</td><td>14,713</td><td>14,799</td></tr>
+</table>
+<p><b>AUC 0.50 is chance.</b> This is the measured explanation for a fact the group has been
+carrying for six weeks: its supervised branch tops out at 0.1563 while its heuristic lineament
+branch reaches 0.2778. The 0.2298 “labels DTI” the flagship repository reports is an
+<b>in-domain</b> number — the shipped model had been trained on every label.</p>
+<p class="mut">Leakage canary: every feature was also scored alone on the held-out blocks.
+The highest single-feature AUC is <b>0.577</b> (<code>dem_slope_deg</code> /
+<code>dem_gradmag</code>), far below the 0.90 leakage tripwire — so the null above is not a
+bug in one channel, it is the absence of transferable signal.</p>
+
+<h2>2. The calibrated proxy instrument</h2>
+<p>Because the supervised route is dead, the only way to rank an artifact without spending a
+slot is a proxy instrument, and a proxy instrument has to be <b>calibrated against artifacts whose
+live score is known</b>. The registry gives 21 such rasters.</p>
+<table>
+<tr><th>registry raster</th><th>owner-reported score</th><th>mass</th>
+<th>credit/mass vs SGMC off-catalogue</th><th>credit/mass vs catalogue</th>
+<th>implied credit/mass on the hidden set</th><th>transfer ratio <i>r</i></th></tr>
+<tr><td><code>gemsdoe32_h33_2_b2_02778_zeros</code></td><td>0.2778</td><td>37,638</td><td>0.1433</td><td>0.0100</td><td>0.1111</td><td>0.7752</td></tr><tr><td><code>gems36_anderson_pinn_02750</code></td><td>0.275</td><td>38,838</td><td>0.1415</td><td>0.0101</td><td>0.1082</td><td>0.7649</td></tr><tr><td><code>gems28_h27_4_r1_solo_d2_8_02708</code></td><td>0.2708</td><td>40,183</td><td>0.1352</td><td>0.0697</td><td>0.1048</td><td>0.7753</td></tr><tr><td><code>gems33_h33d_tip_stepover_r30_02632</code></td><td>0.2632</td><td>41,850</td><td>0.1311</td><td>0.1190</td><td>0.0999</td><td>0.7621</td></tr><tr><td><code>gems25_dotted_h19_5_d2_8_02600</code></td><td>0.26</td><td>44,074</td><td>0.1235</td><td>0.2153</td><td>0.0964</td><td>0.7805</td></tr><tr><td><code>gems27_topo_gap_closure_t_v2_02449</code></td><td>0.2449</td><td>61,309</td><td>0.1009</td><td>0.1748</td><td>0.0790</td><td>0.7835</td></tr><tr><td><code>gems49_gate_ortho_w025_02376</code></td><td>0.2376</td><td>39,927</td><td>0.1932</td><td>0.0000</td><td>0.0923</td><td>0.4775</td></tr><tr><td><code>gems19_h19_5_powerlaw_01922</code></td><td>0.1922</td><td>121,106</td><td>0.0592</td><td>0.1006</td><td>0.0504</td><td>0.8511</td></tr><tr><td><code>gems19_h19_4_multiline_thermal_01894</code></td><td>0.1894</td><td>123,751</td><td>0.0620</td><td>0.0999</td><td>0.0494</td><td>0.7969</td></tr><tr><td><code>gems8_hedge_v2_01563</code></td><td>0.1563</td><td>227,413</td><td>0.0368</td><td>0.2678</td><td>0.0364</td><td>0.9888</td></tr><tr><td><code>gems13_r13_lattice_s5_00904</code></td><td>0.0904</td><td>206,795</td><td>0.1122</td><td>0.1102</td><td>0.0214</td><td>0.1904</td></tr>
+</table>
+<p><code>r</code> = implied hidden credit ÷ proxy credit, with <code>K = 9,400</code> cells.
+Across the nine rasters spanning 0.1563–0.2778 the ratio has median
+<b>0.7753</b> (IQR
+[0.7635, 0.7902]); the two outliers
+(<code>gems49_gate_ortho</code> at 0.478, <code>gems13_r13_lattice</code> at 0.190) are different
+families, which is exactly why the projection is quoted as a <i>band</i> from
+r = 0.478 to r = 0.775 rather than a point.</p>
+<p><b>Read the catalogue column too:</b> it is <i>anti</i>-correlated with the score. The best
+submissions have essentially zero skill at finding catalogue faults
+(0.0100
+for the champion) while the worst-but-one has the highest
+(0.2678).
+The hidden set is not where the catalogue is.</p>
+
+<h2>3. The one confound that could fake the result, measured</h2>
+<p>Every DEM channel is a form of local relief, and the USGS State Geologic Map Compilation draws
+most of its faults in ranges — so a detector that simply finds mountains would score well on the
+proxy instrument without finding a single fault. Measured:</p>
+<table>
+<tr><th>population</th><th>median local slope (m per 100 m cell)</th><th>median elevation (m)</th>
+<th>share in the top slope decile of the footprint</th></tr>
+<tr><td>emitted dots</td><td>600</td><td>1732</td>
+<td><b>0.137</b> (base rate 0.10)</td></tr>
+<tr><td>SGMC off-catalogue faults (the proxy truth)</td><td>821</td>
+<td>1779</td><td>—</td></tr>
+<tr><td>competition catalogue</td><td>525</td><td>—</td><td>—</td></tr>
+<tr><td>whole footprint</td><td>397</td>
+<td>1525</td><td>0.100</td></tr>
+</table>
+<p>The emission is <b>mildly</b> biased toward rough ground — 13.7%
+of its dots sit in the steepest decile against a 10 % base rate — but it is <i>less</i> rough than
+the proxy truth itself (821 vs 600). So the
+confound is real, quantified, and not large enough on its own to explain a
+1.82× lift. Stated rather than dismissed.</p>
+
+<h2>4. The policy sweep</h2>
+<p>MEASURED credit per unit mass, lift over a random emission at the same mass in the same
+off-catalogue domain, and the MODEL projection band. Top 18 rows of
+210.</p>
+<table>
+<tr><th>belief field</th><th>NMS radius (px)</th><th>mass</th><th>credit/mass</th><th>lift</th>
+<th>projection (pessimistic)</th><th>projection (optimistic)</th></tr>
+<tr><td><code>dem3</code></td><td>1</td><td>60,000</td><td><b>0.2178</b></td><td>2.01×</td><td>0.289</td><td>0.550</td></tr><tr><td><code>dem3</code></td><td>1</td><td>90,000</td><td><b>0.1885</b></td><td>1.82×</td><td>0.294</td><td>0.539</td></tr><tr><td><code>dem5</code></td><td>1</td><td>90,000</td><td><b>0.1878</b></td><td>1.81×</td><td>0.293</td><td>0.537</td></tr><tr><td><code>dem5</code></td><td>1</td><td>60,000</td><td><b>0.2094</b></td><td>1.93×</td><td>0.278</td><td>0.529</td></tr><tr><td><code>dem3</code></td><td>1</td><td>40,000</td><td><b>0.2425</b></td><td>2.17×</td><td>0.264</td><td>0.522</td></tr><tr><td><code>dem3</code></td><td>1</td><td>130,000</td><td><b>0.1603</b></td><td>1.63×</td><td>0.280</td><td>0.498</td></tr><tr><td><code>dem5</code></td><td>1</td><td>130,000</td><td><b>0.1569</b></td><td>1.59×</td><td>0.274</td><td>0.488</td></tr><tr><td><code>dem3</code></td><td>2</td><td>60,000</td><td><b>0.1957</b></td><td>1.80×</td><td>0.260</td><td>0.495</td></tr><tr><td><code>dem3</code></td><td>2</td><td>40,000</td><td><b>0.2297</b></td><td>2.06×</td><td>0.249</td><td>0.494</td></tr><tr><td><code>all</code></td><td>1</td><td>130,000</td><td><b>0.1450</b></td><td>1.47×</td><td>0.253</td><td>0.451</td></tr><tr><td><code>dem3</code></td><td>2</td><td>90,000</td><td><b>0.1583</b></td><td>1.53×</td><td>0.247</td><td>0.452</td></tr><tr><td><code>dem5</code></td><td>1</td><td>40,000</td><td><b>0.2136</b></td><td>1.91×</td><td>0.232</td><td>0.460</td></tr><tr><td><code>dem5</code></td><td>2</td><td>60,000</td><td><b>0.1782</b></td><td>1.64×</td><td>0.237</td><td>0.450</td></tr><tr><td><code>all</code></td><td>1</td><td>90,000</td><td><b>0.1533</b></td><td>1.48×</td><td>0.239</td><td>0.438</td></tr><tr><td><code>dem5</code></td><td>2</td><td>40,000</td><td><b>0.2071</b></td><td>1.86×</td><td>0.225</td><td>0.446</td></tr><tr><td><code>geo3_dem3</code></td><td>1</td><td>130,000</td><td><b>0.1381</b></td><td>1.40×</td><td>0.241</td><td>0.429</td></tr><tr><td><code>all</code></td><td>1</td><td>180,000</td><td><b>0.1292</b></td><td>1.42×</td><td>0.244</td><td>0.425</td></tr><tr><td><code>geo5_dem5</code></td><td>1</td><td>130,000</td><td><b>0.1367</b></td><td>1.39×</td><td>0.239</td><td>0.425</td></tr>
+</table>
+<p>Random control credit/mass by mass:
+20k → 0.1184, 40k → 0.1116, 60k → 0.1085, 90k → 0.1037, 130k → 0.0985, 180k → 0.0909.</p>
+</div></body></html>

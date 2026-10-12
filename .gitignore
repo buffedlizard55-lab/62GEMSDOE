@@ -44,3 +44,14 @@ lane62-h62a/evidence/verification_report_ci.json
 # NOTE: the three shipped files under lane62-h62a/docs/downloads/ (-zeros.tif, its
 # -nan twin and the .zip) are deliberately TRACKED, not ignored: they are the
 # one-click deliverable the site points at, and together they are 432 kB.
+
+# ---- H63 (session arena/4ef3d5d6-62gemsdoe) -----------------------------------------
+# All heavy inputs are re-derivable from hash-pinned sources (see registry/data_pins.json
+# and evidence/h63_features.json) and stay out of git.  Reproduction:
+#   gh api repos/buffedlizard55-lab/GEMSDOE/contents/data/bridge/<part> ... (see docs)
+#   gh api repos/buffedlizard55-lab/60GEMSDOE/contents/data/geodawn_dem_a2_100m.tif
+#   python3 scripts/h63_features.py
+data/bridge/
+data/h63/
+data/registry/
+data/sibling/

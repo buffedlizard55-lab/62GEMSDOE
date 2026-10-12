@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Shoreline profiles — H63</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;
+ --warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+ font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.9em;margin:.2em 0 .1em}h2{font-size:1.35em;margin:1.6em 0 .5em;
+ border-bottom:1px solid var(--bd);padding-bottom:.3em}
+h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.9em}
+pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.85em}
+table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}
+.mut{color:var(--mut)}.card{background:var(--card);border:1px solid var(--bd);
+ border-radius:8px;padding:18px;margin:14px 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
+.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
+.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
+.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
+.hero{border:2px solid var(--ok);border-radius:10px;padding:22px;margin:18px 0;
+ background:rgba(63,185,80,.06)}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;
+ border-radius:8px;margin:8px 8px 8px 0}
+.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+.kv td:first-child{width:32%;color:var(--mut)}
+.big{font-size:1.5em;font-weight:700}
+.small{font-size:.85em}
+</style></head><body><div class="wrap">
+<h1>Shoreline elevation–distance profiles — the lane's first deliverable</h1>
+<nav>
+<a href="index.html">⬇ Download &amp; verdict</a>
+<a href="executive-summary.html">How to submit</a>
+<a href="method.html">Method</a>
+<a href="results.html">Results</a>
+<a href="profiles.html">Shoreline profiles</a>
+<a href="leaderboard.html">Leaderboard &amp; calibration</a>
+<a href="run-card.html">Run card</a>
+<a href="sources.html">Sources</a>
+<a href="irregularities.html">Irregularities</a>
+<a href="limitations.html">Limitations</a>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
+</nav>
+<p class="mut">Reuses <code>src/gems62/lahontan.py</code> unchanged, driven by the sha256-pinned
+100 m DEM <code>data/external/geodawn_dem_a2_100m.tif</code>.</p>
+
+<h2>Verdict: <span class="pill no">NEGATIVE</span> — the datum step detector returns nothing publishable</h2>
+<div class="card">
+<p>The lane asks for benches mapped in the DEM, a smooth isobase fitted with post-pluvial
+isostatic rebound allowed for, and abrupt steps flagged along strike. All three steps run. The
+third one returns <b>0 steps</b>.</p>
+<table>
+<tr><th>domain</th><th>benches</th><th>robust isobase residual σ (m)</th><th>flagged steps</th>
+<th>flagged lateral deflections</th><th>significance gate (m)</th><th>pairs within 5 km</th>
+<th>pairs clearing the 3 m resolution gate</th></tr>
+<tr><td><code>footprint</code></td><td>479</td><td>10.322</td><td>0</td><td>51</td><td>31.056</td><td>756</td><td>607</td></tr><tr><td><code>lahontan_box</code></td><td>416</td><td>10.225</td><td>0</td><td>46</td><td>31.801</td><td>635</td><td>508</td></tr>
+</table>
+<p>The reason is quantitative, not a matter of taste. Adams, Wesnousky &amp; Bills (1999) put the
+resolution of the <i>elevation</i> method at ~3 m, set by how high constructional beach crests
+build above still water. The robust isobase fitted here leaves a residual scatter of
+<b>10.32 m</b> —
+<b>3.4× that figure</b>. Since the significance gate is
+<code>z · √2 · σ</code>, a 10.3 m scatter forces the gate to
+<b>31.056 m</b>, and no bench pair on this DEM clears
+it. Widening the elevation window to the whole footprint mixes several pluvial basins that are not
+the same isochronous surface, which is why restricting to the Lahontan box barely moves σ
+(10.22 m).</p>
+<p><b>This is the fifth session in this repository to measure the datum band at or below
+chance on an independent instrument, and the first to say why in metres.</b> The lane's own
+instrument cannot resolve 2 m datum offsets at 100 m DEM resolution, whatever the literature says
+about 15 ka shorelines measured with differential GPS in the field.</p>
+</div>
+
+<h2>The profiles (first deliverable, as requested)</h2>
+<p><img src="assets/h63_shoreline_profiles.png" alt="shoreline elevation vs distance"
+ style="max-width:100%;border:1px solid #30363d;border-radius:8px"></p>
+<p>Four tracks (0°, 45°, 90°, 135°) through the 479 mapped benches. Solid lines are
+bench elevation versus distance along the track; dashed lines are the fitted isobase. The spread
+between a solid line and its dashed twin <i>is</i> the residual that the step detector examines.</p>
+<p>Data: <a href="profiles/shoreline_profile_track0.csv"><code>shoreline_profile_track0.csv</code></a>
+(track 0°) · full JSON: <a href="../../evidence/h63_lane.json"><code>evidence/h63_lane.json</code></a></p>
+
+<h2>Flagged steps</h2>
+<p>none — the gate rejected every pair. The 20 largest residual jumps, all of which fall short of the
+31.056 m gate, are listed in
+<code>evidence/h63_lane.json → step_gate_stats.borderline_candidates</code> with their
+<code>z</code> scores, so a reader can see what was rejected rather than only what survived.</p>
+
+<h2>Flagged lateral deflections</h2>
+<p>51 azimuth changes ≥ 35.0°
+between nearby elongated benches were flagged. They are reported as <b>candidates</b>, not as
+faults: an azimuth change of a bench trace can equally be produced by two unrelated benches of
+different lithology, by a change in fetch, or by the 8-connected labelling splitting one trace.
+None of them was used in the shipped raster.</p>
+</div></body></html>

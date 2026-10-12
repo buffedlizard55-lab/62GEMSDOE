@@ -1,0 +1,1402 @@
+{
+ "generated_utc": "2026-10-12T00:58:11Z",
+ "evidence_class": "HOLDOUT-DTI (evaluator src/gems62/metric.py; 4 spatially blocked folds of 512 px blocks; 3 px collar; visible catalogue masked pixel-exactly; emission selected inside the held-out core; pooled TP/FP/FN; alpha 0.2 beta 0.8 R 300 m)",
+ "prob_file": "h63a_prob.npy",
+ "auc_per_fold": [
+  {
+   "fold": 0,
+   "auc_catalogue": 0.5176,
+   "n_pos_catalogue": 15266,
+   "auc_proxy_off": 0.4877,
+   "n_pos_proxy_off": 18123
+  },
+  {
+   "fold": 1,
+   "auc_catalogue": 0.5,
+   "n_pos_catalogue": 14930,
+   "auc_proxy_off": 0.5,
+   "n_pos_proxy_off": 9603
+  },
+  {
+   "fold": 2,
+   "auc_catalogue": 0.5048,
+   "n_pos_catalogue": 14963,
+   "auc_proxy_off": 0.4574,
+   "n_pos_proxy_off": 17740
+  },
+  {
+   "fold": 3,
+   "auc_catalogue": 0.4968,
+   "n_pos_catalogue": 14713,
+   "auc_proxy_off": 0.479,
+   "n_pos_proxy_off": 14799
+  }
+ ],
+ "best_by_catalogue_dti": {
+  "sigma_px": 2.0,
+  "radius_px": 0,
+  "k_frac_of_core": 0.04,
+  "mass": 202501.0,
+  "catalogue": {
+   "tp": 3902.39,
+   "fp": 191534.23,
+   "fn": 55969.61,
+   "K": 59872.0,
+   "dti": 0.04486,
+   "credit_per_mass": 0.01927
+  },
+  "proxy_off": {
+   "tp": 1845.22,
+   "fp": 197099.79,
+   "fn": 58419.78,
+   "K": 60265.0,
+   "dti": 0.02097,
+   "credit_per_mass": 0.00911
+  }
+ },
+ "best_by_proxy_dti": {
+  "sigma_px": 2.0,
+  "radius_px": 4,
+  "k_frac_of_core": 0.04,
+  "mass": 202501.0,
+  "catalogue": {
+   "tp": 2230.5,
+   "fp": 197211.45,
+   "fn": 57641.5,
+   "K": 59872.0,
+   "dti": 0.02541,
+   "credit_per_mass": 0.01101
+  },
+  "proxy_off": {
+   "tp": 2970.64,
+   "fp": 194063.28,
+   "fn": 57294.36,
+   "K": 60265.0,
+   "dti": 0.0339,
+   "credit_per_mass": 0.01467
+  }
+ },
+ "policies": [
+  {
+   "sigma_px": 0.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.0025,
+   "mass": 12657.0,
+   "catalogue": {
+    "tp": 243.58,
+    "fp": 12290.6,
+    "fn": 59628.42,
+    "K": 59872.0,
+    "dti": 0.00483,
+    "credit_per_mass": 0.01924
+   },
+   "proxy_off": {
+    "tp": 32.42,
+    "fp": 12604.11,
+    "fn": 60232.58,
+    "K": 60265.0,
+    "dti": 0.00064,
+    "credit_per_mass": 0.00256
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.005,
+   "mass": 25312.0,
+   "catalogue": {
+    "tp": 455.01,
+    "fp": 24702.55,
+    "fn": 59416.99,
+    "K": 59872.0,
+    "dti": 0.0086,
+    "credit_per_mass": 0.01798
+   },
+   "proxy_off": {
+    "tp": 81.35,
+    "fp": 25169.75,
+    "fn": 60183.65,
+    "K": 60265.0,
+    "dti": 0.00153,
+    "credit_per_mass": 0.00321
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.01,
+   "mass": 50625.0,
+   "catalogue": {
+    "tp": 1095.64,
+    "fp": 48889.36,
+    "fn": 58776.36,
+    "K": 59872.0,
+    "dti": 0.01892,
+    "credit_per_mass": 0.02164
+   },
+   "proxy_off": {
+    "tp": 161.4,
+    "fp": 50355.42,
+    "fn": 60103.6,
+    "K": 60265.0,
+    "dti": 0.00277,
+    "credit_per_mass": 0.00319
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.02,
+   "mass": 101250.0,
+   "catalogue": {
+    "tp": 1849.93,
+    "fp": 97221.71,
+    "fn": 58022.07,
+    "K": 59872.0,
+    "dti": 0.02732,
+    "credit_per_mass": 0.01827
+   },
+   "proxy_off": {
+    "tp": 680.86,
+    "fp": 99591.33,
+    "fn": 59584.14,
+    "K": 60265.0,
+    "dti": 0.00997,
+    "credit_per_mass": 0.00672
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.04,
+   "mass": 202501.0,
+   "catalogue": {
+    "tp": 2793.64,
+    "fp": 196142.57,
+    "fn": 57078.36,
+    "K": 59872.0,
+    "dti": 0.03186,
+    "credit_per_mass": 0.0138
+   },
+   "proxy_off": {
+    "tp": 1838.78,
+    "fp": 197387.61,
+    "fn": 58426.22,
+    "K": 60265.0,
+    "dti": 0.02088,
+    "credit_per_mass": 0.00908
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.0025,
+   "mass": 12657.0,
+   "catalogue": {
+    "tp": 300.35,
+    "fp": 12246.71,
+    "fn": 59571.65,
+    "K": 59872.0,
+    "dti": 0.00596,
+    "credit_per_mass": 0.02373
+   },
+   "proxy_off": {
+    "tp": 55.87,
+    "fp": 12567.14,
+    "fn": 60209.13,
+    "K": 60265.0,
+    "dti": 0.0011,
+    "credit_per_mass": 0.00441
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.005,
+   "mass": 25312.0,
+   "catalogue": {
+    "tp": 571.83,
+    "fp": 24561.54,
+    "fn": 59300.17,
+    "K": 59872.0,
+    "dti": 0.0108,
+    "credit_per_mass": 0.02259
+   },
+   "proxy_off": {
+    "tp": 66.73,
+    "fp": 25187.87,
+    "fn": 60198.27,
+    "K": 60265.0,
+    "dti": 0.00125,
+    "credit_per_mass": 0.00264
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.01,
+   "mass": 50625.0,
+   "catalogue": {
+    "tp": 1019.84,
+    "fp": 49214.64,
+    "fn": 58852.16,
+    "K": 59872.0,
+    "dti": 0.0176,
+    "credit_per_mass": 0.02014
+   },
+   "proxy_off": {
+    "tp": 198.57,
+    "fp": 50276.3,
+    "fn": 60066.43,
+    "K": 60265.0,
+    "dti": 0.00341,
+    "credit_per_mass": 0.00392
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.02,
+   "mass": 101250.0,
+   "catalogue": {
+    "tp": 1858.64,
+    "fp": 97820.35,
+    "fn": 58013.36,
+    "K": 59872.0,
+    "dti": 0.0274,
+    "credit_per_mass": 0.01836
+   },
+   "proxy_off": {
+    "tp": 761.41,
+    "fp": 99611.8,
+    "fn": 59503.59,
+    "K": 60265.0,
+    "dti": 0.01115,
+    "credit_per_mass": 0.00752
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.04,
+   "mass": 202501.0,
+   "catalogue": {
+    "tp": 3088.0,
+    "fp": 196230.91,
+    "fn": 56784.0,
+    "K": 59872.0,
+    "dti": 0.03519,
+    "credit_per_mass": 0.01525
+   },
+   "proxy_off": {
+    "tp": 2198.86,
+    "fp": 196920.78,
+    "fn": 58066.14,
+    "K": 60265.0,
+    "dti": 0.02498,
+    "credit_per_mass": 0.01086
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.0025,
+   "mass": 12657.0,
+   "catalogue": {
+    "tp": 268.14,
+    "fp": 12294.4,
+    "fn": 59603.86,
+    "K": 59872.0,
+    "dti": 0.00532,
+    "credit_per_mass": 0.02119
+   },
+   "proxy_off": {
+    "tp": 62.04,
+    "fp": 12559.83,
+    "fn": 60202.96,
+    "K": 60265.0,
+    "dti": 0.00122,
+    "credit_per_mass": 0.0049
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.005,
+   "mass": 25312.0,
+   "catalogue": {
+    "tp": 563.79,
+    "fp": 24570.77,
+    "fn": 59308.21,
+    "K": 59872.0,
+    "dti": 0.01065,
+    "credit_per_mass": 0.02227
+   },
+   "proxy_off": {
+    "tp": 72.76,
+    "fp": 25180.45,
+    "fn": 60192.24,
+    "K": 60265.0,
+    "dti": 0.00137,
+    "credit_per_mass": 0.00287
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.01,
+   "mass": 50625.0,
+   "catalogue": {
+    "tp": 1085.72,
+    "fp": 49032.33,
+    "fn": 58786.28,
+    "K": 59872.0,
+    "dti": 0.01874,
+    "credit_per_mass": 0.02145
+   },
+   "proxy_off": {
+    "tp": 193.58,
+    "fp": 50300.89,
+    "fn": 60071.42,
+    "K": 60265.0,
+    "dti": 0.00332,
+    "credit_per_mass": 0.00382
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.02,
+   "mass": 101250.0,
+   "catalogue": {
+    "tp": 1716.97,
+    "fp": 98258.89,
+    "fn": 58155.03,
+    "K": 59872.0,
+    "dti": 0.02529,
+    "credit_per_mass": 0.01696
+   },
+   "proxy_off": {
+    "tp": 1013.35,
+    "fp": 99100.89,
+    "fn": 59251.65,
+    "K": 60265.0,
+    "dti": 0.01485,
+    "credit_per_mass": 0.01001
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.04,
+   "mass": 202501.0,
+   "catalogue": {
+    "tp": 2963.66,
+    "fp": 196506.41,
+    "fn": 56908.34,
+    "K": 59872.0,
+    "dti": 0.03376,
+    "credit_per_mass": 0.01464
+   },
+   "proxy_off": {
+    "tp": 2158.22,
+    "fp": 197197.37,
+    "fn": 58106.78,
+    "K": 60265.0,
+    "dti": 0.0245,
+    "credit_per_mass": 0.01066
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.0025,
+   "mass": 12657.0,
+   "catalogue": {
+    "tp": 342.67,
+    "fp": 12224.32,
+    "fn": 59529.33,
+    "K": 59872.0,
+    "dti": 0.0068,
+    "credit_per_mass": 0.02707
+   },
+   "proxy_off": {
+    "tp": 64.13,
+    "fp": 12558.27,
+    "fn": 60200.87,
+    "K": 60265.0,
+    "dti": 0.00126,
+    "credit_per_mass": 0.00507
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.005,
+   "mass": 25312.0,
+   "catalogue": {
+    "tp": 590.56,
+    "fp": 24560.79,
+    "fn": 59281.44,
+    "K": 59872.0,
+    "dti": 0.01116,
+    "credit_per_mass": 0.02333
+   },
+   "proxy_off": {
+    "tp": 72.17,
+    "fp": 25183.45,
+    "fn": 60192.83,
+    "K": 60265.0,
+    "dti": 0.00136,
+    "credit_per_mass": 0.00285
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.01,
+   "mass": 50625.0,
+   "catalogue": {
+    "tp": 1092.58,
+    "fp": 49024.85,
+    "fn": 58779.42,
+    "K": 59872.0,
+    "dti": 0.01886,
+    "credit_per_mass": 0.02158
+   },
+   "proxy_off": {
+    "tp": 234.16,
+    "fp": 50254.98,
+    "fn": 60030.84,
+    "K": 60265.0,
+    "dti": 0.00402,
+    "credit_per_mass": 0.00463
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.02,
+   "mass": 101250.0,
+   "catalogue": {
+    "tp": 1646.82,
+    "fp": 98347.39,
+    "fn": 58225.18,
+    "K": 59872.0,
+    "dti": 0.02425,
+    "credit_per_mass": 0.01626
+   },
+   "proxy_off": {
+    "tp": 980.02,
+    "fp": 99109.36,
+    "fn": 59284.98,
+    "K": 60265.0,
+    "dti": 0.01436,
+    "credit_per_mass": 0.00968
+   }
+  },
+  {
+   "sigma_px": 0.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.04,
+   "mass": 202501.0,
+   "catalogue": {
+    "tp": 2945.96,
+    "fp": 196462.26,
+    "fn": 56926.04,
+    "K": 59872.0,
+    "dti": 0.03356,
+    "credit_per_mass": 0.01455
+   },
+   "proxy_off": {
+    "tp": 2306.45,
+    "fp": 196883.65,
+    "fn": 57958.55,
+    "K": 60265.0,
+    "dti": 0.02619,
+    "credit_per_mass": 0.01139
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.0025,
+   "mass": 12657.0,
+   "catalogue": {
+    "tp": 542.57,
+    "fp": 11799.71,
+    "fn": 59329.43,
+    "K": 59872.0,
+    "dti": 0.01077,
+    "credit_per_mass": 0.04287
+   },
+   "proxy_off": {
+    "tp": 69.22,
+    "fp": 12522.1,
+    "fn": 60195.78,
+    "K": 60265.0,
+    "dti": 0.00136,
+    "credit_per_mass": 0.00547
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.005,
+   "mass": 25312.0,
+   "catalogue": {
+    "tp": 685.35,
+    "fp": 24092.65,
+    "fn": 59186.65,
+    "K": 59872.0,
+    "dti": 0.01297,
+    "credit_per_mass": 0.02708
+   },
+   "proxy_off": {
+    "tp": 95.04,
+    "fp": 25093.73,
+    "fn": 60169.96,
+    "K": 60265.0,
+    "dti": 0.00178,
+    "credit_per_mass": 0.00375
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.01,
+   "mass": 50625.0,
+   "catalogue": {
+    "tp": 1292.31,
+    "fp": 48073.65,
+    "fn": 58579.69,
+    "K": 59872.0,
+    "dti": 0.02237,
+    "credit_per_mass": 0.02553
+   },
+   "proxy_off": {
+    "tp": 220.27,
+    "fp": 50054.36,
+    "fn": 60044.73,
+    "K": 60265.0,
+    "dti": 0.00378,
+    "credit_per_mass": 0.00435
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.02,
+   "mass": 101250.0,
+   "catalogue": {
+    "tp": 2192.35,
+    "fp": 96095.03,
+    "fn": 57679.65,
+    "K": 59872.0,
+    "dti": 0.03245,
+    "credit_per_mass": 0.02165
+   },
+   "proxy_off": {
+    "tp": 758.57,
+    "fp": 99311.28,
+    "fn": 59506.43,
+    "K": 60265.0,
+    "dti": 0.01112,
+    "credit_per_mass": 0.00749
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.04,
+   "mass": 202501.0,
+   "catalogue": {
+    "tp": 3288.52,
+    "fp": 193770.91,
+    "fn": 56583.48,
+    "K": 59872.0,
+    "dti": 0.03767,
+    "credit_per_mass": 0.01624
+   },
+   "proxy_off": {
+    "tp": 1814.94,
+    "fp": 197166.12,
+    "fn": 58450.06,
+    "K": 60265.0,
+    "dti": 0.02062,
+    "credit_per_mass": 0.00896
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.0025,
+   "mass": 12657.0,
+   "catalogue": {
+    "tp": 564.39,
+    "fp": 12175.98,
+    "fn": 59307.61,
+    "K": 59872.0,
+    "dti": 0.01119,
+    "credit_per_mass": 0.04459
+   },
+   "proxy_off": {
+    "tp": 113.34,
+    "fp": 12451.65,
+    "fn": 60151.66,
+    "K": 60265.0,
+    "dti": 0.00223,
+    "credit_per_mass": 0.00895
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.005,
+   "mass": 25312.0,
+   "catalogue": {
+    "tp": 689.1,
+    "fp": 24503.48,
+    "fn": 59182.9,
+    "K": 59872.0,
+    "dti": 0.01302,
+    "credit_per_mass": 0.02722
+   },
+   "proxy_off": {
+    "tp": 277.3,
+    "fp": 24765.09,
+    "fn": 59987.7,
+    "K": 60265.0,
+    "dti": 0.00521,
+    "credit_per_mass": 0.01096
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.01,
+   "mass": 50625.0,
+   "catalogue": {
+    "tp": 995.04,
+    "fp": 49117.31,
+    "fn": 58876.96,
+    "K": 59872.0,
+    "dti": 0.01718,
+    "credit_per_mass": 0.01966
+   },
+   "proxy_off": {
+    "tp": 711.32,
+    "fp": 49081.45,
+    "fn": 59553.68,
+    "K": 60265.0,
+    "dti": 0.01223,
+    "credit_per_mass": 0.01405
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.02,
+   "mass": 101250.0,
+   "catalogue": {
+    "tp": 1834.0,
+    "fp": 98087.36,
+    "fn": 58038.0,
+    "K": 59872.0,
+    "dti": 0.02702,
+    "credit_per_mass": 0.01811
+   },
+   "proxy_off": {
+    "tp": 1346.77,
+    "fp": 98038.59,
+    "fn": 58918.23,
+    "K": 60265.0,
+    "dti": 0.01978,
+    "credit_per_mass": 0.0133
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.04,
+   "mass": 202501.0,
+   "catalogue": {
+    "tp": 3318.84,
+    "fp": 195039.54,
+    "fn": 56553.16,
+    "K": 59872.0,
+    "dti": 0.0379,
+    "credit_per_mass": 0.01639
+   },
+   "proxy_off": {
+    "tp": 1956.15,
+    "fp": 197799.55,
+    "fn": 58308.85,
+    "K": 60265.0,
+    "dti": 0.02219,
+    "credit_per_mass": 0.00966
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.0025,
+   "mass": 12657.0,
+   "catalogue": {
+    "tp": 512.17,
+    "fp": 12104.32,
+    "fn": 59359.83,
+    "K": 59872.0,
+    "dti": 0.01016,
+    "credit_per_mass": 0.04047
+   },
+   "proxy_off": {
+    "tp": 139.76,
+    "fp": 12415.52,
+    "fn": 60125.24,
+    "K": 60265.0,
+    "dti": 0.00276,
+    "credit_per_mass": 0.01104
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.005,
+   "mass": 25312.0,
+   "catalogue": {
+    "tp": 630.78,
+    "fp": 24510.51,
+    "fn": 59241.22,
+    "K": 59872.0,
+    "dti": 0.01192,
+    "credit_per_mass": 0.02492
+   },
+   "proxy_off": {
+    "tp": 334.38,
+    "fp": 24654.52,
+    "fn": 59930.62,
+    "K": 60265.0,
+    "dti": 0.00628,
+    "credit_per_mass": 0.01321
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.01,
+   "mass": 50625.0,
+   "catalogue": {
+    "tp": 954.41,
+    "fp": 49021.7,
+    "fn": 58917.59,
+    "K": 59872.0,
+    "dti": 0.01649,
+    "credit_per_mass": 0.01885
+   },
+   "proxy_off": {
+    "tp": 832.91,
+    "fp": 48723.99,
+    "fn": 59432.09,
+    "K": 60265.0,
+    "dti": 0.01433,
+    "credit_per_mass": 0.01645
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.02,
+   "mass": 101250.0,
+   "catalogue": {
+    "tp": 1727.31,
+    "fp": 97935.4,
+    "fn": 58144.69,
+    "K": 59872.0,
+    "dti": 0.02547,
+    "credit_per_mass": 0.01706
+   },
+   "proxy_off": {
+    "tp": 1312.65,
+    "fp": 98113.08,
+    "fn": 58952.35,
+    "K": 60265.0,
+    "dti": 0.01928,
+    "credit_per_mass": 0.01296
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.04,
+   "mass": 202501.0,
+   "catalogue": {
+    "tp": 3101.95,
+    "fp": 195204.15,
+    "fn": 56770.05,
+    "K": 59872.0,
+    "dti": 0.03543,
+    "credit_per_mass": 0.01532
+   },
+   "proxy_off": {
+    "tp": 2063.67,
+    "fp": 197368.06,
+    "fn": 58201.33,
+    "K": 60265.0,
+    "dti": 0.02342,
+    "credit_per_mass": 0.01019
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.0025,
+   "mass": 12657.0,
+   "catalogue": {
+    "tp": 455.72,
+    "fp": 12159.37,
+    "fn": 59416.28,
+    "K": 59872.0,
+    "dti": 0.00904,
+    "credit_per_mass": 0.03601
+   },
+   "proxy_off": {
+    "tp": 122.83,
+    "fp": 12434.22,
+    "fn": 60142.17,
+    "K": 60265.0,
+    "dti": 0.00242,
+    "credit_per_mass": 0.0097
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.005,
+   "mass": 25312.0,
+   "catalogue": {
+    "tp": 604.17,
+    "fp": 24514.57,
+    "fn": 59267.83,
+    "K": 59872.0,
+    "dti": 0.01142,
+    "credit_per_mass": 0.02387
+   },
+   "proxy_off": {
+    "tp": 319.62,
+    "fp": 24661.33,
+    "fn": 59945.38,
+    "K": 60265.0,
+    "dti": 0.00601,
+    "credit_per_mass": 0.01263
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.01,
+   "mass": 50625.0,
+   "catalogue": {
+    "tp": 914.74,
+    "fp": 49056.97,
+    "fn": 58957.26,
+    "K": 59872.0,
+    "dti": 0.0158,
+    "credit_per_mass": 0.01807
+   },
+   "proxy_off": {
+    "tp": 844.37,
+    "fp": 48665.39,
+    "fn": 59420.63,
+    "K": 60265.0,
+    "dti": 0.01453,
+    "credit_per_mass": 0.01668
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.02,
+   "mass": 101250.0,
+   "catalogue": {
+    "tp": 1640.82,
+    "fp": 97908.45,
+    "fn": 58231.18,
+    "K": 59872.0,
+    "dti": 0.0242,
+    "credit_per_mass": 0.01621
+   },
+   "proxy_off": {
+    "tp": 1246.75,
+    "fp": 98239.0,
+    "fn": 59018.25,
+    "K": 60265.0,
+    "dti": 0.01831,
+    "credit_per_mass": 0.01231
+   }
+  },
+  {
+   "sigma_px": 1.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.04,
+   "mass": 202501.0,
+   "catalogue": {
+    "tp": 2921.73,
+    "fp": 195392.59,
+    "fn": 56950.27,
+    "K": 59872.0,
+    "dti": 0.03337,
+    "credit_per_mass": 0.01443
+   },
+   "proxy_off": {
+    "tp": 2129.06,
+    "fp": 197042.79,
+    "fn": 58135.94,
+    "K": 60265.0,
+    "dti": 0.02418,
+    "credit_per_mass": 0.01051
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.0025,
+   "mass": 12657.0,
+   "catalogue": {
+    "tp": 1064.11,
+    "fp": 10049.41,
+    "fn": 58807.89,
+    "K": 59872.0,
+    "dti": 0.02123,
+    "credit_per_mass": 0.08407
+   },
+   "proxy_off": {
+    "tp": 145.43,
+    "fp": 12312.57,
+    "fn": 60119.57,
+    "K": 60265.0,
+    "dti": 0.00287,
+    "credit_per_mass": 0.01149
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.005,
+   "mass": 25312.0,
+   "catalogue": {
+    "tp": 1315.15,
+    "fp": 22029.17,
+    "fn": 58556.85,
+    "K": 59872.0,
+    "dti": 0.02502,
+    "credit_per_mass": 0.05196
+   },
+   "proxy_off": {
+    "tp": 237.08,
+    "fp": 24753.3,
+    "fn": 60027.92,
+    "K": 60265.0,
+    "dti": 0.00446,
+    "credit_per_mass": 0.00937
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.01,
+   "mass": 50625.0,
+   "catalogue": {
+    "tp": 1718.54,
+    "fp": 46137.25,
+    "fn": 58153.46,
+    "K": 59872.0,
+    "dti": 0.0299,
+    "credit_per_mass": 0.03395
+   },
+   "proxy_off": {
+    "tp": 324.7,
+    "fp": 49768.32,
+    "fn": 59940.3,
+    "K": 60265.0,
+    "dti": 0.00558,
+    "credit_per_mass": 0.00641
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.02,
+   "mass": 101250.0,
+   "catalogue": {
+    "tp": 2665.93,
+    "fp": 94194.33,
+    "fn": 57206.07,
+    "K": 59872.0,
+    "dti": 0.03963,
+    "credit_per_mass": 0.02633
+   },
+   "proxy_off": {
+    "tp": 763.96,
+    "fp": 99211.46,
+    "fn": 59501.04,
+    "K": 60265.0,
+    "dti": 0.0112,
+    "credit_per_mass": 0.00755
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 0,
+   "k_frac_of_core": 0.04,
+   "mass": 202501.0,
+   "catalogue": {
+    "tp": 3902.39,
+    "fp": 191534.23,
+    "fn": 55969.61,
+    "K": 59872.0,
+    "dti": 0.04486,
+    "credit_per_mass": 0.01927
+   },
+   "proxy_off": {
+    "tp": 1845.22,
+    "fp": 197099.79,
+    "fn": 58419.78,
+    "K": 60265.0,
+    "dti": 0.02097,
+    "credit_per_mass": 0.00911
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.0025,
+   "mass": 12657.0,
+   "catalogue": {
+    "tp": 483.3,
+    "fp": 12209.37,
+    "fn": 59388.7,
+    "K": 59872.0,
+    "dti": 0.00958,
+    "credit_per_mass": 0.03818
+   },
+   "proxy_off": {
+    "tp": 205.31,
+    "fp": 12302.22,
+    "fn": 60059.69,
+    "K": 60265.0,
+    "dti": 0.00405,
+    "credit_per_mass": 0.01622
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.005,
+   "mass": 25312.0,
+   "catalogue": {
+    "tp": 672.0,
+    "fp": 24573.33,
+    "fn": 59200.0,
+    "K": 59872.0,
+    "dti": 0.01269,
+    "credit_per_mass": 0.02655
+   },
+   "proxy_off": {
+    "tp": 418.41,
+    "fp": 24416.63,
+    "fn": 59846.59,
+    "K": 60265.0,
+    "dti": 0.00787,
+    "credit_per_mass": 0.01653
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.01,
+   "mass": 50625.0,
+   "catalogue": {
+    "tp": 1075.25,
+    "fp": 48896.74,
+    "fn": 58796.75,
+    "K": 59872.0,
+    "dti": 0.01857,
+    "credit_per_mass": 0.02124
+   },
+   "proxy_off": {
+    "tp": 540.38,
+    "fp": 49450.94,
+    "fn": 59724.62,
+    "K": 60265.0,
+    "dti": 0.00928,
+    "credit_per_mass": 0.01067
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.02,
+   "mass": 101250.0,
+   "catalogue": {
+    "tp": 1667.45,
+    "fp": 97987.47,
+    "fn": 58204.55,
+    "K": 59872.0,
+    "dti": 0.02458,
+    "credit_per_mass": 0.01647
+   },
+   "proxy_off": {
+    "tp": 844.32,
+    "fp": 99279.88,
+    "fn": 59420.68,
+    "K": 60265.0,
+    "dti": 0.01237,
+    "credit_per_mass": 0.00834
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 2,
+   "k_frac_of_core": 0.04,
+   "mass": 202501.0,
+   "catalogue": {
+    "tp": 2449.68,
+    "fp": 196945.05,
+    "fn": 57422.32,
+    "K": 59872.0,
+    "dti": 0.02791,
+    "credit_per_mass": 0.0121
+   },
+   "proxy_off": {
+    "tp": 2636.72,
+    "fp": 195217.92,
+    "fn": 57628.28,
+    "K": 60265.0,
+    "dti": 0.03004,
+    "credit_per_mass": 0.01302
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.0025,
+   "mass": 12657.0,
+   "catalogue": {
+    "tp": 483.68,
+    "fp": 12209.9,
+    "fn": 59388.32,
+    "K": 59872.0,
+    "dti": 0.00959,
+    "credit_per_mass": 0.03821
+   },
+   "proxy_off": {
+    "tp": 209.0,
+    "fp": 12307.53,
+    "fn": 60056.0,
+    "K": 60265.0,
+    "dti": 0.00412,
+    "credit_per_mass": 0.01651
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.005,
+   "mass": 25312.0,
+   "catalogue": {
+    "tp": 610.58,
+    "fp": 24623.27,
+    "fn": 59261.42,
+    "K": 59872.0,
+    "dti": 0.01153,
+    "credit_per_mass": 0.02412
+   },
+   "proxy_off": {
+    "tp": 416.83,
+    "fp": 24398.44,
+    "fn": 59848.17,
+    "K": 60265.0,
+    "dti": 0.00784,
+    "credit_per_mass": 0.01647
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.01,
+   "mass": 50625.0,
+   "catalogue": {
+    "tp": 991.78,
+    "fp": 48983.38,
+    "fn": 58880.22,
+    "K": 59872.0,
+    "dti": 0.01713,
+    "credit_per_mass": 0.01959
+   },
+   "proxy_off": {
+    "tp": 515.3,
+    "fp": 49490.72,
+    "fn": 59749.7,
+    "K": 60265.0,
+    "dti": 0.00885,
+    "credit_per_mass": 0.01018
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.02,
+   "mass": 101250.0,
+   "catalogue": {
+    "tp": 1582.95,
+    "fp": 98082.35,
+    "fn": 58289.05,
+    "K": 59872.0,
+    "dti": 0.02334,
+    "credit_per_mass": 0.01563
+   },
+   "proxy_off": {
+    "tp": 845.8,
+    "fp": 99222.26,
+    "fn": 59419.2,
+    "K": 60265.0,
+    "dti": 0.0124,
+    "credit_per_mass": 0.00835
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 3,
+   "k_frac_of_core": 0.04,
+   "mass": 202501.0,
+   "catalogue": {
+    "tp": 2338.85,
+    "fp": 197089.42,
+    "fn": 57533.15,
+    "K": 59872.0,
+    "dti": 0.02664,
+    "credit_per_mass": 0.01155
+   },
+   "proxy_off": {
+    "tp": 2802.7,
+    "fp": 194654.99,
+    "fn": 57462.3,
+    "K": 60265.0,
+    "dti": 0.03196,
+    "credit_per_mass": 0.01384
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.0025,
+   "mass": 12657.0,
+   "catalogue": {
+    "tp": 475.7,
+    "fp": 12214.06,
+    "fn": 59396.3,
+    "K": 59872.0,
+    "dti": 0.00943,
+    "credit_per_mass": 0.03758
+   },
+   "proxy_off": {
+    "tp": 216.49,
+    "fp": 12300.24,
+    "fn": 60048.51,
+    "K": 60265.0,
+    "dti": 0.00427,
+    "credit_per_mass": 0.0171
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.005,
+   "mass": 25312.0,
+   "catalogue": {
+    "tp": 597.72,
+    "fp": 24582.61,
+    "fn": 59274.28,
+    "K": 59872.0,
+    "dti": 0.01129,
+    "credit_per_mass": 0.02361
+   },
+   "proxy_off": {
+    "tp": 413.8,
+    "fp": 24407.86,
+    "fn": 59851.2,
+    "K": 60265.0,
+    "dti": 0.00778,
+    "credit_per_mass": 0.01635
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.01,
+   "mass": 50625.0,
+   "catalogue": {
+    "tp": 934.82,
+    "fp": 48987.9,
+    "fn": 58937.18,
+    "K": 59872.0,
+    "dti": 0.01615,
+    "credit_per_mass": 0.01847
+   },
+   "proxy_off": {
+    "tp": 491.08,
+    "fp": 49527.19,
+    "fn": 59773.92,
+    "K": 60265.0,
+    "dti": 0.00844,
+    "credit_per_mass": 0.0097
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.02,
+   "mass": 101250.0,
+   "catalogue": {
+    "tp": 1512.96,
+    "fp": 98129.86,
+    "fn": 58359.04,
+    "K": 59872.0,
+    "dti": 0.02231,
+    "credit_per_mass": 0.01494
+   },
+   "proxy_off": {
+    "tp": 849.88,
+    "fp": 99135.94,
+    "fn": 59415.12,
+    "K": 60265.0,
+    "dti": 0.01246,
+    "credit_per_mass": 0.00839
+   }
+  },
+  {
+   "sigma_px": 2.0,
+   "radius_px": 4,
+   "k_frac_of_core": 0.04,
+   "mass": 202501.0,
+   "catalogue": {
+    "tp": 2230.5,
+    "fp": 197211.45,
+    "fn": 57641.5,
+    "K": 59872.0,
+    "dti": 0.02541,
+    "credit_per_mass": 0.01101
+   },
+   "proxy_off": {
+    "tp": 2970.64,
+    "fp": 194063.28,
+    "fn": 57294.36,
+    "K": 60265.0,
+    "dti": 0.0339,
+    "credit_per_mass": 0.01467
+   }
+  }
+ ],
+ "seconds": 1291.6
+}

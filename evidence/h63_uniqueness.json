@@ -1,0 +1,280 @@
+{
+ "raster": "gems62-h63-multiline-corroborated-90000-zeros.tif",
+ "raster_sha256": "3b04880d5cd9f72806b35e19e23be80a421d90d595466ce19ac5315a61cdfacf",
+ "n_registry": 21,
+ "thresholds": {
+  "rank": 0.9,
+  "overlap": 0.7,
+  "jaccard": 0.25,
+  "kernel_px": 3.0
+ },
+ "worst_rank_corr": {
+  "file": "gems49_gate_ortho_w025_02376.tif",
+  "sha256": "c58fe0551e120678",
+  "rank_corr": -0.8244,
+  "dot_overlap_within_kernel": 0.2607,
+  "dilated_jaccard": 0.298,
+  "n_mine": 90000,
+  "n_theirs": 40000,
+  "rank_flag": false,
+  "overlap_flag": true
+ },
+ "worst_overlap": {
+  "file": "gems13_r13_lattice_s5_00904.tif",
+  "sha256": "b4570b406efec198",
+  "rank_corr": -0.9009,
+  "dot_overlap_within_kernel": 0.9934,
+  "dilated_jaccard": 0.4625,
+  "n_mine": 90000,
+  "n_theirs": 206895,
+  "rank_flag": false,
+  "overlap_flag": true
+ },
+ "worst_jaccard": {
+  "file": "gems13_r11_greedy_mp.tif",
+  "sha256": "033df94ceef16350",
+  "rank_corr": -0.9032,
+  "dot_overlap_within_kernel": 0.8839,
+  "dilated_jaccard": 0.5253,
+  "n_mine": 90000,
+  "n_theirs": 272853,
+  "rank_flag": false,
+  "overlap_flag": true
+ },
+ "any_rank_flag": false,
+ "any_overlap_flag": true,
+ "verdict": "DUPLICATE-OF-REGISTRY-LANE",
+ "results": [
+  {
+   "file": "gems13_r11_greedy_mp.tif",
+   "sha256": "033df94ceef16350",
+   "rank_corr": -0.9032,
+   "dot_overlap_within_kernel": 0.8839,
+   "dilated_jaccard": 0.5253,
+   "n_mine": 90000,
+   "n_theirs": 272853,
+   "rank_flag": false,
+   "overlap_flag": true
+  },
+  {
+   "file": "gems13_r13_lattice_s5_00904.tif",
+   "sha256": "b4570b406efec198",
+   "rank_corr": -0.9009,
+   "dot_overlap_within_kernel": 0.9934,
+   "dilated_jaccard": 0.4625,
+   "n_mine": 90000,
+   "n_theirs": 206895,
+   "rank_flag": false,
+   "overlap_flag": true
+  },
+  {
+   "file": "gems13_r14_union_tips10_lat6.tif",
+   "sha256": "c9d1398e46460335",
+   "rank_corr": -0.9145,
+   "dot_overlap_within_kernel": 0.9221,
+   "dilated_jaccard": 0.4618,
+   "n_mine": 90000,
+   "n_theirs": 192231,
+   "rank_flag": false,
+   "overlap_flag": true
+  },
+  {
+   "file": "gems19_h19_4_multiline_thermal_01894.tif",
+   "sha256": "89109a3bd2cd3b12",
+   "rank_corr": -0.8926,
+   "dot_overlap_within_kernel": 0.2353,
+   "dilated_jaccard": 0.2829,
+   "n_mine": 90000,
+   "n_theirs": 123779,
+   "rank_flag": false,
+   "overlap_flag": true
+  },
+  {
+   "file": "gems19_h19_5_powerlaw_01922.tif",
+   "sha256": "ec1f9b56b83ce33c",
+   "rank_corr": -0.8927,
+   "dot_overlap_within_kernel": 0.2238,
+   "dilated_jaccard": 0.2706,
+   "n_mine": 90000,
+   "n_theirs": 121131,
+   "rank_flag": false,
+   "overlap_flag": true
+  },
+  {
+   "file": "gems25_dotted_h19_5_d2_8_02600.tif",
+   "sha256": "3e78737f0da8dd2c",
+   "rank_corr": -0.8449,
+   "dot_overlap_within_kernel": 0.1932,
+   "dilated_jaccard": 0.2504,
+   "n_mine": 90000,
+   "n_theirs": 44090,
+   "rank_flag": false,
+   "overlap_flag": true
+  },
+  {
+   "file": "gems27_topo_gap_closure_t_v2_02449.tif",
+   "sha256": "33003374335d84bf",
+   "rank_corr": -0.8666,
+   "dot_overlap_within_kernel": 0.2062,
+   "dilated_jaccard": 0.2607,
+   "n_mine": 90000,
+   "n_theirs": 61328,
+   "rank_flag": false,
+   "overlap_flag": true
+  },
+  {
+   "file": "gems28_h27_4_r1_solo_d2_8_02708.tif",
+   "sha256": "ab02300152248fdd",
+   "rank_corr": -0.8364,
+   "dot_overlap_within_kernel": 0.1909,
+   "dilated_jaccard": 0.2465,
+   "n_mine": 90000,
+   "n_theirs": 40199,
+   "rank_flag": false,
+   "overlap_flag": false
+  },
+  {
+   "file": "gems32_h32d_submodular_46090.tif",
+   "sha256": "f81e26d7712d1a4a",
+   "rank_corr": -0.8477,
+   "dot_overlap_within_kernel": 0.2057,
+   "dilated_jaccard": 0.2609,
+   "n_mine": 90000,
+   "n_theirs": 46090,
+   "rank_flag": false,
+   "overlap_flag": true
+  },
+  {
+   "file": "gems33_h33d_tip_stepover_r30_02632.tif",
+   "sha256": "87f857d505e23247",
+   "rank_corr": -0.8398,
+   "dot_overlap_within_kernel": 0.1932,
+   "dilated_jaccard": 0.2483,
+   "n_mine": 90000,
+   "n_theirs": 41865,
+   "rank_flag": false,
+   "overlap_flag": false
+  },
+  {
+   "file": "gems36_anderson_pinn_02750.tif",
+   "sha256": "96d451d5ffc819fc",
+   "rank_corr": -0.8322,
+   "dot_overlap_within_kernel": 0.1943,
+   "dilated_jaccard": 0.2471,
+   "n_mine": 90000,
+   "n_theirs": 38854,
+   "rank_flag": false,
+   "overlap_flag": false
+  },
+  {
+   "file": "gems49_gate_ortho_w025_02376.tif",
+   "sha256": "c58fe0551e120678",
+   "rank_corr": -0.8244,
+   "dot_overlap_within_kernel": 0.2607,
+   "dilated_jaccard": 0.298,
+   "n_mine": 90000,
+   "n_theirs": 40000,
+   "rank_flag": false,
+   "overlap_flag": true
+  },
+  {
+   "file": "gems50_h52_coincidence8_80k.tif",
+   "sha256": "a2ed87fac9fdb4b9",
+   "rank_corr": -0.8665,
+   "dot_overlap_within_kernel": 0.3678,
+   "dilated_jaccard": 0.3328,
+   "n_mine": 90000,
+   "n_theirs": 80000,
+   "rank_flag": false,
+   "overlap_flag": true
+  },
+  {
+   "file": "gems50_h60_officialstack_50k.tif",
+   "sha256": "7d5a83a326f9e3a9",
+   "rank_corr": -0.8364,
+   "dot_overlap_within_kernel": 0.3379,
+   "dilated_jaccard": 0.3316,
+   "n_mine": 90000,
+   "n_theirs": 50000,
+   "rank_flag": false,
+   "overlap_flag": true
+  },
+  {
+   "file": "gems50_h60_union_d2_75308.tif",
+   "sha256": "772cf4502bfc00f9",
+   "rank_corr": -0.872,
+   "dot_overlap_within_kernel": 0.3769,
+   "dilated_jaccard": 0.3318,
+   "n_mine": 90000,
+   "n_theirs": 75308,
+   "rank_flag": false,
+   "overlap_flag": true
+  },
+  {
+   "file": "gems52_h83_offcatalogue_cotrain_e3.tif",
+   "sha256": "dee4ee5ee364ae2d",
+   "rank_corr": -0.8319,
+   "dot_overlap_within_kernel": 0.1515,
+   "dilated_jaccard": 0.177,
+   "n_mine": 90000,
+   "n_theirs": 37654,
+   "rank_flag": false,
+   "overlap_flag": false
+  },
+  {
+   "file": "gems60_h65_dem10_knick.tif",
+   "sha256": "0728d1193d9ee9f3",
+   "rank_corr": -0.8443,
+   "dot_overlap_within_kernel": 0.0243,
+   "dilated_jaccard": 0.0326,
+   "n_mine": 90000,
+   "n_theirs": 40000,
+   "rank_flag": false,
+   "overlap_flag": false
+  },
+  {
+   "file": "gems60_h66_dem10_bedrock_dksn.tif",
+   "sha256": "cde6b57be8aaac9b",
+   "rank_corr": -0.8359,
+   "dot_overlap_within_kernel": 0.1338,
+   "dilated_jaccard": 0.1509,
+   "n_mine": 90000,
+   "n_theirs": 40000,
+   "rank_flag": false,
+   "overlap_flag": false
+  },
+  {
+   "file": "gems61c_gravstep_liveband_40k.tif",
+   "sha256": "e3ccdf59f8b36f2f",
+   "rank_corr": -0.8374,
+   "dot_overlap_within_kernel": 0.2028,
+   "dilated_jaccard": 0.2086,
+   "n_mine": 90000,
+   "n_theirs": 40000,
+   "rank_flag": false,
+   "overlap_flag": false
+  },
+  {
+   "file": "gems8_hedge_v2_01563.tif",
+   "sha256": "052688eafbc7a55d",
+   "rank_corr": -0.9023,
+   "dot_overlap_within_kernel": 0.3013,
+   "dilated_jaccard": 0.3122,
+   "n_mine": 90000,
+   "n_theirs": 227507,
+   "rank_flag": false,
+   "overlap_flag": true
+  },
+  {
+   "file": "gemsdoe32_h33_2_b2_02778_zeros.tif",
+   "sha256": "c55bafc470054e82",
+   "rank_corr": -0.8299,
+   "dot_overlap_within_kernel": 0.1873,
+   "dilated_jaccard": 0.2421,
+   "n_mine": 90000,
+   "n_theirs": 37654,
+   "rank_flag": false,
+   "overlap_flag": false
+  }
+ ]
+}

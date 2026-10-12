@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Run card — H63</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;
+ --warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+ font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.9em;margin:.2em 0 .1em}h2{font-size:1.35em;margin:1.6em 0 .5em;
+ border-bottom:1px solid var(--bd);padding-bottom:.3em}
+h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.9em}
+pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.85em}
+table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}
+.mut{color:var(--mut)}.card{background:var(--card);border:1px solid var(--bd);
+ border-radius:8px;padding:18px;margin:14px 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
+.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
+.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
+.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
+.hero{border:2px solid var(--ok);border-radius:10px;padding:22px;margin:18px 0;
+ background:rgba(63,185,80,.06)}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;
+ border-radius:8px;margin:8px 8px 8px 0}
+.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+.kv td:first-child{width:32%;color:var(--mut)}
+.big{font-size:1.5em;font-weight:700}
+.small{font-size:.85em}
+</style></head><body><div class="wrap">
+<h1>Run card</h1>
+<nav>
+<a href="index.html">⬇ Download &amp; verdict</a>
+<a href="executive-summary.html">How to submit</a>
+<a href="method.html">Method</a>
+<a href="results.html">Results</a>
+<a href="profiles.html">Shoreline profiles</a>
+<a href="leaderboard.html">Leaderboard &amp; calibration</a>
+<a href="run-card.html">Run card</a>
+<a href="sources.html">Sources</a>
+<a href="irregularities.html">Irregularities</a>
+<a href="limitations.html">Limitations</a>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
+</nav>
+<pre>{
+ "hypothesis": "A fault absent from the USGS/INGENIOUS catalogue still leaves three independent expressions -- a break in slope, an elongated ridge or trough, and an edge in the potential fields -- and requiring several of them to corroborate the same cell locates it better than any one of them.",
+ "mechanism": "13 catalogue-free channels (DEM scarp curvature, multiscale local relief, multiscale Hessian ridge/valley, an 8-orientation matched line filter, and TMI / tilt-angle / isostatic-gravity gradients), each average-rank normalised inside the valid footprint and averaged (dem3 = dem_scarp_curvature + dem_local_relief_tpi3 + dem_direction_line), non-maximum-suppressed in a 3x3 window, top 90,000 cells, restricted to &gt;= 300 m from the catalogue, emitted at value 1.0.",
+ "named_non_fault_process_that_could_mimic_it": "Rough bedrock terrain. Every DEM channel is a form of local relief, and the USGS State Geologic Map Compilation draws most of its faults in ranges, so a detector that simply finds mountains will score well on the proxy instrument. The geophysical channels (TMI/gravity gradients) were included precisely because they do not have that confound, and they are the ones that scored worst on the proxy -- which is why the confound is stated rather than dismissed.",
+ "holdout_dti": {
+  "supervised_arm": {
+   "instrument": "hide-and-recover, 4 spatially blocked folds of 512 px blocks, 3 px collar, visible catalogue masked pixel-exactly",
+   "result": "AUC 0.5176, 0.5, 0.5048, 0.4968 (catalogue) and 0.4877, 0.5, 0.4574, 0.479 (SGMC off-catalogue)",
+   "withheld_positives": 59872,
+   "verdict": "NO SIGNAL -- chance",
+   "class": "HOLDOUT-DTI (proxy)"
+  },
+  "shipped_arm": {
+   "instrument": "credit per unit mass vs USGS SGMC off-catalogue faults, exact 300 m triangular kernel, src/gems62/metric.py",
+   "credit_per_mass": 0.18848,
+   "random_control_matched_mass": 0.10365,
+   "lift": 1.818,
+   "champion_reference": 0.14328,
+   "class": "MEASURED on a proxy truth set"
+  }
+ },
+ "projection": {
+  "band": [
+   0.2938,
+   0.5388
+  ],
+  "r_range": [
+   0.478,
+   0.775
+  ],
+  "K_range": [
+   8000,
+   12000
+  ],
+  "class": "MODEL -- never a score"
+ },
+ "terrain_confound_measured": {
+  "dots_in_top_slope_decile": 0.137,
+  "base_rate": 0.1,
+  "dots_slope_p50": 599.848,
+  "footprint_slope_p50": 397.471,
+  "proxy_slope_p50": 820.889,
+  "cat_slope_p50": 524.961,
+  "dots_elev_p50": 1731.8,
+  "proxy_elev_p50": 1779.3,
+  "footprint_elev_p50": 1524.7
+ },
+ "correlation_vs_registry": {
+  "worst_rank_correlation": -0.8244,
+  "any_rank_flag": false,
+  "all_correlations_negative": true,
+  "overlap_vs_champion_02778": 0.1873,
+  "unsatisfiable_registry_rasters": [
+   "gems13_r11_greedy_mp.tif",
+   "gems13_r13_lattice_s5_00904.tif",
+   "gems13_r14_union_tips10_lat6.tif"
+  ],
+  "class": "MEASURED"
+ },
+ "raster": {
+  "name": "gems62-h63-multiline-corroborated-90000",
+  "sha256": "3b04880d5cd9f72806b35e19e23be80a421d90d595466ce19ac5315a61cdfacf",
+  "bytes": 338731,
+  "n_dots": 90000
+ },
+ "validator": {
+  "passed": true,
+  "failures": [],
+  "nan_inside_footprint": 0,
+  "values_in_0_1": true,
+  "crs_match": true,
+  "shape_match": true,
+  "transform_match": true,
+  "nodata_tag": null
+ },
+ "submission_note": "H63: 90k dots; rank-average corroboration of DEM scarp curvature, local relief and a directional line filter, &gt;=300 m off the catalogue.",
+ "verdict": "promote",
+ "lane_result": {
+  "benches": 479,
+  "isobase_residual_sigma_m": 10.322406431600129,
+  "flagged_steps": 0,
+  "flagged_deflections": 51,
+  "verdict": "negative"
+ }
+}</pre>
+<p><a href="../../evidence/h63_run_card.json">evidence/h63_run_card.json</a></p>
+</div></body></html>

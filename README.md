@@ -12,25 +12,40 @@ so this lane buys **defensibility more than area**.
 
 ---
 
-## Session status — 2026-10-11 (`arena/2b64062a-62gemsdoe`)
+## Session status — 2026-10-11 (`arena/4ef3d5d6-62gemsdoe`) · **H63**
 
-Read this before anything else. Four things changed this session:
+**⬇ The file to submit lives here — one click:**
+[`lane62-h63/docs/downloads/gems62-h63-multiline-corroborated-90000-zeros.tif`](lane62-h63/docs/downloads/gems62-h63-multiline-corroborated-90000-zeros.tif)
+· 338,731 bytes · 90,000 dots · sha256 `3b04880d5cd9f72806b35e19e23be80a421d90d595466ce19ac5315a61cdfacf`
+· **format legal, unique where the gate is informative, verdict `promote`** ·
+[how to submit](lane62-h63/docs/executive-summary.html) ·
+[full report](lane62-h63/docs/index.html)
 
-1. **The shared tools are fixed, once, in the template** (`IR-62-11`, `IR-62-12`). On a clean
-   checkout 6 of 9 root modules raised `ImportError` and 14 `lane62` tests errored for a file that
-   was present. Now: root **18 passed**, `lane62` **46 passed**, plus 9 new tests.
-2. **A score-anchored registry exists** — 87 distinct group rasters with owner-reported scores and
-   18 measured structural properties each: [`research/registry_index.json`](research/registry_index.json),
-   [`research/registry_measurements.json`](research/registry_measurements.json).
-3. **The leaderboard is a committed time series** — 37 timestamped mirrors of the official page:
-   [`research/leaderboard_series.json`](research/leaderboard_series.json).
-4. **Two hypotheses screened; one refuted, one quarantined** —
-   [`docs/hypotheses-2026-10-11.md`](docs/hypotheses-2026-10-11.md).
+Five things changed this session. All of them are measured, not asserted; every number carries an
+evidence class and lives in `evidence/h63_*.json`.
 
-The analysis that matters is
-[`docs/research/leaderboard-arithmetic.md`](docs/research/leaderboard-arithmetic.md): why
-`h33-2-b2` scored 0.2778, the arithmetic that explains it, and the credit-per-dot table that says
-what beating it requires.
+| # | finding | class | where |
+|---|---|---|---|
+| 1 | **The official 19-band GeoDAWN stack has no spatially transferable fault signal.** A gradient-boosted model trained on the catalogue and scored on withheld 512 px spatial blocks reaches **AUC 0.497–0.518** (4 folds) — chance. | HOLDOUT-DTI (proxy) | `evidence/h63a_emission.json` |
+| 2 | **A calibrated proxy instrument now exists.** Across nine score-anchored registry rasters spanning 0.1563–0.2778, credit-per-unit-mass measured against **USGS SGMC off-catalogue faults** tracks the owner-reported live score almost monotonically; transfer ratio *r* median **0.775** (IQR 0.764–0.790). | MEASURED + OWNER-REPORT | `evidence/h63_calibration.json` |
+| 3 | **The shipped emission clears it**: credit per unit mass **0.18848** vs **0.1433** for the group's best *submitted* artifact (0.2778) and **0.1037** for a mass-matched random control in the same off-catalogue domain — **1.82× chance, 1.32× the champion**. | MEASURED (proxy) | `evidence/h63_final.json`, `h63_policy.json` |
+| 4 | **The assigned lane returns a negative result, and now says why in metres.** 479 shoreline benches mapped on the pinned 100 m DEM; robust isobase residual **σ = 10.32 m**, i.e. **3.4×** the published 3 m resolution of the elevation method; **0 steps** clear the significance gate. | MEASURED | `evidence/h63_lane.json` |
+| 5 | **The protocol's 3-px overlap tripwire is unsatisfiable against dense registry rasters** — measured with a random control: for three of the 21 a *random* emission already puts 72–99.9 % of its dots within 3 px. Against the other 18 the lift over random is only 0.9–1.7×. | MEASURED, defect in the rule | `evidence/h63_uniqueness_control.json` |
+
+Two enabling facts, both of which unblocked the whole session:
+
+* the **official 19-band `training_features.tif` (418,912,844 bytes) is restored and hash-verified**
+  in this checkout — `4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5`, matching the
+  pin in `registry/data_pins.json` — reassembled from the five parts committed to the sibling
+  repository `buffedlizard55-lab/GEMSDOE` (`scripts/` documents the exact `gh api` calls); and
+* the **100 m DEM** `d32762a38222764389e948da423ebc6cadd00ac617ad3938d3dd79c6cfe14431` covers the
+  whole competition footprint, not just the 3DEP transport box.
+
+**Projection (MODEL, never a score):** the calibrated instrument puts the shipped file in
+**0.294 – 0.539** (mid 0.417) against a group best of 0.2778 and a top-5 cut-off of 0.3333. The
+band is wide because the transfer constant was fitted to nine *owner-reported* scores. Run card:
+[`lane62-h63/docs/run-card.html`](lane62-h63/docs/run-card.html) ·
+raw: [`evidence/h63_run_card.json`](evidence/h63_run_card.json)
 
 ---
 

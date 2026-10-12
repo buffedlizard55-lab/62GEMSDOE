@@ -1,0 +1,2062 @@
+{
+ "generated_utc": "2026-10-12T01:29:27Z",
+ "evidence_class": "MEASURED (cm vs USGS SGMC off-catalogue faults and vs the competition catalogue; exact 300 m kernel, src/gems62/metric.py) + MODEL (the r=0.775 transfer and K=9400 projection; never a score)",
+ "offcat_m": 300,
+ "channels": [
+  "dem_ridge_hessian",
+  "dem_valley_hessian",
+  "dem_scarp_curvature",
+  "dem_local_relief_tpi3",
+  "dem_local_relief_tpi9",
+  "dem_direction_line",
+  "stack_tmi_hg",
+  "stack_tc",
+  "stack_iso_grav_anom_hg",
+  "stack_tmi_vg",
+  "stack_iso_grav_anom_vg",
+  "stack_det_elev_slope",
+  "stack_geod_2ndinv"
+ ],
+ "combos": {
+  "geo3": [
+   "stack_tmi_hg",
+   "stack_tc",
+   "stack_iso_grav_anom_hg"
+  ],
+  "geo5": [
+   "stack_tmi_hg",
+   "stack_tc",
+   "stack_iso_grav_anom_hg",
+   "stack_tmi_vg",
+   "stack_iso_grav_anom_vg"
+  ],
+  "dem3": [
+   "dem_scarp_curvature",
+   "dem_local_relief_tpi3",
+   "dem_direction_line"
+  ],
+  "dem5": [
+   "dem_scarp_curvature",
+   "dem_local_relief_tpi3",
+   "dem_local_relief_tpi9",
+   "dem_ridge_hessian",
+   "dem_direction_line"
+  ],
+  "geo5+dem5": [
+   "stack_tmi_hg",
+   "stack_tc",
+   "stack_iso_grav_anom_hg",
+   "stack_tmi_vg",
+   "stack_iso_grav_anom_vg",
+   "dem_scarp_curvature",
+   "dem_local_relief_tpi3",
+   "dem_local_relief_tpi9",
+   "dem_ridge_hessian",
+   "dem_direction_line"
+  ],
+  "geo3+dem3": [
+   "stack_tmi_hg",
+   "stack_tc",
+   "stack_iso_grav_anom_hg",
+   "dem_scarp_curvature",
+   "dem_local_relief_tpi3",
+   "dem_direction_line"
+  ],
+  "all": [
+   "dem_ridge_hessian",
+   "dem_valley_hessian",
+   "dem_scarp_curvature",
+   "dem_local_relief_tpi3",
+   "dem_local_relief_tpi9",
+   "dem_direction_line",
+   "stack_tmi_hg",
+   "stack_tc",
+   "stack_iso_grav_anom_hg",
+   "stack_tmi_vg",
+   "stack_iso_grav_anom_vg",
+   "stack_det_elev_slope",
+   "stack_geod_2ndinv"
+  ]
+ },
+ "rows": [
+  {
+   "tag": "CONTROL_random_offcat20k",
+   "mass": 20000.0,
+   "proxy_off": {
+    "tp": 2368.01,
+    "fp": 19140.7,
+    "K": 61628.0,
+    "dti": 0.04418,
+    "cm": 0.1184
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 20000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.09176,
+    "projected_dti": 0.1593,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "CONTROL_random_offcat40k",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 4463.27,
+    "fp": 38327.97,
+    "K": 61628.0,
+    "dti": 0.07714,
+    "cm": 0.11158
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.08647,
+    "projected_dti": 0.2229,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "CONTROL_random_offcat60k",
+   "mass": 60000.0,
+   "proxy_off": {
+    "tp": 6512.54,
+    "fp": 57486.29,
+    "K": 61628.0,
+    "dti": 0.10487,
+    "cm": 0.10854
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 60000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.08412,
+    "projected_dti": 0.2586,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "CONTROL_random_offcat90k",
+   "mass": 90000.0,
+   "proxy_off": {
+    "tp": 9328.6,
+    "fp": 86217.62,
+    "K": 61628.0,
+    "dti": 0.13636,
+    "cm": 0.10365
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 90000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.08033,
+    "projected_dti": 0.2833,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem_ridge_hessian|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 5593.32,
+    "fp": 37961.96,
+    "K": 61628.0,
+    "dti": 0.09641,
+    "cm": 0.13983
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.10837,
+    "projected_dti": 0.2793,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem_ridge_hessian|nms4",
+   "mass": 28451.0,
+   "proxy_off": {
+    "tp": 3004.69,
+    "fp": 27371.57,
+    "K": 61628.0,
+    "dti": 0.05426,
+    "cm": 0.10561
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 28451.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.08185,
+    "projected_dti": 0.1763,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem_valley_hessian|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 7334.01,
+    "fp": 37370.03,
+    "K": 61628.0,
+    "dti": 0.12592,
+    "cm": 0.18335
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.1421,
+    "projected_dti": 0.3662,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem_valley_hessian|nms4",
+   "mass": 29546.0,
+   "proxy_off": {
+    "tp": 4500.59,
+    "fp": 27946.15,
+    "K": 61628.0,
+    "dti": 0.08067,
+    "cm": 0.15232
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 29546.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.11805,
+    "projected_dti": 0.2597,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem_scarp_curvature|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 9112.03,
+    "fp": 36613.07,
+    "K": 61628.0,
+    "dti": 0.1559,
+    "cm": 0.2278
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.17655,
+    "projected_dti": 0.455,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem_scarp_curvature|nms4",
+   "mass": 39258.0,
+   "proxy_off": {
+    "tp": 5204.91,
+    "fp": 37419.55,
+    "K": 61628.0,
+    "dti": 0.09001,
+    "cm": 0.13258
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 39258.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.10275,
+    "projected_dti": 0.2624,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem_local_relief_tpi3|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 8999.19,
+    "fp": 36739.57,
+    "K": 61628.0,
+    "dti": 0.15396,
+    "cm": 0.22498
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.17436,
+    "projected_dti": 0.4494,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem_local_relief_tpi3|nms4",
+   "mass": 36113.0,
+   "proxy_off": {
+    "tp": 4662.2,
+    "fp": 34451.78,
+    "K": 61628.0,
+    "dti": 0.08161,
+    "cm": 0.1291
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 36113.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.10005,
+    "projected_dti": 0.2451,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem_local_relief_tpi9|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 6564.5,
+    "fp": 37638.62,
+    "K": 61628.0,
+    "dti": 0.1129,
+    "cm": 0.16411
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.12719,
+    "projected_dti": 0.3278,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem_local_relief_tpi9|nms4",
+   "mass": 27154.0,
+   "proxy_off": {
+    "tp": 3441.62,
+    "fp": 25921.56,
+    "K": 61628.0,
+    "dti": 0.06238,
+    "cm": 0.12674
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 27154.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.09822,
+    "projected_dti": 0.2059,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem_direction_line|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 6637.29,
+    "fp": 37631.91,
+    "K": 61628.0,
+    "dti": 0.11413,
+    "cm": 0.16593
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.1286,
+    "projected_dti": 0.3314,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem_direction_line|nms4",
+   "mass": 24277.0,
+   "proxy_off": {
+    "tp": 3113.37,
+    "fp": 23162.47,
+    "K": 61628.0,
+    "dti": 0.05707,
+    "cm": 0.12824
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 24277.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.09939,
+    "projected_dti": 0.195,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_tmi_hg|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 4767.45,
+    "fp": 38202.43,
+    "K": 61628.0,
+    "dti": 0.08234,
+    "cm": 0.11919
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.09237,
+    "projected_dti": 0.2381,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_tmi_hg|nms4",
+   "mass": 22187.0,
+   "proxy_off": {
+    "tp": 2640.79,
+    "fp": 21213.5,
+    "K": 61628.0,
+    "dti": 0.04884,
+    "cm": 0.11902
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 22187.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.09224,
+    "projected_dti": 0.1712,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_tc|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 2340.37,
+    "fp": 39129.66,
+    "K": 61628.0,
+    "dti": 0.04063,
+    "cm": 0.05851
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.04535,
+    "projected_dti": 0.1169,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_tc|nms4",
+   "mass": 23482.0,
+   "proxy_off": {
+    "tp": 2338.95,
+    "fp": 22630.5,
+    "K": 61628.0,
+    "dti": 0.04308,
+    "cm": 0.09961
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 23482.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.0772,
+    "projected_dti": 0.1484,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_iso_grav_anom_hg|nms2",
+   "mass": 5558.0,
+   "proxy_off": {
+    "tp": 510.36,
+    "fp": 5338.76,
+    "K": 61628.0,
+    "dti": 0.01011,
+    "cm": 0.09182
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 5558.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.07116,
+    "projected_dti": 0.0458,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_iso_grav_anom_hg|nms4",
+   "mass": 4019.0,
+   "proxy_off": {
+    "tp": 381.61,
+    "fp": 3865.6,
+    "K": 61628.0,
+    "dti": 0.00761,
+    "cm": 0.09495
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 4019.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.07359,
+    "projected_dti": 0.0355,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_tmi_vg|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 4787.14,
+    "fp": 38178.28,
+    "K": 61628.0,
+    "dti": 0.08269,
+    "cm": 0.11968
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.09275,
+    "projected_dti": 0.2391,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_tmi_vg|nms4",
+   "mass": 26865.0,
+   "proxy_off": {
+    "tp": 3124.12,
+    "fp": 25724.81,
+    "K": 61628.0,
+    "dti": 0.05673,
+    "cm": 0.11629
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 26865.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.09012,
+    "projected_dti": 0.1878,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_iso_grav_anom_vg|nms2",
+   "mass": 5639.0,
+   "proxy_off": {
+    "tp": 552.98,
+    "fp": 5408.07,
+    "K": 61628.0,
+    "dti": 0.01095,
+    "cm": 0.09806
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 5639.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.076,
+    "projected_dti": 0.0496,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_iso_grav_anom_vg|nms4",
+   "mass": 4379.0,
+   "proxy_off": {
+    "tp": 451.47,
+    "fp": 4198.65,
+    "K": 61628.0,
+    "dti": 0.00899,
+    "cm": 0.1031
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 4379.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.0799,
+    "projected_dti": 0.0417,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_det_elev_slope|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 10188.43,
+    "fp": 36222.39,
+    "K": 61628.0,
+    "dti": 0.17391,
+    "cm": 0.25471
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.1974,
+    "projected_dti": 0.5088,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_det_elev_slope|nms4",
+   "mass": 37523.0,
+   "proxy_off": {
+    "tp": 4876.79,
+    "fp": 35783.95,
+    "K": 61628.0,
+    "dti": 0.08491,
+    "cm": 0.12997
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 37523.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.10073,
+    "projected_dti": 0.2516,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_geod_2ndinv|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 390.83,
+    "fp": 39027.25,
+    "K": 61628.0,
+    "dti": 0.00683,
+    "cm": 0.00977
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.00757,
+    "projected_dti": 0.0195,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "stack_geod_2ndinv|nms4",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 441.47,
+    "fp": 38928.12,
+    "K": 61628.0,
+    "dti": 0.00772,
+    "cm": 0.01104
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.00856,
+    "projected_dti": 0.0221,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3|nms2",
+   "mass": 20000.0,
+   "proxy_off": {
+    "tp": 1662.02,
+    "fp": 19365.57,
+    "K": 61628.0,
+    "dti": 0.03106,
+    "cm": 0.0831
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 20000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.0644,
+    "projected_dti": 0.1118,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 3768.03,
+    "fp": 38573.08,
+    "K": 61628.0,
+    "dti": 0.06522,
+    "cm": 0.0942
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.07301,
+    "projected_dti": 0.1882,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3|nms2",
+   "mass": 46433.0,
+   "proxy_off": {
+    "tp": 5230.22,
+    "fp": 44490.66,
+    "K": 61628.0,
+    "dti": 0.08828,
+    "cm": 0.11264
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 46433.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.0873,
+    "projected_dti": 0.2412,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3|nms2",
+   "mass": 46433.0,
+   "proxy_off": {
+    "tp": 5230.22,
+    "fp": 44490.66,
+    "K": 61628.0,
+    "dti": 0.08828,
+    "cm": 0.11264
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 46433.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.0873,
+    "projected_dti": 0.2412,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3|nms4",
+   "mass": 18904.0,
+   "proxy_off": {
+    "tp": 2109.95,
+    "fp": 18128.37,
+    "K": 61628.0,
+    "dti": 0.03955,
+    "cm": 0.11161
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 18904.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.0865,
+    "projected_dti": 0.1447,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3|nms4",
+   "mass": 18904.0,
+   "proxy_off": {
+    "tp": 2109.95,
+    "fp": 18128.37,
+    "K": 61628.0,
+    "dti": 0.03955,
+    "cm": 0.11161
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 18904.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.0865,
+    "projected_dti": 0.1447,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3|nms4",
+   "mass": 18904.0,
+   "proxy_off": {
+    "tp": 2109.95,
+    "fp": 18128.37,
+    "K": 61628.0,
+    "dti": 0.03955,
+    "cm": 0.11161
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 18904.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.0865,
+    "projected_dti": 0.1447,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3|nms4",
+   "mass": 18904.0,
+   "proxy_off": {
+    "tp": 2109.95,
+    "fp": 18128.37,
+    "K": 61628.0,
+    "dti": 0.03955,
+    "cm": 0.11161
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 18904.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.0865,
+    "projected_dti": 0.1447,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5|nms2",
+   "mass": 20000.0,
+   "proxy_off": {
+    "tp": 1754.12,
+    "fp": 19317.46,
+    "K": 61628.0,
+    "dti": 0.03278,
+    "cm": 0.08771
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 20000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.06798,
+    "projected_dti": 0.118,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 3698.27,
+    "fp": 38574.45,
+    "K": 61628.0,
+    "dti": 0.06403,
+    "cm": 0.09246
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.07166,
+    "projected_dti": 0.1847,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5|nms2",
+   "mass": 50888.0,
+   "proxy_off": {
+    "tp": 5499.09,
+    "fp": 48821.82,
+    "K": 61628.0,
+    "dti": 0.0914,
+    "cm": 0.10806
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 50888.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.08375,
+    "projected_dti": 0.2408,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5|nms2",
+   "mass": 50888.0,
+   "proxy_off": {
+    "tp": 5499.09,
+    "fp": 48821.82,
+    "K": 61628.0,
+    "dti": 0.0914,
+    "cm": 0.10806
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 50888.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.08375,
+    "projected_dti": 0.2408,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5|nms4",
+   "mass": 19465.0,
+   "proxy_off": {
+    "tp": 2153.54,
+    "fp": 18669.14,
+    "K": 61628.0,
+    "dti": 0.04028,
+    "cm": 0.11064
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 19465.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.08575,
+    "projected_dti": 0.1462,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5|nms4",
+   "mass": 19465.0,
+   "proxy_off": {
+    "tp": 2153.54,
+    "fp": 18669.14,
+    "K": 61628.0,
+    "dti": 0.04028,
+    "cm": 0.11064
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 19465.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.08575,
+    "projected_dti": 0.1462,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5|nms4",
+   "mass": 19465.0,
+   "proxy_off": {
+    "tp": 2153.54,
+    "fp": 18669.14,
+    "K": 61628.0,
+    "dti": 0.04028,
+    "cm": 0.11064
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 19465.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.08575,
+    "projected_dti": 0.1462,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5|nms4",
+   "mass": 19465.0,
+   "proxy_off": {
+    "tp": 2153.54,
+    "fp": 18669.14,
+    "K": 61628.0,
+    "dti": 0.04028,
+    "cm": 0.11064
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 19465.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.08575,
+    "projected_dti": 0.1462,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem3|nms2",
+   "mass": 20000.0,
+   "proxy_off": {
+    "tp": 5311.75,
+    "fp": 18083.05,
+    "K": 61628.0,
+    "dti": 0.0984,
+    "cm": 0.26559
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 20000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.20583,
+    "projected_dti": 0.3573,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem3|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 9187.77,
+    "fp": 36641.22,
+    "K": 61628.0,
+    "dti": 0.15714,
+    "cm": 0.22969
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.17801,
+    "projected_dti": 0.4588,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem3|nms2",
+   "mass": 60000.0,
+   "proxy_off": {
+    "tp": 11744.45,
+    "fp": 55649.22,
+    "K": 61628.0,
+    "dti": 0.18707,
+    "cm": 0.19574
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 60000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.1517,
+    "projected_dti": 0.4663,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem3|nms2",
+   "mass": 90000.0,
+   "proxy_off": {
+    "tp": 14244.45,
+    "fp": 84629.48,
+    "K": 61628.0,
+    "dti": 0.20621,
+    "cm": 0.15827
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 90000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.12266,
+    "projected_dti": 0.4326,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem3|nms4",
+   "mass": 20000.0,
+   "proxy_off": {
+    "tp": 3941.51,
+    "fp": 18617.35,
+    "K": 61628.0,
+    "dti": 0.07324,
+    "cm": 0.19708
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 20000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.15274,
+    "projected_dti": 0.2652,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem3|nms4",
+   "mass": 33589.0,
+   "proxy_off": {
+    "tp": 4367.76,
+    "fp": 32032.92,
+    "K": 61628.0,
+    "dti": 0.07719,
+    "cm": 0.13004
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 33589.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.10078,
+    "projected_dti": 0.2378,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem3|nms4",
+   "mass": 33589.0,
+   "proxy_off": {
+    "tp": 4367.76,
+    "fp": 32032.92,
+    "K": 61628.0,
+    "dti": 0.07719,
+    "cm": 0.13004
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 33589.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.10078,
+    "projected_dti": 0.2378,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem3|nms4",
+   "mass": 33589.0,
+   "proxy_off": {
+    "tp": 4367.76,
+    "fp": 32032.92,
+    "K": 61628.0,
+    "dti": 0.07719,
+    "cm": 0.13004
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 33589.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.10078,
+    "projected_dti": 0.2378,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem5|nms2",
+   "mass": 20000.0,
+   "proxy_off": {
+    "tp": 4271.04,
+    "fp": 18475.08,
+    "K": 61628.0,
+    "dti": 0.07931,
+    "cm": 0.21355
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 20000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.1655,
+    "projected_dti": 0.2873,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem5|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 8284.01,
+    "fp": 37013.27,
+    "K": 61628.0,
+    "dti": 0.14194,
+    "cm": 0.2071
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.1605,
+    "projected_dti": 0.4137,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem5|nms2",
+   "mass": 60000.0,
+   "proxy_off": {
+    "tp": 10694.41,
+    "fp": 56069.01,
+    "K": 61628.0,
+    "dti": 0.17069,
+    "cm": 0.17824
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 60000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.13814,
+    "projected_dti": 0.4246,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem5|nms2",
+   "mass": 90000.0,
+   "proxy_off": {
+    "tp": 12009.52,
+    "fp": 85512.04,
+    "K": 61628.0,
+    "dti": 0.17454,
+    "cm": 0.13344
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 90000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.10342,
+    "projected_dti": 0.3647,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem5|nms4",
+   "mass": 20000.0,
+   "proxy_off": {
+    "tp": 3162.37,
+    "fp": 18881.7,
+    "K": 61628.0,
+    "dti": 0.05888,
+    "cm": 0.15812
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 20000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.12254,
+    "projected_dti": 0.2127,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem5|nms4",
+   "mass": 28034.0,
+   "proxy_off": {
+    "tp": 3246.07,
+    "fp": 26874.0,
+    "K": 61628.0,
+    "dti": 0.05867,
+    "cm": 0.11579
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 28034.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.08974,
+    "projected_dti": 0.1916,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem5|nms4",
+   "mass": 28034.0,
+   "proxy_off": {
+    "tp": 3246.07,
+    "fp": 26874.0,
+    "K": 61628.0,
+    "dti": 0.05867,
+    "cm": 0.11579
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 28034.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.08974,
+    "projected_dti": 0.1916,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "dem5|nms4",
+   "mass": 28034.0,
+   "proxy_off": {
+    "tp": 3246.07,
+    "fp": 26874.0,
+    "K": 61628.0,
+    "dti": 0.05867,
+    "cm": 0.11579
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 28034.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.08974,
+    "projected_dti": 0.1916,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5+dem5|nms2",
+   "mass": 20000.0,
+   "proxy_off": {
+    "tp": 3055.86,
+    "fp": 18868.63,
+    "K": 61628.0,
+    "dti": 0.05692,
+    "cm": 0.15279
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 20000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.11841,
+    "projected_dti": 0.2056,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5+dem5|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 6002.73,
+    "fp": 37756.73,
+    "K": 61628.0,
+    "dti": 0.1034,
+    "cm": 0.15007
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.1163,
+    "projected_dti": 0.2998,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5+dem5|nms2",
+   "mass": 60000.0,
+   "proxy_off": {
+    "tp": 8927.75,
+    "fp": 56685.23,
+    "K": 61628.0,
+    "dti": 0.14302,
+    "cm": 0.1488
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 60000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.11532,
+    "projected_dti": 0.3545,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5+dem5|nms2",
+   "mass": 90000.0,
+   "proxy_off": {
+    "tp": 11197.47,
+    "fp": 85816.66,
+    "K": 61628.0,
+    "dti": 0.16298,
+    "cm": 0.12442
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 90000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.09643,
+    "projected_dti": 0.3401,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5+dem5|nms4",
+   "mass": 20000.0,
+   "proxy_off": {
+    "tp": 2913.15,
+    "fp": 18952.13,
+    "K": 61628.0,
+    "dti": 0.05427,
+    "cm": 0.14566
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 20000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.11289,
+    "projected_dti": 0.196,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5+dem5|nms4",
+   "mass": 26080.0,
+   "proxy_off": {
+    "tp": 3122.87,
+    "fp": 24952.66,
+    "K": 61628.0,
+    "dti": 0.05686,
+    "cm": 0.11974
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 26080.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.0928,
+    "projected_dti": 0.19,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5+dem5|nms4",
+   "mass": 26080.0,
+   "proxy_off": {
+    "tp": 3122.87,
+    "fp": 24952.66,
+    "K": 61628.0,
+    "dti": 0.05686,
+    "cm": 0.11974
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 26080.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.0928,
+    "projected_dti": 0.19,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo5+dem5|nms4",
+   "mass": 26080.0,
+   "proxy_off": {
+    "tp": 3122.87,
+    "fp": 24952.66,
+    "K": 61628.0,
+    "dti": 0.05686,
+    "cm": 0.11974
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 26080.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.0928,
+    "projected_dti": 0.19,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3+dem3|nms2",
+   "mass": 20000.0,
+   "proxy_off": {
+    "tp": 3068.24,
+    "fp": 18854.08,
+    "K": 61628.0,
+    "dti": 0.05715,
+    "cm": 0.15341
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 20000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.11889,
+    "projected_dti": 0.2064,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3+dem3|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 5702.77,
+    "fp": 37852.99,
+    "K": 61628.0,
+    "dti": 0.0983,
+    "cm": 0.14257
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.11049,
+    "projected_dti": 0.2848,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3+dem3|nms2",
+   "mass": 60000.0,
+   "proxy_off": {
+    "tp": 8528.87,
+    "fp": 56787.76,
+    "K": 61628.0,
+    "dti": 0.13676,
+    "cm": 0.14215
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 60000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.11017,
+    "projected_dti": 0.3386,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3+dem3|nms2",
+   "mass": 90000.0,
+   "proxy_off": {
+    "tp": 12424.23,
+    "fp": 85324.38,
+    "K": 61628.0,
+    "dti": 0.18045,
+    "cm": 0.13805
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 90000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.10699,
+    "projected_dti": 0.3773,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3+dem3|nms4",
+   "mass": 20000.0,
+   "proxy_off": {
+    "tp": 2948.41,
+    "fp": 18936.78,
+    "K": 61628.0,
+    "dti": 0.05493,
+    "cm": 0.14742
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 20000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.11425,
+    "projected_dti": 0.1984,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3+dem3|nms4",
+   "mass": 29223.0,
+   "proxy_off": {
+    "tp": 3579.86,
+    "fp": 27931.2,
+    "K": 61628.0,
+    "dti": 0.06438,
+    "cm": 0.1225
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 29223.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.09494,
+    "projected_dti": 0.2076,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3+dem3|nms4",
+   "mass": 29223.0,
+   "proxy_off": {
+    "tp": 3579.86,
+    "fp": 27931.2,
+    "K": 61628.0,
+    "dti": 0.06438,
+    "cm": 0.1225
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 29223.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.09494,
+    "projected_dti": 0.2076,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "geo3+dem3|nms4",
+   "mass": 29223.0,
+   "proxy_off": {
+    "tp": 3579.86,
+    "fp": 27931.2,
+    "K": 61628.0,
+    "dti": 0.06438,
+    "cm": 0.1225
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 29223.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.09494,
+    "projected_dti": 0.2076,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "all|nms2",
+   "mass": 20000.0,
+   "proxy_off": {
+    "tp": 3743.49,
+    "fp": 18606.92,
+    "K": 61628.0,
+    "dti": 0.06962,
+    "cm": 0.18717
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 20000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.14506,
+    "projected_dti": 0.2518,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "all|nms2",
+   "mass": 40000.0,
+   "proxy_off": {
+    "tp": 6764.96,
+    "fp": 37451.68,
+    "K": 61628.0,
+    "dti": 0.11634,
+    "cm": 0.16912
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 40000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.13107,
+    "projected_dti": 0.3378,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "all|nms2",
+   "mass": 60000.0,
+   "proxy_off": {
+    "tp": 9679.26,
+    "fp": 56365.76,
+    "K": 61628.0,
+    "dti": 0.15484,
+    "cm": 0.16132
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 60000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.12502,
+    "projected_dti": 0.3843,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "all|nms2",
+   "mass": 90000.0,
+   "proxy_off": {
+    "tp": 12293.69,
+    "fp": 85380.5,
+    "K": 61628.0,
+    "dti": 0.17859,
+    "cm": 0.1366
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 90000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.10587,
+    "projected_dti": 0.3733,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "all|nms4",
+   "mass": 20000.0,
+   "proxy_off": {
+    "tp": 3305.14,
+    "fp": 18807.67,
+    "K": 61628.0,
+    "dti": 0.06152,
+    "cm": 0.16526
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 20000.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.12808,
+    "projected_dti": 0.2224,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "all|nms4",
+   "mass": 27924.0,
+   "proxy_off": {
+    "tp": 3850.72,
+    "fp": 26538.99,
+    "K": 61628.0,
+    "dti": 0.06953,
+    "cm": 0.1379
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 27924.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.10687,
+    "projected_dti": 0.2277,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "all|nms4",
+   "mass": 27924.0,
+   "proxy_off": {
+    "tp": 3850.72,
+    "fp": 26538.99,
+    "K": 61628.0,
+    "dti": 0.06953,
+    "cm": 0.1379
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 27924.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.10687,
+    "projected_dti": 0.2277,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  },
+  {
+   "tag": "all|nms4",
+   "mass": 27924.0,
+   "proxy_off": {
+    "tp": 3850.72,
+    "fp": 26538.99,
+    "K": 61628.0,
+    "dti": 0.06953,
+    "cm": 0.1379
+   },
+   "catalogue": {
+    "tp": 0.0,
+    "fp": 27924.0,
+    "K": 60894.0,
+    "dti": 0.0,
+    "cm": 0.0
+   },
+   "model": {
+    "cm_hidden": 0.10687,
+    "projected_dti": 0.2277,
+    "class": "MODEL (r=0.775, K=9400)"
+   }
+  }
+ ],
+ "seconds": 529.9
+}

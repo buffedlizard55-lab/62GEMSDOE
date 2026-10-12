@@ -1,0 +1,196 @@
+{
+ "generated_utc": "2026-10-12T01:52:15Z",
+ "evidence_class": "MEASURED (random control, 3 draws, identical mass and domain)",
+ "question": "for which registry rasters can the protocol's 70 % overlap tripwire distinguish a copy from a random emission?",
+ "rows": [
+  {
+   "registry": "gems13_r11_greedy_mp.tif",
+   "n_theirs": 272853,
+   "density_frac": 0.0528,
+   "random_frac_within_3px": 0.7174,
+   "mine_frac_within_3px": 0.8839,
+   "lift": 1.232,
+   "test_satisfiable": false
+  },
+  {
+   "registry": "gems13_r13_lattice_s5_00904.tif",
+   "n_theirs": 206895,
+   "density_frac": 0.0401,
+   "random_frac_within_3px": 0.999,
+   "mine_frac_within_3px": 0.9934,
+   "lift": 0.994,
+   "test_satisfiable": false
+  },
+  {
+   "registry": "gems13_r14_union_tips10_lat6.tif",
+   "n_theirs": 192231,
+   "density_frac": 0.0372,
+   "random_frac_within_3px": 0.7609,
+   "mine_frac_within_3px": 0.9221,
+   "lift": 1.212,
+   "test_satisfiable": false
+  },
+  {
+   "registry": "gems19_h19_4_multiline_thermal_01894.tif",
+   "n_theirs": 123779,
+   "density_frac": 0.024,
+   "random_frac_within_3px": 0.1865,
+   "mine_frac_within_3px": 0.2353,
+   "lift": 1.262,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems19_h19_5_powerlaw_01922.tif",
+   "n_theirs": 121131,
+   "density_frac": 0.0235,
+   "random_frac_within_3px": 0.1796,
+   "mine_frac_within_3px": 0.2238,
+   "lift": 1.246,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems25_dotted_h19_5_d2_8_02600.tif",
+   "n_theirs": 44090,
+   "density_frac": 0.0085,
+   "random_frac_within_3px": 0.157,
+   "mine_frac_within_3px": 0.1932,
+   "lift": 1.231,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems27_topo_gap_closure_t_v2_02449.tif",
+   "n_theirs": 61328,
+   "density_frac": 0.0119,
+   "random_frac_within_3px": 0.1681,
+   "mine_frac_within_3px": 0.2062,
+   "lift": 1.226,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems28_h27_4_r1_solo_d2_8_02708.tif",
+   "n_theirs": 40199,
+   "density_frac": 0.0078,
+   "random_frac_within_3px": 0.1544,
+   "mine_frac_within_3px": 0.1909,
+   "lift": 1.236,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems32_h32d_submodular_46090.tif",
+   "n_theirs": 46090,
+   "density_frac": 0.0089,
+   "random_frac_within_3px": 0.1622,
+   "mine_frac_within_3px": 0.2057,
+   "lift": 1.268,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems33_h33d_tip_stepover_r30_02632.tif",
+   "n_theirs": 41865,
+   "density_frac": 0.0081,
+   "random_frac_within_3px": 0.158,
+   "mine_frac_within_3px": 0.1932,
+   "lift": 1.223,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems36_anderson_pinn_02750.tif",
+   "n_theirs": 38854,
+   "density_frac": 0.0075,
+   "random_frac_within_3px": 0.1568,
+   "mine_frac_within_3px": 0.1943,
+   "lift": 1.239,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems49_gate_ortho_w025_02376.tif",
+   "n_theirs": 40000,
+   "density_frac": 0.0077,
+   "random_frac_within_3px": 0.1538,
+   "mine_frac_within_3px": 0.2607,
+   "lift": 1.695,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems50_h52_coincidence8_80k.tif",
+   "n_theirs": 80000,
+   "density_frac": 0.0155,
+   "random_frac_within_3px": 0.2346,
+   "mine_frac_within_3px": 0.3678,
+   "lift": 1.568,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems50_h60_officialstack_50k.tif",
+   "n_theirs": 50000,
+   "density_frac": 0.0097,
+   "random_frac_within_3px": 0.2034,
+   "mine_frac_within_3px": 0.3379,
+   "lift": 1.662,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems50_h60_union_d2_75308.tif",
+   "n_theirs": 75308,
+   "density_frac": 0.0146,
+   "random_frac_within_3px": 0.345,
+   "mine_frac_within_3px": 0.3769,
+   "lift": 1.092,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems52_h83_offcatalogue_cotrain_e3.tif",
+   "n_theirs": 37654,
+   "density_frac": 0.0073,
+   "random_frac_within_3px": 0.1384,
+   "mine_frac_within_3px": 0.1515,
+   "lift": 1.095,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems60_h65_dem10_knick.tif",
+   "n_theirs": 40000,
+   "density_frac": 0.0077,
+   "random_frac_within_3px": 0.0438,
+   "mine_frac_within_3px": 0.0243,
+   "lift": 0.556,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems60_h66_dem10_bedrock_dksn.tif",
+   "n_theirs": 40000,
+   "density_frac": 0.0077,
+   "random_frac_within_3px": 0.122,
+   "mine_frac_within_3px": 0.1338,
+   "lift": 1.097,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems61c_gravstep_liveband_40k.tif",
+   "n_theirs": 40000,
+   "density_frac": 0.0077,
+   "random_frac_within_3px": 0.2223,
+   "mine_frac_within_3px": 0.2028,
+   "lift": 0.913,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gems8_hedge_v2_01563.tif",
+   "n_theirs": 227507,
+   "density_frac": 0.0441,
+   "random_frac_within_3px": 0.2224,
+   "mine_frac_within_3px": 0.3013,
+   "lift": 1.355,
+   "test_satisfiable": true
+  },
+  {
+   "registry": "gemsdoe32_h33_2_b2_02778_zeros.tif",
+   "n_theirs": 37654,
+   "density_frac": 0.0073,
+   "random_frac_within_3px": 0.1526,
+   "mine_frac_within_3px": 0.1873,
+   "lift": 1.228,
+   "test_satisfiable": true
+  }
+ ]
+}
