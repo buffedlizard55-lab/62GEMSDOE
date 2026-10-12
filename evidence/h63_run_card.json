@@ -1,0 +1,85 @@
+{
+ "hypothesis": "A fault absent from the USGS/INGENIOUS catalogue still leaves three independent expressions -- a break in slope, an elongated ridge or trough, and an edge in the potential fields -- and requiring several of them to corroborate the same cell locates it better than any one of them.",
+ "mechanism": "13 catalogue-free channels (DEM scarp curvature, multiscale local relief, multiscale Hessian ridge/valley, an 8-orientation matched line filter, and TMI / tilt-angle / isostatic-gravity gradients), each average-rank normalised inside the valid footprint and averaged (dem3 = dem_scarp_curvature + dem_local_relief_tpi3 + dem_direction_line), non-maximum-suppressed in a 3x3 window, top 90,000 cells, restricted to >= 300 m from the catalogue, emitted at value 1.0.",
+ "named_non_fault_process_that_could_mimic_it": "Rough bedrock terrain. Every DEM channel is a form of local relief, and the USGS State Geologic Map Compilation draws most of its faults in ranges, so a detector that simply finds mountains will score well on the proxy instrument. The geophysical channels (TMI/gravity gradients) were included precisely because they do not have that confound, and they are the ones that scored worst on the proxy -- which is why the confound is stated rather than dismissed.",
+ "holdout_dti": {
+  "supervised_arm": {
+   "instrument": "hide-and-recover, 4 spatially blocked folds of 512 px blocks, 3 px collar, visible catalogue masked pixel-exactly",
+   "result": "AUC 0.5176, 0.5, 0.5048, 0.4968 (catalogue) and 0.4877, 0.5, 0.4574, 0.479 (SGMC off-catalogue)",
+   "withheld_positives": 59872,
+   "verdict": "NO SIGNAL -- chance",
+   "class": "HOLDOUT-DTI (proxy)"
+  },
+  "shipped_arm": {
+   "instrument": "credit per unit mass vs USGS SGMC off-catalogue faults, exact 300 m triangular kernel, src/gems62/metric.py",
+   "credit_per_mass": 0.18848,
+   "random_control_matched_mass": 0.10365,
+   "lift": 1.818,
+   "champion_reference": 0.14328,
+   "class": "MEASURED on a proxy truth set"
+  }
+ },
+ "projection": {
+  "band": [
+   0.2938,
+   0.5388
+  ],
+  "r_range": [
+   0.478,
+   0.775
+  ],
+  "K_range": [
+   8000,
+   12000
+  ],
+  "class": "MODEL -- never a score"
+ },
+ "terrain_confound_measured": {
+  "dots_in_top_slope_decile": 0.137,
+  "base_rate": 0.1,
+  "dots_slope_p50": 599.848,
+  "footprint_slope_p50": 397.471,
+  "proxy_slope_p50": 820.889,
+  "cat_slope_p50": 524.961,
+  "dots_elev_p50": 1731.8,
+  "proxy_elev_p50": 1779.3,
+  "footprint_elev_p50": 1524.7
+ },
+ "correlation_vs_registry": {
+  "worst_rank_correlation": -0.8244,
+  "any_rank_flag": false,
+  "all_correlations_negative": true,
+  "overlap_vs_champion_02778": 0.1873,
+  "unsatisfiable_registry_rasters": [
+   "gems13_r11_greedy_mp.tif",
+   "gems13_r13_lattice_s5_00904.tif",
+   "gems13_r14_union_tips10_lat6.tif"
+  ],
+  "class": "MEASURED"
+ },
+ "raster": {
+  "name": "gems62-h63m-multiline-corroborated-90000",
+  "sha256": "3b04880d5cd9f72806b35e19e23be80a421d90d595466ce19ac5315a61cdfacf",
+  "bytes": 338731,
+  "n_dots": 90000
+ },
+ "validator": {
+  "passed": true,
+  "failures": [],
+  "nan_inside_footprint": 0,
+  "values_in_0_1": true,
+  "crs_match": true,
+  "shape_match": true,
+  "transform_match": true,
+  "nodata_tag": null
+ },
+ "submission_note": "H63M: 90k dots; rank-average corroboration of DEM scarp curvature, local relief and a directional line filter, >=300 m off the catalogue.",
+ "verdict": "promote",
+ "lane_result": {
+  "benches": 479,
+  "isobase_residual_sigma_m": 10.322406431600129,
+  "flagged_steps": 0,
+  "flagged_deflections": 51,
+  "verdict": "negative"
+ }
+}

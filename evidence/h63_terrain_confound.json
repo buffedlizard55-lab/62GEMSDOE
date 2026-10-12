@@ -1,0 +1,11 @@
+{
+ "dots_in_top_slope_decile": 0.137,
+ "base_rate": 0.1,
+ "dots_slope_p50": 599.848,
+ "footprint_slope_p50": 397.471,
+ "proxy_slope_p50": 820.889,
+ "cat_slope_p50": 524.961,
+ "dots_elev_p50": 1731.8,
+ "proxy_elev_p50": 1779.3,
+ "footprint_elev_p50": 1524.7
+}

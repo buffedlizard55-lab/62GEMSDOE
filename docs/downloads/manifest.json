@@ -11,7 +11,7 @@
   "footprint_cells": 5167373,
   "catalogue_cells": 60988
  },
- "n_files": 20,
+ "n_files": 22,
  "files": [
   {
    "path": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif",
@@ -884,6 +884,102 @@
    "sidecar_matches_bytes": true
   },
   {
+   "path": "docs/downloads/gems62-h63m-multiline-corroborated-90000-zeros.tif",
+   "bytes": 338731,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "3b04880d5cd9f72806b35e19e23be80a421d90d595466ce19ac5315a61cdfacf",
+   "dots": 90000,
+   "total_mass": 90000.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 90000,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "PROMOTE (this lane's recommendation, NOT a confirmed score) - legal by the published contract and by this repository's stricter convention (14/14 byte checks: float32, no nodata tag, values exactly {0.0, 1.0}, so the portal error 'values must be in [0, 1]' cannot fire); unique where the 3-px overlap gate is informative (overlap-lift over a measured random control 0.556-1.695x on 18 of 21 registry rasters; 3 dense gems13 rasters are unsatisfiable by ANY emission). Expected value is a MODEL projection (0.294-0.539, mid 0.417) through a transfer constant fitted to 9 owner-reported scores - never submitted, never organizer-scored, so the decision to submit is the selector's, not a measurement. NOT the same artifact as gems62-h63-diffuse-isolated-offcat-40k-zeros.tif from session arena/61e7859a: different method, different bytes.",
+   "ok_to_submit": false,
+   "note": "90,000 isolated unit dots; rank-average of three DEM channels (scarp curvature, local relief TPI3, directional line filter), NMS radius 1 px, all dots >=300 m off the public catalogue. Measured credit-per-unit-mass 0.18848 against USGS SGMC off-catalogue faults: 1.82x a mass-matched random control (0.1037) and 1.32x the group's best submitted artifact (0.1433). float32, nodata=None, values exactly {0.0, 1.0}, so the portal's \"values must be in [0, 1]\" error cannot fire.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "MODEL projection 0.294-0.539 (mid 0.417) vs a group best of 0.2778 - no organizer score exists for any file in this repository",
+   "artifact_of": "scripts/h63_finalize.py (session arena/4ef3d5d6-62gemsdoe, lane H63M)",
+   "sidecar": "docs/downloads/gems62-h63m-multiline-corroborated-90000-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
    "path": "docs/downloads/gems62-lahontan-isobase-99dots-nan.tif",
    "bytes": 124293,
    "fails": [
@@ -1728,6 +1824,102 @@
    "dots_on_catalogue_frac": 0.0,
    "verdict": null,
    "sidecar": null
+  },
+  {
+   "path": "lane62-h63m/docs/downloads/gems62-h63m-multiline-corroborated-90000-zeros.tif",
+   "bytes": 338731,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "3b04880d5cd9f72806b35e19e23be80a421d90d595466ce19ac5315a61cdfacf",
+   "dots": 90000,
+   "total_mass": 90000.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 90000,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "PROMOTE (this lane's recommendation, NOT a confirmed score) - legal by the published contract and by this repository's stricter convention (14/14 byte checks: float32, no nodata tag, values exactly {0.0, 1.0}, so the portal error 'values must be in [0, 1]' cannot fire); unique where the 3-px overlap gate is informative (overlap-lift over a measured random control 0.556-1.695x on 18 of 21 registry rasters; 3 dense gems13 rasters are unsatisfiable by ANY emission). Expected value is a MODEL projection (0.294-0.539, mid 0.417) through a transfer constant fitted to 9 owner-reported scores - never submitted, never organizer-scored, so the decision to submit is the selector's, not a measurement. NOT the same artifact as gems62-h63-diffuse-isolated-offcat-40k-zeros.tif from session arena/61e7859a: different method, different bytes.",
+   "ok_to_submit": false,
+   "note": "90,000 isolated unit dots; rank-average of three DEM channels (scarp curvature, local relief TPI3, directional line filter), NMS radius 1 px, all dots >=300 m off the public catalogue. Measured credit-per-unit-mass 0.18848 against USGS SGMC off-catalogue faults: 1.82x a mass-matched random control (0.1037) and 1.32x the group's best submitted artifact (0.1433). float32, nodata=None, values exactly {0.0, 1.0}, so the portal's \"values must be in [0, 1]\" error cannot fire.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "MODEL projection 0.294-0.539 (mid 0.417) vs a group best of 0.2778 - no organizer score exists for any file in this repository",
+   "artifact_of": "scripts/h63_finalize.py (session arena/4ef3d5d6-62gemsdoe, lane H63M)",
+   "sidecar": "lane62-h63m/docs/downloads/gems62-h63m-multiline-corroborated-90000-zeros.verdict.json",
+   "sidecar_matches_bytes": true
   },
   {
    "path": "lane62/docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif",
