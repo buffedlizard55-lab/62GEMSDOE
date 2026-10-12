@@ -12,6 +12,73 @@ so this lane buys **defensibility more than area**.
 
 ---
 
+## Session status — 2026-10-11b (`arena/d0303476-62gemsdoe`)
+
+**Read this first.** One new artifact, one new measurement that changes what should be promoted, and
+one new instrument that says the promotion rule itself was wrong.
+
+### ⬇ The new artifact — download it, and read the verdict before spending a slot
+
+**[`docs/downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif`](docs/downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif)**
+· 481,168 bytes · **120,000 dots, at most one inside any 300 m disc** ·
+sha256 `42bffef1b5973973…` (full hash in [`evidence/run_card_20261011b.json`](evidence/run_card_20261011b.json))
+
+| | |
+| --- | --- |
+| **FORMAT** | ✅ **LEGAL** — 14/14 checks on the bytes **re-read from disk**: single band, `float32`, EPSG:32611, 3730×3292, sample geotransform, `n_outside_0_1 = 0`, `nan_count = 0`, `nodata = null`. The portal error *"Predicted values must be in range [0, 1]"* cannot occur for these bytes. |
+| **UNIQUENESS** | ✅ **UNIQUE** — against 25 prior rasters: max Jaccard **0.022**, max exact-pixel overlap **4.6 %**, max tie-aware rank correlation **\|ρ\| = 0.035**. |
+| **HOLDOUT-DTI** | ❌ **0.00073** (95 % CI [0.00069, 0.00076], 81,993 withheld positives, evaluator `gems62.holdout_segmented v1`) vs the current holdout best 0.1322 — **gate FAILED**. |
+| **WHY THE GATE FAILS** | Measured, not excused: that gate rewards hugging the **mapped** catalogue, and credit per dot against the mapped catalogue has **ρ = −0.597** (p = 0.0054, n = 20) with the owner-reported leaderboard scores. This field is deliberately off-catalogue (median 2.2 km), so the gate penalises exactly the property the leaderboard rewards. |
+| **EXPECTED SCORE** | **Not claimed.** No local instrument may be used as a score. Per-dot credit on the only positively-tracking local quantity is **0.0621** = 95 % of the champion's 0.0655 at 3.2× the mass. Pre-registered and falsifiable: it beats 0.2778 **iff** its true per-dot credit exceeds **0.0778**. |
+| **SUBMISSION NOTE** | 138/140 chars: `62b: 120k isolated dots from a 13-layer derivative vote with scarp corroboration. Off-catalogue. Legal & unique; probe, not a proven gain.` |
+
+**Verdict: `SUBMIT AS A PROBE`** — a legal, unique, provably-isolated field with champion-grade
+per-dot credit at 3.2× the mass, shipped with a prediction that the receipt will settle. It is **not**
+a validated improvement, and the pages say so in those words.
+
+Read before spending the slot: [executive summary with the six submission steps](docs/executive-summary-2026-10-11b.md)
+· [why 0.2778 scores what it scores, and the exact condition for beating it](docs/research/beating-02778-2026-10-11b.md)
+· [five ranked hypotheses](docs/hypotheses-2026-10-11b.md) · [run card JSON](evidence/run_card_20261011b.json).
+
+### What this session measured that changes the promotion rule
+
+`evidence/e2b_reference_frame_20261011b.json` and `evidence/e4_gates_20261011b.json` measure 20
+artifacts with owner-reported scores on one identical code path:
+
+| quantity | Spearman vs leaderboard | p | reading |
+| --- | --- | --- | --- |
+| credit per dot vs **SGMC 1:750 k minus catalogue** | **+0.617** | 0.0038 | a per-dot **credit** tracks the leaderboard |
+| credit per dot vs the **mapped catalogue** | **−0.597** | 0.0054 | the leaderboard *rewards avoidance* of the mapped catalogue |
+| the published **DTI itself**, evaluated on the SGMC instrument | **−0.442** | 0.0513 | a **metric value** on that instrument anti-tracks it |
+
+Three consequences, all enforced downstream of this file: (1) a per-dot credit is not a score and no
+projection from one may drive promotion — which **downgrades the previous session's rank-1
+recommendation** to submit the never-scored high-credit field; (2) the segmented holdout gate is
+retired as a promotion gate for the reason `IR-62-HOLDOUT-01` already gave; (3) the only
+substantive thing left to buy with a weekly slot is a **receipt**.
+
+### Tooling and defects closed this session
+
+* **`src/gems62/holdout_segmented.py`** — the segmented evaluator existed in **three** copies with
+  three APIs (`IR-62-23`). One copy is promoted; `tests/test_holdout_segmented.py` executes both the
+  promoted module and the original on one synthetic fixture and asserts the pooled numbers are
+  identical to the last bit, so the promotion cannot drift.
+* **Spearman leg fixed** (`IR-62-19`): `argsort(argsort(x))` over 12.3 M mostly-zero cells reported
+  ρ ≈ 0.95–0.976 for *every* pair of fields; tie-aware ranks on a fixed 300 k sample give
+  **max |ρ| = 0.035**. Earlier rank-correlation numbers in this repository must be re-read in that
+  light.
+* **The 3 px overlap leg is vacuous** (`IR-62-22`): a uniform-random field scores 0.9987 and a 3 px
+  lattice 0.9988 against the comparator that trips it. Reported as tripped; reported as
+  uninformative.
+* **`pillow` is now a declared test dependency.** `figures.save_map_png` silently returned when
+  Pillow was absent, so a figure could vanish while the run reported success — the same class of
+  defect as the "no evidence" map `IR-62-12` describes. Three tests failed until the dependency was
+  installed; the root suite is now **36 passed**.
+* Root `pytest tests/` **collects and passes** (36 tests) — see `IR-62-TRUNK-01`, which is hereby
+  **CLOSED**: `metric.py::brute_force_components` and `grid.py::PIXEL_M` both exist in this tree.
+
+---
+
 ## Session status — 2026-10-11 (`arena/2b64062a-62gemsdoe`)
 
 Read this before anything else. Four things changed this session:
@@ -34,7 +101,7 @@ what beating it requires.
 
 ---
 
-## ⬇ Is it OK to download and submit the generated file?
+## ⬇ Previous session (`arena/2b64062a-62gemsdoe`) — is its file OK to download and submit?
 
 ### ❌ FORMAT LEGAL, VERDICT NEGATIVE — do not spend a weekly slot on it
 
@@ -101,6 +168,9 @@ The rule this repository enforces mechanically (`src/gems62/grid.py::write_submi
 | `scripts/run_lane.py` | end-to-end: DEM → benches → isobase → loci → traces → submission GeoTIFF + receipts |
 | `scripts/run_holdout.py` | hide-and-recover holdout (spatially blocked, buffer, pooled DTI, leakage canary) |
 | `scripts/check_uniqueness.py` | lane-drift tripwires: rank correlation ≤ 0.90 and ≤ 70 % dot overlap vs every registry raster |
+| `scripts/fetch_ext_20261011b.py` | fetches the official 19-band stack + the 10 m/1 m derived layers through `gh api` into `build/ext/` (sha256 receipts; rerunnable) |
+| `scripts/exp1_layer_screen.py` … `exp4_gates.py` | the four measurements behind `evidence/e1…e4_*.json`: 54-layer screen, emission arms, reference frame, and the gate audit |
+| `scripts/build_final_field.py` | the final field: 13-layer derivative vote + scarp corroboration → hard-core emission → format, isolation, drift and holdout checks → evidence JSON |
 | `docs/` | executive summary, run card, hypothesis ranking, sources, irregularities, evidence JSON |
 | `evidence/` | receipts committed by the GitHub runner: DEM provenance, network probes |
 
@@ -122,6 +192,9 @@ committed; see [`docs/data.md`](docs/data.md) for the exact reproduction command
 | this file vs its own Poisson null | 0.74× (h33: 0.10×) — a **novelty** ratio, not a quality ratio | MEASURED (`evidence/calibration_v8.json`) |
 | registry uniqueness | **UNIQUE-VS-REGISTRY**, 289 rasters, max ρ −0.065, max Jaccard 0.030 | MEASURED (`evidence/uniqueness_v8.json`) |
 | organizer scores of *any* file here | **none exist** | — |
+| `gems62b-…-120000-zeros` vs 25 prior rasters (2026-10-11b) | max Jaccard **0.022**, max \|ρ\| **0.035**, max exact overlap 4.6 % | MEASURED (`evidence/final_field_gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.json`) |
+| `gems62b-…-120000-zeros` HOLDOUT-DTI (2026-10-11b) | **0.00073** [0.00069, 0.00076], 81,993 withheld positives, gate **FAILED** | HOLDOUT-DTI (proxy; retired as a promotion gate by `IR-62-HOLDOUT-01`) |
+| do local instruments rank fields? (n = 20) | credit/dot vs off-catalogue **ρ = +0.617**; vs catalogue **−0.597**; the DTI **on** them **−0.442** | MEASURED (`evidence/e4_gates_20261011b.json`) |
 
 Scores the user reported for earlier sites (0.2778, 0.3774, …) are recorded in
 `docs/irregularities.md` **as claims**, with what could and could not be verified.
@@ -341,6 +414,30 @@ python scripts/run_holdout.py   --emission build/lane/<name>.tif --catalogue lab
 python scripts/check_uniqueness.py --raster build/lane/<name>.tif --footprint sample_submission.tif
 python -m pytest tests -q
 ```
+
+### Reproducing the 2026-10-11b artifact (exact commands, in order)
+
+```bash
+# 1. the official 19-band stack and the derived layers (GitHub is the transport; ~430 MB)
+python3 scripts/fetch_ext_20261011b.py --dest build/ext          # sha256 receipts, rerunnable
+cat build/ext/gems-geodawn-numerical-features.tif.part-0{0,1,2,3,4} \
+  > build/ext/gems-geodawn-numerical-features.tif                # sha256 4371c82e… (matches the pin)
+
+# 2. the four measurements (each writes its receipt to evidence/)
+python3 scripts/exp1_layer_screen.py   --ext build/ext --sigma 1.2   # 54 layers, ~5 min
+python3 scripts/exp2_arms.py           --ext build/ext --arm A --budget 40000
+python3 scripts/exp2b_reference_frame.py --ext build/ext             # 20 artifacts, one code path
+python3 scripts/exp3_emit.py           --ext build/ext --budgets 20000 40000 80000 120000
+python3 scripts/exp4_gates.py                                        # the two gate audits
+
+# 3. the artifact itself — format, isolation, drift, holdout and canary all in one pass
+python3 scripts/build_final_field.py --budget 120000 --w-deriv 0.55 \
+  --name gems62b-tiltgrad-vote-scarpcorrob-120000-zeros --out build/final120k.npy
+
+# 4. the trunk suite (36 tests, includes the artifact re-derived from its own bytes)
+python3 -m pytest tests -q
+```
+```bash
 
 ---
 

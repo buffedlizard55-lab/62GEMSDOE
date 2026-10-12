@@ -105,4 +105,47 @@ gems62.holdout      ImportError: cannot import name 'PIXEL_M' from 'gems62.grid'
 <p>The brief states "0.3195 is the highest score right now". The official public leaderboard, scraped 2026-10-11T20:57:47Z, puts 0.3195 at <b>rank 9</b> and #1 at <b>0.4133</b>; the top-5 cut-off is <b>0.3333</b>. The group's best (0.2778) is <b>rank 23 of 50</b>. Any target set against 0.3195 is aiming at ninth place. Series: <code>research/leaderboard_series.json</code> (37 snapshots).</p>
 <h3>IR-62-18 — this session's own uniqueness gate had a direction bug, found by running it</h3>
 <p>The first implementation computed <code>|dilated_mine ∩ theirs| / |mine|</code> instead of the protocol's <code>|mine ∩ dilated_theirs| / |mine|</code>, and compared the submission against <b>itself</b> (returning a spurious ρ = 1.0, Jaccard = 1.0, "DUPLICATE-DRIFT"). Both were wrong. Fixed and re-run; the corrected numbers are the ones published. Recorded because the first (wrong) verdict was already printed, and a reader comparing the two would otherwise be misled.</p>
+
+<h2>Added 2026-10-11b (session <code>arena/d0303476-62gemsdoe</code>)</h2>
+<table><thead><tr><th>ID</th><th>Irregularity, and what was done</th></tr></thead><tbody>
+<tr><td><b>IR-62-19</b></td><td><b>The rank-correlation leg was computed with ordinal ranks.</b>
+<code>np.argsort(np.argsort(mask))</code> over 12,279,160 mostly-zero cells is dominated by the
+arbitrary ordering of the tied zeros: it reported <b>ρ = 0.95–0.976 for every comparator pair</b>,
+including fields sharing 1.1 % of their pixels. Tie-aware ranks on a fixed 300,000-pixel sample give
+<b>max |ρ| = 0.035</b>. <code>scripts/build_final_field.py</code> now uses the tie-aware form, and every
+earlier rank-correlation number in this repository must be re-read in that light. (The superseded
+probe <code>docs/downloads/probe-120k.tif</code> was removed; its receipt stays at
+<code>evidence/final_field_probe-120k.json</code>.)</td></tr>
+<tr><td><b>IR-62-20</b></td><td><b>The SGMC 1:750 k instrument cannot rank fields.</b> Over 20
+owner-reported scores its <i>per-dot credit</i> correlates <b>+0.617</b> (p = 0.0038) with the
+leaderboard, but the published <b>DTI evaluated on it</b> correlates <b>−0.442</b> (p = 0.0513). The
+previous session's rank-1 recommendation ("submit the never-scored high-credit field") rests on the
+first quantity and is <b>downgraded</b> here. Receipts:
+<code>evidence/e2b_reference_frame_20261011b.json</code>, <code>evidence/e4_gates_20261011b.json</code>.</td></tr>
+<tr><td><b>IR-62-21</b></td><td><b><code>docs/data.md</code> says the official feature stack is 35
+bands.</b> The file says <code>count = 19</code> (sha256 <code>4371c82e…</code> = the pin), and every band
+carries its own <code>band_name</code> tag — so the band names are no longer second-hand, which
+contradicts <code>docs/data.md</code> §5 and <code>docs/research/sources.md</code> §1. One-line doc fix
+outstanding; the band map used this session is in <code>docs/next-steps.md</code>.</td></tr>
+<tr><td><b>IR-62-22</b></td><td><b>The 3 px overlap leg of the lane rule is vacuous for every
+field.</b> Against <code>r13_lattice_s5_00904.tif</code>, a <i>uniform-random</i> field of 120,000 dots
+scores <b>0.9987</b> and a 3 px lattice <b>0.9988</b> — both above any real field's 0.995. Any
+submission trips the "duplicate" leg against that comparator, so the leg carries no information about
+copying. Confirms and quantifies <code>IR-62-UNIQ-01</code>.</td></tr>
+<tr><td><b>IR-62-23</b></td><td><b>Three copies of the holdout evaluator existed</b>
+(<code>src/gems62/holdout.py</code>, <code>lane62/src/…</code>, <code>lane62-h62a/src/…</code>) with three
+APIs — the "private fork" the protocol forbids, inside one repository. Promoted to one:
+<code>src/gems62/holdout_segmented.py</code>, with <code>tests/test_holdout_segmented.py</code> executing
+the promoted module and the original on one synthetic fixture and asserting the pooled numbers match to
+the last bit.</td></tr>
+<tr><td><b>IR-62-24</b></td><td><b>One defect ID was reused.</b> <code>src/gems62/metric.py</code> cited
+its keyword-form fix as <code>IR-62-13</code>, and this register's <code>IR-62-13</code> is the GitHub
+Pages directory. The citation is corrected in the code to <code>IR-62-18</code>. Rule for the next
+session: <b>the register is authoritative for IDs; code cites the register, never its own
+numbering.</b></td></tr>
+</tbody></table>
+<p class="mut">Also closed this session: <code>IR-62-TRUNK-01</code> — the root suite collects and
+passes (<b>45 tests</b>), so the claim that <code>lahontan.py</code> imports a missing
+<code>PIXEL_M</code> and <code>test_metric.py</code> a missing <code>brute_force_components</code> is
+stale in this tree.</p>
 </div></body></html>
