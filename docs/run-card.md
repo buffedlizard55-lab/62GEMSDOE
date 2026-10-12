@@ -1,4 +1,27 @@
-# Run card — session 2026-10-11, datum-offset lane
+# Run card
+
+## Session 2026-10-12 (`arena/778884cc-62gemsdoe`) — CURRENT
+
+The JSON card required by protocol item 5 is committed verbatim at
+[`../evidence/h62n_run_card.json`](../evidence/h62n_run_card.json) (same content:
+[`run-card-h62n.json`](run-card-h62n.json)). Headline fields:
+
+| field | value |
+| --- | --- |
+| hypothesis | shoreline-datum offsets seed young, low-slip-rate faults whose unmapped segments continue into basin floors (Pierce & Wesnousky 2016; Briggs & Wesnousky 2004; Dong et al.) |
+| artifact | `gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif`, 129,539 B, sha256 `2a25f29a6b235520a4965199045dae7226260665fc3ec248a79f04cb78bbe7f0`, 16,864 isolated dots |
+| instrument | S*† (kernel-fixed leaderboard inversion, this session): DTI 0.0545 → **PROJECTION 0.0210** (never a score; ~4× under-prediction bias for out-of-family fields is disclosed) |
+| catalogue holdout | pooled DTI 0.0 by construction (all dots ≥300 m off-catalogue); instrument documented anti-correlated with the portal (IR-62-HOLDOUT-01) |
+| leakage canary | AUC 0.498 / 0.461 — ok |
+| uniqueness | max 38.4 % of dots within 3 px of any scored comparator (limit 70 %); full 379-comparator scan in `build/uniqueness_h62n.json` → committed under `evidence/` |
+| validator | legal on the re-read bytes; float32; EPSG:32611; 3730×3292; no NaN; no nodata tag; `n_outside_0_1 = 0` |
+| submission note | `H62-N Lahontan local-mode isobase, block-balanced trace network; 16,864 isolated dots >=300m off-catalogue; unique vs 379 rasters.` (130/140) |
+| verdict | **NEGATIVE as an improvement** (projection below the incumbent band and below the repo's best on the fixed instrument); **OK to download**; the positive deliverables are IR-62-25/20/22 and the lane-family table |
+
+Everything below this line is history from earlier sessions.
+
+---
+ — session 2026-10-11, datum-offset lane
 
 Protocol item 5 requires one JSON card. It is committed verbatim at
 [`evidence/h62g/run_card.json`](../evidence/h62g/run_card.json) and reproduced below.
@@ -1966,6 +1989,14 @@ Protocol item 5 requires one JSON card. It is committed verbatim at
 }
 ```
 
+> **Superseded 2026-10-12 — do not act on the `selector_recommendation` quoted above.** The
+> 0.29294 row is a real measurement on instrument B, and instrument B turned out not to be a yardstick:
+> session `d0303476` measured its per-dot credit at ρ = +0.617 with the leaderboard while the published DTI
+> evaluated on it came out at **−0.442** (`IR-62-20`), and session `778884cc` then found the S* kernel-radius
+> bug and re-measured the same field at **0.0408 credit/dot, projection 0.0295** on the corrected instrument
+> (`IR-62-25`, `IR-62-26`, which retracts the rank-1 advice wherever it appears). The JSON block is quoted
+> verbatim because it is the record of what that run card said; the current list is `docs/next-steps.md`.
+
 ## The two labelled numbers a reader needs
 
 | label | value | what it is |
@@ -1977,3 +2008,246 @@ Protocol item 5 requires one JSON card. It is committed verbatim at
 
 **None.** `organizer_score` is `null` for every artifact here. Nothing on any page of this site is an
 organizer receipt.
+
+
+---
+
+
+> **Restored into the markdown on 2026-10-12.** This section existed only in
+> `docs/run-card.html` — it was hand-written there and never put into `run-card.md`, so the page and
+> its source disagreed, which is precisely the drift `tests/test_doc_render.py` now forbids. It is
+> reproduced below from the committed HTML, word for word, so the markdown is again the source of
+> truth for the session `arena/d0303476` card; nothing in it is this lane's claim.
+
+## Current — session `arena/d0303476-62gemsdoe` (2026-10-11b)
+
+**Verdict: `negative-as-lead / legal-and-unique-as-a-probe`.** The machine-readable card is [`evidence/run_card_20261011b.json`](../evidence/run_card_20261011b.json); the human pages are the [executive summary](executive-summary-2026-10-11b.html) and [why 0.2778 scores what it scores](research/beating-02778-2026-10-11b.html).
+
+Protocol item 5 requires one JSON card. It is committed verbatim at [`evidence/h62g/run_card.json`](../evidence/h62g/run_card.json) and reproduced below.
+
+**Verdict: `negative`.** A negative result is a deliverable.
+
+| field | value |
+| --- | --- |
+| artifact | `docs/downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif`, 481,168 B, sha256 `42bffef1b5973973…` |
+| hypothesis | H62-L — a k-of-N consensus over the official stack's **derivative** fields (tilt angle, vertical/horizontal gradients, radiometric ratios, χ/ksn, profile curvature), corroborated by metre-scale scarp evidence, holds **per-dot credit** while mass rises 3.2× |
+| mechanism | 13 decorrelated edge layers → structure-tensor line response at σ = 1.2 px (120 m, matched to the 300 m kernel); scarp families vote; dots need k-of-N layer agreement and doubled-angle orientation agreement, then a greedy 300 m hard-core emission with seeded jitter (the tie-break defect that cost 12.5 k dots in E2) |
+| named non-fault mimic | fluvial and hillslope breaks — terrace risers, fan-head trenches, channel knickzones — plus intrabasement magnetic and gravity contacts that are not faults |
+| isolation (MEASURED on the shipped bytes) | max dots in any 300 m disc = **1**; 120,000 dots; values exactly {0,1} |
+| holdout | HOLDOUT-DTI **0.00073** [0.00069, 0.00076], 81,993 withheld positives, `gems62.holdout_segmented v1`; controls random_lines 0.0002 / random_dots 0.0923 / catalogue_offset 0.0386; leakage canary AUC **0.1475**; **gate FAILED by construction** — the gate rewards catalogue proximity, measured ρ = −0.597 with the leaderboard |
+| uniqueness | max Jaccard **0.022**, max exact overlap **4.6 %**, max tie-aware \|ρ\| **0.035** over 25 comparators; the 3 px leg trips against `r13_lattice_s5_00904` and is reported as vacuous (uniform-random null 0.9987, lattice null 0.9988) |
+| validator | 14/14 on the re-read bytes: single band, float32, EPSG:32611, 3730×3292, sample geotransform, `n_outside_0_1 = 0`, `nan_count = 0`, `nodata = null` |
+| submission name + note | `gems62b-tiltgrad-vote-scarpcorrob-120000-zeros` · `62b: 120k isolated dots from a 13-layer derivative vote with scarp corroboration. Off-catalogue. Legal & unique; probe, not a proven gain.` (138/140) |
+| verdict | **negative as a lead** — per-dot credit 0.0621 is below the 0.0778 needed to beat 0.2778 at this mass under exact transfer; **legal and unique as a probe**. Organizer score: none. |
+
+---
+
+## Session 2026-10-12 — H62-J, the datum-doublet detector, run end to end
+
+**Verdict: `negative-for-score, positive-for-information`.** A legal, unique, max-mass field of 10,870
+isolated dots whose per-dot credit is **1.60× its own domain-matched control** — the first datum-only
+field in this repository to beat a control at scale — and whose model DTI, **0.0375** at the planned
+N = 12,000, cannot reach the group's 0.2778. The card below is `evidence/h62j/run_summary.json`
+verbatim; the sweep, the gate ladder, the band table and the uniqueness gate are its evidence files.
+
+Environment, stated because it shaped the design: 3 GB RAM, 2 vCPU, no controlling terminal. One full
+25 m float32 array of the DEM is 278 MB and the doublet needs ~13 of them at once, so the lane runs in
+700-row blocks over the 25 m grid and accumulates onto the 100 m submission grid; pass 2 measured 70 s
+over 14 blocks, pass 1 (benches and the tile-wise isobase) 8.6 s. Two experiments of the protocol's
+three were spent: run 1 (`--min-evid 0.10 --max-shore-m 1500`) and run 2 (relaxed: `0.03 / 2500 m /
+trace ≥ 3 cells`), the latter shipped at its max-mass operating point because the marginal-credit rule
+still favoured mass at the boundary (tail credit 0.0203 against a bar of 0.0075). Run 1 is reproduced
+bit-for-bit at `evidence/h62j1/`: 90,304 candidate cells, 8,571 that fit the isolation rule, credit
+**0.044652** against control **0.025707** = **1.737×**, model DTI **0.033826**, ceiling 0.758. Run 2 (the
+shipped one) is `evidence/h62j/`: 120,531 candidates, 10,870 isolated, credit **0.040588** against
+**0.025445** = **1.595×**, model DTI **0.037471**. Relaxing the gates bought 2,299 dots and 0.004 of
+model DTI and cost 0.14 of the control ratio — a mass-capped lane's whole trade, in one line. The run-1
+evidence had been overwritten by the shipped run when this section was first drafted; re-running the
+recorded command restored it, which is why the numbers above are cited from files rather than from notes.
+
+```bash
+python3 scripts/run_h62j.py --dem evidence/dem/lahontan_dem_utm11.tif --evdir evidence/h62j \
+        --out docs/downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif \
+        --block-rows 700 --min-evid 0.03 --seed-evid 0.15 --max-shore-m 2500 --min-corr 0.20 \
+        --flank-tol-m 10.0 --min-trace-cells 3 --masses 2000,5000,8000,10000,10870   # 155 s, exit 0
+python3 scripts/report_bands.py docs/downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif \
+        --out-json evidence/h62j-bands.json                                          # 4 s
+python3 scripts/probe_geothermal.py --out-json evidence/h62j2-geothermal.json         # 93 s
+python3 scripts/check_uniqueness.py --raster <the file> --registry /tmp/gems/registry \
+        --footprint data/labels.tif --out evidence/h62j-uniqueness.json               # UNIQUE-VS-REGISTRY
+python3 scripts/run_holdout.py --emission <the file> --catalogue data/labels.tif \
+        --sample data/sample_submission.tif --fields evidence/h62j/fields_100m.npz \
+        --out evidence/h62j-holdout.json
+python3 scripts/audit_downloads.py --write        # 12 rasters, 14 named checks each, verdicts + manifest
+```
+
+```json
+{
+ "dem": {
+  "crs": "EPSG:32611",
+  "transform": [
+   25.0,
+   0.0,
+   240000.0,
+   0.0,
+   -25.0,
+   4480000.0
+  ],
+  "shape": [
+   9200,
+   7600
+  ],
+  "res": 25.0,
+  "nodata": -32768.0,
+  "bytes": 139840000
+ },
+ "iso": {
+  "res": 25.0,
+  "tile_m": 4000.0,
+  "t": 160,
+  "tr": 58,
+  "tc": 48,
+  "tiles": 2784,
+  "tiles_ok": 1093,
+  "bench_px": 2127960,
+  "valid_px": 56550061,
+  "z_lo": 1150.0,
+  "z_hi": 1460.0,
+  "fine": 0.1,
+  "band": [
+   1157.0,
+   1455.0
+  ],
+  "seconds": 8.6,
+  "surf_min": 1159.050048828125,
+  "surf_max": 1453.25
+ },
+ "args": {
+  "dem": "evidence/dem/lahontan_dem_utm11.tif",
+  "catalogue": "data/labels.tif",
+  "sample": "data/sample_submission.tif",
+  "ext": "data/external",
+  "out": "docs/downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif",
+  "evdir": "evidence/h62j",
+  "band_lo": 1157.0,
+  "band_hi": 1455.0,
+  "block_rows": 700,
+  "flank_tol_m": 10.0,
+  "min_step_m": 2.0,
+  "min_corr": 0.2,
+  "min_cross_deg": 30.0,
+  "max_shore_m": 2500.0,
+  "min_evid": 0.03,
+  "seed_evid": 0.15,
+  "min_trace_cells": 3,
+  "sep_m": 300.0,
+  "cat_collar_m": 250.0,
+  "masses": "2000,5000,8000,10000,10870",
+  "n_truth": 12000.0,
+  "target_dti": 0.2778
+ },
+ "stats": {
+  "n_dots": 10870,
+  "n_candidates": 120531,
+  "n_isolated_available": 10870,
+  "mass": 10870,
+  "credit_B": 0.040588,
+  "control_B": 0.025445,
+  "ratio_vs_control": 1.5951,
+  "model_dti": 0.037471,
+  "ceiling": 0.923221,
+  "mean_self_kernel": 0.0,
+  "min_neighbour_distance_m": 316.2,
+  "min_dist_to_catalogue_m": 223.6,
+  "frac_within_400m_of_catalogue": 0.051794,
+  "frac_on_catalogue": 0.0,
+  "block_spread": [
+   10716,
+   154,
+   0,
+   0,
+   0,
+   0
+  ],
+  "n_components": 10870,
+  "gate_ladder": {
+   "footprint_cells": 5167373,
+   "dem_valid": 486753,
+   "bench_cells": 70292,
+   "evid_ge_min": 181819,
+   "score_positive": 294537,
+   "score_and_shore": 217549,
+   "score_and_shore_offcat": 209643
+  },
+  "iso_meta": {
+   "res": 25.0,
+   "tile_m": 4000.0,
+   "t": 160,
+   "tr": 58,
+   "tc": 48,
+   "tiles": 2784,
+   "tiles_ok": 1093,
+   "bench_px": 2127960,
+   "valid_px": 56550061,
+   "z_lo": 1150.0,
+   "z_hi": 1460.0,
+   "fine": 0.1,
+   "band": [
+    1157.0,
+    1455.0
+   ],
+   "seconds": 8.6,
+   "surf_min": 1159.050048828125,
+   "surf_max": 1453.25
+  }
+ },
+ "receipt": {
+  "file": "gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif",
+  "bytes": 91954,
+  "sha256": "7e67bf2d4ea506a89b840fc130d38c2c7a8473daf95dc780fbfd9601b1096b94",
+  "n_positive": 10870,
+  "min": 0.0,
+  "max": 1.0,
+  "nodata": null,
+  "legal": true,
+  "all_finite": true,
+  "n_outside_0_1": 0,
+  "transform_match": true,
+  "crs_match": true
+ }
+}
+```
+
+### What the band table says, because it applies to every lane
+
+`scripts/report_bands.py` scores this field against the independent SGMC compilation *within each
+catalogue-distance band*, against isolated-random control dots drawn from the same band at the same
+count. Credit per dot: 0.17764 (0–250 m), 0.15329 (250–300 m), 0.10844 (300–500 m), 0.04069
+(500 m–1 km), 0.03538 (1–2 km), 0.05700 (2–4 km), 0.01847 (>4 km). The ratios against same-band
+controls are 1.33, 1.21, 1.29, 0.80, 0.78, 1.36, **0.51**. Six per cent of the dots, those inside
+500 m of a mapped trace, carry 21 % of the field's total credit; the band beyond 4 km, which is 43 %
+of its mass, is worse than chance. MEASURED — `evidence/h62j-bands.json`.
+
+### The geothermal screen, refuted in ninety seconds
+
+Every allowed cell at or near a Hot/Warm GDR occurrence, and a 600 m corridor around them, scored
+**0.77–0.84×** a mass-matched isolated-random control on the same instrument; mapped volcanic vents
+score **0.10–0.21×**. `scripts/probe_geothermal.py`, evidence
+`evidence/h62j2-geothermal.json`, `6` fields, controls re-drawn per mass (5 seeds,
+spread reported). Screen only: this lane emitted nothing from it, and the geothermal lane owns the
+question.
+
+### Gates, as run
+
+| gate | result | where |
+| --- | --- | --- |
+| format | `legal=True`, 14/14 named checks, sha256 `7e67bf2d4ea506a89b840fc130d38c2c7a8473daf95dc780fbfd9601b1096b94` | `docs/downloads/*.verdict.json` |
+| uniqueness vs 79 registry rasters | `UNIQUE-VS-REGISTRY`; worst dilated Jaccard **0.0457**, worst ρ **−0.4137**; the 3-px asymmetric leg reads 0.9988 against a 206,895-dot lattice and is density-blind, as `IR-62-16` predicts | `evidence/h62j-uniqueness.json` |
+| leakage canaries | per-feature AUC `lane_kernel_proximity` 0.493, `lane_binary_mask` 0.4995, `field:evid` 0.4955, `field:step` 0.4935, `field:corr` 0.493, `field:score` 0.4958, `field:doublet_frac` 0.4999, `field:bench` 0.497, `field:traced` 0.4977, `field:cand` 0.4942, `field:emis` 0.4995 — all `ok` (mean > 0.90 would be flagged `LEAKAGE-SUSPECT`; 4 of 6 folds hold no withheld positives off the collar, so they sit at 0.5) | `evidence/h62j-holdout.json` |
+| catalogue collisions | 0 dots on the catalogue; minimum distance 223.6 m; mean self-kernel 0.0; minimum dot spacing 316.2 m | `evidence/h62j/run_summary.json` |
+
+**What is NOT claimed.** No organiser-confirmed score exists for any file here; every DTI above is this
+repository's own model of the metric on a proxy instrument, labelled MEASURED or MODEL accordingly. The
+25 m DEM reaches 9.42 % of footprint cells for this pipeline (`IR-62-J-04`, renumbered on merge), so the lane's mass is capped
+by coverage and isolation, not by geology — and at credit 0.041 the closed form puts the whole
+lane's ceiling at 5 × 0.041 = 0.203 however the dots are arranged.

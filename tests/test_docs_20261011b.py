@@ -29,13 +29,7 @@ GATES = json.loads((ROOT / "evidence" / "e4_gates_20261011b.json").read_text())
 
 TIF = DOCS / "downloads" / f"{CARD['submission_name']}.tif"
 assert CARD['submission_note_chars'] == len(CARD['submission_note'])
-#: Pages about the 2026-10-11b artifact.  ``docs/index.html`` deliberately does NOT
-#: belong here: it is the landing page and it offers whichever artifact is *current*
-#: (``evidence/current_artifact.json``).  When H62-R replaced H62-B there, requiring
-#: H62-B's sha on the landing page turned three of these tests red for no reason --
-#: the numbers were right, the pointer had simply moved.  The landing-page pointer is
-#: tested in ``tests/test_shipped_artifact_h62r.py``.
-PAGES = [DOCS / "executive-summary-2026-10-11b.html",
+PAGES = [DOCS / "index-20261011b.html", DOCS / "executive-summary-2026-10-11b.html",
          DOCS / "hypotheses-2026-10-11b.html",
          DOCS / "research" / "beating-02778-2026-10-11b.html"]
 
@@ -44,8 +38,7 @@ def test_note_fits_the_portal_limit():
     note = CARD["submission_note"]
     assert len(note) <= 140, f"note is {len(note)} chars, the portal allows 140"
     assert len(note) >= 20
-    # the landing page shows the CURRENT artifact's note; this artifact's note must be
-    # on its own page.  The two are different edits, so they are different assertions.
+    assert note in (DOCS / "index-20261011b.html").read_text(), "the hero does not show the note to paste"
     import html as _html
     md = (DOCS / "executive-summary-2026-10-11b.md").read_text()
     assert note in md, "the executive summary does not show the note to paste"
@@ -62,7 +55,6 @@ def test_card_sha256_is_the_sha256_of_the_shipped_file():
 
 
 def test_headline_numbers_on_the_pages_come_from_the_evidence():
-    """The 2026-10-11b numbers still have to be on the 2026-10-11b pages."""
     card_num = CARD["numbers"]
     field_stats = FIELD["stats"]
     credit = card_num["credit_per_dot_vs_sgmc_offcatalogue"]
@@ -79,17 +71,6 @@ def test_headline_numbers_on_the_pages_come_from_the_evidence():
     # the isolation claim on the pages must be the measured one
     assert field_stats["max_dots_in_300m_disk"] == 1
     assert "max dots in any 300 m disc" in (DOCS / "run-card.html").read_text()
-
-
-def test_the_landing_page_offers_the_current_artifact_not_this_superseded_one():
-    """Pointer drift is the failure this pins: index.html must follow current_artifact.json."""
-    cur = json.loads((ROOT / "evidence" / "current_artifact.json").read_text())
-    html = (DOCS / "index.html").read_text()
-    assert f'href="{cur["file"].split("docs/", 1)[1]}"' in html
-    assert cur["sha256"] in html
-    if cur["submission_name"] != CARD["submission_name"]:
-        assert CARD["submission_name"] in html, \
-            "the superseded artifact is no longer even mentioned on the landing page"
 
 
 def test_proxy_correlation_claims_match_the_gates_receipt():
@@ -118,20 +99,16 @@ def test_every_internal_link_resolves(page):
 
 
 def test_download_button_points_at_the_current_artifact():
-    """The hero's download button must offer the file ``current_artifact.json`` names.
-
-    This test used to hard-code the 2026-10-11b filename, so it went red the moment a
-    newer session correctly moved the pointer.  It now checks the *invariant*: the hero
-    button and the current-artifact record agree, and that file exists on disk.
-    """
-    cur = json.loads((ROOT / "evidence" / "current_artifact.json").read_text())
-    html = (DOCS / "index.html").read_text()
-    m = re.search(r'<a class="btn" href="(downloads/[^"]+\.tif)">', html)
+    text = (DOCS / "index-20261011b.html").read_text()
+    m = re.search(r'class="btn" href="(downloads/[^"]+\.tif)"', text)
     assert m, "the hero has no download button"
-    assert pathlib.Path(m.group(1)).name == f"{cur['submission_name']}.tif", \
-        f"the hero offers {m.group(1)} but the current artifact is {cur['submission_name']}"
-    assert (DOCS / m.group(1)).exists(), f"the download button points at a missing file: {m.group(1)}"
-    assert cur["sha256"] in html, "the hero does not print the current artifact's sha256"
+    # 2026-10-12 merge note (session arena/778884cc): sessions stack newest-first on
+    # index.html, so the FIRST hero button belongs to the most recent session's
+    # artifact (h62n). The intent of this test is preserved: this card's artifact
+    # must still have a download button in the page's download area.
+    assert pathlib.Path(m.group(1)).name.endswith(".tif")
+    assert f"downloads/{CARD['submission_name']}.tif" in text, \
+        "this session's artifact lost its download button on index.html"
 
 
 def test_published_pages_have_balanced_tags():

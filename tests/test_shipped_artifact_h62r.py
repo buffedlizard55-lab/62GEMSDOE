@@ -1,13 +1,14 @@
 """Execute the H62-R artifact and the pages that describe it.
 
-``evidence/current_artifact.json`` is the single source of truth for *which* file the
-site currently offers.  Both this module and ``test_docs_20261011b.py`` read it, so a
-new session can move the hero without editing two files and silently leaving one stale
--- the failure that produced three red tests the moment H62-R replaced H62-B as the
-current artifact.
+``evidence/h62r_artifact.json`` records which file **this lane** shipped; ``docs/index.html``
+stacks sessions newest-first and gives each lane its own block, so the lane's block -- not the
+page hero -- is what this module checks.  (An earlier revision of this file asserted that the
+lane's file *was* the hero.  Merging with ``main`` showed why that was the wrong invariant: two
+lanes had produced competing candidates with no measurement able to rank them, and pinning the
+hero to one of them turned a decision into a test failure.)
 
-Everything a reader of ``docs/index.html`` is told about this file is re-derived here
-from the bytes on disk, and the numbers on the page are compared with the receipts.
+Everything a reader of the lane's block on ``docs/index.html`` is told about this file is
+re-derived here from the bytes on disk, and the numbers on the page are compared with the receipts.
 """
 from __future__ import annotations
 
@@ -25,7 +26,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from gems62 import grid  # noqa: E402
 
-CUR = json.loads((ROOT / "evidence" / "current_artifact.json").read_text())
+CUR = json.loads((ROOT / "evidence" / "h62r_artifact.json").read_text())
 TIF = ROOT / CUR["file"]
 ZIP = ROOT / CUR["zip"]
 EV = ROOT / "evidence" / "h62r"
@@ -162,32 +163,61 @@ def test_the_three_figures_exist_and_are_not_blank():
 
 
 # ---------------------------------------------------------------- the pages
-def test_the_hero_offers_this_file_and_pastes_the_note():
+def test_the_landing_page_offers_this_file_with_its_measured_numbers():
+    """The lane's block on index.html is generated (scripts/update_h62r_section.py), so every
+    number below is re-read here from the same receipts the generator used."""
     html = (ROOT / "docs" / "index.html").read_text()
-    assert f'href="{CUR["file"].split("docs/", 1)[1]}"' in html, "the hero does not link the file"
-    assert CUR["sha256"] in html, "the hero does not print the sha256"
-    assert CUR["submission_name"] in html
-    assert f"{CUR['bytes']:,}" in html, "the hero does not print the byte count"
+    rel = CUR["file"].split("docs/", 1)[1]
+    assert 'id="h62r"' in html, "the landing page has no H62-R section"
+    block = html[html.index('id="h62r"'):html.index("/LANE H62-R")]
+    assert f'href="{rel}"' in block, "the section does not link the file"
+    assert CUR["sha256"] in block, "the section does not print the sha256"
+    assert CUR["submission_name"] in block
+    assert f"{CUR['bytes']:,}" in block, "the section does not print the byte count"
     note = CUR["submission_note"]
     assert len(note) <= 140 and len(note) == CUR["submission_note_chars"]
     import html as _html
-    assert _html.escape(note, quote=False) in html, "the hero does not show the note to paste"
+    assert _html.escape(note, quote=False) in block, "the section does not show the note to paste"
+    # the numbers a reader acts on must be the measured ones, not stale text
+    uni = json.loads(UNIQ.read_text())
+    assert f"{uni['max_abs_rho']:.4f}" in block
+    assert f"{uni['worst_jaccard3px']['value']:.4f}" in block
+    assert f"{uni['n_compared']}" in block
+
+
+def test_the_section_is_reproducible_from_the_receipts():
+    """Re-running the generator must not change the page: the block IS its receipts."""
+    import subprocess
+    before = (ROOT / "docs" / "index.html").read_text()
+    out = subprocess.run([sys.executable, str(ROOT / "scripts" / "update_h62r_section.py")],
+                         capture_output=True, text=True, cwd=ROOT)
+    assert out.returncode == 0, out.stderr[-800:]
+    assert (ROOT / "docs" / "index.html").read_text() == before, (
+        "docs/index.html changed when the H62-R generator re-ran -- the committed page is not "
+        "what the receipts produce")
 
 
 @pytest.mark.parametrize("page", ["docs/index.html", "docs/executive-summary-h62r.html",
                                   "docs/hypotheses-h62r.html"])
-def test_no_page_offers_a_quarantined_file_for_download(page):
-    """The NaN files stay reachable as evidence but never as a download button."""
+def test_no_page_offers_a_nan_encoded_twin_as_a_download_button(page):
+    """NaN twins stay reachable as evidence, but never as a button that looks like the answer.
+
+    The merge with main kept this repository's NaN-encoded twins in docs/downloads (they are
+    labelled 'not legal' in the all-files table, and their verdicts say not to submit them).  The
+    line this test holds is the one that matters to the owner: no page may present a NaN-encoded
+    file as a primary button, and this lane's own pages must not link one at all.
+    """
     text = (ROOT / page).read_text()
-    for href in re.findall(r'href="([^"]*\.tif)"', text):
-        assert "quarantined-not-submittable" not in href, f"{page} links into quarantine: {href}"
-        assert "-nan.tif" not in href, f"{page} offers the NaN file {href}"
+    for m in re.finditer(r'class="btn[^"]*" href="([^"]*\.tif)"', text):
+        assert "-nan.tif" not in m.group(1), f"{page} offers a NaN twin as a button: {m.group(1)}"
+    if page != "docs/index.html":
+        for href in re.findall(r'href="([^"]*\.tif)"', text):
+            assert "-nan.tif" not in href, f"{page} links the NaN file {href}"
 
 
-def test_the_landing_page_tells_the_reader_about_the_quarantine():
-    """A reader must be able to learn why their file was rejected, from the front page."""
+def test_the_landing_page_explains_the_portal_error():
+    """A reader who was rejected must be able to find out why, from the front page."""
     text = (ROOT / "docs" / "index.html").read_text()
-    assert "quarantined-not-submittable" in text
     assert "Predicted values must be in range [0, 1]" in text
     assert "7,111,787" in text, "the measured NaN cell count is not on the page"
 

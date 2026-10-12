@@ -1,0 +1,37 @@
+{
+ "file": "gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif",
+ "bytes": 129539,
+ "sha256": "2a25f29a6b235520a4965199045dae7226260665fc3ec248a79f04cb78bbe7f0",
+ "driver": "GTiff",
+ "count": 1,
+ "dtype": "float32",
+ "crs": "EPSG:32611",
+ "transform": [
+  100.0,
+  0.0,
+  243350.0,
+  0.0,
+  -100.0,
+  4508550.0
+ ],
+ "shape": [
+  3730,
+  3292
+ ],
+ "res": [
+  100.0,
+  100.0
+ ],
+ "nodata": null,
+ "width_height_match": true,
+ "crs_match": true,
+ "transform_match": true,
+ "all_finite": true,
+ "nan_count": 0,
+ "min": 0.0,
+ "max": 1.0,
+ "n_outside_0_1": 0,
+ "n_positive": 16864,
+ "total_mass": 16864.0,
+ "legal": true
+}

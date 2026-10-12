@@ -47,10 +47,10 @@ quoted by the owner; no receipt). No projection is written as a score anywhere o
 1. **Download** `gems62-h62r-multilevel-datum-repeat-offset-zeros.tif` (or the `.zip`, which
    contains exactly that one GeoTIFF — verified with `unzip -l`).
 2. **Verify the bytes** (5 s): `sha256sum …tif` must start `d5a15369`.
-3. **Sign in** and open <https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/>.
+3. **Sign in** and open the [submission page](https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/).
 4. **File to submit** → the `.tif` from step 1. A bare GeoTIFF is accepted; no `.zip` needed.
 5. **Note (optional, 137 chars)** → paste the note from §1.
-6. **Submit.** The score appears on <https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/>.
+6. **Submit.** The score appears on the [leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/).
 
 **Step 7 — the highest-value action available to this project.** Copy the score row into
 `evidence/organizer_receipts.json` and commit it. This repository contains **zero**

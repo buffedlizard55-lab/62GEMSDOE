@@ -26,14 +26,8 @@
   "evidence/h62r/e9_holdout.json",
   "evidence/h62r/e10_field_stats.json"
  ],
- "superseded": [
-  {
-   "session": "arena/d0303476",
-   "lane_id": "H62-B (2026-10-11b)",
-   "file": "docs/downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif",
-   "sha256": "42bffef1b5973973cdcb52c252067b33159e03fa721d1f58bec83f18ca779a21",
-   "organizer_score": null,
-   "note": "still offered on the site; superseded only as the CURRENT artifact"
-  }
- ]
+ "superseded": [],
+ "role": "the record of THIS lane's shipped artifact (lane H62-R, session arena/7eee17f9). It is not the site hero: docs/index.html stacks sessions newest-first and the hero belongs to whichever session last rewrote it, while every lane's file is offered in its own section and in the all-files table.",
+ "site_section": "docs/index.html#h62r",
+ "written_by": "scripts/update_h62r_section.py (section) + scripts/audit_downloads.py --write (verdict sidecar)"
 }

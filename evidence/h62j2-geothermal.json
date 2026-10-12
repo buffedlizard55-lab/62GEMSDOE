@@ -1,0 +1,364 @@
+{
+  "checks": [
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "points",
+      "n_indicator_cells": 2060,
+      "M": 1415,
+      "credit": 0.036803,
+      "control_mean": 0.04367,
+      "control_sd": 0.004898,
+      "credit_vs_control": 0.843,
+      "z": -1.4,
+      "model_dti_N12000": 0.005269,
+      "marginal_bar": 0.001054
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "corridor 600 m",
+      "n_indicator_cells": 2060,
+      "M": 10257,
+      "credit": 0.033011,
+      "control_mean": 0.042695,
+      "control_sd": 0.000638,
+      "credit_vs_control": 0.773,
+      "z": -15.17,
+      "model_dti_N12000": 0.029061,
+      "marginal_bar": 0.005812
+    },
+    {
+      "name": "hot-only cells",
+      "field": "points",
+      "n_indicator_cells": 929,
+      "M": 525,
+      "credit": 0.034998,
+      "control_mean": 0.046485,
+      "control_sd": 0.006517,
+      "credit_vs_control": 0.753,
+      "z": -1.76,
+      "model_dti_N12000": 0.001893,
+      "marginal_bar": 0.000379
+    },
+    {
+      "name": "hot-only cells",
+      "field": "corridor 600 m",
+      "n_indicator_cells": 929,
+      "M": 3538,
+      "credit": 0.03482,
+      "control_mean": 0.042888,
+      "control_sd": 0.002807,
+      "credit_vs_control": 0.812,
+      "z": -2.87,
+      "model_dti_N12000": 0.011952,
+      "marginal_bar": 0.00239
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "points",
+      "n_indicator_cells": 21,
+      "M": 21,
+      "credit": 0.012126,
+      "control_mean": 0.057688,
+      "control_sd": 0.045193,
+      "credit_vs_control": 0.21,
+      "z": -1.01,
+      "model_dti_N12000": 2.7e-05,
+      "marginal_bar": 5e-06
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "corridor 600 m",
+      "n_indicator_cells": 21,
+      "M": 170,
+      "credit": 0.004607,
+      "control_mean": 0.045179,
+      "control_sd": 0.009437,
+      "credit_vs_control": 0.102,
+      "z": -4.3,
+      "model_dti_N12000": 8.1e-05,
+      "marginal_bar": 1.6e-05
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "inside 5000 m buffer",
+      "M": 60000,
+      "cells_available": 2209986,
+      "credit": 0.034572,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.788,
+      "z": -29.09,
+      "model_dti_N12000": 0.096033
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "inside 10000 m buffer",
+      "M": 60000,
+      "cells_available": 3800192,
+      "credit": 0.034698,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.79,
+      "z": -28.7,
+      "model_dti_N12000": 0.096383
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "inside 20000 m buffer",
+      "M": 60000,
+      "cells_available": 4675362,
+      "credit": 0.034725,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.791,
+      "z": -28.62,
+      "model_dti_N12000": 0.096459
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "outside 20000 m",
+      "M": 6272,
+      "credit": 0.027612,
+      "control_mean": 0.04318,
+      "control_sd": 0.000636,
+      "credit_vs_control": 0.639,
+      "model_dti_N12000": 0.015955
+    },
+    {
+      "name": "hot-only cells",
+      "field": "inside 5000 m buffer",
+      "M": 60000,
+      "cells_available": 965653,
+      "credit": 0.038181,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.87,
+      "z": -17.84,
+      "model_dti_N12000": 0.106058
+    },
+    {
+      "name": "hot-only cells",
+      "field": "inside 10000 m buffer",
+      "M": 60000,
+      "cells_available": 2447942,
+      "credit": 0.038593,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.879,
+      "z": -16.55,
+      "model_dti_N12000": 0.107202
+    },
+    {
+      "name": "hot-only cells",
+      "field": "inside 20000 m buffer",
+      "M": 60000,
+      "cells_available": 4211566,
+      "credit": 0.038495,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.877,
+      "z": -16.86,
+      "model_dti_N12000": 0.106929
+    },
+    {
+      "name": "hot-only cells",
+      "field": "outside 20000 m",
+      "M": 47437,
+      "credit": 0.026534,
+      "control_mean": 0.04368,
+      "control_sd": 0.000461,
+      "credit_vs_control": 0.607,
+      "model_dti_N12000": 0.065944
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "inside 5000 m buffer",
+      "M": 7030,
+      "cells_available": 77546,
+      "credit": 0.035373,
+      "control_mean": 0.042598,
+      "control_sd": 0.000752,
+      "credit_vs_control": 0.83,
+      "z": -9.61,
+      "model_dti_N12000": 0.022594
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "inside 10000 m buffer",
+      "M": 21390,
+      "cells_available": 237815,
+      "credit": 0.037494,
+      "control_mean": 0.043314,
+      "control_sd": 0.000543,
+      "credit_vs_control": 0.866,
+      "z": -10.71,
+      "model_dti_N12000": 0.05779
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "inside 20000 m buffer",
+      "M": 60000,
+      "cells_available": 692815,
+      "credit": 0.049659,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 1.131,
+      "z": 17.97,
+      "model_dti_N12000": 0.137941
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "outside 20000 m",
+      "M": 60000,
+      "credit": 0.026166,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.596,
+      "model_dti_N12000": 0.072683
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "PLACEBO 2060 random points, 5000 m buffer",
+      "M": 60000,
+      "credit": 0.042413,
+      "placebo_sd": 0.001834,
+      "trials": 5
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "PLACEBO 2060 random points, 10000 m buffer",
+      "M": 60000,
+      "credit": 0.041495,
+      "placebo_sd": 0.001621,
+      "trials": 5
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "PLACEBO 2060 random points, 20000 m buffer",
+      "M": 60000,
+      "credit": 0.044711,
+      "placebo_sd": 0.00246,
+      "trials": 5
+    },
+    {
+      "name": "hot-only cells",
+      "field": "PLACEBO 929 random points, 5000 m buffer",
+      "M": 60000,
+      "credit": 0.044117,
+      "placebo_sd": 0.001884,
+      "trials": 5
+    },
+    {
+      "name": "hot-only cells",
+      "field": "PLACEBO 929 random points, 10000 m buffer",
+      "M": 60000,
+      "credit": 0.04395,
+      "placebo_sd": 0.001411,
+      "trials": 5
+    },
+    {
+      "name": "hot-only cells",
+      "field": "PLACEBO 929 random points, 20000 m buffer",
+      "M": 60000,
+      "credit": 0.043634,
+      "placebo_sd": 0.003244,
+      "trials": 5
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "PLACEBO 21 random points, 5000 m buffer",
+      "M": 60000,
+      "credit": 0.04855,
+      "placebo_sd": 0.013009,
+      "trials": 5
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "PLACEBO 21 random points, 10000 m buffer",
+      "M": 60000,
+      "credit": 0.050772,
+      "placebo_sd": 0.01263,
+      "trials": 5
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "PLACEBO 21 random points, 20000 m buffer",
+      "M": 60000,
+      "credit": 0.047569,
+      "placebo_sd": 0.004993,
+      "trials": 5
+    }
+  ],
+  "mass_matched_controls": [
+    {
+      "mean": 0.04366950147437969,
+      "sd": 0.004897952765224981,
+      "M": 1415,
+      "draws": 5
+    },
+    {
+      "mean": 0.042695314654386876,
+      "sd": 0.0006383173213525482,
+      "M": 10257,
+      "draws": 5
+    },
+    {
+      "mean": 0.04648474174415826,
+      "sd": 0.00651716800774156,
+      "M": 525,
+      "draws": 5
+    },
+    {
+      "mean": 0.042887907733362686,
+      "sd": 0.00280666904824931,
+      "M": 3538,
+      "draws": 5
+    },
+    {
+      "mean": 0.05768753293731368,
+      "sd": 0.04519345108526765,
+      "M": 21,
+      "draws": 5
+    },
+    {
+      "mean": 0.04517858373873355,
+      "sd": 0.009437335922215006,
+      "M": 170,
+      "draws": 5
+    },
+    {
+      "mean": 0.043898529662189364,
+      "sd": 0.0003205636362827132,
+      "M": 60000,
+      "draws": 5
+    },
+    {
+      "mean": 0.043179721875444665,
+      "sd": 0.0006355833712771395,
+      "M": 6272,
+      "draws": 5
+    },
+    {
+      "mean": 0.04368041685086059,
+      "sd": 0.00046118739618453017,
+      "M": 47437,
+      "draws": 5
+    },
+    {
+      "mean": 0.04259793187532042,
+      "sd": 0.0007517052011890172,
+      "M": 7030,
+      "draws": 5
+    },
+    {
+      "mean": 0.043313538596490946,
+      "sd": 0.0005434164002786776,
+      "M": 21390,
+      "draws": 5
+    }
+  ],
+  "pool_cells": 4745447,
+  "truthB_cells": 79615,
+  "instrument": "SGMC quaternary faults minus catalogue, 300 m kernel, isolated-random control at equal mass",
+  "note": "screen only: the datum-offset lane did not emit this field; the geothermal lane owns it"
+}
