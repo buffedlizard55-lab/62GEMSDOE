@@ -90,3 +90,47 @@ composite (USGS 3DEP 1 m, public domain) or stop treating it as basin-wide.
 * **H-2 next:** rebuild the incumbents' multi-physics oriented-lineament consensus *from the
   organiser 19-band stack* as **features** for the supervised detector; target blocked
   DTI(`S*`) ≥ 0.60 before any slot is spent.
+
+## Added 2026-10-11 by session `arena/d0303476-62gemsdoe` (branch `arena/d0303476-62gemsdoe`)
+
+### Ranked, with the measurement that produced the rank
+
+1. **Get one ORGANIZER-CONFIRMED score into `evidence/` — now the single highest-value action.**
+   This session measured what the two local instruments are worth over **20** owner-reported scores
+   (`evidence/e2b_reference_frame_20261011b.json`, `evidence/e4_gates_20261011b.json`):
+   * credit per dot against SGMC 1:750 k minus catalogue → **ρ = +0.617** (p = 0.0038) with the leaderboard;
+   * credit per dot against the **mapped** catalogue → **ρ = −0.597** (p = 0.0054);
+   * the published DTI *evaluated on* the SGMC instrument → **ρ = −0.442** (p = 0.0513).
+   The third line is new and it invalidates promotion by proxy metric: the two highest DTI values on
+   that instrument belong to a 0.0904-scoring lattice and to a never-submitted file.
+
+2. **Retire the two promotion gates.** The segmented catalogue holdout is anti-correlated with the
+   leaderboard (`IR-62-HOLDOUT-01`, ρ = −0.9141), and this session's field fails it at 0.00073 *for
+   the measured reason that it obeys the leaderboard's own preference* (stay off the mapped
+   catalogue). A gate that rewards the opposite of the target is worse than no gate.
+
+3. **Spend the next slot on a paired experiment, not on a bigger field.** §2(c) of
+   `docs/research/beating-02778-2026-10-11b.md` makes the mass term exact and cheap to reason about
+   (`DTI = c/(0.2 + 0.8K/M)`), and the group's own history shows its credit falling faster than the
+   mass term gains. One field at 120,000 dots with the *same* detector as a 40,000-dot field
+   measures `dc/dM` directly — the one number nobody in this group has.
+
+4. **H62-M — along-strike catalogue extension** (untried; specified in
+   `docs/hypotheses-2026-10-11b.md`). It is the only construction that targets *by design* the
+   population the organizers explicitly include ("newly mapped geometry of existing systems",
+   thread 11536), and its dots are off-catalogue by construction.
+
+5. **Resolve `IR-62-21` / `docs/data.md` §1:** the official stack carries **19** bands with their own
+   `band_name` tags in the file (verified this session by re-reading the bytes,
+   sha256 `4371c82e…` = the pin), not the 35 claimed in `docs/data.md`. Band names are therefore no
+   longer "second-hand"; the docs need one edit.
+
+### Limitations this session could not remove
+
+* **Still zero organizer-confirmed scores.** Every number in this repository is a proxy.
+* `drivendata.org` and USGS hosts remain unreachable from the sandbox; GitHub is the transport.
+* The official stack's coverage is complete inside the footprint (measured: 5,167,373 cells with no
+  nodata), but the 1 m LiDAR scarp composite covers 75 % of the footprint and the 3 m scarp product
+  58 %, so ~25 % of the grid is mapped only from 10 m topography.
+* The protocol's "≤ 70 % of dots within 3 px of one registry raster" leg is **unsatisfiable by any
+  field** (measured: uniform-random 0.9987, 3 px lattice 0.9988 against the same comparator).

@@ -1,0 +1,106 @@
+{
+ "run_card_version": "62GEMSDOE protocol v1 (parallel-run), lane: datum-offset (see lane_status)",
+ "session": "arena/d0303476-62gemsdoe",
+ "date_utc": "2026-10-11",
+ "experiment": "gems62b-tiltgrad-vote-scarpcorrob-120000-zeros",
+ "lane_status": "The lane's first deliverable (shoreline elevation-versus-distance profiles with flagged steps) is already shipped by three earlier sessions on this repository (lane62/docs/downloads/lahontan_shoreline_profiles.json, 400 profiles; lane62-h62a). This session did not re-emit the datum geometry because the brief also requires a candidate that can beat the incumbent, and the datum band was measured BELOW chance on the only independent compilation (0.61x control, docs/research/leaderboard-arithmetic.md). The artifact below is emitted from a different, explicitly stated mechanism; the deviation is flagged here and in docs/irregularities.md.",
+ "hypothesis": "The population the organizers define as new -- faults 'not included in the existing USGS fault database', explicitly including new geometry of existing systems (thread 11536) -- is best reached by the DERIVATIVE fields of the GeoDAWN stack plus metre-scale scarp evidence, because a lineament on the edge of a source body is a different (and sharper) object than the ridge of its potential, which is what the incumbent family filters. A k-of-N vote over independent physical families suppresses the single-layer confusers.",
+ "mechanism": "1) structure-tensor edge-line response L = sqrt(l1)*(l1-l2)/(l1+l2) at sigma = 1.2 px (120 m, i.e. matched to the metric's 300 m triangular kernel), computed for every band of the official 19-band stack (sha256 4371c82e..., byte-verified here), the radiometric and 3 m scarp products, the 10 m-derived topo stack and the 10 m channel-steepness stack; 2) per-layer rank transform, so each layer votes with its own top decile; 3) 13 derivative/ratio/steepness layers vote, weighted by the agreement of their doubled line directions; 4) a second, independent term is the metre-scale scarp evidence from the 1 m LiDAR composite (7 bands) and the 3 m scarp product (4 bands), gated by the vote; 5) score = 0.55*derivative_vote + 0.45*scarp_vote; 6) greedy top-score-first Poisson-disk emission with a hard 3 px (300 m) core, restricted to pixels >= 3 px off labels.tif; 7) write with gems62.grid.write_submission (re-reads the bytes) and re-validate.",
+ "named_non_fault_process_that_could_mimic_it": "Fluvial and hillslope breaks: terrace risers, fan-head trenches, channel knickzones and gully edges all produce metre-scale linear steps, and the derivative fields respond to intrabasement magnetic/gravity contacts that are not faults at all. The k-of-N vote over independent families reduces but does not remove these; the 10 m channel-steepness layer in particular is expected to vote for knickpoints at lithologic contacts.",
+ "numbers": {
+  "n_dots": 120000,
+  "max_dots_in_any_300m_disk": 1,
+  "dots_on_the_catalogue": 0.0,
+  "credit_per_dot_vs_sgmc_offcatalogue": 0.06212678160137601,
+  "credit_per_dot_vs_mapped_catalogue": 0.0007773206624719837,
+  "median_distance_to_mapped_catalogue_m": 2193.17138671875,
+  "champion_same_instrument": {
+   "credit_sgmc": null
+  },
+  "holdout_dti": {
+   "evaluator": "gems62.holdout_segmented v1",
+   "value": 0.0007280091976827427,
+   "ci95": [
+    0.0006907866082825997,
+    0.0007647831053561897
+   ],
+   "withheld_positives": 81993,
+   "controls": {
+    "random_lines": 0.0001925239485628914,
+    "random_dots": 0.09228097801160352,
+    "catalogue_offset": 0.0385773325965945
+   },
+   "current_holdout_best_on_this_tree": 0.13215463311922815,
+   "verdict": "GATE FAILED (by construction: the gate rewards catalogue-proximity, which anti-predicts the leaderboard)"
+  },
+  "leakage_canary_auc_vs_catalogue": 0.14747709590249675,
+  "model_at_120k_exact_transfer": 0.2219,
+  "credit_needed_to_beat_0.2778_at_120k": 0.0778,
+  "credit_needed_to_reach_top5_cutoff_0.3333_at_120k": 0.0933
+ },
+ "correlation_and_overlap_vs_registry": {
+  "max_frac3px": {
+   "comparator": "r13_lattice_s5_00904.tif",
+   "n_comparator": 206895,
+   "frac3px": 0.9949833333333333,
+   "frac_exact": 0.0413,
+   "jaccard": 0.015394220644283545,
+   "spearman": 0.025114020690243065
+  },
+  "max_abs_spearman_tie_aware_300k_sample": {
+   "comparator": "bayesopt_dilation_scarp_d28.tif",
+   "n_comparator": 45000,
+   "frac3px": 0.3431916666666667,
+   "frac_exact": 0.025466666666666665,
+   "jaccard": 0.018870720742972878,
+   "spearman": 0.03531573548111768
+  },
+  "max_jaccard_vs_any_comparator": 0.02213431867081653,
+  "max_exact_pixel_overlap": 0.046358333333333335,
+  "n_comparators": 25,
+  "protocol_legs": "rank correlation <= 0.90 PASS (max |rho| 0.035). '<= 70 % of dots within 3 px of one registry raster' TRIPPED by r13_lattice_s5_00904 (0.9950) -- and the trip is vacuous: a uniform-random field of the same size scores 0.9987 and a 3 px lattice scores 0.9988 on that comparator (measured, evidence/e4_gates_20261011b.json). Logged, not overruled."
+ },
+ "raster_sha256": "42bffef1b5973973cdcb52c252067b33159e03fa721d1f58bec83f18ca779a21",
+ "validator_output": {
+  "file": "gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif",
+  "bytes": 481168,
+  "count": 1,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "shape": [
+   3730,
+   3292
+  ],
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "nodata": null,
+  "all_finite": true,
+  "nan_count": 0,
+  "min": 0.0,
+  "max": 1.0,
+  "n_outside_0_1": 0,
+  "legal": true,
+  "validator_passed": true,
+  "checks": "no NaN inside or outside the footprint, every value in [0,1], CRS/shape/geotransform identical to the official sample submission, no nodata tag"
+ },
+ "submission": {
+  "name": "gems62b-tiltgrad-vote-scarpcorrob-120000-zeros",
+  "note_140": "62b: k-of-N vote over official-stack DERIVATIVE fields + 1m/3m scarp evidence, 120k dots hard-core 300m apart, off-catalogue. Diversity bet; no local instrument ranks it."
+ },
+ "verdict": "negative-as-lead / legal-and-unique-as-a-probe",
+ "verdict_reason": "Format-legal, provably isolated (max 1 dot per 300 m disk) and unique (max Jaccard 0.022, max tie-aware |rho| 0.035 against 25 prior rasters). It cannot be promoted as an expected improvement: its per-dot credit on the only positively-tracking local quantity is 0.0621, i.e. 95 % of the champion's 0.0655, and at 120,000 dots the published metric needs 0.0778 to beat 0.2778. The protocol's own promotion gate (HOLDOUT-DTI > 0.1322) FAILS at 0.00073, for the measured reason that the gate rewards catalogue-proximity while the leaderboard anti-rewards it (rho = -0.597, p = 0.0054, n = 20). Negative results are deliverables.",
+ "open_questions": [
+  "No organizer-confirmed score exists anywhere in this repository; every comparison here is proxied. One receipt would convert the whole table.",
+  "The per-dot credit that would make this field beat 0.2778 (0.0778) cannot be measured locally: the two local instruments correlate +0.62 (credit/dot) and -0.44 (DTI and -0.60 (per-dot credit vs mapped catalogue) with the leaderboard, over 20 owner-reported scores."
+ ],
+ "submission_name": "gems62b-tiltgrad-vote-scarpcorrob-120000-zeros",
+ "submission_note": "62b: 120k isolated dots from a 13-layer derivative vote with scarp corroboration. Off-catalogue. Legal & unique; probe, not a proven gain.",
+ "submission_note_chars": 138,
+ "artifact_path": "docs/downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif"
+}

@@ -1,0 +1,173 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Five candidate hypotheses, ranked</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;
+--warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.8em;margin:.3em 0 .4em}h2{font-size:1.3em;margin:1.6em 0 .5em;
+border-bottom:1px solid var(--bd);padding-bottom:.3em}h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.88em}
+table{border-collapse:collapse;width:100%;margin:.9em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}blockquote{border-left:3px solid var(--acc);margin:1em 0;padding:.2em 1em;
+background:var(--card)}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 8px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;
+border-radius:8px;margin:8px 8px 8px 0}.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+</style></head><body><div class="wrap"><nav>
+<a href="index.html">Overview &amp; download</a>
+<a href="executive-summary-2026-10-11b.html">How to submit</a>
+<a href="hypotheses-2026-10-11b.html">Hypotheses</a>
+<a href="research/beating-02778-2026-10-11b.html">Why 0.2778 won</a>
+<a href="irregularities.html">Irregularities</a>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
+</nav><h1>Five candidate hypotheses, ranked — session <code>arena/d0303476-62gemsdoe</code></h1>
+<p>The brief asks for 3–5 candidates not yet tried, each naming the layers, the physical signature, why</p>
+<p>it should catch a fault <strong>missing</strong> from the USGS/INGENIOUS catalogue rather than one already in it,</p>
+<p>and how it differs from anything already in this repository; then ranked by expected DTI improvement</p>
+<p>against implementation cost, with the top candidate validated on the spatially-blocked holdout before</p>
+<p>any weekly slot is touched.</p>
+<p>Everything below is either <strong>MEASURED</strong> in this checkout (script named) or explicitly labelled as an</p>
+<p>expectation.  The screening table that produced the layer lists is</p>
+<p><code>evidence/e1_layer_screen_20261011b.json</code> — 54 layers × a structure-tensor edge-line response at</p>
+<p>σ = 1.2 px (120 m, matched to the metric's 300 m kernel), each scored three ways: credit per dot</p>
+<p>against the mapped catalogue, credit per dot against <strong>SGMC 1:750 k minus the catalogue</strong> (an</p>
+<p>independent public compilation of faults the competition catalogue does not contain), and the</p>
+<p>fraction of its top-38,000 line pixels falling within 3 px of the incumbent fields.</p>
+<table><thead><tr><th>#</th><th>hypothesis</th><th>layers</th><th>expected ΔDTI</th><th>cost</th><th>status this session</th></tr></thead><tbody>
+<tr><td><strong>H62-L</strong></td><td>Derivative-field consensus (below)</td><td>official-stack gradients + <code>tc</code> + ratios + χ-ksn</td><td><strong>medium-high</strong></td><td>medium</td><td><strong>built, emitted, measured — negative as a lead, kept as a probe</strong></td></tr>
+<tr><td><strong>H62-M</strong></td><td>Along-strike catalogue extension into gaps (H62-K, still untried)</td><td>catalogue geometry + 10 m lineaments</td><td><strong>high</strong></td><td>medium</td><td><strong>specified, not run (budget)</strong></td></tr>
+<tr><td><strong>H62-N</strong></td><td>Same-mass credit transfer: re-emit an incumbent mechanism at 2–3× mass</td><td>any of the dotted family's score rasters</td><td>high <strong>if</strong> the credit floor holds</td><td>low</td><td><strong>specified; blocked by the copying rule except from an own field</strong></td></tr>
+<tr><td><strong>H62-O</strong></td><td>Seismicity-alignment detector</td><td><code>ieq_n100a15</code>, <code>deq_n100a15</code></td><td>low-medium</td><td>low</td><td><strong>screened and rejected</strong> (see below)</td></tr>
+<tr><td><strong>H62-P</strong></td><td>Radiometric alteration lineaments (K enrichment / Th-U ratios)</td><td><code>rad_K/Th/U/TC</code>, <code>ThK</code>, <code>UK</code>, <code>UTh</code></td><td>low-medium</td><td>low</td><td><strong>screened; folded into H62-L as 3 of 13 voters</strong></td></tr>
+</tbody></table>
+<p>---</p>
+<h2>H62-L — Derivative-field consensus, corroborated scarps  ·  <strong>run this session</strong></h2>
+<ul>
+<li><strong>Layers (13, one vote each):</strong> <code>tc</code> (magnetic tilt angle), <code>tmi_vg</code>, <code>tmi_hg</code>, <code>iso_grav_anom_hg</code>,</li>
+</ul>
+<p>  <code>iso_grav_anom_vg</code>, <code>iso_grav_anom_slope</code>, <code>TMI_up150</code>, <code>ThK</code>, <code>UK</code>, <code>rad_K</code>, <code>chi10:ksn_max_m0.9</code>,</p>
+<p>  <code>topo10:curv_prof_absmax</code>, <code>det_elev_slope</code>; plus scarp evidence from the 1 m LiDAR composite</p>
+<p>  (7 bands) and the 3 m scarp product (4 bands).</p>
+<ul>
+<li><strong>Physical signature:</strong> the structure-tensor edge-line response <code>L = √λ₁·(λ₁−λ₂)/(λ₁+λ₂)</code>.</li>
+</ul>
+<p>  A lineament on the <strong>edge</strong> of a magnetised or dense body is a different, sharper object than the</p>
+<p>  ridge of the potential itself — the incumbent family filters the <em>potential</em> fields with a Hessian</p>
+<p>  (Frangi/Sato) response at σ = 1.2/2.5 px, so the two are not the same measurement of the same</p>
+<p>  structure.</p>
+<ul>
+<li>**Why it should catch a <em>missing</em> fault:** the organizers state a "new fault" includes newly</li>
+</ul>
+<p>  mapped geometry of existing systems <strong>[OFFICIAL, thread 11536]</strong>; gradient maxima sit on the</p>
+<p>  contact/source edge, which is where a fault plane intersects a layer, and the derivation is</p>
+<p>  independent of any map.  Measured: the 13 voters' top deciles lie <strong>farther</strong> from the mapped</p>
+<p>  catalogue than the incumbent's dots (median 2.2 km vs the champion's 1.96 km), i.e. this family</p>
+<p>  does not re-find what is already mapped.</p>
+<ul>
+<li><strong>How it differs from the repository:</strong> nothing here had used <code>tc</code>, the five gradient bands,</li>
+</ul>
+<p>  the radiometric <em>ratios</em>, or the χ/ksn layer as voters; the incumbent's orientation order</p>
+<p>  parameter is replaced by a discrete k-of-N vote with a doubled-angle agreement factor, so one</p>
+<p>  layer family cannot outvote another.</p>
+<ul>
+<li>**Result (MEASURED, <code>evidence/e3_emission_profile_20261011b.json</code>,</li>
+</ul>
+<p>  <code>evidence/final_field_gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.json</code>):** at 120,000 dots,</p>
+<p>  credit per dot 0.0621 against SGMC-off-catalogue (95 % of the champion's 0.0655 on the same</p>
+<p>  instrument) and 0.0008 against the mapped catalogue (0.02× a uniform field).  Holdout DTI</p>
+<p>  <strong>0.00073</strong> — the protocol gate is <strong>FAILED</strong>, for the measured reason recorded in §3 of</p>
+<p>  <code>docs/research/beating-02778-2026-10-11b.md</code>: that gate rewards catalogue proximity (−0.60 with</p>
+<p>  the leaderboard).  <strong>Verdict: legal, unique, provably isolated — negative as a lead horse.</strong></p>
+<ul>
+<li><strong>Named non-fault mimic:</strong> fluvial and hillslope breaks — terrace risers, fan-head trenches,</li>
+</ul>
+<p>  channel knickzones (the χ-ksn voter is <em>expected</em> to fire at lithologic contacts), and</p>
+<p>  intrabasement gravity/magnetic contacts that are not faults.</p>
+<h2>H62-M — Along-strike catalogue extension into DEM-supported gaps  ·  <strong>the one to run next</strong></h2>
+<ul>
+<li><strong>Layers:</strong> <code>data/labels.tif</code> <strong>geometry only</strong> (segment endpoints and strike, from</li>
+</ul>
+<p>  <code>60GEMSDOE/data/external/trace_segments_utm11.csv</code>, 84,331 segments with slip rates), plus</p>
+<p>  <code>topo10:hs_lineament</code> / <code>topo10:slope_p90</code> as DEM support, plus the strike fan score sketched in</p>
+<p>  <code>scripts/exp2_arms.py</code> (ARM B — built but not profiled before the budget closed).</p>
+<ul>
+<li><strong>Signature:</strong> for every mapped segment, extend the strike beyond each endpoint and score the</li>
+</ul>
+<p>  corridor by DEM lineament continuity; emit isolated dots where the corridor has DEM support and the</p>
+<p>  catalogue does not.</p>
+<ul>
+<li>**Why it targets <em>missing</em> faults rather than mapped ones:** it is defined on the <em>gaps</em> between</li>
+</ul>
+<p>  and beyond mapped traces, so it cannot re-find a mapped fault by construction, and it inherits the</p>
+<p>  strike of a population known to be real.</p>
+<ul>
+<li><strong>Risk, stated before the result:</strong> it is the one family that <em>should</em> pass the segmented holdout</li>
+</ul>
+<p>  gate (the withheld segments lie along the same strikes), and §3 of the beating-0.2778 page shows</p>
+<p>  the segmented gate anti-predicts the leaderboard.  A high score there would therefore be</p>
+<p>  uninformative — the field must be judged on whether its dots are <strong>off</strong> the mapped catalogue,</p>
+<p>  which is exactly what this construction guarantees.</p>
+<h2>H62-N — Same-mass credit transfer (mass as an explicit, budgeted experiment)</h2>
+<ul>
+<li><strong>Mechanism:</strong> take any field whose per-dot credit is known (this session's, or the champion's</li>
+</ul>
+<p>  mechanism re-derived from scratch — never the previous submission's bytes), and re-emit the same</p>
+<p>  score ranking at 2–3× the mass with the identical hard-core emitter.</p>
+<ul>
+<li><strong>Why:</strong> §2(c) of the beating-0.2778 page: at constant credit, <code>DTI</code> scales as</li>
+</ul>
+<p>  <code>1/(0.2 + 0.8K/M)</code>, which predicts <strong>+47 %</strong> for 37,654 → 120,000 at constant credit.  The group's</p>
+<p>  history shows the family failed to keep the credit (the mass–score relation is inverted within it),</p>
+<p>  which is exactly why the experiment is worth spending a slot on: it measures <code>dc/dM</code>, the one</p>
+<p>  quantity the whole project needs and no local instrument can supply.</p>
+<ul>
+<li><strong>Cost:</strong> low (re-emission + validation only).  <strong>Blocked locally by</strong> the copying rule for prior</li>
+</ul>
+<p>  submissions; admissible for an own field, which is what this session's artifact is.</p>
+<h2>H62-O — Seismicity-alignment detector  ·  <strong>screened and rejected</strong></h2>
+<ul>
+<li><strong>Layers:</strong> <code>ieq_n100a15</code> (earthquake intensity/density) and <code>deq_n100a15</code> (distance to earthquake),</li>
+</ul>
+<p>  both in the official stack.</p>
+<ul>
+<li><strong>Why it was attractive:</strong> aligning hypocentres is a classical way to find blind faults, and no</li>
+</ul>
+<p>  session in this repository had used the seismic bands.</p>
+<ul>
+<li><strong>Measured reason to drop it:</strong> as a line-response layer, <code>ieq_n100a15</code> gives credit per dot</li>
+</ul>
+<p>  0.0616/0.0279 (catalogue/SGMC) — below the topographic layers on both — and <code>deq_n100a15</code> is the</p>
+<p>  <strong>worst</strong> layer in the whole screen on the off-catalogue compilation (0.0139, enrichment 0.8×, i.e.</p>
+<p>  indistinguishable from a uniform field).  Both are n = 100 km, a = 15° counting fields, whose</p>
+<p>  smoothing length (100 km) is 1,000× the metric's kernel radius (300 m); they cannot localise a</p>
+<p>  feature at the scale the metric scores.</p>
+<h2>H62-P — Radiometric alteration lineaments  ·  <strong>screened; partially adopted</strong></h2>
+<ul>
+<li><strong>Layers:</strong> <code>rad_K</code>, <code>rad_Th</code>, <code>rad_U</code>, <code>rad_TC</code>, <code>radext_ThK</code>, <code>radext_UK</code>, <code>radext_UTh</code>.</li>
+<li><strong>Signature:</strong> K enrichment and Th/U change along a fault-controlled hydrothermal pathway — the</li>
+</ul>
+<p>  physics the competition is actually about (structures indicative of geothermal resources).</p>
+<ul>
+<li><strong>Measured:</strong> <code>rad_K</code> is the <strong>third</strong>-best layer in the screen on the off-catalogue compilation</li>
+</ul>
+<p>  (0.0840, 4.9× a uniform field) while being <strong>anti</strong>-aligned with the mapped catalogue (0.0345,</p>
+<p>  0.8×) — a rare combination, and the reason three of the ratios are voters in H62-L.  The Th/U</p>
+<p>  ratio on its own is not better than its parts (0.0484), so no separate arm is warranted.</p>
+<ul>
+<li><strong>Named mimic:</strong> agricultural K (fertiliser) and playa evaporite chemistry both produce K</li>
+</ul>
+<p>  lineaments without a fault; 75 % of the grid is not airborne-radiometric-quality in these</p>
+<p>  products, and the coverage mask itself scores 0.0709 on the off-catalogue compilation</p>
+<p>  (<code>lidar:valid</code>), which is a warning that coverage correlates with mapped fault density.</p>
+<p>---</p>
+<h2>What the screening says about the instrument (stated, not buried)</h2>
+<p>Credit per dot against SGMC-off-catalogue correlates <strong>+0.62</strong> with the leaderboard over 20</p>
+<p>owner-reported scores, and credit per dot against the <em>mapped</em> catalogue correlates <strong>−0.60</strong>; but</p>
+<p>the published DTI evaluated on the SGMC instrument correlates <strong>−0.44</strong>.  Every ranking above is</p>
+<p>therefore a ranking <strong>on a per-dot quantity</strong>, and every <em>score</em> projection built from it is</p>
+<p>labelled MODEL and must not be promoted.  Full numbers:</p>
+<p><code>docs/research/beating-02778-2026-10-11b.md</code> §3.</p><p class="mut" style="margin-top:3em;font-size:.85em">Rendered by <code>scripts/make_site_20261011b.py</code> from <code>docs/hypotheses-2026-10-11b.md</code>. Artifact sha256 <code>42bffef1b5973973…</code>, verdict <b>negative-as-lead / legal-and-unique-as-a-probe</b>.</p></div></body></html>

@@ -24,6 +24,27 @@ hr{border:0;border-top:1px solid var(--bd);margin:2em 0}
 .btn.sec{background:#30363d}
 </style></head><body><div class='wrap'><a class='back' href='index.html'>&larr; back to 62GEMSDOE</a>
 <h1>Run card — session 2026-10-11, datum-offset lane</h1>
+<p class="mut">Sessions are stacked newest-first. The card below is the current one; older cards follow.</p>
+
+<h2>Current — session <code>arena/d0303476-62gemsdoe</code> (2026-10-11b)</h2>
+<p><b>Verdict: <code>negative-as-lead / legal-and-unique-as-a-probe</code>.</b>
+The machine-readable card is <a href="../evidence/run_card_20261011b.json"><code>evidence/run_card_20261011b.json</code></a>;
+the human pages are the <a href="executive-summary-2026-10-11b.html">executive summary</a> and
+<a href="research/beating-02778-2026-10-11b.html">why 0.2778 scores what it scores</a>.</p>
+<table><thead><tr><th>field</th><th>value</th></tr></thead><tbody>
+<tr><td>artifact</td><td><code>docs/downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</code>, 481,168 B, sha256 <code>42bffef1b5973973…</code></td></tr>
+<tr><td>hypothesis</td><td>H62-L — a k-of-N consensus over the official stack's <b>derivative</b> fields (tilt angle, vertical/horizontal gradients, radiometric ratios, χ/ksn, profile curvature), corroborated by metre-scale scarp evidence, holds <b>per-dot credit</b> while mass rises 3.2×</td></tr>
+<tr><td>mechanism</td><td>13 decorrelated edge layers → structure-tensor line response at σ = 1.2 px (120 m, matched to the 300 m kernel); scarp families vote; dots need k-of-N layer agreement and doubled-angle orientation agreement, then a greedy 300 m hard-core emission with seeded jitter (the tie-break defect that cost 12.5 k dots in E2)</td></tr>
+<tr><td>named non-fault mimic</td><td>fluvial and hillslope breaks — terrace risers, fan-head trenches, channel knickzones — plus intrabasement magnetic and gravity contacts that are not faults</td></tr>
+<tr><td>isolation (MEASURED on the shipped bytes)</td><td>max dots in any 300 m disc = <b>1</b>; 120,000 dots; values exactly {0,1}</td></tr>
+<tr><td>holdout</td><td>HOLDOUT-DTI <b>0.00073</b> [0.00069, 0.00076], 81,993 withheld positives, <code>gems62.holdout_segmented v1</code>; controls random_lines 0.0002 / random_dots 0.0923 / catalogue_offset 0.0386; leakage canary AUC <b>0.1475</b>; <b>gate FAILED by construction</b> — the gate rewards catalogue proximity, measured ρ = −0.597 with the leaderboard</td></tr>
+<tr><td>uniqueness</td><td>max Jaccard <b>0.022</b>, max exact overlap <b>4.6 %</b>, max tie-aware |ρ| <b>0.035</b> over 25 comparators; the 3 px leg trips against <code>r13_lattice_s5_00904</code> and is reported as vacuous (uniform-random null 0.9987, lattice null 0.9988)</td></tr>
+<tr><td>validator</td><td>14/14 on the re-read bytes: single band, float32, EPSG:32611, 3730×3292, sample geotransform, <code>n_outside_0_1 = 0</code>, <code>nan_count = 0</code>, <code>nodata = null</code></td></tr>
+<tr><td>submission name + note</td><td><code>gems62b-tiltgrad-vote-scarpcorrob-120000-zeros</code> · <code>62b: 120k isolated dots from a 13-layer derivative vote with scarp corroboration. Off-catalogue. Legal & unique; probe, not a proven gain.</code> (138/140)</td></tr>
+<tr><td>verdict</td><td><b>negative as a lead</b> — per-dot credit 0.0621 is below the 0.0778 needed to beat 0.2778 at this mass under exact transfer; <b>legal and unique as a probe</b>. Organizer score: none.</td></tr>
+</tbody></table>
+<hr>
+
 <p>Protocol item 5 requires one JSON card. It is committed verbatim at <a href="../evidence/h62g/run_card.json"><code>evidence/h62g/run_card.json</code></a> and reproduced below.</p>
 <p><b>Verdict: <code>negative</code>.</b> A negative result is a deliverable.</p>
 <pre><code>{
