@@ -1,0 +1,100 @@
+{
+ "lane_id": "H62-R",
+ "lane": "lahontan-multilevel-datum-repeat-offset",
+ "session": "arena/7eee17f9-62gemsdoe",
+ "generated_utc": "20261012T010908Z",
+ "evaluator": "gems62.levels v1",
+ "hypothesis": "The Lahontan datum is a STACK of nested shorelines, not one surface. A tectonic step repeats coherently across two or more levels and lies on one common line; a non-tectonic step (delta topset, fan toe, landslide edge, resistant-bed notch) is local to one level and does not.",
+ "mechanism": "Bench patches -> tile modes -> a measured block-support level spectrum -> per-level smooth isobase (5.5 km NaN-aware Gaussian, which absorbs post-pluvial isostatic rebound and waterplane tilt) -> residual steps in the 8-140 m throw window -> Hough vote over the flagged pixels of every level, requiring >=2 distinct levels on a common line with sign agreement -> seed a trace, extend it on DEM-ridge evidence, emit dotted lines.",
+ "named_non_fault_process_that_could_mimic_it": "Bedrock lithology: a resistant unit that stands as a bench at every lake level crosses several levels at one place and is collinear along strike. Second: isobase-fit error at the margin of a level's extent. Third: a prograding delta / fan that occupied the same position across lake cycles.",
+ "levels": [
+  {
+   "level": {
+    "elev_m": 1455.0,
+    "block_support": 7,
+    "confirmed": true,
+    "level_index": 0
+   },
+   "n_step": 3164
+  },
+  {
+   "level": {
+    "elev_m": 1389.0,
+    "block_support": 7,
+    "confirmed": true,
+    "level_index": 1
+   },
+   "n_step": 3301
+  },
+  {
+   "level": {
+    "elev_m": 1325.0,
+    "block_support": 12,
+    "confirmed": true,
+    "level_index": 2
+   },
+   "n_step": 2866
+  },
+  {
+   "level": {
+    "elev_m": 1278.0,
+    "block_support": 7,
+    "confirmed": true,
+    "level_index": 3
+   },
+   "n_step": 2880
+  }
+ ],
+ "n_lines": 2509,
+ "n_lines_multilevel": 2509,
+ "leakage_canary": {
+  "bench_score": 0.5301795430603119,
+  "coherence": 0.5690823636526486,
+  "relief_m": 0.569521895067327,
+  "slope_deg": 0.5778542519546443,
+  "step_L0": 0.5636387370113155,
+  "step_L1": 0.5637568982664936,
+  "step_L2": 0.5635648812674199,
+  "step_L3": 0.5635053202241332,
+  "max": 0.5778542519546443,
+  "threshold": 0.9,
+  "leakage": false
+ },
+ "validator": {
+  "path": "build/h62r-final/gems62-h62r-multilevel-datum-repeat-offset-zeros.tif",
+  "sha256": "d5a15369fdd8863f73691ad01d2557feafd8f901d442d593c4f4b9bd858b4731",
+  "bytes": 116946,
+  "count": 1,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "shape": [
+   3730,
+   3292
+  ],
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "nodata": null,
+  "values_min": 0.0,
+  "values_max": 1.0,
+  "nan_inside_footprint": 0,
+  "nan_outside_footprint": 0,
+  "outside_encoding": "all finite outside the footprint",
+  "positive_cells": 14765,
+  "max_positive_value": 1.0,
+  "unique_positive_values": [
+   1.0
+  ],
+  "passed": true,
+  "failures": [],
+  "notes": []
+ },
+ "raster_sha256": "d5a15369fdd8863f73691ad01d2557feafd8f901d442d593c4f4b9bd858b4731",
+ "uniqueness": null,
+ "submission_name": "gems62-h62r-multilevel-datum-repeat-offset-zeros"
+}

@@ -147,7 +147,11 @@ kernel</span>
 <code>{NOTE}</code></p>
 
 <p><a class="btn" href="downloads/{TIF}" download>⬇ Download the GeoTIFF ({BYTES:,} bytes)</a>
-<a class="btn" href="downloads/{NAN}" download>⬇ NaN-outside twin</a></p>
+</p>
+<p class="mut">A NaN-outside twin of the same dot set exists
+(<a href="downloads/{NAN}"><code>{NAN}</code></a>) as a <b>format probe only</b> — it is deliberately
+not offered as a download button, because it carries a NaN nodata tag and fails this repository's
+stricter convention; it is not the file to read or upload.</p>
 
 <p class="mut">sha256 <code>{SHA}</code> · {EM['n_dots']:,} single-pixel dots of value 1.0 on an
 all-zero grid · generated {CARD['run_card_version']} · deterministic rebuild from the committed
@@ -557,8 +561,9 @@ STOPPED by the uniqueness gate</h2>
 {EM['dots_with_another_dot_inside_300m']} dots inside one 300 m kernel</span></p>
 <p class="big">{NAME}</p>
 <p><a class="btn sec" href="downloads/{TIF}" download>⬇ Download the GeoTIFF ({BYTES:,} bytes)</a>
-<a class="btn sec" href="downloads/{NAN}" download>⬇ NaN-outside twin (format probe)</a>
-<a class="btn sec" href="{SESSION_PAGE.split('/')[-1]}">This lane's full report</a></p>
+<a class="btn sec" href="{SESSION_PAGE.split('/')[-1]}">This lane's full report</a>
+<span class="mut">· the NaN-outside twin <code>{NAN}</code> is a format probe, not offered as a
+button</span></p>
 <table>
 <tr><th>check</th><th>this file</th><th>limit / comparator</th><th>result</th></tr>
 <tr><td>dots within 3 px of one non-vacuous registry raster</td><td>{pct(CMP['my_frac3px'])}</td>
@@ -587,21 +592,12 @@ with the sibling lane's H63 file, which carries the wider control-normalised aud
 
 
 def allfiles_rows() -> str:
-    """Two rows for the shared 'every downloadable file' table, generated from the audit."""
-    man = json.loads((ROOT / "docs/downloads/manifest.json").read_text())
-    rows = []
-    for r in man["files"]:
-        n = pathlib.Path(r["path"]).name
-        if n not in (TIF, NAN):
-            continue
-        pill = ('<span class="pill ok">legal</span>' if not r.get("fails")
-                else '<span class="pill no">not legal: ' + ", ".join(r["fails"]) + "</span>"
-                     + f' <span class="pill warn">range risk {r.get("portal_range_risk", "?")}</span>')
-        rows.append(f'<tr><td><a href="downloads/{n}">{n}</a>{pill}</td>'
-                    f'<td>{r.get("dots", 0):,}</td><td>{r["bytes"]:,} B</td>'
-                    f'<td>{r.get("checks_passed", 0)}/{r.get("checks_total", 14)}</td>'
-                    f'<td><code>{r["sha256"][:16]}…</code></td><td>{r.get("verdict", "")}</td></tr>')
-    return "\n".join(rows)
+    """Deprecated: the shared all-files table on docs/index.html is owned by
+    ``scripts/update_h62r_section.py``, which completes it from the audit for every raster that has a
+    verdict sidecar, in filename order. This lane no longer writes rows there - two generators owning
+    one table is how a page ends up describing rows neither of them produced. Kept as a no-op so the
+    call site stays readable."""
+    return ""
 
 
 def update_front_page() -> None:
@@ -611,18 +607,14 @@ def update_front_page() -> None:
     if MARK_A in text:
         text = text[:text.index(MARK_A)] + text[text.index(MARK_B) + len(MARK_B):]
     block = index_section()
-    for anchor in ('<h2 id="h62j">', '<h2 id="allfiles">'):
+    for anchor in ('<!-- ==================== SESSION 2026-10-12: the datum doublet ==================== -->',
+                   '<h2 id="h62j">', '<h2 id="allfiles">'):
         if anchor in text:
             text = text.replace(anchor, block + "\n" + anchor, 1)
             break
     else:
         raise SystemExit("no stacking anchor found in docs/index.html")
-    rows = allfiles_rows()
-    if rows and TIF not in text.split('<h2 id="allfiles">')[-1]:
-        # insert immediately before the closing tag of the allfiles table
-        i = text.index('<h2 id="allfiles">')
-        j = text.index("</table>", i)
-        text = text[:j] + rows + "\n" + text[j:]
+    # the shared all-files table is completed by scripts/update_h62r_section.py from the audit
     page.write_text(text)
     print(f"updated docs/index.html ({len(text):,} bytes; lane 62E section + download rows)")
 

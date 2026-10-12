@@ -37,8 +37,9 @@ page is merged below)</p>
 
 <nav>
 <a href="#download">⬇ Download &amp; verdict</a>
-<a href="#allfiles">⬇ All 11 files + verdicts</a>
+<a href="#allfiles">⬇ All 23 files + verdicts</a>
 <a href="executive-summary.html">How to submit</a>
+<a href="#h62r">H62-R — multi-level datum stack</a>
 <a href="#h62j">H62-J datum doublet</a>
 <a href="hypotheses-2026-10-12-j.html">Ranked hypotheses (this lane)</a>
 <a href="hypotheses-2026-10-12.html">Ranked hypotheses (440-dot lane)</a>
@@ -186,8 +187,117 @@ stand, and nothing in the new file is copied from either of them (measured, see 
  genuine lane drift into the LiDAR-scarp lane, not an artefact. Logged and stopped, as the protocol requires.</td></tr>
 </table>
 </div>
+<div class="hero" style="border-color:var(--ok);background:rgba(63,185,80,.06)">
+<h2 style="border:0;margin-top:0">Session 2026-10-11 · H63M — multi-line corroboration</h2>
+<p class="mut" style="margin-top:-.6em">A second file, <code>gems62-h63-diffuse-isolated-offcat-40k-zeros.tif</code> from session <code>arena/61e7859a</code>, is also labelled “H63”. Different method, different bytes; the submission notes say which is which.</p>
+<p><span class="pill ok">FORMAT LEGAL</span> <span class="pill ok">UNIQUE where the gate is informative</span> <span class="pill warn">SCORE IS A MODEL PROJECTION</span></p>
+<p class="big">gems62-h63m-multiline-corroborated-90000</p>
+<p><a class="btn" href="downloads/gems62-h63m-multiline-corroborated-90000-zeros.tif">⬇ Download (338,731 bytes)</a>
+<a class="btn sec" href="../lane62-h63m/docs/executive-summary.html">How to submit</a>
+<a class="btn sec" href="../lane62-h63m/docs/index.html">Full H63M report</a></p>
+<p class="small"><b>No file in this repository has an organiser-confirmed score.</b> 14/14 byte checks pass (float32, no nodata tag, values exactly {0.0, 1.0}), so the portal error “values must be in [0, 1]” cannot fire; the expected value below is a MODEL projection, and whether to submit is the selector’s decision. Measured credit per unit mass <b>0.1885</b> vs <b>0.1433</b> for the group's best submitted artifact (0.2778) and <b>0.1037</b> for a matched random control. sha256 <code>3b04880d5cd9f72806b35e19e23be80a421d90d595466ce19ac5315a61cdfacf</code>.</p>
+</div>
 
-<!-- ==================== SESSION 2026-10-12: the datum doublet ==================== -->
+
+<!-- ==================== LANE H62-R (session arena/7eee17f9) ==================== -->
+<h2 id="h62r">Lane H62-R — the Lahontan datum as a <i>stack</i> of shorelines, and a repeat-offset test across them</h2>
+<div class="card">
+<p><span class="pill ok">FORMAT: LEGAL — 14/14 on the bytes re-read from disk</span>
+&nbsp;<span class="pill ok">UNIQUE — max |ρ| 0.0128 over 475 comparators</span>
+&nbsp;<span class="pill ok">ISOLATION: PROVEN — 0 of 14,765 dots receive any kernel mass</span>
+&nbsp;<span class="pill ok">OFF-CATALOGUE — 0.0% within 300 m, median 2,062 m</span>
+&nbsp;<span class="pill warn">HOLDOUT GATE: STRUCTURALLY VACUOUS — see below, not a pass</span></p>
+
+<p class="big">gems62-h62r-multilevel-datum-repeat-offset-zeros.tif</p>
+<p><a class="btn" href="downloads/gems62-h62r-multilevel-datum-repeat-offset-zeros.tif">⬇ Download the GeoTIFF (116,946 bytes)</a>
+<a class="btn sec" href="downloads/gems62-h62r-multilevel-datum-repeat-offset-zeros.zip">⬇ .zip</a>
+<a class="btn sec" href="executive-summary-h62r.html">Six submission steps + full verdict ↗</a>
+<a class="btn sec" href="hypotheses-h62r.html">Ranked hypotheses ↗</a></p>
+
+<p><b>Session <code>arena/7eee17f9-62gemsdoe</code>, lane H62-R, 2026-10-12.</b>
+The Lahontan datum is not one surface but a <b>stack of nested shorelines</b> of different ages.
+This lane <b>detects</b> the stack from the DEM instead of assuming a datum band
+(1455 / 1389 / 1325 / 1278 m, on block support 7 / 7 / 12 / 7 of 323 twenty-kilometre blocks), fits a robust tile-mode isobase
+per level, flags steps in the physical 15–140 m throw window, and then keeps only the steps that
+lie on <b>one common line with steps on at least one other level</b> — a Hough collinearity vote,
+because nested shorelines are crossed by one fault at <i>different map points</i>, so the naive
+"same place on two levels" test cannot work. It then seeds a trace at each surviving step,
+extends it on DEM-ridge evidence, and emits dotted lines.</p>
+
+<table class="kv">
+<tr><td>sha256</td><td><code>d5a15369fdd8863f73691ad01d2557feafd8f901d442d593c4f4b9bd858b4731</code></td></tr>
+<tr><td>What it is</td><td><b>14,765</b> single-pixel dots, values exactly <code>{0, 1}</code>,
+ 116,946 bytes, <code>nodata = null</code>, <code>nan_count = 0</code>,
+ <code>n_outside_0_1 = 0</code> — re-read from the bytes by two independent
+ validators, so the portal error <i>"Predicted values must be in range [0, 1]"</i> cannot occur for
+ this file. Portal range risk: <code>none</code>.</td></tr>
+<tr><td>Isolation — why no dot wastes mass</td><td>Measured against the metric's own kernel
+ <code>k(d) = max(1 − d/300 m, 0)</code>: minimum nearest-neighbour distance <b>300.000000 m</b>
+ (greedy thinning at 300 m, so the distance is the thinning distance exactly), and
+ <b>0</b> of 14,765 dots receives <b>any</b> kernel mass from
+ another dot — maximum received mass <b>0.000000</b>. Cross-checked
+ two ways after this lane's own first statistic was found to be wrong in the flattering direction
+ (<code>IR-62-H62R-03</code>).</td></tr>
+<tr><td>Distance to the mapped catalogue</td><td><b>0.0%</b> of dots within
+ 300 m of a mapped fault (nearest 300 m); median <b>2,062 m</b>;
+ <b>23.5%</b> within 1 km. 2,195 of
+ 24,037 samples were deleted by the 300 m exclusion — those pixels are masked out of live
+ scoring (organiser forum thread 11516).</td></tr>
+<tr><td>Unique against the registry</td><td>475 comparators harvested from the
+ group and organiser repositories: max |tie-aware Spearman| <b>0.0128</b>
+ (limit 0.9), worst symmetric 3-px-dilated Jaccard <b>0.0918</b>
+ (docs_downloads_gems42-xscale-worm-persistence-20261006T000541Z-nan.tif), and
+ <b>0</b> comparators over the overlap limit among the
+ non-vacuous. <b>14</b> comparators are flagged <i>vacuous</i> because their own 3-px dilation covers
+ ≥70 % of the footprint, so overlap with them carries no information (<code>IR-62-22</code>).
+ 1 file was skipped (a 32×48 format-test image — shape mismatches are counted, not fatal,
+ <code>IR-62-REG-02</code>). Full report:
+ <a href="../evidence/h62r/e7_uniqueness.json">e7_uniqueness.json</a>.</td></tr>
+<tr><td>The holdout gate — read this before trusting it</td><td><b>0.000000</b>, and that
+ number is <b>structurally vacuous for this field, not a failure of it</b>: the catalogue-exclusion radius and
+ the metric kernel radius are both 300 m, so a dot that obeys the exclusion has kernel weight exactly 0
+ against every mapped fault. On the same 4 folds × 2 seeds over
+ 81,993 withheld positives, the equal-budget controls score
+ random_lines <b>0.0032</b>, random_dots <b>0.0287</b>,
+ catalogue_offset <b>0.0249</b> — this field scores <i>below its own random-dot
+ control</i>, which is the signature of the exclusion rather than of a bad field. Logged as
+ <code>IR-62-H62R-02</code>; not "fixed" by shrinking the exclusion, because the calibration
+ (ρ = −0.597 against the mapped catalogue) is what demands it.</td></tr>
+<tr><td>What the lane measured</td><td>Steps flagged per level: 3,164 / 3,301 / 2,866 / 2,880 (12,211 in
+ total) → <b>2,509</b> accepted lines, <b>all</b> multi-level, 8,724
+ support px → <b>771</b> traces over <b>6,983 km</b> → 14,765 dots.
+ Lateral-deflection flags: <b>0</b> — a measured NULL on all four levels even at a 1.2 km lever
+ arm (<code>IR-62-DEFL-01</code>); no deflection claim is made anywhere.</td></tr>
+<tr><td>First deliverable (the lane asks for this first)</td><td>
+ <a href="h62r/h62r_shoreline_profiles.png">shoreline elevation-vs-distance profiles with the flagged
+ steps</a> — <b>532</b> runs, <b>2,844 km</b>,
+ <b>119</b> carrying flagged steps ·
+ <a href="downloads/h62r-shoreline-profiles.csv">machine-readable CSV</a> ·
+ <a href="h62r/h62r_level_spectrum.png">the measured level spectrum</a> ·
+ <a href="h62r/h62r_field_map.png">the field against the excluded catalogue</a></td></tr>
+<tr><td>Should it take the slot?</td><td>OK TO SUBMIT AS A MEASURED PROBE - format-legal on the bytes re-read from disk (single band float32 EPSG:32611 3730x3292, sample geotransform, 0 NaN, 0 outside [0,1], nodata null), provably isolated (0 of 14,765 dots receives any kernel mass from another dot), 0.0% on the mapped catalogue, and unique against 475 harvested comparators (max |rho| 0.0128, worst 3-px-dilated Jaccard 0.0918). It is a probe and not a validated gain: no local instrument can rank it, because the catalogue-based holdout is structurally zero for any field that obeys the exclusion the calibration demands (IR-62-H62R-02).</td></tr>
+<tr><td>Submission note (121/140 chars)</td><td><code>H62-R: 4 measured Lahontan datum levels, collinear steps on &gt;=2 levels, 14,765 isolated off-catalogue dots. Legal; probe.</code></td></tr>
+<tr><td>Expected score</td><td><b>Not claimed.</b> No local instrument in this repository can rank this
+ field, and the two off-catalogue proxies that exist disagree with each other in this repository's own
+ record. Organiser score: <b>none</b> — never submitted.</td></tr>
+</table>
+<p><b>Why some files in the table below say "not legal".</b> The portal error the owner hit —
+<i>"Predicted values must be in range [0, 1]"</i> — is produced by encoding "outside the data" as
+<b>NaN</b>: a range test applied to NaN fails. The 5 NaN-encoded twins in this repository carry
+<b>7,111,787</b> non-finite cells each, which is exactly the number of cells outside the survey
+footprint (12,279,160 − 5,167,373), so the encoding is deliberate and the mechanism is measured —
+but it is not the encoding this lane ships. Every raster offered here has its own row, its own
+checks and its own verdict, and the button above is verified legal on re-read by
+<code>tests/test_downloads_are_submittable.py</code>.</p>
+<p class="mut">Defects this lane found and fixed in flight — <code>IR-62-REG-01</code> (the registry harvest
+overwrote itself, so the drift gate was comparing against a fraction of the registry while reporting the full
+count), <code>IR-62-REG-02</code> (one format-test image aborted the whole check),
+<code>IR-62-H62R-01</code> (a span-only line test produced radiating "star" artifacts),
+<code>IR-62-H62R-03</code> (this lane's own isolation statistic counted a dot as its own neighbour) — are in
+<a href="irregularities.html">the register</a>.</p>
+</div>
+<!-- ==================== /LANE H62-R ==================== -->
+
 <!-- ==== session 2026-10-12 lane 62E start (generated by scripts/make_site_20261012.py) ==== -->
 <h2 id="o62e">Session 2026-10-12 — lane 62E: a 40,000-dot field from the organiser's own stack,
 STOPPED by the uniqueness gate</h2>
@@ -197,8 +307,9 @@ STOPPED by the uniqueness gate</h2>
 0 dots inside one 300 m kernel</span></p>
 <p class="big">gems62e-h62o-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-zeros.tif</p>
 <p><a class="btn sec" href="downloads/gems62e-h62o-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-zeros.tif" download>⬇ Download the GeoTIFF (243,379 bytes)</a>
-<a class="btn sec" href="downloads/gems62e-h62o-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-nan.tif" download>⬇ NaN-outside twin (format probe)</a>
-<a class="btn sec" href="session-2026-10-12-62e.html">This lane's full report</a></p>
+<a class="btn sec" href="session-2026-10-12-62e.html">This lane's full report</a>
+<span class="mut">· the NaN-outside twin <code>gems62e-h62o-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-nan.tif</code> is a format probe, not offered as a
+button</span></p>
 <table>
 <tr><th>check</th><th>this file</th><th>limit / comparator</th><th>result</th></tr>
 <tr><td>dots within 3 px of one non-vacuous registry raster</td><td>87.84 %</td>
@@ -224,6 +335,8 @@ identical: True · short note for the portal (133/140):
 with the sibling lane's H63 file, which carries the wider control-normalised audit — see
 <a href="session-2026-10-12-62e.html#collision">the collision note</a>.</p>
 <!-- ==== session 2026-10-12 lane 62E end ==== -->
+<!-- ==================== SESSION 2026-10-12: the datum doublet ==================== -->
+
 <h2 id="h62j">Session 2026-10-12 — the datum-doublet detector: real information, capped mass</h2>
 <div class="card">
 <p><span class="pill ok">FORMAT: LEGAL — 14/14 checks on the bytes</span>
@@ -373,6 +486,8 @@ organiser's own <code>sample_submission.tif</code> does not satisfy them (see
 <tr><td><a href="downloads/gems62-h62i-scarpcrosscut-hardcore-zeros.tif">gems62-h62i-scarpcrosscut-hardcore-zeros.tif</a><span class="pill ok">legal</span></td><td>60,000</td><td>282,543 B</td><td>14/14</td><td><code>aaadb736f1b60379…</code></td><td>DUPLICATE-DRIFT OF A SIBLING LANE'S FILE - do not submit</td></tr>
 <tr><td><a href="downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif">gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif</a><span class="pill ok">legal</span></td><td>10,870</td><td>91,954 B</td><td>14/14</td><td><code>7e67bf2d4ea506a8…</code></td><td>DECISION-LEVEL GATES PASS - 14/14 legal, UNIQUE-VS-REGISTRY, model DTI 0.0375 with the official metric (information-positive, score-negative: its own ceiling is 5 x 0.041 = 0.203 < 0.2778), so it is a probe, not a submitted field</td></tr>
 <tr><td><a href="downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif">gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif</a><span class="pill ok">legal</span></td><td>16,864</td><td>129,539 B</td><td>14/14</td><td><code>2a25f29a6b235520…</code></td><td>ANOTHER LANE'S NEGATIVE (session arena/778884cc, experiment h62n) - format-legal 14/14, unique, OK to download; their own verdict is NEGATIVE as an improvement (projection 0.0210 on the kernel-fixed instrument) and this gate has nothing to add to that</td></tr>
+<tr><td><a href="downloads/gems62-h62r-multilevel-datum-repeat-offset-zeros.tif">gems62-h62r-multilevel-datum-repeat-offset-zeros.tif</a><span class="pill ok">legal</span></td><td>14,765</td><td>116,946 B</td><td>14/14</td><td><code>d5a15369fdd8863f…</code></td><td>OK TO SUBMIT AS A MEASURED PROBE - format-legal on the bytes re-read from disk (single band float32 EPSG:32611 3730x3292, sample geotransform, 0 NaN, 0 outside [0,1], nodata null), provably isolated (0 of 14,765 dots receives any kernel mass from another dot), 0.0% on the mapped catalogue, and unique against 475 harvested comparators (max |rho| 0.0128, worst 3-px-dilated Jaccard 0.0918). It is a probe and not a validated gain: no local instrument can rank it, because the catalogue-based holdout is structurally zero for any field that obeys the exclusion the calibration demands (IR-62-H62R-02).</td></tr>
+<tr><td><a href="downloads/gems62-h63-diffuse-isolated-offcat-40k-nan.tif">gems62-h63-diffuse-isolated-offcat-40k-nan.tif</a><span class="pill no">not legal: no_nodata_tag, no_nan_anywhere</span> <span class="pill warn">range risk low</span></td><td>40,000</td><td>330,994 B</td><td>12/14</td><td><code>c57d88adf4f6c39c…</code></td><td>FORMAT PROBE TWIN, NOT THE SUBMISSION - the same dot set as the -zeros file encoded with NaN outside the footprint and a NaN nodata tag, so it fails this repository's stricter convention (no_nodata_tag, no_nan_anywhere) and is kept only to keep the two encodings of one field comparable. The published contract permits null/nan outside the footprint, but a float32 nodata sentinel is one of the two mechanisms behind the portal error 'Predicted values must be in range [0, 1]', so the -zeros twin is the one offered for submission</td></tr>
 <tr><td><a href="downloads/gems62-lahontan-isobase-99dots-nan.tif">gems62-lahontan-isobase-99dots-nan.tif</a><span class="pill no">not legal: no_nodata_tag, no_nan_anywhere</span> <span class="pill warn">range risk low</span></td><td>99</td><td>124,293 B</td><td>12/14</td><td><code>8675fa33d4d0b181…</code></td><td>FORMAT PROBE (NaN outside, nodata=NaN) - never submitted; passes the published contract, fails our stricter one</td></tr>
 <tr><td><a href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">gems62-lahontan-isobase-99dots-zeros.tif</a><span class="pill ok">legal</span></td><td>99</td><td>56,048 B</td><td>14/14</td><td><code>fc628410873f018d…</code></td><td>FORMAT PROBE - legal by every check we can run; upload only to test acceptance</td></tr>
 <tr><td><a href="downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif">gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</a><span class="pill ok">legal</span></td><td>120,000</td><td>481,168 B</td><td>14/14</td><td><code>42bffef1b5973973…</code></td><td>ANOTHER LANE'S PROBE (session arena/d0303476) - 14/14 legal on its bytes, unique (max Jaccard 0.022, tie-aware |rho| 0.035 over 25 comparators), no organiser score; their run card calls it 'negative as a lead, legal and unique as a probe' and this gate agrees: promotion is the selector's decision, not a measurement</td></tr>
@@ -461,7 +576,13 @@ Spearman legs. <span class="mut">MEASURED; independently reproduces GEMSDOE54 IR
   
   <p>
     <a class="btn" href="downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif">⬇ Download Official GeoTIFF (57,178 bytes)</a>
-    <a class="btn sec" href="downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif">⬇ NaN-Outside Twin (.tif)</a>
+    <!-- merge note (session arena/7eee17f9): this twin was a <a class="btn"> until the H62-R merge.  A
+         button beside "Download Official GeoTIFF" is how a NaN-encoded raster gets submitted by
+         mistake -- it is the shape of the error the owner actually hit ("Predicted values must be
+         in range [0, 1]").  It stays reachable, labelled, as the other encoding of the same field. -->
+    <span class="pill no">not legal: no_nan_anywhere</span>
+    <a href="downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif">NaN-outside twin (.tif)</a>
+    <span class="mut">— the same 440 dots with NaN outside the footprint; diagnosis only</span>
     <a class="btn sec" href="executive-summary.html">Submission Guide &amp; Instructions ↗</a>
   </p>
 

@@ -1,0 +1,27 @@
+{
+ "verdict": "PROMOTE (this lane's recommendation, NOT a confirmed score) - legal by the published contract and by this repository's stricter convention (14/14 byte checks: float32, no nodata tag, values exactly {0.0, 1.0}, so the portal error 'values must be in [0, 1]' cannot fire); unique where the 3-px overlap gate is informative (overlap-lift over a measured random control 0.556-1.695x on 18 of 21 registry rasters; 3 dense gems13 rasters are unsatisfiable by ANY emission). Expected value is a MODEL projection (0.294-0.539, mid 0.417) through a transfer constant fitted to 9 owner-reported scores - never submitted, never organizer-scored, so the decision to submit is the selector's, not a measurement. NOT the same artifact as gems62-h63-diffuse-isolated-offcat-40k-zeros.tif from session arena/61e7859a: different method, different bytes.",
+ "ok_to_submit": false,
+ "note": "90,000 isolated unit dots; rank-average of three DEM channels (scarp curvature, local relief TPI3, directional line filter), NMS radius 1 px, all dots >=300 m off the public catalogue. Measured credit-per-unit-mass 0.18848 against USGS SGMC off-catalogue faults: 1.82x a mass-matched random control (0.1037) and 1.32x the group's best submitted artifact (0.1433). float32, nodata=None, values exactly {0.0, 1.0}, so the portal's \"values must be in [0, 1]\" error cannot fire.",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score. Every number here is either measured against a public proxy truth or a MODEL projection through a calibrated transfer constant.",
+ "expected_value_label": "MODEL projection 0.294-0.539 (mid 0.417) vs a group best of 0.2778 - no organizer score exists for any file in this repository",
+ "artifact_of": "scripts/h63_finalize.py (session arena/4ef3d5d6-62gemsdoe, lane H63M)",
+ "evidence": [
+  "evidence/h63_final.json",
+  "evidence/h63_calibration.json",
+  "evidence/h63_uniqueness_control.json",
+  "evidence/h63a_canary.json",
+  "lane62-h63m/docs/run-card.html"
+ ],
+ "name": "gems62-h63m-multiline-corroborated-90000-zeros.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "3b04880d5cd9f72806b35e19e23be80a421d90d595466ce19ac5315a61cdfacf",
+ "bytes": 338731,
+ "dots": 90000,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

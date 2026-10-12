@@ -65,6 +65,11 @@ def _read_mask(path: str | Path) -> np.ndarray:
     return out
 
 
+#: Set by the most recent :func:`compare` call so callers can report comparators that
+#: were skipped for a shape mismatch without changing the function's return type.
+last_skipped: dict = {"entries": []}
+
+
 def compare(
     mine: np.ndarray,
     registry_paths: dict[str, str | Path],
@@ -79,13 +84,23 @@ def compare(
 
     # Precompute my dot dilation lazily per registry raster.
     entries: list[RegistryEntry] = []
+    skipped: list[tuple[str, tuple[int, ...]]] = []
     for alias, p in sorted(registry_paths.items()):
         p = Path(p)
         if not p.exists():
             continue
         other = _read_mask(p)
         if other.shape != mine.shape:
-            raise ValueError(f"{alias}: shape {other.shape} != {mine.shape}")
+            # IR-62-REG-02 FIX (2026-10-12).  ``compare`` used to raise here.  The
+            # registry is harvested automatically from public repositories and now
+            # legitimately contains format-test images (measured: a 32x48
+            # ``GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif``).  Raising made the whole
+            # uniqueness run die on a file that is not a candidate duplicate, which
+            # would silently remove the protocol's drift check from any session that
+            # ran it unattended.  Mismatched shapes are skipped and *counted*, so the
+            # report still says how many comparators were examined.
+            skipped.append((alias, tuple(other.shape)))
+            continue
 
         # Spearman on the full footprint (both surfaces are mostly zero, which is
         # the honest comparison: it measures whether the *surfaces* agree).
@@ -108,10 +123,11 @@ def compare(
             rho=rho, frac3px=frac, coverage3px=coverage,
             vacuous=coverage >= OVERLAP_LIMIT,
         ))
+    last_skipped["entries"] = skipped
     return entries
 
 
-def verdict(entries: list[RegistryEntry]) -> dict:
+def verdict(entries: list[RegistryEntry], skipped: list | None = None) -> dict:
     """Apply the prompt's drift rule, separating vacuous rasters out."""
     non_vacuous = [e for e in entries if not e.vacuous]
     vacuous = [e for e in entries if e.vacuous]
@@ -136,6 +152,8 @@ def verdict(entries: list[RegistryEntry]) -> dict:
         "overlap_trip": bool(overlap_trip),
         "closest_non_vacuous": closest.alias if closest else None,
         "vacuous_aliases": [e.alias for e in vacuous],
+        "n_skipped_shape_mismatch": len(skipped or []),
+        "skipped": [dict(alias=a, shape=list(sh)) for a, sh in (skipped or [])][:20],
         "passed": bool(passed),
         "verdict": "DISTINCT LANE" if passed else "DUPLICATE - STOP",
     }

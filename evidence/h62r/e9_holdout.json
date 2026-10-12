@@ -1,0 +1,222 @@
+{
+ "version": "gems62.holdout_segmented v1",
+ "alpha": 0.2,
+ "beta": 0.8,
+ "radius_px": 3.0,
+ "n_folds": 4,
+ "seeds": [
+  20,
+  21
+ ],
+ "frac_withheld": 0.35,
+ "buffer_px": 3,
+ "n_segments_total": 2297,
+ "withheld_positives_total": 81993,
+ "pooled_dti": 0.0,
+ "pooled_tp": 0.0,
+ "pooled_fp": 59060.0,
+ "pooled_fn": 81993.0,
+ "fold_dti_mean": 0.0,
+ "fold_dti_ci95": [
+  0.0,
+  0.0
+ ],
+ "controls_mean": {
+  "random_lines": 0.0032053178265413606,
+  "random_dots": 0.028738900179894552,
+  "catalogue_offset": 0.024943003932155743
+ },
+ "controls_all": {
+  "random_lines": [
+   0.0017846063486426735,
+   0.002352853490659199,
+   0.004317210107285391,
+   0.004366601359578179
+  ],
+  "random_dots": [
+   0.028134496721769327,
+   0.02916285777215238,
+   0.030825203740418,
+   0.026833042485238504
+  ],
+  "catalogue_offset": [
+   0.023092554933320453,
+   0.033586658905165837,
+   0.040939418027806235,
+   0.002153383862330448
+  ]
+ },
+ "folds": [
+  {
+   "index": 0,
+   "seed": 20,
+   "n_segments_withheld": 803,
+   "n_segments_visible": 1486,
+   "withheld_px": 20528,
+   "buffered_px": 146136,
+   "result": {
+    "tp": 0.0,
+    "fp": 14765.0,
+    "fn": 20528.0,
+    "n_truth": 20528,
+    "n_active_pred": 14765,
+    "dti": 0.0
+   },
+   "controls": {
+    "random_lines": {
+     "tp": 31.244734896396725,
+     "fp": 5396.326443253574,
+     "fn": 20496.755265103602,
+     "n_truth": 20528,
+     "n_active_pred": 5426,
+     "dti": 0.0017846063486426735
+    },
+    "random_dots": {
+     "tp": 547.0513316407153,
+     "fp": 14561.691063482565,
+     "fn": 19980.948668359284,
+     "n_truth": 20528,
+     "n_active_pred": 14765,
+     "dti": 0.028134496721769327
+    },
+    "catalogue_offset": {
+     "tp": 448.2265275068216,
+     "fp": 14489.781321575194,
+     "fn": 20079.77347249318,
+     "n_truth": 20528,
+     "n_active_pred": 14765,
+     "dti": 0.023092554933320453
+    }
+   }
+  },
+  {
+   "index": 1,
+   "seed": 20,
+   "n_segments_withheld": 803,
+   "n_segments_visible": 1491,
+   "withheld_px": 19975,
+   "buffered_px": 141059,
+   "result": {
+    "tp": 0.0,
+    "fp": 14765.0,
+    "fn": 19975.0,
+    "n_truth": 19975,
+    "n_active_pred": 14765,
+    "dti": 0.0
+   },
+   "controls": {
+    "random_lines": {
+     "tp": 40.30630766122766,
+     "fp": 5713.7894982256075,
+     "fn": 19934.693692338773,
+     "n_truth": 19975,
+     "n_active_pred": 5756,
+     "dti": 0.002352853490659199
+    },
+    "random_dots": {
+     "tp": 554.1607937047877,
+     "fp": 14557.24001523033,
+     "fn": 19420.83920629521,
+     "n_truth": 19975,
+     "n_active_pred": 14765,
+     "dti": 0.02916285777215238
+    },
+    "catalogue_offset": {
+     "tp": 637.7108806595743,
+     "fp": 14397.43620559769,
+     "fn": 19337.289119340425,
+     "n_truth": 19975,
+     "n_active_pred": 14765,
+     "dti": 0.033586658905165837
+    }
+   }
+  },
+  {
+   "index": 2,
+   "seed": 21,
+   "n_segments_withheld": 803,
+   "n_segments_visible": 1491,
+   "withheld_px": 22024,
+   "buffered_px": 155344,
+   "result": {
+    "tp": 0.0,
+    "fp": 14765.0,
+    "fn": 22024.0,
+    "n_truth": 22024,
+    "n_active_pred": 14765,
+    "dti": 0.0
+   },
+   "controls": {
+    "random_lines": {
+     "tp": 81.11533062783596,
+     "fp": 5767.039125686415,
+     "fn": 21942.884669372164,
+     "n_truth": 22024,
+     "n_active_pred": 5849,
+     "dti": 0.004317210107285391
+    },
+    "random_dots": {
+     "tp": 636.596405541228,
+     "fp": 14526.478684775686,
+     "fn": 21387.40359445877,
+     "n_truth": 22024,
+     "n_active_pred": 14765,
+     "dti": 0.030825203740418
+    },
+    "catalogue_offset": {
+     "tp": 845.3253866051916,
+     "fp": 14299.686250521987,
+     "fn": 21178.674613394807,
+     "n_truth": 22024,
+     "n_active_pred": 14765,
+     "dti": 0.040939418027806235
+    }
+   }
+  },
+  {
+   "index": 3,
+   "seed": 21,
+   "n_segments_withheld": 803,
+   "n_segments_visible": 1491,
+   "withheld_px": 19466,
+   "buffered_px": 139880,
+   "result": {
+    "tp": 0.0,
+    "fp": 14765.0,
+    "fn": 19466.0,
+    "n_truth": 19466,
+    "n_active_pred": 14765,
+    "dti": 0.0
+   },
+   "controls": {
+    "random_lines": {
+     "tp": 73.50366401638072,
+     "fp": 6228.255886199707,
+     "fn": 19392.49633598362,
+     "n_truth": 19466,
+     "n_active_pred": 6302,
+     "dti": 0.004366601359578179
+    },
+    "random_dots": {
+     "tp": 498.717660447728,
+     "fp": 14567.04621595287,
+     "fn": 18967.282339552272,
+     "n_truth": 19466,
+     "n_active_pred": 14765,
+     "dti": 0.026833042485238504
+    },
+    "catalogue_offset": {
+     "tp": 39.89442607443782,
+     "fp": 14728.048192978706,
+     "fn": 19426.10557392556,
+     "n_truth": 19466,
+     "n_active_pred": 14765,
+     "dti": 0.002153383862330448
+    }
+   }
+  }
+ ],
+ "artifact": "docs/downloads/gems62-h62r-multilevel-datum-repeat-offset-zeros.tif",
+ "n_dots": 14765,
+ "label": "HOLDOUT-DTI. NOT a score. The instrument's truth is the MAPPED catalogue, which the competition masks out of live scoring, so the instrument cannot reward finding a catalogue-missing fault."
+}
