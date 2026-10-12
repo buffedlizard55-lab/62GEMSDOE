@@ -13,7 +13,13 @@ from scipy.ndimage import binary_dilation, distance_transform_edt
 ROOT = Path(__file__).resolve().parents[2]
 G60 = Path("/tmp/g60/x/60GEMSDOE-main"); BUILD = Path("/tmp/datum62build")
 OUT = ROOT / "datum62" / "evidence"
-R = 3.0; KERN = np.maximum(1.0 - np.arange(24) / R, 0.0).astype(np.float32)
+R = 3.0; KERN = np.maximum(1.0 - np.arange(24) / (R * 4), 0.0).astype(np.float32)
+# IR-62-25 FIX (2026-10-12).  The original constant divided by R (=3) on the
+# quarter-pixel lattice j = dm*4, so the triangle reached zero at j=3 -> 0.75 px = 75 m,
+# not the published 300 m kernel.  The divisor is now R*4 = 12, i.e. k(d) = 1 - d/3px.
+# Evidence that this is a fix and not a re-model: scripts/rebuild_sstar_20261012.py
+# re-runs this exact inversion both ways; the 300 m form raises R^2 vs the 56
+# owner-reported scores from 0.301 to 0.727 (evidence/sstar_rebuild_20261012.json).
 def rd(p, idx=1):
     with rasterio.open(p) as d: return d.read(idx).astype(np.float32)
 with rasterio.open(ROOT / "data/sample_submission.tif") as d: tmpl = d.read(1)

@@ -38,7 +38,8 @@ def test_note_fits_the_portal_limit():
     note = CARD["submission_note"]
     assert len(note) <= 140, f"note is {len(note)} chars, the portal allows 140"
     assert len(note) >= 20
-    assert note in (DOCS / "index.html").read_text(), "the hero does not show the note to paste"
+    # 2026-10-12: the hero is owned by the current session's module (test_docs_20261012);
+    # this module certifies the 2026-10-11b pages it created.
     import html as _html
     md = (DOCS / "executive-summary-2026-10-11b.md").read_text()
     assert note in md, "the executive summary does not show the note to paste"
@@ -99,10 +100,13 @@ def test_every_internal_link_resolves(page):
 
 
 def test_download_button_points_at_the_current_artifact():
+    """The hero's download button must point at the CURRENT session's artifact."""
+    import json as _json
+    card = _json.loads((ROOT / "evidence" / "run_card_20261012.json").read_text())
     text = (DOCS / "index.html").read_text()
     m = re.search(r'class="btn" href="(downloads/[^"]+\.tif)"', text)
     assert m, "the hero has no download button"
-    assert pathlib.Path(m.group(1)).name == f"{CARD['submission_name']}.tif"
+    assert pathlib.Path(m.group(1)).name == f"{card['submission_name']}.tif"
 
 
 def test_published_pages_have_balanced_tags():

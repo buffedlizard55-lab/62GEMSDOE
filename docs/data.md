@@ -9,7 +9,7 @@ the 46 MB DEM mosaic are all reproducible or transportable, not checked in. This
 | --- | --- | --- | --- |
 | `existing_faults.tif` / `labels.tif` | the USGS/INGENIOUS catalogue — 60,988 positive pixels; **masked out of live scoring** | `7ba308cc…` | `/home/user/work/bridge/` (pinned), copied to `/tmp/gems/labels.tif` for runs |
 | `example_submission.tif` | defines the official grid: 3730×3292, 100 m, EPSG:32611, origin (243350, 4508550) | `2176d08e…` | same |
-| `training_features.tif` | 418 MB, 35-band feature stack (band descriptions quoted only second-hand here) | `4371c82e…` | **not cloned in this checkout** |
+| `training_features.tif` | 418 MB, **19-band** feature stack (band names are in the file's own `band_name` tags — `rtp`, `tmi`, `mag_anom`, …; verified from the bytes 2026-10-11b and again 2026-10-12, sha256 matches the pin) | `4371c82e…` | fetched to `build/ext/` (gitignored) by `scripts/fetch_ext_20261011b.py` or the git-transport mirror in `build/mirrors/` |
 
 The pins come from `data/bridge/manifest.json` in the transport repository. The catalogue is
 **read-only ground truth for the proxy holdout and never an emitter input** in this lane: the

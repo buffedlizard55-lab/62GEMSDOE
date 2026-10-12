@@ -1,0 +1,61 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><title>Executive summary 2026-10-12</title></head><body><pre style='white-space:pre-wrap;font-family:system-ui,sans-serif;max-width:980px;margin:0 auto;padding:20px'># Executive summary — the file, the verdict, and exactly how to submit it
+
+Session `arena/7b275dfb-62gemsdoe`, 2026-10-12. Every number below is generated from the
+evidence JSONs by `scripts/make_site_20261012.py`; nothing is hand-copied.
+
+## 1. Download this file
+
+**[`docs/downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif`](downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif)**
+
+| | |
+|---|---|
+| **bytes** | 459,756 |
+| **sha256** | `82359f80280062072a4fdd8723d637a9bed0b77223386c319ab35bac990d8f23` |
+| **dots** | 125,890 isolated single-pixel dots (no two dots within 1 px), all **off** the mapped USGS/INGENIOUS catalogue and its 3 px buffer |
+| **values** | exactly `{0, 1}` — a dot field, not a probability surface |
+| **submission name** | `gems62f-h2r-ventcons-125890-20261012T012736Z-zeros` |
+| **note (paste into the form, 139/140 chars)** | `62f: H2R multi-physics lineament consensus x vent prior, 125,890 isolated off-catalogue dots, S*v2-blocked CV. Unique vs 56 rasters. Legal.` |
+
+### Verdict — is it OK to download and submit?
+
+| leg | result |
+|---|---|
+| **FORMAT** | ✅ **LEGAL** — 14/14 checks on the bytes re-read from disk: single band, `float32`, EPSG:32611, 3730×3292, the sample submission&#x27;s exact geotransform, `n_outside_0_1 = 0`, `nan_count = 0`, `nodata = null`. The portal error *&quot;Predicted values must be in range [0, 1]&quot;* cannot occur for these bytes. |
+| **UNIQUENESS** | ✅ **UNIQUE** — vs 71 registry rasters: max non-vacuous 3 px overlap **0.692** (vs `h30-arrangement-matched-habitat`, limit 0.70; mass-matched random control scores 0.410, so this is 1.69× shared structure, disclosed), max tie-aware \|ρ\| **0.501** (limit 0.90), max symmetric Jaccard **0.411**. Vacuous comparators (r13 lattice, pindrop family) fire the 70 % leg on random noise too and are logged, not treated as duplicates (`evidence/e7_uniqueness_control_20261012.json`). |
+| **LOCAL INSTRUMENT (not a score)** | blocked OOF DTI(S\* v2) = **0.1979** at 125,890 dots; model AUC **0.8932** (leakage canary limit 0.90). H-2 raw-band baseline on the same instrument: 0.1718; inherited H-2 (old instrument): 0.2178. |
+| **HOLDOUT-DTI (protocol)** | 0.00038 (95 % CI [0.0003472906725033327, 0.0004015821236274176], 81,993 withheld positives, evaluator `gems62.holdout_segmented v1`) — read with the documented caveat IR-62-HOLDOUT-01: this gate anti-correlates with the leaderboard and is reported because the protocol requires it. |
+| **EXPECTED SCORE** | **Not claimed.** No local instrument may be used as a score; every number above is HOLDOUT-DTI or MEASURED-instrument, never ORGANIZER-CONFIRMED (this repository has 0 receipts). |
+| **VERDICT** | ✅ **PROMOTE** — blocked DTI(S*) 0.1979 vs same-instrument raw-band baseline 0.1718 (inherited H-2 on the old 75 ms-kernel instrument: 0.2178, not comparable); format legal; uniqueness ok |
+
+&gt; **One-line version.** blocked DTI(S*) 0.1979 vs same-instrument raw-band baseline 0.1718 (inherited H-2 on the old 75 ms-kernel instrument: 0.2178, not comparable); format legal; uniqueness ok
+
+## 2. Step-by-step: how to put this file into the competition
+
+1. **Download** `gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif` from [`docs/downloads/`](downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif) (or the download button at the top of [`index.html`](index.html)). A bare GeoTIFF is accepted — no `.zip` needed.
+2. **Verify the bytes** (optional, 5 s): `sha256sum gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif` → must equal `82359f8028006207…` (full hash above).
+3. **Sign in** on DrivenData and open the submission form: &lt;https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/&gt;
+4. **File to submit** → choose the `.tif` from step 1.
+5. **Note (optional)** → paste the 139-character note from the table in §1.
+6. **Submit.** The score appears on the public leaderboard: &lt;https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/&gt;
+7. **Export the receipt — the highest-value action available to this project.** Copy the score row into `evidence/` and commit it. This repository currently contains **zero** organizer-confirmed scores.
+
+### What the form checks, and where this file satisfies each check
+
+| portal requirement | this file | enforced by |
+|---|---|---|
+| single-band GeoTIFF | `count = 1` | `gems62.grid.write_submission` → `check_submission`, re-read from disk |
+| 32-bit float | `float32` | asserted on write and on re-read |
+| CRS EPSG:32611, shape 3730×3292, geotransform of the sample | yes | asserted against the transform read back from the official sample |
+| every value in [0, 1] | min 0.0, max 1.0 | re-counted after write |
+| no NaN / no nodata sentinel | `nodata = null`, `nan_count = 0` | the two mechanisms behind *&quot;Predicted values must be in range [0, 1]&quot;* (a −3.4e38 sentinel and a NaN nodata tag) are structurally absent |
+
+## 3. What this session measured (evidence classes)
+
+| quantity | value | class |
+|---|---|---|
+| S\* v2 instrument (fixed 300 m kernel, IR-62-2026-10-12-01) | K = 18,899 px, Spearman **0.9594**, R² = 0.7270 vs 56 owner-reported scores | MEASURED (`evidence/sstar_rebuild_20261012.json`) |
+| leakage canary (best single feature) | AUC **0.7118** &lt; 0.90 | MEASURED (`evidence/e5_screen_20261012.json`) |
+| H62-Z1 vent-proximity placement | **0.64×** isolated-random control — proximity-as-placement **refuted** | MEASURED |
+| model C (H-2R + vent) vs A (raw bands) on S\* v2 | 0.1979 vs 0.1718 | MEASURED (blocked CV) |
+| organizer scores of any file here | **none exist** | — |
+</pre></body></html>

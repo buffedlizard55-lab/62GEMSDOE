@@ -77,9 +77,10 @@ def test_uniqueness_numbers_on_the_pages_match_the_evidence():
     card = json.loads(CARD.read_text())
     assert card["correlation_and_overlap_vs_registry"]["max_jaccard_vs_any_comparator"] == max_jac
     assert card["raster_sha256"] == ev["receipt"]["sha256"]
-    # the two pages must quote the same hash and the same verdict
-    for page in (ROOT / "docs" / "index.html",
-                 ROOT / "docs" / "executive-summary-2026-10-11b.html"):
+    # the pages this module owns must quote the same hash and the same verdict
+    # (index.html is owned by test_docs_20261012 since 2026-10-12)
+    for page in (ROOT / "docs" / "executive-summary-2026-10-11b.html",
+                 ROOT / "docs" / "executive-summary-2026-10-11b.md"):
         text = page.read_text()
         assert ev["receipt"]["sha256"][:16] in text, f"{page.name} lacks the sha256"
         assert "120,000" in text or "120000" in text

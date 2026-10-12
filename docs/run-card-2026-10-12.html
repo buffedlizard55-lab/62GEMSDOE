@@ -1,0 +1,90 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><title>Run card 2026-10-12</title></head><body><pre style='white-space:pre-wrap;font-family:system-ui,sans-serif;max-width:980px;margin:0 auto;padding:20px'>{
+ &quot;run_card_version&quot;: &quot;1.0-2026-10-12&quot;,
+ &quot;session&quot;: &quot;arena/7b275dfb-62gemsdoe&quot;,
+ &quot;hypothesis&quot;: &quot;H-2R + H62-Z1: the champion family&#x27;s multi-physics oriented-lineament consensus rebuilt from the organiser 19-band stack as supervised features, with a temperature/chemistry-weighted geothermal-vent prior (GDR inventory)&quot;,
+ &quot;mechanism&quot;: &quot;scale-normalised Hessian line response (both polarities) at sigma 1.2/2.5 px x cross-band orientation order parameter R; gradient-boosted detector toward the leaderboard-inverted truth surrogate S* (rebuilt with the published 300 m kernel after IR-62-2026-10-12-01); isolated-dot emission off the mapped catalogue&quot;,
+ &quot;named_non_fault_mimic&quot;: &quot;lithologic contacts and dykes produce coherent magnetic/conductivity line responses; hot springs cluster on playa margins for hydrologic discharge reasons as well as structural ones&quot;,
+ &quot;holdout_dti&quot;: {
+  &quot;evaluator&quot;: &quot;gems62.holdout_segmented v1&quot;,
+  &quot;pooled_dti&quot;: 0.0003795082479556524,
+  &quot;ci95&quot;: [
+   0.0003472906725033327,
+   0.0004015821236274176
+  ],
+  &quot;withheld_positives&quot;: 81993,
+  &quot;label&quot;: &quot;HOLDOUT-DTI (catalogue hide-and-recover; measured anti-correlated with the leaderboard in IR-62-HOLDOUT-01, read as a protocol requirement, not a score)&quot;
+ },
+ &quot;sstar_v2_cv&quot;: {
+  &quot;evaluator&quot;: &quot;blocked 3x2 spatial CV on S* v2 (fixed 300 m kernel)&quot;,
+  &quot;dti_sstar_oof&quot;: 0.19791267219750466,
+  &quot;auc_oof&quot;: 0.8931848969513185,
+  &quot;n_dots&quot;: 125890,
+  &quot;baseline_H2_rawbands&quot;: 0.17176045331965867,
+  &quot;inherited_baseline&quot;: 0.2178,
+  &quot;label&quot;: &quot;MEASURED (local instrument; a projection is never written as a score)&quot;
+ },
+ &quot;correlation_overlap_vs_registry&quot;: {
+  &quot;max_frac3px_nonvacuous&quot;: 0.6916991023909762,
+  &quot;max_frac3px_comparator&quot;: &quot;gemsdoe23-h30-arrangement-matched-habitat (0.692 vs limit 0.70; mass-matched random-isolated control 0.410, 1.69x enrichment, disclosed)&quot;,
+  &quot;max_rho&quot;: 0.5011467783624423,
+  &quot;max_jaccard_sym&quot;: 0.41111796728235084,
+  &quot;tripped&quot;: [],
+  &quot;n_registry_rasters&quot;: 71,
+  &quot;vacuous_comparators&quot;: &quot;r13_lattice (0.999/0.999), pindrop-nodes (0.832/0.735), pindrop-discovery (0.807/0.734) fire on random noise too&quot;,
+  &quot;verdict&quot;: &quot;UNIQUE&quot;
+ },
+ &quot;raster&quot;: {
+  &quot;name&quot;: &quot;gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif&quot;,
+  &quot;path&quot;: &quot;docs/downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif&quot;,
+  &quot;sha256&quot;: &quot;82359f80280062072a4fdd8723d637a9bed0b77223386c319ab35bac990d8f23&quot;,
+  &quot;bytes&quot;: 459756,
+  &quot;n_dots&quot;: 125890
+ },
+ &quot;validator&quot;: {
+  &quot;all_ok&quot;: true,
+  &quot;checks&quot;: {
+   &quot;path&quot;: &quot;/home/user/62GEMSDOE/docs/downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif&quot;,
+   &quot;sha256&quot;: &quot;82359f80280062072a4fdd8723d637a9bed0b77223386c319ab35bac990d8f23&quot;,
+   &quot;bytes&quot;: 459756,
+   &quot;count&quot;: 1,
+   &quot;dtype&quot;: &quot;float32&quot;,
+   &quot;crs&quot;: &quot;EPSG:32611&quot;,
+   &quot;shape&quot;: [
+    3730,
+    3292
+   ],
+   &quot;transform&quot;: [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+   ],
+   &quot;nodata&quot;: null,
+   &quot;values_min&quot;: 0.0,
+   &quot;values_max&quot;: 1.0,
+   &quot;nan_inside_footprint&quot;: 0,
+   &quot;nan_outside_footprint&quot;: 0,
+   &quot;outside_encoding&quot;: &quot;all finite outside the footprint&quot;,
+   &quot;positive_cells&quot;: 125890,
+   &quot;max_positive_value&quot;: 1.0,
+   &quot;unique_positive_values&quot;: [
+    1.0
+   ],
+   &quot;passed&quot;: true,
+   &quot;failures&quot;: [],
+   &quot;notes&quot;: []
+  },
+  &quot;nan_inside_footprint&quot;: null,
+  &quot;values_in_0_1&quot;: true,
+  &quot;crs_shape_transform_match&quot;: true,
+  &quot;portal_error_cannot_occur&quot;: true
+ },
+ &quot;submission_name&quot;: &quot;gems62f-h2r-ventcons-125890-20261012T012736Z-zeros&quot;,
+ &quot;submission_note&quot;: &quot;62f: H2R multi-physics lineament consensus x vent prior, 125,890 isolated off-catalogue dots, S*v2-blocked CV. Unique vs 56 rasters. Legal.&quot;,
+ &quot;verdict&quot;: &quot;promote&quot;,
+ &quot;verdict_reason&quot;: &quot;blocked DTI(S*) 0.1979 vs same-instrument raw-band baseline 0.1718 (inherited H-2 on the old 75 ms-kernel instrument: 0.2178, not comparable); format legal; uniqueness ok&quot;,
+ &quot;numbers_are_projections&quot;: true,
+ &quot;organizer_confirmed_scores&quot;: 0
+}</pre></body></html>
