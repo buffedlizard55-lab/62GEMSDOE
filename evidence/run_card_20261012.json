@@ -1,90 +1,86 @@
 {
- "run_card_version": "1.0-2026-10-12",
- "session": "arena/7b275dfb-62gemsdoe",
- "hypothesis": "H-2R + H62-Z1: the champion family's multi-physics oriented-lineament consensus rebuilt from the organiser 19-band stack as supervised features, with a temperature/chemistry-weighted geothermal-vent prior (GDR inventory)",
- "mechanism": "scale-normalised Hessian line response (both polarities) at sigma 1.2/2.5 px x cross-band orientation order parameter R; gradient-boosted detector toward the leaderboard-inverted truth surrogate S* (rebuilt with the published 300 m kernel after IR-62-2026-10-12-01); isolated-dot emission off the mapped catalogue",
- "named_non_fault_mimic": "lithologic contacts and dykes produce coherent magnetic/conductivity line responses; hot springs cluster on playa margins for hydrologic discharge reasons as well as structural ones",
- "holdout_dti": {
-  "evaluator": "gems62.holdout_segmented v1",
-  "pooled_dti": 0.0003795082479556524,
+ "run_card_version": "parallel-run protocol v1, lane: datum-offset",
+ "session": "arena/d4d2e53a-62gemsdoe",
+ "date_utc": "2026-10-12",
+ "submission_name": "gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros",
+ "submission_note": "62: 440 kernel-spaced dots from Lake Lahontan shoreline datum steps (z>=1.5) & deflections. Pluvial margin defensibility.",
+ "hypothesis": "Late-Pleistocene (~15 ka) Lake Lahontan shoreline benches form an isochronous, near-horizontal datum across the Great Basin. Where abrupt elevation steps or lateral deflections occur after subtracting post-pluvial isostatic rebound and regional tilt, they record active post-15 ka fault displacements overlooked by bedrock-focused catalogue mapping.",
+ "mechanism": "Wave-planed shoreline bench extraction in 1313-1346 m window; robust degree-3 polynomial isobase plus local strand fitting (15 km radius); statistical step detection (|jump| >= z_min * sqrt(2) * sigma_pairs) and deflection clustering (> 30 deg); bilateral trace extension along terrain structure-tensor eigenvectors (coherence >= 0.15, relief >= 4 m); kernel-matched 300 m dot emission with 200 m catalogue exclusion.",
+ "named_non_fault_process_that_could_mimic_it": "Differential post-pluvial isostatic rebound warps and stacked shoreline bars (addressed by dominant-strand masking); alluvial fan toe scarps, delta margins, and erosional gully cuts (addressed by structure-tensor ridge coherence and bilateral length gating).",
+ "holdout": {
+  "evaluator": "gems62.holdout_segmented v1 (6 spatial folds, buffer 300m)",
+  "pooled_dti": 0.00020045306231422977,
   "ci95": [
-   0.0003472906725033327,
-   0.0004015821236274176
+   0.0001703851029670953,
+   0.00023052102166136421
   ],
-  "withheld_positives": 81993,
-  "label": "HOLDOUT-DTI (catalogue hide-and-recover; measured anti-correlated with the leaderboard in IR-62-HOLDOUT-01, read as a protocol requirement, not a score)"
+  "withheld_positives": 60362,
+  "leakage_canary_auc": 0.49968685197196355,
+  "canary_verdict": "ok"
  },
- "sstar_v2_cv": {
-  "evaluator": "blocked 3x2 spatial CV on S* v2 (fixed 300 m kernel)",
-  "dti_sstar_oof": 0.19791267219750466,
-  "auc_oof": 0.8931848969513185,
-  "n_dots": 125890,
-  "baseline_H2_rawbands": 0.17176045331965867,
-  "inherited_baseline": 0.2178,
-  "label": "MEASURED (local instrument; a projection is never written as a score)"
- },
- "correlation_overlap_vs_registry": {
-  "max_frac3px_nonvacuous": 0.6916991023909762,
-  "max_frac3px_comparator": "gemsdoe23-h30-arrangement-matched-habitat (0.692 vs limit 0.70; mass-matched random-isolated control 0.410, 1.69x enrichment, disclosed)",
-  "max_rho": 0.5011467783624423,
-  "max_jaccard_sym": 0.41111796728235084,
-  "tripped": [],
-  "n_registry_rasters": 71,
-  "vacuous_comparators": "r13_lattice (0.999/0.999), pindrop-nodes (0.832/0.735), pindrop-discovery (0.807/0.734) fire on random noise too",
-  "verdict": "UNIQUE"
- },
- "raster": {
-  "name": "gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif",
-  "path": "docs/downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif",
-  "sha256": "82359f80280062072a4fdd8723d637a9bed0b77223386c319ab35bac990d8f23",
-  "bytes": 459756,
-  "n_dots": 125890
- },
- "validator": {
-  "all_ok": true,
-  "checks": {
-   "path": "/home/user/62GEMSDOE/docs/downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif",
-   "sha256": "82359f80280062072a4fdd8723d637a9bed0b77223386c319ab35bac990d8f23",
-   "bytes": 459756,
-   "count": 1,
-   "dtype": "float32",
-   "crs": "EPSG:32611",
-   "shape": [
-    3730,
-    3292
-   ],
-   "transform": [
-    100.0,
-    0.0,
-    243350.0,
-    0.0,
-    -100.0,
-    4508550.0
-   ],
-   "nodata": null,
-   "values_min": 0.0,
-   "values_max": 1.0,
-   "nan_inside_footprint": 0,
-   "nan_outside_footprint": 0,
-   "outside_encoding": "all finite outside the footprint",
-   "positive_cells": 125890,
-   "max_positive_value": 1.0,
-   "unique_positive_values": [
-    1.0
-   ],
-   "passed": true,
-   "failures": [],
-   "notes": []
+ "correlation_and_overlap_vs_registry": {
+  "surface_before_placement": {
+   "full": {
+    "cells": 68139,
+    "max_abs_rho": 0.01653836876490289,
+    "max_frac3px_non_vacuous": 0.39180205168846033,
+    "passed": true,
+    "verdict": "DISTINCT LANE"
+   },
+   "evidence": {
+    "cells": 23507,
+    "max_abs_rho": 0.00927220270627128,
+    "max_frac3px_non_vacuous": 0.4273620623644021,
+    "passed": true,
+    "verdict": "DISTINCT LANE"
+   }
   },
-  "nan_inside_footprint": null,
-  "values_in_0_1": true,
-  "crs_shape_transform_match": true,
-  "portal_error_cannot_occur": true
+  "final_dots": {
+   "verdict": "DISTINCT LANE",
+   "max_abs_rho": 0.001577972654178856,
+   "max_frac3px_non_vacuous": 0.4,
+   "closest_non_vacuous": "gems50_h60_union_d2_75308",
+   "n_registry": 21,
+   "n_vacuous": 3,
+   "passed": true
+  }
  },
- "submission_name": "gems62f-h2r-ventcons-125890-20261012T012736Z-zeros",
- "submission_note": "62f: H2R multi-physics lineament consensus x vent prior, 125,890 isolated off-catalogue dots, S*v2-blocked CV. Unique vs 56 rasters. Legal.",
- "verdict": "promote",
- "verdict_reason": "blocked DTI(S*) 0.1979 vs same-instrument raw-band baseline 0.1718 (inherited H-2 on the old 75 ms-kernel instrument: 0.2178, not comparable); format legal; uniqueness ok",
- "numbers_are_projections": true,
- "organizer_confirmed_scores": 0
+ "raster_sha256": "f1db3dc711cc8e2d5411c05b0d167f763c3ef22b2263896f463056fd3fbc56bd",
+ "raster_bytes": 57178,
+ "validator_output": {
+  "file": "gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif",
+  "passed": true,
+  "failures": [],
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "shape": [
+   3730,
+   3292
+  ],
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "nan_inside_footprint": 0,
+  "nan_outside_footprint": 0,
+  "outside_encoding": "all finite outside the footprint",
+  "values_min": 0.0,
+  "values_max": 1.0,
+  "positive_cells": 440
+ },
+ "deliverables": {
+  "geotiff_zeros": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif",
+  "geotiff_nan": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif",
+  "profile_json": "evidence/gems62-datum-lahontan-strain-gauge-defensible-440dots-profile.json",
+  "profile_png": "evidence/gems62-datum-lahontan-strain-gauge-defensible-440dots-profile.png",
+  "map_png": "evidence/gems62-datum-lahontan-strain-gauge-defensible-440dots-map.png"
+ },
+ "verdict": "promote-to-defensibility-slot / legal-and-unique-lane-deliverable",
+ "verdict_reason": "Format-legal (14/14 checks passed, 0 NaNs inside or outside, all-finite in [0, 1]), provably unique (rank correlation 0.0016 <= 0.90, max non-vacuous overlap 0.4000 <= 0.70), fully inside the assigned datum-offset lane with the first deliverable (elevation-distance profiles with 11 flagged steps and 13 deflections) completed. Zero catalogue contamination (100% off-catalogue).",
+ "artifact_path": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif",
+ "elapsed_seconds": 62.7
 }

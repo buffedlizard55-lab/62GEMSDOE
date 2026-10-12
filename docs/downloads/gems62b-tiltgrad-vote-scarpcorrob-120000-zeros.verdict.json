@@ -1,0 +1,26 @@
+{
+ "verdict": "ANOTHER LANE'S PROBE (session arena/d0303476) - 14/14 legal on its bytes, unique (max Jaccard 0.022, tie-aware |rho| 0.035 over 25 comparators), no organiser score; their run card calls it 'negative as a lead, legal and unique as a probe' and this gate agrees: promotion is the selector's decision, not a measurement",
+ "ok_to_submit": false,
+ "note": "Hashed, size-checked and format-gated from the bytes by scripts/audit_downloads.py exactly like this lane's files, because the site table claims all of them. The science stays theirs: a 13-layer derivative vote, scarp-corroborated, 300 m hard-core.",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+ "expected_value_label": "the other lane's own statement: 0.0621 credit/dot at 120,000 dots against the 0.0778 needed to beat 0.2778 under exact transfer - a 3.2x mass increase costing 1.9 points; not measured by this lane",
+ "artifact_of": "lane62-bench/scripts/emit_final.py (session arena/d0303476)",
+ "evidence": [
+  "evidence/final_field_gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.json",
+  "evidence/run_card_20261011b.json",
+  "evidence/e4_gates_20261011b.json",
+  "docs/executive-summary-2026-10-11b.md"
+ ],
+ "name": "gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "42bffef1b5973973cdcb52c252067b33159e03fa721d1f58bec83f18ca779a21",
+ "bytes": 481168,
+ "dots": 120000,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

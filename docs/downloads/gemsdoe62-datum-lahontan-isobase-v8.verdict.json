@@ -1,0 +1,25 @@
+{
+ "verdict": "SUPERSEDED (v8) - arithmetically dead at 1,660 dots; do not submit",
+ "ok_to_submit": false,
+ "note": "The v8 datum emission. 1,660 dots cannot reach the champion's 0.2778 even if every one were perfect (the bound needs M >= 2,823 at N = 12,000), so it is kept as the holdout and uniqueness artifact and not as a candidate.",
+ "organizer_score": null,
+ "organizer_score_note": "this lane has never scored on the leaderboard",
+ "expected_value_label": "holdout DTI 0.00286 on the visible catalogue; ~0.0006 model DTI at N=12,000",
+ "artifact_of": "scripts/run_lane.py (v8)",
+ "evidence": [
+  "evidence/holdout_v8.json",
+  "evidence/run_card_v8.json",
+  "docs/why-h33-scored.md"
+ ],
+ "name": "gemsdoe62-datum-lahontan-isobase-v8.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba",
+ "bytes": 62709,
+ "dots": 1660,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

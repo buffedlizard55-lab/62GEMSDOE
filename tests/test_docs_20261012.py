@@ -16,12 +16,12 @@ import pytest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
-CARD = json.loads((ROOT / "evidence" / "run_card_20261012.json").read_text())
+CARD = json.loads((ROOT / "evidence" / "run_card_20261012-h2r.json").read_text())
 E7 = json.loads((ROOT / "evidence" / "e7_emit_20261012.json").read_text())
 
 TIF = DOCS / "downloads" / f"{CARD['submission_name']}.tif"
 PAGES = [DOCS / "index.html", DOCS / "executive-summary-2026-10-12.html",
-         DOCS / "hypotheses-2026-10-12.html", DOCS / "run-card-2026-10-12.html"]
+         DOCS / "hypotheses-2026-10-12-h2r.html", DOCS / "run-card-2026-10-12-h2r.html"]
 
 
 def test_note_fits_the_portal_limit_and_is_on_the_hero():
@@ -49,16 +49,19 @@ def test_card_sha256_is_the_sha256_of_the_shipped_file():
 
 def test_download_button_points_at_the_current_artifact():
     text = (DOCS / "index.html").read_text()
-    m = re.search(r'class="btn" href="(downloads/[^"]+\.tif)"', text)
-    assert m, "the hero has no download button"
+    # the merged landing page hosts one card per lane; this session's is the #h2r section
+    section = text.split('id="h2r"', 1)[1]
+    m = re.search(r'class="btn" href="(downloads/[^"]+\.tif)"', section)
+    assert m, "this session's card has no download button"
     assert pathlib.Path(m.group(1)).name == f"{CARD['submission_name']}.tif"
+    assert f"downloads/{CARD['submission_name']}.tif" in text
 
 
 def test_verdict_is_labelled_and_consistent():
-    """The hero must say plainly whether it is OK to submit."""
-    hero = (DOCS / "index.html").read_text()
+    """The card must say plainly whether it is OK to submit."""
+    hero = (DOCS / "index.html").read_text().split('id="h2r"', 1)[1]
     assert "OK TO SUBMIT" in hero or "DO NOT SUBMIT" in hero
-    rc = json.loads((ROOT / "evidence" / "run_card_20261012.json").read_text())
+    rc = json.loads((ROOT / "evidence" / "run_card_20261012-h2r.json").read_text())
     if rc["verdict"] == "promote":
         assert "OK TO SUBMIT" in hero
     else:
@@ -69,7 +72,7 @@ def test_verdict_is_labelled_and_consistent():
 
 def test_numbers_are_labelled_not_projected_as_scores():
     """The run card must never contain a projection written as a score."""
-    rc = json.loads((ROOT / "evidence" / "run_card_20261012.json").read_text())
+    rc = json.loads((ROOT / "evidence" / "run_card_20261012-h2r.json").read_text())
     assert rc["numbers_are_projections"] is True
     assert "label" in rc["holdout_dti"] and "HOLDOUT" in rc["holdout_dti"]["label"].upper()
     assert "label" in rc["sstar_v2_cv"]
@@ -96,7 +99,7 @@ def test_uniqueness_numbers_match_the_evidence():
     assert f"{ev['max_frac3px_nonvacuous']:.3f}" in hero
     assert f"{ev['max_rho']:.3f}" in hero
     # the tripwire verdict in the card must agree with the evidence
-    rc = json.loads((ROOT / "evidence" / "run_card_20261012.json").read_text())
+    rc = json.loads((ROOT / "evidence" / "run_card_20261012-h2r.json").read_text())
     assert rc["correlation_overlap_vs_registry"]["tripped"] == ev["tripped"]
     if ev["tripped"]:
         assert rc["verdict"] == "negative"

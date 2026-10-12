@@ -13,13 +13,17 @@ from scipy.ndimage import binary_dilation, distance_transform_edt
 ROOT = Path(__file__).resolve().parents[2]
 G60 = Path("/tmp/g60/x/60GEMSDOE-main"); BUILD = Path("/tmp/datum62build")
 OUT = ROOT / "datum62" / "evidence"
-R = 3.0; KERN = np.maximum(1.0 - np.arange(24) / (R * 4), 0.0).astype(np.float32)
-# IR-62-25 FIX (2026-10-12).  The original constant divided by R (=3) on the
-# quarter-pixel lattice j = dm*4, so the triangle reached zero at j=3 -> 0.75 px = 75 m,
-# not the published 300 m kernel.  The divisor is now R*4 = 12, i.e. k(d) = 1 - d/3px.
-# Evidence that this is a fix and not a re-model: scripts/rebuild_sstar_20261012.py
-# re-runs this exact inversion both ways; the 300 m form raises R^2 vs the 56
-# owner-reported scores from 0.301 to 0.727 (evidence/sstar_rebuild_20261012.json).
+R = 3.0  # px; official kernel support = 300 m at 100 m pixels
+# FIX 2026-10-12 (IR-62-25) — found independently by two sessions and merged here once.
+# The table was defined in PIXEL units (zero at j >= 3) but indexed with QUARTER-pixel
+# indices (dm*4), shrinking the effective kernel to 75 m (zero beyond 0.75 px) instead of
+# the published 300 m triangular kernel.  The table is now defined on the same quarter-pixel
+# grid used for indexing (zero at j >= 12 <=> dm >= 3 px = 300 m).
+#   session arena/778884cc: scripts/reconstruct_sstar.py -> evidence/sstar_fixed/
+#   session arena/7b275dfb: scripts/rebuild_sstar_20261012.py -> evidence/sstar_rebuild_20261012.json
+#     (300 m form raises R^2 vs the 56 owner-reported scores from 0.301 to 0.727).
+# The committed evidence datum62/evidence/inverse_truth.json was produced with the buggy kernel.
+KERN = np.maximum(1.0 - np.arange(24) / (R * 4), 0.0).astype(np.float32)
 def rd(p, idx=1):
     with rasterio.open(p) as d: return d.read(idx).astype(np.float32)
 with rasterio.open(ROOT / "data/sample_submission.tif") as d: tmpl = d.read(1)

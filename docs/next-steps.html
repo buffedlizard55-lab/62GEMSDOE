@@ -27,23 +27,17 @@ hr{border:0;border-top:1px solid var(--bd);margin:2em 0}
 <blockquote>Updated 2026-10-11 by session <code>arena/2b64062a-62gemsdoe</code>. The ranking below replaces the earlier one; the earlier text is preserved in git history. Everything here is either MEASURED in this checkout or explicitly labelled as a lead.</blockquote>
 <h2>What this session finished</h2>
 <ul>
-<li><b>The shared tools are fixed, once, in the template</b> — not forked. 6 of 9 root modules did not</li>
-</ul>
-<p>  import on a clean checkout (<code>IR-62-11</code>); <code>lane62</code> errored on 14 tests for a file that was present   (<code>IR-62-12</code>). Root suite <b>18 passed</b>, <code>lane62</code> suite <b>46 passed</b>, plus <b>9 new tests</b> that   execute the shipped rasters and the leaderboard arithmetic.</p>
-<ul>
-<li><b>A score-anchored registry now exists</b> — <code>research/registry_index.json</code> (87 distinct group</li>
-</ul>
-<p>  rasters with owner-reported scores, harvested from 73 public repositories, 1,459 <code>.tif</code> blobs,   166 registry/ledger JSONs) and <code>research/registry_measurements.json</code> (18 structural properties   measured from each one's bytes). This is the dataset the group has been reasoning about anecdotally.</p>
-<ul>
-<li><b>The leaderboard is now a committed time series</b> — 37 timestamped snapshots of the official</li>
-</ul>
-<p>  public page, <code>research/leaderboard_series.json</code>.</p>
-<ul>
+<li><b>The shared tools are fixed, once, in the template</b> — not forked. 6 of 9 root modules did not import on a clean checkout (<code>IR-62-11</code>); <code>lane62</code> errored on 14 tests for a file that was present (<code>IR-62-12</code>). Root suite <b>18 passed</b>, <code>lane62</code> suite <b>46 passed</b>, plus <b>9 new tests</b> that execute the shipped rasters and the leaderboard arithmetic.</li>
+<li><b>A score-anchored registry now exists</b> — <code>research/registry_index.json</code> (87 distinct group rasters with owner-reported scores, harvested from 73 public repositories, 1,459 <code>.tif</code> blobs, 166 registry/ledger JSONs) and <code>research/registry_measurements.json</code> (18 structural properties measured from each one's bytes). This is the dataset the group has been reasoning about anecdotally.</li>
+<li><b>The leaderboard is now a committed time series</b> — 37 timestamped snapshots of the official public page, <code>research/leaderboard_series.json</code>.</li>
 <li><b>Two hypotheses screened and reported, one refuted</b> — <code>docs/hypotheses-2026-10-11.md</code>.</li>
 <li><b>A unique, legal, validated GeoTIFF is downloadable</b>, with an unambiguous negative verdict.</li>
 </ul>
 <h2>Ranked next work</h2>
-<h3>1. Submit the never-scored high-credit field — highest expected value, minutes of work</h3>
+<blockquote><b>2026-10-12 correction (session <code>arena/778884cc</code>):</b> item 1 below is <b>RETRACTED</b> — see <code>docs/irregularities.md</code> IR-62-26. The bayesopt field's 0.293 credit/dot was measured on the SGMC instrument (Spearman −0.928 vs the portal); on the kernel-fixed portal-calibrated instrument (IR-62-25) it measures 0.0408 credit/dot, projection 0.0295. The corrected rank 1 is the new item 0.</blockquote>
+<h3>0. (2026-10-12) Exploit the measured corridor headroom — the only evidence-backed path above 0.2778</h3>
+<p>gate_ortho scored 0.2376 with only 43.4 % of its dots inside the h33 3-px halo (IR-62-28): the hidden truth is spatially broader than the group's consensus, and unique fields can score in the top band. The instrument to design against is now <code>evidence/sstar_fixed/</code> (R² 0.70). Concretely: rebuild the multi-physics oriented-lineament consensus <b>from the organiser 19-band stack</b> (H-2, datum62) <i>including</i> the pixels the consensus family never sampled, and rank candidates by DTI(S*†) per dot (champion family: 0.42; this lane: 0.059; do not ship below ~0.15/dot).</p>
+<h3>1. ~~Submit the never-scored high-credit field~~ — RETRACTED (IR-62-26), kept for the record</h3>
 <p><code>GEMSDOE32 → docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif</code> (302,357 bytes, 45,000 dots) measures <b>0.29294</b> mean 300 m credit per dot on the same instrument that scores the submitted champion family at <b>0.09892</b> — 3.0×. It is absent from the 87-artifact score registry, i.e. never submitted. <b>This is a selector decision, not a lane decision</b>, and the number must be discounted hard (the closed form turns it into an implausible 0.71). Even at a 4× discount it clears the top-5 cut-off.</p>
 <h3>2. H62-K — along-strike continuation into catalogue gaps</h3>
 <p>The only hypothesis that targets the population the organizers actually describe ("newly mapped geometry of existing systems"). Nothing in this repository uses the catalogue's <i>geometry</i> as a prior; every lane uses it only as a mask. Spec and risk in <code>docs/hypotheses-2026-10-11.md</code>.</p>
@@ -55,66 +49,72 @@ hr{border:0;border-top:1px solid var(--bd);margin:2em 0}
 <p><code>lidar_scarp_features_u8.tif</code> is non-zero over <b>31.72 %</b> of the grid. That — not the geology — is what caps every LiDAR-driven field in this group, including the 0.2778 family. Either extend the composite (USGS 3DEP 1 m, public domain) or stop treating it as basin-wide.</p>
 <h2>Limitations — stated as limitations, not as future work</h2>
 <ol>
-<li><b>No local instrument can certify novelty or competitiveness.</b> This session's own screening</li>
-</ol>
-<p>   refuted a hypothesis that looked obvious (lake flats, 0.03× control) and confirmed one that is    then unusable (LiDAR scarps, 2.2× control, duplicate-drift). Both outcomes came from a proxy.</p>
-<ol>
-<li><b>The datum lane is dominated, and now for a measured reason.</b> The Lahontan datum band scores</li>
-</ol>
-<p>   <b>0.61× the isolated-random control</b> on the off-catalogue instrument. Either the band is not    fault-rich, or a 1:750 k compilation cannot see 2 m datum offsets. The two cannot be separated    without the organizer's truth.</p>
-<ol>
-<li><b>Coverage of the delivered file is one sub-region of one physical process.</b> 10,000 dots on</li>
-</ol>
-<p>   shoreline benches. The metric needs ~40,000 isolated dots to matter at all.</p>
-<ol>
-<li><b>The 25 m DEM mosaic is unusable basin-wide</b> (<code>IR-62-15</code>): 55.74 % footprint coverage and an</li>
-</ol>
-<p>   int16-decimetre ceiling at 3276.7 m that clips the eastern Sierra. The 100 m mirror was used    instead (99.97 % coverage, sha256 matches the pin).</p>
-<ol>
-<li><b>The weekly slot decision is not made here.</b> Per the brief, promotion is a separate selector</li>
-</ol>
-<p>   step within the weekly cap.</p>
-<ol>
-<li><b>Sandbox reachability is a hard constraint.</b> <code>drivendata.org</code> returns HTTP 000; the USGS hosts</li>
-</ol>
-<p>   are unreachable. <code>github.com</code>, <code>api.github.com</code> and <code>codeload.github.com</code> work, which is how the    registry and the external layers were obtained. Every competition-page citation in this    repository is therefore either an owner-supplied link or a mirror with a read date.</p>
-<ol>
+<li><b>No local instrument can certify novelty or competitiveness.</b> This session's own screening refuted a hypothesis that looked obvious (lake flats, 0.03× control) and confirmed one that is then unusable (LiDAR scarps, 2.2× control, duplicate-drift). Both outcomes came from a proxy.</li>
+<li><b>The datum lane is dominated, and now for a measured reason.</b> The Lahontan datum band scores <b>0.61× the isolated-random control</b> on the off-catalogue instrument. Either the band is not fault-rich, or a 1:750 k compilation cannot see 2 m datum offsets. The two cannot be separated without the organizer's truth.</li>
+<li><b>Coverage of the delivered file is one sub-region of one physical process.</b> 10,000 dots on shoreline benches. The metric needs ~40,000 isolated dots to matter at all.</li>
+<li><b>The 25 m DEM mosaic is unusable basin-wide</b> (<code>IR-62-15</code>): 55.74 % footprint coverage and an int16-decimetre ceiling at 3276.7 m that clips the eastern Sierra. The 100 m mirror was used instead (99.97 % coverage, sha256 matches the pin).</li>
+<li><b>The weekly slot decision is not made here.</b> Per the brief, promotion is a separate selector step within the weekly cap.</li>
+<li><b>Sandbox reachability is a hard constraint.</b> <code>drivendata.org</code> returns HTTP 000; the USGS hosts are unreachable. <code>github.com</code>, <code>api.github.com</code> and <code>codeload.github.com</code> work, which is how the registry and the external layers were obtained. Every competition-page citation in this repository is therefore either an owner-supplied link or a mirror with a read date.</li>
 <li><b>No file in this repository has ever been scored.</b> <code>organizer_score</code> is <code>null</code> everywhere.</li>
 </ol>
-
-<h2>Added 2026-10-11b — session <code>arena/d0303476-62gemsdoe</code> (ranked, with the measurement that produced the rank)</h2>
-<ol>
-<li><b>Get one ORGANIZER-CONFIRMED score into <code>evidence/</code> — the single highest-value action.</b>
-Over <b>20</b> owner-reported scores, measured on one code path: credit per dot vs SGMC-1:750k-minus-catalogue
-<b>ρ = +0.617</b> (p = 0.0038); credit per dot vs the <b>mapped</b> catalogue <b>ρ = −0.597</b> (p = 0.0054);
-and the published <b>DTI evaluated on that instrument</b> <b>ρ = −0.442</b> (p = 0.0513). A per-dot credit is
-not a score, and no projection may drive promotion. <span class="mut">Receipts: <code>evidence/e2b_reference_frame_20261011b.json</code>,
-<code>evidence/e4_gates_20261011b.json</code>.</span></li>
-<li><b>Retire both promotion gates.</b> The segmented catalogue holdout is anti-correlated with the
-leaderboard (<code>IR-62-HOLDOUT-01</code>, ρ = −0.9141), and the field shipped this session fails it at 0.00073
-<em>because</em> it obeys the leaderboard's own preference (stay off the mapped catalogue).</li>
-<li><b>Spend the next slot on a paired experiment, not a bigger field.</b> <code>DTI = c/(0.2 + 0.8K/M)</code> is
-exact; one field at 120,000 dots with the same detector as a 40,000-dot field measures <code>dc/dM</code>, which no
-local instrument can supply.</li>
-<li><b>H62-M — along-strike catalogue extension</b> (untried; specified in
-<a href="hypotheses-2026-10-11b.html">the hypothesis page</a>). The only construction that targets by design
-the population the organizers include ("newly mapped geometry of existing systems"), and its dots are
-off-catalogue by construction.</li>
-<li><b>Screen H62-Q — geothermal proximity — before the next structural bet.</b> It is the only untried
-hypothesis that speaks to the competition's stated purpose, it needs one free official dataset (DOE
-Geothermal Data Repository wells/springs, <code>https://gdr.openei.org/</code>), and it needs the GitHub-runner
-transport that already exists for the DEM. The test is fixed in advance: per-dot credit inside vs outside a
-5/10/20 km buffer, with a mass-matched random control. Below 1.0× it dies; above 1.5× it multiplies H62-L.</li>
-<li><b>Resolve <code>IR-62-21</code> / <code>docs/data.md</code> §1:</b> the official stack carries <b>19</b> bands with their own
-<code>band_name</code> tags (verified from the bytes, sha256 <code>4371c82e…</code> = the pin), not the 35 the docs claim.</li>
-</ol>
-<h3>Stated limits of the 2026-10-11b delivery</h3>
+<h2>Added 2026-10-11 by session <code>arena/dfc9787b-62gemsdoe</code> (d-lane extension)</h2>
 <ul>
-<li><b>No organizer score exists for any file here.</b> Every comparison is a proxy.</li>
-<li><code>drivendata.org</code> and the USGS hosts remain unreachable; GitHub is the transport.</li>
-<li>The 1 m LiDAR scarp composite covers 75 % of the footprint and the 3 m product 58 % — about a quarter of
-the grid is mapped only from 10 m topography, which caps every LiDAR-driven field.</li>
-<li>The protocol's "≤ 70 % of dots within 3 px" leg is unsatisfiable by any field (measured: uniform-random
-0.9987, 3 px lattice 0.9988).</li>
+<li><b>New artifact (legal, unique, disclosed probe):</b> <code>docs/downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</code> — 46,598 dots, sha256 <code>4d83efff…</code>, 14/14 checks, worst informative Jaccard 0.069 over 100 comparators, DTI(<code>S*</code>) 0.21777 → projection 0.110. 89× better than the previous v8 file on the calibrated instrument, still below the 0.24–0.28 incumbent band.</li>
+<li><b>New instrument (the real deliverable):</b> <code>datum62/scripts/invert.py</code> + <code>datum62/evidence/</code> — inverting 56 owner-reported scores recovers a truth surrogate <code>S*</code> reproducing them at Spearman <b>+0.968</b>. Any future candidate can now be ranked locally <i>without</i> spending a slot.</li>
+<li><b>Retire the old instruments.</b> SGMC off-catalogue ranks <b>−0.928</b> against the portal over the 15 artifacts with owner-reported scores; the catalogue-segment holdout is documented anti-correlated (IR-30-046). Fields promoted on them were promoted on an inverted signal.</li>
+<li><b>Blocked but highest value:</b> a field on <code>S*</code> projects 0.34–0.42 but duplicates the incumbent h33 field by the protocol's own test — documented, not emitted (<code>datum62/docs/decision-note.md</code>). This needs an owner decision on whether shared pixels of public prior submissions are permissible; the competition ruleset does not forbid it.</li>
+<li><b>H-2 next:</b> rebuild the incumbents' multi-physics oriented-lineament consensus <i>from the organiser 19-band stack</i> as <b>features</b> for the supervised detector; target blocked DTI(<code>S*</code>) ≥ 0.60 before any slot is spent.</li>
+</ul>
+<h2>Added 2026-10-11 by session <code>arena/d0303476-62gemsdoe</code> (branch <code>arena/d0303476-62gemsdoe</code>)</h2>
+<h3>Ranked, with the measurement that produced the rank</h3>
+<ol>
+<li><b>Get one ORGANIZER-CONFIRMED score into <code>evidence/</code> — now the single highest-value action.</b> This session measured what the two local instruments are worth over <b>20</b> owner-reported scores (<code>evidence/e2b_reference_frame_20261011b.json</code>, <code>evidence/e4_gates_20261011b.json</code>): <i> credit per dot against SGMC 1:750 k minus catalogue → <b>ρ = +0.617</b> (p = 0.0038) with the leaderboard; </i> credit per dot against the <b>mapped</b> catalogue → <b>ρ = −0.597</b> (p = 0.0054); * the published DTI <i>evaluated on</i> the SGMC instrument → <b>ρ = −0.442</b> (p = 0.0513). The third line is new and it invalidates promotion by proxy metric: the two highest DTI values on that instrument belong to a 0.0904-scoring lattice and to a never-submitted file.</li>
+</ol>
+<ol>
+<li><b>Retire the two promotion gates.</b> The segmented catalogue holdout is anti-correlated with the leaderboard (<code>IR-62-HOLDOUT-01</code>, ρ = −0.9141), and this session's field fails it at 0.00073 <i>for the measured reason that it obeys the leaderboard's own preference</i> (stay off the mapped catalogue). A gate that rewards the opposite of the target is worse than no gate.</li>
+</ol>
+<ol>
+<li><b>Spend the next slot on a paired experiment, not on a bigger field.</b> §2(c) of <code>docs/research/beating-02778-2026-10-11b.md</code> makes the mass term exact and cheap to reason about (<code>DTI = c/(0.2 + 0.8K/M)</code>), and the group's own history shows its credit falling faster than the mass term gains. One field at 120,000 dots with the <i>same</i> detector as a 40,000-dot field measures <code>dc/dM</code> directly — the one number nobody in this group has.</li>
+</ol>
+<ol>
+<li><b>H62-M — along-strike catalogue extension</b> (untried; specified in <code>docs/hypotheses-2026-10-11b.md</code>). It is the only construction that targets <i>by design</i> the population the organizers explicitly include ("newly mapped geometry of existing systems", thread 11536), and its dots are off-catalogue by construction.</li>
+</ol>
+<ol>
+<li><b>Screen H62-Q (geothermal proximity) before the next structural bet.</b> It is the only untried hypothesis that speaks to the competition's stated purpose, it needs one free official dataset (DOE Geothermal Data Repository wells/springs, <code>https://gdr.openei.org/</code>), and it needs the GitHub-runner transport that already exists for the DEM. The test is fixed in <code>docs/hypotheses-2026-10-11b.md</code>: per-dot credit inside vs outside a 5/10/20 km buffer, with a mass-matched random control. Below 1.0× it dies; above 1.5× it multiplies H62-L.</li>
+<li><b>Resolve <code>IR-62-21</code> / <code>docs/data.md</code> §1:</b> the official stack carries <b>19</b> bands with their own <code>band_name</code> tags in the file (verified this session by re-reading the bytes, sha256 <code>4371c82e…</code> = the pin), not the 35 claimed in <code>docs/data.md</code>. Band names are therefore no longer "second-hand"; the docs need one edit.</li>
+</ol>
+<h3>Limitations this session could not remove</h3>
+<ul>
+<li><b>Still zero organizer-confirmed scores.</b> Every number in this repository is a proxy.</li>
+<li><code>drivendata.org</code> and USGS hosts remain unreachable from the sandbox; GitHub is the transport.</li>
+<li>The official stack's coverage is complete inside the footprint (measured: 5,167,373 cells with no nodata), but the 1 m LiDAR scarp composite covers 75 % of the footprint and the 3 m scarp product 58 %, so ~25 % of the grid is mapped only from 10 m topography.</li>
+<li>The protocol's "≤ 70 % of dots within 3 px of one registry raster" leg is <b>unsatisfiable by any field</b> (measured: uniform-random 0.9987, 3 px lattice 0.9988 against the same comparator).</li>
+</ul>
+<h2>Added 2026-10-12 by session <code>arena/b7846648-62gemsdoe</code> (datum-offset lane)</h2>
+<p>The ranking above (<code>arena/d0303476</code>, 2026-10-11b, then corrected by <code>arena/778884cc</code> on 2026-10-12) stands as the group's list; this one is what the datum lane would add to or change in it, with the measurements behind every line in <code>evidence/h62j*</code> and <code>docs/run-card.html</code>. Where the two disagree the disagreement is named, not averaged.</p>
+<ol>
+<li><b>The <code>GEMSDOE32</code> rank-1 advice is retracted, and this lane agrees — drop it.</b> It was written from instrument-B credit <b>0.29294</b> (3.0× the submitted family's 0.09892, no owner-reported score anywhere) and it has now been killed twice from independent directions: session <code>d0303476</code> measured that per-dot credit on that instrument tracks the leaderboard at ρ = <b>+0.617</b> while the published DTI evaluated on it tracks it at <b>−0.442</b> (<code>IR-62-20</code>, their numbering), and session <code>778884cc</code> re-measured the same field on the kernel-<i>fixed</i> portal-calibrated instrument at <b>0.0408 credit/dot, projection 0.0295</b> — below their own lane file and ~10× below the champion family (<code>IR-62-25</code>/<code>26</code>, including the S* kernel-radius bug that inflated every earlier projection). Two proxies now point the same way; no slot. <b>What this lane adds, and what survives the retraction:</b> the band table says any detector's mass should sit <i>near</i> a mapped trace, not beyond 4 km — a placement rule, not a ranking.</li>
+<li><b>Run the collar ladder — it is now the cheapest untried experiment in the group.</b> The band table (this session, <code>evidence/h62j-bands.json</code>) measures per-dot credit 0.178 / 0.153 / 0.108 inside 500 m of a mapped trace against 0.018 beyond 4 km, with same-band controls giving ratios 1.33 / 1.21 / 1.29 versus 0.51. Every lane here emits dots <i>pushed away</i> from the catalogue by a 250–300 m collar. Emitting the same detector at collars {200, 300, 500, 1000} m and comparing model DTI costs one sweep per lane and settles whether "new geometry" should mean <i>near the trace</i> rather than <i>far from it</i>. Note the asymmetry that makes this non-trivial: dots within ~250 m of the catalogue are masked out of the organiser's truth, so the gain has to come from the flanking damage zone, which is exactly what 0.108–0.178 per dot says is there.</li>
+<li><b>H62-K, along-strike continuation of mapped systems into DEM-evident but unmapped ground.</b> Still untried, still the best physical idea in the lane, and now with a measured reason to expect it to work: continuation is by construction 0–1,500 m off a trace, the band this session found pays 2–5× the far field. Inputs already in the checkout: <code>qfault_attributes.csv</code>, <code>trace_segments_utm11.csv</code>, <code>gdr_qfaults_traces.csv</code>.</li>
+<li><b>The datum lane needs coverage, not cleverness.</b> 9.42 % of footprint cells are measurable by the doublet at all (<code>IR-62-22</code>), which caps mass at 10,870 dots and the lane's ceiling at 5 × credit = 0.203. Reaching a footprint-wide datum field means the remaining 12–16 3DEP tiles on the <code>dem-fetch.yml</code> runner (~90 min, &gt;90 MB) — a real cost, worth spending only after (2) or (3) show the <i>method</i> beats chance at full coverage.</li>
+<li><b>Geothermal: stop using thermal occurrences as structure, for this metric.</b> Measured 0.75–0.84× control for Hot/Warm cells and corridors, 0.10–0.21× for mapped vents (<code>evidence/h62j2-geothermal.json</code>, mass-matched controls). If the geothermal lane still wants thermal data, it must be as a <i>prior weighted by the band table</i>, not as a placement rule — and the burden is now on it to show that.</li>
+<li><b>The claim-vs-bytes gate exists and should run in CI.</b> <code>scripts/audit_downloads.py --write</code> now generates every download verdict from the file bytes, <code>tests/test_download_manifest.py</code> (10 tests) fails on drift, and <code>scripts/render_doc_pages.py --check</code> fails when a <code>.md</code> and its <code>.html</code> disagree. Next step: add all three to <code>.github/workflows/ci.yml</code> so a stale site claim cannot be merged.</li>
+<li><b>Still true from before:</b> holdout and SGMC instruments are diagnostic, never gating; <code>S*</code> is never a placement objective; no file here has an organiser-confirmed score.</li>
+</ol>
+<h2>Added 2026-10-12 by session <code>arena/7b275dfb-62gemsdoe</code> (branch <code>arena/7b275dfb-62gemsdoe</code>)</h2>
+<h3>Ranked, with the measurement that produced the rank</h3>
+<ol>
+<li><b>Spend one weekly slot on a receipt — still the highest-value action.</b> This session shipped the group's best primary-data detector on the fixed-kernel instrument (blocked DTI(S\* v2) 0.1979 at 125,890 dots, +15 % over raw bands) but every number is still a proxy. One ORGANIZER-CONFIRMED row in <code>evidence/</code> calibrates everything.</li>
+<li><b>Mass-credit transfer experiment (H62-N), now runnable from an own field.</b> The pre-registered condition from <code>docs/research/beating-02778-2026-10-11b.md</code>: at 120k isolated dots the hidden-set credit must exceed 0.0778 per dot to beat 0.2778. This session's field is the first own field with a measured same-instrument improvement; re-emit its OOF ranking at 40k and 200k to measure <code>dc/dM</code> directly, as the 2026-10-11b session prescribed.</li>
+<li><b>H62-M — along-strike catalogue extension</b>, still untried and still the only construction that targets "newly mapped geometry of existing systems" by design (specified in <code>docs/hypotheses-2026-10-11b.md</code>).</li>
+<li><b>Vent-node point process (H62-Z5)</b> — the surviving half of the geothermal hypothesis after the proximity refutation (e5: 0.64× control). Cross-K test of vent points against lineament nodes; if the node interaction fails too, retire the vent family with a measured negative.</li>
+<li><b>Fix <code>docs/data.md</code> §1 (IR-62-21)</b> — the stack is 19 bands, not 35. One-line edit, done in passing if a session touches that file.</li>
+</ol>
+<h3>Limitations this session could not remove</h3>
+<ul>
+<li><b>Zero ORGANIZER-CONFIRMED scores.</b> Every comparison remains a proxy argument.</li>
+<li>The h30 proximity (0.692 vs 0.70, IR-62-26) needs a human eye before the slot is spent: the letter of the protocol passes, the spirit is "disclosed enrichment".</li>
+<li>The S\* v2 instrument is still a <i>fit to 56 self-reported scores</i> — its truth is the group's behaviour, not the organizers' labels. A detector trained toward it inherits that limitation.</li>
+<li><code>drivendata.org</code> and USGS/GDR hosts remain unreachable from the sandbox; all transport is GitHub mirrors with sha256 receipts.</li>
 </ul>
 </div></body></html>

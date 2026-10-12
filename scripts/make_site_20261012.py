@@ -3,9 +3,10 @@
 
 Reads: evidence/sstar_rebuild_20261012.json, e5_screen_20261012.json,
        e6_train_20261012.json, e7_emit_20261012.json
-Writes: evidence/run_card_20261012.json
+Writes: evidence/run_card_20261012-h2r.json
         docs/executive-summary-2026-10-12.md
-        docs/index.html   (landing page: download at the very top, verdict obvious)
+        docs/executive-summary-2026-10-12.md/.html, docs/hypotheses-2026-10-12-h2r.md/.html,
+        docs/run-card-2026-10-12-h2r.md/.html  (docs/index.html is hand-maintained on main)
 """
 from __future__ import annotations
 
@@ -53,7 +54,7 @@ def main() -> int:
         mechanism=("scale-normalised Hessian line response (both polarities) at sigma 1.2/2.5 px "
                    "x cross-band orientation order parameter R; gradient-boosted detector toward "
                    "the leaderboard-inverted truth surrogate S* (rebuilt with the published 300 m "
-                   "kernel after IR-62-2026-10-12-01); isolated-dot emission off the mapped catalogue"),
+                   "kernel after IR-62-25 / IR-62-H2R-01); isolated-dot emission off the mapped catalogue"),
         named_non_fault_mimic=("lithologic contacts and dykes produce coherent magnetic/"
                                "conductivity line responses; hot springs cluster on playa margins "
                                "for hydrologic discharge reasons as well as structural ones"),
@@ -103,7 +104,7 @@ def main() -> int:
         numbers_are_projections=True,
         organizer_confirmed_scores=0,
     )
-    (EVID / "run_card_20261012.json").write_text(json.dumps(run_card, indent=1) + "\n")
+    (EVID / "run_card_20261012-h2r.json").write_text(json.dumps(run_card, indent=1) + "\n")
 
     # ---------------- executive summary (markdown) ----------------
     ok_emoji = "✅" if verdict_ok else "❌"
@@ -164,7 +165,7 @@ evidence JSONs by `scripts/make_site_20261012.py`; nothing is hand-copied.
 
 | quantity | value | class |
 |---|---|---|
-| S\\* v2 instrument (fixed 300 m kernel, IR-62-2026-10-12-01) | K = {sstar['K']:,} px, Spearman **{sstar['fit']['spearman']:.4f}**, R² = {sstar['fit']['r2']:.4f} vs 56 owner-reported scores | MEASURED (`evidence/sstar_rebuild_20261012.json`) |
+| S\\* v2 instrument (fixed 300 m kernel, IR-62-25) | K = {sstar['K']:,} px, Spearman **{sstar['fit']['spearman']:.4f}**, R² = {sstar['fit']['r2']:.4f} vs 56 owner-reported scores | MEASURED (`evidence/sstar_rebuild_20261012.json`) |
 | leakage canary (best single feature) | AUC **{max(v['auc_mean'] for v in screen['single_feature_auc'].values()):.4f}** < 0.90 | MEASURED (`evidence/e5_screen_20261012.json`) |
 | H62-Z1 vent-proximity placement | **{(z1['vent_top_5km']['credit_in']) / max((z1['random_control_5km']['n_in'] * z1['random_control_5km']['credit_in'] + z1['random_control_5km']['n_out'] * z1['random_control_5km']['credit_out']) / max(z1['random_control_5km']['n_in'] + z1['random_control_5km']['n_out'], 1), 1e-9):.2f}×** isolated-random control — proximity-as-placement **refuted** | MEASURED |
 | model C (H-2R + vent) vs A (raw bands) on S\\* v2 | {train['models']['C']['best']['dti_sstar']:.4f} vs {train['models']['A']['best']['dti_sstar']:.4f} | MEASURED (blocked CV) |
@@ -241,13 +242,14 @@ evidence JSONs by `scripts/make_site_20261012.py`; nothing is hand-copied.
    <li><a href="executive-summary-2026-10-12.html">Executive summary — how to submit</a></li>
    <li><a href="hypotheses-2026-10-12.html">Five ranked hypotheses (pre-implementation)</a></li>
    <li><a href="research/beating-02778-2026-10-11b.html">Why h33-2-b2 scores 0.2778 and what beats it</a></li>
-   <li><a href="irregularities.html">Irregularities log</a> · <a href="run-card-2026-10-12.html">run card (2026-10-12)</a> · <a href="results.html">results</a></li>
+   <li><a href="irregularities.html">Irregularities log</a> · <a href="run-card-2026-10-12-h2r.html">run card (2026-10-12)</a> · <a href="results.html">results</a></li>
    <li>Geothermal-vent knowledge base: <code>research/geothermal_vent_knowledge.md</code></li>
   </ul>
  </div>
 </main></body></html>
 """
-    (DOCS / "index.html").write_text(index)
+    (ROOT / "build").mkdir(exist_ok=True)
+    (ROOT / "build" / "index-h2r-preview.html").write_text(index)  # preview only
 
     # executive summary html (simple conversion of the md structure)
     md_html = "<pre style='white-space:pre-wrap;font-family:system-ui,sans-serif;max-width:980px;margin:0 auto;padding:20px'>" \
@@ -258,15 +260,18 @@ evidence JSONs by `scripts/make_site_20261012.py`; nothing is hand-copied.
 
     # hypotheses html + run card html (same pattern; links on index.html must resolve)
     for src_name, out_name, title in (
-            ("hypotheses-2026-10-12.md", "hypotheses-2026-10-12.html", "Five ranked hypotheses 2026-10-12"),
+            ("hypotheses-2026-10-12-h2r.md", "hypotheses-2026-10-12-h2r.html", "Five ranked hypotheses 2026-10-12"),
     ):
         body = (DOCS / src_name).read_text()
         (DOCS / out_name).write_text(
             "<!DOCTYPE html><html><head><meta charset='utf-8'><title>" + title + "</title></head><body>"
             + "<pre style='white-space:pre-wrap;font-family:system-ui,sans-serif;max-width:980px;margin:0 auto;padding:20px'>"
             + html.escape(body) + "</pre></body></html>")
-    (DOCS / "run-card-2026-10-12.html").write_text(
-        "<!DOCTYPE html><html><head><meta charset='utf-8'><title>Run card 2026-10-12</title></head><body>"
+    rc_md = "# Run card — 2026-10-12-h2r (session arena/7b275dfb-62gemsdoe)\n\n```json\n" \
+            + json.dumps(run_card, indent=1) + "\n```\n"
+    (DOCS / "run-card-2026-10-12-h2r.md").write_text(rc_md)
+    (DOCS / "run-card-2026-10-12-h2r.html").write_text(
+        "<!DOCTYPE html><html><head><meta charset='utf-8'><title>Run card 2026-10-12-h2r</title></head><body>"
         + "<pre style='white-space:pre-wrap;font-family:system-ui,sans-serif;max-width:980px;margin:0 auto;padding:20px'>"
         + html.escape(json.dumps(run_card, indent=1)) + "</pre></body></html>")
     print("run card + executive summary + index.html written")

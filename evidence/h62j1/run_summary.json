@@ -1,0 +1,134 @@
+{
+ "dem": {
+  "crs": "EPSG:32611",
+  "transform": [
+   25.0,
+   0.0,
+   240000.0,
+   0.0,
+   -25.0,
+   4480000.0
+  ],
+  "shape": [
+   9200,
+   7600
+  ],
+  "res": 25.0,
+  "nodata": -32768.0,
+  "bytes": 139840000
+ },
+ "iso": {
+  "res": 25.0,
+  "tile_m": 4000.0,
+  "t": 160,
+  "tr": 58,
+  "tc": 48,
+  "tiles": 2784,
+  "tiles_ok": 1093,
+  "bench_px": 2127960,
+  "valid_px": 56550061,
+  "z_lo": 1150.0,
+  "z_hi": 1460.0,
+  "fine": 0.1,
+  "band": [
+   1157.0,
+   1455.0
+  ],
+  "seconds": 7.6,
+  "surf_min": 1159.050048828125,
+  "surf_max": 1453.25
+ },
+ "args": {
+  "dem": "evidence/dem/lahontan_dem_utm11.tif",
+  "catalogue": "data/labels.tif",
+  "sample": "data/sample_submission.tif",
+  "ext": "data/external",
+  "out": "/tmp/gems/h62j1.tif",
+  "evdir": "evidence/h62j1",
+  "band_lo": 1157.0,
+  "band_hi": 1455.0,
+  "block_rows": 700,
+  "flank_tol_m": 6.0,
+  "min_step_m": 2.0,
+  "min_corr": 0.35,
+  "min_cross_deg": 30.0,
+  "max_shore_m": 1500.0,
+  "min_evid": 0.1,
+  "seed_evid": 0.35,
+  "min_trace_cells": 4,
+  "sep_m": 300.0,
+  "cat_collar_m": 250.0,
+  "masses": "2000,5000,10000,15000,20000,30000,40000,50000",
+  "n_truth": 12000.0,
+  "target_dti": 0.2778
+ },
+ "stats": {
+  "n_dots": 8571,
+  "n_candidates": 90304,
+  "n_isolated_available": 8571,
+  "mass": 8571,
+  "credit_B": 0.044652,
+  "control_B": 0.025707,
+  "ratio_vs_control": 1.737,
+  "model_dti": 0.033826,
+  "ceiling": 0.757544,
+  "mean_self_kernel": 0.0,
+  "min_neighbour_distance_m": 316.2,
+  "min_dist_to_catalogue_m": 223.6,
+  "frac_within_400m_of_catalogue": 0.053436,
+  "frac_on_catalogue": 0.0,
+  "block_spread": [
+   8436,
+   135,
+   0,
+   0,
+   0,
+   0
+  ],
+  "n_components": 8571,
+  "gate_ladder": {
+   "footprint_cells": 5167373,
+   "dem_valid": 486753,
+   "bench_cells": 70292,
+   "evid_ge_min": 133908,
+   "score_positive": 294537,
+   "score_and_shore": 204281,
+   "score_and_shore_offcat": 196756
+  },
+  "iso_meta": {
+   "res": 25.0,
+   "tile_m": 4000.0,
+   "t": 160,
+   "tr": 58,
+   "tc": 48,
+   "tiles": 2784,
+   "tiles_ok": 1093,
+   "bench_px": 2127960,
+   "valid_px": 56550061,
+   "z_lo": 1150.0,
+   "z_hi": 1460.0,
+   "fine": 0.1,
+   "band": [
+    1157.0,
+    1455.0
+   ],
+   "seconds": 7.6,
+   "surf_min": 1159.050048828125,
+   "surf_max": 1453.25
+  }
+ },
+ "receipt": {
+  "file": "h62j1.tif",
+  "bytes": 86109,
+  "sha256": "cd531b48b4cfc152ec119a303c8ccaacba3c66f1e166efc60385658bed97d0e8",
+  "n_positive": 8571,
+  "min": 0.0,
+  "max": 1.0,
+  "nodata": null,
+  "legal": true,
+  "all_finite": true,
+  "n_outside_0_1": 0,
+  "transform_match": true,
+  "crs_match": true
+ }
+}

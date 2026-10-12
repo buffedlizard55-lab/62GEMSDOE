@@ -1,0 +1,29 @@
+{
+ "verdict": "SESSION arena/7b275dfb (H-2R x vent-prior detector) - format-legal 14/14 on the bytes; unique vs 71 registry rasters (max tie-aware |rho| 0.501 < 0.90, max non-vacuous 3 px overlap 0.692 vs gemsdoe23-h30 < 0.70, mass-matched random control 0.410 so a disclosed 1.69x shared structure, not a copy; IR-62-H2R-02). Blocked OOF DTI(S* v2 fixed kernel) 0.1979 vs the same-instrument raw-band baseline 0.1718 (+15%), AUC 0.893 under the 0.90 leakage canary. The run card says promote-as-probe: legal and unique, merit unproven - no organiser receipt exists for any file here",
+ "ok_to_submit": false,
+ "note": "125,890 isolated off-catalogue dots from the champion mechanism (Hessian line response x orientation order parameter) rebuilt as supervised features plus a temperature/chemistry-weighted GDR vent prior; validated on the fixed-kernel S* instrument. Probe, not a proven gain.",
+ "submission_name": "gems62f-h2r-ventcons-125890-20261012T012736Z-zeros",
+ "submission_note": "62f: H2R multi-physics lineament consensus x vent prior, 125,890 isolated off-catalogue dots, S*v2-blocked CV. Unique vs 56 rasters. Legal.",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+ "expected_value_label": "MEASURED (local instrument, never a score): blocked DTI(S* v2) 0.1979 at 125,890 dots; MODEL condition to beat 0.2778 at this mass: hidden-set credit > 0.0778 per dot",
+ "artifact_of": "scripts/exp7_emit_20261012.py (session arena/7b275dfb-62gemsdoe)",
+ "evidence": [
+  "evidence/run_card_20261012-h2r.json",
+  "evidence/e7_emit_20261012.json",
+  "evidence/e7_uniqueness_control_20261012.json",
+  "evidence/sstar_rebuild_20261012.json",
+  "docs/executive-summary-2026-10-12.md"
+ ],
+ "name": "gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "82359f80280062072a4fdd8723d637a9bed0b77223386c319ab35bac990d8f23",
+ "bytes": 459756,
+ "dots": 125890,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}
