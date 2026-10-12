@@ -1,0 +1,176 @@
+{
+ "emission": "gems62-11c-lahontan-multidatum-step-682dots-zeros.tif",
+ "emission_sha256": "b9cd6972d0231cab87c547e428d0bf087d9ce738717b6c470d27f7583b0dae18",
+ "protocol": {
+  "folds": 6,
+  "buffer_px": 3,
+  "truth": "visible catalogue",
+  "masking": "visible catalogue pixel-exact",
+  "alpha": 0.2,
+  "beta": 0.8,
+  "kernel_radius_px": 3.0
+ },
+ "pooled": {
+  "tp": 3.842207284264669,
+  "fp": 677.6597765869075,
+  "fn": 60358.157792715734,
+  "dti": 7.934198957136184e-05,
+  "n_truth": 60362,
+  "n_pred": 680
+ },
+ "folds": [
+  {
+   "fold": [
+    0,
+    0
+   ],
+   "rows": [
+    0,
+    1243
+   ],
+   "cols": [
+    0,
+    1645
+   ],
+   "n_truth": 18548,
+   "n_pred": 576,
+   "tp": 3.727825367428796,
+   "fp": 573.7169675453254,
+   "fn": 18544.27217463257,
+   "dti": 0.00024928801984244167,
+   "recall": 0.00020098260553314622
+  },
+  {
+   "fold": [
+    0,
+    1
+   ],
+   "rows": [
+    0,
+    1243
+   ],
+   "cols": [
+    1645,
+    3291
+   ],
+   "n_truth": 11590,
+   "n_pred": 23,
+   "tp": 0.11438191683587307,
+   "fp": 22.942809041582063,
+   "fn": 11589.885618083164,
+   "dti": 1.2330139900542156e-05,
+   "recall": 9.86901784606325e-06
+  },
+  {
+   "fold": [
+    1,
+    0
+   ],
+   "rows": [
+    1243,
+    2486
+   ],
+   "cols": [
+    0,
+    1645
+   ],
+   "n_truth": 15343,
+   "n_pred": 81,
+   "tp": 0.0,
+   "fp": 81.0,
+   "fn": 15343.0,
+   "dti": 0.0,
+   "recall": 0.0
+  },
+  {
+   "fold": [
+    1,
+    1
+   ],
+   "rows": [
+    1243,
+    2486
+   ],
+   "cols": [
+    1645,
+    3291
+   ],
+   "n_truth": 3297,
+   "n_pred": 0,
+   "tp": 0.0,
+   "fp": 0.0,
+   "fn": 3297.0,
+   "dti": 0.0,
+   "recall": 0.0
+  },
+  {
+   "fold": [
+    2,
+    0
+   ],
+   "rows": [
+    2486,
+    3730
+   ],
+   "cols": [
+    0,
+    1645
+   ],
+   "n_truth": 4505,
+   "n_pred": 0,
+   "tp": 0.0,
+   "fp": 0.0,
+   "fn": 4505.0,
+   "dti": 0.0,
+   "recall": 0.0
+  },
+  {
+   "fold": [
+    2,
+    1
+   ],
+   "rows": [
+    2486,
+    3730
+   ],
+   "cols": [
+    1645,
+    3291
+   ],
+   "n_truth": 7079,
+   "n_pred": 0,
+   "tp": 0.0,
+   "fp": 0.0,
+   "fn": 7079.0,
+   "dti": 0.0,
+   "recall": 0.0
+  }
+ ],
+ "canary": {
+  "lane_kernel_proximity": {
+   "auc_per_fold": [
+    0.49756889490526746,
+    0.4999304465455377,
+    0.4993292075000115,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "auc_mean": 0.4994714248251361,
+   "verdict": "ok"
+  },
+  "lane_binary_mask": {
+   "auc_per_fold": [
+    0.49981163794930233,
+    0.4999906978474819,
+    0.49996783871575395,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "auc_mean": 0.49996169575208976,
+   "verdict": "ok"
+  }
+ },
+ "note": "proxy instrument: truth is the visible catalogue, so a genuinely new fault cannot be rewarded here; a positive result licenses packaging, never a score claim"
+}

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>62GEMSDOE — the datum lane, measured</title>
+<style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;--warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+ font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.9em;margin:.2em 0 .1em}h2{font-size:1.35em;margin:1.6em 0 .5em;border-bottom:1px solid var(--bd);padding-bottom:.3em}
+h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.9em}
+pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.85em}
+table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}
+.mut{color:var(--mut)}.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:18px;margin:14px 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
+.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
+.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
+.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
+.hero{border:2px solid var(--no);border-radius:10px;padding:22px;margin:18px 0;background:rgba(248,81,73,.06)}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;border-radius:8px;margin:8px 8px 8px 0}
+.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+.kv{font-size:.88em}.kv td:first-child{width:38%;color:var(--mut)}
+.big{font-size:1.5em;font-weight:700}
+</style></head><body><div class="wrap">
+<nav><a href="../index.html">← Submission &amp; verdict</a>
+<a href="instrument-audit-2026-10-12.html">Instrument audit</a>
+<a href="hypotheses-2026-10-12.html">Hypotheses</a>
+<a href="datum-lane-2026-10-12.html">Datum lane</a></nav>
+<h1>The datum lane, measured to the end — 2026-10-12</h1>
+<p>*Session <code>arena/61e7859a-62gemsdoe</code>. Lane assignment: Lahontan shorelines as a strain gauge — build</p>
+<p>shoreline elevation-vs-distance profiles, fit a smooth isobase that permits post-pluvial isostatic</p>
+<p>rebound, flag steps and lateral deflections, seed traces there, extend while DEM-ridge evidence</p>
+<p>supports, emit dotted lines. First deliverable: the profiles with flagged steps. This page is that</p>
+<p>deliverable, and its verdict is negative.*</p>
+<h2>1. Why the first attempt was wrong (kept as the record)</h2>
+<p><code>scripts/datum_profiles.py</code> scored each sub-basin radially: every cell got a distance from the</p>
+<p>basin floor and an elevation, and the "bench" in each 0.5 km annulus was the mode of the elevation</p>
+<p>histogram. That is not a shoreline detector. A shoreline is a <strong>level set</strong>, not a radial feature, so</p>
+<p>the annulus mode simply returns whatever flat surface dominates at that distance; over a 45 km reach</p>
+<p>the "profile" climbed more than 200 m and its residual spanned −107 to +155 m. Those numbers are</p>
+<p>physically impossible as rebound deformation (the published Lahontan deformation is tens of metres</p>
+<p>in total across the whole basin) and the "steps" it flagged were noise. <code>evidence/lane_datum_profiles.json</code></p>
+<p>and <code>gems62-datum-profiles.svg</code> are retained only so the failure is on the record.</p>
+<h2>2. The corrected measurement</h2>
+<p><code>scripts/datum_stages.py</code>. Sub-basin floors come from the DEM itself (cells below 1220 m,</p>
+<p>connected components ≥ 12.5 km²): <strong>7 basins</strong>, floors 1028–1209 m, the largest 3,850 km². Within</p>
+<p>each basin's 45 km reach the <strong>flatness excess</strong> of a 4 m elevation band is</p>
+<p>```</p>
+<p>excess(S) = frac{ slope &lt; p10(slope of the reach) | z in [S, S+4) }</p>
+<ul>
+<li>frac{ slope &lt; p10(slope of the reach) | z in [S+40, S+44) }</li>
+</ul>
+<p>```</p>
+<p>The 40 m offset band is the correct baseline: at every *low* elevation the ground is flat for reasons</p>
+<p>that have nothing to do with a lake, so a stage that left a bench or a barrier has to beat the ground</p>
+<p>just above it, not the basin average. (The naive estimator — excess over the reach median slope —</p>
+<p>saturates at the floors and is kept in the JSON as <code>flat_frac_vs_median</code> for comparison; it is the</p>
+<p>reason the first version of this statistic reported +0.5 everywhere.)</p>
+<p>!<a href="gems62-datum-stages.svg">stages</a></p>
+<h2>3. What came out, and why it is a negative</h2>
+<table><thead><tr><th>basin</th><th>floor (m)</th><th>strongest stage excesses</th><th>stages with a bench profile</th></tr></thead><tbody>
+<tr><td>1</td><td>1147.8</td><td>1216 m (+0.417), 1188 m (+0.387), 1264 m (+0.292)</td><td>5</td></tr>
+<tr><td>2</td><td>1185.7</td><td>1180 m (+0.535), 1188 m (+0.423)</td><td>3</td></tr>
+<tr><td>6</td><td>1209.2</td><td>none above threshold</td><td>0</td></tr>
+<tr><td>9</td><td>1172.8</td><td>1180 m (+0.596), 1192 m (+0.356)</td><td>6</td></tr>
+<tr><td>38</td><td>1028.3</td><td>1180 m (+0.522), 1228 m (+0.262)</td><td>3</td></tr>
+<tr><td>74</td><td>1181.8</td><td>1192 m (+0.517), 1180 m (+0.514), 1204 m (+0.396)</td><td>6</td></tr>
+<tr><td>75</td><td>1206.9</td><td>1204 m (+0.675), 1252 m (+0.558), <strong>1320 m (+0.490)</strong></td><td>5</td></tr>
+</tbody></table>
+<p>Two things are measurable and neither supports the lane.</p>
+<ol>
+<li><strong>Every basin's largest excess sits at its own floor.</strong> Basins 2, 9, 38 and 74 put their maximum</li>
+</ol>
+<p>   at 1180–1192 m, which is the floor confound, not a shoreline. The one high stand that clears the</p>
+<p>   confound is basin 75 at <strong>1320 m (+0.490)</strong> with a secondary at 1252 m — consistent with the</p>
+<p>   published Lahontan highstand neighbourhood, and with the 1310–1312 m hypsometric spike seen</p>
+<p>   independently in the 25 m mosaic — but it appears in <strong>one basin out of seven</strong>.</p>
+<ol>
+<li><strong>The bench elevation is not resolved.</strong> Across the 28 stage profiles the median interquartile</li>
+</ol>
+<p>   range of (bench elevation − stage elevation) is <strong>6.59 m</strong>, against a bench search window of</p>
+<p>   ±12 m and a within-basin residual span of at most 24 m. A datum that can carry a step signal has</p>
+<p>   to be good to one or two metres; this one is good to about seven. **The 25 m DEM (block-averaged</p>
+<p>   here to 50 m) does not preserve a Lahontan shoreline datum at the precision the lane needs.**</p>
+<p>That is the honest end of the lane's first deliverable, and it is consistent with the only emission</p>
+<p>the lane has ever produced: lane 11 c's 682 dots earned 0.415 × a uniform draw from the same datum</p>
+<p>band (<code>evidence/lane11c_run.json</code>, <code>lane11c_holdout.json</code>) — anti-selected, exactly what emitting</p>
+<p>from an unresolved datum should produce.</p>
+<h2>4. What this does and does not close</h2>
+<ul>
+<li><strong>Closed:</strong> "the DEM contains a Lahontan isobase accurate enough to flag steps and seed traces".</li>
+</ul>
+<p>  Measured false at 25 m with two calibrated estimators.</p>
+<ul>
+<li><strong>Not closed by this measurement:</strong> the physical premise. Shoreline deformation *is* a strain</li>
+</ul>
+<p>  gauge; the published work that established it traced beach ridges, tufa and barriers **in the</p>
+<p>  field<strong> and in high-resolution lidar, not from a 25 m regional DEM. Hypothesis </strong>H64** in</p>
+<p>  <code>hypotheses-2026-10-12.md</code> therefore keeps its place, but it must be re-scoped: the input has to be</p>
+<p>  the 1 m lidar DEM over the Lahontan basin floor (USGS 3DEP, already reachable only through a</p>
+<p>  runner — see <code>docs/data.md</code>), and the datum has to be *picked per site* from a bench that is</p>
+<p>  visible in that lidar, not fitted from a regional mosaic.</p>
+<ul>
+<li><strong>Unchanged:</strong> the submission verdict on <code>docs/index.html</code>. The lane's failure is one more reason</li>
+</ul>
+<p>  the shipped artifact is the receipt-shaped field and not a datum field, and one more entry in the</p>
+<p>  list of instruments that do not survive contact with the 42 organiser scores.</p>
+</div></body></html>

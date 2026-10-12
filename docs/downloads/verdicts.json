@@ -86,6 +86,57 @@
   "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
   "verdict": "ANOTHER LANE'S NEGATIVE (session arena/778884cc, experiment h62n) - format-legal 14/14, unique, OK to download; their own verdict is NEGATIVE as an improvement (projection 0.0210 on the kernel-fixed instrument) and this gate has nothing to add to that"
  },
+ "gems62-h62r-multilevel-datum-repeat-offset-zeros.tif": {
+  "artifact_of": "scripts/run_lane_h62r.py (lane H62-R, session arena/7eee17f9-62gemsdoe, 2026-10-12)",
+  "evidence": [
+   "evidence/h62r/e1_surfaces.json",
+   "evidence/h62r/e3_repeat_offsets.json",
+   "evidence/h62r/e4_profiles.json",
+   "evidence/h62r/e5_emission.json",
+   "evidence/h62r/e6_validation.json",
+   "evidence/h62r/e7_uniqueness.json",
+   "evidence/h62r/e9_holdout.json",
+   "evidence/h62r/e10_field_stats.json",
+   "docs/irregularities.md (IR-62-H62R-01, IR-62-H62R-02, IR-62-H62R-03, IR-62-H62R-04)"
+  ],
+  "expected_value_label": "no score claimed - no local instrument in this repository can rank this field. The catalogue-based holdout is structurally vacuous for it (IR-62-H62R-02): the exclusion radius and the metric kernel radius are both 300 m, so a dot that obeys the exclusion has kernel weight exactly 0 against every mapped fault, and the field scores 0.000000 where its equal-budget random-dot control scores 0.0287",
+  "note": "14,765 unit dots, 300 m minimum separation by greedy thinning, so every dot's kernel k(d)=max(1-d/300m,0) is exactly 0 against every other dot: max kernel mass received from other dots is 0.000000 and the minimum nearest-neighbour distance is 300.000000 m (measured two independent ways - k-d tree and convolution). Off-catalogue: 0.0% of dots within 300 m of a mapped fault, median 2,062 m. Unique against 475 harvested registry comparators: max |tie-aware Spearman| 0.0128, worst symmetric 3-px-dilated Jaccard 0.0918 (GEMSDOE42__docs_downloads_gems42-xscale-worm-persistence-20261006T000541Z-nan.tif), 0 comparators over the 0.70 overlap limit among the non-vacuous; 14 comparators are flagged vacuous because their own 3-px dilation covers >=70% of the footprint (IR-62-22). Method: four Lahontan levels detected from the DEM (1455/1389/1325/1278 m), a robust tile-mode isobase per level, steps flagged in the physical 15-140 m throw window, and a Hough vote requiring the flagged pixels of >=2 distinct levels on one common line. The lateral-deflection leg of the lane is a measured NULL at a 1.2 km lever arm (IR-62-DEFL-01).",
+  "ok_to_submit": false,
+  "organizer_score": null,
+  "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+  "submission_name": "gems62-h62r-multilevel-datum-repeat-offset-zeros",
+  "submission_note": "H62-R: 4 measured Lahontan datum levels, collinear steps on >=2 levels, 14,765 isolated off-catalogue dots. Legal; probe.",
+  "verdict": "OK TO SUBMIT AS A MEASURED PROBE - format-legal on the bytes re-read from disk (single band float32 EPSG:32611 3730x3292, sample geotransform, 0 NaN, 0 outside [0,1], nodata null), provably isolated (0 of 14,765 dots receives any kernel mass from another dot), 0.0% on the mapped catalogue, and unique against 475 harvested comparators (max |rho| 0.0128, worst 3-px-dilated Jaccard 0.0918). It is a probe and not a validated gain: no local instrument can rank it, because the catalogue-based holdout is structurally zero for any field that obeys the exclusion the calibration demands (IR-62-H62R-02).",
+  "ok_to_submit_note": "false on purpose -- this repository's rule is that a claim of legality is not a claim of merit, and no file here has an organiser-confirmed score. The lane's recommendation is in 'verdict', and the falsifiable prediction that settles it is that the field beats 0.2778 iff its true per-dot credit exceeds 0.0778."
+ },
+ "gems62-h63-diffuse-isolated-offcat-40k-nan.tif": {
+  "artifact_of": "scripts/build_h63_diffuse_isolated.py (session arena/61e7859a, 2026-10-12)",
+  "evidence": [
+   "evidence/h63_diffuse_isolated_runcard.json"
+  ],
+  "expected_value_label": "same field as the -zeros twin; no separate score is expected",
+  "note": "identical predictions to the -zeros file; this file is the probe that shows what the NaN encoding looks like to the validator, and it is labelled illegal rather than OK to submit",
+  "ok_to_submit": false,
+  "organizer_score": null,
+  "organizer_score_note": "never submitted",
+  "verdict": "FORMAT PROBE TWIN, NOT THE SUBMISSION - the same dot set as the -zeros file encoded with NaN outside the footprint and a NaN nodata tag, so it fails this repository's stricter convention (no_nodata_tag, no_nan_anywhere) and is kept only to keep the two encodings of one field comparable. The published contract permits null/nan outside the footprint, but a float32 nodata sentinel is one of the two mechanisms behind the portal error 'Predicted values must be in range [0, 1]', so the -zeros twin is the one offered for submission"
+ },
+ "gems62-h63-diffuse-isolated-offcat-40k-zeros.tif": {
+  "artifact_of": "scripts/build_h63_diffuse_isolated.py (session arena/61e7859a, 2026-10-12)",
+  "evidence": [
+   "evidence/h63_diffuse_isolated_runcard.json",
+   "evidence/h63_diffuse_uniqueness.json",
+   "evidence/metric_ceiling.json",
+   "docs/research/instrument-audit-2026-10-12.md (\u00a75\u2013\u00a78)",
+   "docs/research/hypotheses-2026-10-12.md"
+  ],
+  "expected_value_label": "expected 0.18-0.29, most likely ~0.26 - the band of the nine owner-reported receipts at this mass and spacing (0.2376, 0.2449, 0.2600, 0.2632, 0.2649, 0.2708 x2, 0.2750, 0.2778), discounted by two same-shape counterexamples at 0.0778 and 0.0041",
+  "note": "40,000 unit dots, integer hex rows 3 px apart with a 1 px stagger, so nn_min is exactly 300 m; every dot at least 300 m from a catalogue pixel; 570 ten-km blocks capped at 90 dots; ordered by this repository's nine-band evidence consensus (seed 626311). Legal on re-read: single band float32 EPSG:32611 3730x3292, sample_submission geotransform, 0 NaN, 0 outside [0,1], 0.00% on the catalogue. Maximum 3-px-dilated Jaccard against the 233-raster registry is 0.345, while the family's own top submissions score 0.893-0.948 against each other; the information-free 40k control trips the same tripwire at 0.331, so the flag is density-blind at this mass.",
+  "ok_to_submit": false,
+  "organizer_score": null,
+  "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score. Nothing in evidence/ supports a claim above 0.3195: the metric's information-free ceiling at this mass is 0.086 (evidence/metric_ceiling.json) and no in-repo truth proxy ranks fields (IR-62-11C-04, IR-62-11C-05)",
+  "verdict": "OK TO SUBMIT AS A MEASURED PROBE - format-legal 14/14 (single band float32 EPSG:32611 3730x3292, sample geotransform, 0 NaN, 0 outside [0,1], 0.00% on the masked catalogue), UNIQUE (max 3-px-dilated Jaccard 0.345 against 233 registry rasters, while the family's own top submissions score 0.893-0.948 against each other, and an information-free 40k control trips the same tripwire at 0.331), and the only shape the family's 42 owner-reported scores reward. Not marked ok_to_submit because no organiser-confirmed score exists anywhere in this repository: passing the format contract is not a claim of merit"
+ },
  "gems62-lahontan-isobase-99dots-nan.tif": {
   "artifact_of": "scripts/make_control.py",
   "evidence": [

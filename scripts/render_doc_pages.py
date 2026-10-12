@@ -32,7 +32,12 @@ DOCS = ROOT / "docs"
 # 2026-10-12 the workflow listed a page the renderer refuses (another lane's hand-styled `hypotheses-2026-10-12`)
 # while the test listed a different set, and only CI would have caught it. Register: IR-62-J-11.
 RENDERED = ["irregularities", "next-steps", "run-card", "hypotheses-2026-10-11",
-            "hypotheses-2026-10-12-j", "why-h33-scored"]
+            "hypotheses-2026-10-12-j", "why-h33-scored",
+            # lane H62-R (session arena/7eee17f9).  Added to this list rather than given its own
+            # renderer: this repository has already lost a day to two sessions rendering pages two
+            # different ways, and the merge that landed H62-R deleted that lane's private renderer
+            # (scripts/md_to_site.py) for exactly that reason.
+            "executive-summary-h62r", "hypotheses-h62r"]
 # Pages with a sibling .md and .html that are *not* generated here, and why (a hand-written pair is allowed
 # only when it is declared; see IR-62-J-07 and IR-62-J-09).
 HAND_WRITTEN = {

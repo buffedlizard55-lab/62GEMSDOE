@@ -1,0 +1,33 @@
+{
+ "verdict": "OK TO SUBMIT AS A MEASURED PROBE - format-legal on the bytes re-read from disk (single band float32 EPSG:32611 3730x3292, sample geotransform, 0 NaN, 0 outside [0,1], nodata null), provably isolated (0 of 14,765 dots receives any kernel mass from another dot), 0.0% on the mapped catalogue, and unique against 475 harvested comparators (max |rho| 0.0128, worst 3-px-dilated Jaccard 0.0918). It is a probe and not a validated gain: no local instrument can rank it, because the catalogue-based holdout is structurally zero for any field that obeys the exclusion the calibration demands (IR-62-H62R-02).",
+ "ok_to_submit": false,
+ "note": "14,765 unit dots, 300 m minimum separation by greedy thinning, so every dot's kernel k(d)=max(1-d/300m,0) is exactly 0 against every other dot: max kernel mass received from other dots is 0.000000 and the minimum nearest-neighbour distance is 300.000000 m (measured two independent ways - k-d tree and convolution). Off-catalogue: 0.0% of dots within 300 m of a mapped fault, median 2,062 m. Unique against 475 harvested registry comparators: max |tie-aware Spearman| 0.0128, worst symmetric 3-px-dilated Jaccard 0.0918 (GEMSDOE42__docs_downloads_gems42-xscale-worm-persistence-20261006T000541Z-nan.tif), 0 comparators over the 0.70 overlap limit among the non-vacuous; 14 comparators are flagged vacuous because their own 3-px dilation covers >=70% of the footprint (IR-62-22). Method: four Lahontan levels detected from the DEM (1455/1389/1325/1278 m), a robust tile-mode isobase per level, steps flagged in the physical 15-140 m throw window, and a Hough vote requiring the flagged pixels of >=2 distinct levels on one common line. The lateral-deflection leg of the lane is a measured NULL at a 1.2 km lever arm (IR-62-DEFL-01).",
+ "submission_name": "gems62-h62r-multilevel-datum-repeat-offset-zeros",
+ "submission_note": "H62-R: 4 measured Lahontan datum levels, collinear steps on >=2 levels, 14,765 isolated off-catalogue dots. Legal; probe.",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+ "expected_value_label": "no score claimed - no local instrument in this repository can rank this field. The catalogue-based holdout is structurally vacuous for it (IR-62-H62R-02): the exclusion radius and the metric kernel radius are both 300 m, so a dot that obeys the exclusion has kernel weight exactly 0 against every mapped fault, and the field scores 0.000000 where its equal-budget random-dot control scores 0.0287",
+ "artifact_of": "scripts/run_lane_h62r.py (lane H62-R, session arena/7eee17f9-62gemsdoe, 2026-10-12)",
+ "evidence": [
+  "evidence/h62r/e1_surfaces.json",
+  "evidence/h62r/e3_repeat_offsets.json",
+  "evidence/h62r/e4_profiles.json",
+  "evidence/h62r/e5_emission.json",
+  "evidence/h62r/e6_validation.json",
+  "evidence/h62r/e7_uniqueness.json",
+  "evidence/h62r/e9_holdout.json",
+  "evidence/h62r/e10_field_stats.json",
+  "docs/irregularities.md (IR-62-H62R-01, IR-62-H62R-02, IR-62-H62R-03, IR-62-H62R-04)"
+ ],
+ "name": "gems62-h62r-multilevel-datum-repeat-offset-zeros.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "d5a15369fdd8863f73691ad01d2557feafd8f901d442d593c4f4b9bd858b4731",
+ "bytes": 116946,
+ "dots": 14765,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

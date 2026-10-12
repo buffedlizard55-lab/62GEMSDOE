@@ -1,0 +1,182 @@
+{
+ "name": "gems62-11c-lahontan-multidatum-step",
+ "tif": "build/lane11c/gems62-11c-lahontan-multidatum-step-682dots-zeros.tif",
+ "dots": 682,
+ "receipt": {
+  "file": "gems62-11c-lahontan-multidatum-step-682dots-zeros.tif",
+  "bytes": 58479,
+  "sha256": "b9cd6972d0231cab87c547e428d0bf087d9ce738717b6c470d27f7583b0dae18",
+  "driver": "GTiff",
+  "count": 1,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "shape": [
+   3730,
+   3292
+  ],
+  "res": [
+   100.0,
+   100.0
+  ],
+  "nodata": null,
+  "width_height_match": true,
+  "crs_match": true,
+  "transform_match": true,
+  "all_finite": true,
+  "nan_count": 0,
+  "min": 0.0,
+  "max": 1.0,
+  "n_outside_0_1": 0,
+  "n_positive": 682,
+  "total_mass": 682.0,
+  "legal": true
+ },
+ "receipt_nan_outside": {
+  "file": "gems62-11c-lahontan-multidatum-step-682dots-nan.tif",
+  "bytes": 125933,
+  "sha256": "fa5c60f6dae16a598eec03ca6174e20dd1fa9045c0089b6c2b9b41c79d05e228",
+  "nodata": NaN,
+  "all_finite": false,
+  "nan_count": 7111787,
+  "n_outside_0_1": 0,
+  "legal": false
+ },
+ "emission_stats": {
+  "n_traces": 20,
+  "n_sampled": 1536,
+  "n_dropped_outside_footprint": 0,
+  "n_dropped_catalogue_exclusion": 59,
+  "n_dots": 682,
+  "spacing_m": 300.0,
+  "exclusion_m": 200.0,
+  "min_separation_m": 270.0
+ },
+ "lane_receipts": {
+  "datums": {
+   "sehoo_highstand": {
+    "band_cells": 183271,
+    "residual_cells": 183271,
+    "step_field_cells": 163205,
+    "z_p99": 3.3820488452911377,
+    "loci": 128
+   },
+   "younger_dryas": {
+    "band_cells": 108346,
+    "residual_cells": 108346,
+    "step_field_cells": 98579,
+    "z_p99": 3.4546334743499756,
+    "loci": 57
+   },
+   "late_holocene": {
+    "band_cells": 139721,
+    "residual_cells": 139721,
+    "step_field_cells": 132641,
+    "z_p99": 3.6762704849243164,
+    "loci": 74
+   }
+  },
+  "constants": {
+   "DATUMS": {
+    "sehoo_highstand": [
+     1313.0,
+     1348.0
+    ],
+    "younger_dryas": [
+     1222.0,
+     1242.0
+    ],
+    "late_holocene": [
+     1196.0,
+     1212.0
+    ]
+   },
+   "ISOBASE_SIGMA_PX": 90.0,
+   "STEP_ANGLES_DEG": [
+    0,
+    15,
+    30,
+    45,
+    60,
+    75,
+    90,
+    105,
+    120,
+    135,
+    150,
+    165
+   ],
+   "STEP_OFFSETS_PX": [
+    3,
+    5,
+    7
+   ],
+   "STEP_LOCAL_SIGMA_PX": 15,
+   "z_min": 3.3,
+   "amp_min_m": 1.2,
+   "CORROB_MAX_SEP_M": 12000.0,
+   "CORROB_MIN_SEP_M": 400.0,
+   "CORROB_ALONG_STRIKE_DEG": 30.0,
+   "CORROB_AMP_RATIO_MAX": 3.0,
+   "EXT_MAX_LENGTH_M": 12000.0,
+   "EXT_MAX_TURN_DEG": 12.0,
+   "EXT_COH_MIN": 0.1,
+   "EXT_RELIEF_MIN_M": 2.0,
+   "DOT_SPACING_M": 300.0,
+   "CATALOGUE_EXCLUSION_M": 200.0,
+   "STITCH_RADIUS_M": 1500.0,
+   "TARGET_DOTS": 40000
+  },
+  "loci_total": 259,
+  "loci_corroborated": 20
+ },
+ "instruments": {
+  "sgmc_cells": 83593,
+  "sgmc_off_catalogue_cells": 79615,
+  "uniform_field_mean_credit": 0.051706428146528635,
+  "footprint_frac_within_300m": 0.0981094262016696,
+  "field_mean_credit": 0.02146635639095278,
+  "field_enrichment_vs_uniform": 0.41515836928670047,
+  "field_frac_credit_gt0": 0.04398826979472141,
+  "poisson_control_mean_credit": 0.06162459586965656,
+  "poisson_control_enrichment": 1.1918169186821657,
+  "dcat_median_m": 2980.7092894960847,
+  "dcat_p10_m": 894.4271909999159,
+  "frac_on_catalogue": 0.0,
+  "n_components_is_M": true,
+  "nn_median_m": 300.0,
+  "nn_min_m": 282.842712474619,
+  "frac_nn_lt300m": 0.2932551319648094,
+  "n_components": 682
+ },
+ "model": {
+  "K=6000": {
+   "model_dti_at_measured_instrument_credit": 0.002965735162999311,
+   "credit_required_to_match_0.2778": 2.0107506158357773,
+   "credit_required_to_match_0.3195": 2.3125803519061585,
+   "credit_required_to_match_0.4275": 3.0942976539589444
+  },
+  "K=12000": {
+   "model_dti_at_measured_instrument_credit": 0.001503641495689351,
+   "credit_required_to_match_0.2778": 3.965941231671554,
+   "credit_required_to_match_0.3195": 4.561260703812317,
+   "credit_required_to_match_0.4275": 6.103095307917888
+  },
+  "K=24000": {
+   "model_dti_at_measured_instrument_credit": 0.0007571241316185948,
+   "credit_required_to_match_0.2778": 7.876322463343108,
+   "credit_required_to_match_0.3195": 9.058621407624633,
+   "credit_required_to_match_0.4275": 12.120690615835777
+  }
+ },
+ "validator": "{\n \"path\": \"build/lane11c/gems62-11c-lahontan-multidatum-step-682dots-zeros.tif\",\n \"sha256\": \"b9cd6972d0231cab87c547e428d0bf087d9ce738717b6c470d27f7583b0dae18\",\n \"bytes\": 58479,\n \"count\": 1,\n \"dtype\": \"float32\",\n \"crs\": \"EPSG:32611\",\n \"shape\": [\n  3730,\n  3292\n ],\n \"transform\": [\n  100.0,\n  0.0,\n  243350.0,\n  0.0,\n  -100.0,\n  4508550.0\n ],\n \"nodata\": null,\n \"values_min\": 0.0,\n \"values_max\": 1.0,\n \"nan_inside_footprint\": 0,\n \"nan_outside_footprint\": 0,\n \"outside_encoding\": \"all finite outside the footprint\",\n \"positive_cells\": 682,\n \"max_positive_value\": 1.0,\n \"unique_positive_values\": [\n  1.0\n ],\n \"passed\": true,\n \"failures\": [],\n \"notes\": []\n}",
+ "n_traces": 20,
+ "total_trace_km": 454.8000000000668
+}
