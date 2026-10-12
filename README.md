@@ -294,6 +294,8 @@ suite — `pytest lane62-h62a/tests -q`, 41 tests — and its `ci` workflow are 
 
 ## Addendum — session 2026-10-12 (`arena/b7846648-62gemsdoe`, datum-offset lane)
 
+**Merged.** PR #18 landed in `main` as `41641d1` on 2026-10-12, after two conflicts with two other lanes' sessions that were writing the same files the same day; both resolutions are in the register (`IR-62-J-07`, `IR-62-J-09`, `IR-62-J-11`) and the site reflects the merged state — 16 downloadable rasters verified from bytes, 6 rendered pages under CI, 93 root tests. If you are the next session: allocate defect IDs and page names from merged `main` with a lane suffix, do not hand-edit a rendered `.html`, and re-run `scripts/audit_downloads.py --write` before you claim a file's size or hash.
+
 **One sentence.** The lane's own hypothesis (H62-J, a datum-doublet displacement detector read off Lake
 Lahontan bench surfaces on the 25 m DEM) was run end to end on the full local DEM and came out
 **negative for score but positive for information** — the first datum-only field in this repository to
