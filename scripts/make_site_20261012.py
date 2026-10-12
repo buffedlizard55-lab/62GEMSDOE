@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate the 2026-10-12 GitHub Pages front page and executive-summary subpage.
 
-Every number on both pages is substituted from ``evidence/run_card_20261012.json`` and its sibling
+Every number on both pages is substituted from ``evidence/run_card_20261012_62e.json`` and its sibling
 evidence files at generation time, so the site cannot drift from the run card.  Re-run:
 
     python3 scripts/exp12_finalize.py && python3 scripts/make_site_20261012.py
@@ -14,13 +14,14 @@ import json
 import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-CARD = json.load(open(ROOT / "evidence/run_card_20261012.json"))
+CARD = json.load(open(ROOT / "evidence/run_card_20261012_62e.json"))
 E9 = json.load(open(ROOT / "evidence/exp9_profile_matched_emission.json"))
 E10 = json.load(open(ROOT / "evidence/exp10_linearity.json"))
 E11 = json.load(open(ROOT / "evidence/exp11_concentration.json"))
 E8 = json.load(open(ROOT / "evidence/exp8_reward_model.json"))
 E6 = json.load(open(ROOT / "evidence/exp6_detector_blocked.json"))
 E6_BEST = max(E6["emissions"], key=lambda r: r["dti_S_wide"])
+UNI = CARD["correlation_overlap_vs_registry"]["shared_tool_verdict"]
 RHO_VOTE = CARD["instruments"]["vote_inversion"]["cv_heldout_rho"]
 
 CSS = """
@@ -101,15 +102,16 @@ PROFILE_ROWS = [
 IDX = f"""<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>62GEMSDOE — 2026-10-12 — DO NOT SUBMIT: uniqueness gate tripped</title>
+<title>62GEMSDOE — session 2026-10-12, lane 62E — DO NOT SUBMIT: uniqueness gate tripped</title>
 <style>{CSS}</style></head><body><div class="wrap">
 
 <h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
 <p class="mut">DOE GEMS Prize · DrivenData competition #306 · datum-offset lane · session
-2026-10-12 · branch <code>arena/90112fbe-62gemsdoe</code> · previous front page preserved at
-<a href="index-2026-10-11b-superseded.html">index-2026-10-11b-superseded.html</a></p>
+2026-10-12 · branch <code>arena/90112fbe-62gemsdoe</code> · site front page <a href="index.html">index.html</a> ·
+the 2026-10-11b page is archived at <a href="index-20261011b.html">index-20261011b.html</a></p>
 
 <nav>
+<a href="index.html">Site front page</a>
 <a href="#download">⬇ File &amp; verdict</a>
 <a href="#gate">The gate that tripped</a>
 <a href="#profile">Measured profile</a>
@@ -119,7 +121,7 @@ IDX = f"""<!doctype html>
 <a href="run-card.html">Run card</a>
 <a href="irregularities.html">Irregularities</a>
 <a href="next-steps.html">Next steps</a>
-<a href="../evidence/run_card_20261012.json">run_card JSON ↗</a>
+<a href="../evidence/run_card_20261012_62e.json">run_card JSON ↗</a>
 <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
 </nav>
 
@@ -181,6 +183,36 @@ lake-flat habitat <b>0.03×</b>. The lane therefore survives as <b>three detecto
 residual, datum band, |residual|) inside the 34-feature stack above — not as an emitter. That is a
 logged deviation from the assigned lane, and it is the reason this session's artifact is a 40,000-dot
 geophysics-and-LiDAR field rather than a shoreline-bench field.</p>
+</div>
+
+<!-- ============================ SAME-DAY COLLISION ================================== -->
+<h2 id="collision">The same-day collision, and which 40k field the selector should look at</h2>
+<div class="card">
+<p>Three sessions wrote to this repository on 2026-10-12 and two of them built the same <i>class</i> of
+artifact: a 40,000-dot, hard-core-isolated, off-catalogue field. The sibling lane's is
+<a href="downloads/gems62-h63-diffuse-isolated-offcat-40k-zeros.tif"><code>gems62-h63-diffuse-isolated-offcat-40k-zeros.tif</code></a>
+(session <code>arena/61e7859a</code>, <code>scripts/build_h63_diffuse_isolated.py</code>), and its audit
+is stronger than this lane's on both axes that matter:</p>
+<ul>
+<li><b>uniqueness</b> — measured against <b>233</b> registry rasters (this lane: 67) and reported
+<i>control-normalised</i>: maximum 3-px-dilated Jaccard 0.345, while an information-free 40k control
+trips the same statistic at 0.331 and the family's own top submissions score 0.893-0.948 against each
+other. This lane independently reached the same conclusion about the raw legs
+(<code>IR-62-E-05</code>): two <i>independent</i> 40k hard-core fields read Jaccard3px 0.2042, so an
+absolute threshold condemns the geometry, not the copying.</li>
+<li><b>headroom</b> — <code>evidence/metric_ceiling.json</code> bounds an <i>information-free</i> field
+of 40,000 dots at <b>0.0869</b> even with the most favourable truth size. The 0.2376-0.2778 family
+band is therefore 2.7-3.2× above what placement-free emission can reach, and this lane's MODEL
+projection of {f4(MODEL['dti_at_K12000'])} at K = 12,000 sits above that ceiling only if the
+predicted per-dot credit (c = {f4(MODEL['model_implied_credit_from_exp8_reward_model'])}) is real. It
+is not measurable here.</li>
+</ul>
+<p><b>So: this lane's file is stopped, and it is also redundant in class.</b> If a 40k isolated
+off-catalogue probe is ever spent, the sibling lane's H63 file is the one with the wider
+control-normalised audit; this lane's contribution is the measurement that explains <i>why</i> such a
+field cannot be certified locally (arrangement, experiment 10) and the eight irregularities it
+registered. Promotion is a selector decision inside the weekly cap, and nothing here recommends
+spending a slot.</p>
 </div>
 
 <!-- ============================ THE GATE ============================================= -->
@@ -365,12 +397,13 @@ value attached to a raster this sandbox fetched and measured, or a MIRROR of the
 <li><a href="executive-summary-2026-10-12.html"><b>How to make a submission</b></a> — the exact
 click path, the filename convention, the &lt;140-character note, and the range-[0,1] guard that
 caused a previous rejection.</li>
-<li><a href="index-2026-10-11b-superseded.html">Previous front page (2026-10-11b)</a></li>
+<li><a href="index.html">Site front page (all lanes)</a> ·
+<a href="index-20261011b.html">Archived front page (2026-10-11b)</a></li>
 <li><a href="irregularities.html">Irregularities</a> · <a href="next-steps.html">Next steps</a> ·
 <a href="run-card.html">Run card</a> ·
 <a href="research/leaderboard-arithmetic.html">Leaderboard arithmetic</a> ·
 <a href="research/beating-02778-2026-10-11b.html">Beating 0.2778</a></li>
-<li><a href="../evidence/run_card_20261012.json">This session's run card (JSON)</a> ·
+<li><a href="../evidence/run_card_20261012_62e.json">This session's run card (JSON)</a> ·
 <a href="../evidence/exp6_detector_blocked.json">exp6</a> ·
 <a href="../evidence/exp8_reward_model.json">exp8</a> ·
 <a href="../evidence/exp9_profile_matched_emission.json">exp9</a> ·
@@ -382,7 +415,7 @@ caused a previous rejection.</li>
 </ul>
 
 <p class="mut">Generated by <code>scripts/make_site_20261012.py</code> from
-<code>evidence/run_card_20261012.json</code>. Re-running the generator cannot leave a stale number on
+<code>evidence/run_card_20261012_62e.json</code>. Re-running the generator cannot leave a stale number on
 this page.</p>
 </div></body></html>
 """
@@ -394,7 +427,8 @@ EXEC = f"""<!doctype html>
 <style>{CSS}</style></head><body><div class="wrap">
 <h1>How to make a competition submission</h1>
 <p class="mut">Executive summary · session 2026-10-12 · DOE GEMS Prize · DrivenData competition #306 ·
-<a href="index.html">← back to the front page</a></p>
+<a href="index.html">← site front page</a> ·
+<a href="session-2026-10-12-62e.html">this lane's report</a></p>
 
 <div class="hero">
 <h2 style="border:0;margin-top:0">Read this first: the file generated this session must NOT be uploaded</h2>
@@ -502,17 +536,104 @@ the leaderboard, that this sandbox could not confirm with the organiser.</td></t
 </table>
 
 <p class="mut">Generated by <code>scripts/make_site_20261012.py</code> from
-<code>evidence/run_card_20261012.json</code>.</p>
+<code>evidence/run_card_20261012_62e.json</code>.</p>
 </div></body></html>
 """
 
 
+SESSION_PAGE = "docs/session-2026-10-12-62e.html"
+MARK_A = "<!-- ==== session 2026-10-12 lane 62E start (generated by scripts/make_site_20261012.py) ==== -->"
+MARK_B = "<!-- ==== session 2026-10-12 lane 62E end ==== -->"
+
+
+def index_section() -> str:
+    """The block this lane owns on the shared front page. Inserted below the newest hero."""
+    return f"""{MARK_A}
+<h2 id="o62e">Session 2026-10-12 — lane 62E: a 40,000-dot field from the organiser's own stack,
+STOPPED by the uniqueness gate</h2>
+<p><span class="pill no">DO NOT SUBMIT — gems62.uniqueness returns DUPLICATE - STOP</span>
+<span class="pill ok">FORMAT LEGAL — {REC['count']} band float32, EPSG:32611, values [0, 1], no nodata tag</span>
+<span class="pill ok">ISOLATION PROVEN — minimum separation {EM['min_separation_m']:.0f} m,
+{EM['dots_with_another_dot_inside_300m']} dots inside one 300 m kernel</span></p>
+<p class="big">{NAME}</p>
+<p><a class="btn sec" href="downloads/{TIF}" download>⬇ Download the GeoTIFF ({BYTES:,} bytes)</a>
+<a class="btn sec" href="downloads/{NAN}" download>⬇ NaN-outside twin (format probe)</a>
+<a class="btn sec" href="{SESSION_PAGE.split('/')[-1]}">This lane's full report</a></p>
+<table>
+<tr><th>check</th><th>this file</th><th>limit / comparator</th><th>result</th></tr>
+<tr><td>dots within 3 px of one non-vacuous registry raster</td><td>{pct(CMP['my_frac3px'])}</td>
+<td>≤ 70 % (isolated-random control {pct(CMP['isolated_random_control_frac3px'])})</td>
+<td><span class="pill no">TRIP</span></td></tr>
+<tr><td>exact shared pixels with <code>{CMP['alias'][:44]}…</code></td>
+<td>{CMP['exact_shared_dots']:,} = {pct(CMP['exact_shared_frac'])}</td>
+<td>chance {pct(CMP['chance_expectation'],1)}</td>
+<td><span class="pill no">{f4(CMP['chance_ratio'],2)}× chance</span></td></tr>
+<tr><td>rank correlation (worst of {UNI['n_registry']})</td><td>{f4(UNI['max_abs_rho'])}</td>
+<td>≤ 0.90</td><td><span class="pill ok">PASS</span></td></tr>
+<tr><td>arrangement dens21 / coh21</td><td>{f4(PROF['dens21'],2)} / {f4(PROF['coh21'])}</td>
+<td>8.75-9.62 / 0.307-0.336 for every field scoring 0.26-0.2778</td>
+<td><span class="pill no">WORSE</span></td></tr>
+<tr><td>MODEL projection (never a score)</td>
+<td>{f4(MODEL['dti_at_K12000'])} at K = 12,000</td>
+<td>information-free ceiling at this mass: 0.0869</td>
+<td><span class="pill warn">MODEL</span></td></tr>
+</table>
+<p class="mut">sha256 <code>{SHA}</code> · {EM['n_dots']:,} unit dots · deterministic rebuild
+identical: {EM['deterministic_rebuild_identical']} · short note for the portal ({len(NOTE)}/140):
+<code>{NOTE}</code> · evidence <code>evidence/run_card_20261012_62e.json</code>. Redundant in class
+with the sibling lane's H63 file, which carries the wider control-normalised audit — see
+<a href="{SESSION_PAGE.split('/')[-1]}#collision">the collision note</a>.</p>
+{MARK_B}"""
+
+
+def allfiles_rows() -> str:
+    """Two rows for the shared 'every downloadable file' table, generated from the audit."""
+    man = json.loads((ROOT / "docs/downloads/manifest.json").read_text())
+    rows = []
+    for r in man["files"]:
+        n = pathlib.Path(r["path"]).name
+        if n not in (TIF, NAN):
+            continue
+        pill = ('<span class="pill ok">legal</span>' if not r.get("fails")
+                else '<span class="pill no">not legal: ' + ", ".join(r["fails"]) + "</span>"
+                     + f' <span class="pill warn">range risk {r.get("portal_range_risk", "?")}</span>')
+        rows.append(f'<tr><td><a href="downloads/{n}">{n}</a>{pill}</td>'
+                    f'<td>{r.get("dots", 0):,}</td><td>{r["bytes"]:,} B</td>'
+                    f'<td>{r.get("checks_passed", 0)}/{r.get("checks_total", 14)}</td>'
+                    f'<td><code>{r["sha256"][:16]}…</code></td><td>{r.get("verdict", "")}</td></tr>')
+    return "\n".join(rows)
+
+
+def update_front_page() -> None:
+    """Idempotently insert this lane's section and its two download-table rows into docs/index.html."""
+    page = ROOT / "docs/index.html"
+    text = page.read_text()
+    if MARK_A in text:
+        text = text[:text.index(MARK_A)] + text[text.index(MARK_B) + len(MARK_B):]
+    block = index_section()
+    for anchor in ('<h2 id="h62j">', '<h2 id="allfiles">'):
+        if anchor in text:
+            text = text.replace(anchor, block + "\n" + anchor, 1)
+            break
+    else:
+        raise SystemExit("no stacking anchor found in docs/index.html")
+    rows = allfiles_rows()
+    if rows and TIF not in text.split('<h2 id="allfiles">')[-1]:
+        # insert immediately before the closing tag of the allfiles table
+        i = text.index('<h2 id="allfiles">')
+        j = text.index("</table>", i)
+        text = text[:j] + rows + "\n" + text[j:]
+    page.write_text(text)
+    print(f"updated docs/index.html ({len(text):,} bytes; lane 62E section + download rows)")
+
+
 def main() -> int:
-    for name, text in (("docs/index.html", IDX),
+    for name, text in ((SESSION_PAGE, IDX),
                        ("docs/executive-summary-2026-10-12.html", EXEC)):
         assert "{{" not in text and "}}" not in text, name
         (ROOT / name).write_text(text)
         print(f"wrote {name} ({len(text):,} bytes)")
+    update_front_page()
     return 0
 
 

@@ -21,7 +21,21 @@
 
 ## Ranked next work
 
-### 1. Submit the never-scored high-credit field — highest expected value, minutes of work
+> **2026-10-12 correction (session `arena/778884cc`):** item 1 below is **RETRACTED** — see
+> `docs/irregularities.md` IR-62-26. The bayesopt field's 0.293 credit/dot was measured on the
+> SGMC instrument (Spearman −0.928 vs the portal); on the kernel-fixed portal-calibrated instrument
+> (IR-62-25) it measures 0.0408 credit/dot, projection 0.0295. The corrected rank 1 is the new
+> item 0.
+
+### 0. (2026-10-12) Exploit the measured corridor headroom — the only evidence-backed path above 0.2778
+gate_ortho scored 0.2376 with only 43.4 % of its dots inside the h33 3-px halo (IR-62-28): the
+hidden truth is spatially broader than the group's consensus, and unique fields can score in the
+top band. The instrument to design against is now `evidence/sstar_fixed/` (R² 0.70). Concretely:
+rebuild the multi-physics oriented-lineament consensus **from the organiser 19-band stack** (H-2,
+datum62) *including* the pixels the consensus family never sampled, and rank candidates by
+DTI(S*†) per dot (champion family: 0.42; this lane: 0.059; do not ship below ~0.15/dot).
+
+### 1. ~~Submit the never-scored high-credit field~~ — RETRACTED (IR-62-26), kept for the record
 `GEMSDOE32 → docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif` (302,357 bytes,
 45,000 dots) measures **0.29294** mean 300 m credit per dot on the same instrument that scores the
 submitted champion family at **0.09892** — 3.0×. It is absent from the 87-artifact score registry,
@@ -141,53 +155,102 @@ composite (USGS 3DEP 1 m, public domain) or stop treating it as basin-wide.
 * The protocol's "≤ 70 % of dots within 3 px of one registry raster" leg is **unsatisfiable by any
   field** (measured: uniform-random 0.9987, 3 px lattice 0.9988 against the same comparator).
 
-## Added 2026-10-12 by session `arena/90112fbe-62gemsdoe`
 
-**This session's outcome in one line:** a format-legal, perfectly isolated, champion-profile-matched
-40,000-dot field was built from the organiser's own 19-band stack — and it **tripped the uniqueness
-gate** (87.84 % of its dots within 3 px of one registry raster, limit 70 %; 32.45 % exact pixel
-overlap = 3.24× chance), so it is published for inspection and **must not be submitted**.
+## Added 2026-10-12 by session `arena/b7846648-62gemsdoe` (datum-offset lane)
 
-### Ranked next steps
+The ranking above (`arena/d0303476`, 2026-10-11b, then corrected by `arena/778884cc` on 2026-10-12)
+stands as the group's list; this one is what the datum lane would add to or change in it, with the measurements behind every line in `evidence/h62j*`
+and `docs/run-card.html`. Where the two disagree the disagreement is named, not averaged.
 
-1. **Emit from evidence the comparators do not share.** The duplicate trip is a consequence of shared
-   inputs, not of copying: `GEMSDOE22 h23-b` is a "DTI-optimal emission" over the same public layers.
-   The only emission geometry in the registry that is *not* derivable from the 19-band stack is a
+1. **The `GEMSDOE32` rank-1 advice is retracted, and this lane agrees — drop it.** It was written from
+   instrument-B credit **0.29294** (3.0× the submitted family's 0.09892, no owner-reported score anywhere)
+   and it has now been killed twice from independent directions: session `d0303476` measured that
+   per-dot credit on that instrument tracks the leaderboard at ρ = **+0.617** while the published DTI
+   evaluated on it tracks it at **−0.442** (`IR-62-20`, their numbering), and session `778884cc`
+   re-measured the same field on the kernel-*fixed* portal-calibrated instrument at **0.0408 credit/dot,
+   projection 0.0295** — below their own lane file and ~10× below the champion family (`IR-62-25`/`26`,
+   including the S* kernel-radius bug that inflated every earlier projection). Two proxies now point the
+   same way; no slot. **What this lane adds, and what survives the retraction:** the band table says any
+   detector's mass should sit *near* a mapped trace, not beyond 4 km — a placement rule, not a ranking.
+2. **Run the collar ladder — it is now the cheapest untried experiment in the group.** The band table
+   (this session, `evidence/h62j-bands.json`) measures per-dot credit 0.178 / 0.153 / 0.108 inside
+   500 m of a mapped trace against 0.018 beyond 4 km, with same-band controls giving ratios 1.33 / 1.21 /
+   1.29 versus 0.51. Every lane here emits dots *pushed away* from the catalogue by a 250–300 m collar.
+   Emitting the same detector at collars {200, 300, 500, 1000} m and comparing model DTI costs one sweep
+   per lane and settles whether "new geometry" should mean *near the trace* rather than *far from it*.
+   Note the asymmetry that makes this non-trivial: dots within ~250 m of the catalogue are masked out of
+   the organiser's truth, so the gain has to come from the flanking damage zone, which is exactly what
+   0.108–0.178 per dot says is there.
+3. **H62-K, along-strike continuation of mapped systems into DEM-evident but unmapped ground.** Still
+   untried, still the best physical idea in the lane, and now with a measured reason to expect it to
+   work: continuation is by construction 0–1,500 m off a trace, the band this session found pays 2–5×
+   the far field. Inputs already in the checkout: `qfault_attributes.csv`, `trace_segments_utm11.csv`,
+   `gdr_qfaults_traces.csv`.
+4. **The datum lane needs coverage, not cleverness.** 9.42 % of footprint cells are measurable by the
+   doublet at all (`IR-62-22`), which caps mass at 10,870 dots and the lane's ceiling at 5 × credit =
+   0.203. Reaching a footprint-wide datum field means the remaining 12–16 3DEP tiles on the
+   `dem-fetch.yml` runner (~90 min, >90 MB) — a real cost, worth spending only after (2) or (3) show
+   the *method* beats chance at full coverage.
+5. **Geothermal: stop using thermal occurrences as structure, for this metric.** Measured 0.75–0.84×
+   control for Hot/Warm cells and corridors, 0.10–0.21× for mapped vents (`evidence/h62j2-geothermal.json`,
+   mass-matched controls). If the geothermal lane still wants thermal data, it must be as a *prior
+   weighted by the band table*, not as a placement rule — and the burden is now on it to show that.
+6. **The claim-vs-bytes gate exists and should run in CI.** `scripts/audit_downloads.py --write` now
+   generates every download verdict from the file bytes, `tests/test_download_manifest.py` (10 tests)
+   fails on drift, and `scripts/render_doc_pages.py --check` fails when a `.md` and its `.html` disagree.
+   Next step: add all three to `.github/workflows/ci.yml` so a stale site claim cannot be merged.
+7. **Still true from before:** holdout and SGMC instruments are diagnostic, never gating; `S*` is never a
+   placement objective; no file here has an organiser-confirmed score.
+
+---
+## Added 2026-10-12 (session `arena/90112fbe-62gemsdoe`, lane 62E)
+
+**Outcome in one line:** a format-legal, perfectly isolated, champion-profile-matched 40,000-dot field
+built from the organiser's own 19-band stack — **stopped by the uniqueness gate** (87.84 % of its dots
+within 3 px of one registry raster, limit 70 %; 32.45 % exact pixel overlap = 3.24× chance), so it is
+published for inspection and must not be submitted. It is also redundant in class with the sibling
+lane's H63 file, which carries the wider control-normalised audit.
+
+1. **Emit from evidence the comparators do not share.** The trip is a consequence of shared inputs:
+   `GEMSDOE22 h23-b` is a "DTI-optimal emission" over the same public layers, and two independent
+   hard-core top-40k selections from correlated priority surfaces land on the same sharpest peaks. The
+   one emission geometry in the registry that is *not* derivable from the 19-band stack is a
    **corridor trace**: seed on a LiDAR scarp ridge, extend along structure-tensor coherence while the
-   evidence holds, dot every 300 m along the trace. That is also what the top family's arrangement
-   implies (dens21 8.75-9.62, coh21 0.307-0.336).
-2. **Add the arrangement gate to the protocol.** Experiment 10 shows that inside a mass band the
-   arrangement separates 0.2778 from 0.0778, and experiment 11 shows a smooth density multiplier
-   cannot fix it (dens21 4.56 → 4.44). Any future field should be rejected before the uniqueness check
-   unless `dens21 ∈ [7, 12]` and `coh21 ≥ 0.25`. Implement as
-   `src/gems62/arrangement.py` (one shared tool, not a fork).
-3. **Fix the uniqueness tool's density-blind legs once, in the template** (`IR-62-28`): normalise
-   Jaccard-3px by the isolated-random control for the same comparator; keep the exact-pixel leg
-   absolute (chance is computable in closed form as `positives / footprint`).
-4. **Retire the segmented holdout formally** (`IR-62-27`): its positives are mapped catalogue
-   segments, so it returns exactly 0.0 for any off-catalogue design and 0.0575 for random dots. If a
-   hide-and-recover instrument is still wanted, the withheld positives must come from an
-   *expert-mapped new-fault* set, which the organiser will not share (forum 11527) — so the honest
-   status is that no local instrument can rank a new field.
-5. **De-duplicate the registry before every fit** (`IR-62-25`): 79 rows → 47 distinct fields. Also
-   re-derive `research/registry_index.json`'s sha column (`IR-62-26`) or stop quoting it as a pin.
-6. **Re-run cost for a fresh session.** `/tmp/*` and `build/*` are outside the snapshot: re-fetch the
-   87 registry rasters and the 419 MB stack (both via `api.github.com`), then `exp6` (517 s),
-   `exp8` (39 s), `exp9` (16 s), `exp10` (85 s), `exp11` (11 s), `exp12` (139 s). Dependencies:
-   `pip install --break-system-packages numpy scipy rasterio pillow pytest scikit-learn matplotlib`.
+   evidence holds, dot every 300 m along the trace.
+2. **Add the arrangement gate to the protocol.** Inside a mass band, arrangement separates 0.2778 from
+   0.0778 (`evidence/exp10_linearity.json`): every field scoring 0.26-0.2778 at M = 37-44 k carries
+   dens21 8.75-9.62 and coh21 0.307-0.336, and this lane's field carries 4.56 and 0.1595. A smooth
+   density multiplier cannot fix it (`evidence/exp11_concentration.json`: dens21 4.56 → 4.44), so the
+   fix has to be geometric — traces, not maxima of a smooth surface. Implement as
+   `src/gems62/arrangement.py`, one shared tool.
+3. **Control-normalise the density-blind uniqueness legs** (`IR-62-E-05`, agreeing with `IR-62-22` and
+   with the sibling lane's 233-raster measurement): report each leg next to its isolated-random
+   control, keep the exact-pixel leg absolute (closed-form chance = `positives / footprint`), and fix
+   it once in `src/gems62/uniqueness.py`.
+4. **Retire the segmented holdout formally** (`IR-62-E-03`): it returns exactly 0.0 for any
+   off-catalogue design and 0.0575 for random dots. If a hide-and-recover instrument is still wanted,
+   the withheld positives must be expert-mapped **new** faults, which the organiser will not share
+   (forum 11527) — so the honest status is that **no local instrument can rank a new field**, and the
+   only defensible use of a weekly slot is a probe whose shape the owner-reported receipts reward.
+5. **De-duplicate the registry before every fit** (`IR-62-E-01`): 79 rows → 47 distinct fields; and
+   re-derive or stop quoting `research/registry_index.json`'s sha column (`IR-62-E-02`).
+6. **Namespace session artifacts** (`IR-62-E-09`): run-card filenames, hypothesis ids and slugs must
+   carry the branch slug, not just the date.
+7. **Re-run cost for a fresh session.** `/tmp/*` and `build/*` are outside the snapshot: re-fetch the
+   87 registry rasters and the 419 MB stack through `api.github.com`, then exp6 517 s, exp8 39 s,
+   exp9 16 s, exp10 85 s, exp11 11 s, exp12 130 s. Dependencies: `pip install
+   --break-system-packages numpy scipy rasterio pillow pytest scikit-learn matplotlib`.
 
-### Limitations this session could not remove
+### Limitations this lane could not remove
 
-* **Still zero organizer-confirmed scores.** Every number here is MEASURED on fetched bytes,
-  OWNER-REPORTED, MIRROR, or MODEL.
-* **No instrument available in this sandbox can certify placement quality.** `h34-scatter` matched the
-  champion's mass and SGMC credit and beat its LiDAR mean, and scored 0.0778 against 0.2778.
+* **Still zero organizer-confirmed scores**, in this lane and in the repository.
+* **No instrument available here can certify placement quality**: `h34-scatter-q50-arr-matched` matched
+  the champion's mass, beat its SGMC credit and beat its LiDAR mean, and scored 0.0778 against 0.2778.
 * `drivendata.org` and USGS hosts are unreachable; only `github.com`, `api.github.com`,
   `codeload.github.com`, `pypi.org` and `registry.npmjs.org` are. Forum threads 11516/11527/11536
-  could not be re-read this session and are carried as OWNER-REPORTED.
-* The LiDAR scarp composite covers **75.34 %** of the scoring footprint (bands 6-8: 62.07 %); the
-  25 m DEM covers **52.21 %**. The remaining area is mapped from 10 m topography and the organiser's
-  geophysics only.
-* The lane's own datum-only emission is measured below chance (0.61× isolated-random control) and the
-  pluvial lake-flat habitat 0.03×; `lane_datumband` yields **59** hard-core dots. The lane survives
-  as three detector features, not as an emitter.
+  could not be re-read and are carried as OWNER-REPORTED.
+* The LiDAR scarp composite covers **75.34 %** of the scoring footprint (bands 6-8: 62.07 %) and the
+  25 m DEM **52.21 %**; the rest is mapped from 10 m topography and the organiser's geophysics alone.
+* The lane's own datum-only emission is measured below chance (0.61× isolated-random control; 0.03× for
+  the pluvial lake-flat), and its emitter yields **59** hard-core dots. The lane survives as three
+  detector features, not as an emitter — a logged deviation from the assigned lane.

@@ -3,7 +3,7 @@
 Every assertion here greps a published page back out of the run card that generated it, so a
 regenerated page with a stale number fails.  The companion session tests
 (`test_docs_20261011b.py`, `test_shipped_artifact_20261011b.py`) follow the preserved page
-`docs/index-2026-10-11b-superseded.html`.
+`docs/index-20261011b.html`.
 """
 from __future__ import annotations
 
@@ -13,8 +13,8 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
-CARD = json.loads((ROOT / "evidence/run_card_20261012.json").read_text())
-INDEX = DOCS / "index.html"
+CARD = json.loads((ROOT / "evidence/run_card_20261012_62e.json").read_text())
+INDEX = DOCS / "session-2026-10-12-62e.html"
 EXEC = DOCS / "executive-summary-2026-10-12.html"
 TIF = DOCS / "downloads" / f"{CARD['slug']}.tif"
 

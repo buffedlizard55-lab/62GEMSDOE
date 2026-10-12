@@ -1,0 +1,26 @@
+{
+ "verdict": "ANOTHER LANE'S DELIVERABLE (sessions arena/d4d2e53a + 778884cc) - format-legal 14/14 on the bytes, unique against 21 registry comparators, and their run card recommends 'promote-to-defensibility-slot'. This gate does not confirm or deny that: 440 dots cannot move the metric under any instrument, and their own numbers put the projection at 0.0295-0.0210 on the kernel-fixed instrument",
+ "ok_to_submit": false,
+ "note": "Verified independently here: 440 dots, 57,178 B, sha256 f1db3dc7\u2026, float32 EPSG:32611, no NaN, no nodata tag. Their own evidence records max_frac3px = 0.40 against gems50_h60_union_d2_75308 - the highest registry overlap of any file at the site root, under the 70 % tripwire but far above this lane's 0.046; the corridor it shares with a registered field is a fact a reader should have next to the word 'defensible'.",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+ "expected_value_label": "the other lane's statement: 'promote-to-defensibility-slot' as a *defensibility* deliverable (11 flagged steps, 13 deflections, 21-raster uniqueness audit), not as a scored improvement; the h62n sibling measures projection 0.0210 on the portal-calibrated instrument",
+ "artifact_of": "scripts/run_lane_session.py (session arena/d4d2e53a)",
+ "evidence": [
+  "evidence/run_card_20261012.json",
+  "evidence/gems62-datum-lahontan-strain-gauge-defensible-440dots-uniqueness.json",
+  "docs/index.html#lane440",
+  "docs/irregularities.md (IR-62-J-09, IR-62-J-10)"
+ ],
+ "name": "gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "f1db3dc711cc8e2d5411c05b0d167f763c3ef22b2263896f463056fd3fbc56bd",
+ "bytes": 57178,
+ "dots": 440,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

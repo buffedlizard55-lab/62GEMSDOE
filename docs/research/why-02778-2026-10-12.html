@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>62GEMSDOE — why 0.2778 scores what it scores</title>
+<style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;--warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+ font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.9em;margin:.2em 0 .1em}h2{font-size:1.35em;margin:1.6em 0 .5em;border-bottom:1px solid var(--bd);padding-bottom:.3em}
+h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.9em}
+pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.85em}
+table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}
+.mut{color:var(--mut)}.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:18px;margin:14px 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
+.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
+.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
+.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
+.hero{border:2px solid var(--no);border-radius:10px;padding:22px;margin:18px 0;background:rgba(248,81,73,.06)}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;border-radius:8px;margin:8px 8px 8px 0}
+.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+.kv{font-size:.88em}.kv td:first-child{width:38%;color:var(--mut)}
+.big{font-size:1.5em;font-weight:700}
+</style></head><body><div class="wrap">
+<nav><a href="../index.html">← Submission &amp; verdict</a>
+<a href="instrument-audit-2026-10-12.html">Instrument audit</a>
+<a href="hypotheses-2026-10-12.html">Hypotheses</a>
+<a href="datum-lane-2026-10-12.html">Datum lane</a></nav>
+<h1>Why <code>h33-2-b2</code> scores 0.2778 — and exactly what it would take to beat it</h1>
+<p>Session <code>arena/61e7859a-62gemsdoe</code>, 2026-10-12. Every number below is labelled, and every</p>
+<p>*external* claim carries a link that was opened and read during this session.</p>
+<table><thead><tr><th>label</th><th>meaning</th></tr></thead><tbody>
+<tr><td><strong>OFFICIAL</strong></td><td>read from the organizer's own page during this session, quoted, with the URL</td></tr>
+<tr><td><strong>MEASURED</strong></td><td>computed in this checkout from bytes on disk; the script is named</td></tr>
+<tr><td><strong>INHERITED</strong></td><td>quoted from another session's committed evidence, label preserved</td></tr>
+<tr><td><strong>MODEL</strong></td><td>algebra applied to the above. <strong>A projection is never written as a score.</strong></td></tr>
+</tbody></table>
+<p>---</p>
+<h2>1. The metric, verbatim, and the identity that follows from it</h2>
+<p><strong>OFFICIAL</strong> —</p>
+<p><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">competition page 967, §Performance metric</a>,</p>
+<p>opened 2026-10-12. Quoted exactly:</p>
+<p>&gt; * \(k(d) = (1 - d/R)_+ = \max(1 - d/R,\,0)\), range \(R = 300\) metres</p>
+<p>&gt; * \(TP_w = \sum_{g \in G} \max_{x:\,d(x,g) \le R} p(x)\,k(d(x,g))\)</p>
+<p>&gt; * \(FP_w = \sum_{x:\,p(x) &gt; 0} p(x)\,\bigl[1 - \max_{g \in G} k(d(x,g))\bigr]\)</p>
+<p>&gt; * \(FN_w = \sum_{g \in G} \bigl[1 - \max_{x:\,d(x,g) \le R} p(x)k(d(x,g))\bigr]\)</p>
+<p>&gt; * \(DTI(\alpha,\beta) = TP_w / (TP_w + \alpha FP_w + \beta FN_w + \epsilon)\), with</p>
+<p>&gt;   \(\alpha = 0.2\), \(\beta = 0.8\)</p>
+<p>&gt; * worked example: \(TP_w = 3.00\), \(FP_w = 1.89\), \(FN_w = 2.00\) →</p>
+<p>&gt;   \(3.00/(3.00 + 0.2\cdot1.89 + 0.8\cdot2.00) = 0.60\)</p>
+<p>The third line telescopes: \(FN_w = |G| - TP_w\) <strong>exactly</strong>. Writing \(T = TP_w\),</p>
+<p>\(F = FP_w\), \(K = |G|\):</p>
+<p>$$</p>
+<p>\boxed{\;DTI \;=\; \frac{T}{0.2\,(T+F) \;+\; 0.8K}\;}</p>
+<p>\tag{1}</p>
+<p>$$</p>
+<p><strong>(1) is the whole game.</strong> Three consequences:</p>
+<p><strong>(a) One identity worth more than any model.</strong> Add one unit dot whose realised kernel</p>
+<p>weight on the truth set is \(k\) and whose own kernel-to-truth is \(q\).</p>
+<p>Then \(\Delta T = k\), \(\Delta F = 1-q\), \(\Delta FN = -k\), so</p>
+<p>\(\Delta D = 0.2(\Delta T + \Delta F) + 0.8\Delta FN = 0.2(1-q) - 0.6k\).</p>
+<p>Hence <strong>\(d(DTI) &gt; 0\) if and only if</strong></p>
+<p>$$</p>
+<p>k \;&gt;\; \frac{0.2\,DTI}{1 + 0.8\,DTI}.</p>
+<p>\tag{2}</p>
+<p>$$</p>
+<p>At \(DTI = 0.2778\) the bar is \(k &gt; 0.0455\), i.e. the dot must lie within <strong>286 m</strong> of a</p>
+<p>hidden truth pixel to be worth adding. At the current leaderboard top (0.4275) the bar is</p>
+<p>\(k &gt; 0.0694\), i.e. <strong>279 m</strong>.</p>
+<p><strong>MEASURED refinement (<code>IR-62-11C-01</code>).</strong> <code>src/gems62/metric.py::marginal_bar</code> states the</p>
+<p>bar as \(k &gt; \alpha\,DTI\) (0.0556 at 0.2778) and its docstring justifies that by</p>
+<p>"\(dD = \alpha p\) regardless of \(k\)". That is not right: \(dD = \alpha(\Delta T + \Delta</p>
+<p>F) + \beta\,\Delta FN\), and the \(\beta\,\Delta FN\) term is \(-0.8k\), so</p>
+<p>\(dD = p(\alpha - \beta k)\), not \(\alpha p\). The two spellings give the same *practical*</p>
+<p>conclusion (283 m vs 286 m, a 1 % difference in radius and no change of sign anywhere), but</p>
+<p>the identity as written is wrong, and a wrong identity is the kind of thing that later gets</p>
+<p>used to justify a large mass. The corrected form (2) is now the one quoted everywhere in</p>
+<p>this session's documents.</p>
+<p><strong>(b) Exact closed form for isolated unit dots.</strong> For \(M\) dots no two of which share a</p>
+<p>kernel (nearest-neighbour spacing \(\ge R\)), each dot contributes \(k\) to \(T\) and</p>
+<p>\(1-k\) to \(F\), so \(T + F = M\) <strong>exactly</strong> and (1) becomes</p>
+<p>$$</p>
+<p>DTI \;=\; \frac{c}{0.2 \;+\; 0.8K/M},</p>
+<p>\qquad c = \text{mean per-dot credit}.</p>
+<p>\tag{3}</p>
+<p>$$</p>
+<p>This is the form every design decision in this repository should be quoted against.</p>
+<p>\(K &gt; 0\) means <strong>mass matters even at constant credit</strong>, and \(c\) is the only quality</p>
+<p>term.</p>
+<p><strong>(c) The ceiling.</strong> \(T \le K\), so \(DTI \le K/(0.2K + 0.8K) = 1\) attained only by a</p>
+<p>perfect detector. With a hit rate \(p\) (fraction of dots within \(R\) of truth) and mean</p>
+<p>credit \(\bar t\) per hit, \(c = p\bar t\), and full recall needs</p>
+<p>\(M \ge K/(p\bar t)\).</p>
+<p>---</p>
+<h2>2. The artifact, re-measured from its bytes</h2>
+<p><code>gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</code>, fetched this session with</p>
+<p><code>gh api -H "Accept: application/vnd.github.raw"</code> from <code>buffedlizard55-lab/GEMSDOE32</code></p>
+<p>→ <code>build/registry/champion_h33_2_b2_zeros.tif</code>.</p>
+<table><thead><tr><th>property</th><th>value</th><th>class</th></tr></thead><tbody>
+<tr><td>sha256</td><td><code>c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9</code></td><td>MEASURED</td></tr>
+<tr><td>bytes / shape / dtype / nodata</td><td>219,065 · 3730×3292 · float32 · <strong>no nodata tag</strong></td><td>MEASURED</td></tr>
+<tr><td>distinct values</td><td>exactly <code>{0.0, 1.0}</code></td><td>MEASURED</td></tr>
+<tr><td>positive pixels</td><td><strong>37,654</strong></td><td>MEASURED</td></tr>
+<tr><td>connected components</td><td><strong>37,654</strong> — *every dot is a single isolated pixel*</td><td>MEASURED</td></tr>
+<tr><td>nearest-neighbour spacing</td><td>median <strong>300 m</strong>, minimum <strong>282.84 m</strong> (= √8 × 100 m)</td><td>MEASURED</td></tr>
+<tr><td>dots with a neighbour inside 300 m</td><td>30.3 %</td><td>MEASURED</td></tr>
+<tr><td>dots on the mapped catalogue</td><td><strong>0.00 %</strong></td><td>MEASURED</td></tr>
+<tr><td>median distance to the mapped catalogue</td><td><strong>1,964.7 m</strong></td><td>MEASURED</td></tr>
+<tr><td>mean 300 m kernel credit vs SGMC 1:750k <strong>minus</strong> the catalogue</td><td><strong>0.07505</strong></td><td>MEASURED</td></tr>
+<tr><td>— same null, uniform random cell inside the footprint</td><td><strong>0.05171</strong></td><td>MEASURED</td></tr>
+<tr><td>— enrichment</td><td><strong>1.45×</strong></td><td>MEASURED</td></tr>
+<tr><td>live public score</td><td><strong>0.2778</strong></td><td><strong>OFFICIAL</strong>, see §3</td></tr>
+</tbody></table>
+<p>The emission is therefore not a "line field" at all: it is a **hard-core anti-clustered</p>
+<p>point process** with a 282.8 m exclusion radius — just inside the 300 m kernel — spread</p>
+<p>evenly and deliberately off the mapped catalogue. That is a *mass* construction, and §4</p>
+<p>shows it is the right one.</p>
+<h2>3. The score is on the official public leaderboard, and the brief's numbers are stale</h2>
+<p><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">Leaderboard, opened 2026-10-12</a>:</p>
+<table><thead><tr><th>rank</th><th>participant</th><th>DW-Tversky</th></tr></thead><tbody>
+<tr><td>#1</td><td>xiaofanhu</td><td><strong>0.4275</strong></td></tr>
+<tr><td>#2</td><td>cfld\_\_</td><td>0.3585</td></tr>
+<tr><td>#3</td><td>JerryDataWorks</td><td>0.3418</td></tr>
+<tr><td>#4</td><td>alexoktaba</td><td>0.3361</td></tr>
+<tr><td>#5</td><td>joeyfezster</td><td><strong>0.3333</strong></td></tr>
+<tr><td>#9</td><td>DARD</td><td><strong>0.3195</strong></td></tr>
+<tr><td>#23</td><td>op01</td><td>0.2797</td></tr>
+<tr><td><strong>#24</strong></td><td><strong>extradr19</strong></td><td><strong>0.2778</strong></td></tr>
+</tbody></table>
+<ul>
+<li><strong>0.2778 is on the public leaderboard today</strong>, at rank #24. This upgrades the</li>
+</ul>
+<p>  repository's treatment of that number from "OWNER-REPORTED, no receipt" to</p>
+<p>  <strong>OFFICIAL-PAGE-VISIBLE</strong> for the *value and the rank*; the attribution of that entry to</p>
+<p>  <code>h33-2-b2</code> remains the group's own statement (<code>IR-62-11C-03</code>).</p>
+<ul>
+<li><strong>0.3774 does not appear anywhere in the public table today.</strong> The numbers quoted in the</li>
+</ul>
+<p>  standing brief (0.2778 / 0.3774 / 0.3195) are three different vintages of the same live</p>
+<p>  page; only 0.2778 and 0.3195 are currently reproducible. Flagged.</p>
+<ul>
+<li>The brief's target has moved: the current top is <strong>0.4275</strong>, and the $10 K top-5 cut-off</li>
+</ul>
+<p>  today sits at <strong>0.3333</strong>.</p>
+<h2>4. So what does 0.2778 *mean* in the metric's own units?</h2>
+<p>Solving (3) for \(c\) with \(M = 37{,}654\):</p>
+<table><thead><tr><th>assumed hidden-truth mass \(K\)</th><th>champion's implied per-dot credit \(c\)</th></tr></thead><tbody>
+<tr><td>6,000 px (≈ 6 % of the catalogue)</td><td>0.0911</td></tr>
+<tr><td><strong>12,000 px</strong> (the repository's planning value)</td><td><strong>0.1264</strong></td></tr>
+<tr><td>24,000 px</td><td>0.1968</td></tr>
+<tr><td>60,000 px (same size as the whole catalogue)</td><td>0.4224</td></tr>
+</tbody></table>
+<p>Reading: the champion is a <strong>high-credit, modest-mass</strong> field. Its implied credit</p>
+<p>(0.1264 at \(K = 12{,}000\)) is *larger* than what either 0.3195 or 0.4275 requires at</p>
+<p>larger mass:</p>
+<table><thead><tr><th>target</th><th>M = 37,654</th><th>120,000</th><th>240,000</th><th>600,000</th><th>\(M \to \infty\)</th></tr></thead><tbody>
+<tr><td>0.2778 (rank 24, today)</td><td>0.1264</td><td>0.0778</td><td>0.0663</td><td>0.0600</td><td>0.0556</td></tr>
+<tr><td>0.3333 (top-5 cut-off, today)</td><td>0.1516</td><td>0.0933</td><td>0.0795</td><td>0.0720</td><td>0.0667</td></tr>
+<tr><td>0.4275 (rank 1, today)</td><td>0.1880</td><td>0.1157</td><td>0.0986</td><td>0.0893</td><td>0.0827</td></tr>
+</tbody></table>
+<p><strong>MODEL, from (3), with \(K = 12{,}000\).</strong> The uncertainty is entirely in \(c\), not in</p>
+<p>the algebra.</p>
+<p><strong>The single actionable sentence of this whole document:</strong> the leaderboard is paying for</p>
+<p><strong>mass at preserved per-dot credit</strong>. The champion holds ~0.126 credit at 37.7 k dots; rank</p>
+<p>1 at 0.4275 is reachable by the *same* credit at ≈240 k dots, or by 0.083 credit at any</p>
+<p>mass. **This repository has never demonstrated that it can add mass without losing</p>
+<p>credit** — inside the dotted family the relation is inverted</p>
+<p>(44,090 → 0.2600, 60,069 → 0.2477, 121,131 → 0.1922, 123,939 → 0.2296; all</p>
+<p>OWNER-REPORTED) — and that, not the detector, is the binding constraint.</p>
+<h2>5. The local instruments, with the null corrected</h2>
+<p>Instrument A (<code>sgmc_off_catalogue</code>): the SGMC 1:750 k fault compilation <strong>minus</strong> the</p>
+<p>competition catalogue — a public compilation of faults the catalogue does not contain.</p>
+<p>83,593 SGMC cells, 79,615 after the subtraction. Instrument B (<code>catalogue</code>): the mapped</p>
+<p>USGS/INGENIOUS catalogue itself; the leaderboard *rewards avoiding it*</p>
+<p>(Spearman −0.597 over 20 owner-reported scores, INHERITED from</p>
+<p><code>evidence/e4_gates_20261011b.json</code>).</p>
+<p><strong>MEASURED this session</strong> (<code>scripts/run_lane_11c.py</code>, <code>scripts/lane_11c_null_test.py</code>):</p>
+<table><thead><tr><th>field</th><th>dots</th><th>mean credit vs SGMC-off-cat</th><th>÷ footprint-uniform (0.05171)</th></tr></thead><tbody>
+<tr><td><code>h33-2-b2</code> (the 0.2778 champion)</td><td>37,654</td><td><strong>0.07505</strong></td><td><strong>1.45×</strong></td></tr>
+<tr><td><code>gems62-h62i-scarpcrosscut-hardcore</code> (duplicate-drift)</td><td>60,000</td><td>0.08666</td><td>1.68×</td></tr>
+<tr><td><code>gems62-h62-a-lahontan-isobase-step</code></td><td>38,000</td><td>0.07154</td><td>1.38×</td></tr>
+<tr><td><code>gems62b-tiltgrad-vote-scarpcorrob</code></td><td>120,000</td><td>0.06480</td><td>1.25×</td></tr>
+<tr><td><code>gemsdoe62-datum-lahontan-isobase-v8</code></td><td>1,660</td><td>0.06305</td><td>1.22×</td></tr>
+<tr><td><code>gems62d-org-stack-inverted-truth-detector</code></td><td>46,598</td><td>0.05272</td><td>1.02×</td></tr>
+<tr><td><code>gems62-h62g-benchcrosscut-hardcore</code></td><td>10,000</td><td>0.04202</td><td>0.81×</td></tr>
+<tr><td><code>gems62-lahontan-datum-break-dotted-primary</code></td><td>86,968</td><td>0.03997</td><td>0.77×</td></tr>
+<tr><td><code>gems62-lahontan-datumstep-min12max60-traceonly</code></td><td>63,750</td><td>0.02692</td><td>0.52×</td></tr>
+<tr><td><code>gems62-lahontan-isobase-99dots</code></td><td>99</td><td>0.02614</td><td>0.51×</td></tr>
+<tr><td><code>gems62-lahontan-flagged-breaks-selective-secondary</code></td><td>87</td><td>0.12006</td><td>2.32×</td></tr>
+</tbody></table>
+<p><strong>Two things fall out.</strong></p>
+<ol>
+<li>**No non-duplicate field in this repository beats the champion on the only instrument</li>
+</ol>
+<p>   that tracks the leaderboard positively.** The 1.68× entry is <code>IR-62-22</code>'s</p>
+<p>   duplicate-drift artifact; the 2.32× entry is 87 dots, which cannot move a 5.17 M-cell</p>
+<p>   metric at all.</p>
+<ol>
+<li><strong>The null used previously in this repository is 3.03× too small.</strong> Earlier documents</li>
+</ol>
+<p>   quote "the uniform-field value <strong>0.01706</strong>" and hence "3.8× the uniform field" for the</p>
+<p>   champion. Recomputed on the pinned rasters and the pinned catalogue, the</p>
+<p>   footprint-uniform mean credit is <strong>0.05171</strong>, so the enrichment is <strong>1.45×</strong>, not 3.8×.</p>
+<p>   Every enrichment number in this repository inherits that factor (<code>IR-62-11C-02</code>).</p>
+<p>   *(The cause is not asserted here; only the recomputation is.)*</p>
+<p><strong>What that does to the argument.</strong> A 1.45× enrichment over a footprint-wide random draw is</p>
+<p>a *weak* detector on that instrument. And 1.45× on a proxy that itself correlates with the</p>
+<p>leaderboard at only ρ ≈ +0.62 cannot distinguish a 0.28 field from a 0.20 field. This is</p>
+<p>the measured reason the repository's proxy arguments have never converged.</p>
+<h2>6. Can a submission beat 0.2778? The honest answer, with the exact condition</h2>
+<p>**Yes, it is arithmetically possible — and this session did not achieve it, and no field in</p>
+<p>this repository has ever been shown to.**</p>
+<p>Beating 0.2778 requires, at mass \(M\), a <strong>true</strong> per-dot credit</p>
+<p>$$</p>
+<p>c^\star \;&gt;\; 0.2778\,\bigl(0.2 + 0.8K/M\bigr).</p>
+<p>$$</p>
+<p>At \(K = 12{,}000\) that is \(c^\star &gt; 0.1264\) at 37,654 dots, \(0.0778\) at 120,000,</p>
+<p>\(0.0663\) at 240,000. The bar is *inside* reach of the champion's own measured quality —</p>
+<p>which is exactly why the leaderboard is beatable — but the repository has not once shown a</p>
+<p>field that clears it on any instrument.</p>
+<p>Three concrete, checkable requirements, in the order they bind:</p>
+<ol>
+<li><strong>Preserve credit through 3–6× more mass.</strong> The only experiment in this repository that</li>
+</ol>
+<p>   would settle it is the paired one specified as H62-N: the *same* detector at 40 k and</p>
+<p>   120 k dots, submitted on the same day, so that the leaderboard reports</p>
+<p>   \(dc/dM\) directly. <strong>MEASURED</strong> at the per-dot level the repository already knows what</p>
+<p>   that costs: 37,654 → 120,000 dots at *falling* credit takes the champion's 0.2778 down,</p>
+<p>   not up, and the dotted family shows exactly that inversion.</p>
+<ol>
+<li>**Do not spend mass on the mapped catalogue and do not waste it on isolated-random</li>
+</ol>
+<p>   ground.<strong> The champion spends </strong>0 %** of its dots on the catalogue and its median dot is</p>
+<p>   1,965 m from it. Anything on the catalogue cannot earn credit at all — organizer</p>
+<p>   clarification, thread 11516 — and it still costs 0.2 of denominator per dot.</p>
+<ol>
+<li><strong>Get one receipt.</strong> There is still <strong>no</strong> organizer-confirmed number anywhere in this</li>
+</ol>
+<p>   repository (<code>organizer_score = null</code> everywhere). Every ranking above is a proxy</p>
+<p>   ranking, and §5 shows what proxies are worth (1.45× vs 3.8× is the same data measured</p>
+<p>   two ways).</p>
+<h2>7. What this session measured that closes the lane's open question</h2>
+<p>The lane asked whether Lahontan shorelines work as a strain gauge for *this* competition.</p>
+<p>The repository's standing limitation said the question could not be answered:</p>
+<p>*"Either the band is not fault-rich, or a 1:750 k compilation cannot see 2 m datum</p>
+<p>offsets. The two cannot be separated without the organizer's truth."*</p>
+<p><strong>They can be separated, and this session separated them</strong> with the correct null — a</p>
+<p>uniform random point drawn from <strong>the same published datum band</strong>, not from the whole</p>
+<p>footprint. Full receipts: <a href="../../evidence/lane11c_null_test.json"><code>evidence/lane11c_null_test.json</code></a>.</p>
+<table><thead><tr><th>datum (published window)</th><th>loci</th><th>loci credit vs SGMC-off-cat</th><th>same-band uniform</th><th>ratio</th><th>loci vs catalogue</th><th>same-band uniform</th><th>ratio</th></tr></thead><tbody>
+<tr><td>Sehoo highstand 1313–1348 m</td><td>197</td><td>0.01552</td><td>0.02954</td><td><strong>0.53×</strong></td><td>0.01868</td><td>0.04210</td><td><strong>0.44×</strong></td></tr>
+<tr><td>Younger Dryas 1222–1242 m</td><td>47</td><td>0.00542</td><td>0.00825</td><td><strong>0.66×</strong></td><td>0.00709</td><td>0.01560</td><td><strong>0.45×</strong></td></tr>
+<tr><td>late Holocene 1196–1212 m</td><td>62</td><td>0.00538</td><td>0.00439</td><td>1.22×</td><td>0.02024</td><td>0.03272</td><td><strong>0.62×</strong></td></tr>
+<tr><td><strong>pooled</strong></td><td><strong>306</strong></td><td><strong>0.01191</strong></td><td>0.01463</td><td><strong>0.81×</strong></td><td><strong>0.01722</strong></td><td>0.03016</td><td><strong>0.57×</strong></td></tr>
+</tbody></table>
+<p><strong>Reading.</strong> The loci are not merely uninformative: pooled, they are **worse than a random</p>
+<p>point on the same datum surface**, and they are *anti-selected* for mapped faults by 1.8×.</p>
+<p>So the failure is <strong>not</strong> only "a 1:750 k compilation cannot see 2 m offsets". The</p>
+<p>detector's chosen locations are systematically not where faults are — which is what one</p>
+<p>should expect geologically: the pluvial-lake margin of the Lahontan basin is a **low-relief</p>
+<p>depositional and shorezone surface**, mostly without bedrock faults cropping out, and</p>
+<p>Adams, Wesnousky &amp; Bills (1999) put its tectonic signal *at the resolution floor*</p>
+<p>("the resolution in defining the elevation of the high shoreline over a broad area is</p>
+<p>limited to about 3 m … almost all of the post-Sehoo vertical displacements … are less than</p>
+<p>or equal to about 3 m").</p>
+<p>**A second refutation, this session's novel hypothesis (<code>H62-R</code>) — multi-datum</p>
+<p>corroboration is refuted at 100 m.** The idea was sound: a fault offsets *every* level</p>
+<p>datum that crosses it, so requiring the same step on two independent datums (Sehoo ≈ 1332 m,</p>
+<p>Younger Dryas ≈ 1230 m, late Holocene ≈ 1204 m) should filter every non-tectonic confuser.</p>
+<p><strong>MEASURED:</strong> the observed rate at which an independent datum reproduces a step line is</p>
+<p><strong>0.081 / 0.076 / 0.213</strong> against a <strong>random-strike null of 0.082 / 0.067 / 0.174</strong> —</p>
+<p>enrichment <strong>0.99× / 1.13× / 1.22×</strong>, p = <strong>0.63 / 0.33 / 0.28</strong>. The filter carries no</p>
+<p>signal. Reported as a negative result; that is a deliverable, not a failure.</p>
+</div></body></html>

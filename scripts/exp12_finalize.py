@@ -68,7 +68,7 @@ def main() -> int:
     ap.add_argument("--registry", default="/tmp/reg/tif")
     ap.add_argument("--index", default="research/registry_index.json")
     ap.add_argument("--out-dir", default="docs/downloads")
-    ap.add_argument("--evidence", default="evidence/run_card_20261012.json")
+    ap.add_argument("--evidence", default="evidence/run_card_20261012_62e.json")
     ap.add_argument("--seed", type=int, default=20261012)
     ap.add_argument("--skip-holdout", action="store_true")
     ap.add_argument("--skip-registry-spearman", action="store_true")
@@ -139,7 +139,9 @@ def main() -> int:
     tmp = ROOT / "build" / "final_field.tif"
     grid.write_submission(tmp, field)
     digest = sha256(tmp)
-    slug = f"gems62e-h62n-orgstack-oof-lidarprof-{n_dots}dots-20261012-{digest[:12]}-zeros"
+    # `h62n` is another lane's hypothesis id on merged main (gems62-h62n-lahontan-localmode-…);
+    # this lane's id is h62o. Renamed at merge time so two artifacts never share a name.
+    slug = f"gems62e-h62o-orgstack-oof-lidarprof-{n_dots}dots-20261012-{digest[:12]}-zeros"
     final_path = out_dir / f"{slug}.tif"
     os.replace(tmp, final_path)
     receipt = grid.check_submission(final_path)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Insert the 2026-10-12 session status block at the top of README.md.
 
-Derived document: every number is substituted from ``evidence/run_card_20261012.json`` at generation
+Derived document: every number is substituted from ``evidence/run_card_20261012_62e.json`` at generation
 time.  Idempotent - re-running replaces the block rather than adding a second copy.
 
     python3 scripts/exp12_finalize.py && python3 scripts/make_readme_20261012.py
@@ -13,7 +13,7 @@ import pathlib
 import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-C = json.loads((ROOT / "evidence/run_card_20261012.json").read_text())
+C = json.loads((ROOT / "evidence/run_card_20261012_62e.json").read_text())
 CMP = C["duplicate_trip"]["comparator"]
 PROF = C["emission"]["measured_profile"]
 EM = C["emission"]
@@ -112,17 +112,25 @@ to emit from evidence the comparators do not share (a LiDAR corridor trace; `doc
 
 ### Irregularities added (`docs/irregularities.md`)
 
-`IR-62-25` the "Poisson-300 m off-catalogue control" in the group's history is a **mislabelled
+`IR-62-E-01` the "Poisson-300 m off-catalogue control" in the group's history is a **mislabelled
 duplicate** (same 44,090 dots, Jaccard 1.0000) — the claim that random placement scores 0.26 is
-withdrawn · `IR-62-26` **25 of the 52 pinned registry rows hash-mismatch** their index pin, and the
-comparator that tripped the gate is one of the 35 unpinned rows · `IR-62-27` the mandated segmented
-holdout is undefined for an off-catalogue design · `IR-62-28` this repository's own Jaccard-3px leg
-(≤ 0.25) trips on **geometry alone** — two independent 40k hard-core fields read 0.2042 — so it must
-be normalised by the control · `IR-62-29` the brief's target is stale (#1 is 0.4133, the top-5 cut-off
-0.3333, and 0.3195 is rank 9) · `IR-62-30` a pixels-vs-metres units bug silently deleted ten
-candidates · `IR-62-31` two wrong numbers were printed before publication and are corrected here
-(chance ratio 3.24×; LiDAR coverage is 75.34 % of the footprint, not 31.71 % of the grid) ·
-`IR-62-32` a high blocked AUC against a consensus target is not evidence about the organiser's labels.
+withdrawn · `IR-62-E-02` **25 of the 52 pinned registry rows hash-mismatch** their index pin, and the
+comparator that tripped the gate is one of the 35 unpinned rows · `IR-62-E-03` the mandated segmented
+holdout is **undefined** for an off-catalogue design (0.0000 while its own random-dot control scores
+0.0575) · `IR-62-E-04` a pixels-vs-metres units bug silently deleted ten candidates · `IR-62-E-05`
+both overlap legs of the uniqueness rule are **density-blind at 40 k dots**, measured three
+independent ways (two independent 40 k hard-core fields read Jaccard-3px 0.2042; the sibling lane's
+233-raster audit puts its information-free control at 0.331 against its own 0.345) — the rule's
+`DUPLICATE` answer is nonetheless reported and **not** overruled · `IR-62-E-06` the brief's target is
+stale (#1 is 0.4133, the top-5 cut-off 0.3333, 0.3195 is rank 9) and the information-free ceiling at
+this mass is 0.0869 · `IR-62-E-07` two wrong numbers were printed before publication and are corrected
+(chance ratio 3.24×, not 0.0; LiDAR coverage is 75.34 % of the footprint, not 31.71 % of the grid) ·
+`IR-62-E-08` a high blocked AUC against a *consensus* target is not evidence about the organiser's
+labels · `IR-62-E-09` **three name collisions with concurrent sessions**, caught only by the merge
+(`evidence/run_card_20261012.json` written twice, the hypothesis id `h62n` already shipped by another
+lane, and a duplicate archive page) — resolved by renaming this lane's card to
+`evidence/run_card_20261012_62e.json`, its artifact to `gems62e-h62o-…`, and by adopting
+branch-slugged names.
 
 ### Repository hygiene
 
@@ -131,10 +139,10 @@ candidates · `IR-62-31` two wrong numbers were printed before publication and a
 `src/gems62/metric.py:269`. New this session: `tests/test_exp6_dti.py` (3 tests) proves
 `exp6.dti_binary_fast` equals `gems62.metric.dti_components` to 1e-5 and that the hard-core emitter's
 minimum separation exceeds 3 px; `tests/test_site_20261012.py` (8 tests) greps every published number
-back out of `evidence/run_card_20261012.json`. The previous front page is preserved verbatim as
-`docs/index-2026-10-11b-superseded.html` and the two 2026-10-11b test modules now follow it.
+back out of `evidence/run_card_20261012_62e.json`. The previous front page is preserved verbatim as
+`docs/index-20261011b.html` and the two 2026-10-11b test modules now follow it.
 Site pages are generated, never hand-edited: `scripts/make_site_20261012.py`,
-`scripts/make_site_md_20261012.py`, `scripts/make_readme_20261012.py`.
+the shared `scripts/render_doc_pages.py`, `scripts/make_readme_20261012.py`.
 
 **Re-run cost for a fresh session:** `/tmp/*` and `build/*` are outside the snapshot — re-fetch the 87
 registry rasters and the 419 MB stack through `api.github.com`, then exp6 517 s, exp8 39 s, exp9 16 s,

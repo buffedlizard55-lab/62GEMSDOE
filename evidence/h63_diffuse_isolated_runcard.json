@@ -1,0 +1,126 @@
+{
+ "name": "gems62-h63-diffuse-isolated-offcat-40k",
+ "created_utc": "2026-10-12T01:13:04+00:00",
+ "design": {
+  "kind": "diffuse, perfectly isolated, off-catalogue dotted field",
+  "why": "the only shape with receipts: 8 family submissions at M=37.7-42.3k with ~300 m nearest-neighbour spacing scored 0.2376-0.2778; every field at M>=60k with 100-224 m spacing scored <=0.2477; the field that sat ON the published fault maps scored 0.0360 (worst in the set)",
+  "lattice": "integer hex, rows every 3 px, 1 px stagger -> every pair >= 300 m",
+  "catalogue_exclusion_m": 300.0,
+  "block_cap_dots_per_10km": 90,
+  "ordering": "nine-band evidence consensus (p90 flags) then a fixed-seed key",
+  "consensus_bands": {
+   "lidar_ex_max": {
+    "threshold_p90": 136.0,
+    "frac_of_footprint": 0.10115042982188435
+   },
+   "lidar_step_max": {
+    "threshold_p90": 128.0,
+    "frac_of_footprint": 0.10257339657888061
+   },
+   "lidar_cross_max": {
+    "threshold_p90": 139.0,
+    "frac_of_footprint": 0.10272860116736299
+   },
+   "lidar_coh100": {
+    "threshold_p90": 224.0,
+    "frac_of_footprint": 0.1007016524644147
+   },
+   "hs_lineament": {
+    "threshold_p90": 140.0,
+    "frac_of_footprint": 0.10106102268986582
+   },
+   "curv_prof_absmax": {
+    "threshold_p90": 115.0,
+    "frac_of_footprint": 0.10193787055821207
+   },
+   "relief_local": {
+    "threshold_p90": 140.0,
+    "frac_of_footprint": 0.10037421335754164
+   },
+   "step_max_x1000": {
+    "threshold_p90": 539.0,
+    "frac_of_footprint": 0.015217790548505014
+   },
+   "ksn_max_m0.9": {
+    "threshold_p90": 67.0,
+    "frac_of_footprint": 0.01564315175235076
+   }
+  },
+  "seed": 626311
+ },
+ "mass": 40000,
+ "receipt": {
+  "file": "gems62-h63-diffuse-isolated-offcat-40k-zeros.tif",
+  "bytes": 184739,
+  "sha256": "fa0b254e191cbbc10caf5e76717f56aab3a69b9f0363fb3a16e0116bc225d319",
+  "driver": "GTiff",
+  "count": 1,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "shape": [
+   3730,
+   3292
+  ],
+  "res": [
+   100.0,
+   100.0
+  ],
+  "nodata": null,
+  "width_height_match": true,
+  "crs_match": true,
+  "transform_match": true,
+  "all_finite": true,
+  "nan_count": 0,
+  "min": 0.0,
+  "max": 1.0,
+  "n_outside_0_1": 0,
+  "n_positive": 40000,
+  "total_mass": 40000.0,
+  "legal": true
+ },
+ "sha256_zeros": "fa0b254e191cbbc10caf5e76717f56aab3a69b9f0363fb3a16e0116bc225d319",
+ "encoding_NaN_outside": {
+  "path": "build/h63/gems62-h63-diffuse-isolated-offcat-40k-nan.tif",
+  "note": "published GEMS convention for reference"
+ },
+ "geometry": {
+  "nn_median_m": 316.22776601683796,
+  "nn_min_m": 300.0,
+  "nn_p90_m": 761.5773105863909,
+  "frac_nn_lt300m": 0.0,
+  "n_components": 40000,
+  "all_isolated": true,
+  "dcat_median_m": 2126.02916254693,
+  "d_sgmc_median_m": 1345.362404707371,
+  "frac_on_catalogue": 0.0,
+  "blocks_10km_used": 570,
+  "max_dots_per_3km_cell": 97.0
+ },
+ "isolation_mass": {
+  "C_over_M": 8.200010170423484,
+  "ideal_isolated_C_over_M": 9.42477796076938,
+  "note": "C = sum over the footprint of the 300 m kernel of the dot set; C/M is the feature with the strongest positive rank correlation to reported score (rho = +0.55, n = 42). The champion measured 8.04, h34 8.42."
+ },
+ "instruments": {
+  "note": "SGMC-off-catalogue credit is ANTI-correlated with reported scores (rho = -0.615, n = 42) and the field that maximised it scored 0.0360; recorded for the audit only, never as a promotion gate.",
+  "uniform_field_mean_credit": 0.051706428146528635,
+  "field_mean_credit": 0.08308048689625011,
+  "field_enrichment_vs_uniform": 1.6067728882917975
+ },
+ "expectation": {
+  "basis": "8 receipts at this mass/spacing: 0.2376, 0.2449, 0.2600, 0.2632, 0.2649, 0.2708 (x2), 0.2750, 0.2778; two same-shape counterexamples at 0.0778 and 0.0041 whose cause the receipts cannot identify",
+  "band_low": 0.18,
+  "band_high": 0.29,
+  "most_likely": 0.26,
+  "claim_above_0.3195_supported": false,
+  "why": "no in-repo instrument survives audit: SGMC proxy rho -0.615 (inverted); geometry/isolation explains at most rho +0.55 and is contradicted by two same-shape fields; lane-11c loci are worse than a uniform cell from the same datum band (0.81x)."
+ }
+}

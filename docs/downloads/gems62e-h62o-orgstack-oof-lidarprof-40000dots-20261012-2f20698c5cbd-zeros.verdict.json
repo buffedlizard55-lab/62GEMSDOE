@@ -1,0 +1,30 @@
+{
+ "verdict": "DUPLICATE - STOP, DO NOT SUBMIT (gems62.uniqueness verdict over 67 registry rasters): format-legal 1 band float32 EPSG:32611 3730x3292, values [0, 1], no nodata tag, 0 NaN, and isolation is proven - but 87.84 % of the dots lie within 3 px of one non-vacuous registry raster (limit 70 %; isolated-random control 59.26 %) and 12,979 of the 40,000 dots (32.45 %) are exactly that raster's pixels, 3.24x the 10.0 % chance expectation. Both overlap legs are density-blind at this mass (IR-62-E-05); the rule's answer is reported and not overruled. OK to download and inspect, not to upload",
+ "ok_to_submit": false,
+ "note": "40,000 unit dots, hard-core (minimum dot-to-dot separation 400.0 m, 0 dots inside one 300 m kernel), emitted as the top 40,000 7x7 local maxima of OOF x (LiDAR ex_max/255 + 0.05)^2 with a 300 m catalogue standoff, where OOF is a 34-feature HistGradientBoosting surface trained under 6 spatial blocks (mean blocked AUC 0.9585, leakage canary clean). Matches or beats the 0.2778 champion on every aggregate axis measured (mass 40,000 vs 37,654; self-kernel 0.0000 vs 0.0173; evenness 569 vs 547 cells; credit vs catalogue 0.0000 vs 0.0074; credit vs SGMC-off-catalogue 0.0697 vs 0.0655; LiDAR scarp mean 112.6 vs 82.9) and loses on arrangement (dens21 4.56 vs 8.75-9.62, coh21 0.1595 vs 0.307-0.336); the pre-registered concentration fix was refuted (dens21 4.56 -> 4.44). Redundant in class with the sibling lane's H63 40k file, which carries the wider control-normalised uniqueness audit (233 comparators).",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score. The mechanical uniqueness gate stopped this one before promotion was even considered",
+ "expected_value_label": "MODEL, never a score: 0.2374 at K = 12,000 and 0.2204 at K = 13,688 from the exp8 reward model's implied per-dot credit (c = 0.1044, CV rho 0.7885 over 47 de-duplicated fields). The information-free ceiling at this mass is 0.0869 (evidence/metric_ceiling.json), and no instrument in this sandbox can certify placement quality: h34-scatter-q50-arr-matched matched the champion's mass and beat its SGMC credit and LiDAR mean, and scored 0.0778 against 0.2778",
+ "artifact_of": "scripts/exp12_finalize.py (session arena/90112fbe-62gemsdoe, lane 62E)",
+ "evidence": [
+  "evidence/run_card_20261012_62e.json",
+  "evidence/exp9_profile_matched_emission.json",
+  "evidence/exp10_linearity.json",
+  "evidence/exp11_concentration.json",
+  "evidence/exp8_reward_model.json",
+  "evidence/exp6_detector_blocked.json",
+  "docs/session-2026-10-12-62e.html",
+  "docs/irregularities.md"
+ ],
+ "name": "gems62e-h62o-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-zeros.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "2f20698c5cbd886aca7cbbb6875d96015b15e736bfb28644aa286e478d543ddf",
+ "bytes": 243379,
+ "dots": 40000,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}
