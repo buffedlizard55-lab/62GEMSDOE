@@ -1,0 +1,233 @@
+{
+ "entries": [
+  {
+   "alias": "gems13_r11_greedy_mp",
+   "path": "/tmp/gems/registry/gems13_r11_greedy_mp.tif",
+   "sha256": "033df94ceef16350030a69d5cfdec0afe7bc605bb155d8f3b98b203aabf80abd",
+   "positive_cells": 272853,
+   "rho": -0.003338559728011452,
+   "frac3px": 0.7192325690219934,
+   "coverage3px": 0.8474576927192986,
+   "vacuous": true
+  },
+  {
+   "alias": "gems13_r13_lattice_s5_00904",
+   "path": "/tmp/gems/registry/gems13_r13_lattice_s5_00904.tif",
+   "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+   "positive_cells": 206895,
+   "rho": 0.0001880230220051905,
+   "frac3px": 1.0,
+   "coverage3px": 0.9996427585157874,
+   "vacuous": true
+  },
+  {
+   "alias": "gems13_r14_union_tips10_lat6",
+   "path": "/tmp/gems/registry/gems13_r14_union_tips10_lat6.tif",
+   "sha256": "c9d1398e464603350e464fff7213a8a5e380f1ccf505e263a685607970ae28ef",
+   "positive_cells": 192231,
+   "rho": 0.0009200642801526923,
+   "frac3px": 0.9924277874675629,
+   "coverage3px": 0.9944203756918651,
+   "vacuous": true
+  },
+  {
+   "alias": "gems19_h19_4_multiline_thermal_01894",
+   "path": "/tmp/gems/registry/gems19_h19_4_multiline_thermal_01894.tif",
+   "sha256": "89109a3bd2cd3b12e7a0f388113c519843acfc9c4f46825affefc3e63dd99b22",
+   "positive_cells": 123779,
+   "rho": -0.00927220270627128,
+   "frac3px": 0.05819543114816863,
+   "coverage3px": 0.2628201989676379,
+   "vacuous": false
+  },
+  {
+   "alias": "gems19_h19_5_powerlaw_01922",
+   "path": "/tmp/gems/registry/gems19_h19_5_powerlaw_01922.tif",
+   "sha256": "ec1f9b56b83ce33cad781ceb9f104b18fb4f2ff785263a4e89616af4aabdee8d",
+   "positive_cells": 121131,
+   "rho": -0.009008608481733417,
+   "frac3px": 0.059173863104607136,
+   "coverage3px": 0.25304443863448606,
+   "vacuous": false
+  },
+  {
+   "alias": "gems25_dotted_h19_5_d2_8_02600",
+   "path": "/tmp/gems/registry/gems25_dotted_h19_5_d2_8_02600.tif",
+   "sha256": "3e78737f0da8dd2ca66cc6caac0ce8eeefcd6715707f8d1bd3091845cd9bcc30",
+   "positive_cells": 44090,
+   "rho": -0.005301165295965939,
+   "frac3px": 0.05351597396520186,
+   "coverage3px": 0.2333855132966016,
+   "vacuous": false
+  },
+  {
+   "alias": "gems27_topo_gap_closure_t_v2_02449",
+   "path": "/tmp/gems/registry/gems27_topo_gap_closure_t_v2_02449.tif",
+   "sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
+   "positive_cells": 61328,
+   "rho": -0.005602310877268936,
+   "frac3px": 0.08742076828178841,
+   "coverage3px": 0.24797977618414618,
+   "vacuous": false
+  },
+  {
+   "alias": "gems28_h27_4_r1_solo_d2_8_02708",
+   "path": "/tmp/gems/registry/gems28_h27_4_r1_solo_d2_8_02708.tif",
+   "sha256": "ab02300152248fdda04e988e2cd2a0c13f35eec42fcf670a15e8b76b19e24a73",
+   "positive_cells": 40199,
+   "rho": -0.00497030794913629,
+   "frac3px": 0.051133704853873314,
+   "coverage3px": 0.220028629634439,
+   "vacuous": false
+  },
+  {
+   "alias": "gems32_h32d_submodular_46090",
+   "path": "/tmp/gems/registry/gems32_h32d_submodular_46090.tif",
+   "sha256": "f81e26d7712d1a4a9d3d5393037b09849400c3976d1ebd40e2760a586f2adc2f",
+   "positive_cells": 46090,
+   "rho": -0.005372499999158545,
+   "frac3px": 0.05734462075126558,
+   "coverage3px": 0.24308773529605857,
+   "vacuous": false
+  },
+  {
+   "alias": "gems33_h33d_tip_stepover_r30_02632",
+   "path": "/tmp/gems/registry/gems33_h33d_tip_stepover_r30_02632.tif",
+   "sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+   "positive_cells": 41865,
+   "rho": -0.005050171062332794,
+   "frac3px": 0.05279278512783426,
+   "coverage3px": 0.2269267188569511,
+   "vacuous": false
+  },
+  {
+   "alias": "gems36_anderson_pinn_02750",
+   "path": "/tmp/gems/registry/gems36_anderson_pinn_02750.tif",
+   "sha256": "96d451d5ffc819fc3834052f22ab66190621f206c0bf8990446082a3363dc2ef",
+   "positive_cells": 38854,
+   "rho": -0.004618217426708536,
+   "frac3px": 0.05721699919173012,
+   "coverage3px": 0.21265408941835628,
+   "vacuous": false
+  },
+  {
+   "alias": "gems49_gate_ortho_w025_02376",
+   "path": "/tmp/gems/registry/gems49_gate_ortho_w025_02376.tif",
+   "sha256": "c58fe0551e120678fff190239146985d0b2f7255255535fb5fb637a05cb40af3",
+   "positive_cells": 40000,
+   "rho": -0.0053797474769918495,
+   "frac3px": 0.024971285149104523,
+   "coverage3px": 0.20663149341067502,
+   "vacuous": false
+  },
+  {
+   "alias": "gems50_h52_coincidence8_80k",
+   "path": "/tmp/gems/registry/gems50_h52_coincidence8_80k.tif",
+   "sha256": "a2ed87fac9fdb4b9604ab2850b5f750eefe51fa9795caa6a503fc4739de6475d",
+   "positive_cells": 80000,
+   "rho": -0.005774236016824506,
+   "frac3px": 0.11911345556642702,
+   "coverage3px": 0.2921782499540869,
+   "vacuous": false
+  },
+  {
+   "alias": "gems50_h60_officialstack_50k",
+   "path": "/tmp/gems/registry/gems50_h60_officialstack_50k.tif",
+   "sha256": "7d5a83a326f9e3a951b88dbcf3db74228cfab0ab13271babbbf79f5679b69f5a",
+   "positive_cells": 50000,
+   "rho": -0.004505407053938787,
+   "frac3px": 0.08095460926532522,
+   "coverage3px": 0.2289803735863465,
+   "vacuous": false
+  },
+  {
+   "alias": "gems50_h60_union_d2_75308",
+   "path": "/tmp/gems/registry/gems50_h60_union_d2_75308.tif",
+   "sha256": "772cf4502bfc00f9265560b001cd307c8bc699ab2b0bac2c17528020d779fd19",
+   "positive_cells": 75308,
+   "rho": -0.003539805168872401,
+   "frac3px": 0.23873739737099586,
+   "coverage3px": 0.40170914698822785,
+   "vacuous": false
+  },
+  {
+   "alias": "gems52_h83_offcatalogue_cotrain_e3",
+   "path": "/tmp/gems/registry/gems52_h83_offcatalogue_cotrain_e3.tif",
+   "sha256": "dee4ee5ee364ae2dae4b684e9f35cbf0a07216b75f13369630bc24cc5d65efd2",
+   "positive_cells": 37654,
+   "rho": -0.004100409780127691,
+   "frac3px": 0.07185093801846258,
+   "coverage3px": 0.1847466788250045,
+   "vacuous": false
+  },
+  {
+   "alias": "gems60_h65_dem10_knick",
+   "path": "/tmp/gems/registry/gems60_h65_dem10_knick.tif",
+   "sha256": "0728d1193d9ee9f31e800ea8f9167058a409e5e17bdb24c1127ae94f3225375e",
+   "positive_cells": 40000,
+   "rho": -0.004430349454607312,
+   "frac3px": 0.021397881482111712,
+   "coverage3px": 0.056210380013209806,
+   "vacuous": false
+  },
+  {
+   "alias": "gems60_h66_dem10_bedrock_dksn",
+   "path": "/tmp/gems/registry/gems60_h66_dem10_bedrock_dksn.tif",
+   "sha256": "cde6b57be8aaac9b3e35df6c90e26fd51a95b190653acc375d354ae69a5eada1",
+   "positive_cells": 40000,
+   "rho": -0.004723081804010383,
+   "frac3px": 0.04853873314331901,
+   "coverage3px": 0.162724463668483,
+   "vacuous": false
+  },
+  {
+   "alias": "gems61c_gravstep_liveband_40k",
+   "path": "/tmp/gems/registry/gems61c_gravstep_liveband_40k.tif",
+   "sha256": "e3ccdf59f8b36f2f089f0eeaafac2547a96cc46e07c7eb2535449bd0e26f8873",
+   "positive_cells": 40000,
+   "rho": 0.0020974220655043713,
+   "frac3px": 0.4273620623644021,
+   "coverage3px": 0.3181007061034688,
+   "vacuous": false
+  },
+  {
+   "alias": "gems8_hedge_v2_01563",
+   "path": "/tmp/gems/registry/gems8_hedge_v2_01563.tif",
+   "sha256": "052688eafbc7a55d90caab72252a50304fe5caa8ecf973f8e791b4ae910f0792",
+   "positive_cells": 227507,
+   "rho": -0.005939141541804137,
+   "frac3px": 0.22614540349683074,
+   "coverage3px": 0.34890475295667644,
+   "vacuous": false
+  },
+  {
+   "alias": "gemsdoe32_h33_2_b2_02778_zeros",
+   "path": "/tmp/gems/registry/gemsdoe32_h33_2_b2_02778_zeros.tif",
+   "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+   "positive_cells": 37654,
+   "rho": -0.004742796690311806,
+   "frac3px": 0.05036797549666057,
+   "coverage3px": 0.20855006983238872,
+   "vacuous": false
+  }
+ ],
+ "verdict": {
+  "n_registry": 21,
+  "n_vacuous": 3,
+  "max_abs_rho": 0.00927220270627128,
+  "rho_limit": 0.9,
+  "max_frac3px_non_vacuous": 0.4273620623644021,
+  "max_frac3px_all": 1.0,
+  "overlap_limit": 0.7,
+  "rho_trip": false,
+  "overlap_trip": false,
+  "closest_non_vacuous": "gems61c_gravstep_liveband_40k",
+  "vacuous_aliases": [
+   "gems13_r11_greedy_mp",
+   "gems13_r13_lattice_s5_00904",
+   "gems13_r14_union_tips10_lat6"
+  ],
+  "passed": true,
+  "verdict": "DISTINCT LANE"
+ }
+}
