@@ -68,6 +68,134 @@ field is the first in the group to combine the champion's mechanism with an inde
 
 ---
 
+## Session status — 2026-10-12 (`arena/90112fbe-62gemsdoe`)
+
+**Read this first.** One new artifact, six new measurements, and a mechanical gate that stopped it.
+
+### ⬇ The artifact — and the verdict is *do not submit it*
+
+`docs/downloads/gems62e-h62o-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-zeros.tif` · 243,379 bytes · sha256 `2f20698c5cbd886aca7cbbb6875d96015b15e736bfb28644aa286e478d543ddf` ·
+40,000 single-pixel dots of value 1.0 on an all-zero grid · minimum dot-to-dot separation
+**400 m**, **0** dots inside one
+300 m kernel · deterministic rebuild from the committed inputs identical:
+`True`.
+
+| gate | result |
+| --- | --- |
+| format (shared writer, bytes re-read from disk) | **LEGAL** — 1 band float32, EPSG:32611, 3730×3292, 100 m, transform asserted against the official sample, values [0, 1], **no nodata tag**, 0 NaN inside the footprint |
+| rank correlation vs 67 registry rasters | **PASS** — max \|ρ\| 0.0661 (limit 0.90) |
+| ≤ 70 % of dots within 3 px of one non-vacuous raster | **TRIP** — **87.84 %** vs `GEMSDOE22__gems22-h23-b-dti-optimal-emission-10pct-20261002` (isolated-random control 59.26 %) |
+| exact pixel overlap | **12,979 dots = 32.45 %**, 3.24× the 10.0 % chance expectation |
+| HOLDOUT-DTI (`gems62.holdout_segmented v1`) | **0.0000** CI [0.0000, 0.0000], 81,993 withheld positives over 2297 segments — **structurally zero** for an off-catalogue design, while its own random-dot control scores 0.0575 (`IR-62-27`) |
+| ORGANIZER-CONFIRMED | **none** — no file in this repository has ever received a submission receipt |
+
+**Verdict: `DUPLICATE - STOP: do not download-and-submit`.** Download it, overlay it in QGIS, learn from the recipe; do not
+upload it. The uniqueness rule is mechanical, it tripped, and the protocol says log and stop.
+
+### The lane's first deliverable, and a logged deviation from the lane
+
+The shoreline elevation-vs-distance profiles with flagged steps exist:
+`evidence/gems62-lahontan-isobase-99dots-profile.json` holds **176 profile rows** along a track
+azimuth of 83.40°, each with its elevation, the fitted isobase (global post-pluvial-rebound surface +
+7 level surfaces + a local strand fit) and the residual, produced by `src/gems62/lahontan.py`
+(`bench_cells` → `fit_isobase` → `level_structure` → `flag_steps` / `flag_deflections` →
+`shoreline_profile`) on the 25 m 3DEP DEM (`evidence/dem/lahontan_dem_utm11.tif`, int16 decimetres,
+covering 52.21 % of the footprint). **Only a handful were convincing, so only those were emitted** —
+and that emission is a dead end: 99 dots caps the arithmetic at 0.0103 even with perfect credit, the
+datum-band emitter yields **59** hard-core dots, and the datum-only habitat measures **0.61×** the
+isolated-random control (0.03× for the pluvial lake-flat). The lane therefore carries forward as
+**three detector features** (isobase residual, datum band, |residual|) inside the 34-feature stack,
+not as an emitter. Logged as a deviation for the selector, per the protocol.
+
+### What was built, and what it measured
+
+34 features (the organiser's 19 bands + 9 derivative/texture/coherence + 2
+catalogue-geometry + 3 Lake Lahontan datum layers) → HistGradientBoosting under **6 spatial blocks** →
+one out-of-fold surface (**mean blocked AUC 0.9585**, leakage canary
+`[]`, max per-feature AUC 0.757) → priority
+`OOF × (LiDAR ex_max/255 + 0.05)^2.0` with a 300 m
+catalogue standoff → hard-core emission of the 40,000 highest 7×7 local maxima. Against
+the 0.2778 champion's measured profile it **matches or beats** every aggregate axis: mass
+40,000 vs 37,654 · self-kernel 0.0000 vs 0.0173 · evenness
+569 vs 547 cells · credit vs the mapped catalogue 0.0000 vs
+0.0074 · credit vs SGMC-off-catalogue 0.0694 vs 0.0655 · median catalogue distance
+1924 m vs 1,965 m · LiDAR scarp mean 112.6 vs 82.9.
+
+It **loses on arrangement**: dens21 4.56 against the top family's 8.75–9.62, and coh21
+0.1593 against 0.307–0.336 — the field is nearly uniform where the 0.26–0.2778 family is
+2.7× locally concentrated. A pre-registered concentration fix (experiment 11, γ = 1–3) moved dens21
+4.56 → 4.44: **refuted**.
+
+Model arithmetic on the published metric (`DTI = c/(0.2 + 0.8·K/M)` for isolated unit dots, per-dot
+credit from experiment 8's leave-artifact-out reward model, CV ρ 0.7885):
+0.2374 at K = 12,000 and 0.2204 at K = 13,688. **MODEL, never
+a score.** Beating 0.2778 at M = 40,000 needs c ≥
+0.1222; the brief's stated target 0.3195 needs c ≥
+0.1406; the mirrored top-5 cut-off 0.3333 needs c ≥
+0.1467.
+
+### The measurement that ends the "match the champion's profile" strategy
+
+`h34-scatter-q50-arr-matched` has the champion's **exact** mass (37,654), a **higher** SGMC credit
+(0.0662 vs 0.0655) and a **higher** LiDAR mean (109 vs 82.9) — and scored **0.0778** against 0.2778.
+No aggregate property this sandbox can measure certifies placement quality: the reward model ranks
+*families* (CV ρ 0.7885 on implied credit), the vote surrogate measures
+incumbent **similarity** — precisely what the uniqueness protocol forbids maximising — and the
+mandated holdout returns exactly 0.0 for any off-catalogue design. **No local instrument available
+here can rank a new field**, which is why this session ships a stopped artifact instead of a slot.
+
+### Why the gate tripped (honest reading)
+
+The comparator is a 516,738-cell "DTI-optimal emission" field that itself scored
+0.0748. Two independent hard-core top-40k selections from priority surfaces
+built on the **same public layers** land on the same sharpest peaks, so the shared pixels are a
+consequence of the shared input rather than of copying — and the random control shows
+59.3 % of *any* 40k field falls inside that raster's 3 px
+halo. That does not make it submittable: a third of the field inherits the pixels of a low-scoring
+artifact, and the gate is written to be mechanical. The remedy is not to argue with the gate — it is
+to emit from evidence the comparators do not share (a LiDAR corridor trace; `docs/next-steps.md` §1–2).
+
+### Irregularities added (`docs/irregularities.md`)
+
+`IR-62-E-01` the "Poisson-300 m off-catalogue control" in the group's history is a **mislabelled
+duplicate** (same 44,090 dots, Jaccard 1.0000) — the claim that random placement scores 0.26 is
+withdrawn · `IR-62-E-02` **25 of the 52 pinned registry rows hash-mismatch** their index pin, and the
+comparator that tripped the gate is one of the 35 unpinned rows · `IR-62-E-03` the mandated segmented
+holdout is **undefined** for an off-catalogue design (0.0000 while its own random-dot control scores
+0.0575) · `IR-62-E-04` a pixels-vs-metres units bug silently deleted ten candidates · `IR-62-E-05`
+both overlap legs of the uniqueness rule are **density-blind at 40 k dots**, measured three
+independent ways (two independent 40 k hard-core fields read Jaccard-3px 0.2042; the sibling lane's
+233-raster audit puts its information-free control at 0.331 against its own 0.345) — the rule's
+`DUPLICATE` answer is nonetheless reported and **not** overruled · `IR-62-E-06` the brief's target is
+stale (#1 is 0.4133, the top-5 cut-off 0.3333, 0.3195 is rank 9) and the information-free ceiling at
+this mass is 0.0869 · `IR-62-E-07` two wrong numbers were printed before publication and are corrected
+(chance ratio 3.24×, not 0.0; LiDAR coverage is 75.34 % of the footprint, not 31.71 % of the grid) ·
+`IR-62-E-08` a high blocked AUC against a *consensus* target is not evidence about the organiser's
+labels · `IR-62-E-09` **three name collisions with concurrent sessions**, caught only by the merge
+(`evidence/run_card_20261012.json` written twice, the hypothesis id `h62n` already shipped by another
+lane, and a duplicate archive page) — resolved by renaming this lane's card to
+`evidence/run_card_20261012_62e.json`, its artifact to `gems62e-h62o-…`, and by adopting
+branch-slugged names.
+
+### Repository hygiene
+
+`pytest tests/` at the root now **collects and passes 57 tests** — `IR-62-TRUNK-01` (the missing
+`PIXEL_M` and `brute_force_components`) is resolved: `src/gems62/grid.py:38`,
+`src/gems62/metric.py:269`. New this session: `tests/test_exp6_dti.py` (3 tests) proves
+`exp6.dti_binary_fast` equals `gems62.metric.dti_components` to 1e-5 and that the hard-core emitter's
+minimum separation exceeds 3 px; `tests/test_site_20261012.py` (8 tests) greps every published number
+back out of `evidence/run_card_20261012_62e.json`. The previous front page is preserved verbatim as
+`docs/index-20261011b.html` and the two 2026-10-11b test modules now follow it.
+Site pages are generated, never hand-edited: `scripts/make_site_20261012_62e.py`,
+the shared `scripts/render_doc_pages.py`, `scripts/make_readme_20261012.py`.
+
+**Re-run cost for a fresh session:** `/tmp/*` and `build/*` are outside the snapshot — re-fetch the 87
+registry rasters and the 419 MB stack through `api.github.com`, then exp6 517 s, exp8 39 s, exp9 16 s,
+exp10 85 s, exp11 11 s, exp12 139 s. Dependencies: `pip install --break-system-packages numpy scipy
+rasterio pillow pytest scikit-learn matplotlib`.
+
+---
+
 ## Session status — 2026-10-11b (`arena/d0303476-62gemsdoe`)
 
 The 2026-10-11b session's full status table lives in its executive summary and evidence:

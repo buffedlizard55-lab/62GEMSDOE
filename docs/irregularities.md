@@ -678,3 +678,112 @@ now keys on the row's own link target — the claim a row can make about a file 
 links to, whatever directory the href carries. Found
 because this lane's merge inherited it and the gate failed: a defect that only another lane's prose
 could surface. Fixed in the shared tool, not worked around in this lane's page.
+
+---
+## Added 2026-10-12 (session `arena/90112fbe-62gemsdoe`, lane 62E) — numbered `IR-62-E-nn`, claiming no numbers
+
+**A fourth ID collision in one day, resolved by namespace instead of by renumbering.** This session
+allocated `IR-62-25` … `IR-62-32` before merging, and merged `main` already carried `IR-62-25` …
+`IR-62-28` from session `arena/778884cc` plus `IR-62-J-nn` from `arena/b7846648`. Per the rule
+`IR-62-24` states and the convention `IR-62-J-09` sets, the entries below are lane-namespaced
+`IR-62-E-nn` and claim no global numbers. Two further collisions were caught in the same merge and are
+recorded as `IR-62-E-09`. Evidence for every entry: `evidence/run_card_20261012_62e.json`,
+`evidence/exp6_detector_blocked.json`, `evidence/exp8_reward_model.json`,
+`evidence/exp9_profile_matched_emission.json`, `evidence/exp10_linearity.json`,
+`evidence/exp11_concentration.json`.
+
+### IR-62-E-01 — the group's "Poisson-300 m off-catalogue control" is a mislabelled duplicate
+
+`GEMSDOE30/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-…-91eae1ca.tif` and the
+`GEMSDOE25`/`60GEMSDOE` file `gems25-dotted-h19-5-d2-8-…` carry **the same 44,090 dots** (exact
+overlap 44,090 = 100 %, Jaccard 1.0000); two of the four 44,090-dot rows are **byte-identical**
+(sha256 `91eae1ca42ec845e…`), and the hash embedded in the "poisson" filename is that file's own sha
+prefix. The name advertises a random-placement control and the group's history reads it as one ("a
+Poisson control scored 0.2600"). **Any inference that random placement scores 0.26 is withdrawn.**
+Consequence: registry rows must be de-duplicated before a model is fitted — 79 rows collapse to **47
+distinct fields** (`evidence/exp8_reward_model.json`).
+
+### IR-62-E-02 — `research/registry_index.json`'s sha256 column is unreliable, and the comparator that tripped this session's gate is unpinned
+
+Of the 87 fetched registry rasters, 52 carry a pin and **25 of those 52 do not match the fetched
+bytes**. In 11 of the 25 the fetched bytes match the hash embedded in the artifact's own filename
+(self-authenticating); in the other 14 there is no embedded hash to compare against, and **35 rows
+carry no pin at all**. The raster whose dots tripped the uniqueness gate
+(`GEMSDOE22 h23-b-dti-optimal-emission-10pct`, 516,738 cells, owner-reported 0.0748) is one of the
+unpinned rows, so its provenance cannot be verified from this sandbox. Every score attached to those
+rows is labelled OWNER-REPORTED, never ORGANIZER-CONFIRMED.
+
+### IR-62-E-03 — the mandated segmented holdout is undefined for an off-catalogue design
+
+With a 300 m catalogue standoff every dot lies outside the withheld catalogue positives, so pooled
+**HOLDOUT-DTI = 0.0000**, CI [0.0000, 0.0000] (`gems62.holdout_segmented v1`, 4 folds, seeds 20/21,
+2,297 segments, 81,993 withheld positives, α 0.2 β 0.8, 300 m triangular kernel) while the
+evaluator's **own random-dot control scores 0.0575** and its random-line control 0.0170. A holdout
+whose positives are mapped catalogue segments measures catalogue hugging, which the leaderboard
+punishes (credit per dot against the mapped catalogue has Spearman **−0.594** with owner-reported
+scores over 47 distinct fields). Extends `IR-62-HOLDOUT-01`: the instrument is not merely mis-ranked,
+it is **structurally zero** for this lane's design.
+
+### IR-62-E-04 — a pixels-versus-metres units bug silently deleted ten candidates
+
+In `scripts/exp8_reward_model.py` the catalogue distance `d_cat = distance_transform_edt(~catalogue)`
+is in **pixels** while the standoff conditions were written in **metres** (`d_cat >= 300`, `>= 1500`),
+so every standoff candidate found zero eligible cells and printed "only 0 maxima — skipped" — which
+reads as a legitimate outcome rather than as a bug. Fixed as `d_cat_m = d_cat * 100.0` in
+`exp9`/`exp11`/`exp12`; all standoff rows are now populated (16 of 20 combinations feasible,
+`evidence/exp9_profile_matched_emission.json`).
+
+### IR-62-E-05 — both overlap legs of the uniqueness rule are density-blind at 40 k dots; measured three independent ways
+
+*This session, 67 comparators:* two **independent** 40,000-dot hard-core fields read Jaccard-3px
+**0.2042** (a 40 k field's 3 px dilation covers 33.4 % of the footprint, so the masks must overlap),
+and the isolated-random control reads **0.5926** on the ≤70 %-within-3-px leg and **0.2776** on
+Jaccard against the same comparator that this lane's field scored 0.8784 and 0.4561 against.
+*Sibling session `arena/61e7859a`, 233 comparators:* H63's maximum dilated Jaccard is **0.345**, an
+information-free 40k control trips the same statistic at **0.331**, and the family's own top
+submissions score **0.893-0.948** against each other. *Earlier:* `IR-62-22` measured the leg as
+vacuous against a lattice (uniform-random 0.9987). Three independent measurements agree: an
+**absolute** threshold on either leg condemns the geometry of the mass, not the copying. The
+informative statistics are the **exact-pixel** leg, whose chance expectation is closed-form
+(`positives / footprint`; this lane's field sits at **3.24×** chance), and each leg **normalised by its
+own control**. Fix once in `src/gems62/uniqueness.py`, not in a lane fork. Until then the mechanical
+verdict is reported and **not** overruled: this lane's artifact is stopped.
+
+### IR-62-E-06 — the standing brief's headline target is stale
+
+The brief calls 0.3195 (and in one place 0.3774) the highest score. The mirrored official leaderboard
+of 2026-10-11T20:57:47Z puts **#1 at 0.4133**, the top-5 cut-off at **0.3333**, and 0.3195 at **rank
+9**; the group's best (0.2778) is rank 23 of 50. Same finding as `IR-62-17`; repeated because the
+brief repeats it, and because `evidence/metric_ceiling.json` bounds an information-free 40,000-dot
+field at **0.0869**, so no target above that is reachable without real placement information.
+
+### IR-62-E-07 — two wrong numbers were printed before publication and are corrected here
+
+(a) The first `exp12` run computed the exact-overlap chance expectation as a **count** (4,000) and
+divided a **fraction** by it, printing `chance_ratio = 0.0`; the corrected value is **3.24× chance**.
+(b) This session's own notes recorded the LiDAR scarp composite as covering **31.71 %** — that is
+coverage of the whole 3,730 × 3,292 grid; restricted to the scoring footprint the same file covers
+**75.34 %** (bands 6-8: 62.07 %), which reconciles with the 75 % figure in `docs/next-steps.md`.
+Recorded per the rule `IR-62-18` set: a wrong number that was ever printed is corrected in the
+register, not quietly overwritten.
+
+### IR-62-E-08 — a high blocked AUC against a consensus target is not evidence about the organiser's labels
+
+The 34-feature detector reaches mean blocked AUC **0.9585** over 6 spatial blocks with no single
+feature above 0.90 (max 0.757, `detelev_gradmag_max5`), so the leakage canary is not tripped. But the
+target is a **consensus of prior public submissions** built from these same public layers, so a high
+blocked AUC means the group's consensus is reproducible from primary data. It is disclosed rather than
+celebrated, and it gates nothing.
+
+### IR-62-E-09 — three name collisions between concurrent sessions, caught only by the merge
+
+(1) `evidence/run_card_20261012.json` was written independently by two sessions on the same day
+(add/add conflict); this lane's card is now `evidence/run_card_20261012_62e.json`. (2) The hypothesis
+id `h62n` was already shipped by session `arena/778884cc`
+(`gems62-h62n-lahontan-localmode-balanced-16864dots-…`), so this lane's artifact was renamed
+`gems62e-h62o-…` before publication — the bytes and sha256 are unchanged, only the name moved.
+(3) `docs/index-2026-10-11b-superseded.html` duplicated the archive page `main` already carried as
+`docs/index-20261011b.html`; the duplicate was deleted and the two 2026-10-11b test modules follow
+`main`'s name. **Convention going forward:** derive session artifact names, run-card filenames and
+hypothesis ids from the branch slug (`62e`, `90112fbe`), never from the date alone — four sessions
+writing to one repository inside twenty-four hours will collide on any date-only name.

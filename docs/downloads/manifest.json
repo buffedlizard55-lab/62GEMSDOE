@@ -11,7 +11,7 @@
   "footprint_cells": 5167373,
   "catalogue_cells": 60988
  },
- "n_files": 23,
+ "n_files": 25,
  "files": [
   {
    "path": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif",
@@ -1463,6 +1463,201 @@
    "sidecar_matches_bytes": true
   },
   {
+   "path": "docs/downloads/gems62e-h62o-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-nan.tif",
+   "bytes": 391111,
+   "fails": [
+    "no_nodata_tag",
+    "no_nan_anywhere"
+   ],
+   "fails_only_strict_conventions": true,
+   "sha256": "2803ae87f0ce63481d84bc4c6c7dff72d8e20bb16f296c08c1a8e0ee29159b57",
+   "dots": 40000,
+   "total_mass": null,
+   "min": "NaN",
+   "max": "NaN",
+   "nodata": "NaN",
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 7111787,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 7111787,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 40000,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": false
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": false
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 12,
+   "checks_total": 14,
+   "format_legal": false,
+   "portal_range_risk": "low",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "FORMAT PROBE (NaN outside the footprint, nodata=NaN) - never submitted; passes the published contract, fails this lane's stricter convention, and the field itself is stopped by the uniqueness gate (DUPLICATE - STOP)",
+   "ok_to_submit": false,
+   "note": "the same 40,000 dots with the outside-footprint cells encoded as NaN and a NaN nodata tag. Published as a format probe only: NaN outside the footprint plus a nodata tag is one of the two mechanisms behind the portal's 'Predicted values must be in range [0, 1]' rejection, so the -zeros twin is the file to read or upload. Carries the same DUPLICATE - STOP uniqueness verdict as the -zeros file.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "no score expected - it exists to record what the NaN twin of the same field looks like to the portal's validator",
+   "artifact_of": "scripts/exp12_finalize.py (session arena/90112fbe-62gemsdoe, lane 62E)",
+   "sidecar": "docs/downloads/gems62e-h62o-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-nan.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62e-h62o-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-zeros.tif",
+   "bytes": 243379,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "2f20698c5cbd886aca7cbbb6875d96015b15e736bfb28644aa286e478d543ddf",
+   "dots": 40000,
+   "total_mass": 40000.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 40000,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "DUPLICATE - STOP, DO NOT SUBMIT (gems62.uniqueness verdict over 67 registry rasters): format-legal 1 band float32 EPSG:32611 3730x3292, values [0, 1], no nodata tag, 0 NaN, and isolation is proven - but 87.84 % of the dots lie within 3 px of one non-vacuous registry raster (limit 70 %; isolated-random control 59.26 %) and 12,979 of the 40,000 dots (32.45 %) are exactly that raster's pixels, 3.24x the 10.0 % chance expectation. Both overlap legs are density-blind at this mass (IR-62-E-05); the rule's answer is reported and not overruled. OK to download and inspect, not to upload",
+   "ok_to_submit": false,
+   "note": "40,000 unit dots, hard-core (minimum dot-to-dot separation 400.0 m, 0 dots inside one 300 m kernel), emitted as the top 40,000 7x7 local maxima of OOF x (LiDAR ex_max/255 + 0.05)^2 with a 300 m catalogue standoff, where OOF is a 34-feature HistGradientBoosting surface trained under 6 spatial blocks (mean blocked AUC 0.9585, leakage canary clean). Matches or beats the 0.2778 champion on every aggregate axis measured (mass 40,000 vs 37,654; self-kernel 0.0000 vs 0.0173; evenness 569 vs 547 cells; credit vs catalogue 0.0000 vs 0.0074; credit vs SGMC-off-catalogue 0.0697 vs 0.0655; LiDAR scarp mean 112.6 vs 82.9) and loses on arrangement (dens21 4.56 vs 8.75-9.62, coh21 0.1595 vs 0.307-0.336); the pre-registered concentration fix was refuted (dens21 4.56 -> 4.44). Redundant in class with the sibling lane's H63 40k file, which carries the wider control-normalised uniqueness audit (233 comparators).",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "MODEL, never a score: 0.2374 at K = 12,000 and 0.2204 at K = 13,688 from the exp8 reward model's implied per-dot credit (c = 0.1044, CV rho 0.7885 over 47 de-duplicated fields). The information-free ceiling at this mass is 0.0869 (evidence/metric_ceiling.json), and no instrument in this sandbox can certify placement quality: h34-scatter-q50-arr-matched matched the champion's mass and beat its SGMC credit and LiDAR mean, and scored 0.0778 against 0.2778",
+   "artifact_of": "scripts/exp12_finalize.py (session arena/90112fbe-62gemsdoe, lane 62E)",
+   "sidecar": "docs/downloads/gems62e-h62o-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
    "path": "docs/downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif",
    "bytes": 459756,
    "fails": [],
@@ -2199,6 +2394,7 @@
   "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif: deliberately NOT format-legal ['no_nodata_tag', 'no_nan_anywhere'], labelled as a probe - FORMAT PROBE (NaN outside the footprint, nodata=NaN) - never submitted; passes the published contract, fails this lane's stricter convention, shipped by another lane as a twin",
   "docs/downloads/gems62-h63-diffuse-isolated-offcat-40k-nan.tif: deliberately NOT format-legal ['no_nodata_tag', 'no_nan_anywhere'], labelled as a probe - FORMAT PROBE TWIN, NOT THE SUBMISSION - the same dot set as the -zeros file encoded with NaN outside the footprint and a NaN nodata tag, so it fails this repository's stricter convention (no_nodata_tag, no_nan_anywhere) and is kept only to keep the two encodings of one field comparable. The published contract permits null/nan outside the footprint, but a float32 nodata sentinel is one of the two mechanisms behind the portal error 'Predicted values must be in range [0, 1]', so the -zeros twin is the one offered for submission",
   "docs/downloads/gems62-lahontan-isobase-99dots-nan.tif: deliberately NOT format-legal ['no_nodata_tag', 'no_nan_anywhere'], labelled as a probe - FORMAT PROBE (NaN outside, nodata=NaN) - never submitted; passes the published contract, fails our stricter one",
+  "docs/downloads/gems62e-h62o-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-nan.tif: deliberately NOT format-legal ['no_nodata_tag', 'no_nan_anywhere'], labelled as a probe - FORMAT PROBE (NaN outside the footprint, nodata=NaN) - never submitted; passes the published contract, fails this lane's stricter convention, and the field itself is stopped by the uniqueness gate (DUPLICATE - STOP)",
   "lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-nan.tif: NOT format-legal ['no_nan_anywhere']; it sits in a lane directory, is not linked from the site, and its owning lane has not labelled it - fix it there"
  ],
  "strict_checks": [

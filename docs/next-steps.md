@@ -232,3 +232,56 @@ and `docs/run-card.html`. Where the two disagree the disagreement is named, not 
   behaviour, not the organizers' labels. A detector trained toward it inherits that limitation.
 * `drivendata.org` and USGS/GDR hosts remain unreachable from the sandbox; all transport is GitHub
   mirrors with sha256 receipts.
+
+---
+## Added 2026-10-12 (session `arena/90112fbe-62gemsdoe`, lane 62E)
+
+**Outcome in one line:** a format-legal, perfectly isolated, champion-profile-matched 40,000-dot field
+built from the organiser's own 19-band stack — **stopped by the uniqueness gate** (87.84 % of its dots
+within 3 px of one registry raster, limit 70 %; 32.45 % exact pixel overlap = 3.24× chance), so it is
+published for inspection and must not be submitted. It is also redundant in class with the sibling
+lane's H63 file, which carries the wider control-normalised audit.
+
+1. **Emit from evidence the comparators do not share.** The trip is a consequence of shared inputs:
+   `GEMSDOE22 h23-b` is a "DTI-optimal emission" over the same public layers, and two independent
+   hard-core top-40k selections from correlated priority surfaces land on the same sharpest peaks. The
+   one emission geometry in the registry that is *not* derivable from the 19-band stack is a
+   **corridor trace**: seed on a LiDAR scarp ridge, extend along structure-tensor coherence while the
+   evidence holds, dot every 300 m along the trace.
+2. **Add the arrangement gate to the protocol.** Inside a mass band, arrangement separates 0.2778 from
+   0.0778 (`evidence/exp10_linearity.json`): every field scoring 0.26-0.2778 at M = 37-44 k carries
+   dens21 8.75-9.62 and coh21 0.307-0.336, and this lane's field carries 4.56 and 0.1595. A smooth
+   density multiplier cannot fix it (`evidence/exp11_concentration.json`: dens21 4.56 → 4.44), so the
+   fix has to be geometric — traces, not maxima of a smooth surface. Implement as
+   `src/gems62/arrangement.py`, one shared tool.
+3. **Control-normalise the density-blind uniqueness legs** (`IR-62-E-05`, agreeing with `IR-62-22` and
+   with the sibling lane's 233-raster measurement): report each leg next to its isolated-random
+   control, keep the exact-pixel leg absolute (closed-form chance = `positives / footprint`), and fix
+   it once in `src/gems62/uniqueness.py`.
+4. **Retire the segmented holdout formally** (`IR-62-E-03`): it returns exactly 0.0 for any
+   off-catalogue design and 0.0575 for random dots. If a hide-and-recover instrument is still wanted,
+   the withheld positives must be expert-mapped **new** faults, which the organiser will not share
+   (forum 11527) — so the honest status is that **no local instrument can rank a new field**, and the
+   only defensible use of a weekly slot is a probe whose shape the owner-reported receipts reward.
+5. **De-duplicate the registry before every fit** (`IR-62-E-01`): 79 rows → 47 distinct fields; and
+   re-derive or stop quoting `research/registry_index.json`'s sha column (`IR-62-E-02`).
+6. **Namespace session artifacts** (`IR-62-E-09`): run-card filenames, hypothesis ids and slugs must
+   carry the branch slug, not just the date.
+7. **Re-run cost for a fresh session.** `/tmp/*` and `build/*` are outside the snapshot: re-fetch the
+   87 registry rasters and the 419 MB stack through `api.github.com`, then exp6 517 s, exp8 39 s,
+   exp9 16 s, exp10 85 s, exp11 11 s, exp12 130 s. Dependencies: `pip install
+   --break-system-packages numpy scipy rasterio pillow pytest scikit-learn matplotlib`.
+
+### Limitations this lane could not remove
+
+* **Still zero organizer-confirmed scores**, in this lane and in the repository.
+* **No instrument available here can certify placement quality**: `h34-scatter-q50-arr-matched` matched
+  the champion's mass, beat its SGMC credit and beat its LiDAR mean, and scored 0.0778 against 0.2778.
+* `drivendata.org` and USGS hosts are unreachable; only `github.com`, `api.github.com`,
+  `codeload.github.com`, `pypi.org` and `registry.npmjs.org` are. Forum threads 11516/11527/11536
+  could not be re-read and are carried as OWNER-REPORTED.
+* The LiDAR scarp composite covers **75.34 %** of the scoring footprint (bands 6-8: 62.07 %) and the
+  25 m DEM **52.21 %**; the rest is mapped from 10 m topography and the organiser's geophysics alone.
+* The lane's own datum-only emission is measured below chance (0.61× isolated-random control; 0.03× for
+  the pluvial lake-flat), and its emitter yields **59** hard-core dots. The lane survives as three
+  detector features, not as an emitter — a logged deviation from the assigned lane.
