@@ -1,0 +1,460 @@
+{
+ "generated_utc": "2026-10-12T01:25:54Z",
+ "instrument": "S* rebuild v2 (fixed 300 m kernel)",
+ "evaluator": "gems62.metric.dti_binary (published formula, 300 m triangular kernel)",
+ "folds": "3x2 spatial blocks (row//1243, col//1646)",
+ "models": {
+  "A": {
+   "features": [
+    "org_mag_anom",
+    "org_rtp",
+    "org_tmi_hg",
+    "org_geod_2ndinv",
+    "org_iso_grav_anom_slope",
+    "org_tc",
+    "org_geod_shearrate",
+    "org_geod_dilaterate",
+    "org_tmi_vg",
+    "org_deq_n100a15",
+    "org_iso_grav_anom_vg",
+    "org_det_elev",
+    "org_iso_grav_anom",
+    "org_tmi",
+    "org_depth_to_base_surf",
+    "org_ieq_n100a15",
+    "org_cond_surf",
+    "org_iso_grav_anom_hg",
+    "org_det_elev_slope",
+    "chi_ksn",
+    "chi_logarea",
+    "chi_zmean",
+    "topo_aspect_coh",
+    "topo_hs_line",
+    "topo_curv_abs",
+    "topo_coh_grad",
+    "lidar_ex_max",
+    "lidar_step_max",
+    "lidar_downface",
+    "lidar_coh100"
+   ],
+   "fold_auc": {
+    "0": 0.8752454261598903,
+    "1": 0.8658197149843493,
+    "2": 0.8741097746346992,
+    "3": 0.8730017498445913,
+    "4": 0.8199189036873828,
+    "5": 0.8831649186263384
+   },
+   "auc_oof": 0.87170882845075,
+   "sweep": [
+    {
+     "q": 99.9,
+     "n_dots": 3693,
+     "dti_sstar": 0.02926538456591363,
+     "credit_sstar": 0.12253222759215165
+    },
+    {
+     "q": 99.8,
+     "n_dots": 7574,
+     "dti_sstar": 0.05025090055260561,
+     "credit_sstar": 0.10724445836296163
+    },
+    {
+     "q": 99.6,
+     "n_dots": 15540,
+     "dti_sstar": 0.08099357766369733,
+     "credit_sstar": 0.09174353341206284
+    },
+    {
+     "q": 99.4,
+     "n_dots": 23734,
+     "dti_sstar": 0.10485978322962866,
+     "credit_sstar": 0.08430534119684238
+    },
+    {
+     "q": 99.2,
+     "n_dots": 32070,
+     "dti_sstar": 0.122367982479973,
+     "credit_sstar": 0.07851407231558848
+    },
+    {
+     "q": 99.0,
+     "n_dots": 40391,
+     "dti_sstar": 0.13482843672403666,
+     "credit_sstar": 0.07368124686435777
+    },
+    {
+     "q": 98.5,
+     "n_dots": 61350,
+     "dti_sstar": 0.1558834304581058,
+     "credit_sstar": 0.06565668721794547
+    },
+    {
+     "q": 98.0,
+     "n_dots": 82661,
+     "dti_sstar": 0.1664448380389849,
+     "credit_sstar": 0.05972827347520305
+    },
+    {
+     "q": 97.0,
+     "n_dots": 125784,
+     "dti_sstar": 0.17176045331965867,
+     "credit_sstar": 0.05110300228394572
+    },
+    {
+     "q": 96.0,
+     "n_dots": 169250,
+     "dti_sstar": 0.16963637114358546,
+     "credit_sstar": 0.04536556981186054
+    },
+    {
+     "q": 94.0,
+     "n_dots": 257063,
+     "dti_sstar": 0.15975309125416068,
+     "credit_sstar": 0.03799577862676673
+    },
+    {
+     "q": 92.0,
+     "n_dots": 345804,
+     "dti_sstar": 0.14622240451646315,
+     "credit_sstar": 0.032672076870931335
+    },
+    {
+     "q": 90.0,
+     "n_dots": 435110,
+     "dti_sstar": 0.13447315621963435,
+     "credit_sstar": 0.028926409224874185
+    }
+   ],
+   "best": {
+    "q": 97.0,
+    "n_dots": 125784,
+    "dti_sstar": 0.17176045331965867,
+    "credit_sstar": 0.05110300228394572
+   }
+  },
+  "B": {
+   "features": [
+    "org_mag_anom",
+    "org_rtp",
+    "org_tmi_hg",
+    "org_geod_2ndinv",
+    "org_iso_grav_anom_slope",
+    "org_tc",
+    "org_geod_shearrate",
+    "org_geod_dilaterate",
+    "org_tmi_vg",
+    "org_deq_n100a15",
+    "org_iso_grav_anom_vg",
+    "org_det_elev",
+    "org_iso_grav_anom",
+    "org_tmi",
+    "org_depth_to_base_surf",
+    "org_ieq_n100a15",
+    "org_cond_surf",
+    "org_iso_grav_anom_hg",
+    "org_det_elev_slope",
+    "chi_ksn",
+    "chi_logarea",
+    "chi_zmean",
+    "topo_aspect_coh",
+    "topo_hs_line",
+    "topo_curv_abs",
+    "topo_coh_grad",
+    "lidar_ex_max",
+    "lidar_step_max",
+    "lidar_downface",
+    "lidar_coh100",
+    "vess_rtp_s1.2",
+    "vess_tmi_s1.2",
+    "vess_mag_anom_s1.2",
+    "vess_iso_grav_anom_s1.2",
+    "vess_det_elev_s1.2",
+    "vess_cond_surf_s1.2",
+    "vess_depth_to_base_surf_s1.2",
+    "vess_tc_s1.2",
+    "vess_iso_grav_anom_hg_s1.2",
+    "vess_tmi_hg_s1.2",
+    "orient_R_s1.2",
+    "vote90_s1.2",
+    "vess_mean_s1.2",
+    "vess_rtp_s2.5",
+    "vess_tmi_s2.5",
+    "vess_mag_anom_s2.5",
+    "vess_iso_grav_anom_s2.5",
+    "vess_det_elev_s2.5",
+    "vess_cond_surf_s2.5",
+    "vess_depth_to_base_surf_s2.5",
+    "vess_tc_s2.5",
+    "vess_iso_grav_anom_hg_s2.5",
+    "vess_tmi_hg_s2.5",
+    "orient_R_s2.5",
+    "vote90_s2.5",
+    "vess_mean_s2.5",
+    "step_d2b",
+    "step_cond",
+    "topo_coh_grad"
+   ],
+   "fold_auc": {
+    "0": 0.8914672479078248,
+    "1": 0.889728687688522,
+    "2": 0.894964216684332,
+    "3": 0.8911351985557798,
+    "4": 0.8526808694000189,
+    "5": 0.9084366491199705
+   },
+   "auc_oof": 0.8924040364975362,
+   "sweep": [
+    {
+     "q": 99.9,
+     "n_dots": 3902,
+     "dti_sstar": 0.0329824838423586,
+     "credit_sstar": 0.13088836583240396
+    },
+    {
+     "q": 99.8,
+     "n_dots": 7878,
+     "dti_sstar": 0.05649615043797819,
+     "credit_sstar": 0.11618200664275093
+    },
+    {
+     "q": 99.6,
+     "n_dots": 15893,
+     "dti_sstar": 0.09059478399157846,
+     "credit_sstar": 0.10051147176774888
+    },
+    {
+     "q": 99.4,
+     "n_dots": 23996,
+     "dti_sstar": 0.1139681260372921,
+     "credit_sstar": 0.09056372772600263
+    },
+    {
+     "q": 99.2,
+     "n_dots": 32176,
+     "dti_sstar": 0.13226864279238604,
+     "credit_sstar": 0.08436279069918905
+    },
+    {
+     "q": 99.0,
+     "n_dots": 40464,
+     "dti_sstar": 0.14731911002715434,
+     "credit_sstar": 0.08010062191836773
+    },
+    {
+     "q": 98.5,
+     "n_dots": 61376,
+     "dti_sstar": 0.17272822136874008,
+     "credit_sstar": 0.07232326226816588
+    },
+    {
+     "q": 98.0,
+     "n_dots": 82425,
+     "dti_sstar": 0.1865610842106316,
+     "credit_sstar": 0.06662078542167317
+    },
+    {
+     "q": 97.0,
+     "n_dots": 124950,
+     "dti_sstar": 0.19578166955451456,
+     "credit_sstar": 0.05790849961044308
+    },
+    {
+     "q": 96.0,
+     "n_dots": 167832,
+     "dti_sstar": 0.195612579951985,
+     "credit_sstar": 0.05190704503649364
+    },
+    {
+     "q": 94.0,
+     "n_dots": 254433,
+     "dti_sstar": 0.182811384126675,
+     "credit_sstar": 0.04304238354885689
+    },
+    {
+     "q": 92.0,
+     "n_dots": 341836,
+     "dti_sstar": 0.16616456779385103,
+     "credit_sstar": 0.03671718395269803
+    },
+    {
+     "q": 90.0,
+     "n_dots": 430149,
+     "dti_sstar": 0.15057557021579454,
+     "credit_sstar": 0.03201441033879596
+    }
+   ],
+   "best": {
+    "q": 97.0,
+    "n_dots": 124950,
+    "dti_sstar": 0.19578166955451456,
+    "credit_sstar": 0.05790849961044308
+   }
+  },
+  "C": {
+   "features": [
+    "org_mag_anom",
+    "org_rtp",
+    "org_tmi_hg",
+    "org_geod_2ndinv",
+    "org_iso_grav_anom_slope",
+    "org_tc",
+    "org_geod_shearrate",
+    "org_geod_dilaterate",
+    "org_tmi_vg",
+    "org_deq_n100a15",
+    "org_iso_grav_anom_vg",
+    "org_det_elev",
+    "org_iso_grav_anom",
+    "org_tmi",
+    "org_depth_to_base_surf",
+    "org_ieq_n100a15",
+    "org_cond_surf",
+    "org_iso_grav_anom_hg",
+    "org_det_elev_slope",
+    "chi_ksn",
+    "chi_logarea",
+    "chi_zmean",
+    "topo_aspect_coh",
+    "topo_hs_line",
+    "topo_curv_abs",
+    "topo_coh_grad",
+    "lidar_ex_max",
+    "lidar_step_max",
+    "lidar_downface",
+    "lidar_coh100",
+    "vess_rtp_s1.2",
+    "vess_tmi_s1.2",
+    "vess_mag_anom_s1.2",
+    "vess_iso_grav_anom_s1.2",
+    "vess_det_elev_s1.2",
+    "vess_cond_surf_s1.2",
+    "vess_depth_to_base_surf_s1.2",
+    "vess_tc_s1.2",
+    "vess_iso_grav_anom_hg_s1.2",
+    "vess_tmi_hg_s1.2",
+    "orient_R_s1.2",
+    "vote90_s1.2",
+    "vess_mean_s1.2",
+    "vess_rtp_s2.5",
+    "vess_tmi_s2.5",
+    "vess_mag_anom_s2.5",
+    "vess_iso_grav_anom_s2.5",
+    "vess_det_elev_s2.5",
+    "vess_cond_surf_s2.5",
+    "vess_depth_to_base_surf_s2.5",
+    "vess_tc_s2.5",
+    "vess_iso_grav_anom_hg_s2.5",
+    "vess_tmi_hg_s2.5",
+    "orient_R_s2.5",
+    "vote90_s2.5",
+    "vess_mean_s2.5",
+    "step_d2b",
+    "step_cond",
+    "topo_coh_grad",
+    "vent_dpx",
+    "vent_kd_2km",
+    "vent_kd_5km",
+    "vent_kd_10km",
+    "vvent_dpx"
+   ],
+   "fold_auc": {
+    "0": 0.8942527197723673,
+    "1": 0.8871289091650436,
+    "2": 0.8980381734461192,
+    "3": 0.8943200808839451,
+    "4": 0.8525926020266471,
+    "5": 0.9054047212715934
+   },
+   "auc_oof": 0.8931848969513185,
+   "sweep": [
+    {
+     "q": 99.9,
+     "n_dots": 3953,
+     "dti_sstar": 0.03194870577596457,
+     "credit_sstar": 0.12513254650756725
+    },
+    {
+     "q": 99.8,
+     "n_dots": 7942,
+     "dti_sstar": 0.05428194097210717,
+     "credit_sstar": 0.11067397527417012
+    },
+    {
+     "q": 99.6,
+     "n_dots": 15970,
+     "dti_sstar": 0.0894507326896897,
+     "credit_sstar": 0.09871097719547195
+    },
+    {
+     "q": 99.4,
+     "n_dots": 24182,
+     "dti_sstar": 0.11573212830080792,
+     "credit_sstar": 0.09130812442189269
+    },
+    {
+     "q": 99.2,
+     "n_dots": 32500,
+     "dti_sstar": 0.13561245703379793,
+     "credit_sstar": 0.08575386372865676
+    },
+    {
+     "q": 99.0,
+     "n_dots": 40848,
+     "dti_sstar": 0.15143706251072844,
+     "credit_sstar": 0.08165922997514342
+    },
+    {
+     "q": 98.5,
+     "n_dots": 61877,
+     "dti_sstar": 0.17741582594929584,
+     "credit_sstar": 0.07370963050940137
+    },
+    {
+     "q": 98.0,
+     "n_dots": 83163,
+     "dti_sstar": 0.1896685431852603,
+     "credit_sstar": 0.06719085005396361
+    },
+    {
+     "q": 97.0,
+     "n_dots": 125890,
+     "dti_sstar": 0.19791267219750466,
+     "credit_sstar": 0.05813176876762521
+    },
+    {
+     "q": 96.0,
+     "n_dots": 168944,
+     "dti_sstar": 0.19520019876239356,
+     "credit_sstar": 0.05150336423261551
+    },
+    {
+     "q": 94.0,
+     "n_dots": 255588,
+     "dti_sstar": 0.1817069607154025,
+     "credit_sstar": 0.042649411855232355
+    },
+    {
+     "q": 92.0,
+     "n_dots": 342788,
+     "dti_sstar": 0.16573066300612263,
+     "credit_sstar": 0.03655205557613385
+    },
+    {
+     "q": 90.0,
+     "n_dots": 430960,
+     "dti_sstar": 0.15016616479136422,
+     "credit_sstar": 0.03188112331927353
+    }
+   ],
+   "best": {
+    "q": 97.0,
+    "n_dots": 125890,
+    "dti_sstar": 0.19791267219750466,
+    "credit_sstar": 0.05813176876762521
+   }
+  }
+ },
+ "selected": "C",
+ "baseline_inherited": "H-2 raw-band detector: blocked DTI(S*) 0.2178, AUC 0.863 (datum62/evidence/detector2_cv.json; old 75 m-kernel instrument)"
+}

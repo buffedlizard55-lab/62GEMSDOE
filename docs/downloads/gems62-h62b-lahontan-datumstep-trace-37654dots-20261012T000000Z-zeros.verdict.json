@@ -1,0 +1,33 @@
+{
+ "verdict": "PROMOTE (one protocol leg trips) - format-legal 14/14 on the bytes re-read from disk, new mechanism, 1.27x the group champion on a score-calibrated instrument, off-catalogue by construction. The tripped leg is the 70 %-within-3-px rule against two blanket comparators at 1.21x and 1.27x the uniform-random null; rho and Jaccard say independent. The selector weighs it.",
+ "ok_to_submit": false,
+ "note": "H62-B, datum-offset lane, 2026-10-12. 37,654 isolated dots at a 300 m hard core, none within 300 m of a mapped fault; 76.9 % beyond 1 km. First absolute-elevation isobase in this repository (IR-62-B-09 closes IR-62-DEM-01). Independent instrument: 0.1683 mean 300 m kernel credit per dot vs champion h33 0.1324 vs hard-core control 0.1190 - 1.27x the champion, 1.41x chance, at identical mass. Uniqueness over 340 registry rasters: worst Spearman rho 0.0222 (limit 0.90, pass), worst exact Jaccard 0.00909 (pass), worst 3 px containment 0.8000 (limit 0.70, TRIPS) - and it trips against a 624,025-dot blanket field whose own 3 px halo covers 66.3 % of the footprint, so 1.21x the uniform-random null (IR-62-B-10). Reported, not suppressed: the selector decides.",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+ "expected_value_label": "MODEL 0.353 raw / 0.290 after the calibration regression shrinks it (OLS slope 0.325, intercept 0.175, r = 0.826, residual +/-0.12). A projection, never a score.",
+ "artifact_of": "scripts/run_h62b.py + scripts/finalize_h62b.py (session arena/fd6c719c-62gemsdoe)",
+ "evidence": [
+  "evidence/run_card_h62b.json",
+  "evidence/uniqueness_h62b.json",
+  "evidence/uniqueness_h62b_verdict.json",
+  "evidence/exp1_instrument_calibration.json",
+  "evidence/exp3_h62b_artifact_final.json",
+  "evidence/exp3_h62b_band_flags.json",
+  "evidence/figures_h62b.json",
+  "docs/results-h62b.md",
+  "docs/method.md",
+  "docs/run-card-2026-10-12-h62b.md",
+  "docs/irregularities.md (IR-62-B-01 .. IR-62-B-10)"
+ ],
+ "name": "gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "e56752ba2be2b07f50698d88e83551114aba9c0860f0ef1152191579206fac3d",
+ "bytes": 231909,
+ "dots": 37654,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

@@ -11,7 +11,7 @@
   "footprint_cells": 5167373,
   "catalogue_cells": 60988
  },
- "n_files": 23,
+ "n_files": 25,
  "files": [
   {
    "path": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif",
@@ -206,6 +206,102 @@
    "expected_value_label": "the other lane's statement: 'promote-to-defensibility-slot' as a *defensibility* deliverable (11 flagged steps, 13 deflections, 21-raster uniqueness audit), not as a scored improvement; the h62n sibling measures projection 0.0210 on the portal-calibrated instrument",
    "artifact_of": "scripts/run_lane_session.py (session arena/d4d2e53a)",
    "sidecar": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif",
+   "bytes": 231909,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "e56752ba2be2b07f50698d88e83551114aba9c0860f0ef1152191579206fac3d",
+   "dots": 37654,
+   "total_mass": 37654.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 37654,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "PROMOTE (one protocol leg trips) - format-legal 14/14 on the bytes re-read from disk, new mechanism, 1.27x the group champion on a score-calibrated instrument, off-catalogue by construction. The tripped leg is the 70 %-within-3-px rule against two blanket comparators at 1.21x and 1.27x the uniform-random null; rho and Jaccard say independent. The selector weighs it.",
+   "ok_to_submit": false,
+   "note": "H62-B, datum-offset lane, 2026-10-12. 37,654 isolated dots at a 300 m hard core, none within 300 m of a mapped fault; 76.9 % beyond 1 km. First absolute-elevation isobase in this repository (IR-62-B-09 closes IR-62-DEM-01). Independent instrument: 0.1683 mean 300 m kernel credit per dot vs champion h33 0.1324 vs hard-core control 0.1190 - 1.27x the champion, 1.41x chance, at identical mass. Uniqueness over 340 registry rasters: worst Spearman rho 0.0222 (limit 0.90, pass), worst exact Jaccard 0.00909 (pass), worst 3 px containment 0.8000 (limit 0.70, TRIPS) - and it trips against a 624,025-dot blanket field whose own 3 px halo covers 66.3 % of the footprint, so 1.21x the uniform-random null (IR-62-B-10). Reported, not suppressed: the selector decides.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "MODEL 0.353 raw / 0.290 after the calibration regression shrinks it (OLS slope 0.325, intercept 0.175, r = 0.826, residual +/-0.12). A projection, never a score.",
+   "artifact_of": "scripts/run_h62b.py + scripts/finalize_h62b.py (session arena/fd6c719c-62gemsdoe)",
+   "sidecar": "docs/downloads/gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.verdict.json",
    "sidecar_matches_bytes": true
   },
   {
@@ -1559,6 +1655,102 @@
    "expected_value_label": "MODEL, never a score: 0.2374 at K = 12,000 and 0.2204 at K = 13,688 from the exp8 reward model's implied per-dot credit (c = 0.1044, CV rho 0.7885 over 47 de-duplicated fields). The information-free ceiling at this mass is 0.0869 (evidence/metric_ceiling.json), and no instrument in this sandbox can certify placement quality: h34-scatter-q50-arr-matched matched the champion's mass and beat its SGMC credit and LiDAR mean, and scored 0.0778 against 0.2778",
    "artifact_of": "scripts/exp12_finalize.py (session arena/90112fbe-62gemsdoe, lane 62E)",
    "sidecar": "docs/downloads/gems62e-h62o-orgstack-oof-lidarprof-40000dots-20261012-2f20698c5cbd-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif",
+   "bytes": 459756,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "82359f80280062072a4fdd8723d637a9bed0b77223386c319ab35bac990d8f23",
+   "dots": 125890,
+   "total_mass": 125890.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 125890,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "SESSION arena/7b275dfb (H-2R x vent-prior detector) - format-legal 14/14 on the bytes; unique vs 71 registry rasters (max tie-aware |rho| 0.501 < 0.90, max non-vacuous 3 px overlap 0.692 vs gemsdoe23-h30 < 0.70, mass-matched random control 0.410 so a disclosed 1.69x shared structure, not a copy; IR-62-H2R-02). Blocked OOF DTI(S* v2 fixed kernel) 0.1979 vs the same-instrument raw-band baseline 0.1718 (+15%), AUC 0.893 under the 0.90 leakage canary. The run card says promote-as-probe: legal and unique, merit unproven - no organiser receipt exists for any file here",
+   "ok_to_submit": false,
+   "note": "125,890 isolated off-catalogue dots from the champion mechanism (Hessian line response x orientation order parameter) rebuilt as supervised features plus a temperature/chemistry-weighted GDR vent prior; validated on the fixed-kernel S* instrument. Probe, not a proven gain.",
+   "submission_name": "gems62f-h2r-ventcons-125890-20261012T012736Z-zeros",
+   "submission_note": "62f: H2R multi-physics lineament consensus x vent prior, 125,890 isolated off-catalogue dots, S*v2-blocked CV. Unique vs 56 rasters. Legal.",
+   "organizer_score": null,
+   "expected_value_label": "MEASURED (local instrument, never a score): blocked DTI(S* v2) 0.1979 at 125,890 dots; MODEL condition to beat 0.2778 at this mass: hidden-set credit > 0.0778 per dot",
+   "artifact_of": "scripts/exp7_emit_20261012.py (session arena/7b275dfb-62gemsdoe)",
+   "sidecar": "docs/downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.verdict.json",
    "sidecar_matches_bytes": true
   },
   {

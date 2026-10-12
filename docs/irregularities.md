@@ -512,6 +512,138 @@ no pair, or if an exempt page has no recorded reason.
 **The rule:** **one list, imported; no copied lists in CI.** If a workflow names files, it will drift the
 first time a file is renamed — and a rename is exactly what a collision (IR-62-J-09) forces. When you fix a
 CI-only failure, ask which of the copies was authoritative, then delete the copies rather than the check.
+## Added 2026-10-12 by session `arena/7b275dfb-62gemsdoe` — numbered `IR-62-H2R-nn`
+
+Numbered in a lane namespace for the same reason as `IR-62-J-nn` (see the note above): by the
+time this session merged, `IR-62-25`…`IR-62-28` were allocated to session `arena/778884cc` on
+`main`, and the register is authoritative (`IR-62-24`). The kernel defect below is **the same
+defect as `IR-62-25`**, found independently in parallel; that entry is the authoritative one and
+this row is the cross-confirmation with a second reconstruction.
+
+| ID | Irregularity |
+| --- | --- |
+| **IR-62-H2R-01** | **Independent second discovery of the S* kernel defect (`IR-62-25`).** **The shared S* inversion fitted a 75 m kernel, not the published 300 m one.** `datum62/scripts/invert.py` quantises pixel distances on a quarter-pixel lattice (`j = dm*4`) but divides by `R=3` (`KERN = 1 - j/3`), so the triangle reaches zero at `j=3` → `dm=0.75 px` = 75 m; the surrounding `dm > 3` cutoff shows the intent was 3 px = 300 m. The metric itself (`src/gems62/metric.py`) is correct and tested against the page's worked example — only the *instrument* was wrong. Fixed once, in the template sense: `scripts/rebuild_sstar_20261012.py` re-runs the identical greedy inversion with `KERN = 1 - j/12`. The fixed instrument (S* v2, K = 18,899 px) explains **R² = 0.727** of the 56 owner-reported scores (old: 0.301) at Spearman 0.959 (old: 0.968). Every S*-based number produced before 2026-10-12 (including `datum62/evidence/*`) was fitted on the narrow kernel and is not comparable to S* v2 numbers without re-running. |
+| **IR-62-H2R-02** | **This session's field sits at 0.692 on the duplicate tripwire's asymmetric leg** (125,890 dots within 3 px of `gemsdoe23-h30-arrangement-matched-habitat`, limit 0.70). A mass-matched isolated-random control scores 0.410 against the same comparator, so the overlap is a genuine 1.69× enrichment — two fields built from overlapping geophysical corridors — and it is *disclosed on the landing page and in the run card*, not buried. The leg did not trip (0.692 against a 0.70 limit), the rank-correlation leg passed (max 0.501 against a 0.90 limit), and the symmetric Jaccard is 0.368. Flagged for reviewer attention because the margin to the letter-threshold is 0.8 percentage points. |
+
+
+---
+
+## Added 2026-10-12 (session `arena/fd6c719c-62gemsdoe`) — numbered `IR-62-B-nn`
+
+Same lane, same date, one of four parallel sessions: the *datum-offset* lane run as **H62-B**, the
+pluvial depositional datum as a strain gauge. Its artifact is
+`docs/downloads/gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif`
+(231,909 B, 37,654 dots, sha256 `e56752ba…`). Its write-up is
+[`results-h62b.md`](results-h62b.md) and its card is
+[`run-card-2026-10-12-h62b.md`](run-card-2026-10-12-h62b.md). Every number below is MEASURED unless
+labelled otherwise.
+
+### IR-62-B-01 — the group's "Poisson control" is not a control; it is the detector
+
+`GEMSDOE30` reports `d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca` at **0.2600** and
+presents it as a random control. Measured here: that file and `gems25-dotted-h19-5-d28-zeros` have
+**Jaccard = 1.00000** — 44,090 positives, identical pixel for pixel, differing only in compression
+and nodata encoding. So the claim "a random field scores the same as the detector, so placement does
+not matter" is **void**: the two scores are the same score. Controls rebuilt here on the same
+instrument, truth and mass: hard-core **0.1190**, uniform **0.1075**
+(`evidence/exp1_instrument_calibration.json`, `buffer3px` variant). An independent 40,000-dot draw
+in Experiment 2 over a 59,453-px truth gave 0.1197, so the bar is stable to ~0.6 %.
+
+### IR-62-B-02 — `labels.tif` is byte-identical to `existing_faults.tif`
+
+Both files in `data/` hash to `7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093`
+and hold the same 60,988 positives. The "labels" this repository holds are therefore the **catalogue
+of already mapped faults**, not a training set of new ones: there is no local ground truth for the
+target population at all. That is the single largest structural limit on every number here.
+
+### IR-62-B-03 — the prescribed catalogue holdout is zero by arithmetic, not by lack of skill (fixed in the template)
+
+The kernel is `k(d) = max(1 − d/300 m, 0)`, so a dot earns credit against a withheld truth pixel only
+inside 300 m. Every competitive emission deletes every dot within 300 m of the mapped catalogue. A
+dot set with no dot within 300 m of *any* catalogue pixel therefore has `TP_w = 0` against withheld
+*catalogue* pixels **necessarily**. Measured: pooled DTI **0.000000** for this artifact (its minimum
+distance to the catalogue is 400 m); the champion has 1,611 dots inside 300 m and so earns a little.
+The better an artifact is at being off-catalogue, the more certain the zero.
+
+Fixed **once, in the shared template**: `gems62.holdout.evaluate` now takes a `truth` argument so the
+withheld population can be an independent fault set (evaluator string `gems62.holdout.v2`). With
+SGMC-minus-catalogue truth the same evaluator returns 0.0728 for this artifact, 0.0741 for the
+champion and 0.0496 for a hard-core control.
+
+### IR-62-B-04 — the flagged step magnitudes are too large to be fault offset
+
+Median flagged step **24.4 m**, largest **82.7 m** (n = 40 stepped loci; `evidence/figures_h62b.json`).
+Post-15 ka offset of a single Lahontan shoreline is metres to a few tens of metres. These numbers are
+dominated by (a) error in the base-level construction where the band crosses dissected terrain and
+(b) the isostatic-rebound signal the 6 km isobase does not absorb. The *rank* of a flag is a robust
+z-score and is unaffected; the *metres* are not interpretable. The seed stage of this lane is
+consequently its weakest link, and the artifact's measured skill comes substantially from the
+ridge-relief extension, which is a general lineament criterion rather than a datum-specific one.
+Cure: fit the published rebound field instead of a free smooth surface (a named hypothesis, deferred
+— the station tables are not obtainable from this sandbox, which reaches five hosts).
+
+### IR-62-B-05 — the registry harvest contains rasters that are not on the competition grid (fixed)
+
+`gems62.uniqueness.compare` raised `ValueError` on `5GEMSDOE__proxy_window.tif` (512×512) and aborted
+the whole sweep, so the lane-drift check silently never completed. Fixed in the template:
+non-conforming comparators are skipped and counted (`_EntryList.skipped`). Five were skipped: four
+512×512 proxy windows and one 32×48 format test explicitly named `NOT_SUBMISSION`.
+
+### IR-62-B-06 — the brief's leaderboard number does not match any public row
+
+The brief states "0.3195 is the highest score right now". In the 50-row public leaderboard mirrored
+2026-10-11 (`research/leaderboard_latest_2026-10-11_60GEMSDOE.json`), 0.3195 is **rank 8**; #1 is
+**0.4133** and the top-5 cut-off is **0.3300**. Recorded, not resolved: this sandbox cannot reach
+`drivendata.org`, and no organizer receipt exists for any file in this repository.
+
+### IR-62-B-07 — a bare `pytest` at the repo root aborted with 3 collection errors (fixed)
+
+`lane62/` and `lane62-h62a/` are *independent re-derivations* of the same lane and each vendors its
+**own** copy of the `gems62` package. A root-level `pytest` collected all three, the copies shadowed
+each other, and `tests/test_metric.py` clashed by basename with `lane62/tests/test_metric.py`. The
+suite therefore could not be run at all from the root — which means it had not been. Fixed with a
+root `pytest.ini` (`testpaths = tests`, `pythonpath = src`, `--import-mode=importlib`) plus a
+documented per-lane invocation. **All 114 tests pass**: root 27, `lane62` 46, `lane62-h62a` 41.
+
+### IR-62-B-08 — two different projection formulas coexist in this repository
+
+`scripts/run_h62b.py` projects the score as `c · κ · M / (0.2M + 0.8N)`; `scripts/finalize_h62b.py`
+anchors instead on the champion's own implied truth credit, `T_ch(N) · (c / c_champion) /
+(0.2M·0.968 + 0.8N)`. At the shipped mass (M = 37,654, N = 10,000) they give **0.3484** and
+**0.3530** — a spread of 0.005. Both are `MODEL`, both are printed, and both are shrunk by the same
+calibration regression, whose residual is **±0.12**: the disagreement between the two formulas is
+24× smaller than the uncertainty of either. They also agree on the *decision* — the mass sweep peaks
+at M = 30,000–37,654 under both. Not fixed, because fixing it would mean re-running the sweep, and
+the choice of mass is not what is in doubt.
+
+### IR-62-B-09 — IR-62-DEM-01 is closed: absolute elevation is now available
+
+Band 12 of the official stack is `det_elev`, "topography with regional trends removed" — trend removed
+by an operator this repository cannot inspect. A Lahontan isobase is an absolute datum. Closed by
+fetching `geodawn_dem_a2_100m.tif` (sha256 `d32762a3…`, 5,165,644 valid cells inside the footprint,
+1027.9–3138.6 m, verified on the competition grid) and fitting the isobase on absolute elevation for
+the first time. Its provenance is an owner mirror of the GeoDAWN compilation, not an
+organizer-authenticated file.
+
+### IR-62-B-10 — a third independent quantification of IR-62-UNIQ-01 (the 70 %-within-3-px leg is density-blind)
+
+Over 340 registry comparators this artifact trips the overlap leg against exactly two distinct fields:
+`GEMSDOE3__coverage-v3-wide` (**80.0 %**; 624,025 dots; its own 3 px halo covers 66.3 % of the
+footprint) and `GEMSDOE22__h23-b-dti-optimal-emission-10pct` (**75.8 %**; 516,738 dots; halo 59.7 %).
+A uniform-random dot would score 0.663 and 0.597 on the same leg, so the ratios are **1.21×** and
+**1.27×** chance. This matches the direction of `IR-62-22` and adds the containment-to-null ratio as
+the quantity to report. The never-waived legs say the opposite of copying: worst Spearman ρ over 340
+comparators **0.0222** (limit 0.90) and worst exact Jaccard **0.00909** (`evidence/uniqueness_h62b.json`,
+`evidence/uniqueness_h62b_verdict.json`). 32 of the 340 comparators are formally vacuous. Reported,
+not suppressed; the selector decides.
+
+### IR-62-B-12 — the shared renderer emitted a `DeprecationWarning` on every run (fixed)
+
+`scripts/render_doc_pages.py` had `x.replace("\|", "|")`. `"\|"` is not a recognised Python escape,
+so CPython keeps it as backslash-pipe and warns — `DeprecationWarning: invalid escape sequence`
+(3.12+ promotes it to `SyntaxWarning`). The call is a no-op duplicate of the `.replace("\\|", "|")`
+immediately before it, so the fix is behaviour-preserving: write it as a raw string, `r"\|"`.
+Found because the root test suite now runs cleanly enough for one warning to be visible.
 
 ## Added 2026-10-12 by lane **H62-R** (session `arena/7eee17f9-62gemsdoe`)
 
@@ -527,6 +659,25 @@ lanes on the same day, and this register's rule (`IR-62-J-09`) is that a date is
 | **IR-62-H62R-03** | **A statistic can be wrong in the direction of flattering the job.** This lane's own isolation check counted dots inside a radius-3 disc **whose boundary it included**, so two dots exactly 300 m apart — where `k(300 m) = 0` exactly — were reported as sharing a disc, and (after the first fix) a dot counted as its own neighbour, making the receipt read "100 % of dots overlap" while an independent k-d tree read "minimum nearest-neighbour 300.000000 m, mean self-kernel 0.000000". The check now measures kernel mass received from *other* dots: **0 of 14,765**. Rule: state the boundary convention in the statistic's own name, and cross-check an isolation claim two independent ways. |
 | **IR-62-H62R-04** | **A hand-written hero drifted from the receipts, and only the test suite noticed.** When this lane replaced another as the current artifact, `docs/index.html` was hand-edited: it advertised 27,623 dots and sha `bd4690db` from an intermediate run while the receipts described 14,765 dots and sha `d5a15369`. Two re-runs in between changed the artifact after the page was written. Cures: the lane's block is **generated** by `scripts/update_h62r_section.py` (which refuses to write if the sidecar and the validation receipt disagree), `evidence/h62r_artifact.json` records which file the lane shipped, and `tests/test_shipped_artifact_h62r.py` re-derives every number in the block from the bytes. |
 | **IR-62-H62R-05** | **Merging two lanes put a NaN-encoded raster behind a download button.** The merge with `main` found `gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif` reachable through a `class="btn"` link sitting directly beside "Download Official GeoTIFF" — the other encoding of the same 440 dots, carrying 7,111,787 NaN cells. That is the exact shape of the failure the owner hit ("Predicted values must be in range [0, 1]"): two buttons, one of which the portal rejects. It was demoted to a labelled plain link (`not legal: no_nan_anywhere`), and `tests/test_downloads_are_submittable.py` now fails if any download **button** targets a raster that does not pass all 14 format checks, or if an approval block links one. The files themselves are kept: a labelled negative is a deliverable, an unlabelled download is a trap. |
+
+
+### IR-62-B-13 — the download-claim gate read one file's numbers as a claim about another (fixed)
+
+`scripts/audit_downloads.py::cross_check_page` decided which table row a file's hash and byte count
+belonged to by asking whether the row *mentions* the filename. On 2026-10-12 the H63M row's verdict
+prose reads "NOT the same artifact as `gems62-h63-diffuse-isolated-offcat-40k-zeros.tif`" while
+printing **H63M's** hash and byte count, so the gate reported H63M's numbers as a stale claim about
+the H63 file:
+
+    docs/index.html: prints hash 3b04880d5cd9f728 for gems62-h63-diffuse-isolated-offcat-40k-zeros.tif,
+                     whose sha256 starts fa0b254e191cbbc1
+    docs/index.html: prints 338,731 B for ... the file on disk is 184,739 B
+
+Both statements are individually true and both files are correct; the page was never wrong. The check
+now keys on the row's own link target — the claim a row can make about a file is the one it
+links to, whatever directory the href carries. Found
+because this lane's merge inherited it and the gate failed: a defect that only another lane's prose
+could surface. Fixed in the shared tool, not worked around in this lane's page.
 
 ---
 ## Added 2026-10-12 (session `arena/90112fbe-62gemsdoe`, lane 62E) — numbered `IR-62-E-nn`, claiming no numbers

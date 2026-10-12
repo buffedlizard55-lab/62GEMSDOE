@@ -27,6 +27,29 @@
   "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
   "verdict": "ANOTHER LANE'S DELIVERABLE (sessions arena/d4d2e53a + 778884cc) - format-legal 14/14 on the bytes, unique against 21 registry comparators, and their run card recommends 'promote-to-defensibility-slot'. This gate does not confirm or deny that: 440 dots cannot move the metric under any instrument, and their own numbers put the projection at 0.0295-0.0210 on the kernel-fixed instrument"
  },
+ "gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif": {
+  "artifact_of": "scripts/run_h62b.py + scripts/finalize_h62b.py (session arena/fd6c719c-62gemsdoe)",
+  "evidence": [
+   "evidence/run_card_h62b.json",
+   "evidence/uniqueness_h62b.json",
+   "evidence/uniqueness_h62b_verdict.json",
+   "evidence/exp1_instrument_calibration.json",
+   "evidence/exp3_h62b_artifact_final.json",
+   "evidence/exp3_h62b_band_flags.json",
+   "evidence/figures_h62b.json",
+   "docs/results-h62b.md",
+   "docs/method.md",
+   "docs/run-card-2026-10-12-h62b.md",
+   "docs/irregularities.md (IR-62-B-01 .. IR-62-B-10)"
+  ],
+  "expected_value_label": "MODEL 0.353 raw / 0.290 after the calibration regression shrinks it (OLS slope 0.325, intercept 0.175, r = 0.826, residual +/-0.12). A projection, never a score.",
+  "note": "H62-B, datum-offset lane, 2026-10-12. 37,654 isolated dots at a 300 m hard core, none within 300 m of a mapped fault; 76.9 % beyond 1 km. First absolute-elevation isobase in this repository (IR-62-B-09 closes IR-62-DEM-01). Independent instrument: 0.1683 mean 300 m kernel credit per dot vs champion h33 0.1324 vs hard-core control 0.1190 - 1.27x the champion, 1.41x chance, at identical mass. Uniqueness over 340 registry rasters: worst Spearman rho 0.0222 (limit 0.90, pass), worst exact Jaccard 0.00909 (pass), worst 3 px containment 0.8000 (limit 0.70, TRIPS) - and it trips against a 624,025-dot blanket field whose own 3 px halo covers 66.3 % of the footprint, so 1.21x the uniform-random null (IR-62-B-10). Reported, not suppressed: the selector decides.",
+  "ok_to_submit": false,
+  "ok_to_submit_note": "This lane's verdict is PROMOTE; this flag is a different question and is deliberately false. The rule in tests/test_download_manifest.py is that a claim of legality is not a claim of merit, and no file in this repository has an organiser-confirmed score. The two statements are consistent: the bytes are legal and the mechanism measures better than the champion on a calibrated instrument, and nobody here knows what it scores. Promotion is the selector's decision, under the weekly cap, and it is separate from this gate.",
+  "organizer_score": null,
+  "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+  "verdict": "PROMOTE (one protocol leg trips) - format-legal 14/14 on the bytes re-read from disk, new mechanism, 1.27x the group champion on a score-calibrated instrument, off-catalogue by construction. The tripped leg is the 70 %-within-3-px rule against two blanket comparators at 1.21x and 1.27x the uniform-random null; rho and Jaccard say independent. The selector weighs it."
+ },
  "gems62-h62g-benchcrosscut-hardcore-zeros.tif": {
   "artifact_of": "scripts/run_h62g.py",
   "evidence": [
@@ -238,6 +261,24 @@
   "organizer_score": null,
   "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score. The mechanical uniqueness gate stopped this one before promotion was even considered",
   "verdict": "DUPLICATE - STOP, DO NOT SUBMIT (gems62.uniqueness verdict over 67 registry rasters): format-legal 1 band float32 EPSG:32611 3730x3292, values [0, 1], no nodata tag, 0 NaN, and isolation is proven - but 87.84 % of the dots lie within 3 px of one non-vacuous registry raster (limit 70 %; isolated-random control 59.26 %) and 12,979 of the 40,000 dots (32.45 %) are exactly that raster's pixels, 3.24x the 10.0 % chance expectation. Both overlap legs are density-blind at this mass (IR-62-E-05); the rule's answer is reported and not overruled. OK to download and inspect, not to upload"
+ },
+ "gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif": {
+  "artifact_of": "scripts/exp7_emit_20261012.py (session arena/7b275dfb-62gemsdoe)",
+  "evidence": [
+   "evidence/run_card_20261012-h2r.json",
+   "evidence/e7_emit_20261012.json",
+   "evidence/e7_uniqueness_control_20261012.json",
+   "evidence/sstar_rebuild_20261012.json",
+   "docs/executive-summary-2026-10-12.md"
+  ],
+  "expected_value_label": "MEASURED (local instrument, never a score): blocked DTI(S* v2) 0.1979 at 125,890 dots; MODEL condition to beat 0.2778 at this mass: hidden-set credit > 0.0778 per dot",
+  "note": "125,890 isolated off-catalogue dots from the champion mechanism (Hessian line response x orientation order parameter) rebuilt as supervised features plus a temperature/chemistry-weighted GDR vent prior; validated on the fixed-kernel S* instrument. Probe, not a proven gain.",
+  "ok_to_submit": false,
+  "organizer_score": null,
+  "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+  "submission_name": "gems62f-h2r-ventcons-125890-20261012T012736Z-zeros",
+  "submission_note": "62f: H2R multi-physics lineament consensus x vent prior, 125,890 isolated off-catalogue dots, S*v2-blocked CV. Unique vs 56 rasters. Legal.",
+  "verdict": "SESSION arena/7b275dfb (H-2R x vent-prior detector) - format-legal 14/14 on the bytes; unique vs 71 registry rasters (max tie-aware |rho| 0.501 < 0.90, max non-vacuous 3 px overlap 0.692 vs gemsdoe23-h30 < 0.70, mass-matched random control 0.410 so a disclosed 1.69x shared structure, not a copy; IR-62-H2R-02). Blocked OOF DTI(S* v2 fixed kernel) 0.1979 vs the same-instrument raw-band baseline 0.1718 (+15%), AUC 0.893 under the 0.90 leakage canary. The run card says promote-as-probe: legal and unique, merit unproven - no organiser receipt exists for any file here"
  },
  "gemsdoe62-datum-lahontan-isobase-v8.tif": {
   "artifact_of": "scripts/run_lane.py (v8)",

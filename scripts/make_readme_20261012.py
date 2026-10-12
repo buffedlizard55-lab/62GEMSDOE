@@ -141,7 +141,7 @@ branch-slugged names.
 minimum separation exceeds 3 px; `tests/test_site_20261012.py` (8 tests) greps every published number
 back out of `evidence/run_card_20261012_62e.json`. The previous front page is preserved verbatim as
 `docs/index-20261011b.html` and the two 2026-10-11b test modules now follow it.
-Site pages are generated, never hand-edited: `scripts/make_site_20261012.py`,
+Site pages are generated, never hand-edited: `scripts/make_site_20261012_62e.py`,
 the shared `scripts/render_doc_pages.py`, `scripts/make_readme_20261012.py`.
 
 **Re-run cost for a fresh session:** `/tmp/*` and `build/*` are outside the snapshot — re-fetch the 87

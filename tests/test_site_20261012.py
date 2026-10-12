@@ -15,7 +15,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 CARD = json.loads((ROOT / "evidence/run_card_20261012_62e.json").read_text())
 INDEX = DOCS / "session-2026-10-12-62e.html"
-EXEC = DOCS / "executive-summary-2026-10-12.html"
+EXEC = DOCS / "executive-summary-2026-10-12-62e.html"
 TIF = DOCS / "downloads" / f"{CARD['slug']}.tif"
 
 

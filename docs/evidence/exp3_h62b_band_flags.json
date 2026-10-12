@@ -1,0 +1,32 @@
+{
+ "experiment": "E3 H62-B band and flag census",
+ "measured_utc": "2026-10-12T01:48:43Z",
+ "source": "build/surfaces/{band,footprint,step,defl}.npy, produced by scripts/build_surfaces.py",
+ "code": "scripts/run_h62b.py (flags) -- recomputed here verbatim from the cached surfaces",
+ "footprint_cells": 5167373,
+ "pluvial_band": {
+  "definition": "HAB <= 120 m & slope <= 6 deg & local relief (900 m) <= 60 m",
+  "cells": 2078294,
+  "fraction_of_footprint": 0.4022
+ },
+ "flags": {
+  "step": {
+   "definition": "|standardised isobase residual| >= 2.5, median/MAD per 50 km tile",
+   "cells": 305713,
+   "fraction_of_footprint": 0.0592
+  },
+  "deflection": {
+   "definition": "base-level contour azimuth turn >= 25 deg over 3 px",
+   "cells": 152351,
+   "fraction_of_footprint": 0.0295
+  },
+  "union": {
+   "cells": 439892,
+   "fraction_of_footprint": 0.0851
+  }
+ },
+ "shipped_dot_set": {
+  "M": 37654
+ },
+ "label": "MEASURED"
+}

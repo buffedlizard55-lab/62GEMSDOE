@@ -56,6 +56,13 @@ class RegistryEntry:
     vacuous: bool
 
 
+class _EntryList(list):
+    """:class:`list` of :class:`RegistryEntry` that also carries the comparators that were
+    skipped for not being on the competition grid (IR-62-UNIQ-02), so the count of what the
+    sweep actually covered is always visible."""
+    skipped: list[dict] = []
+
+
 def _read_mask(path: str | Path) -> np.ndarray:
     with rasterio.open(path) as src:
         arr = src.read(1)
@@ -84,22 +91,26 @@ def compare(
 
     # Precompute my dot dilation lazily per registry raster.
     entries: list[RegistryEntry] = []
-    skipped: list[tuple[str, tuple[int, ...]]] = []
+    # Two lanes fixed the same crash on the same day with two different shapes for this
+    # list (IR-62-UNIQ-02 here, IR-62-REG-02 on main).  Both consumers exist, so keep
+    # both: `skipped` is a list of dicts (this lane's callers read `.skipped` off the
+    # returned value) and `last_skipped["entries"]` is the tuple form main's callers
+    # read (scripts/run_lane_h62r.py).  The dict form is the superset -- build it once
+    # and derive the other, so the two can never disagree.
+    skipped: list[dict] = []
     for alias, p in sorted(registry_paths.items()):
         p = Path(p)
         if not p.exists():
             continue
         other = _read_mask(p)
         if other.shape != mine.shape:
-            # IR-62-REG-02 FIX (2026-10-12).  ``compare`` used to raise here.  The
-            # registry is harvested automatically from public repositories and now
-            # legitimately contains format-test images (measured: a 32x48
-            # ``GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif``).  Raising made the whole
-            # uniqueness run die on a file that is not a candidate duplicate, which
-            # would silently remove the protocol's drift check from any session that
-            # ran it unattended.  Mismatched shapes are skipped and *counted*, so the
-            # report still says how many comparators were examined.
-            skipped.append((alias, tuple(other.shape)))
+            # IR-62-UNIQ-02 / IR-62-REG-02 (two lanes, same bug, same day): the registry
+            # harvest picks up rasters that are not on the competition grid -- 512x512
+            # proxy windows and a 32x48 ``GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif``.
+            # ``compare`` used to raise here, which killed the whole sweep on a file that
+            # is not a candidate duplicate and silently removed the protocol's drift
+            # check from any session that ran it unattended.  Skip and count instead.
+            skipped.append(dict(alias=alias, path=str(p), shape=list(other.shape)))
             continue
 
         # Spearman on the full footprint (both surfaces are mostly zero, which is
@@ -123,8 +134,10 @@ def compare(
             rho=rho, frac3px=frac, coverage3px=coverage,
             vacuous=coverage >= OVERLAP_LIMIT,
         ))
-    last_skipped["entries"] = skipped
-    return entries
+    last_skipped["entries"] = [(d["alias"], tuple(d["shape"])) for d in skipped]
+    out = _EntryList(entries)
+    out.skipped = skipped
+    return out
 
 
 def verdict(entries: list[RegistryEntry], skipped: list | None = None) -> dict:

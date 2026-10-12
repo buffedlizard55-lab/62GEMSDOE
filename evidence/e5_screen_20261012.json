@@ -1,0 +1,462 @@
+{
+ "generated_utc": "2026-10-12T01:05:18Z",
+ "instrument": "S* rebuild v2 (fixed 300 m kernel)",
+ "n_pos": 18467,
+ "n_neg": 300000,
+ "single_feature_auc": {
+  "org_mag_anom": {
+   "auc_mean": 0.5323291509260436,
+   "auc_max": 0.5545028696013498,
+   "canary_leak": false
+  },
+  "org_mag_anom_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_rtp": {
+   "auc_mean": 0.5213701887902507,
+   "auc_max": 0.5781372535398484,
+   "canary_leak": false
+  },
+  "org_rtp_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_tmi_hg": {
+   "auc_mean": 0.578213206919303,
+   "auc_max": 0.6056021119126429,
+   "canary_leak": false
+  },
+  "org_tmi_hg_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_geod_2ndinv": {
+   "auc_mean": 0.4927295641044431,
+   "auc_max": 0.5867034194520647,
+   "canary_leak": false
+  },
+  "org_geod_2ndinv_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_iso_grav_anom_slope": {
+   "auc_mean": 0.5115415290212403,
+   "auc_max": 0.5575505185153705,
+   "canary_leak": false
+  },
+  "org_iso_grav_anom_slope_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_tc": {
+   "auc_mean": 0.368020362871817,
+   "auc_max": 0.3993961307769772,
+   "canary_leak": false
+  },
+  "org_tc_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_geod_shearrate": {
+   "auc_mean": 0.4845238611848178,
+   "auc_max": 0.5215429261252379,
+   "canary_leak": false
+  },
+  "org_geod_shearrate_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_geod_dilaterate": {
+   "auc_mean": 0.5045405462671855,
+   "auc_max": 0.5588568562774936,
+   "canary_leak": false
+  },
+  "org_geod_dilaterate_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_tmi_vg": {
+   "auc_mean": 0.483170065412936,
+   "auc_max": 0.5141770040039668,
+   "canary_leak": false
+  },
+  "org_tmi_vg_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_deq_n100a15": {
+   "auc_mean": 0.5287011133017995,
+   "auc_max": 0.6146844907198468,
+   "canary_leak": false
+  },
+  "org_deq_n100a15_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_iso_grav_anom_vg": {
+   "auc_mean": 0.5227193589831505,
+   "auc_max": 0.5698886893329194,
+   "canary_leak": false
+  },
+  "org_iso_grav_anom_vg_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_det_elev": {
+   "auc_mean": 0.5532860277317114,
+   "auc_max": 0.6197471963126299,
+   "canary_leak": false
+  },
+  "org_det_elev_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_iso_grav_anom": {
+   "auc_mean": 0.5917189875659618,
+   "auc_max": 0.6334930585384199,
+   "canary_leak": false
+  },
+  "org_iso_grav_anom_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_tmi": {
+   "auc_mean": 0.5246000756842453,
+   "auc_max": 0.54425170811828,
+   "canary_leak": false
+  },
+  "org_tmi_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_depth_to_base_surf": {
+   "auc_mean": 0.4330249632260455,
+   "auc_max": 0.4578891100733326,
+   "canary_leak": false
+  },
+  "org_depth_to_base_surf_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_ieq_n100a15": {
+   "auc_mean": 0.48995184662412306,
+   "auc_max": 0.5653134179198605,
+   "canary_leak": false
+  },
+  "org_ieq_n100a15_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_cond_surf": {
+   "auc_mean": 0.49757888106602516,
+   "auc_max": 0.5575280416313435,
+   "canary_leak": false
+  },
+  "org_cond_surf_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_iso_grav_anom_hg": {
+   "auc_mean": 0.4669327515807658,
+   "auc_max": 0.5079565400133672,
+   "canary_leak": false
+  },
+  "org_iso_grav_anom_hg_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "org_det_elev_slope": {
+   "auc_mean": 0.6520129461800783,
+   "auc_max": 0.6835168728338663,
+   "canary_leak": false
+  },
+  "org_det_elev_slope_nanflag": {
+   "auc_mean": 0.4997672346702971,
+   "auc_max": 0.5000460163922366,
+   "canary_leak": false
+  },
+  "vess_rtp_s1.2": {
+   "auc_mean": 0.5591472039367571,
+   "auc_max": 0.5780009666086898,
+   "canary_leak": false
+  },
+  "vess_tmi_s1.2": {
+   "auc_mean": 0.5528242109679354,
+   "auc_max": 0.568867177788029,
+   "canary_leak": false
+  },
+  "vess_mag_anom_s1.2": {
+   "auc_mean": 0.5099044585969347,
+   "auc_max": 0.5153124104878027,
+   "canary_leak": false
+  },
+  "vess_iso_grav_anom_s1.2": {
+   "auc_mean": 0.45503559656282166,
+   "auc_max": 0.4848661765391261,
+   "canary_leak": false
+  },
+  "vess_det_elev_s1.2": {
+   "auc_mean": 0.711840894192885,
+   "auc_max": 0.7457251812514085,
+   "canary_leak": false
+  },
+  "vess_cond_surf_s1.2": {
+   "auc_mean": 0.48857662485166814,
+   "auc_max": 0.5162784509791857,
+   "canary_leak": false
+  },
+  "vess_depth_to_base_surf_s1.2": {
+   "auc_mean": 0.5373571652698442,
+   "auc_max": 0.5536641780092694,
+   "canary_leak": false
+  },
+  "vess_tc_s1.2": {
+   "auc_mean": 0.5704838747582853,
+   "auc_max": 0.59124388932003,
+   "canary_leak": false
+  },
+  "vess_iso_grav_anom_hg_s1.2": {
+   "auc_mean": 0.5159020887566809,
+   "auc_max": 0.5522250283037251,
+   "canary_leak": false
+  },
+  "vess_tmi_hg_s1.2": {
+   "auc_mean": 0.5393914466893569,
+   "auc_max": 0.5538201221943001,
+   "canary_leak": false
+  },
+  "orient_R_s1.2": {
+   "auc_mean": 0.46102799512391185,
+   "auc_max": 0.4840247552663259,
+   "canary_leak": false
+  },
+  "vote90_s1.2": {
+   "auc_mean": 0.5786810069932233,
+   "auc_max": 0.6124527400469368,
+   "canary_leak": false
+  },
+  "vess_mean_s1.2": {
+   "auc_mean": 0.610216524447159,
+   "auc_max": 0.6437937230819811,
+   "canary_leak": false
+  },
+  "vess_rtp_s2.5": {
+   "auc_mean": 0.552897300982083,
+   "auc_max": 0.5754715111283041,
+   "canary_leak": false
+  },
+  "vess_tmi_s2.5": {
+   "auc_mean": 0.5472465867074244,
+   "auc_max": 0.5667642218296469,
+   "canary_leak": false
+  },
+  "vess_mag_anom_s2.5": {
+   "auc_mean": 0.5104227434659497,
+   "auc_max": 0.5187288603565428,
+   "canary_leak": false
+  },
+  "vess_iso_grav_anom_s2.5": {
+   "auc_mean": 0.44515809293447833,
+   "auc_max": 0.48550132767456666,
+   "canary_leak": false
+  },
+  "vess_det_elev_s2.5": {
+   "auc_mean": 0.7047554981105154,
+   "auc_max": 0.7392141360126657,
+   "canary_leak": false
+  },
+  "vess_cond_surf_s2.5": {
+   "auc_mean": 0.49508491628856066,
+   "auc_max": 0.5278033822499071,
+   "canary_leak": false
+  },
+  "vess_depth_to_base_surf_s2.5": {
+   "auc_mean": 0.5410954121281576,
+   "auc_max": 0.5567795433739628,
+   "canary_leak": false
+  },
+  "vess_tc_s2.5": {
+   "auc_mean": 0.6002462439771774,
+   "auc_max": 0.6169942955895458,
+   "canary_leak": false
+  },
+  "vess_iso_grav_anom_hg_s2.5": {
+   "auc_mean": 0.5223764347091693,
+   "auc_max": 0.5791744243838999,
+   "canary_leak": false
+  },
+  "vess_tmi_hg_s2.5": {
+   "auc_mean": 0.5473263653436359,
+   "auc_max": 0.561159349675123,
+   "canary_leak": false
+  },
+  "orient_R_s2.5": {
+   "auc_mean": 0.4807027847194411,
+   "auc_max": 0.49753027596671945,
+   "canary_leak": false
+  },
+  "vote90_s2.5": {
+   "auc_mean": 0.5898645396627281,
+   "auc_max": 0.6381079930280076,
+   "canary_leak": false
+  },
+  "vess_mean_s2.5": {
+   "auc_mean": 0.6297760673442011,
+   "auc_max": 0.67286684715825,
+   "canary_leak": false
+  },
+  "vent_dpx": {
+   "auc_mean": 0.5443059025208763,
+   "auc_max": 0.5840167343694962,
+   "canary_leak": false
+  },
+  "vent_kd_2km": {
+   "auc_mean": 0.4496797162400983,
+   "auc_max": 0.4836941432888573,
+   "canary_leak": false
+  },
+  "vent_kd_5km": {
+   "auc_mean": 0.454300604807577,
+   "auc_max": 0.49961053726268767,
+   "canary_leak": false
+  },
+  "vent_kd_10km": {
+   "auc_mean": 0.4682134876395129,
+   "auc_max": 0.5285014208861114,
+   "canary_leak": false
+  },
+  "vvent_dpx": {
+   "auc_mean": 0.4926881042469631,
+   "auc_max": 0.5452161635706866,
+   "canary_leak": false
+  },
+  "step_d2b": {
+   "auc_mean": 0.488138349822032,
+   "auc_max": 0.5228042877899869,
+   "canary_leak": false
+  },
+  "step_cond": {
+   "auc_mean": 0.5056690366545156,
+   "auc_max": 0.5661454290169895,
+   "canary_leak": false
+  },
+  "chi_ksn": {
+   "auc_mean": 0.5511222837281732,
+   "auc_max": 0.5690537809351037,
+   "canary_leak": false
+  },
+  "chi_logarea": {
+   "auc_mean": 0.4901547650944247,
+   "auc_max": 0.5008595319135374,
+   "canary_leak": false
+  },
+  "chi_zmean": {
+   "auc_mean": 0.5575143155494222,
+   "auc_max": 0.5983171480478152,
+   "canary_leak": false
+  },
+  "topo_aspect_coh": {
+   "auc_mean": 0.5203852985557158,
+   "auc_max": 0.5664051153363847,
+   "canary_leak": false
+  },
+  "topo_hs_line": {
+   "auc_mean": 0.6460788918337094,
+   "auc_max": 0.6803375860532578,
+   "canary_leak": false
+  },
+  "topo_curv_abs": {
+   "auc_mean": 0.6627443131730645,
+   "auc_max": 0.7044638470302637,
+   "canary_leak": false
+  },
+  "topo_coh_grad": {
+   "auc_mean": 0.5637988418294647,
+   "auc_max": 0.60783648021169,
+   "canary_leak": false
+  },
+  "lidar_ex_max": {
+   "auc_mean": 0.6045400123861718,
+   "auc_max": 0.6421493285582996,
+   "canary_leak": false
+  },
+  "lidar_step_max": {
+   "auc_mean": 0.5955627745465324,
+   "auc_max": 0.6245484837192228,
+   "canary_leak": false
+  },
+  "lidar_downface": {
+   "auc_mean": 0.6159563758637007,
+   "auc_max": 0.6462684278237621,
+   "canary_leak": false
+  },
+  "lidar_coh100": {
+   "auc_mean": 0.46131406676031844,
+   "auc_max": 0.487256957605329,
+   "canary_leak": false
+  }
+ },
+ "z1_buffer_test": {
+  "vent_top_5km": {
+   "n_in": 2352,
+   "n_out": 0,
+   "credit_in": 0.07430781517483537,
+   "credit_out": 0.0
+  },
+  "random_control_5km": {
+   "n_in": 1228,
+   "n_out": 1124,
+   "credit_in": 0.09522377080915358,
+   "credit_out": 0.13748571146556762
+  },
+  "vent_top_10km": {
+   "n_in": 2352,
+   "n_out": 0,
+   "credit_in": 0.07430781517483537,
+   "credit_out": 0.0
+  },
+  "random_control_10km": {
+   "n_in": 1963,
+   "n_out": 389,
+   "credit_in": 0.116425277882612,
+   "credit_out": 0.11034938240969479
+  },
+  "vent_top_20km": {
+   "n_in": 2352,
+   "n_out": 0,
+   "credit_in": 0.07430781517483537,
+   "credit_out": 0.0
+  },
+  "random_control_20km": {
+   "n_in": 2333,
+   "n_out": 19,
+   "credit_in": 0.11597467549686552,
+   "credit_out": 0.04735854246060053
+  }
+ },
+ "vent_feature_rows": {
+  "n_thermal": 2369,
+  "note": "gdr_wellspring_in_footprint.csv thermal subset (T>=40C or Hot/Warm class or geotherm>=60C)"
+ },
+ "credit_convention": "mean 300 m kernel credit per dot = sum_g k(dist(g,dots))/n_dots; instrument = derived SGMC 1:750k minus catalogue dilated 3px",
+ "sgmc_offcat_pixels": 62703
+}
