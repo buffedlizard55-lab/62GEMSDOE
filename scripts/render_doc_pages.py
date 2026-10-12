@@ -1,0 +1,261 @@
+#!/usr/bin/env python3
+"""Render `docs/*.md` into the sibling `docs/*.html` that GitHub Pages serves.
+
+Why this exists: the site's prose lives in markdown, but Pages serves HTML, and
+`scripts/make_site.py` -- which owns the *other* pages -- is a token-substitution generator that
+rewrites `docs/index.html` from a stale template.  Importing it to reuse its markdown function
+would therefore clobber the hand-maintained home page.  So this script reuses only what is safe:
+it keeps each target page's existing `<head>` and back-link byte-for-byte and replaces the body
+with a rendered version of the markdown file next to it.
+
+The subset supported is the one these documents use: `#`-headings, paragraphs, `-`/`*` and
+numbered lists, blockquotes, `---`, tables (`|`-rows), `` `code` ``, `**bold**`, `*italic*` and
+`[text](url)`.  Nothing is invented and nothing is dropped.
+
+    python3 scripts/render_doc_pages.py irregularities next-steps run-card hypotheses-2026-10-12-j
+    # the pages this repository renders are listed in tests/test_doc_render.py; a hand-written page has to
+    # be declared there, or CI calls it drift
+"""
+from __future__ import annotations
+
+import argparse
+import html
+import pathlib
+import re
+import sys
+
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+DOCS = ROOT / "docs"
+
+# The single source of truth for which pages this tool owns. `tests/test_doc_render.py` imports this list and
+# CI runs `--check` with no arguments, so a page cannot be listed in one place and forgotten in another -- on
+# 2026-10-12 the workflow listed a page the renderer refuses (another lane's hand-styled `hypotheses-2026-10-12`)
+# while the test listed a different set, and only CI would have caught it. Register: IR-62-J-11.
+RENDERED = ["irregularities", "next-steps", "run-card", "hypotheses-2026-10-11",
+            "hypotheses-2026-10-12-j", "why-h33-scored",
+            # session arena/fd6c719c (H62-B, datum-offset, 2026-10-12): the page names carry the
+            # lane suffix because two lanes created docs/hypotheses-2026-10-12.* on the same day
+            # (IR-62-J-09). Rendering them is what keeps them in sync with their markdown.
+            "method", "results-h62b", "hypotheses-2026-10-12-b", "next-steps-h62b",
+            "executive-summary-h62b", "run-card-2026-10-12-h62b"]
+# Pages with a sibling .md and .html that are *not* generated here, and why (a hand-written pair is allowed
+# only when it is declared; see IR-62-J-07 and IR-62-J-09).
+HAND_WRITTEN = {"hypotheses-2026-10-12": "session arena/778884cc's styled page; its .md is a separate draft"}
+
+
+def inline(t: str) -> str:
+    t = html.escape(t, quote=False)
+    t = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', t)
+    t = re.sub(r"<(https?://[^>\s]+)>", r'<a href="\1">\1</a>', t)   # bare autolinks, another lane's style
+    t = re.sub(r"`([^`]+)`", r"<code>\1</code>", t)
+    t = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", t)
+    t = re.sub(r"(?<![\w*])\*([^*\n]+)\*(?![\w*])", r"<i>\1</i>", t)
+    return t
+
+
+def md_to_html(md: str) -> str:
+    """Render the markdown subset these documents use.
+
+    Written to reproduce, byte for byte, the HTML the previous sessions committed: a paragraph is
+    one `<p>` whose source lines are joined with a space, a table is `<table>` with one `<tr>` per
+    line and no `thead`/`tbody`, a fence is `<pre><code>`, a blockquote is one line. The byte
+    identity is the point -- `--check` then fails on a stale page, and a re-render shows up in
+    `git diff` only where the markdown actually changed.
+    """
+    lines = md.split("\n")
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        raw = lines[i]
+        s = raw.rstrip()
+        if not s.strip():
+            i += 1
+            continue
+        if s.strip().startswith("```"):
+            buf = []
+            i += 1
+            while i < len(lines) and not lines[i].strip().startswith("```"):
+                buf.append(lines[i]); i += 1
+            i += 1
+            out.append("<pre><code>" + "\n".join(buf) + "</code></pre>")
+            continue
+        if s.startswith("|"):
+            rows = []
+            while i < len(lines) and lines[i].rstrip().startswith("|"):
+                # cells split on UNESCAPED pipes only: `\|` inside a cell is literal text
+                body = lines[i].rstrip().strip()
+                body = body[1:] if body.startswith("|") else body
+                body = body[:-1] if body.endswith("|") else body
+                cells = [x.strip().replace("\\|", "|").replace(r"\|", "|")
+                         for x in re.split(r"(?<!\\)\|", body)]
+                i += 1
+                if set("".join(cells)) <= set("-: "):
+                    continue
+                tag = "th" if not rows else "td"
+                rows.append("<tr>" + "".join(f"<{tag}>{inline(c)}</{tag}>" for c in cells) + "</tr>")
+            out.append("<table>" + "\n".join(rows) + "</table>")
+            continue
+        if s.startswith(">"):
+            buf = []
+            while i < len(lines) and lines[i].rstrip().startswith(">"):
+                buf.append(lines[i].rstrip().lstrip(">").strip()); i += 1
+            out.append("<blockquote>" + inline(" ".join(x for x in buf if x)) + "</blockquote>")
+            continue
+        m = re.match(r"^(#{1,6})\s+(.*)$", s)
+        if m:
+            n = len(m.group(1))
+            out.append(f"<h{n}>{inline(m.group(2))}</h{n}>")
+            i += 1
+            continue
+        if s.strip() == "---":
+            out.append("<hr>")
+            i += 1
+            continue
+        m = re.match(r"^\s*[-*]\s+(.*)$", s)
+        if m:
+            items = []
+            while i < len(lines) and re.match(r"^\s*[-*]\s+", lines[i]):
+                items.append(re.sub(r"^\s*[-*]\s+", "", lines[i].rstrip()))
+                i += 1
+                while i < len(lines) and lines[i].startswith("  ") and lines[i].strip():
+                    items[-1] += " " + lines[i].strip(); i += 1
+            out.append("<ul>\n" + "\n".join(f"<li>{inline(x)}</li>" for x in items) + "\n</ul>")
+            continue
+        m = re.match(r"^\s*\d+\.\s+(.*)$", s)
+        if m:
+            items = []
+            while i < len(lines) and re.match(r"^\s*\d+\.\s+", lines[i]):
+                items.append(re.sub(r"^\s*\d+\.\s+", "", lines[i].rstrip()))
+                i += 1
+                while i < len(lines) and lines[i].startswith("   ") and lines[i].strip():
+                    items[-1] += " " + lines[i].strip(); i += 1
+            out.append("<ol>\n" + "\n".join(f"<li>{inline(x)}</li>" for x in items) + "\n</ol>")
+            continue
+        buf = [s]
+        i += 1
+        while i < len(lines):
+            nxt = lines[i].rstrip()
+            if (not nxt.strip() or nxt.startswith(("#", "|", ">", "```"))
+                    or re.match(r"^\s*([-*]|\d+\.)\s+", nxt) or nxt.strip() == "---"):
+                break
+            buf.append(nxt)
+            i += 1
+        out.append("<p>" + inline(" ".join(buf)) + "</p>")
+    return "\n".join(out)
+
+
+def plain(t: str) -> list[str]:
+    """Words of the *rendered* text: used to describe a mismatch, never to decide one."""
+    t = re.sub(r"<[^>]+>", " ", t)
+    t = t.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">").replace("&#x27;", "'")
+    return [w for w in re.split(r"[\s`*_|]+", t) if w]
+
+
+def norm(t: str) -> str:
+    """Alphanumerics only, in order -- the comparison the guard actually makes.
+
+    Comparing a character stream instead of words is what makes this robust: a tag boundary inserts
+    no space here, so `(0.24073)` written as `(**0.24073**)` and a code span containing a `*` both
+    compare equal, while a dropped sentence still changes the stream. Punctuation and markup carry no
+    content for this purpose; nothing in these documents is distinguished by spacing alone.
+    """
+    t = re.sub(r"<[^>]+>", "", t)
+    t = (t.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">").replace("&#x27;", "'"))
+    t = re.sub(r"[^0-9a-z]+", "", t.lower())
+    return t
+
+
+def verify_lossless(md: str, body: str) -> None:
+    """Refuse to write a page whose text is not the markdown's text.
+
+    The markdown side is first reduced to what the renderer is meant to keep: structural markers
+    removed (rules, table separators, leading pipes, heading/list/blockquote markers, fence info
+    strings), link labels kept and link targets dropped (they become an href). Then both sides are
+    normalised with `norm` and compared. The report uses `plain` so a failure says which words
+    diverged.
+    """
+    md = re.sub(r"^```[^`\n]*$", " ", md, flags=re.M)
+    md = re.sub(r"^ {0,3}(-{3,}|\*\*\*|_{3,}) *$", " ", md, flags=re.M)
+    md = md.replace("\\|", "|")
+    md = re.sub(r"^\s*[|\-: ]+$", " ", md, flags=re.M)
+    md = re.sub(r"\[([^\]]*)\]\(([^)]*)\)", r"\1", md)
+    md = re.sub(r"^[ \t]*[-*] +", "", md, flags=re.M)
+    md = re.sub(r"^[ \t]*\d+\. +", "", md, flags=re.M)
+    md = re.sub(r"^ *>", "", md, flags=re.M)
+    md = re.sub(r"^ {0,3}#{1,6} +", "", md, flags=re.M)
+    md = re.sub(r"^\s*\|", " ", md, flags=re.M)
+    md = re.sub(r"\\([*_`])", " ", md)
+    if norm(md) != norm(body):
+        src, got, nsrc, ngot = plain(md), plain(body), norm(md), norm(body)
+        at = next((k for k in range(min(len(nsrc), len(ngot))) if nsrc[k] != ngot[k]),
+                  min(len(nsrc), len(ngot)))
+        wi = next((i for i, w in enumerate(src) if i < len(got) and w != got[i]), min(len(src), len(got)))
+        ctx = nsrc[max(0, at - 40):at + 40]
+        raise SystemExit(f"render would LOSE or CHANGE text near word {wi} (md {src[wi]!r} vs "
+                         f"html {got[wi] if wi < len(got) else None!r}); character stream diverges at "
+                         f"{at} around {ctx!r} -- refusing to write")
+
+
+def render(name: str, *, check_only: bool = False, docs: pathlib.Path = DOCS) -> int:
+    md_path, html_path = docs / f"{name}.md", docs / f"{name}.html"
+    if not md_path.exists():
+        print(f"skip {name}: no {md_path.name}")
+        return 0
+    md_text = md_path.read_text()
+    body = md_to_html(md_text)
+    verify_lossless(md_text, body)
+    if html_path.exists():
+        cur = html_path.read_text()
+        lines = cur.split("\n")
+        k = next((i for i, ln in enumerate(lines) if "<body" in ln), None)
+        if k is None or "</body>" in lines[k]:
+            print(f"{name}: existing html is not in the expected shape; writing a full page")
+        else:
+            prefix = "\n".join(lines[:k + 1])
+            tail = "</div></body></html>"
+            new = prefix + "\n" + body + "\n" + tail
+            if new == cur:
+                print(f"ok {name}.html already matches {name}.md")
+                return 0
+            if check_only:
+                print(f"STALE {name}.html -- re-render with scripts/render_doc_pages.py {name}")
+                return 1
+            html_path.write_text(new)
+            print(f"rendered {name}.html from {name}.md ({len(new):,} B), head and back-link kept")
+            return 0
+    page = ("<!doctype html><html lang='en'><head><meta charset='utf-8'>"
+            "<meta name='viewport' content='width=device-width,initial-scale=1'>"
+            f"<title>{name}</title></head><body><div class='wrap'>\n{body}\n</div></body></html>")
+    if check_only:
+        print(f"MISSING {name}.html")
+        return 1
+    html_path.write_text(page)
+    print(f"wrote {name}.html")
+    return 0
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("names", nargs="*", help="doc basenames without extension")
+    ap.add_argument("--all", action="store_true",
+                    help="every docs/*.md that has a sibling .html (includes hand-written pages, which "
+                         "this tool will refuse -- use the declared RENDERED default in CI instead)")
+    ap.add_argument("--docs", default=str(DOCS), help="directory holding the md/html pairs "
+                                                     "(the repository's docs/ by default)")
+    ap.add_argument("--check", action="store_true",
+                    help="exit 1 if any page is stale, without writing (for CI)")
+    args = ap.parse_args()
+    names = list(args.names)
+    if args.all:
+        names = sorted(p.stem for p in DOCS.glob("*.md"))
+    if not names:
+        names = list(RENDERED)
+    docs = pathlib.Path(args.docs).resolve()
+    rc = 0
+    for n in names:
+        rc |= render(n, check_only=args.check, docs=docs)
+    return rc
+
+
+if __name__ == "__main__":
+    sys.exit(main())

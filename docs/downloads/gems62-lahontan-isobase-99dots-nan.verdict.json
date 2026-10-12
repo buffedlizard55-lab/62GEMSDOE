@@ -1,0 +1,26 @@
+{
+ "verdict": "FORMAT PROBE (NaN outside, nodata=NaN) - never submitted; passes the published contract, fails our stricter one",
+ "ok_to_submit": false,
+ "note": "Same 99 dots, but the pixels outside the footprint are NaN and the file declares nodata=NaN. Measured here: no NaN inside the footprint, values in [0,1] where finite, so it passes the published contract validator and fails only this lane's stricter convention (no NaN anywhere, no nodata tag). Sibling files written this way scored up to 0.275 in the registry mirror, so the 'Predicted values must be in range [0, 1]' message is attributed to non-finite pixels WITHOUT a nodata tag, not to NaN outside the footprint. That revises what this page used to claim, and the revised claim is what the audit measures.",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted by this lane; no file in this repository has an organiser-confirmed score",
+ "expected_value_label": "no expected value - 99 dots; and our own measurement now says this encoding is probably ACCEPTED, so it would not have reproduced the rejection",
+ "artifact_of": "scripts/make_control.py",
+ "evidence": [
+  "docs/irregularities.md"
+ ],
+ "name": "gems62-lahontan-isobase-99dots-nan.tif",
+ "format_legal": false,
+ "fails": [
+  "no_nodata_tag",
+  "no_nan_anywhere"
+ ],
+ "portal_range_risk": "low",
+ "nonfinite_pixels": 7111787,
+ "sha256": "8675fa33d4d0b181c793c4733cb45b464a0eb227db8ae09e0f2a444d2dc2f181",
+ "bytes": 124293,
+ "dots": 99,
+ "checks_passed": 12,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

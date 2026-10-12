@@ -31,7 +31,7 @@ minimum of the DEM over 1.7 km, then smoothed over 0.9 km — the standard geomo
     isobase  = smooth(base over the band, 6 km)
     resid    = base - isobase                 # metres of local departure from the datum
 
-This closes **IR-62-DEM-01**: the official 19-band stack contains no absolute elevation, and every
+This closes **IR-62-B-09**: the official 19-band stack contains no absolute elevation, and every
 previous lane fit its isobase on `det_elev` — a band whose regional trend had already been removed
 by an operator this repository cannot inspect. The absolute DEM is
 `data/geodawn_dem_a2_100m.tif`, sha256 `d32762a3…`, 5,165,644 valid cells inside the footprint,
@@ -53,7 +53,7 @@ Winnemucca, Humboldt, Walker — not just the type area.
 * **Deflection**: the azimuth of the base-level contour, differenced against itself shifted by
   3 px along each of four strike directions; flag where the turn is ≥ 25°. 152,351 cells (3.0 %).
 * Union: 439,892 cells (8.5 % of the footprint). Census:
-  [`evidence/exp3_h62b_band_flags.json`](../evidence/exp3_h62b_band_flags.json).
+  [`evidence/exp3_h62b_band_flags.json`](evidence/exp3_h62b_band_flags.json).
 
 Seeds: the union ranked by `|z| · (1 + 0.5·deflection) · percentile(cross-strike relief)`,
 mutually suppressed at 600 m, top 34,620.
@@ -91,7 +91,7 @@ attribute ~22 m of post-highstand deflection to rebound with a small down-to-the
 The step that would make the residual interpretable in metres of *fault* offset is fitting the
 published rebound field instead of a free smooth surface — hypothesis H62-P, written up and
 deferred, with the exact source it needs named in
-[the hypotheses page](hypotheses-2026-10-12.html).
+[the hypotheses page](hypotheses-2026-10-12-b.html).
 
 ## 7. Reproduce
 

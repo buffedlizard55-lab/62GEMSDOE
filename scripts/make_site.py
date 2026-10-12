@@ -17,6 +17,7 @@ docs/research/sources.html (converted from sources.md).
 from __future__ import annotations
 
 import html
+import sys
 import json
 import pathlib
 import re
@@ -574,8 +575,15 @@ def render(template: str, active: str, title: str, css: str, name: str) -> str:
     return fill(page, TOKENS, name)
 
 
-(ROOT / "docs" / "index.html").write_text(
-    render(INDEX, "index", "62GEMSDOE — datum-offset lane", "assets/site.css", "index.html"))
+# docs/index.html is the page a reader lands on, and since 2026-10-11b it is edited by hand
+# (the hero carries the current download, its sha256 and its verdict).  Regenerating it from the
+# INDEX template below would silently roll the download back to an older artifact, so this refuses
+# unless --force-index is passed.  scripts/make_site_20261011b.py renders the newer sub-pages.
+if "--force-index" in sys.argv or not (ROOT / "docs" / "index.html").exists():
+    (ROOT / "docs" / "index.html").write_text(
+        render(INDEX, "index", "62GEMSDOE — datum-offset lane", "assets/site.css", "index.html"))
+else:
+    print("skipped docs/index.html (hand-edited since 2026-10-11b; pass --force-index to overwrite)")
 (ROOT / "docs" / "executive-summary.html").write_text(
     render(EXEC, "exec", "Executive summary — how to make a GEMS submission", "assets/site.css",
            "executive-summary.html"))
@@ -594,6 +602,6 @@ sources = fill(SOURCES, TOKENS, "research/sources.html")
 (ROOT / "docs" / "research" / "sources.html").write_text(sources)
 (ROOT / "docs" / "results.html").write_text(results_page())
 
-for p in (ROOT / "docs" / "index.html", ROOT / "docs" / "executive-summary.html",
+for p in (ROOT / "docs" / "executive-summary.html",
           ROOT / "docs" / "research" / "sources.html", ROOT / "docs" / "results.html"):
     print(f"wrote {p.relative_to(ROOT)} ({len(p.read_text()):,} chars)")

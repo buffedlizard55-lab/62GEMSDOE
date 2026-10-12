@@ -29,6 +29,13 @@ SOURCES = [
     ("60GEMSDOE", "data/external/derived_sgmc_faults_100m.tif", None),
     ("60GEMSDOE", "data/external/lidar_scarp_features_u8.tif", None),
     ("60GEMSDOE", "data/external/topo_10m_derived_100m_u8.tif", None),
+    # GDR-1391 extracts on the competition grid (row/col in 100 m cells), added for the
+    # H62-J2 geothermal screen (scripts/probe_geothermal.py).  Small CSVs, so the skip
+    # test below is by sha, not by size.
+    ("60GEMSDOE", "data/external/gdr_volcanic_vents_in_footprint.csv",
+     "f91bafbaccaaf2754e71d60434fc0f9eb2c7b880c6e714883f4974542ff6a0bf"),
+    ("60GEMSDOE", "data/external/gdr_wellspring_in_footprint.csv",
+     "122718e65bdf55aab0ee12ad20d80062f0deb1de957225a61ad880dd5dc196ea"),
 ]
 
 
@@ -44,14 +51,20 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dest", default="data/external")
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--only", default=None, help="substring filter on the source path")
     args = ap.parse_args()
     dest = pathlib.Path(args.dest)
     dest.mkdir(parents=True, exist_ok=True)
     report = []
     ok = True
     for repo, path, want in SOURCES:
+        if args.only and args.only not in path:
+            continue
         out = dest / pathlib.Path(path).name
-        if out.exists() and out.stat().st_size > 1000 and not args.force:
+        have = out.exists() and out.stat().st_size > 0
+        if have and want is not None and sha256(out) != want:
+            have = False                      # a pinned file that does not hash: re-fetch
+        if have and not args.force:
             digest = sha256(out)
         else:
             r = subprocess.run(

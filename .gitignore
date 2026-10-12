@@ -45,6 +45,10 @@ lane62-h62a/evidence/verification_report_ci.json
 # -nan twin and the .zip) are deliberately TRACKED, not ignored: they are the
 # one-click deliverable the site points at, and together they are 432 kB.
 
+# GDR-1391 CSV extracts on the competition grid (scripts/fetch_external.py, sha-pinned):
+# re-creatable from the sibling public repo, so they stay out of git.
+data/external/*.csv
+
 # ---- instrument-calibration inputs: 15 registry rasters fetched from sibling repos
 #      by scripts/fetch_registry62.py; 13 MB, re-creatable, not committed.
 data/probe/

@@ -20,6 +20,7 @@ from pathlib import Path
 import numpy as np
 
 from .grid import TRANSFORM
+from .lahontan import ELEVATION_RESOLUTION_M
 
 
 def save_profile_png(rows: list[dict], out: Path, title: str,
@@ -120,7 +121,7 @@ def save_profile_png(rows: list[dict], out: Path, title: str,
     if len(seg) > 1:
         d.line(seg, fill=(88, 132, 190))
     for k, i in enumerate(order):
-        col = (240, 200, 90) if abs(res[i]) >= lahontan.ELEVATION_RESOLUTION_M else (120, 210, 150)
+        col = (240, 200, 90) if abs(res[i]) >= ELEVATION_RESOLUTION_M else (120, 210, 150)
         d.ellipse([px(xs[i]) - 3, py1(zs[i]) - 3, px(xs[i]) + 3, py1(zs[i]) + 3], fill=col)
         d.ellipse([px(xs[i]) - 2, py2(res[i]) - 2, px(xs[i]) + 2, py2(res[i]) + 2],
                   fill=(120, 160, 210))

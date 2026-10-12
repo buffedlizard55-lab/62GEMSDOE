@@ -40,7 +40,8 @@ def dti_from_components(tp: float, fp: float, fn: float, alpha=ALPHA, beta=BETA)
     return tp / (tp + alpha * fp + beta * fn + EPS)
 
 
-def dti_binary(pred_bool: np.ndarray, truth: np.ndarray, active: np.ndarray | None = None) -> dict:
+def dti_binary(pred_bool: np.ndarray, truth: np.ndarray, active: np.ndarray | None = None,
+               *, valid: np.ndarray | None = None, known: np.ndarray | None = None) -> dict:
     """Exact DTI for binary predictions, via Euclidean distance transforms.
 
     `active` is the scored domain (valid footprint minus the known/masked catalogue).  Pixels
@@ -48,7 +49,21 @@ def dti_binary(pred_bool: np.ndarray, truth: np.ndarray, active: np.ndarray | No
     DrivenData forum thread 11516 (chrisk-dd, 2026-09-16):
     "Pixels corresponding to known USGS/INGENIOUS faults are masked / excluded from evaluation,
     so they do not count towards penalty terms."
+
+    IR-62-18 FIX (2026-10-11b): the sibling evaluator
+    (`lane62-h62a/src/gems62/holdout.py`) calls ``dti_binary(pred, truth, valid=..., known=...)``
+    while this module exposed only the positional `active`.  Two spellings of one quantity is the
+    same class of defect as IR-62-11, so the keyword form is added *additively* here rather than
+    letting a fourth private copy of the metric exist.  `active = valid & ~known`, exactly the
+    composition the sibling evaluator performs in `_prepare` (`lane62-h62a/src/gems62/metric.py`
+    lines 96-101), so the two paths are the same arithmetic, not two models.
     """
+    if valid is not None or known is not None:
+        if active is not None:
+            raise TypeError("pass either `active` or (`valid`, `known`), not both")
+        v = np.ones(np.shape(truth), bool) if valid is None else np.asarray(valid, bool)
+        k = np.zeros(np.shape(truth), bool) if known is None else np.asarray(known, bool)
+        active = v & ~k
     pred = np.asarray(pred_bool, bool)
     truth = np.asarray(truth, bool)
     act = np.ones(pred.shape, bool) if active is None else np.asarray(active, bool)

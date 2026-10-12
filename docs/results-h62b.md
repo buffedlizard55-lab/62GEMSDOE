@@ -43,10 +43,10 @@ session set out to widen.
 ## 2. Building an instrument that is actually calibrated
 
 The holdout the protocol prescribes was measured to be **anti-correlated** with the organizer's
-score (IR-62-HOLDOUT-01: Spearman −0.91 over 10 confirmed artifacts). This session found the
+score (IR-62-B-11: Spearman −0.91 over 10 confirmed artifacts). This session found the
 mechanism and fixed it.
 
-**IR-62-HOLDOUT-02 — the catalogue holdout is unsatisfiable by arithmetic, not by lack of skill.**
+**IR-62-B-03 — the catalogue holdout is unsatisfiable by arithmetic, not by lack of skill.**
 The kernel reaches 300 m. Every competitive emission deletes every dot within 300 m of the mapped
 catalogue, because the organizer does not score mapped faults and the group has an
 organizer-confirmed +0.0178 for deleting them (`h33`: 0 % within 200 m; this session's file: 0 %
@@ -68,7 +68,7 @@ Validation, `scripts/instrument_calibration.py` → `evidence/exp1_instrument_ca
 | **mean credit per dot** vs SGMC-minus-catalogue | **+0.742** (p = 0.0037, n = 13) | **validated** |
 | same, restricted to the nine isolated-dot artifacts | monotone in 8 of 9 | validated |
 | pooled DTI vs SGMC-minus-catalogue | **−0.851** (p = 0.0002) | **refuted** |
-| pooled DTI vs the catalogue (the old holdout) | −0.85 … −0.91 | refuted (IR-62-HOLDOUT-01) |
+| pooled DTI vs the catalogue (the old holdout) | −0.85 … −0.91 | refuted (IR-62-B-11) |
 
 The DTI form fails because its denominator is dominated by the SGMC truth mass (79,615 px), so it
 mostly re-measures `M`, and `M` anti-correlates with the score. The **per-dot credit** is the usable
@@ -151,7 +151,7 @@ The projection is **stable across the entire plausible truth-mass range** (0.353
 10,000 and 13,704) because the champion's implied credit and the denominator both scale with N —
 which is why it is reported as a ratio to the champion rather than an absolute. A second, simpler
 projection used in the mass sweep gives 0.3484 at the shipped mass; the 0.005 spread between the two
-is [IR-62-PROJ-01](irregularities.html#IR-62-PROJ-01) and is 24× smaller than the ±0.12 residual of
+is [IR-62-B-08](irregularities.md) and is 24× smaller than the ±0.12 residual of
 the calibration regression that shrinks them both.
 
 ## 6. Calibrating the projection against reality

@@ -1,0 +1,152 @@
+{
+ "experiment": "E4 gates",
+ "generated_utc": "2026-10-12T00:13:11Z",
+ "A_lattice_leg": {
+  "comparator": "r13_lattice_s5_00904.tif",
+  "frac3px_ours": 0.9949833333333333,
+  "frac3px_uniform_random_null": 0.9987083333333333,
+  "frac3px_3px_lattice_null": 0.9987639904152386,
+  "conclusion": "the leg is satisfied by any field, including a uniform random one of the same size: a 5-px (or denser) lattice tiles the grid, so 'within 3 px of it' carries no information about copying"
+ },
+ "B_proxy_vs_portal": {
+  "instrument": "SGMC 1:750k traces minus the 3 px catalogue dilation, truth pixels = 62703",
+  "spearman_rho": -0.44158628335756284,
+  "p_value": 0.05126955076845428,
+  "n": 20,
+  "rows": [
+   {
+    "name": "champion_h33_2_b2_02778",
+    "owner_reported_score": 0.2778,
+    "n_dots": 37654,
+    "dti_sgmc": 0.09455268160214984
+   },
+   {
+    "name": "anderson_geothermal_02750",
+    "owner_reported_score": 0.275,
+    "n_dots": 38854,
+    "dti_sgmc": 0.0959529067521407
+   },
+   {
+    "name": "h36_1_rung30_r1_02710",
+    "owner_reported_score": 0.271,
+    "n_dots": 37660,
+    "dti_sgmc": 0.09239174698058511
+   },
+   {
+    "name": "h27_4_r1_solo_d2_8_02708",
+    "owner_reported_score": 0.2708,
+    "n_dots": 40199,
+    "dti_sgmc": 0.09455268160214984
+   },
+   {
+    "name": "h38_1_hf_euler_02707",
+    "owner_reported_score": 0.2707,
+    "n_dots": 37860,
+    "dti_sgmc": 0.09264499994518045
+   },
+   {
+    "name": "h32_1_prethin_02649",
+    "owner_reported_score": 0.2649,
+    "n_dots": 42294,
+    "dti_sgmc": 0.09439153991900842
+   },
+   {
+    "name": "h33d_tip_stepover_02632",
+    "owner_reported_score": 0.2632,
+    "n_dots": 41865,
+    "dti_sgmc": 0.09551124802414049
+   },
+   {
+    "name": "d28_poisson300m_offcat_02600",
+    "owner_reported_score": 0.26,
+    "n_dots": 44090,
+    "dti_sgmc": 0.09455268160214984
+   },
+   {
+    "name": "h25_dotted_d2_8_02600",
+    "owner_reported_score": 0.26,
+    "n_dots": 44090,
+    "dti_sgmc": 0.09455268160214984
+   },
+   {
+    "name": "h25_1_dotted_d1_5_02477",
+    "owner_reported_score": 0.2477,
+    "n_dots": 60069,
+    "dti_sgmc": 0.10147313901696253
+   },
+   {
+    "name": "topo_gap_closure_02449",
+    "owner_reported_score": 0.2449,
+    "n_dots": 61328,
+    "dti_sgmc": 0.10282467608038601
+   },
+   {
+    "name": "gate_ortho_w025_02376",
+    "owner_reported_score": 0.2376,
+    "n_dots": 40000,
+    "dti_sgmc": 0.13389454235269665
+   },
+   {
+    "name": "h59_cover_ds_belief_02296",
+    "owner_reported_score": 0.2296,
+    "n_dots": 123939,
+    "dti_sgmc": 0.1170582406896813
+   },
+   {
+    "name": "h19_5_powerlaw_01922",
+    "owner_reported_score": 0.1922,
+    "n_dots": 121131,
+    "dti_sgmc": 0.10426475651671713
+   },
+   {
+    "name": "h19_4_multiline_01894",
+    "owner_reported_score": 0.1894,
+    "n_dots": 123779,
+    "dti_sgmc": 0.11063155004332995
+   },
+   {
+    "name": "calib_h28ridge_01839",
+    "owner_reported_score": 0.1839,
+    "n_dots": 69281,
+    "dti_sgmc": 0.0912862262311766
+   },
+   {
+    "name": "hedge_v2_01563",
+    "owner_reported_score": 0.1563,
+    "n_dots": 227507,
+    "dti_sgmc": 0.1090997723322954
+   },
+   {
+    "name": "calib_h25ctx_01280",
+    "owner_reported_score": 0.128,
+    "n_dots": 174232,
+    "dti_sgmc": 0.092795822668878
+   },
+   {
+    "name": "r13_lattice_s5_00904",
+    "owner_reported_score": 0.0904,
+    "n_dots": 206895,
+    "dti_sgmc": 0.2538981428364471
+   },
+   {
+    "name": "gems32_probe_s1_anchor_02600",
+    "owner_reported_score": 0.26,
+    "n_dots": 44090,
+    "dti_sgmc": 0.09455268160214984
+   },
+   {
+    "name": "OURS gems62b-120k (unscored)",
+    "owner_reported_score": null,
+    "n_dots": 120000,
+    "dti_sgmc": 0.23295253527342863
+   },
+   {
+    "name": "bayesopt-dilation-scarp-d28 (never submitted, unscored)",
+    "owner_reported_score": null,
+    "n_dots": 45000,
+    "dti_sgmc": 0.39601921325736783
+   }
+  ],
+  "conclusion": "the published metric evaluated on the only public off-catalogue compilation ANTI-correlates with the leaderboard, while the same instrument's per-dot credit correlates POSITIVELY with it: the denominator (field size) is what flips the sign. A per-dot credit is therefore not usable as a score, and no promotion decision in this repository should rest on a projected value."
+ }
+}

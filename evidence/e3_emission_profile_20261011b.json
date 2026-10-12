@@ -1,0 +1,90 @@
+{
+ "experiment": "E3 emission profile",
+ "generated_utc": "2026-10-12T00:06:33Z",
+ "vote_q": 0.9,
+ "corroborators": [
+  "off_iso_grav_anom_hg",
+  "off_tc",
+  "radext_TMI_up150",
+  "rad_K",
+  "radext_ThK",
+  "off_geod_shearrate",
+  "off_ieq_n100a15",
+  "off_cond_surf",
+  "chi10_ksn_max_m0.9",
+  "topo10_hs_lineament"
+ ],
+ "scarp_layers": [
+  "lidar:ex_max",
+  "lidar:step_max",
+  "lidar:lapneg_max",
+  "lidar:lappos_max",
+  "lidar:downface_max",
+  "lidar:upface_max",
+  "lidar:cross_max",
+  "scarp3m:h_gate07",
+  "scarp3m:h_gate12",
+  "scarp3m:h_all",
+  "scarp3m:sigma_mean"
+ ],
+ "blanket_credit": {
+  "cat": 0.040763756864471264,
+  "sgmc": 0.01706488275017701
+ },
+ "rows": [
+  {
+   "budget": 20000,
+   "n_dots": 20000,
+   "credit_cat": 0.0005204378684361779,
+   "credit_sgmc": 0.08833086273074152,
+   "enrichment_cat": 0.012767171342094314,
+   "enrichment_sgmc": 5.176177535109362,
+   "dcat_med_m": 2088.061279296875
+  },
+  {
+   "budget": 40000,
+   "n_dots": 40000,
+   "credit_cat": 0.0006248113969961807,
+   "credit_sgmc": 0.07492209249834221,
+   "enrichment_cat": 0.015327620539822022,
+   "enrichment_sgmc": 4.390425272483344,
+   "dcat_med_m": 2109.502197265625
+  },
+  {
+   "budget": 80000,
+   "n_dots": 80000,
+   "credit_cat": 0.0006505473355452223,
+   "credit_sgmc": 0.06360784758279722,
+   "enrichment_cat": 0.01595896417761789,
+   "enrichment_sgmc": 3.7274119320941383,
+   "dcat_med_m": 2154.06591796875
+  },
+  {
+   "budget": 120000,
+   "n_dots": 120000,
+   "credit_cat": 0.0006867682860957256,
+   "credit_sgmc": 0.05703302567866114,
+   "enrichment_cat": 0.016847521890071344,
+   "enrichment_sgmc": 3.342128188842642,
+   "dcat_med_m": 2202.271484375
+  },
+  {
+   "budget": 200000,
+   "n_dots": 200000,
+   "credit_cat": 0.0007123135880629226,
+   "credit_sgmc": 0.04329928458472094,
+   "enrichment_cat": 0.017474188908327987,
+   "enrichment_sgmc": 2.537332674276464,
+   "dcat_med_m": 2334.523681640625
+  },
+  {
+   "budget": 300000,
+   "n_dots": 271860,
+   "credit_cat": 0.000668132624077398,
+   "credit_sgmc": 0.03933774478202412,
+   "enrichment_cat": 0.016390359365030135,
+   "enrichment_sgmc": 2.305186936113937,
+   "dcat_med_m": 2459.6748046875
+  }
+ ]
+}
