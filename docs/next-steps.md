@@ -120,7 +120,13 @@ composite (USGS 3DEP 1 m, public domain) or stop treating it as basin-wide.
    population the organizers explicitly include ("newly mapped geometry of existing systems",
    thread 11536), and its dots are off-catalogue by construction.
 
-5. **Resolve `IR-62-21` / `docs/data.md` §1:** the official stack carries **19** bands with their own
+5. **Screen H62-Q (geothermal proximity) before the next structural bet.** It is the only untried
+   hypothesis that speaks to the competition's stated purpose, it needs one free official dataset
+   (DOE Geothermal Data Repository wells/springs, `https://gdr.openei.org/`), and it needs the
+   GitHub-runner transport that already exists for the DEM. The test is fixed in
+   `docs/hypotheses-2026-10-11b.md`: per-dot credit inside vs outside a 5/10/20 km buffer, with a
+   mass-matched random control. Below 1.0× it dies; above 1.5× it multiplies H62-L.
+6. **Resolve `IR-62-21` / `docs/data.md` §1:** the official stack carries **19** bands with their own
    `band_name` tags in the file (verified this session by re-reading the bytes,
    sha256 `4371c82e…` = the pin), not the 35 claimed in `docs/data.md`. Band names are therefore no
    longer "second-hand"; the docs need one edit.

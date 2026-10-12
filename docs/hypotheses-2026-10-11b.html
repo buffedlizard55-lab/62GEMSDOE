@@ -42,6 +42,7 @@ border-radius:8px;margin:8px 8px 8px 0}.btn:hover{background:#2ea043;text-decora
 <tr><td><strong>H62-M</strong></td><td>Along-strike catalogue extension into gaps (H62-K, still untried)</td><td>catalogue geometry + 10 m lineaments</td><td><strong>high</strong></td><td>medium</td><td><strong>specified, not run (budget)</strong></td></tr>
 <tr><td><strong>H62-N</strong></td><td>Same-mass credit transfer: re-emit an incumbent mechanism at 2–3× mass</td><td>any of the dotted family's score rasters</td><td>high <strong>if</strong> the credit floor holds</td><td>low</td><td><strong>specified; blocked by the copying rule except from an own field</strong></td></tr>
 <tr><td><strong>H62-O</strong></td><td>Seismicity-alignment detector</td><td><code>ieq_n100a15</code>, <code>deq_n100a15</code></td><td>low-medium</td><td>low</td><td><strong>screened and rejected</strong> (see below)</td></tr>
+<tr><td><strong>H62-Q</strong></td><td>Geothermal-proximity prior × structural evidence (below)</td><td>GDR well/spring inventory + H62-L vote</td><td>medium <strong>if</strong> real</td><td>low-medium (needs a runner fetch)</td><td><strong>specified, not screened (budget)</strong></td></tr>
 <tr><td><strong>H62-P</strong></td><td>Radiometric alteration lineaments (K enrichment / Th-U ratios)</td><td><code>rad_K/Th/U/TC</code>, <code>ThK</code>, <code>UK</code>, <code>UTh</code></td><td>low-medium</td><td>low</td><td><strong>screened; folded into H62-L as 3 of 13 voters</strong></td></tr>
 </tbody></table>
 <p>---</p>
@@ -128,6 +129,39 @@ border-radius:8px;margin:8px 8px 8px 0}.btn:hover{background:#2ea043;text-decora
 <li><strong>Cost:</strong> low (re-emission + validation only).  <strong>Blocked locally by</strong> the copying rule for prior</li>
 </ul>
 <p>  submissions; admissible for an own field, which is what this session's artifact is.</p>
+<h2>H62-Q — Geothermal-proximity prior × structural evidence  ·  <strong>specified, not screened (budget)</strong></h2>
+<ul>
+<li><strong>Why it is on this list at all.</strong>  The competition asks for "structures indicative of geothermal</li>
+</ul>
+<p>  resources" and the project that produced the hidden labels is a <em>geothermal</em> mapping programme; if</p>
+<p>  the new faults were curated where the project had exploration interest, a proximity prior is a</p>
+<p>  real, testable effect — and if they were curated uniformly, it is worth nothing.  Both outcomes</p>
+<p>  are informative, which is why it is worth one experiment.</p>
+<ul>
+<li><strong>Layers:</strong> the DOE Geothermal Data Repository well/spring inventory (free, official, public:</li>
+</ul>
+<p>  &lt;https://gdr.openei.org/&gt;, query endpoint open to anonymous requests) as a distance-to-feature</p>
+<p>  raster, combined with the structural vote from H62-L.  **Obtainability from this sandbox: not</p>
+<p>  verified.**  <code>gdr.openei.org</code> is not on the sandbox's allow-list, so the file must be transported</p>
+<p>  the same way the DEM was — by a GitHub runner through <code>.github/workflows/dem-fetch.yml</code>, which is</p>
+<p>  already built and proven for a USGS host.</p>
+<ul>
+<li><strong>The test, fixed in advance:</strong> per-dot credit against SGMC-off-catalogue (the only local quantity</li>
+</ul>
+<p>  measured to track the leaderboard positively, ρ = +0.617) inside versus outside a 5, 10 and 20 km</p>
+<p>  buffer of a GDR feature, with a mass-matched isolated-random control and a catalogue-matched null.</p>
+<p>  A ratio below 1.0 kills the hypothesis; above 1.5 it becomes a multiplier on the H62-L score.</p>
+<ul>
+<li><strong>Prior art inside this group, and the reason this is not rank 1:</strong> <code>GEMSDOE36</code> already ships</li>
+</ul>
+<p>  <code>anderson-geothermal-pinn-38854</code> at <strong>0.2750</strong> (OWNER-REPORTED), i.e. a geothermal-flavoured</p>
+<p>  submission at the group's existing band.  A new field must therefore differ <strong>mechanically</strong> —</p>
+<p>  proximity as a <em>gate on a lineament consensus</em>, not as a learned density — or it is a re-run.</p>
+<ul>
+<li><strong>Named non-fault mimic:</strong> geothermal features concentrate on playa margins and along range-fronts</li>
+</ul>
+<p>  for hydrologic reasons (discharge sites) as well as structural ones, so the prior partly encodes</p>
+<p>  hydrography rather than faults.</p>
 <h2>H62-O — Seismicity-alignment detector  ·  <strong>screened and rejected</strong></h2>
 <ul>
 <li><strong>Layers:</strong> <code>ieq_n100a15</code> (earthquake intensity/density) and <code>deq_n100a15</code> (distance to earthquake),</li>

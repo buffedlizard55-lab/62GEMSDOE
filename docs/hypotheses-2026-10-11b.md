@@ -20,6 +20,7 @@ fraction of its top-38,000 line pixels falling within 3 px of the incumbent fiel
 | **H62-M** | Along-strike catalogue extension into gaps (H62-K, still untried) | catalogue geometry + 10 m lineaments | **high** | medium | **specified, not run (budget)** |
 | **H62-N** | Same-mass credit transfer: re-emit an incumbent mechanism at 2–3× mass | any of the dotted family's score rasters | high **if** the credit floor holds | low | **specified; blocked by the copying rule except from an own field** |
 | **H62-O** | Seismicity-alignment detector | `ieq_n100a15`, `deq_n100a15` | low-medium | low | **screened and rejected** (see below) |
+| **H62-Q** | Geothermal-proximity prior × structural evidence (below) | GDR well/spring inventory + H62-L vote | medium **if** real | low-medium (needs a runner fetch) | **specified, not screened (budget)** |
 | **H62-P** | Radiometric alteration lineaments (K enrichment / Th-U ratios) | `rad_K/Th/U/TC`, `ThK`, `UK`, `UTh` | low-medium | low | **screened; folded into H62-L as 3 of 13 voters** |
 
 ---
@@ -86,6 +87,31 @@ fraction of its top-38,000 line pixels falling within 3 px of the incumbent fiel
   quantity the whole project needs and no local instrument can supply.
 * **Cost:** low (re-emission + validation only).  **Blocked locally by** the copying rule for prior
   submissions; admissible for an own field, which is what this session's artifact is.
+
+## H62-Q — Geothermal-proximity prior × structural evidence  ·  **specified, not screened (budget)**
+
+* **Why it is on this list at all.**  The competition asks for "structures indicative of geothermal
+  resources" and the project that produced the hidden labels is a *geothermal* mapping programme; if
+  the new faults were curated where the project had exploration interest, a proximity prior is a
+  real, testable effect — and if they were curated uniformly, it is worth nothing.  Both outcomes
+  are informative, which is why it is worth one experiment.
+* **Layers:** the DOE Geothermal Data Repository well/spring inventory (free, official, public:
+  <https://gdr.openei.org/>, query endpoint open to anonymous requests) as a distance-to-feature
+  raster, combined with the structural vote from H62-L.  **Obtainability from this sandbox: not
+  verified.**  `gdr.openei.org` is not on the sandbox's allow-list, so the file must be transported
+  the same way the DEM was — by a GitHub runner through `.github/workflows/dem-fetch.yml`, which is
+  already built and proven for a USGS host.
+* **The test, fixed in advance:** per-dot credit against SGMC-off-catalogue (the only local quantity
+  measured to track the leaderboard positively, ρ = +0.617) inside versus outside a 5, 10 and 20 km
+  buffer of a GDR feature, with a mass-matched isolated-random control and a catalogue-matched null.
+  A ratio below 1.0 kills the hypothesis; above 1.5 it becomes a multiplier on the H62-L score.
+* **Prior art inside this group, and the reason this is not rank 1:** `GEMSDOE36` already ships
+  `anderson-geothermal-pinn-38854` at **0.2750** (OWNER-REPORTED), i.e. a geothermal-flavoured
+  submission at the group's existing band.  A new field must therefore differ **mechanically** —
+  proximity as a *gate on a lineament consensus*, not as a learned density — or it is a re-run.
+* **Named non-fault mimic:** geothermal features concentrate on playa margins and along range-fronts
+  for hydrologic reasons (discharge sites) as well as structural ones, so the prior partly encodes
+  hydrography rather than faults.
 
 ## H62-O — Seismicity-alignment detector  ·  **screened and rejected**
 
