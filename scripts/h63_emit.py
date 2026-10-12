@@ -190,7 +190,7 @@ def main() -> int:
     ap.add_argument("--mass", type=int, default=40000)
     ap.add_argument("--nms", type=int, default=2)
     ap.add_argument("--offcat-m", type=int, default=300)
-    ap.add_argument("--out-name", default="gems62-h63-multiline-corroborated")
+    ap.add_argument("--out-name", default="gems62-h63m-multiline-corroborated")
     args = ap.parse_args()
 
     t0 = time.time()
