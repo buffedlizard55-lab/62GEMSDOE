@@ -12,6 +12,54 @@ so this lane buys **defensibility more than area**.
 
 ---
 
+## Session status — 2026-10-12 (session `arena/7eee17f9-62gemsdoe`, lane **H62-R**)
+
+**Read this first.** The lane ran end to end for the first time, with a new idea in it: the
+Lahontan datum is a **stack of nested shorelines**, not one surface. Everything below is MEASURED
+in this checkout; the receipts are in [`evidence/h62r/`](evidence/h62r/).
+
+### ⬇ The new artifact — download it, and read the verdict before spending a slot
+
+**[`docs/downloads/gems62-h62r-multilevel-datum-repeat-offset-zeros.tif`](docs/downloads/gems62-h62r-multilevel-datum-repeat-offset-zeros.tif)**
+· 116,946 bytes · **14,765 dots, 0 of them with any kernel overlap** ·
+sha256 `d5a15369fdd8863f…` (full hash in [`evidence/current_artifact.json`](evidence/current_artifact.json))
+· [.zip](docs/downloads/gems62-h62r-multilevel-datum-repeat-offset-zeros.zip) · a bare GeoTIFF is accepted
+
+| | |
+| --- | --- |
+| **FORMAT** | ✅ **LEGAL** — 14/14 checks on the bytes **re-read from disk**: single band, `float32`, EPSG:32611, 3730×3292, sample geotransform, `n_outside_0_1 = 0`, `nan_count = 0`, `nodata = null`. |
+| **UNIQUENESS** | ✅ **UNIQUE** — against 475 harvested comparators: max \|ρ\| **0.0128**, worst symmetric 3-px Jaccard **0.0918**, 0 over the overlap limit among the non-vacuous (14 comparators flagged vacuous). |
+| **ISOLATION** | ✅ **PROVEN** — k-d tree: minimum nearest-neighbour distance **300.000000 m**; 0 dots receive any kernel mass from another dot (max **0.000000**). No two dots waste mass on each other. |
+| **OFF-CATALOGUE** | ✅ **0.0%** of dots within 300 m of a mapped fault; median **2,062 m**; 23.5% within 1 km. 2,195 of 24,037 samples were dropped by the exclusion. |
+| **HOLDOUT-DTI** | ⚠️ **0.000000** — **structurally vacuous, not a failure.** The exclusion radius and the kernel radius are both 300 m, so a dot obeying the exclusion has kernel weight exactly 0 against every mapped fault. Equal-budget controls on the same folds: random_lines 0.0032, random_dots **0.0287**, catalogue_offset 0.0249. Logged `IR-62-H62R-02`. |
+| **EXPECTED SCORE** | **Not claimed.** No local instrument in this repository can rank this field. |
+| **ORGANIZER SCORE** | **none** — never submitted (`organizer_score: null`). |
+| **SUBMISSION NOTE** | 121/140 chars: `H62-R: 4 measured Lahontan datum levels, collinear steps on >=2 levels, 14,765 isolated off-catalogue dots. Legal; probe.` |
+
+**Verdict: `SUBMIT AS A PROBE`** — the first field in this repository produced by a method the
+group has never run, from inputs (the DEM) that cannot reproduce any existing submission. It is
+not a validated gain, and the pages say so in those words.
+
+### What the lane measured
+
+| step | result |
+| --- | --- |
+| Levels detected from the DEM (block support of 323 twenty-km blocks) | **1455 / 1389 / 1325 / 1278 m** (7 / 7 / 12 / 7) |
+| Bench / step pixels per level | **3,164 / 3,301 / 2,866 / 2,880**, 12,211 flagged step px in total |
+| Repeat-offset test (Hough, ≥2 levels on one common line, sign agreement) | **2,509** lines accepted, all multi-level, 8,724 support px |
+| Traces emitted | **771** traces, **6,983 km** |
+| **First deliverable** — shoreline profiles | **532** runs, **2,844 km**, **119** carrying flagged steps → [figure](docs/h62r/h62r_shoreline_profiles.png) · [CSV](docs/downloads/h62r-shoreline-profiles.csv) |
+| Lateral deflections | **0** on all four levels even at a 1.2 km lever arm — a measured NULL (`IR-62-DEFL-01`) |
+
+Read before spending the slot: [executive summary with the six submission steps](docs/executive-summary-h62r.md)
+· [five ranked hypotheses for what to try next](docs/hypotheses-h62r.md)
+· [the field map](docs/h62r/h62r_field_map.png) · [the level spectrum](docs/h62r/h62r_level_spectrum.png).
+Three new defects were found and fixed this session, including one in shared code that could have
+made the uniqueness gate miss a re-run: [`docs/irregularities.md`](docs/irregularities.md) entries
+IR-62-REG-01 … IR-62-H62R-04.
+
+---
+
 ## Session status — 2026-10-11b (`arena/d0303476-62gemsdoe`)
 
 **Read this first.** One new artifact, one new measurement that changes what should be promoted, and

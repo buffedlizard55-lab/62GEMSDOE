@@ -77,12 +77,17 @@ def test_uniqueness_numbers_on_the_pages_match_the_evidence():
     card = json.loads(CARD.read_text())
     assert card["correlation_and_overlap_vs_registry"]["max_jaccard_vs_any_comparator"] == max_jac
     assert card["raster_sha256"] == ev["receipt"]["sha256"]
-    # the two pages must quote the same hash and the same verdict
-    for page in (ROOT / "docs" / "index.html",
-                 ROOT / "docs" / "executive-summary-2026-10-11b.html"):
-        text = page.read_text()
-        assert ev["receipt"]["sha256"][:16] in text, f"{page.name} lacks the sha256"
-        assert "120,000" in text or "120000" in text
+    # The 2026-10-11b summary must quote this artifact's hash.  docs/index.html is the
+    # landing page and quotes whichever artifact is CURRENT (evidence/current_artifact.json);
+    # requiring this one there is what broke when a newer session moved the pointer.
+    page = ROOT / "docs" / "executive-summary-2026-10-11b.html"
+    text = page.read_text()
+    assert ev["receipt"]["sha256"][:16] in text, f"{page.name} lacks the sha256"
+    assert "120,000" in text or "120000" in text
+    cur = json.loads((ROOT / "evidence" / "current_artifact.json").read_text())
+    ssha = cur["sha256"][:16]
+    assert ssha in (ROOT / "docs" / "index.html").read_text(), \
+        "the landing page does not quote the current artifact's sha256"
 
 
 def test_the_lattice_leg_is_vacuous_measured_not_asserted():

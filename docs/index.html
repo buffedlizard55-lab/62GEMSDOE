@@ -48,76 +48,71 @@ nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;paddi
 <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
 </nav>
 
-<!-- ============================ DOWNLOAD — the first thing on the page ============ -->
-<div class="hero" id="download">
+<!-- ============================ DOWNLOAD — the first thing on the page ================== -->
+<div class="hero" id="download" style="border-color:var(--warn);background:rgba(210,153,34,.07)">
 <h2 style="border:0;margin-top:0">The submission file — and whether you should submit it</h2>
 
-<p><span class="pill ok">FORMAT: LEGAL — 14/14 validator checks on the bytes re-read from disk</span>
-&nbsp;<span class="pill ok">UNIQUE — max Jaccard 0.022, max |ρ| 0.035 vs 25 prior rasters</span>
-&nbsp;<span class="pill ok">ISOLATION: PROVEN — max 1 dot per 300 m disc</span>
-&nbsp;<span class="pill warn">VERDICT: SUBMIT AS A PROBE — not a validated improvement</span></p>
+<p><span class="pill ok">FORMAT: LEGAL — 14/14 on the bytes re-read from disk</span>&nbsp;
+<span class="pill ok">UNIQUE — max |ρ| 0.0128 vs 475 comparators</span>&nbsp;
+<span class="pill ok">ISOLATION: 0 of 14,765 dots has any kernel overlap</span>&nbsp;
+<span class="pill ok">OFF-CATALOGUE — 0.0% of dots within 300 m of a mapped fault</span>&nbsp;
+<span class="pill warn">VERDICT: SUBMIT AS A PROBE — not a validated gain</span></p>
 
-<p class="big">gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</p>
-<p><a class="btn" href="downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif">⬇ Download the GeoTIFF (481,168 bytes)</a>
+<p class="big">gems62-h62r-multilevel-datum-repeat-offset-zeros.tif</p>
+<p><a class="btn" href="downloads/gems62-h62r-multilevel-datum-repeat-offset-zeros.tif">⬇ Download the GeoTIFF (116,946 bytes)</a>
+<a class="btn sec" href="downloads/gems62-h62r-multilevel-datum-repeat-offset-zeros.zip">⬇ .zip</a>
 <a class="btn sec" href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">Submit it here ↗</a>
-<a class="btn sec" href="executive-summary-2026-10-11b.html">How to submit + verdict ↗</a></p>
+<a class="btn sec" href="executive-summary-h62r.html">Six steps + full verdict ↗</a></p>
 
-<p><b>Session <code>arena/d0303476-62gemsdoe</code>.</b> 120,000 dots from a k-of-N vote over the
-official stack's <b>derivative</b> fields plus metre-scale scarp evidence, hard-core isolated and
-off-catalogue. Download, check the sha256, paste the note, submit — six steps, no edits.</p>
+<p><b>Session <code>arena/7eee17f9-62gemsdoe</code> — new method, 2026-10-12.</b>
+The Lahontan datum is a <b>stack of nested shorelines</b>, not one surface. This session
+<b>detected</b> four levels from the DEM alone (1455 / 1389 / 1325 / 1278 m; block support 7 / 7 / 12 / 7 of 323
+twenty-kilometre blocks), fitted a robust tile-mode isobase per level, flagged steps in the
+physical 15–140 m throw window, and kept only the steps that lie on <b>one common line with
+steps on a second level</b> — a Hough collinearity vote. Then it seeded a trace at each,
+extended it on DEM-ridge evidence, and emitted dotted lines.</p>
 
 <table class="kv">
-<tr><td>sha256</td><td><code>42bffef1b5973973…</code> (full hash in <a href="../evidence/run_card_20261011b.json">evidence/run_card_20261011b.json</a>)</td></tr>
-<tr><td>Submission name</td><td><code>gems62b-tiltgrad-vote-scarpcorrob-120000-zeros</code></td></tr>
-<tr><td>Submission note (138 chars, limit 140)</td><td><code>62b: 120k isolated dots from a 13-layer derivative vote with scarp corroboration. Off-catalogue. Legal & unique; probe, not a proven gain.</code></td></tr>
-<tr><td>Will the portal accept it?</td><td><b>Yes.</b> Single band, <code>float32</code>, EPSG:32611, 3730×3292, the sample submission's exact
- geotransform, <b>0 values outside [0, 1]</b>, <b>0 NaN</b>, <code>nodata = null</code>. The error
- <i>“Predicted values must be in range [0, 1]”</i> cannot occur for these bytes — both mechanisms (a
- float32 nodata sentinel, a NaN nodata tag) are structurally absent. Verified by re-reading the file from disk.</td></tr>
-<tr><td>Is it a copy of anything?</td><td><b>No.</b> Max exact-pixel overlap 4.6 %, max Jaccard <b>0.022</b>, max tie-aware rank
- correlation <b>|ρ| = 0.035</b> against 25 prior rasters. The protocol's “≤ 70 % of dots within 3 px of one
- registry raster” leg is tripped by <code>r13_lattice_s5_00904</code> — and that trip is <b>measured to be
- vacuous</b>: a uniform-random field scores <b>0.9987</b> and a 3 px lattice <b>0.9988</b> on that comparator.
- <a href="../evidence/e4_gates_20261011b.json">evidence/e4_gates_20261011b.json</a></td></tr>
-<tr><td>Does it pass the protocol's holdout gate?</td><td><b>No — 0.00073</b> (CI [0.00069, 0.00076], 81,993 withheld positives, evaluator
- <code>gems62.holdout_segmented v1</code>) against the current best 0.1322. <b>Reason, measured:</b> that gate
- rewards sitting near the mapped catalogue, while the leaderboard <i>anti</i>-rewards it — credit per dot
- against the mapped catalogue has <b>ρ = −0.597</b> (p = 0.0054, n = 20) with the owner-reported scores.</td></tr>
-<tr><td>Expected score</td><td><b>Not claimed.</b> No local instrument may be used as a score. Its per-dot credit on the one
- positively-tracking local quantity is <b>0.0621</b> = 95 % of the champion's 0.0655, at 3.2× the mass.
- Pre-registered, falsifiable prediction: it beats 0.2778 <b>iff</b> its true per-dot credit exceeds
- <b>0.0778</b> (≈ 19 % of dots within 300 m of a hidden fault).</td></tr>
-<tr><td>Read before spending a slot</td><td><a href="executive-summary-2026-10-11b.html">Executive summary</a> ·
- <a href="research/beating-02778-2026-10-11b.html">why 0.2778 scores what it scores, and the exact condition for beating it</a> ·
- <a href="hypotheses-2026-10-11b.html">five ranked hypotheses</a> ·
- <a href="../evidence/run_card_20261011b.json">run card</a></td></tr>
+<tr><td>sha256</td><td><code>d5a15369fdd8863f73691ad01d2557feafd8f901d442d593c4f4b9bd858b4731</code></td></tr>
+<tr><td>dots / values</td><td><b>14,765</b> single-pixel dots, values exactly <code>{0, 1}</code>. Two independent validators, both re-reading the bytes from disk: <code>n_outside_0_1 = 0</code>, <code>nan_count = 0</code>, <code>nodata = null</code>.</td></tr>
+<tr><td>Isolation</td><td>MEASURED against the metric's own kernel <code>k(d) = max(1 − d/300 m, 0)</code>: minimum nearest-neighbour distance <b>300.000000 m</b>, and <b>0</b> of 14,765 dots receives any kernel mass from another dot (max <b>0.000000</b>). No two dots waste mass on one another.</td></tr>
+<tr><td>Distance to the mapped catalogue</td><td><b>0.0%</b> of dots within 300 m (nearest is 300 m); median <b>2,062 m</b>; 23.5% within 1 km. Dots inside 300 m were deleted — those pixels are masked out of live scoring (organizer thread 11516).</td></tr>
+<tr><td>Dots dropped for that exclusion</td><td>2,195 of 24,037 samples, from 771 traces (6,983 km).</td></tr>
+<tr><td>Submission name</td><td><code>gems62-h62r-multilevel-datum-repeat-offset-zeros</code></td></tr>
+<tr><td>Submission note (121 chars, limit 140)</td><td><code>H62-R: 4 measured Lahontan datum levels, collinear steps on &gt;=2 levels, 14,765 isolated off-catalogue dots. Legal; probe.</code></td></tr>
+<tr><td>Uniqueness vs the registry</td><td><b>UNIQUE.</b> 475 comparators from the harvested registry: max |Spearman| <b>0.0128</b> (limit 0.9), worst symmetric 3-px Jaccard <b>0.0918</b>, 0 comparators over the overlap limit among the non-vacuous. 14 were flagged <i>vacuous</i> (their own 3-px dilation covers ≥70 % of the footprint, so overlap with anything is meaningless). Full report: <a href="../evidence/h62r/e7_uniqueness.json">e7_uniqueness.json</a>.</td></tr>
+<tr><td>Does it pass the protocol's holdout gate?</td><td><b>0.000000</b> — and that number is <b>structurally vacuous, not a failure of the field</b>. The catalogue-exclusion radius and the metric kernel radius are both 300 m, so a dot that obeys the exclusion has kernel weight exactly 0 against every mapped fault. Equal-budget controls on the same 4 folds × 2 seeds, 81,993 withheld positives: random_lines <b>0.0032</b>, random_dots <b>0.0287</b>, catalogue_offset <b>0.0249</b>. Logged as <code>IR-62-H62R-02</code>.</td></tr>
+<tr><td>Expected score</td><td><b>Not claimed.</b> No local instrument in this repository can rank this field — see <a href="executive-summary-h62r.html">the limits section</a>.</td></tr>
 <tr><td>Organizer score</td><td><b>none</b> — never submitted. <code>organizer_score: null</code>.</td></tr>
+<tr><td>The lane's own numbers</td><td>Steps flagged per level: 3,164 / 3,301 / 2,866 / 2,880 (12,211 total) → 2,509 accepted lines, all multi-level, 8,724 support px → 771 traces (6,983 km). Deflection flags: <b>0</b> — a measured NULL on all four levels even at a 1.2 km lever arm (<code>IR-62-DEFL-01</code>).</td></tr>
+<tr><td>First deliverable (the lane asks for this)</td><td><a href="h62r/h62r_shoreline_profiles.png">shoreline elevation-vs-distance profiles with the flagged steps</a> — 532 runs, 2,844 km, 119 carrying flagged steps · <a href="downloads/h62r-shoreline-profiles.csv">CSV</a> · <a href="h62r/h62r_level_spectrum.png">the measured level spectrum</a> · <a href="h62r/h62r_field_map.png">field map</a></td></tr>
+<tr><td>Read before spending a slot</td><td><a href="executive-summary-h62r.html">executive summary &amp; the six submission steps</a> · <a href="hypotheses-h62r.html">five ranked hypotheses</a> · <a href="irregularities.html">irregularities (three new ones this session)</a></td></tr>
 </table>
 
-<h3>Earlier files in this repository — each with its own verdict</h3>
-<p><code>gems62-h62g-benchcrosscut-hardcore-zeros.tif</code> (98,893 B, session <code>arena/2b64062a</code>)
-<span class="pill no">NEGATIVE — do not spend a slot</span> — at chance on the proxy instrument:
-credit 0.0420 at 10,000 dots vs a mass-matched isolated-random control of 0.04330 ± 0.00165.
-<a href="downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif">⬇ download</a></p>
-<p><code>gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</code> (372,859 B, session
-<code>arena/dfc9787b</code>) <span class="pill warn">PROBE — projection 0.110, below the 0.24–0.28 band</span> ·
-<a href="executive-summary-v2.html">verdict &amp; evidence</a> ·
+<h3>Files from earlier sessions — each with its own verdict, kept because negatives are deliverables</h3>
+<p><code>gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</code> (481,168 B, session <code>arena/d0303476</code>)
+<span class="pill warn">PROBE — legal, unique, no organizer score</span> ·
+<a href="downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif">⬇ download</a></p>
+<p><code>gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</code> (372,859 B, session <code>arena/dfc9787b</code>)
+<span class="pill warn">PROBE — projection 0.110, below the incumbent band</span> ·
 <a href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif">⬇ download</a></p>
-<p class="mut">The two older files are kept because negative results are deliverables; their verdicts
-stand, and nothing in the new file is copied from either of them (measured, see the uniqueness row).</p>
+<p><code>gems62-h62g-benchcrosscut-hardcore-zeros.tif</code> (98,893 B, session <code>arena/2b64062a</code>)
+<span class="pill no">NEGATIVE — at chance on the proxy instrument</span> ·
+<a href="downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif">⬇ download</a></p>
+<p><code>gems62-h62i-scarpcrosscut-hardcore-zeros.tif</code> (282,543 B)
+<span class="pill no">QUARANTINED — duplicate-drift</span></p>
 
-<h3>The second file this session produced is quarantined — do not submit it either</h3>
-<table class="kv">
-<tr><td>File</td><td><code>gems62-h62i-scarpcrosscut-hardcore-zeros.tif</code> (60,000 dots,
- sha256 <code>aaadb736f1b60379…</code>)</td></tr>
-<tr><td>Why it exists</td><td>It is the only variant this session built that beats chance:
- credit <b>0.08666</b> = <b>2.00×</b> the isolated-random control.</td></tr>
-<tr><td>Why it is quarantined</td><td><b>DUPLICATE-DRIFT.</b> 87.5 % of its dots fall within 3 px of
- <code>gemsdoe23-h30-arrangement-matched-habitat</code> and the symmetric Jaccard of the two 3-px halos
- is <b>0.4465</b> (limit 0.25). Both fields are driven by the same 1 m LiDAR scarp composite, so this is
- genuine lane drift into the LiDAR-scarp lane, not an artefact. Logged and stopped, as the protocol requires.</td></tr>
-</table>
+<h3>Files that must NOT be submitted — the cause of the portal error you hit</h3>
+<p>Two earlier files encoded "outside the data" as <b>NaN</b> (measured: 7,111,787 NaN cells each,
+exactly the number of out-of-footprint cells). A range test applied to NaN fails, and that is the
+mechanism behind <i>"Predicted values must be in range [0, 1]"</i>. They now live in
+<a href="downloads/quarantined-not-submittable/">docs/downloads/quarantined-not-submittable/</a>
+with the diagnosis, and <code>tests/test_downloads_are_submittable.py</code> re-reads every offered
+<code>.tif</code> from disk and fails CI if any of them has a NaN tag, a NaN value or a value outside
+<code>[0, 1]</code>. <b>Nothing in <code>docs/downloads/*.tif</code> — as opposed to the quarantine
+subfolder — has NaN or a nodata tag.</b></p>
 </div>
+<!-- ============================ /DOWNLOAD -->
 
 <h2>Also in this repository — session <code>arena/dfc9787b-62gemsdoe</code> (d-lane extension, 2026-10-11)</h2>
 <div class="card">

@@ -1,0 +1,39 @@
+{
+ "session": "arena/7eee17f9-62gemsdoe",
+ "lane_id": "H62-R",
+ "date": "2026-10-12",
+ "submission_name": "gems62-h62r-multilevel-datum-repeat-offset-zeros",
+ "file": "docs/downloads/gems62-h62r-multilevel-datum-repeat-offset-zeros.tif",
+ "zip": "docs/downloads/gems62-h62r-multilevel-datum-repeat-offset-zeros.zip",
+ "sha256": "d5a15369fdd8863f73691ad01d2557feafd8f901d442d593c4f4b9bd858b4731",
+ "bytes": 116946,
+ "n_dots": 14765,
+ "submission_note": "H62-R: 4 measured Lahontan datum levels, collinear steps on >=2 levels, 14,765 isolated off-catalogue dots. Legal; probe.",
+ "submission_note_chars": 121,
+ "verdict": "submit as a probe - legal, unique, provably isolated and off-catalogue, but no local instrument can rank it (the catalogue-based holdout is structurally vacuous for this field: IR-62-H62R-02)",
+ "organizer_score": null,
+ "evidence": [
+  "evidence/h62r/e0_inputs.json",
+  "evidence/h62r/e1_level_spectrum.json",
+  "evidence/h62r/e1_surfaces.json",
+  "evidence/h62r/e2_canary.json",
+  "evidence/h62r/e3_repeat_offsets.json",
+  "evidence/h62r/e4_profiles.json",
+  "evidence/h62r/e5_emission.json",
+  "evidence/h62r/e6_validation.json",
+  "evidence/h62r/e7_uniqueness.json",
+  "evidence/h62r/e8_run_card.json",
+  "evidence/h62r/e9_holdout.json",
+  "evidence/h62r/e10_field_stats.json"
+ ],
+ "superseded": [
+  {
+   "session": "arena/d0303476",
+   "lane_id": "H62-B (2026-10-11b)",
+   "file": "docs/downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif",
+   "sha256": "42bffef1b5973973cdcb52c252067b33159e03fa721d1f58bec83f18ca779a21",
+   "organizer_score": null,
+   "note": "still offered on the site; superseded only as the CURRENT artifact"
+  }
+ ]
+}
