@@ -1,84 +1,50 @@
-<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Next steps and limitations</title><style>
-:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;--warn:#d29922;--card:#161b22;--bd:#30363d}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
-.wrap{max-width:1000px;margin:0 auto;padding:24px 20px 90px}
-h1{font-size:1.8em}h2{font-size:1.3em;margin:1.7em 0 .5em;border-bottom:1px solid var(--bd);padding-bottom:.3em}
-h3{font-size:1.05em;margin:1.2em 0 .4em}
-a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
-code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.88em}
-pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.84em}
-pre code{background:none;padding:0}
-table{border-collapse:collapse;width:100%;margin:.9em 0;font-size:.9em}
-th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
-th{background:#1f2630}
-.mut{color:var(--mut)}blockquote{border-left:3px solid var(--bd);margin:1em 0;padding:.2em 0 .2em 1em;color:var(--mut)}
-hr{border:0;border-top:1px solid var(--bd);margin:2em 0}
-.back{display:inline-block;margin-bottom:14px;font-size:.9em}
-.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
-.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
-.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
-.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
-.hero{border:2px solid var(--no);border-radius:10px;padding:20px;margin:16px 0;background:rgba(248,81,73,.06)}
-.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;border-radius:8px;margin:8px 8px 8px 0}
-.btn:hover{background:#2ea043;text-decoration:none}
-.btn.sec{background:#30363d}
-</style></head><body><div class='wrap'><a class='back' href='index.html'>&larr; back to 62GEMSDOE</a>
-<h1>Remaining work and limitations</h1>
-<blockquote>Updated 2026-10-11 by session <code>arena/2b64062a-62gemsdoe</code>. The ranking below replaces the earlier one; the earlier text is preserved in git history. Everything here is either MEASURED in this checkout or explicitly labelled as a lead.</blockquote>
-<h2>What this session finished</h2>
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>62GEMSDOE — next-steps</title>
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header>
+  <span class="brand">62GEMSDOE</span>
+  <nav>
+    <a href="index.html">Download &amp; verdict</a>
+    <a href="executive-summary.html">How to submit</a>
+    <a href="results.html">Results</a>
+    <a href="method.html">Method</a>
+    <a href="hypotheses-2026-10-12.html">Hypotheses</a>
+    <a href="run-card.html">Run card</a>
+    <a href="irregularities.html">Irregularities</a>
+    <a class="active" href="next-steps.html">Next steps</a>
+  </nav>
+</header>
+<main>
+<h1>Next steps — ranked by expected value per unit of work</h1>
+<h2>1. Fit the published rebound field instead of a free smooth isobase (H62-P) — highest science value</h2>
+<p>The flagged steps are 24–83 m, which is too large to be post-15 ka fault offset (<a href="irregularities.html#IR-62-H62B-01">IR-62-H62B-01</a>). The cure is to make the isobase <code>plane + published rebound field</code> instead of <code>smooth(base, 6 km)</code>, which turns the residual into metres of fault offset and removes the degeneracy the repository already records as IR-62-03.</p>
+<p><b>Source needed:</b> the shoreline-elevation station tables in Adams, Wesnousky &amp; Bills (1999), <i>Isostatic rebound and palinspastic reconstruction of Lake Lahontan</i> — and the GSA/USGS data repository item that accompanies it. <b>Not obtainable from this sandbox</b>: the sandbox reaches only <code>github.com</code>, <code>api.github.com</code>, <code>registry.npmjs.org</code>, <code>pypi.org</code> and <code>files.pythonhosted.org</code>. It must be fetched by hand or by a runner with general network access, then committed as a small CSV with the source DOI. Until then H62-P cannot be validated and is not proposed as viable.</p>
+<h2>2. One submission slot, one variable</h2>
+<p>The single most useful piece of information the group can buy is an organizer score for a file whose <i>only</i> difference from the champion is known. This artifact differs from the champion in mechanism, data (absolute DEM), mass (identical, 37,654), isolation (0.000 vs 0.032) and credit (1.27×). That is too many variables to interpret afterwards. The recommended next submission is a <b>single-variable</b> variant: the same trace pipeline with the mass moved to 30,000 or to 45,000, so the mass response curve can be read off a real receipt.</p>
+<h2>3. Get an independent, basin-aware truth set</h2>
+<p>The SGMC compilation is a bedrock map: credit on the roughest decile is 47× the flattest, and depth-to-basement is inverted (0.265 where cover is thinnest, 0.045 where it is thickest). It therefore cannot see the population this lane exists to find, and every &quot;the pluvial band is below chance&quot; measurement (four times now: 0.03×, 0.61×, 0.026×, 0.26×) may be an artefact of that blindness. What is needed is a Quaternary/basin-floor fault compilation for Nevada — the USGS Quaternary Fault and Fold Database and the Nevada Bureau of Mines and Geology 1:250 k county maps are the two free official candidates. Both are outside this sandbox&#x27;s network; both must be fetched and rasterised on the competition grid before any basin-floor hypothesis can be tested rather than assumed.</p>
+<h2>4. Fix the lane-drift rule, in the shared template, once</h2>
+<p>The 70 %-within-3-px leg is unfalsifiable against any comparator whose halo covers most of the footprint (32 of 340 here are formally &quot;vacuous&quot;; two more fire at 1.21–1.27× the uniform null). The template should report, for every comparator, the <b>containment ratio to a uniform-random null</b> alongside the raw fraction, and should treat only the ratio — plus ρ and Jaccard — as evidence. The previous session proposed habitat nulls; a uniform null plus ρ and Jaccard is simpler and is sufficient for the two comparators that fire here.</p>
+<h2>5. Do not spend more effort on band-restricted detectors</h2>
+<p>Experiment 2 measured eight band-restricted evidence surfaces, including the band&#x27;s own uniform null, all at 0.25–0.26× the random control. Whatever the truth is about basin-floor faults, a detector that only fires inside a smooth, low-relief band cannot be validated with any instrument this repository can build, and it measurably does not pay.</p>
+<h2>6. Housekeeping</h2>
 <ul>
-<li><b>The shared tools are fixed, once, in the template</b> — not forked. 6 of 9 root modules did not</li>
+<li>Commit the leaderboard scrape daily (the scheduled workflow already does) so the target stays current — the brief&#x27;s target was stale by five ranks.</li>
+<li>Refresh <code>research/registry_measurements.json</code> as sibling repositories ship; the structural model (LOO R² = 0.586) is only as good as its 87 anchors, all of which are OWNER-REPORTED.</li>
+<li><code>data/labels.tif</code> and <code>data/existing_faults.tif</code> being byte-identical (<a href="irregularities.html#IR-62-LABELS">IR-62-LABELS</a>) should be re-checked against a fresh DrivenData download; if the real <code>labels.tif</code> differs, several proxy numbers in the group change.</li>
 </ul>
-<p>  import on a clean checkout (<code>IR-62-11</code>); <code>lane62</code> errored on 14 tests for a file that was present   (<code>IR-62-12</code>). Root suite <b>18 passed</b>, <code>lane62</code> suite <b>46 passed</b>, plus <b>9 new tests</b> that   execute the shipped rasters and the leaderboard arithmetic.</p>
-<ul>
-<li><b>A score-anchored registry now exists</b> — <code>research/registry_index.json</code> (87 distinct group</li>
-</ul>
-<p>  rasters with owner-reported scores, harvested from 73 public repositories, 1,459 <code>.tif</code> blobs,   166 registry/ledger JSONs) and <code>research/registry_measurements.json</code> (18 structural properties   measured from each one's bytes). This is the dataset the group has been reasoning about anecdotally.</p>
-<ul>
-<li><b>The leaderboard is now a committed time series</b> — 37 timestamped snapshots of the official</li>
-</ul>
-<p>  public page, <code>research/leaderboard_series.json</code>.</p>
-<ul>
-<li><b>Two hypotheses screened and reported, one refuted</b> — <code>docs/hypotheses-2026-10-11.md</code>.</li>
-<li><b>A unique, legal, validated GeoTIFF is downloadable</b>, with an unambiguous negative verdict.</li>
-</ul>
-<h2>Ranked next work</h2>
-<h3>1. Submit the never-scored high-credit field — highest expected value, minutes of work</h3>
-<p><code>GEMSDOE32 → docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif</code> (302,357 bytes, 45,000 dots) measures <b>0.29294</b> mean 300 m credit per dot on the same instrument that scores the submitted champion family at <b>0.09892</b> — 3.0×. It is absent from the 87-artifact score registry, i.e. never submitted. <b>This is a selector decision, not a lane decision</b>, and the number must be discounted hard (the closed form turns it into an implausible 0.71). Even at a 4× discount it clears the top-5 cut-off.</p>
-<h3>2. H62-K — along-strike continuation into catalogue gaps</h3>
-<p>The only hypothesis that targets the population the organizers actually describe ("newly mapped geometry of existing systems"). Nothing in this repository uses the catalogue's <i>geometry</i> as a prior; every lane uses it only as a mask. Spec and risk in <code>docs/hypotheses-2026-10-11.md</code>.</p>
-<h3>3. Get one ORGANIZER-CONFIRMED number into <code>evidence/</code></h3>
-<p>Still zero. The submission page is the only channel that exists. Until one receipt is committed, every comparison in this repository is a proxy argument.</p>
-<h3>4. Replace the fitted isobase with a published rebound model</h3>
-<p>Blocks H62-J and repairs <code>IR-62-03</code>. Taking a second derivative of a degenerate fit is how phantom signals are made.</p>
-<h3>5. Raise LiDAR coverage or drop the layer</h3>
-<p><code>lidar_scarp_features_u8.tif</code> is non-zero over <b>31.72 %</b> of the grid. That — not the geology — is what caps every LiDAR-driven field in this group, including the 0.2778 family. Either extend the composite (USGS 3DEP 1 m, public domain) or stop treating it as basin-wide.</p>
-<h2>Limitations — stated as limitations, not as future work</h2>
+<h2>Limitations that block the work</h2>
 <ol>
-<li><b>No local instrument can certify novelty or competitiveness.</b> This session's own screening</li>
+<li><b>No DrivenData credentials</b> — <code>training_features.tif</code>, <code>labels.tif</code>, <code>sample_submission.tif</code> and <code>1m_DEM_links.csv</code> all sit behind a login; the copies here are owner mirrors, hash-pinned but not organizer-authenticated.</li>
+<li><b>No general network</b> — only five hosts are reachable, so USGS TNM, ScienceBase, the Nevada Bureau and the GSA data repository cannot be queried from here. Anything from them has to be brought in by hand or by a GitHub runner.</li>
+<li><b>No organizer truth, by policy</b> — the test set is explicitly not shared (forum thread 11527).</li>
+<li><b>2 CPU / 3 GB RAM</b> — the surface pipeline was rewritten to cache float32 surfaces under <code>build/</code> for this reason; anything that needs the 418 MB stack in memory at once will not run.</li>
+<li><b>Weekly submission cap</b> — promotion to a real slot is a separate selector step.</li>
 </ol>
-<p>   refuted a hypothesis that looked obvious (lake flats, 0.03× control) and confirmed one that is    then unusable (LiDAR scarps, 2.2× control, duplicate-drift). Both outcomes came from a proxy.</p>
-<ol>
-<li><b>The datum lane is dominated, and now for a measured reason.</b> The Lahontan datum band scores</li>
-</ol>
-<p>   <b>0.61× the isolated-random control</b> on the off-catalogue instrument. Either the band is not    fault-rich, or a 1:750 k compilation cannot see 2 m datum offsets. The two cannot be separated    without the organizer's truth.</p>
-<ol>
-<li><b>Coverage of the delivered file is one sub-region of one physical process.</b> 10,000 dots on</li>
-</ol>
-<p>   shoreline benches. The metric needs ~40,000 isolated dots to matter at all.</p>
-<ol>
-<li><b>The 25 m DEM mosaic is unusable basin-wide</b> (<code>IR-62-15</code>): 55.74 % footprint coverage and an</li>
-</ol>
-<p>   int16-decimetre ceiling at 3276.7 m that clips the eastern Sierra. The 100 m mirror was used    instead (99.97 % coverage, sha256 matches the pin).</p>
-<ol>
-<li><b>The weekly slot decision is not made here.</b> Per the brief, promotion is a separate selector</li>
-</ol>
-<p>   step within the weekly cap.</p>
-<ol>
-<li><b>Sandbox reachability is a hard constraint.</b> <code>drivendata.org</code> returns HTTP 000; the USGS hosts</li>
-</ol>
-<p>   are unreachable. <code>github.com</code>, <code>api.github.com</code> and <code>codeload.github.com</code> work, which is how the    registry and the external layers were obtained. Every competition-page citation in this    repository is therefore either an owner-supplied link or a mirror with a read date.</p>
-<ol>
-<li><b>No file in this repository has ever been scored.</b> <code>organizer_score</code> is <code>null</code> everywhere.</li>
-</ol>
-</div></body></html>
+</main>
+<footer>62GEMSDOE · datum-offset lane · every number on this site is labelled MEASURED,
+OWNER-REPORTED, OFFICIAL or MODEL; a projection is never written as a score.</footer>
+</body></html>

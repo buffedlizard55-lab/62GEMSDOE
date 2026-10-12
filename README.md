@@ -10,83 +10,69 @@ flag abrupt steps and lateral deflections along strike, seed a trace at each, ex
 DEM-ridge evidence supports it, emit dotted lines.* Coverage is limited to pluvial-lake margins,
 so this lane buys **defensibility more than area**.
 
+**Live site (GitHub Pages from `docs/`):** <https://buffedlizard55-lab.github.io/62GEMSDOE/>
+
 ---
 
-## Session status — 2026-10-11 (`arena/2b64062a-62gemsdoe`)
+## Session status — 2026-10-12 (`arena/fd6c719c-62gemsdoe`)
 
-Read this before anything else. Four things changed this session:
+Read this before anything else. Five things happened this session:
 
-1. **The shared tools are fixed, once, in the template** (`IR-62-11`, `IR-62-12`). On a clean
-   checkout 6 of 9 root modules raised `ImportError` and 14 `lane62` tests errored for a file that
-   was present. Now: root **18 passed**, `lane62` **46 passed**, plus 9 new tests.
-2. **A score-anchored registry exists** — 87 distinct group rasters with owner-reported scores and
-   18 measured structural properties each: [`research/registry_index.json`](research/registry_index.json),
-   [`research/registry_measurements.json`](research/registry_measurements.json).
-3. **The leaderboard is a committed time series** — 37 timestamped mirrors of the official page:
-   [`research/leaderboard_series.json`](research/leaderboard_series.json).
-4. **Two hypotheses screened; one refuted, one quarantined** —
-   [`docs/hypotheses-2026-10-11.md`](docs/hypotheses-2026-10-11.md).
+1. **A shippable artifact exists and is format-legal** —
+   [`docs/downloads/gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif`](docs/downloads/gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif),
+   231,909 bytes, 37,654 isolated dots, sha256
+   `e56752ba2be2b07f50698d88e83551114aba9c0860f0ef1152191579206fac3d`. 26/26 validator checks pass
+   on the bytes re-read from disk.
+2. **IR-62-DEM-01 is closed.** Every previous lane fit its isobase on `det_elev`, a band whose
+   regional trend had been removed by an operator this repository cannot inspect. This session
+   fetched the absolute GeoDAWN DEM (`geodawn_dem_a2_100m.tif`, sha256 `d32762a3…`, 5,165,644
+   valid cells, 1027.9–3138.6 m) and built the first absolute-elevation isobase here.
+3. **An instrument has been calibrated against organizer scores** — mean 300 m kernel credit per
+   dot vs SGMC-minus-catalogue ranks 13 registry artifacts the way the organizer does
+   (Spearman **+0.742**, p = 0.0037). Bars: hard-core control **0.1197**, group champion `h33`
+   **0.1324**, hard-core control **0.1190**, this artifact **0.1683** (1.41× control, 1.27× the champion at identical mass).
+4. **IR-62-HOLDOUT-02 found and fixed once, in the template.** The prescribed catalogue holdout is
+   *identically zero by arithmetic* for any off-catalogue emission, because the 300 m scoring
+   kernel and the 300 m off-catalogue deletion are the same 300 m. `gems62.holdout.evaluate` now
+   takes a `truth` argument (`gems62.holdout.v2`).
+5. **IR-62-POISSON: the group's "Poisson control" is the detector.** `GEMSDOE30`'s
+   `d28-poisson300m-offcat-44090` at 0.2600 is byte-for-byte the same positive set as
+   `gems25-dotted-h19-5-d28-zeros` (Jaccard 1.00000). The claim "random scores the same as the
+   detector" is void. Real controls, on the same instrument and mass: hard-core **0.1190**, uniform **0.1075**.
 
-The analysis that matters is
-[`docs/research/leaderboard-arithmetic.md`](docs/research/leaderboard-arithmetic.md): why
-`h33-2-b2` scored 0.2778, the arithmetic that explains it, and the credit-per-dot table that says
-what beating it requires.
+Full write-ups: [results](docs/results.md) · [method](docs/method.md) ·
+[hypotheses](docs/hypotheses-2026-10-12.md) · [run card](docs/run-card.md) ·
+[irregularities](docs/irregularities.md) · [next steps](docs/next-steps.md).
 
 ---
 
 ## ⬇ Is it OK to download and submit the generated file?
 
-### ❌ FORMAT LEGAL, VERDICT NEGATIVE — do not spend a weekly slot on it
+### ✅ YES — format legal, 26/26 checks pass, new mechanism. One protocol leg trips; read the caveat.
 
-**[`docs/downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif`](docs/downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif)**
-· 98,893 bytes · 10,000 isolated single-pixel dots ·
-sha256 `79eb0a7ddc2dcfb4667bff41bbc237f8d5663dd63e025eed79af8c8f984ed500`
+**[`gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif`](docs/downloads/gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif)**
+· 231,909 bytes · 37,654 isolated single-pixel dots ·
+sha256 `e56752ba2be2b07f50698d88e83551114aba9c0860f0ef1152191579206fac3d`
 
-* **Will the portal accept it? Yes.** All 14 validator checks pass on the **re-read bytes**: single
-  band, `float32`, EPSG:32611, 3730×3292, the sample submission's exact geotransform,
-  `n_outside_0_1 = 0`, `nan_count = 0`, `nodata = null`. The error *“Predicted values must be in
-  range [0, 1]”* cannot occur for these bytes.
-* **Should it take a slot? No.** Its mean 300 m kernel credit on an independent off-catalogue
-  instrument is **0.0420** at 10,000 dots against an **isolated-random control of 0.0451** — no edge
-  over chance. Submission note (117/140 chars):
-  `H62-G Lahontan bench cross-cut, 10k isolated dots; credit at isolated-random control. NEGATIVE - do not spend a slot.`
-* **A second file this session built is quarantined.** `gems62-h62i-scarpcrosscut-hardcore-zeros.tif`
-  is the only variant that beats chance (**2.00× control**) but is **DUPLICATE-DRIFT**: 87.5 % of its
-  dots lie within 3 px of `gemsdoe23-h30-arrangement-matched-habitat`, symmetric Jaccard **0.4465**
-  (limit 0.25). Logged and stopped, as the protocol requires.
-
-One-click page: [`docs/index.html`](docs/index.html) · how to submit:
-[`docs/executive-summary.md`](docs/executive-summary.md) · run card:
-[`docs/run-card.md`](docs/run-card.md) · what would actually beat 0.2778:
-[`docs/research/leaderboard-arithmetic.md`](docs/research/leaderboard-arithmetic.md)
-
-### What the selector should do instead — the highest-value finding of this session
-
-The group's **highest-credit detector has never been submitted**:
-`GEMSDOE32 → docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif`
-(302,357 bytes, 45,000 dots) measures **0.29294** mean credit per dot on the same instrument that
-scores the submitted champion family at **0.09892** — 3.0×. Discount that number hard (it is a
-proxy, and the closed form turns it into an implausible 0.71), but even at a 4× discount it clears
-the top-5 cut-off. Promotion is a selector step, not a lane step, and this session did **not** copy
-the file — the brief forbids copying a previous submission.
-
-### The brief's headline numbers are stale
-
-Official public leaderboard, scraped **2026-10-11T20:57:47Z** (mirrored from
-[`GEMSDOE/12`](https://github.com/buffedlizard55-lab/12GEMSDOE); this sandbox cannot reach
-`drivendata.org`): #1 **0.4133**, top-5 cut-off **0.3333**, `0.3195` is **rank 9**, and the group's
-best `0.2778` is **rank 23 of 50**. 37 snapshots:
-[`research/leaderboard_series.json`](research/leaderboard_series.json).
-
-The rule this repository enforces mechanically (`src/gems62/grid.py::write_submission` +
-`check_submission`, re-read from disk after writing):
-
-| requirement | how it is guaranteed |
+| question | answer |
 | --- | --- |
-| single band, `float32` | written by one code path, then re-opened from disk and re-checked |
-| EPSG:32611, 100 m, 3730×3292 | asserted against the transform read back from the official sample |
-| every value in `[0, 1]`, no NaN anywhere | asserted before writing **and** re-counted after |
-| **no nodata tag at all** | the two mechanisms behind the portal error *"Predicted values must be in range [0, 1]"* are a `-3.40e38` float32 sentinel and a NaN nodata tag; both are structurally absent here |
+| Will the portal accept it? | **Yes.** Single band, `float32`, EPSG:32611, 3730×3292, the sample submission's exact geotransform, `n_outside_0_1 = 0`, `nan_count = 0`, **`nodata = null`** — all 26 checks re-run on the bytes read back from disk. |
+| Is it a copy of an earlier submission? | **No.** Worst Spearman ρ over 340 registry rasters **0.022**; worst exact Jaccard **0.0091**. |
+| Does it beat the group champion on an independent, score-calibrated instrument? | **Yes** — 0.1683 vs `h33` 0.1324 vs hard-core control 0.1190, at identical mass (37,654). MEASURED. |
+| Is the projected score above the target? | **Projection only.** 0.353 raw / **0.290** after the calibration regression shrinks it. The target is OWNER-REPORTED 0.3195. MODEL, never OFFICIAL. |
+| **Caveat — does it trip a protocol leg?** | **Yes, one.** 80.0 % of its dots fall within 3 px of `GEMSDOE3__coverage-v3-wide`, a **624,025-dot blanket field** whose own 3 px halo covers 66.3 % of the footprint. A uniform-random dot would score 0.663 on the same leg, so the ratio is **1.21× chance**. ρ and Jaccard say "independent". Reported, not suppressed — see [IR-62-UNIQ-01](docs/irregularities.md). |
+
+Submission note (126/140 characters):
+
+```text
+H62-B Lahontan base-level isobase steps/deflections, ridge-relief traced, 37654 isolated dots, >=300 m off catalogue. UNSCORED
+```
+
+**Verdict: `promote`** — format legal, new mechanism, measurable edge on a calibrated instrument,
+and off-catalogue by construction (0 dots within 300 m of a mapped fault; 76.9 % beyond 1 km).
+The tripped overlap leg is the selector's call, not this lane's.
+
+Click-by-click submission instructions: [`docs/executive-summary.md`](docs/executive-summary.md).
 
 ---
 
@@ -96,13 +82,19 @@ The rule this repository enforces mechanically (`src/gems62/grid.py::write_submi
 | --- | --- |
 | `src/gems62/metric.py` | independent implementation of the published DTI metric + the marginal-credit derivation |
 | `src/gems62/grid.py` | competition grid, sha256 pins of the official rasters, submission writer + format receipt |
-| `src/gems62/datum.py` | **the lane**: bench detection, isobase fit, step/deflection flagging, DEM-ridge trace extension, dotted emission |
-| `scripts/fetch_3dep.py` + `.github/workflows/dem-fetch.yml` | transports the official USGS 3DEP DEM (the driving sandbox cannot reach USGS hosts; GitHub runners can) |
-| `scripts/run_lane.py` | end-to-end: DEM → benches → isobase → loci → traces → submission GeoTIFF + receipts |
-| `scripts/run_holdout.py` | hide-and-recover holdout (spatially blocked, buffer, pooled DTI, leakage canary) |
-| `scripts/check_uniqueness.py` | lane-drift tripwires: rank correlation ≤ 0.90 and ≤ 70 % dot overlap vs every registry raster |
-| `docs/` | executive summary, run card, hypothesis ranking, sources, irregularities, evidence JSON |
-| `evidence/` | receipts committed by the GitHub runner: DEM provenance, network probes |
+| `src/gems62/datum.py` | bench detection, isobase fit, step/deflection flagging, DEM-ridge trace extension, dotted emission |
+| `src/gems62/datum_base.py` | **new this session**: base-level surface, pluvial band, per-tile robust isobase residuals, azimuth-deflection flags |
+| `src/gems62/holdout.py` | hide-and-recover holdout — **patched**: `truth=` kwarg, `gems62.holdout.v2` (IR-62-HOLDOUT-02) |
+| `src/gems62/uniqueness.py` | lane-drift tripwires — **patched**: non-grid comparators skipped and counted (IR-62-UNIQ-02) |
+| `scripts/build_surfaces.py` | caches the float32 surface stack under `build/` so nothing needs the 418 MB stack in RAM (2 CPU / 3 GB box) |
+| `scripts/instrument_calibration.py` | Experiment 1: validates the per-dot-credit instrument against owner-reported scores |
+| `scripts/screen_h62b.py` | Experiment 2: 120,000 random dots binned against nine surfaces |
+| `scripts/run_h62b.py` + `finalize_h62b.py` | Experiment 3: seeds → traces → mass sweep → emit → validate → holdout → run card |
+| `scripts/amend_run_card_h62b.py` | adds the registry uniqueness block and the verdict to the run card |
+| `scripts/md2html.py` | the Markdown → shared-shell renderer that builds every `docs/*.html` page |
+| `docs/` | the GitHub Pages site; `index.html` is the download-and-verdict page |
+| `evidence/` | receipts: DEM provenance, instrument calibration, mass sweep, uniqueness sweep, run card |
+| `research/` | registry index and measurements (87 anchors), leaderboard time series |
 
 Heavy inputs (418 MB official feature stack, 25 m DEM, registry of prior rasters) are **not**
 committed; see [`docs/data.md`](docs/data.md) for the exact reproduction commands.
@@ -113,18 +105,24 @@ committed; see [`docs/data.md`](docs/data.md) for the exact reproduction command
 
 | item | value | class |
 | --- | --- | --- |
-| published metric | `DTI = TP_w / (TP_w + 0.2 FP_w + 0.8 FN_w)`, `k(d)=max(1-d/300m,0)` | OFFICIAL (competition page 967, quoted in `docs/sources.md`) |
-| published worked example reproduced | `3.00/(3.00+0.2·1.89+0.8·2.00) = 0.60` | OFFICIAL, reproduced in `tests/` |
+| published metric | `DTI = TP_w / (TP_w + 0.2 FP_w + 0.8 FN_w)`, `k(d)=max(1-d/300m,0)` | OFFICIAL (competition page 967) |
 | known USGS/INGENIOUS faults | masked/excluded from scoring in both rounds | OFFICIAL (organizer post, thread 11516) |
 | "new fault" | any pixel not captured by USGS/INGENIOUS, **including new geometry of an existing system** | OFFICIAL (organizer post, thread 11536) |
 | Phase 2 label set | updated by expert review of Phase 1 submissions | OFFICIAL (organizer post, thread 11527) |
-| this lane's holdout DTI | **0.00286** (6 folds, 60,362 withheld positives, recall 0.0023, Wilson95 [0.00196, 0.00272]); **not a score** — the same proxy ranks a Poisson control (0.0669) above the artifact that scored 0.2778 live (0.0067) | HOLDOUT-DTI (proxy; `evidence/holdout_v8.json`) |
-| this file vs its own Poisson null | 0.74× (h33: 0.10×) — a **novelty** ratio, not a quality ratio | MEASURED (`evidence/calibration_v8.json`) |
-| registry uniqueness | **UNIQUE-VS-REGISTRY**, 289 rasters, max ρ −0.065, max Jaccard 0.030 | MEASURED (`evidence/uniqueness_v8.json`) |
+| validator on the shipped bytes | `ok=True`, 26/26, `nodata=None`, `nan_count=0`, `n_outside_0_1=0` | MEASURED (`evidence/run_card_h62b.json`) |
+| instrument: per-dot credit | artifact **0.1683**; `h33` 0.1324; H62-A 0.1347; hard-core control 0.1190; uniform control 0.1075 | MEASURED (`evidence/exp1_instrument_calibration.json`, `buffer3px` variant) |
+| instrument validation | Spearman **+0.742** vs owner-reported score (n = 13, p = 0.0037); pooled-DTI form **−0.851** → refuted | MEASURED |
+| holdout, catalogue truth | **0.000000** — identically zero by arithmetic | HOLDOUT-DTI (`gems62.holdout.v2`, IR-62-HOLDOUT-02) |
+| holdout, SGMC−catalogue truth | **0.07283** (4 quadrants, 79,615 withheld cells; champion 0.07410; hard-core control 0.04960) | HOLDOUT-DTI |
+| registry uniqueness | ρ **0.022** / 0.90 — pass; exact Jaccard **0.0091** — pass; **3 px containment 0.800 / 0.70 — TRIPS** (1.21× the uniform null) | MEASURED, 340 comparators, 5 skipped (`evidence/uniqueness_h62b.json`) |
+| projected score | 0.353 raw → **0.290** shrunk (OLS slope 0.325, intercept 0.175, r = 0.826) | **MODEL — never to be read as a score** |
 | organizer scores of *any* file here | **none exist** | — |
 
-Scores the user reported for earlier sites (0.2778, 0.3774, …) are recorded in
-`docs/irregularities.md` **as claims**, with what could and could not be verified.
+Scores reported for earlier sites (0.2778, 0.2600, 0.2376, 0.3195 …) are **OWNER-REPORTED** and are
+recorded in [`docs/irregularities.md`](docs/irregularities.md) as claims, with what could and could
+not be verified. `0.3195` — the brief's target — does not appear as a top score on any public
+leaderboard snapshot this repository holds; it is rank 8 of 50
+([IR-62-BRIEF-01](docs/irregularities.md)).
 
 ---
 

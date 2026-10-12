@@ -414,3 +414,40 @@ def to_nan_outside(raster: np.ndarray, footprint: np.ndarray) -> np.ndarray:
     out = raster.astype(np.float32).copy()
     out[~footprint] = np.nan
     return out
+
+
+def hard_core_topk(score: np.ndarray, allowed: np.ndarray, *, min_px: float = 3.0,
+                   n: int = 40000, exclude: np.ndarray | None = None) -> tuple[np.ndarray, np.ndarray]:
+    """Greedy hard-core thinning of a ranked score surface.
+
+    Pixels are visited in descending score and accepted only if no already-accepted dot lies
+    within ``min_px`` (checked on the integer lattice, so ``min_px=3`` is the 300 m hard core
+    the registry shows every top-scoring artifact uses).  ``exclude`` (e.g. a dilated fault
+    catalogue) removes pixels outright.  Returns ``(rows, cols)`` in acceptance order, which
+    is the ranked candidate list the mass calibration walks down.
+    """
+    s = np.where(allowed & np.isfinite(score), score, np.nan)
+    if exclude is not None:
+        s = np.where(exclude, np.nan, s)
+    cand = np.isfinite(s)
+    if not cand.any():
+        return np.zeros(0, int), np.zeros(0, int)
+    order = np.argsort(s[cand])[::-1]
+    ys, xs = np.nonzero(cand)
+    ys, xs = ys[order], xs[order]
+    r = int(np.ceil(min_px))
+    occ = np.zeros(s.shape, bool)
+    out_r: list[int] = []
+    out_c: list[int] = []
+    H, W = s.shape
+    for y, x in zip(ys, xs):
+        y0, y1 = max(0, int(y) - r), min(H, int(y) + r + 1)
+        x0, x1 = max(0, int(x) - r), min(W, int(x) + r + 1)
+        if occ[y0:y1, x0:x1].any():
+            continue
+        occ[y0:y1, x0:x1] = True
+        out_r.append(int(y))
+        out_c.append(int(x))
+        if len(out_r) >= n:
+            break
+    return np.asarray(out_r, int), np.asarray(out_c, int)

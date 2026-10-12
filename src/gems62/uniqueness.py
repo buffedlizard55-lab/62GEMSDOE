@@ -56,6 +56,13 @@ class RegistryEntry:
     vacuous: bool
 
 
+class _EntryList(list):
+    """:class:`list` of :class:`RegistryEntry` that also carries the comparators that were
+    skipped for not being on the competition grid (IR-62-UNIQ-02), so the count of what the
+    sweep actually covered is always visible."""
+    skipped: list[dict] = []
+
+
 def _read_mask(path: str | Path) -> np.ndarray:
     with rasterio.open(path) as src:
         arr = src.read(1)
@@ -79,13 +86,20 @@ def compare(
 
     # Precompute my dot dilation lazily per registry raster.
     entries: list[RegistryEntry] = []
+    skipped: list[dict] = []
     for alias, p in sorted(registry_paths.items()):
         p = Path(p)
         if not p.exists():
             continue
         other = _read_mask(p)
         if other.shape != mine.shape:
-            raise ValueError(f"{alias}: shape {other.shape} != {mine.shape}")
+            # IR-62-UNIQ-02: the registry harvest picks up diagnostic rasters that are not
+            # on the competition grid (512x512 proxy windows, clipped figures, …).  They are
+            # not submissions and cannot be compared, so they are skipped and counted rather
+            # than aborting the whole sweep (the previous behaviour raised and the check
+            # never completed).
+            skipped.append(dict(alias=alias, path=str(p), shape=list(other.shape)))
+            continue
 
         # Spearman on the full footprint (both surfaces are mostly zero, which is
         # the honest comparison: it measures whether the *surfaces* agree).
@@ -108,7 +122,9 @@ def compare(
             rho=rho, frac3px=frac, coverage3px=coverage,
             vacuous=coverage >= OVERLAP_LIMIT,
         ))
-    return entries
+    out = _EntryList(entries)
+    out.skipped = skipped
+    return out
 
 
 def verdict(entries: list[RegistryEntry]) -> dict:

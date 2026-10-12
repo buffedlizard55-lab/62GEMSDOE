@@ -1,67 +1,110 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Prior results — 62GEMSDOE</title><link rel="stylesheet" href="assets/site.css"></head><body><header>
-  <span class="brand">62GEMSDOE · datum-offset lane</span>
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>62GEMSDOE — results</title>
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header>
+  <span class="brand">62GEMSDOE</span>
   <nav>
-    <a href="index.html" class="">Overview</a>
-    <a href="executive-summary.html" class="">How to submit</a>
-    <a href="results.html">Prior results</a>
-    <a href="research/sources.html">Sources</a>
-    <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">GitHub</a>
+    <a href="index.html">Download &amp; verdict</a>
+    <a href="executive-summary.html">How to submit</a>
+    <a class="active" href="results.html">Results</a>
+    <a href="method.html">Method</a>
+    <a href="hypotheses-2026-10-12.html">Hypotheses</a>
+    <a href="run-card.html">Run card</a>
+    <a href="irregularities.html">Irregularities</a>
+    <a href="next-steps.html">Next steps</a>
   </nav>
 </header>
 <main>
-<h1>Prior results, enumerated</h1>
-<p class="sub">Every artifact this project compares against, with the score quoted for it and the
-digest that was actually verified here. 22 entries.</p>
-
-<div class="card hi">
-<p><b>How to read this.</b> The <i>score</i> column is <b>OWNER-REPORTED</b> — it comes from the artifact's
-own filename or the sibling repositories' manifests, and it is <b>not</b> an organizer receipt for these
-bytes. The <i>sha256</i> column is <b>MEASURED</b>: the file was fetched and hashed in this repository, and
-it is the only column that is evidence about the artifact rather than about a claim.</p>
-<p><code>coverage3px</code> is how much of the survey footprint the artifact's own dots cover after a
-3-pixel dilation. Three entries cover ≥ 70 % of the footprint, so <i>any</i> submission whatsoever trips
-the protocol's “&gt;70 % of dots within 3 px of a registry raster's dots” rule against them. That is a
-defect in the rule as written, independently reproduced here from the sibling repositories' IR-54-016.</p>
-<p>The prompt's leaderboard values are mutually inconsistent across sessions (IR-62-005), so this table
-does not assert that any one of them is current: it lists what each artifact is quoted at.</p>
-</div>
-
+<h1>Results — 2026-10-12 session (H62-B)</h1>
+<p>Every number below is <code>MEASURED</code> in this checkout (the script that produced it is named), <code>OWNER-REPORTED</code> (a score the owner quoted; there is no organizer receipt for any file in this repository), <code>OFFICIAL</code> (quoted from the competition pages) or <code>MODEL</code> (algebra on the published metric). A <code>MODEL</code> number is never written as a score.</p>
+<hr>
+<h2>1. The question the brief asked: why did <code>h33-2-b2</code> score 0.2778?</h2>
+<p>Three separate things, and only the third is a property of the geology.</p>
+<p><b>(a) The metric is recall-dominated and the marginal bar is low.</b> <code>DTI = TP_w / (TP_w + 0.2·FP_w + 0.8·FN_w)</code> with <code>k(d) = max(1 − d/300 m, 0)</code> [OFFICIAL, page 967]. Adding one unit dot that realises kernel weight <code>k</code> raises the numerator by <code>k</code> and the denominator by exactly <code>0.2</code>, so a dot pays for itself whenever <code>k &gt; 0.2·DTI</code>. At 0.2778 that bar is <b>0.0556</b> — any dot with better than a 5.6 % chance of landing within 300 m of a hidden new fault raises the score [MODEL].</p>
+<p><b>(b) Half the variance of the group&#x27;s scores is structure, not geology.</b> Regressing the owner-reported scores of the 87 distinct registry rasters on ten <i>structural</i> measurements — no geology at all — gives leave-one-out <b>R² = 0.586</b>, Spearman 0.781 [MEASURED, <code>research/registry_measurements.json</code>]. The signs are exactly what the algebra predicts:</p>
 <table>
-  <tr><th class="n">quoted score</th><th>artifact</th><th class="n">bytes</th><th>sha256</th>
-      <th class="n">dot cells</th><th class="n">coverage3px</th><th>lane-rule status</th></tr>
-  <tr><td class="n">0.2778</td><td><code>gemsdoe32_h33_2_b2_02778_zeros</code><br><span class="mono">GEMSDOE32</span></td><td class="n">219,065</td><td class="mono">c55bafc47005…</td><td class="n">37,654</td><td class="n">0.2086</td><td>normal</td></tr>
-<tr><td class="n">0.2750</td><td><code>gems36_anderson_pinn_02750</code><br><span class="mono">GEMSDOE36</span></td><td class="n">371,126</td><td class="mono">96d451d5ffc8…</td><td class="n">38,854</td><td class="n">0.2127</td><td>normal</td></tr>
-<tr><td class="n">0.2708</td><td><code>gems28_h27_4_r1_solo_d2_8_02708</code><br><span class="mono">GEMSDOE28</span></td><td class="n">1,595,850</td><td class="mono">ab0230015224…</td><td class="n">40,199</td><td class="n">0.2200</td><td>normal</td></tr>
-<tr><td class="n">0.2632</td><td><code>gems33_h33d_tip_stepover_r30_02632</code><br><span class="mono">GEMSDOE33</span></td><td class="n">917,544</td><td class="mono">87f857d505e2…</td><td class="n">41,865</td><td class="n">0.2269</td><td>normal</td></tr>
-<tr><td class="n">0.2600</td><td><code>gems25_dotted_h19_5_d2_8_02600</code><br><span class="mono">GEMSDOE25</span></td><td class="n">836,982</td><td class="mono">3e78737f0da8…</td><td class="n">44,090</td><td class="n">0.2334</td><td>normal</td></tr>
-<tr><td class="n">0.2449</td><td><code>gems27_topo_gap_closure_t_v2_02449</code><br><span class="mono">GEMSDOE27</span></td><td class="n">1,635,084</td><td class="mono">33003374335d…</td><td class="n">61,328</td><td class="n">0.2480</td><td>normal</td></tr>
-<tr><td class="n">0.2376</td><td><code>gems49_gate_ortho_w025_02376</code><br><span class="mono">GEMSDOE49</span></td><td class="n">377,092</td><td class="mono">c58fe0551e12…</td><td class="n">40,000</td><td class="n">0.2066</td><td>normal</td></tr>
-<tr><td class="n">0.1922</td><td><code>gems19_h19_5_powerlaw_01922</code><br><span class="mono">19GEMSDOE</span></td><td class="n">1,712,322</td><td class="mono">ec1f9b56b83c…</td><td class="n">121,131</td><td class="n">0.2530</td><td>normal</td></tr>
-<tr><td class="n">0.1894</td><td><code>gems19_h19_4_multiline_thermal_01894</code><br><span class="mono">19GEMSDOE</span></td><td class="n">1,716,768</td><td class="mono">89109a3bd2cd…</td><td class="n">123,779</td><td class="n">0.2628</td><td>normal</td></tr>
-<tr><td class="n">0.1563</td><td><code>gems8_hedge_v2_01563</code><br><span class="mono">8GEMSDOE</span></td><td class="n">736,494</td><td class="mono">052688eafbc7…</td><td class="n">227,507</td><td class="n">0.3489</td><td>normal</td></tr>
-<tr><td class="n">0.0904</td><td><code>gems13_r13_lattice_s5_00904</code><br><span class="mono">13GEMSDOE</span></td><td class="n">1,706,456</td><td class="mono">b4570b406efe…</td><td class="n">206,895</td><td class="n">0.9996</td><td><b>vacuous</b> — any submission trips the 70 % rule against it</td></tr>
-<tr><td class="n">—</td><td><code>gems13_r11_greedy_mp</code><br><span class="mono">13GEMSDOE</span></td><td class="n">1,954,898</td><td class="mono">033df94ceef1…</td><td class="n">272,853</td><td class="n">0.8475</td><td><b>vacuous</b> — any submission trips the 70 % rule against it</td></tr>
-<tr><td class="n">—</td><td><code>gems13_r14_union_tips10_lat6</code><br><span class="mono">13GEMSDOE</span></td><td class="n">1,748,864</td><td class="mono">c9d1398e4646…</td><td class="n">192,231</td><td class="n">0.9944</td><td><b>vacuous</b> — any submission trips the 70 % rule against it</td></tr>
-<tr><td class="n">—</td><td><code>gems50_h52_coincidence8_80k</code><br><span class="mono">GEMSDOE50</span></td><td class="n">376,448</td><td class="mono">a2ed87fac9fd…</td><td class="n">80,000</td><td class="n">0.2922</td><td>normal</td></tr>
-<tr><td class="n">—</td><td><code>gems50_h60_officialstack_50k</code><br><span class="mono">GEMSDOE50</span></td><td class="n">338,302</td><td class="mono">7d5a83a326f9…</td><td class="n">50,000</td><td class="n">0.2290</td><td>normal</td></tr>
-<tr><td class="n">—</td><td><code>gems50_h60_union_d2_75308</code><br><span class="mono">GEMSDOE50</span></td><td class="n">396,677</td><td class="mono">772cf4502bfc…</td><td class="n">75,308</td><td class="n">0.4017</td><td>normal</td></tr>
-<tr><td class="n">—</td><td><code>gems32_h32d_submodular_46090</code><br><span class="mono">GEMSDOE32</span></td><td class="n">250,577</td><td class="mono">f81e26d7712d…</td><td class="n">46,090</td><td class="n">0.2431</td><td>normal</td></tr>
-<tr><td class="n">—</td><td><code>gems48_h59_cover_ds_belief_02296</code><br><span class="mono">GEMSDOE48</span></td><td class="n">—</td><td class="mono">…</td><td class="n">0</td><td class="n">0.0000</td><td><span class="verdict v-no">not retrievable</span> — HTTP Error 404: Not Found</td></tr>
-<tr><td class="n">—</td><td><code>gems52_h83_offcatalogue_cotrain_e3</code><br><span class="mono">GEMSDOE52</span></td><td class="n">1,582,635</td><td class="mono">dee4ee5ee364…</td><td class="n">37,654</td><td class="n">0.1847</td><td>normal</td></tr>
-<tr><td class="n">—</td><td><code>gems60_h65_dem10_knick</code><br><span class="mono">60GEMSDOE</span></td><td class="n">104,586</td><td class="mono">0728d1193d9e…</td><td class="n">40,000</td><td class="n">0.0562</td><td>normal</td></tr>
-<tr><td class="n">—</td><td><code>gems60_h66_dem10_bedrock_dksn</code><br><span class="mono">60GEMSDOE</span></td><td class="n">144,835</td><td class="mono">cde6b57be8aa…</td><td class="n">40,000</td><td class="n">0.1627</td><td>normal</td></tr>
-<tr><td class="n">—</td><td><code>gems61c_gravstep_liveband_40k</code><br><span class="mono">61GEMSDOE</span></td><td class="n">154,559</td><td class="mono">e3ccdf59f8b3…</td><td class="n">40,000</td><td class="n">0.3181</td><td>normal</td></tr>
+<tr><th>property</th><th>Spearman vs score</th></tr>
+<tr><td>number of dots <code>M</code></td><td>−0.52</td></tr>
+<tr><td>mean self-kernel (dot-to-dot redundancy)</td><td>−0.55</td></tr>
+<tr><td>largest connected-component fraction</td><td>−0.56</td></tr>
+<tr><td>fraction of dots sitting on the catalogue</td><td>−0.49</td></tr>
+<tr><td>90th percentile of distance-to-catalogue</td><td>+0.46</td></tr>
 </table>
-
-<h2>This lane's own position in that table</h2>
+<p>So: isolated single pixels, off the catalogue, spread over the whole grid, and <i>not too many of them</i>. The top nine distinct score levels all have mean self-kernel 0.016–0.018; every raster with self-kernel ≥ 0.23 scores ≤ 0.2477.</p>
+<p><b>(c) Within that structure, placement still matters — by about 1.1× for the champion.</b> Against an independent truth set (below), the champion&#x27;s dots earn <b>0.1324</b> credit per dot when a hard-core random field of the same mass earns <b>0.1190</b>: an 11 % edge. That edge is what this session set out to widen.</p>
+<h2>2. Building an instrument that is actually calibrated</h2>
+<p>The holdout the protocol prescribes was measured to be <b>anti-correlated</b> with the organizer&#x27;s score (IR-62-HOLDOUT-01: Spearman −0.91 over 10 confirmed artifacts). This session found the mechanism and fixed it.</p>
+<p><b>IR-62-HOLDOUT-02 — the catalogue holdout is unsatisfiable by arithmetic, not by lack of skill.</b> The kernel reaches 300 m. Every competitive emission deletes every dot within 300 m of the mapped catalogue, because the organizer does not score mapped faults and the group has an organizer-confirmed +0.0178 for deleting them (<code>h33</code>: 0 % within 200 m; this session&#x27;s file: 0 % within 300 m, minimum 400 m). A dot set with no dot within 300 m of <i>any</i> catalogue pixel therefore has <code>TP_w = 0</code> against withheld <i>catalogue</i> pixels necessarily. Measured: <b>pooled DTI = 0.000000</b> for this session&#x27;s artifact. The better an artifact is at being off-catalogue, the more certainly it scores zero. Fixed once, in the template: <code>gems62.holdout.evaluate</code> now takes a <code>truth</code> argument so the withheld population can be an independent fault set.</p>
+<p><b>The instrument that is validated.</b> Truth = the USGS State Geologic Map Compilation (1:750 k) rasterised on the competition grid, <b>minus</b> the competition catalogue (79,615 px; only 4.8 % of it falls on catalogue pixels, so it is not a re-digitisation of the same lines). Scoring domain = footprint minus catalogue ± 3 px. Quantity = <b>mean 300 m kernel credit per dot</b>, i.e. <code>TP_w / M</code>.</p>
+<p>Validation, <code>scripts/instrument_calibration.py</code> → <code>evidence/exp1_instrument_calibration.json</code>:</p>
 <table>
-  <tr><th class="n">quoted score</th><th>artifact</th><th class="n">dots</th><th>note</th></tr>
-  <tr><td class="n">— (none)</td><td><code>gems62-lahontan-isobase-99dots</code></td><td class="n">99</td>
-      <td><b>negative</b>: hard ceiling 0.0103 with flawless placement, so no
-      weekly slot. No organizer score exists for it and none is claimed.</td></tr>
+<tr><th>form of the instrument</th><th>Spearman vs owner-reported score</th><th>verdict</th></tr>
+<tr><td><b>mean credit per dot</b> vs SGMC-minus-catalogue</td><td><b>+0.742</b> (p = 0.0037, n = 13)</td><td><b>validated</b></td></tr>
+<tr><td>same, restricted to the nine isolated-dot artifacts</td><td>monotone in 8 of 9</td><td>validated</td></tr>
+<tr><td>pooled DTI vs SGMC-minus-catalogue</td><td><b>−0.851</b> (p = 0.0002)</td><td><b>refuted</b></td></tr>
+<tr><td>pooled DTI vs the catalogue (the old holdout)</td><td>−0.85 … −0.91</td><td>refuted (IR-62-HOLDOUT-01)</td></tr>
 </table>
+<p>The DTI form fails because its denominator is dominated by the SGMC truth mass (79,615 px), so it mostly re-measures <code>M</code>, and <code>M</code> anti-correlates with the score. The <b>per-dot credit</b> is the usable form. Bars, all MEASURED on the same truth and the same mass as the artifact: hard-core Poisson control <b>0.1190</b> (an independent 40,000-dot draw in Experiment 2 gave 0.1197, so the bar is stable to ~0.6 %); uniform random control <b>0.1075</b>; champion <code>h33</code> <b>0.1324</b>; this lane&#x27;s previous artifact H62-A <b>0.1347</b>.</p>
+<h2>3. What the instrument says about where off-catalogue faults are</h2>
+<p>120,000 random dots were drawn over the footprint and each dot&#x27;s kernel credit binned against nine surfaces (<code>scripts/screen_h62b.py</code>, the diagnostic in <code>evidence/exp2_h62b_screen.json</code>):</p>
+<table>
+<tr><th>surface</th><th>credit in the flattest / lowest decile</th><th>in the steepest / highest decile</th><th>gradient</th></tr>
+<tr><td>height above base level</td><td>0.0058</td><td>0.2699</td><td><b>47×</b></td></tr>
+<tr><td>slope</td><td>0.0024</td><td>0.2756</td><td>115×</td></tr>
+<tr><td>local relief (900 m)</td><td>0.0022</td><td>0.2930</td><td>133×</td></tr>
+<tr><td>elevation</td><td>0.0045</td><td>0.2848</td><td>63×</td></tr>
+<tr><td>depth to basement (thinnest → thickest cover)</td><td>0.2650</td><td>0.0445</td><td><b>inverted, 6×</b></td></tr>
+<tr><td>lineament coherence</td><td>0.1485 (low)</td><td>0.0217 (high)</td><td><b>inverted, 7×</b></td></tr>
+</table>
+<p>Two readings, and both are stated because they cannot be separated here. Either off-catalogue faults really do live on steep, high, thin-cover ground and not on the pluvial lake plains — or the SGMC compilation is a <b>bedrock</b> map that simply does not map basin-floor faults, and the instrument is blind to the population this lane exists to find. The four-times-repeated measurement that the pluvial band is <i>below chance</i> (previous sessions: 0.03× and 0.61×; this session, with a completely different band construction and a different base-level estimator: 0.026× on the band and <b>0.26×</b> for its own habitat null) is consistent with both.</p>
+<p>This is the honest limit of the whole exercise, and it is why the lane&#x27;s verdicts have been negative: <b>the lane&#x27;s target population is exactly the population no local truth set contains.</b></p>
+<h2>4. Experiment 2 — screening the five hypotheses (<code>scripts/screen_h62b.py</code>)</h2>
+<p>Each evidence surface hard-core thinned to 40,000 dots, ≥ 300 m off the catalogue, credit measured against the instrument. Bars: hard-core control 0.1190, champion 0.1324.</p>
+<table>
+<tr><th>surface</th><th>credit</th><th>vs control</th></tr>
+<tr><td><code>S11</code> hard-core (300 m) random over the whole footprint — the null</td><td>0.1197</td><td>1.00×</td></tr>
+<tr><td><code>S12</code> fixed elevation window 1308–1360 m</td><td>0.1155</td><td>0.96×</td></tr>
+<tr><td><code>S10</code> <b>uniform inside the pluvial band (strong null)</b></td><td>0.0314</td><td><b>0.26×</b></td></tr>
+<tr><td><code>S8</code> geophysical corroboration only, inside the band</td><td>0.0314</td><td>0.26×</td></tr>
+<tr><td><code>S1</code> datum step, robust z-score</td><td>0.0313</td><td>0.26×</td></tr>
+<tr><td><code>S5</code> Frangi ridgeness of the datum residual</td><td>0.0311</td><td>0.26×</td></tr>
+<tr><td><code>S6</code> step × ridge coherence</td><td>0.0303</td><td>0.25×</td></tr>
+<tr><td><code>S7</code> step × ridge × geophysics (H62-Q)</td><td>0.0301</td><td>0.25×</td></tr>
+</table>
+<p>Every band-restricted hypothesis, including its own habitat null, sits at ~0.26× chance, and the geophysical corroborator adds nothing inside the band (0.0314, identical to the null). <b>H62-M as a <i>habitat</i> is refuted a fourth time; H62-Q as an in-band corroborator is refuted.</b> What survived is the part of the lane that is not a habitat: the <i>trace</i>, which may leave the band wherever the DEM-ridge evidence carries it.</p>
+<h2>5. Experiment 3 — the artifact (<code>scripts/run_h62b.py</code>, <code>scripts/finalize_h62b.py</code>)</h2>
+<p>34,620 seeds → 25,057 traces (1.30 M trace pixels) → 40,964 hard-core candidates. Walking down the ranked list and measuring credit at each prefix:</p>
+<table>
+<tr><th>dots</th><th>credit/dot</th><th>coverage of SGMC off-cat</th><th>MODEL projection</th></tr>
+<tr><td>8,000</td><td>0.2037</td><td>0.027</td><td>0.145</td></tr>
+<tr><td>12,000</td><td>0.2158</td><td>0.044</td><td>0.213</td></tr>
+<tr><td>16,000</td><td>0.2190</td><td>0.059</td><td>0.267</td></tr>
+<tr><td>20,000</td><td>0.2105</td><td>0.071</td><td>0.300</td></tr>
+<tr><td>25,000</td><td>0.1952</td><td>0.082</td><td>0.321</td></tr>
+<tr><td>30,000</td><td>0.1882</td><td>0.095</td><td>0.344</td></tr>
+<tr><td><b>37,654</b></td><td><b>0.1683</b></td><td><b>0.107</b></td><td><b>0.348</b></td></tr>
+<tr><td>40,964 (all)</td><td>0.1582</td><td>0.109</td><td>0.342</td></tr>
+</table>
+<p>The mean credit is <i>non-monotone</i> in the first few thousand dots (it rises from 0.2037 to 0.2190 before falling), which is a real property of the ranking rather than a transcription error: the top-ranked candidates are the traces with the largest single cross-strike relief, and those are not the traces that pass through the most fault-rich ground. It costs nothing — the projection is maximised at 37,654 either way.</p>
+<p>37,654 is chosen: the projection peaks there, and it is also the mass of the group&#x27;s organizer-confirmed best.</p>
+<p>The projection is <b>stable across the entire plausible truth-mass range</b> (0.353 at N = 6,000, 10,000 and 13,704) because the champion&#x27;s implied credit and the denominator both scale with N — which is why it is reported as a ratio to the champion rather than an absolute. A second, simpler projection used in the mass sweep gives 0.3484 at the shipped mass; the 0.005 spread between the two is <a href="irregularities.html#IR-62-PROJ-01">IR-62-PROJ-01</a> and is 24× smaller than the ±0.12 residual of the calibration regression that shrinks them both.</p>
+<h2>6. Calibrating the projection against reality</h2>
+<p>Applying the identical projection to the 12 other registry artifacts whose scores are known, and regressing actual on projected: <b>slope 0.325, intercept 0.175, r = 0.826, p = 0.0005</b> (through-origin slope 1.076). So the projection is a real predictor but heavily compressed, and the shrunk expectation for this file is</p>
+<p>0.175 + 0.325 × 0.353 = 0.290</p>
+<p>Residuals are large (±0.12). The worst case is <code>p49</code>: credit 0.1759 (1.33× the champion, <i>higher</i> than this file&#x27;s 1.27×), projection 0.359, <b>actual 0.2376</b> — an over-prediction of 0.121. The eight isolated-dot artifacts other than <code>p49</code> are all <i>under</i>-predicted, by 0.004 to 0.074.</p>
+<h2>7. Holdout (reported, never used to promote or reject)</h2>
+<table>
+<tr><th>holdout</th><th>this file</th><th>champion <code>h33</code></th><th>hard-core control</th></tr>
+<tr><td>B — withheld segments of an independent fault set (SGMC−catalogue)</td><td>0.0728</td><td>0.0741</td><td>0.0496</td></tr>
+<tr><td>A — withheld catalogue segments (the protocol&#x27;s literal form)</td><td>0.000000</td><td>—</td><td>—</td></tr>
+</table>
+<p>Label: <b>HOLDOUT-DTI</b> (<code>gems62.holdout.v2</code>, 4 spatial quadrants, whole segments withheld, 300 m buffer). The file beats chance by 1.47× on the satisfiable form and is on par with the champion.</p>
+<h2>8. Where that puts it</h2>
+<p>Public leaderboard mirrored 2026-10-11 (50 rows): #1 <b>0.4133</b>, top-5 cut-off <b>0.3300</b>, 0.3195 is <b>rank 8</b>, the group&#x27;s 0.2778 is <b>rank 23</b>. A shrunk expectation of 0.290 would move the group&#x27;s best by roughly +0.012 and would not, by itself, reach the top five. The un-shrunk 0.353 would be rank 2–3. Both are <code>MODEL</code>.</p>
 </main>
-<footer><a href="index.html">← Overview</a> · <a href="executive-summary.html">How to submit →</a></footer>
+<footer>62GEMSDOE · datum-offset lane · every number on this site is labelled MEASURED,
+OWNER-REPORTED, OFFICIAL or MODEL; a projection is never written as a score.</footer>
 </body></html>

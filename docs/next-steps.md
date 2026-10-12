@@ -1,92 +1,75 @@
-# Remaining work and limitations
+# Next steps — ranked by expected value per unit of work
 
-> Updated 2026-10-11 by session `arena/2b64062a-62gemsdoe`. The ranking below replaces the earlier
-> one; the earlier text is preserved in git history. Everything here is either MEASURED in this
-> checkout or explicitly labelled as a lead.
+## 1. Fit the published rebound field instead of a free smooth isobase (H62-P) — highest science value
 
-## What this session finished
+The flagged steps are 24–83 m, which is too large to be post-15 ka fault offset
+([IR-62-H62B-01](irregularities.html#IR-62-H62B-01)). The cure is to make the isobase
+`plane + published rebound field` instead of `smooth(base, 6 km)`, which turns the residual into
+metres of fault offset and removes the degeneracy the repository already records as IR-62-03.
 
-* **The shared tools are fixed, once, in the template** — not forked. 6 of 9 root modules did not
-  import on a clean checkout (`IR-62-11`); `lane62` errored on 14 tests for a file that was present
-  (`IR-62-12`). Root suite **18 passed**, `lane62` suite **46 passed**, plus **9 new tests** that
-  execute the shipped rasters and the leaderboard arithmetic.
-* **A score-anchored registry now exists** — `research/registry_index.json` (87 distinct group
-  rasters with owner-reported scores, harvested from 73 public repositories, 1,459 `.tif` blobs,
-  166 registry/ledger JSONs) and `research/registry_measurements.json` (18 structural properties
-  measured from each one's bytes). This is the dataset the group has been reasoning about anecdotally.
-* **The leaderboard is now a committed time series** — 37 timestamped snapshots of the official
-  public page, `research/leaderboard_series.json`.
-* **Two hypotheses screened and reported, one refuted** — `docs/hypotheses-2026-10-11.md`.
-* **A unique, legal, validated GeoTIFF is downloadable**, with an unambiguous negative verdict.
+**Source needed:** the shoreline-elevation station tables in Adams, Wesnousky & Bills (1999),
+*Isostatic rebound and palinspastic reconstruction of Lake Lahontan* — and the GSA/USGS data
+repository item that accompanies it. **Not obtainable from this sandbox**: the sandbox reaches only
+`github.com`, `api.github.com`, `registry.npmjs.org`, `pypi.org` and `files.pythonhosted.org`. It
+must be fetched by hand or by a runner with general network access, then committed as a small CSV
+with the source DOI. Until then H62-P cannot be validated and is not proposed as viable.
 
-## Ranked next work
+## 2. One submission slot, one variable
 
-### 1. Submit the never-scored high-credit field — highest expected value, minutes of work
-`GEMSDOE32 → docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif` (302,357 bytes,
-45,000 dots) measures **0.29294** mean 300 m credit per dot on the same instrument that scores the
-submitted champion family at **0.09892** — 3.0×. It is absent from the 87-artifact score registry,
-i.e. never submitted. **This is a selector decision, not a lane decision**, and the number must be
-discounted hard (the closed form turns it into an implausible 0.71). Even at a 4× discount it clears
-the top-5 cut-off.
+The single most useful piece of information the group can buy is an organizer score for a file whose
+*only* difference from the champion is known. This artifact differs from the champion in mechanism,
+data (absolute DEM), mass (identical, 37,654), isolation (0.000 vs 0.032) and credit (1.27×). That is
+too many variables to interpret afterwards. The recommended next submission is a **single-variable**
+variant: the same trace pipeline with the mass moved to 30,000 or to 45,000, so the mass response
+curve can be read off a real receipt.
 
-### 2. H62-K — along-strike continuation into catalogue gaps
-The only hypothesis that targets the population the organizers actually describe ("newly mapped
-geometry of existing systems"). Nothing in this repository uses the catalogue's *geometry* as a
-prior; every lane uses it only as a mask. Spec and risk in `docs/hypotheses-2026-10-11.md`.
+## 3. Get an independent, basin-aware truth set
 
-### 3. Get one ORGANIZER-CONFIRMED number into `evidence/`
-Still zero. The submission page is the only channel that exists. Until one receipt is committed,
-every comparison in this repository is a proxy argument.
+The SGMC compilation is a bedrock map: credit on the roughest decile is 47× the flattest, and
+depth-to-basement is inverted (0.265 where cover is thinnest, 0.045 where it is thickest). It
+therefore cannot see the population this lane exists to find, and every "the pluvial band is below
+chance" measurement (four times now: 0.03×, 0.61×, 0.026×, 0.26×) may be an artefact of that
+blindness. What is needed is a Quaternary/basin-floor fault compilation for Nevada — the USGS
+Quaternary Fault and Fold Database and the Nevada Bureau of Mines and Geology 1:250 k county maps
+are the two free official candidates. Both are outside this sandbox's network; both must be fetched
+and rasterised on the competition grid before any basin-floor hypothesis can be tested rather than
+assumed.
 
-### 4. Replace the fitted isobase with a published rebound model
-Blocks H62-J and repairs `IR-62-03`. Taking a second derivative of a degenerate fit is how phantom
-signals are made.
+## 4. Fix the lane-drift rule, in the shared template, once
 
-### 5. Raise LiDAR coverage or drop the layer
-`lidar_scarp_features_u8.tif` is non-zero over **31.72 %** of the grid. That — not the geology — is
-what caps every LiDAR-driven field in this group, including the 0.2778 family. Either extend the
-composite (USGS 3DEP 1 m, public domain) or stop treating it as basin-wide.
+The 70 %-within-3-px leg is unfalsifiable against any comparator whose halo covers most of the
+footprint (32 of 340 here are formally "vacuous"; two more fire at 1.21–1.27× the uniform null).
+The template should report, for every comparator, the **containment ratio to a uniform-random null**
+alongside the raw fraction, and should treat only the ratio — plus ρ and Jaccard — as evidence. The
+previous session proposed habitat nulls; a uniform null plus ρ and Jaccard is simpler and is
+sufficient for the two comparators that fire here.
 
-## Limitations — stated as limitations, not as future work
+## 5. Do not spend more effort on band-restricted detectors
 
-1. **No local instrument can certify novelty or competitiveness.** This session's own screening
-   refuted a hypothesis that looked obvious (lake flats, 0.03× control) and confirmed one that is
-   then unusable (LiDAR scarps, 2.2× control, duplicate-drift). Both outcomes came from a proxy.
-2. **The datum lane is dominated, and now for a measured reason.** The Lahontan datum band scores
-   **0.61× the isolated-random control** on the off-catalogue instrument. Either the band is not
-   fault-rich, or a 1:750 k compilation cannot see 2 m datum offsets. The two cannot be separated
-   without the organizer's truth.
-3. **Coverage of the delivered file is one sub-region of one physical process.** 10,000 dots on
-   shoreline benches. The metric needs ~40,000 isolated dots to matter at all.
-4. **The 25 m DEM mosaic is unusable basin-wide** (`IR-62-15`): 55.74 % footprint coverage and an
-   int16-decimetre ceiling at 3276.7 m that clips the eastern Sierra. The 100 m mirror was used
-   instead (99.97 % coverage, sha256 matches the pin).
-5. **The weekly slot decision is not made here.** Per the brief, promotion is a separate selector
-   step within the weekly cap.
-6. **Sandbox reachability is a hard constraint.** `drivendata.org` returns HTTP 000; the USGS hosts
-   are unreachable. `github.com`, `api.github.com` and `codeload.github.com` work, which is how the
-   registry and the external layers were obtained. Every competition-page citation in this
-   repository is therefore either an owner-supplied link or a mirror with a read date.
-7. **No file in this repository has ever been scored.** `organizer_score` is `null` everywhere.
+Experiment 2 measured eight band-restricted evidence surfaces, including the band's own uniform
+null, all at 0.25–0.26× the random control. Whatever the truth is about basin-floor faults, a
+detector that only fires inside a smooth, low-relief band cannot be validated with any instrument
+this repository can build, and it measurably does not pay.
 
+## 6. Housekeeping
 
-## Added 2026-10-11 by session `arena/dfc9787b-62gemsdoe` (d-lane extension)
+* Commit the leaderboard scrape daily (the scheduled workflow already does) so the target stays
+  current — the brief's target was stale by five ranks.
+* Refresh `research/registry_measurements.json` as sibling repositories ship; the structural model
+  (LOO R² = 0.586) is only as good as its 87 anchors, all of which are OWNER-REPORTED.
+* `data/labels.tif` and `data/existing_faults.tif` being byte-identical
+  ([IR-62-LABELS](irregularities.html#IR-62-LABELS)) should be re-checked against a fresh
+  DrivenData download; if the real `labels.tif` differs, several proxy numbers in the group change.
 
-* **New artifact (legal, unique, disclosed probe):**
-  `docs/downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif` — 46,598 dots,
-  sha256 `4d83efff…`, 14/14 checks, worst informative Jaccard 0.069 over 100 comparators,
-  DTI(`S*`) 0.21777 → projection 0.110. 89× better than the previous v8 file on the calibrated
-  instrument, still below the 0.24–0.28 incumbent band.
-* **New instrument (the real deliverable):** `datum62/scripts/invert.py` + `datum62/evidence/` —
-  inverting 56 owner-reported scores recovers a truth surrogate `S*` reproducing them at
-  Spearman **+0.968**. Any future candidate can now be ranked locally *without* spending a slot.
-* **Retire the old instruments.** SGMC off-catalogue ranks **−0.928** against the portal over the
-  15 artifacts with owner-reported scores; the catalogue-segment holdout is documented
-  anti-correlated (IR-30-046). Fields promoted on them were promoted on an inverted signal.
-* **Blocked but highest value:** a field on `S*` projects 0.34–0.42 but duplicates the incumbent
-  h33 field by the protocol's own test — documented, not emitted
-  (`datum62/docs/decision-note.md`). This needs an owner decision on whether shared pixels of
-  public prior submissions are permissible; the competition ruleset does not forbid it.
-* **H-2 next:** rebuild the incumbents' multi-physics oriented-lineament consensus *from the
-  organiser 19-band stack* as **features** for the supervised detector; target blocked
-  DTI(`S*`) ≥ 0.60 before any slot is spent.
+## Limitations that block the work
+
+1. **No DrivenData credentials** — `training_features.tif`, `labels.tif`, `sample_submission.tif`
+   and `1m_DEM_links.csv` all sit behind a login; the copies here are owner mirrors, hash-pinned
+   but not organizer-authenticated.
+2. **No general network** — only five hosts are reachable, so USGS TNM, ScienceBase, the Nevada
+   Bureau and the GSA data repository cannot be queried from here. Anything from them has to be
+   brought in by hand or by a GitHub runner.
+3. **No organizer truth, by policy** — the test set is explicitly not shared (forum thread 11527).
+4. **2 CPU / 3 GB RAM** — the surface pipeline was rewritten to cache float32 surfaces under
+   `build/` for this reason; anything that needs the 418 MB stack in memory at once will not run.
+5. **Weekly submission cap** — promotion to a real slot is a separate selector step.

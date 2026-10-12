@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>62GEMSDOE — hypotheses-2026-10-12</title>
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header>
+  <span class="brand">62GEMSDOE</span>
+  <nav>
+    <a href="index.html">Download &amp; verdict</a>
+    <a href="executive-summary.html">How to submit</a>
+    <a href="results.html">Results</a>
+    <a href="method.html">Method</a>
+    <a class="active" href="hypotheses-2026-10-12.html">Hypotheses</a>
+    <a href="run-card.html">Run card</a>
+    <a href="irregularities.html">Irregularities</a>
+    <a href="next-steps.html">Next steps</a>
+  </nav>
+</header>
+<main>
+<h1>Candidate hypotheses — 2026-10-12 session (H62-B)</h1>
+<p>Protocol requirement: <b>before implementing</b>, produce 3–5 geological hypotheses not yet tried, each naming the layers, the physical signature, why it should catch a fault <b>missing</b> from the USGS/INGENIOUS catalogue, and how it differs from everything already implemented. Ranked by expected ΔDTI against implementation cost.</p>
+<p>The five candidates already screened in the 2026-10-11 session (<code>H62-F</code> refuted, <code>H62-I</code> quarantined as duplicate-drift, <code>H62-H</code>, <code>H62-J</code>, <code>H62-K</code> untried) are the baseline this list must beat; they are recorded in <a href="hypotheses-2026-10-11.md"><code>hypotheses-2026-10-11.md</code></a>.</p>
+<p>Two things changed since that list, and they change the ranking:</p>
+<ol>
+<li><b>The absolute-elevation defect (IR-62-DEM-01) is now fixed.</b> Every previous lane fit its isobase on <code>det_elev</code> (detrended elevation), because the official stack carries no absolute elevation. The 100 m DEM <code>geodawn_dem_a2_100m.tif</code> (sha256 <code>d32762a3…</code>, 5,165,644 valid cells inside the footprint, 1027.9–3138.6 m) is now local. A Lahontan isobase is an <b>absolute</b> datum; fitting it on a detrended band was a defect, not a choice.</li>
+<li><b>A local instrument has been validated against organizer scores</b> (Experiment 1, <a href="../evidence/exp1_instrument_calibration.json"><code>../evidence/exp1_instrument_calibration.json</code></a>): mean 300 m kernel credit per dot measured against <i>SGMC minus catalogue</i>, with the catalogue +3 px masked, ranks 13 registry artifacts the way the organizer does (Spearman <b>+0.742</b>, p = 0.0037). The random hard-core control is <b>0.1190</b>; the group champion <code>h33</code> measures <b>0.1324</b>; this lane&#x27;s previous artifact (H62-A, 38,000 dots) measures <b>0.1347</b>. Screening can now be done against a calibrated bar instead of a hope.</li>
+</ol>
+<table>
+<tr><th>#</th><th>hypothesis</th><th>layers</th><th>expected ΔDTI</th><th>cost</th><th>status</th></tr>
+<tr><td><b>H62-M</b></td><td><b>Base-level isobase</b> on the absolute DEM, generalized to every pluvial basin</td><td><code>geodawn_dem_a2_100m.tif</code>, <code>topo_10m_derived_100m_u8</code></td><td><b>high</b></td><td>medium</td><td><b>this session</b></td></tr>
+<tr><td><b>H62-Q</b></td><td>Multi-physics corroboration of the datum step</td><td><code>training_features.tif</code> bands 3, 18, 4, 7, 15, 2</td><td>medium</td><td><b>low</b></td><td><b>this session</b></td></tr>
+<tr><td><b>H62-P</b></td><td>Published rebound model as the isobase prior</td><td>DEM + Adams/Wesnousky/Bills (1999)</td><td>medium</td><td>low</td><td>deferred (needs the published field)</td></tr>
+<tr><td><b>H62-N</b></td><td>Drainage deflection across the pluvial datum</td><td>DEM + flow routing</td><td>medium</td><td><b>high</b></td><td>deferred</td></tr>
+<tr><td><b>H62-R</b></td><td>Bench-width asymmetry across the datum contour</td><td>DEM + lidar <code>step_max</code></td><td>low</td><td>medium</td><td>deferred (shares H62-I&#x27;s duplicate risk)</td></tr>
+</table>
+<hr>
+<h2>H62-M — Base-level isobase of the pluvial depositional datum  ·  <b>rank 1, implemented</b></h2>
+<ul>
+<li><b>Layers.</b> <code>geodawn_dem_a2_100m.tif</code> (absolute elevation, 100 m, EPSG:32611 — the layer IR-62-DEM-01 says every previous lane lacked); <code>topo_10m_derived_100m_u8.tif</code> bands <code>slope_p90</code> (1), <code>relief_local</code> (5), <code>curv_prof_absmax</code> (6), <code>hs_lineament</code> (8), <code>dem_mean</code> (9); the competition catalogue only as a mask.</li>
+<li><b>Signature.</b> Not the DEM itself but its <b>base-level surface</b> — the morphological floor of the topography (a running minimum followed by a smoothing, i.e. the level of the local depositional plain). In a pluvial-lake basin that surface <i>is</i> the lake floor and its shoreline bench system; its height above the local base level (HAB) is the geomorphic position of the palaeo-shoreline. The isobase is a σ = 6 km smooth fit of that base-level surface, which absorbs waterplane tilt and post-pluvial rebound; the flags are (a) robust residual steps (|r| &gt; k·MAD) and (b) azimuth kinks of the base-level contour (|Δθ| over 3 px). Each flag seeds a trace that is extended while multi-scale ridge evidence holds.</li>
+<li><b>Why it should catch a fault the catalogue lacks.</b> A step in a base-level surface whose depositional age is latest Pleistocene is, by construction, deformation younger than that surface. The catalogue is compiled from range-front scarps, field mapping and published Quaternary-fault studies; the population it systematically misses is <b>basin-floor and basin-margin scarps in young lacustrine and playa deposits</b>, where the offset is metres, the scarp is degraded, and there is no bedrock expression. That is precisely what Pierce &amp; Wesnousky (SCEC poster, 2016) reported in Smith Valley: two previously unmapped northwest-striking segments in the <i>basin centre</i> offsetting Holocene sediments. Briggs &amp; Wesnousky (JGR, 2004) and Dong et al. (Geosphere) are the type examples of the same population at Pyramid Lake and outboard of the Wassuk Range front.</li>
+<li><b>How it differs from everything already implemented.</b> Three concrete differences, each verifiable in the code: (i) every previous lane fit its isobase on <code>det_elev</code> — a detrended band whose long-wavelength content was <i>removed by someone else&#x27;s operator</i>; (ii) none derived a base-level (morphological floor) surface at all — the datum was either the raw elevation band or a TPI of it; (iii) previous lanes confined the datum band to Lake Lahontan&#x27;s type area or to a fixed elevation window (1308–1360 m, which measured <b>0.61× chance</b>), whereas HAB is defined <i>per basin</i> and therefore covers every pluvial basin in the footprint (Lahontan sub-basins, Carson Sink, Smoke Creek–Black Rock, Winnemucca, Humboldt, Walker).</li>
+<li><b>Named non-fault process that could mimic it.</b> Differential post-pluvial isostatic rebound itself: rebound is spatially variable between sub-basins, so a purely isostatic warp produces both elevation steps and azimuth kinks in the datum with no fault at all. Secondary mimics: alluvial-fan toes and debris-flow lobes (slope breaks in the same TPI band); the Truckee/Carson/Walker river and delta margins of ~12–14 ka, which are erosional; and bedrock lithologic contacts expressed as differential erosion. The 6 km isobase is the control for the first; the HAB band and the ridge-evidence requirement are the controls for the others.</li>
+</ul>
+<h2>H62-Q — Multi-physics corroboration of the same seeds  ·  <b>rank 2, implemented as a re-rank</b></h2>
+<ul>
+<li><b>Layers.</b> <code>training_features.tif</code> bands <code>tmi_hg</code> (3, total magnetic intensity horizontal gradient), <code>iso_grav_anom_hg</code> (18, isostatic gravity horizontal gradient), <code>rtp</code> (2, reduced to pole), <code>geod_2ndinv</code> (4, geodetic second invariant of the strain-rate tensor), <code>geod_shearrate</code> (7), <code>depth_to_base_surf</code> (15).</li>
+<li><b>Signature.</b> A datum step that is <i>also</i> on a geophysical lineament of the same strike: the product of the datum-step evidence with an oriented lineament response on the potential-field gradients, evaluated at the local strike of the flag.</li>
+<li><b>Why it should catch a missing fault.</b> A geomorphic step alone can be a fan toe or a beach berm. A step that coincides with a subsurface density or magnetization contrast is a structure. Structures with a geophysical expression but a sub-metre or buried surface scarp are exactly the class an outcrop- and imagery-based catalogue misses.</li>
+<li><b>How it differs.</b> The lanes that used geophysics used it as an <i>independent</i> detector (ridge/lineament consensus). Here it is used strictly as a <b>corroborator of a seed the datum already produced</b> — it can only re-rank or suppress H62-M&#x27;s traces, never create one.</li>
+<li><b>Leakage risk, stated before the result.</b> <code>geod_2ndinv</code>, <code>geod_shearrate</code> and <code>geod_dilaterate</code> are derived from GNSS/InSAR strain rates, and strain rate localises on <i>known</i>, active faults; <code>deq_n100a15</code>/<code>ieq_n100a15</code> are earthquake-distance and density fields. All five are therefore plausible <b>catalogue proxies</b> and are tested on the leakage canary before being trusted. The potential-field gradients (3, 18, 2) are not.</li>
+</ul>
+<h2>H62-P — Published rebound model as the isobase prior  ·  rank 3, <b>deferred</b></h2>
+<p>Replace the free smooth isobase with (a) a plane plus (b) the published post-Lahontan rebound deflection field (Adams, Wesnousky &amp; Bills, 1999, attribute ~22 m of post-highstand deflection to rebound with a small down-to-the-north tilt), so that the residual is interpretable in metres of <i>fault</i> offset rather than in arbitrary detrending units. This is the direct cure for IR-62-03 (the isobase fit is degenerate in its linear part). <b>Not implemented this session</b> because the published field is a figure and a set of station elevations, not a downloadable raster, and digitising it by hand would introduce exactly the kind of unverified number this repository exists to avoid. Named source needed: the station/ shoreline-elevation tables in Adams, Wesnousky &amp; Bills (1999) and the USGS/GSA data repository that accompanies them.</p>
+<h2>H62-N — Drainage deflection across the pluvial datum  ·  rank 4, <b>deferred</b></h2>
+<p>Channels that cross a post-datum fault are deflected or beheaded. The signature is a systematic azimuth anomaly of the drainage network <i>restricted to the HAB band</i>, measured after flow routing on the filled DEM. Nothing in this repository computes flow routing, so it is genuinely new; the cost is a depression-fill and a D8 router over 12.3 M cells, and the named confuser is <b>lithology</b> (a knickzone or deflection at a resistant/weak contact is indistinguishable from one at a fault without a geologic map). Deferred on cost, and because the SGMC screening instrument cannot see channel deflection at 1:750 k.</p>
+<h2>H62-R — Bench-width asymmetry across the datum contour  ·  rank 5, <b>deferred</b></h2>
+<p>On a faulted shoreline the bench is wider on the downthrown side, so bench width is asymmetric across the datum contour. It is a genuinely different observable from a step. Deferred because it shares H62-I&#x27;s input (the LiDAR <code>step_max</code> composite) and H62-I was quarantined for <b>duplicate-drift</b> against <code>gemsdoe23-h30-arrangement-matched-habitat</code> (87.5 % of dots within 3 px); any new hypothesis built on that composite inherits the tripwire and would have to be justified against it.</p>
+<hr>
+<h2>Screening protocol for this session</h2>
+<ol>
+<li><b>Instrument.</b> Mean per-dot 300 m kernel credit against SGMC-minus-catalogue, catalogue +3 px masked (Experiment 1). Bar: the hard-core Poisson control <b>0.1190</b>; references: <code>h33</code> <b>0.1324</b> (0.2778 OWNER-REPORTED), H62-A <b>0.1347</b>.</li>
+<li><b>Null.</b> A Poisson hard-core (300 m) field of the same mass, drawn from the <i>same</i> habitat mask the candidate is allowed to use — not a uniform-random field — so that a &quot;habitat&quot; hypothesis cannot pass by occupying the right geology.</li>
+<li><b>Holdout.</b> The protocol&#x27;s hide-and-recover holdout is still run and reported, labelled HOLDOUT-DTI, with the leakage canary; but per IR-62-HOLDOUT-01 it is <b>not</b> used to promote or reject.</li>
+<li><b>Budget.</b> Three experiments, then stop: E1 instrument calibration (done), E2 hypothesis screening, E3 mass calibration and the shipped artifact.</li>
+</ol>
+</main>
+<footer>62GEMSDOE · datum-offset lane · every number on this site is labelled MEASURED,
+OWNER-REPORTED, OFFICIAL or MODEL; a projection is never written as a score.</footer>
+</body></html>

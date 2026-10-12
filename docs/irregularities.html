@@ -1,108 +1,70 @@
-<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Irregularities</title><style>
-:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;--warn:#d29922;--card:#161b22;--bd:#30363d}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
-.wrap{max-width:1000px;margin:0 auto;padding:24px 20px 90px}
-h1{font-size:1.8em}h2{font-size:1.3em;margin:1.7em 0 .5em;border-bottom:1px solid var(--bd);padding-bottom:.3em}
-h3{font-size:1.05em;margin:1.2em 0 .4em}
-a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
-code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.88em}
-pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.84em}
-pre code{background:none;padding:0}
-table{border-collapse:collapse;width:100%;margin:.9em 0;font-size:.9em}
-th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
-th{background:#1f2630}
-.mut{color:var(--mut)}blockquote{border-left:3px solid var(--bd);margin:1em 0;padding:.2em 0 .2em 1em;color:var(--mut)}
-hr{border:0;border-top:1px solid var(--bd);margin:2em 0}
-.back{display:inline-block;margin-bottom:14px;font-size:.9em}
-.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
-.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
-.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
-.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
-.hero{border:2px solid var(--no);border-radius:10px;padding:20px;margin:16px 0;background:rgba(248,81,73,.06)}
-.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;border-radius:8px;margin:8px 8px 8px 0}
-.btn:hover{background:#2ea043;text-decoration:none}
-.btn.sec{background:#30363d}
-</style></head><body><div class='wrap'><a class='back' href='index.html'>&larr; back to 62GEMSDOE</a>
-<h1>Irregularities, defects and traps — flagged, with what was done about each</h1>
-<p>The brief asks for irregularities to be flagged rather than smoothed over. These are ordered by how much damage they could do.</p>
-<h2>1. The portal error you hit: "Predicted values must be in range [0, 1]"</h2>
-<p><b>Diagnosis.</b> The official spec asks for a single-band <code>float32</code> raster with values in <code>[0, 1]</code> [OFFICIAL, competition page 967]. Two writing habits violate it while looking correct on screen: a <code>float32</code> <b>sentinel</b> such as <code>-3.4028235e38</code> (survives as an outlier inside the valid footprint), and a <b>NaN nodata tag</b> (the reader returns NaN, which is not in <code>[0, 1]</code>). The defective artifact from the earlier session — <code>gems32-h19-5-smoothmaxcov-44090.tif</code> — is one of these, and it is <b>quarantined by standing rule: never ship, never re-emit.</b></p>
-<p><b>What is done about it.</b> One writer, one code path, and the file is <b>re-opened from disk and re-counted</b> before anything is published (<code>grid.check_submission</code>). The current file reports <code>nodata = null</code>, <code>nan_count = 0</code>, <code>n_outside_0_1 = 0</code>, <code>all_finite = true</code>. The two mechanisms are structurally absent, not merely avoided.</p>
-<h2>2. This session's own holdout instrument was wrong three times</h2>
-<p>Reported in full, because the numbers above are only trustworthy if the failures are visible.</p>
-<table><tr><th>defect</th><th>symptom</th><th>fix</th></tr>
-<tr><td>fold did not confine scoring (<code>active = footprint &amp; ~visible</code>)</td><td><code>n_pred = 1660</code> in <i>every</i> fold; the whole footprint was scored each time</td><td>score only inside the eroded block</td></tr>
-<tr><td>canary negatives drawn basin-wide while positives were fold-local</td><td>AUC pinned at exactly ~0.500 in every fold — a degenerate tie, not a clean bill of health</td><td>negatives from the same fold interior</td></tr>
-<tr><td>"wholly inside the block" component rule</td><td><code>n_truth = 0</code> in all 6 folds — the catalogue is one basin-scale connected component, so nothing is ever "wholly inside"</td><td>block-scale withholding with a 3 px erosion</td></tr>
-<tr><td><code>metric.dti_binary(pred, truth &amp; active, active)</code></td><td>truth silently zeroed (the module applies <code>active</code> to truth itself)</td><td>pass the block as the scored domain, not the block minus the catalogue</td></tr>
-</table>
-<p>Then a fifth, of a different kind: a run crashed on an undefined variable, its stdout/stderr were suppressed to <code>/dev/null</code>, and the <b>stale JSON from the previous run was read as the result</b>. The lesson is recorded in the commands: never suppress output when the artefact is the evidence.</p>
-<p>The evaluator version that produced the numbers in <code>run-card.md</code> is the one <i>after</i> all five fixes, and the fold arithmetic is asserted (<code>a withheld pixel survived inside the scoring zone</code> raises).</p>
-<h2>3. The registry uniqueness tripwire is density-blind — a shared-tool defect, fixed and reported</h2>
-<p><b>Defect.</b> The brief's tripwire is "&gt; 70 % of your dots within 3 px of one registry raster's dots ⇒ duplicate". Measured here: <code>13gems_20261001_r13-lattice-s5_v2</code> carries <b>206,895 dots</b>, which dilates to 112 % of the 5.17 M-cell footprint, so its 3 px neighbourhood covers the map and <b>any</b> emission scores ≈ 1.0 on the tripwire.</p>
-<p><b>Proof, not assertion.</b> A uniform-random 1,660-dot control (<code>build/controls/poisson_1660_seed7.tif</code>, seed 7) scores <code>dot_overlap_within_kernel = 0.9982</code> against that same raster. A tripwire that fires on Poisson noise cannot certify a duplicate.</p>
-<p><b>Fix (in <code>scripts/check_uniqueness.py</code>, reported here rather than forked).</b> The verdict now additionally requires a <b>symmetric</b> overlap — the Jaccard index of the two 3 px-dilated dot masks, <code>|A ∩ B| / |A ∪ B|</code>, threshold 0.25. It is 1.0 for a re-run of the same lane and ~0.01 for a sparse emission against a dense lattice. The asymmetric fraction is still reported as a diagnostic, because it is what the brief names.</p>
-<p><b>Result for the current file:</b> <code>UNIQUE-VS-REGISTRY</code> across 289 rasters — worst rank correlation <b>−0.065</b>, worst Jaccard <b>0.030</b>, and the asymmetric maximum of 1.00 attributable to the lattice raster above.</p>
-<h2>4. The catalogue-based holdout anti-selects novelty — so it is not a score</h2>
-<p>Measured three independent ways (<code>hypotheses.md</code>, "the validation trap"): a sibling repository measured ρ = <b>+0.087</b> between its catalogue-hidden proxy and the live leaderboard; its Poisson control (0.098) beats an artifact that scored 0.2778 live (0.019); and this repository's own Poisson control (0.0669) beats the same artifact (0.0067) by 10×.</p>
-<p><b>Consequence, stated in every document that carries the number:</b> the holdout is a bug screen, a leakage canary and a null generator. It is <b>never</b> written as a score, and it is never used to promote or reject a file.</p>
-<h2>5. Owner-reported scores are claims, not receipts</h2>
-<p>The scores the user has quoted (0.2778, 0.3774, …) are recorded here as <b>OWNER-REPORTED</b>. No organizer receipt, e-mail or exported leaderboard row is present in this repository, and the competition pages do not expose them to this sandbox. They are used only to <i>rank the group's own artifacts against each other</i>, which is what the user asked for, and never as an evaluation of a file produced here. If a receipt exists, it should be committed as <code>evidence/</code> and this file updated — it would be the first ORGANIZER-CONFIRMED number in the repository.</p>
-<h2>6. Submission note length</h2>
-<p>The stated limit is 140 characters; the site has previously accepted 177–200 [OWNER-REPORTED]. This repository keeps <b>≤ 140</b> because that is the stated limit. The current note is 128 characters.</p>
-<h2>7. DEM transport and format traps</h2>
-<ul>
-<li>The 3DEP transport GeoTIFF is <b>int16 decimetres</b>, not metres, and the first fetch clipped the</li>
-</ul>
-<p>  −32767 nodata sentinel to −32766 when rounding to decimetres. Handling it as metres made every   elevation gate false; the fix is in <code>read_z()</code> and in the fetch writer (sentinel written <i>after</i>   the clip, readers mask ≤ −32000).</p>
-<ul>
-<li>Run <b>38169049665</b> is recorded as <b>success with no artifact</b> — a silent-empty result. It is</li>
-</ul>
-<p>  kept in <code>evidence/</code> precisely because "success" was not the same as "produced data".</p>
-<ul>
-<li><code>dem_transport.json</code> records <code>resampling: "as-is"</code>, i.e. the mosaic is not reprojected here; the</li>
-</ul>
-<p>  tiles are already EPSG:32611 at 25 m.</p>
-<ul>
-<li>Coverage after run <b>38169727207</b>: 6 tiles, valid fraction <b>0.8088</b> (was 0.590 with 5). The</li>
-</ul>
-<p>  per-block coverage map has not been re-verified since the 6th tile landed — a gap in this   session's evidence, listed in <code>next-steps.md</code>.</p>
-<h2>8. Second-hand layer names</h2>
-<p>The band names used for hypotheses H-A and H-D (<code>lidar_scarp_features_u8.tif</code>, <code>geodawn_rad_u8.tif</code>, <code>training_features.tif</code> bands 13/15/17) are <b>[SIBLING-MEASURED]</b> — read from band descriptions in a sibling checkout. This repository does not clone the 418 MB feature stack, so they are <b>not re-verified here</b>. Treat them as a lead to confirm before building on.</p>
-<h2>9. What the organizers will and will not tell us — read this before trusting any local score</h2>
-<ul>
-<li>They will <b>not</b> share the data sources, fault types or coverage behind the test faults beyond</li>
-</ul>
-<p>  the problem description [OFFICIAL, thread 11527 — chrisk-dd, 2026-09-23].</p>
-<ul>
-<li><b>Phase 2 uses a test set updated by expert review of all Phase 1 submissions</b> [OFFICIAL, same</li>
-</ul>
-<p>  post]. Phase 1 predictions therefore influence final evaluation even when they do not score   well — which is the only sound argument for spending a Phase-1 slot on a file whose local   evidence is thin, and which is why this file's verdict is "low-risk novelty probe" rather than   "do not submit".</p>
-<h2>10. A suspicious statistic in this file's own output</h2>
-<p>The 221 traces have a <b>median length of 1.3 km</b> (max 5.6 km). Real fault traces are usually longer, so the binding constraint is probably the trace-stopping rule rather than the geology. Flagged as unresolved; see <code>next-steps.md</code>.</p>
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>62GEMSDOE — irregularities</title>
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header>
+  <span class="brand">62GEMSDOE</span>
+  <nav>
+    <a href="index.html">Download &amp; verdict</a>
+    <a href="executive-summary.html">How to submit</a>
+    <a href="results.html">Results</a>
+    <a href="method.html">Method</a>
+    <a href="hypotheses-2026-10-12.html">Hypotheses</a>
+    <a href="run-card.html">Run card</a>
+    <a class="active" href="irregularities.html">Irregularities</a>
+    <a href="next-steps.html">Next steps</a>
+  </nav>
+</header>
+<main>
+<h1>Irregularities, defects and traps</h1>
+<p>Flagged rather than smoothed over, ordered by how much damage each could do. New this session are marked <b>[NEW]</b>; the rest were carried forward from earlier sessions and are still live.</p>
 <hr>
-<h2>Added 2026-10-11 (session <code>arena/2b64062a-62gemsdoe</code>)</h2>
-<h3>IR-62-11 — six of nine root modules did not import on a clean checkout — FIXED</h3>
-<p><code>src/gems62/grid.py</code> was rewritten at some point to keep only <code>GRID</code>/<code>TRANSFORM</code>/<code>BOUNDS</code>/<code>PINS</code>, while <code>emit</code>, <code>holdout</code>, <code>lahontan</code>, <code>uniqueness</code>, <code>validate</code> and <code>score_model</code> all imported <code>PIXEL_M</code> / <code>CRS</code> / <code>HEIGHT</code> / <code>WIDTH</code> / <code>read_dem</code> / <code>read_labels</code> / <code>FOOTPRINT_CELLS</code> from it, and <code>score_model</code> imported <code>RADIUS_M</code> from <code>metric</code>. Verified here on a clean worktree:</p>
-<pre><code>gems62.validate     ImportError: cannot import name 'CRS' from 'gems62.grid'
-gems62.uniqueness   ImportError: cannot import name 'PIXEL_M' from 'gems62.grid'
-gems62.score_model  ImportError: cannot import name 'RADIUS_M' from 'gems62.metric'
-gems62.emit         ImportError: cannot import name 'PIXEL_M' from 'gems62.grid'
-gems62.lahontan     ImportError: cannot import name 'PIXEL_M' from 'gems62.grid'
-gems62.holdout      ImportError: cannot import name 'PIXEL_M' from 'gems62.grid'</code></pre>
-<p>Fixed <b>once, in the template, additively</b>: the missing constants and readers are restored to <code>grid.py</code>, the metres-based metric API (<code>dti_components</code>, <code>brute_force_components</code>, <code>maximum_useful_distance_m</code>, <code>unit_dot_dti</code>) is restored to <code>metric.py</code> from the archived variant in <code>superseded_20261011/</code>, and the two diagnostic-figure writers are extracted to a new shared module <code>src/gems62/figures.py</code> (they had been dropped from <code>scripts/run_lane.py</code>, which made <code>tests/test_lane_instruments.py::test_map_writer_rejects_wrong_units</code> fail with <code>AttributeError</code>). Every value added is a number <code>grid.py</code> already carried in another spelling. <b>No existing logic was overwritten and no private fork was kept.</b> Root suite: <b>18 passed → 18 passed</b> (one previously failing test now passes); <code>lane62/</code> suite <b>46 passed</b>.</p>
-<h3>IR-62-12 — <code>lane62</code> tests errored on a fresh checkout for a file that was present — FIXED</h3>
-<p><code>lane62/src/gems62/grid.load_grid</code> hard-coded <code>data/official/</code>, which only exists after <code>download_competition_data.sh</code> has run <i>inside</i> <code>lane62/</code>. 14 tests errored with <code>No such file or directory</code> even though the same three rasters are committed (hash-pinned) at the repository root. A fallback chain was added, plus a bug found while testing it: <b><code>Path(".").parent</code> is <code>Path(".")</code></b>, so the first version of the fallback silently pointed back at the lane root. The resolver now calls <code>.resolve()</code> first. <code>lane62</code> suite: <b>2 failed, 12 errored → 46 passed</b>.</p>
-<h3>IR-62-13 — GitHub Pages is enabled but serves the wrong directory</h3>
-<p><code>GET /repos/buffedlizard55-lab/62GEMSDOE/pages</code> returns <code>{"source":{"branch":"main","path":"/"}, "status":"built"}</code>, i.e. the site is served from the <b>repository root</b>, while every page lives in <code>docs/</code>. The published URL therefore 404s, which is why the owner's site list shows an empty entry for <code>62GEMSDOE</code>. <code>PUT /repos/.../pages</code> returns <b>HTTP 403 "Resource not accessible by integration"</b> — the sandbox token lacks the <code>pages</code> scope, so this cannot be fixed from here. <b>Mitigation applied:</b> a root <code>index.html</code> that redirects to <code>docs/index.html</code>, so the published URL resolves. The durable fix is one manual step: repo <b>Settings → Pages → Source = <code>main</code> / <code>/docs</code></b>.</p>
-<h3>IR-62-14 — <code>labels.tif</code> and <code>existing_faults.tif</code> are byte-identical</h3>
-<p>Both are 425,830 bytes with sha256 <code>7ba308ccdc4418b3…</code>, verified with <code>cmp</code>. This is already recorded in <code>registry/data_pins.json</code> ("byte-identical to labels.tif") and it is <i>consistent</i> with the task definition — the training labels <b>are</b> the mapped catalogue, and the competition target is the faults <b>absent</b> from it. Flagged here because it is the single fact that makes the local holdout structurally incapable of measuring the real target, and every holdout number in this repository inherits that limit.</p>
-<h3>IR-62-15 — the 25 m DEM mosaic covers only 55.74 % of the competition footprint</h3>
-<p><code>evidence/dem/lahontan_dem_utm11.tif</code> is 9200×7600 at 25 m, EPSG:32611, spanning x 240 000–430 000, y 4 250 000–4 480 000 — a <b>sub-window</b> of the competition grid (x to 572 550, y to 4 135 550). Measured: it reaches grid rows 285:2586, cols 0:1867 and covers <b>2,880,158 of 5,167,373 footprint cells (55.74 %)</b> and 62.06 % of catalogue cells. Two further defects: it is <b>int16 decimetres</b>, so elevations above <b>3276.7 m cannot be represented</b> (the eastern Sierra is clipped — <code>z.max() == 32767</code>), and its earlier "valid fraction 0.8088" was computed <i>within the mosaic window</i>, not over the competition footprint. Consequence: <b>the 25 m mosaic cannot support a basin-wide lane.</b> The 100 m mirror <code>geodawn_dem_a2_100m.tif</code> covers 5,165,644 footprint cells (99.97 %) and was used instead; its sha256 matches the pin in <code>registry/data_pins.json</code>.</p>
-<h3>IR-62-16 — the protocol's 3-px uniqueness leg is unsatisfiable; independently re-proven</h3>
-<p>A <b>pure-random</b> 10,000-dot off-catalogue field (seed 11, zero geological information) puts <b>84.12 %</b> of its dots within 3 px of <code>13gems_20261001_r13-lattice-s5_v2</code>, 84.12 % of <code>…zerofill</code>, and 76.58 % of <code>13gems-composite-plus</code> — i.e. it trips the protocol's 70 % duplicate rule against <b>3 of 79</b> comparators. That comparator's 3-px halo alone covers <b>83.91 %</b> of the footprint. A tripwire that fires on Poisson noise cannot certify a duplicate. Uniqueness in this repository is therefore judged on the two legs that do discriminate — the symmetric Jaccard of the 3-px halos and the footprint Spearman correlation — with the asymmetric fraction still reported. Evidence: <code>evidence/h62g/tripwire_satisfiability.json</code>. This independently reproduces <code>GEMSDOE54</code> IR-54-016.</p>
-<h3>IR-62-17 — the brief's own leaderboard numbers are stale by nine days</h3>
-<p>The brief states "0.3195 is the highest score right now". The official public leaderboard, scraped 2026-10-11T20:57:47Z, puts 0.3195 at <b>rank 9</b> and #1 at <b>0.4133</b>; the top-5 cut-off is <b>0.3333</b>. The group's best (0.2778) is <b>rank 23 of 50</b>. Any target set against 0.3195 is aiming at ninth place. Series: <code>research/leaderboard_series.json</code> (37 snapshots).</p>
-<h3>IR-62-18 — this session's own uniqueness gate had a direction bug, found by running it</h3>
-<p>The first implementation computed <code>|dilated_mine ∩ theirs| / |mine|</code> instead of the protocol's <code>|mine ∩ dilated_theirs| / |mine|</code>, and compared the submission against <b>itself</b> (returning a spurious ρ = 1.0, Jaccard = 1.0, "DUPLICATE-DRIFT"). Both were wrong. Fixed and re-run; the corrected numbers are the ones published. Recorded because the first (wrong) verdict was already printed, and a reader comparing the two would otherwise be misled.</p>
-</div></body></html>
+<a id="IR-62-POISSON"></a>
+<h2>1. [NEW] The group&#x27;s &quot;Poisson control&quot; is not a control — it is the same file</h2>
+<p><code>GEMSDOE30</code> reports <code>d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca</code> at <b>0.2600</b>, and it is presented as a random (Poisson-disk) control at the same mass as the detector field. Measured here: that file and <code>gems25-dotted-h19-5-d28-zeros</code> have <b>Jaccard = 1.00000</b> — 44,090 positives, identical pixel for pixel, byte-different only because of compression and nodata encoding. The &quot;control&quot; is the detector re-shipped under a control-sounding name.</p>
+<p><b>Consequence.</b> The claim &quot;a random field scores the same as the detector, so placement does not matter&quot; is <b>void</b>: the two scores are the same score. This session therefore built its own controls — a Matérn hard-core field (<code>emit.hard_core_topk</code> on a uniform random surface) and a uniform field — and measured them at <b>0.1190</b> and <b>0.1075</b> (same instrument, same mass, same truth as the artifact: <code>evidence/exp1_instrument_calibration.json</code>, <code>buffer3px</code> variant; an independent draw in Experiment 2 with M = 40,000 over a 59,453-px truth gave 0.1197, so the control is stable to ~0.6 %). Placement <i>does</i> matter, by about 1.11× for the champion and 1.41× for this session&#x27;s artifact.</p>
+<a id="IR-62-LABELS"></a>
+<h2>2. [NEW] <code>labels.tif</code> is byte-identical to <code>existing_faults.tif</code></h2>
+<p>Both files in <code>data/</code> have sha256 <code>7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093</code> and the same 60,988 positives. So the &quot;labels&quot; this repository holds are the <b>catalogue of already mapped faults</b>, not a training set of new ones. There is therefore <b>no local ground truth for the target population at all</b> — which is the single biggest structural limit on every number in this repository, and the mechanical reason the proxy instruments behave the way they do.</p>
+<a id="IR-62-HOLDOUT-02"></a>
+<h2>3. [NEW] The prescribed holdout is zero by arithmetic, not by lack of skill — fixed in the template</h2>
+<p>The kernel is <code>k(d) = max(1 − d/300 m, 0)</code>, so a dot earns credit against a withheld truth pixel only inside 300 m. Every competitive emission deletes every dot within 300 m of the mapped catalogue. A dot set with no dot within 300 m of <i>any</i> catalogue pixel therefore has <code>TP_w = 0</code> against withheld <i>catalogue</i> pixels necessarily.</p>
+<p>Measured: <b>pooled DTI = 0.000000</b> for this session&#x27;s artifact; its minimum distance from any candidate dot to the catalogue is 400 m. The champion has 1,611 dots inside 300 m and so earns a little; the better an artifact is at being off-catalogue, the more certain the zero.</p>
+<p><b>Fix, made once in the shared template</b> (<code>src/gems62/holdout.py</code>, not a private fork): <code>evaluate()</code> now takes a <code>truth</code> argument so the withheld population can be an independent fault set. Version string is now <code>gems62.holdout.v2</code>. With SGMC-minus-catalogue as truth the same evaluator returns 0.0728 for this artifact, 0.0741 for the champion and 0.0496 for a hard-core control.</p>
+<a id="IR-62-H62B-01"></a>
+<h2>4. [NEW] The flagged step magnitudes are too large to be fault offset</h2>
+<p>Median flagged step 24.4 m, largest 82.7 m (n = 40 stepped loci; <code>evidence/figures_h62b.json</code>). Post-15 ka offset of a single Lahontan shoreline is metres to a few tens of metres. These numbers are therefore dominated by (a) error in the base-level construction where the band crosses dissected terrain and (b) the isostatic-rebound signal the 6 km isobase does not absorb. The <i>rank</i> of a flag is a robust z-score and is unaffected; the <i>metres</i> are not interpretable. The seed stage of this lane is consequently its weakest link, and the artifact&#x27;s measured skill comes substantially from the ridge-relief extension, which is a general lineament criterion rather than a datum-specific one. Cure: hypothesis H62-P.</p>
+<a id="IR-62-UNIQ-02"></a>
+<h2>5. [NEW] The registry harvest contains rasters that are not on the competition grid — fixed</h2>
+<p><code>gems62.uniqueness.compare</code> raised <code>ValueError</code> on <code>5GEMSDOE__proxy_window.tif</code> (512×512) and aborted the whole sweep, so the lane-drift check silently never completed. Fixed in the template: non-conforming comparators are skipped and counted (<code>_EntryList.skipped</code>). Five were skipped: four 512×512 proxy windows and one 32×48 format test explicitly named <code>NOT_SUBMISSION</code>.</p>
+<a id="IR-62-BRIEF-01"></a>
+<h2>6. [NEW] The brief&#x27;s leaderboard number does not match any public row</h2>
+<p>The brief states &quot;0.3195 is the highest score right now&quot;. In the 50-row public leaderboard mirrored 2026-10-11, 0.3195 is <b>rank 8</b>; #1 is 0.4133 and the top-5 cut-off is 0.3300. The discrepancy is recorded, not resolved: this sandbox cannot reach <code>drivendata.org</code>, and no organizer receipt exists for any file in this repository.</p>
+<a id="IR-62-TEST-01"></a>
+<h2>7. [NEW] A bare <code>pytest</code> at the repo root aborted with 3 collection errors — fixed</h2>
+<p><code>lane62/</code> and <code>lane62-h62a/</code> are <i>independent re-derivations</i> of the same lane and each vendors its <b>own</b> copy of the <code>gems62</code> package. A root-level <code>pytest</code> collected all three, the copies shadowed each other, and <code>tests/test_metric.py</code> clashed by basename with <code>lane62/tests/test_metric.py</code>. The suite therefore could not be run at all from the root — which means it had not been. Fixed with a root <code>pytest.ini</code> (<code>testpaths = tests</code>, <code>pythonpath = src</code>, <code>--import-mode=importlib</code>) plus a documented per-lane invocation. <b>All 114 tests pass</b>: root 27, <code>lane62</code> 46, <code>lane62-h62a</code> 41.</p>
+<a id="IR-62-PROJ-01"></a>
+<h2>8. [NEW] Two different projection formulas coexist in this repository</h2>
+<p><code>scripts/run_h62b.py</code> projects the score as <code>c · κ · M / (0.2M + 0.8N)</code>; <code>scripts/finalize_h62b.py</code> anchors instead on the champion&#x27;s own implied truth credit, <code>T_ch(N) · (c / c_champion) / (0.2M·0.968 + 0.8N)</code>. At the shipped mass (M = 37,654, N = 10,000) they give <b>0.3484</b> and <b>0.3530</b> — a spread of 0.005. Both are <code>MODEL</code>, both are printed, and both are shrunk by the same calibration regression, whose residual is <b>±0.12</b>: the disagreement between the two formulas is 24× smaller than the uncertainty of either. They also agree on the <i>decision</i> — the mass sweep peaks at M = 30,000–37,654 under both. Not fixed, because fixing it would mean re-running the sweep, and the choice of mass is not what is in doubt.</p>
+<a id="IR-62-UNIQ-01"></a>
+<h2>9. The 70 %-within-3-px lane-drift rule is density-blind (carried forward, and it fires here)</h2>
+<p>A comparator whose own 3 px halo covers most of the footprint trips the rule for <i>any</i> emission. This session&#x27;s artifact trips it against two distinct fields — <code>GEMSDOE3__coverage-v3-wide</code> (80.0 %; 624,025 dots; its halo covers 66.3 % of the footprint) and <code>GEMSDOE22__h23-b-dti-optimal-emission-10pct</code> (75.8 %; 516,738 dots; halo 59.7 %). A uniform-random dot would score 0.663 and 0.597 on the same leg, so the ratio is 1.21× and 1.27× chance. The never-waived legs say the opposite of copying: worst Spearman ρ over 340 comparators <b>0.022</b> (limit 0.90) and worst exact Jaccard <b>0.0091</b> (a diagnostic this repository reports; the protocol has no Jaccard leg). Reported, not suppressed; the selector decides.</p>
+<a id="IR-62-DEM-01"></a>
+<h2>10. The official feature stack has no absolute elevation (carried forward, <b>closed</b> this session)</h2>
+<p>Band 12 is <code>det_elev</code> — &quot;topography with regional trends removed&quot;. A Lahontan isobase is an absolute datum. Closed by fetching <code>geodawn_dem_a2_100m.tif</code> (owner mirror, sha256 <code>d32762a3…</code>) and fitting the isobase on absolute elevation for the first time. Its provenance is an owner mirror, not an organizer-authenticated file.</p>
+<h2>11. The catalogued &quot;labels&quot; anti-select novelty (IR-62-HOLDOUT-01, carried forward)</h2>
+<p>Catalogue-based proxies are measured to be anti-correlated with the organizer&#x27;s score (Spearman −0.91 over 10 confirmed artifacts in the previous session; −0.85 here). Section 3 above gives the mechanism. Consequence, enforced everywhere on this site: the catalogue holdout is a bug screen and a leakage canary, never a promotion gate.</p>
+<h2>12. Owner-reported scores are claims, not receipts</h2>
+<p>Every score quoted for a sibling artifact (0.2778, 0.2600, 0.2376, …) is <b>OWNER-REPORTED</b>. No organizer receipt, e-mail or exported leaderboard row exists in this repository. They are used only to rank the group&#x27;s artifacts against each other.</p>
+<h2>13. The portal error: &quot;Predicted values must be in range [0, 1]&quot;</h2>
+<p>Two mechanisms produce it while looking correct on screen: a <code>float32</code> sentinel such as <code>-3.4028235e38</code> surviving inside the valid footprint, and a NaN nodata tag. Both are structurally absent from the shipped file (zeros outside the footprint, no nodata tag at all), and every check is re-run on the bytes read back from disk.</p>
+<h2>14. Submission note length</h2>
+<p>The stated limit is 140 characters. This session&#x27;s note is 126.</p>
+<h2>15. Second-hand layer names</h2>
+<p>Band names and descriptions for <code>training_features.tif</code> were read from the file&#x27;s own <code>DESCRIPTION</code> tags this session (19 bands, listed in <code>src/gems62/grid.py</code>), so they are first-hand. The external packs (<code>lidar_scarp_features_u8.tif</code>, <code>topo_10m_derived_100m_u8.tif</code>, <code>derived_sgmc_faults_100m.tif</code>) are owner-mirrored; hashing proves mirror consistency, not origin.</p>
+</main>
+<footer>62GEMSDOE · datum-offset lane · every number on this site is labelled MEASURED,
+OWNER-REPORTED, OFFICIAL or MODEL; a projection is never written as a score.</footer>
+</body></html>

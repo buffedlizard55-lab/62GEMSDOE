@@ -1,91 +1,87 @@
-# Executive summary — exactly how to make a submission, and what to submit
+# Executive summary — how to submit into the competition
 
-## 1. The file, and the verdict on it
+**Short version:** download the GeoTIFF from the top of
+[the site home page](index.html), go to the competition's submission page, choose that file,
+paste the note below, submit. The file is format-legal — all 26 validator checks pass on the
+bytes read back from disk — and the portal error you hit before
+(*“Predicted values must be in range [0, 1]”*) cannot occur for these bytes.
 
-**<span style="color:#f85149">VERDICT: NEGATIVE — this file is legal and unique, but it should not
-take a weekly slot.</span>**
+---
+
+## 1. The file
 
 | | |
 |---|---|
-| **Download** | [`downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif`](downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif) — 98,893 bytes |
-| **sha256** | `79eb0a7ddc2dcfb4667bff41bbc237f8d5663dd63e025eed79af8c8f984ed500` |
-| **Submission name** | `gems62-h62g-benchcrosscut-hardcore-zeros` |
-| **Submission note** (117 / 140 chars) | `H62-G Lahontan bench cross-cut, 10k isolated dots; credit at isolated-random control. NEGATIVE - do not spend a slot.` |
-| **Portal-legal?** | **Yes.** Every validator check passes on the re-read bytes (§2). |
-| **Worth a slot?** | **No.** Mean 300 m kernel credit **0.0420** at 10,000 dots vs a mass-matched isolated-random control of **0.04330 ± 0.00165** (5 seeds). At chance. At 5,000 dots it is 0.0572 vs 0.04279 (1.34×) — real but tiny, and the closed form still gives 0.027. |
-| **Organizer score** | none — never submitted. |
+| name | `gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif` |
+| path | [`docs/downloads/`](downloads/gems62-h62b-lahontan-datumstep-trace-37654dots-20261012T000000Z-zeros.tif) |
+| size | 231,909 bytes |
+| sha256 | `e56752ba2be2b07f50698d88e83551114aba9c0860f0ef1152191579206fac3d` |
 
-## 2. The seven things the portal checks, and where each one is satisfied
+## 2. Submit it — click by click
 
-The competition accepts *a single-band GeoTIFF (`.tif`), or a `.zip` containing a single GeoTIFF,
-matching the submission format's CRS, shape and geotransform*
-([submission form text, quoted by the owner](https://www.drivendata.org/competitions/306/competition-doe-gems/)),
-and the format spec asks for *a single layer, 32-bit float, values between 0 and 1, same CRS /
-resolution / bounds as the training data* ([problem description, page 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)).
+1. Open <https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/>
+   (login required).
+2. **New submission** → **File to submit** → *Choose file* → pick the `.tif` downloaded above.
+   A `.zip` containing that single GeoTIFF is also accepted if your browser or network prefers it.
+3. **Note (optional)** — paste this, it is exactly 126 characters (the stated limit is 140):
 
-| # | check | this file | how it is enforced |
-|---|---|---|---|
-| 1 | single band | `count = 1` | `grid.write_submission` writes `count=1` |
-| 2 | `float32` | `dtype = float32` | written as `np.float32` |
-| 3 | CRS `EPSG:32611` | `EPSG:32611` | pinned constant, asserted on write |
-| 4 | shape `3730 × 3292` | `3730 × 3292` | asserted against the sample submission's grid |
-| 5 | geotransform `(100, 0, 243350, 0, -100, 4508550)` | exact match | compared to 6 dp |
-| 6 | **values in [0, 1]** | `n_outside_0_1 = 0`, min 0.0, max 1.0 | asserted before write **and** re-checked after re-reading the file from disk |
-| 7 | no NaN inside the footprint | `nan_count = 0`, `all_finite = true` | all-finite zeros are written outside the footprint and **no `nodata` tag is set** (`nodata = null`) |
+   ```
+   H62-B Lahontan base-level isobase steps/deflections, ridge-relief traced, 37654 isolated dots, >=300 m off catalogue. UNSCORED
+   ```
 
-Checks 6 and 7 are the two that produce the portal error *“Predicted values must be in range [0, 1]”*.
-Both failure mechanisms are structurally absent here rather than merely avoided:
+4. Press **Create**. The organizer scores it on the hidden test set and returns a number.
 
-* a `float32` **nodata sentinel** such as `-3.4028235e38` survives as a wild value inside the valid
-  footprint → this file has **no nodata tag at all**;
-* a **NaN nodata tag** makes the reader return NaN, which is not in `[0, 1]` → this file writes
-  **all-finite zeros** outside the footprint.
+**The number does not exist until step 4.** No file in this repository has ever been scored by the
+organizer. Everything on this site that looks like a score is labelled
+`MEASURED` (computed here), `OWNER-REPORTED` (a score the owner quoted, no receipt),
+`OFFICIAL` (quoted from the competition pages) or `MODEL` (algebra on the published metric).
+A `MODEL` number is a projection and is never written as a score.
 
-The receipt is not built from the in-memory array; `grid.check_submission` **re-opens the file from
-disk** and counts. See [`evidence/h62g/receipt.json`](../evidence/h62g/receipt.json).
+## 3. Why the portal once rejected the file — and why it cannot happen here
 
-## 3. Step-by-step submission
+The error you saw, verbatim: **“Predicted values must be in range [0, 1]”**
+[OFFICIAL — the submission form]. The spec asks for a single-band `float32` raster with values in
+`[0, 1]`, matching the CRS, shape and geotransform of the sample submission
+[OFFICIAL, competition page 967, *Submission format*]. Two writing habits violate it while looking
+correct on screen:
 
-1. Download the `.tif` above (no `.zip` needed — a bare GeoTIFF is accepted).
-2. Open the [submission form](https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/)
-   and sign in.
-3. **File to submit** → choose the `.tif`.
-4. **Note (optional)** → paste the 117-character note from the table above. The stated limit is
-   140 characters; this repository keeps to it.
-5. Submit. The score appears on the
-   [public leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/).
-6. **Export the receipt.** Copy the score row into `evidence/` and commit it. This repository
-   contains **zero** organizer-confirmed scores; the first receipt converts every future local
-   comparison from an argument into an anchored measurement.
+| mechanism | why it trips the portal | status in this file |
+|---|---|---|
+| a `float32` nodata **sentinel** (e.g. `-3.4028235e38`) written inside the valid footprint | the reader sees an out-of-range float | **absent** — outside the footprint we write `0.0` |
+| a **NaN nodata tag** on the band | the reader returns NaN, which is not in `[0, 1]` | **absent** — the file carries no nodata tag at all |
 
-## 4. What to submit instead, if a slot is going to be spent
+Both are structurally impossible here: `gems62.grid.write_submission` writes one code path, then
+`check_submission` **re-opens the file from disk** and re-counts everything. The receipt for the
+shipped file reports `nodata = null`, `nan_inside_footprint = 0`, `values_min = 0.0`,
+`values_max = 1.0`, `count = 1`, `dtype = float32`, `crs = EPSG:32611`, `shape = (3730, 3292)`,
+transform `(100, 0, 243350, 0, −100, 4508550)`.
 
-The standing brief says promotion to a real slot is a *separate selector step*. This session's
-measurement points the selector at one file:
+## 4. What the file contains
 
-**`buffedlizard55-lab/GEMSDOE32` → `docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif`**
-(302,357 bytes, 45,000 dots).
+37,654 isolated single pixels. No two dots are within 300 m of each other (mean self-kernel
+`0.000`, versus `0.032` for the group's champion). No dot is within 300 m of a fault that is
+already in the USGS/INGENIOUS catalogue — the organizer does not score mapped faults, and the group
+has an organizer-confirmed +0.0178 (0.2600 → 0.2778) for deleting them. The dots are spread over
+all six blocks of the grid (block entropy 2.262 bits, versus 2.267 for the champion).
 
-Measured on the same independent off-catalogue instrument as everything else in this repository, its
-mean 300 m kernel credit is **0.29294 per dot** — 3.0× the submitted champion family (0.09892 at the
-same mass), 3.4× this session's quarantined H62-I, and 6.8× this session's in-lane H62-G. It appears
-in no score registry anywhere in the group's 73 public repositories, i.e. **it has never been
-submitted**.
+## 5. What is expected of it — stated as a projection, not a score
 
-**Read the caveat before acting on it.** 0.29294 is a *proxy-instrument* credit, not an organizer
-score, and that instrument is a 1:750 k geological compilation which favours scarp-like geomorphology
-over genuinely new faults. The closed form turns 0.29294 at 45,000 dots into 0.71 at a planning truth
-mass of 12,000 cells — implausibly high, so discount it hard. Even discounted 4× it clears the top-5
-cut-off of 0.3333. This session did **not** copy that file into a submission: the standing brief
-forbids copying a previous submission.
+| quantity | value | class |
+|---|---|---|
+| mean 300 m kernel credit per dot vs SGMC-minus-catalogue | **0.1683** (1.41× the hard-core control 0.1190; 1.27× the champion's 0.1324) | MEASURED |
+| hide-and-recover DTI, independent truth | 0.0728 (champion 0.0741, control 0.0496) | HOLDOUT-DTI |
+| hide-and-recover DTI, catalogue truth | 0.000000 — identically zero by arithmetic, see IR-62-HOLDOUT-02 | HOLDOUT-DTI |
+| raw projection through the published metric | 0.353 (stable across the whole plausible truth-mass range) | **MODEL** |
+| same projection shrunk by its own regression against 13 scored artifacts (slope 0.325, intercept 0.175, r = 0.826, p = 0.0005) | **0.290** | **MODEL** |
+| organizer score | **none — unsubmitted** | — |
 
-## 5. Limits on this page's authority
+The residual scatter of that regression is large (±0.12), and there is one documented case
+(`p49`) where the same projection over-predicted by 0.121. The honest reading is: this file is
+expected to land near or somewhat above the group's best of 0.2778, with a real chance of the
+0.32–0.35 band and a real chance of ~0.24. It is the strongest artifact this lane has produced.
 
-* **No organizer score exists for any file in this repository.** `organizer_score` is `null` everywhere.
-* The leaderboard table used to set the target is a **mirror of the official page**, scraped
-  2026-10-11T20:57:47Z by a sibling repository's scheduled workflow
-  ([`research/leaderboard_series.json`](../research/leaderboard_series.json)). This sandbox cannot
-  reach `drivendata.org`, so it is not re-verified here.
-* The per-dot credits quoted above are measured on **SGMC 1:750 k off-catalogue**, an independent
-  public compilation — *not* the organizer's private expert set.
-* A local format check is **not** organizer acceptance.
+## 6. Weekly slots
+
+Promotion to a real submission slot is a separate selector step, subject to the weekly cap shown on
+the submission page. This session does not spend a slot by itself — it produces a file and the
+evidence for it.

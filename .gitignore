@@ -44,3 +44,7 @@ lane62-h62a/evidence/verification_report_ci.json
 # NOTE: the three shipped files under lane62-h62a/docs/downloads/ (-zeros.tif, its
 # -nan twin and the .zip) are deliberately TRACKED, not ignored: they are the
 # one-click deliverable the site points at, and together they are 432 kB.
+
+# ---- instrument-calibration inputs: 15 registry rasters fetched from sibling repos
+#      by scripts/fetch_registry62.py; 13 MB, re-creatable, not committed.
+data/probe/

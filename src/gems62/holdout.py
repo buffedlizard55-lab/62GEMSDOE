@@ -102,22 +102,47 @@ def evaluate(
     catalogue: np.ndarray,
     footprint: np.ndarray,
     *,
+    truth: np.ndarray | None = None,
     buffer_m: float = BUFFER_M,
     folds: tuple[str, ...] = FOLD_NAMES,
     bootstrap_n: int = 0,
     seed: int = 20261011,
 ) -> HoldoutResult:
-    """Pooled-DTI hide-and-recover over whole withheld catalogue segments."""
+    """Pooled-DTI hide-and-recover over whole withheld segments.
+
+    ``truth`` defaults to ``catalogue`` but may be any independent fault raster (for
+    example the SGMC compilation minus the competition catalogue).  See
+    IR-62-HOLDOUT-02 below: with the catalogue as truth this evaluator is
+    *mechanically unsatisfiable* for an emission that keeps itself off the mapped
+    faults, so the catalogue-only number must never be read as a quality measure.
+
+    IR-62-HOLDOUT-02 (found 2026-10-12, fixed here rather than in a private fork)
+    ---------------------------------------------------------------------------
+    The kernel is k(d) = max(1 - d/300 m, 0), so a dot earns credit against a withheld
+    truth pixel only if it lies within 300 m of it.  Every emission this repository
+    ships -- and every top-scoring artifact in the group's registry -- deletes every
+    dot within 300 m (h33: 0 % within 200 m; this session's H62-B: 0 % within 300 m,
+    minimum 400 m) because the organizer does not score mapped faults and the group has
+    an organizer-confirmed +0.0178 for doing exactly that.  A dot set with no dot within
+    300 m of ANY catalogue pixel therefore has TP_w == 0 against withheld catalogue
+    pixels by arithmetic, not by lack of skill: measured pooled-DTI 0.000000 for H62-B.
+    The better an artifact is at being off-catalogue, the more certainly it scores zero.
+    That is the mechanism behind the anti-correlation reported as IR-62-HOLDOUT-01, and
+    it means the catalogue-based holdout is a leakage/bug screen only.  The fix is to
+    allow the withheld population to be an independent fault set, which is what the
+    ``truth`` argument is for.
+    """
     pred = np.asarray(prediction, dtype=np.float64)
     cat = np.asarray(catalogue, dtype=bool)
     foot = np.asarray(footprint, dtype=bool)
+    tru = cat if truth is None else np.asarray(truth, dtype=bool) & foot
 
-    lab = segment_labels(cat)
+    lab = segment_labels(tru)
     seg_ids = np.unique(lab[cat])
     rr, cc = np.nonzero(lab)
     seg_row = rr
     seg_col = cc
-    seg_of_pixel = lab[cat]
+    seg_of_pixel = lab[tru]
     pixel_quad = quadrant_of(seg_row, seg_col, pred.shape)
 
     # A segment belongs to the quadrant of its centroid.
@@ -144,7 +169,7 @@ def evaluate(
         withheld_any |= withheld
         # "mask visible faults pixel-exactly": the scored footprint excludes the
         # pixels of every fault that is NOT withheld in this fold.
-        visible = cat & ~withheld
+        visible = tru & ~withheld
         valid = foot & ~visible
         if buffer_m > 0:
             gap = ndi.binary_dilation(
@@ -181,7 +206,8 @@ def evaluate(
         ci = _cluster_bootstrap(pred, buffers, foot, lab, results, bootstrap_n, seed)
 
     return HoldoutResult(
-        evaluator="gems62.holdout.v1 (4 spatial quadrants, whole segments, 300 m buffer)",
+        evaluator=("gems62.holdout.v2 (4 spatial quadrants, whole segments, 300 m buffer, "
+                   "parameterised truth; IR-62-HOLDOUT-02)"),
         n_folds=len(results),
         buffer_m=buffer_m,
         pooled_dti=float(pooled),
