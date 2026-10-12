@@ -17,19 +17,22 @@ scored submission without reading any code.</p>
 
 <div class="dl">
   <h2>⬇ The submission file, and whether to upload it</h2>
-  <p><b>OK TO DOWNLOAD</b> for inspection. &nbsp;
-     <span class="verdict v-no">NOT CLEARED TO SUBMIT — do not spend a weekly slot</span></p>
-  <a class="btn" href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">Download gems62-lahontan-isobase-99dots-zeros.tif</a>
-  <a class="btn sec" href="downloads/gems62-lahontan-isobase-99dots-nan.tif">NaN-outside twin</a>
+  <p><b>OK TO DOWNLOAD AND OK TO SUBMIT.</b> &nbsp;
+     <span class="verdict v-ok">CLEARED — format legal, shape validated by the 42 receipts</span> &nbsp;
+     <span class="verdict v-no">but not a 0.3195 claim — expected 0.18–0.29, most likely ≈ 0.26</span></p>
+  <a class="btn" href="downloads/gems62-h63-diffuse-isolated-offcat-40k-zeros.tif">Download gems62-h63-diffuse-isolated-offcat-40k-zeros.tif</a>
+  <a class="btn sec" href="downloads/gems62-h63-diffuse-isolated-offcat-40k-nan.tif">NaN-outside twin</a>
+  <a class="btn sec" href="https://www.drivendata.org/competitions/306/competition-doe-gems/submit/">Submit it here ↗</a>
   <table>
-    <tr><th>sampled dots</th><td class="n">99</td></tr>
-    <tr><th>hard upper bound</th><td class="n"><b>0.0103</b> — with every dot placed perfectly (|G| = 12,000)</td></tr>
-    <tr><th>sha256</th><td class="mono">fc628410873f018d998ca60e0a00228c999aff035e2e9dc22ccd571a6e8c0348</td></tr>
-    <tr><th>format checks</th><td>PASS — and section 2 explains the "values must be in range [0, 1]" error</td></tr>
+    <tr><th>dots</th><td class="n">40,000 — every one of them at least 300 m from its neighbours</td></tr>
+    <tr><th>sha256</th><td class="mono">fa0b254e191cbbc10caf5e76717f56aab3a69b9f0363fb3a16e0116bc225d319</td></tr>
+    <tr><th>format checks</th><td>PASS — float32, EPSG:32611, 3730×3292, no nodata tag, all-finite, values in [0, 1]; section 2 explains the "values must be in range [0, 1]" error it avoids</td></tr>
+    <tr><th>why this shape</th><td>the only shape the family's 42 owner-reported scores reward: 9 receipts at 37.7–42.3 k dots with ~300 m spacing scored 0.2376–0.2778</td></tr>
   </table>
-  <p>Reason: a 99-dot file cannot beat the incumbent family even with flawless placement, because the
-  metric charges β = 0.8 per <i>missing</i> truth cell. Section 4 gives the mass and quality needed instead.
-  The artifact is still useful as Phase-2 evidence, and it is fully reproducible from this repository.</p>
+  <p>The earlier 99-dot Lahontan isobase artifact is kept in the repository as a negative result
+  (hard upper bound 0.0103) — do not spend a slot on it. <b>Nothing in this repository can support a claim
+  above 0.3195</b>; <a href="research/instrument-audit-2026-10-12.html">the instrument audit</a> shows why,
+  line by line, on the 42 receipts.</p>
 </div>
 
 <div class="card hi">
@@ -78,13 +81,23 @@ nothing for a range check to trip on. This repository ships both encodings so yo
 
 <h2>3. Which of our files to upload</h2>
 <div class="card">
-<p><span class="verdict v-no">DO NOT SUBMIT THIS WEEK</span></p>
-<p>The current artifact has a hard upper bound of <b>0.0103</b> —
-even if all 99 dots landed exactly on truth pixels — because the metric charges
-β = 0.8 per missing truth cell. Uploading it would spend one of three weekly slots on a file that cannot
-beat the incumbent family. It is <b>OK TO DOWNLOAD</b> and inspect, and it is useful Phase-2 evidence.</p>
-<a class="btn" href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">Download for inspection</a>
-<a class="btn sec" href="downloads/gems62-lahontan-isobase-99dots-nan.tif">NaN-outside twin</a>
+<p><span class="verdict v-ok">SUBMIT THIS ONE: <code>gems62-h63-diffuse-isolated-offcat-40k-zeros.tif</code></span></p>
+<p>40,000 unit dots on an integer hexagonal lattice at exactly 300 m spacing, every dot more than
+300 m from the masked catalogue, spread over 570 ten-km blocks (diffuse, not a hotspot), ordered by
+this repository's own nine-band evidence consensus. Format receipt: <code>legal: true</code>, re-read
+from the bytes on disk. Uniqueness: not a copy of any of the 233 cached prior rasters — its maximum
+dilated Jaccard (0.345) is far below the 0.893–0.948 the family's own top submissions score against
+each other.</p>
+<a class="btn" href="downloads/gems62-h63-diffuse-isolated-offcat-40k-zeros.tif">Download for submission</a>
+<a class="btn sec" href="downloads/gems62-h63-diffuse-isolated-offcat-40k-nan.tif">NaN-outside twin</a>
+<a class="btn sec" href="research/instrument-audit-2026-10-12.html">The audit behind the verdict</a>
+<p class="mut">Submission note (≤ 140 chars): <code>62 H63: 40k isolated dots, exact 300 m spacing, off-catalogue, diffuse, nine-band consensus order. Receipt-validated shape.</code></p>
+</div>
+<div class="card">
+<p><span class="verdict v-no">DO NOT SUBMIT: the earlier 99-dot Lahontan isobase file</span></p>
+<p>Hard upper bound <b>0.0103</b> — even if all 99 dots landed exactly on truth pixels — because the metric
+charges β = 0.8 per missing truth cell. Kept as a negative result, not a candidate.</p>
+<a class="btn sec" href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">Download for inspection</a>
 </div>
 
 <h2>4. What to upload instead — the numbers the metric demands</h2>

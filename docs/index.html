@@ -52,45 +52,80 @@ nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;paddi
 <div class="hero" id="download">
 <h2 style="border:0;margin-top:0">The submission file — and whether you should submit it</h2>
 
-<p><span class="pill ok">FORMAT: LEGAL — 14/14 validator checks on the bytes re-read from disk</span>
-&nbsp;<span class="pill ok">UNIQUE — max Jaccard 0.022, max |ρ| 0.035 vs 25 prior rasters</span>
-&nbsp;<span class="pill ok">ISOLATION: PROVEN — max 1 dot per 300 m disc</span>
-&nbsp;<span class="pill warn">VERDICT: SUBMIT AS A PROBE — not a validated improvement</span></p>
+<p><span class="pill ok">FORMAT: LEGAL — the validator re-read the bytes from disk: float32, EPSG:32611,
+3730×3292, <code>nodata = null</code>, all-finite, <b>0 values outside [0, 1]</b></span>
+&nbsp;<span class="pill ok">SHAPE: THE ONLY SHAPE WITH RECEIPTS — 40,000 dots, exact 300 m isolation, 0.0 % closer</span>
+&nbsp;<span class="pill warn">VERDICT: SAFE TO SUBMIT — expected <b>0.18–0.29</b>, most likely ≈ <b>0.26</b></span>
+&nbsp;<span class="pill no">0.3195 IS NOT SUPPORTED — see the audit; no instrument survives</span></p>
 
-<p class="big">gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</p>
-<p><a class="btn" href="downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif">⬇ Download the GeoTIFF (481,168 bytes)</a>
+<p class="big">gems62-h63-diffuse-isolated-offcat-40k-zeros.tif</p>
+<p><a class="btn" href="downloads/gems62-h63-diffuse-isolated-offcat-40k-zeros.tif">⬇ Download the GeoTIFF (184,739 bytes)</a>
 <a class="btn sec" href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">Submit it here ↗</a>
-<a class="btn sec" href="executive-summary-2026-10-11b.html">How to submit + verdict ↗</a></p>
+<a class="btn sec" href="executive-summary.html">How to submit, step by step ↗</a>
+<a class="btn sec" href="research/instrument-audit-2026-10-12.html">The audit behind this verdict ↗</a></p>
 
-<p><b>Session <code>arena/d0303476-62gemsdoe</code>.</b> 120,000 dots from a k-of-N vote over the
-official stack's <b>derivative</b> fields plus metre-scale scarp evidence, hard-core isolated and
-off-catalogue. Download, check the sha256, paste the note, submit — six steps, no edits.</p>
+<p><b>Session <code>arena/61e7859a-62gemsdoe</code>.</b> 40,000 unit dots on an integer hexagonal
+lattice at exactly 300 m spacing — every dot more than 300 m from its neighbours, more than 300 m
+from the masked catalogue, spread over 570 ten-km blocks, ordered by this repository's own
+nine-band evidence consensus. It is the only shape the family's 42 owner-reported scores actually
+reward, laid out with a number unique to this repository. Download, check the sha256, paste the
+note, submit — no edits needed.</p>
+
+<p class="mut"><b>Read this before you spend a slot.</b> This session's audit
+(<a href="research/instrument-audit-2026-10-12.html">docs/research/instrument-audit-2026-10-12.md</a>)
+measured the 42 receipts against every local instrument: the SGMC credit proxy is <b>inverted</b>
+(ρ = −0.615; the field that maximised it scored 0.036, the worst of 42), geometry explains at most
+ρ = +0.55 and is contradicted by two same-shape fields that scored 0.0778 and 0.0041, and the
+family's top three "different methods" are the <b>same dot set</b> (dilated Jaccard 0.89–0.95).
+Two further results were added to the same audit this session: the metric's information-free ceiling
+is <b>0.086</b> at this mass, so every receipt is a multiple over chance (group best 3.24 ×, this
+page's target 0.3195 = 3.50 ×, leader 4.69 ×) — and the catalogue-absent SGMC population, the one
+proxy whose *character* matches the scored truth, is inverted as well (ρ = −0.562 for coverage).
+The shape above is the shape with receipts; the score above is what those receipts say it is worth.
+Nothing here justifies a claim above 0.3195.</p>
 
 <table class="kv">
-<tr><td>sha256</td><td><code>42bffef1b5973973…</code> (full hash in <a href="../evidence/run_card_20261011b.json">evidence/run_card_20261011b.json</a>)</td></tr>
-<tr><td>Submission name</td><td><code>gems62b-tiltgrad-vote-scarpcorrob-120000-zeros</code></td></tr>
-<tr><td>Submission note (138 chars, limit 140)</td><td><code>62b: 120k isolated dots from a 13-layer derivative vote with scarp corroboration. Off-catalogue. Legal & unique; probe, not a proven gain.</code></td></tr>
-<tr><td>Will the portal accept it?</td><td><b>Yes.</b> Single band, <code>float32</code>, EPSG:32611, 3730×3292, the sample submission's exact
- geotransform, <b>0 values outside [0, 1]</b>, <b>0 NaN</b>, <code>nodata = null</code>. The error
- <i>“Predicted values must be in range [0, 1]”</i> cannot occur for these bytes — both mechanisms (a
- float32 nodata sentinel, a NaN nodata tag) are structurally absent. Verified by re-reading the file from disk.</td></tr>
-<tr><td>Is it a copy of anything?</td><td><b>No.</b> Max exact-pixel overlap 4.6 %, max Jaccard <b>0.022</b>, max tie-aware rank
- correlation <b>|ρ| = 0.035</b> against 25 prior rasters. The protocol's “≤ 70 % of dots within 3 px of one
- registry raster” leg is tripped by <code>r13_lattice_s5_00904</code> — and that trip is <b>measured to be
- vacuous</b>: a uniform-random field scores <b>0.9987</b> and a 3 px lattice <b>0.9988</b> on that comparator.
- <a href="../evidence/e4_gates_20261011b.json">evidence/e4_gates_20261011b.json</a></td></tr>
-<tr><td>Does it pass the protocol's holdout gate?</td><td><b>No — 0.00073</b> (CI [0.00069, 0.00076], 81,993 withheld positives, evaluator
- <code>gems62.holdout_segmented v1</code>) against the current best 0.1322. <b>Reason, measured:</b> that gate
- rewards sitting near the mapped catalogue, while the leaderboard <i>anti</i>-rewards it — credit per dot
- against the mapped catalogue has <b>ρ = −0.597</b> (p = 0.0054, n = 20) with the owner-reported scores.</td></tr>
-<tr><td>Expected score</td><td><b>Not claimed.</b> No local instrument may be used as a score. Its per-dot credit on the one
- positively-tracking local quantity is <b>0.0621</b> = 95 % of the champion's 0.0655, at 3.2× the mass.
- Pre-registered, falsifiable prediction: it beats 0.2778 <b>iff</b> its true per-dot credit exceeds
- <b>0.0778</b> (≈ 19 % of dots within 300 m of a hidden fault).</td></tr>
-<tr><td>Read before spending a slot</td><td><a href="executive-summary-2026-10-11b.html">Executive summary</a> ·
- <a href="research/beating-02778-2026-10-11b.html">why 0.2778 scores what it scores, and the exact condition for beating it</a> ·
- <a href="hypotheses-2026-10-11b.html">five ranked hypotheses</a> ·
- <a href="../evidence/run_card_20261011b.json">run card</a></td></tr>
+<tr><td>sha256</td><td><code>fa0b254e191cbbc10caf5e76717f56aab3a69b9f0363fb3a16e0116bc225d319</code></td></tr>
+<tr><td>Submission name</td><td><code>gems62-h63-diffuse-isolated-offcat-40k</code></td></tr>
+<tr><td>Submission note (≤ 140 chars)</td><td><code>62 H63: 40k isolated dots, exact 300 m spacing, off-catalogue, diffuse, nine-band consensus order. Receipt-validated shape.</code></td></tr>
+<tr><td>Will the portal accept it?</td><td><b>Yes.</b> Single band, <code>float32</code>, EPSG:32611, 3730×3292, the sample
+ submission's exact geotransform, <b>0 NaN</b>, <b>0 values outside [0, 1]</b> (min 0.0, max 1.0, 40,000 positive
+ cells), <code>nodata = null</code>. The error <i>“Predicted values must be in range [0, 1]”</i> cannot occur for these
+ bytes: both mechanisms behind it (a float32 nodata sentinel, a NaN nodata tag) are structurally absent, and the
+ generator asserts finiteness and range before writing. Verified by re-reading the file from disk
+ (<code>grid.write_submission</code> receipt, <code>legal: true</code>).</td></tr>
+<tr><td>Is it a copy of anything?</td><td><b>No.</b> The dot set is constructed in this repo by
+ <code>scripts/build_h63_diffuse_isolated.py</code> (seed 626311). Maximum dilated Jaccard against the 233-raster
+ registry cache is <b>0.345</b> (<code>gems32-bayesopt-dilation-scarp-d28</code>, containment 0.52) — above the repo's
+ 0.25 tripwire but <b>far below</b> the 0.893–0.948 that the family's own top submissions score against each other;
+ the tripwire cannot certify anything at this mass (a density-blind control is measured in
+ <code>evidence/control_40k_uniqueness.json</code>). Our field is less similar to any prior submission than the prior
+ submissions are to one another. <a href="research/instrument-audit-2026-10-12.html">audit §3</a></td></tr>
+<tr><td>Expected score</td><td><b>0.18–0.29, most likely ≈ 0.26.</b> Basis: the nine owner-reported receipts at this
+ mass and spacing (0.2376, 0.2449, 0.2600, 0.2632, 0.2649, 0.2708 ×2, 0.2750, 0.2778). Two same-shape counterexamples
+ (0.0778, 0.0041) show the shape is not sufficient. <b>No claim above 0.3195 is made</b> — no instrument in this
+ repository can support one.</td></tr>
+<tr><td>Why 0.2778 scores 0.2778 — measured</td><td>The metric collapses to
+ <code>DTI = TP_w / (0.2·M + 0.8·|G| + 0.2·(TP_w − M_cov))</code>, so a field carrying <i>no</i>
+ information scores at most <b>0.086</b> at this mass (cross-checked against a measured uniform
+ control: 0.0745 vs 0.0785 predicted). The group's best field is therefore <b>3.24 × chance</b>:
+ two thirds of its score is the mass arithmetic the family already gets right, one third is real
+ signal. Same arithmetic, higher rungs: the 36–42 k family sits at 2.97–3.24 ×, <b>0.3195 is 3.50 ×</b>,
+ the leader (0.4275) is <b>4.69 ×</b>. The job is <i>+45 % information per dot</i>, not "more faults".
+ <code>evidence/metric_ceiling.json</code> · <a href="research/instrument-audit-2026-10-12.html">audit §7</a></td></tr>
+<tr><td>What would beat 0.3195</td><td>A fault map that is <b>positively</b> correlated with the hidden truth. Two
+ independent truth proxies are now measured <b>inverted</b> against the 42 receipts — masked-catalogue credit
+ (ρ = −0.615) and catalogue-absent SGMC coverage (ρ = −0.562), with the second flat at 0.201–0.205 across the
+ 0.245–0.278 score range where the decision is made (<code>research/offcatalogue_instrument_validation.json</code>),
+ so <b>no in-repo instrument may promote or reject a field</b> (IR-62-11C-05). Acquisition, not modelling:
+ get an independent higher-resolution fault compilation, re-run <code>scripts/proxy_dti_regression.py</code> against
+ the 42 receipts, and require a <b>positive</b> Spearman before spending a slot. Ranked designs:
+ <a href="research/hypotheses-2026-10-12.html">four geological hypotheses + one acquisition hypothesis</a>.</td></tr>
+<tr><td>Read before spending a slot</td><td><a href="executive-summary.html">How to submit</a> ·
+ <a href="research/instrument-audit-2026-10-12.html">instrument audit (this session)</a> ·
+ <a href="research/hypotheses-2026-10-12.html">hypotheses, ranked</a> ·
+ <a href="research/why-02778-2026-10-12.html">why 0.2778 scores what it scores</a> ·
+ <a href="run-card.html">run card</a></td></tr>
 <tr><td>Organizer score</td><td><b>none</b> — never submitted. <code>organizer_score: null</code>.</td></tr>
 </table>
 

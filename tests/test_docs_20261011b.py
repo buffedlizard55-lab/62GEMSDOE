@@ -38,7 +38,8 @@ def test_note_fits_the_portal_limit():
     note = CARD["submission_note"]
     assert len(note) <= 140, f"note is {len(note)} chars, the portal allows 140"
     assert len(note) >= 20
-    assert note in (DOCS / "index.html").read_text(), "the hero does not show the note to paste"
+    # 2026-10-12: docs/index.html now carries the *current* artifact's note; the archived
+    # note is checked where it still lives (the .md above, and the rendered page below).
     import html as _html
     md = (DOCS / "executive-summary-2026-10-11b.md").read_text()
     assert note in md, "the executive summary does not show the note to paste"
@@ -98,11 +99,17 @@ def test_every_internal_link_resolves(page):
     assert not broken, f"{page} links to missing files: {sorted(set(broken))}"
 
 
-def test_download_button_points_at_the_current_artifact():
+def test_download_button_points_at_a_shipped_file():
+    """Repointed 2026-10-12: the hero now features the H63 artifact, whose own module
+    (tests/test_docs_current_20261012.py) pins it to its run card.  Here we only require
+    that whatever the hero offers is a file that actually exists."""
     text = (DOCS / "index.html").read_text()
     m = re.search(r'class="btn" href="(downloads/[^"]+\.tif)"', text)
     assert m, "the hero has no download button"
-    assert pathlib.Path(m.group(1)).name == f"{CARD['submission_name']}.tif"
+    target = DOCS / m.group(1)
+    assert target.exists(), f"the hero download button points at a missing file: {target}"
+    assert (DOCS / "downloads" / f"{CARD['submission_name']}.tif").exists(), \
+        "the archived 2026-10-11b artifact must stay downloadable (negative results are deliverables)"
 
 
 def test_published_pages_have_balanced_tags():
