@@ -88,6 +88,7 @@ def main() -> int:
     uctl = json.loads((EV / "h63_uniqueness_control.json").read_text())
     lb = json.loads((HERE / "research" / "leaderboard_latest_2026-10-11T205747Z.json").read_text())
     tcf = json.loads((EV / "h63_terrain_confound.json").read_text())
+    can = json.loads((EV / "h63a_canary.json").read_text())
 
     sub = fin["submission"]
     meas = fin["measured"]
@@ -387,10 +388,18 @@ negatives per fold, gradient boosting, 250 iterations.</p>
 carrying for six weeks: its supervised branch tops out at 0.1563 while its heuristic lineament
 branch reaches 0.2778. The 0.2298 “labels DTI” the flagship repository reports is an
 <b>in-domain</b> number — the shipped model had been trained on every label.</p>
-<p class="mut">Leakage canary: every feature was also scored alone on the held-out blocks.
-The highest single-feature AUC is <b>0.577</b> (<code>dem_slope_deg</code> /
-<code>dem_gradmag</code>), far below the 0.90 leakage tripwire — so the null above is not a
-bug in one channel, it is the absence of transferable signal.</p>
+<p class="mut"><b>Leakage canary (protocol rule 4).</b> All
+{can['n_features']} channels were also scored <i>alone</i>, rank-normalised, on the four held-out
+block cores: <a href="../../evidence/h63a_canary.json"><code>evidence/h63a_canary.json</code></a>.
+The highest single-channel AUC is <b>{can['max_auc_catalogue']}</b>
+(<code>dem_slope_deg</code> / <code>dem_gradmag</code>), far below the 0.90 leakage tripwire — so
+the null above is not one broken channel, it is the absence of transferable signal.</p>
+<p class="mut"><b>But read the second column of that canary.</b> The same two channels score
+<b>0.7334</b> against the SGMC off-catalogue faults while scoring only 0.5766 against the
+catalogue. Slope alone is a better guide to where a 1:750 k geologic compilation draws its
+faults than to where the competition catalogue draws its own. That asymmetry <i>is</i> the
+terrain confound, measured at the level of a single channel, and it is the reason the confound
+section below exists rather than a footnote.</p>
 
 <h2>2. The calibrated proxy instrument</h2>
 <p>Because the supervised route is dead, the only way to rank an artifact without spending a

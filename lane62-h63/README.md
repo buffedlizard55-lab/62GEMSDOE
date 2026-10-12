@@ -55,6 +55,7 @@ python3 scripts/h63_train.py --pos-pop catalogue \
         --out h63a --canary                           # -> evidence/h63a_sweep.json
 python3 scripts/h63_emission.py --prob h63a_prob.npy --out h63a
                                                       # -> evidence/h63a_emission.json  (AUC ~ 0.50)
+python3 scripts/h63_canary.py                         # -> evidence/h63a_canary.json
 python3 scripts/h63_lineament.py                      # -> evidence/h63_lineament.json
 python3 scripts/h63_calibrate.py                      # -> evidence/h63_calibration.json
 python3 scripts/h63_emit.py  --stage measure          # -> evidence/h63_emit_measure.json
