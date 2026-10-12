@@ -1,0 +1,74 @@
+{
+ "evaluator": "gems62.levels v1",
+ "grid_check": {
+  "file": "gems62-h62r-multilevel-datum-repeat-offset-zeros.tif",
+  "bytes": 116946,
+  "sha256": "d5a15369fdd8863f73691ad01d2557feafd8f901d442d593c4f4b9bd858b4731",
+  "driver": "GTiff",
+  "count": 1,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "shape": [
+   3730,
+   3292
+  ],
+  "res": [
+   100.0,
+   100.0
+  ],
+  "nodata": null,
+  "width_height_match": true,
+  "crs_match": true,
+  "transform_match": true,
+  "all_finite": true,
+  "nan_count": 0,
+  "min": 0.0,
+  "max": 1.0,
+  "n_outside_0_1": 0,
+  "n_positive": 14765,
+  "total_mass": 14765.0,
+  "legal": true
+ },
+ "validator": {
+  "path": "build/h62r-final/gems62-h62r-multilevel-datum-repeat-offset-zeros.tif",
+  "sha256": "d5a15369fdd8863f73691ad01d2557feafd8f901d442d593c4f4b9bd858b4731",
+  "bytes": 116946,
+  "count": 1,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "shape": [
+   3730,
+   3292
+  ],
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "nodata": null,
+  "values_min": 0.0,
+  "values_max": 1.0,
+  "nan_inside_footprint": 0,
+  "nan_outside_footprint": 0,
+  "outside_encoding": "all finite outside the footprint",
+  "positive_cells": 14765,
+  "max_positive_value": 1.0,
+  "unique_positive_values": [
+   1.0
+  ],
+  "passed": true,
+  "failures": [],
+  "notes": []
+ }
+}

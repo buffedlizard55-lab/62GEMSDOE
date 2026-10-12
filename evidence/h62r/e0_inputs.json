@@ -1,0 +1,26 @@
+{
+ "dem": {
+  "path": "build/ext/geodawn_dem_a2_100m.tif",
+  "exists": true,
+  "bytes": 49531304,
+  "sha256": "d32762a38222764389e948da423ebc6cadd00ac617ad3938d3dd79c6cfe14431"
+ },
+ "labels": {
+  "path": "data/labels.tif",
+  "exists": true,
+  "bytes": 425830,
+  "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"
+ },
+ "sample": {
+  "path": "data/sample_submission.tif",
+  "exists": true,
+  "bytes": 1599597,
+  "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc"
+ },
+ "stack": {
+  "path": "build/ext/gems-geodawn-numerical-features.tif",
+  "exists": true,
+  "bytes": 418912844,
+  "sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5"
+ }
+}

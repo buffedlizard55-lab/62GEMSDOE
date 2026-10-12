@@ -1,0 +1,17 @@
+{
+ "file": "docs/downloads/gems62-h62r-multilevel-datum-repeat-offset-zeros.tif",
+ "n_dots": 14765,
+ "nn_min_m": 300.0,
+ "nn_median_m": 316.22776601683796,
+ "mean_self_kernel": 0.0,
+ "frac_dots_with_pair_lt_300m": 0.0,
+ "dot_dist_to_catalogue_m": {
+  "min": 300.0,
+  "median": 2061.5528128088304,
+  "p75": 3667.4241641784497,
+  "frac_within_300m": 0.0,
+  "frac_within_1000m": 0.23467660006772773
+ },
+ "halo_frac_of_footprint": 0.0818533904945511,
+ "catalogue_frac_within_300m_of_a_dot": 0.02497212566406506
+}

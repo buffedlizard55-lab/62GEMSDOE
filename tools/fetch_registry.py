@@ -74,7 +74,16 @@ def main() -> int:
                 continue
             if spent + size > budget:
                 continue
-            dest = out / f"{repo}__{pathlib.Path(e['path']).name}"
+            # IR-62-REG-01 FIX (2026-10-12).  The destination was
+            # ``f"{repo}__{pathlib.Path(e['path']).name}"``, which collapses every
+            # ``docs/downloads/submission.tif`` in a repository onto one file: in the
+            # 2026-10-12 run, 46 of the first 51 fetches wrote to the same handful of
+            # names (GEMSDOE4 alone produced 23 distinct rasters and kept one).  The
+            # uniqueness gate would then have compared a candidate against a fraction of
+            # the registry while reporting the full count.  The path is now flattened
+            # with its directory separators preserved, so each blob keeps its own name.
+            flat = str(pathlib.PurePosixPath(e["path"]).with_suffix("")).replace("/", "_")
+            dest = out / f"{repo}__{flat}.tif"
             if dest.exists() and dest.stat().st_size == size:
                 spent += size
                 continue
