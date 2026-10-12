@@ -1,65 +1,366 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>62GEMSDOE — Lake Lahontan Shorelines as a Strain Gauge</title>
-  <style>
-    :root {
-      --bg: #0d1117; --fg: #e6edf3; --mut: #8b949e; --acc: #58a6ff;
-      --ok: #3fb950; --no: #f85149; --warn: #d29922; --card: #161b22; --bd: #30363d;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; background: var(--bg); color: var(--fg);
-      font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    }
-    .wrap { max-width: 1080px; margin: 0 auto; padding: 24px 20px 80px; }
-    h1 { font-size: 2.1em; margin: 0.2em 0 0.1em; color: #fff; }
-    h2 { font-size: 1.4em; margin: 1.6em 0 0.5em; border-bottom: 1px solid var(--bd); padding-bottom: 0.3em; }
-    h3 { font-size: 1.15em; margin: 1.2em 0 0.4em; }
-    a { color: var(--acc); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    code { background: #1f2630; padding: 0.15em 0.4em; border-radius: 4px; font-size: 0.9em; font-family: ui-monospace, SFMono-Regular, monospace; }
-    pre { background: #1f2630; padding: 14px; border-radius: 6px; overflow: auto; font-size: 0.88em; }
-    table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.9em; }
-    th, td { border: 1px solid var(--bd); padding: 8px 12px; text-align: left; vertical-align: top; }
-    th { background: #1f2630; }
-    .mut { color: var(--mut); }
-    .card { background: var(--card); border: 1px solid var(--bd); border-radius: 8px; padding: 20px; margin: 16px 0; }
-    nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 20px; }
-    nav a { background: var(--card); border: 1px solid var(--bd); border-radius: 20px; padding: 6px 14px; font-size: 0.88em; }
-    nav a.active { background: #1f2630; border-color: var(--acc); color: #fff; }
-    .pill { display: inline-block; border-radius: 20px; padding: 3px 12px; font-size: 0.82em; font-weight: 600; }
-    .pill.ok { background: rgba(63, 185, 80, 0.15); color: var(--ok); border: 1px solid var(--ok); }
-    .pill.warn { background: rgba(210, 153, 34, 0.15); color: var(--warn); border: 1px solid var(--warn); }
-    .hero { border: 2px solid var(--ok); border-radius: 10px; padding: 24px; margin: 20px 0; background: rgba(63, 185, 80, 0.06); }
-    .btn { display: inline-block; background: #238636; color: #fff; font-weight: 600; padding: 12px 24px; border-radius: 8px; margin: 8px 8px 8px 0; text-decoration: none; font-size: 1.05em; }
-    .btn:hover { background: #2ea043; text-decoration: none; }
-    .btn.sec { background: #30363d; font-size: 0.95em; padding: 10px 18px; }
-    .btn.sec:hover { background: #3c444d; }
-    .big { font-size: 1.35em; font-weight: 700; word-break: break-all; margin: 8px 0; }
-    .img-box { text-align: center; margin: 16px 0; background: #161b22; padding: 12px; border-radius: 8px; border: 1px solid var(--bd); }
-    .img-box img { max-width: 100%; height: auto; border-radius: 4px; }
-  </style>
-</head>
-<body>
-<div class="wrap">
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>62GEMSDOE — Lake Lahontan datum-offset lane</title>
+<style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;--warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+ font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:1.9em;margin:.2em 0 .1em}h2{font-size:1.35em;margin:1.6em 0 .5em;border-bottom:1px solid var(--bd);padding-bottom:.3em}
+h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.9em}
+pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.85em}
+table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}
+.mut{color:var(--mut)}.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:18px;margin:14px 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:5px 13px;font-size:.87em}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
+.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
+.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
+.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
+.hero{border:2px solid var(--no);border-radius:10px;padding:22px;margin:18px 0;background:rgba(248,81,73,.06)}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;border-radius:8px;margin:8px 8px 8px 0}
+.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+.kv{font-size:.88em}.kv td:first-child{width:38%;color:var(--mut)}
+.big{font-size:1.5em;font-weight:700}
+</style></head><body><div class="wrap">
 
-<header>
-  <h1>62GEMSDOE — Lake Lahontan Shorelines as a Strain Gauge</h1>
-  <p class="mut">DOE Geologic Enhanced Mapping System (GEMS) Prize · DrivenData Competition #306 · Session 2026-10-12</p>
-</header>
+<h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
+<p class="mut">DOE GEMS Prize · DrivenData competition #306 · datum-offset lane · sessions 2026-10-11 (<code>2b64062a</code>, <code>dfc9787b</code>, <code>d0303476</code>) and 2026-10-12
+(<code>arena/b7846648</code>, this lane; <code>arena/d4d2e53a</code> and <code>arena/778884cc</code>, whose
+page is merged below)</p>
 
 <nav>
-  <a href="#download" class="active">⬇ Download Submission</a>
-  <a href="executive-summary.html">Executive Summary (How to Submit)</a>
-  <a href="research/why-02778-scored.html">Why 0.2778 Scored Highest</a>
-  <a href="hypotheses-2026-10-12.html">Candidate Hypotheses</a>
-  <a href="run-card.html">Run Card</a>
-  <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/" target="_blank" rel="noopener">Competition Page ↗</a>
-  <a href="https://github.com/buffedlizard55-lab/62GEMSDOE" target="_blank" rel="noopener">GitHub Repo ↗</a>
+<a href="#download">⬇ Download &amp; verdict</a>
+<a href="#allfiles">⬇ All 11 files + verdicts</a>
+<a href="executive-summary.html">How to submit</a>
+<a href="#h62j">H62-J datum doublet</a>
+<a href="hypotheses-2026-10-12-j.html">Ranked hypotheses (this lane)</a>
+<a href="hypotheses-2026-10-12.html">Ranked hypotheses (440-dot lane)</a>
+<a href="#lane440">440-dot strain gauge</a>
+<a href="research/leaderboard-arithmetic.html">Why 0.2778 won</a>
+<a href="run-card.html">Run card</a>
+<a href="irregularities.html">Irregularities</a>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/" rel="noopener">Competition ↗</a>
+<a href="next-steps.html">Next steps</a>
+<a href="executive-summary-2026-10-11b.html">How to submit (2026-10-11b)</a>
+<a href="hypotheses-2026-10-11b.html">Hypotheses (2026-10-11b)</a>
+<a href="research/beating-02778-2026-10-11b.html">Beating 0.2778 — the exact condition</a>
+<a href="../research/leaderboard_series.json">Leaderboard series</a>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
 </nav>
+
+
+<p class="mut"><b>Four sessions, three lanes, one register — and the collisions that produced.</b>
+Sessions <code>arena/b7846648</code> (this page's H62-J datum doublet), <code>arena/d0303476</code>
+(the 120,000-dot derivative-vote probe) and <code>arena/778884cc</code> with <code>arena/d4d2e53a</code>
+(the 440-dot strain gauge and H62-N) were working at the same time. Twice in one day they allocated the
+same identifiers: two lanes numbered defects <code>IR-62-19…24</code>, then a third merged
+<code>IR-62-25…28</code> over this lane's identical numbers — and two lanes wrote a page with the same
+filename, <code>docs/hypotheses-2026-10-12.md</code>. Only merge conflicts caught either. So <b>the
+numbers in <a href="irregularities.html">the register</a> belong to <code>main</code></b>, this lane's
+entries are namespaced <code>IR-62-J-nn</code>, and this lane's hypotheses page is
+<a href="hypotheses-2026-10-12-j.html">hypotheses-2026-10-12-j.html</a> while
+<a href="hypotheses-2026-10-12.html">the 440-dot lane's</a> keeps the name it merged under. The rule for
+the next session is <code>IR-62-J-09</code>: a date is not an identity — namespace before you commit, not
+after a conflict. Cross-references were re-checked by hand, and one pointed at the wrong entry after the
+renumbering; that is fixed too.</p>
+<!-- ============================ DOWNLOAD — the first thing on the page ============ -->
+<div class="hero" id="download">
+<h2 style="border:0;margin-top:0">The submission file — and whether you should submit it</h2>
+
+<p><span class="pill ok">FORMAT: LEGAL — 14/14 validator checks on the bytes re-read from disk</span>
+&nbsp;<span class="pill ok">UNIQUE — max Jaccard 0.022, max |ρ| 0.035 vs 25 prior rasters</span>
+&nbsp;<span class="pill ok">ISOLATION: PROVEN — max 1 dot per 300 m disc</span>
+&nbsp;<span class="pill warn">VERDICT: SUBMIT AS A PROBE — not a validated improvement</span></p>
+
+<p class="big">gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</p>
+<p><a class="btn" href="downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif">⬇ Download the GeoTIFF (481,168 bytes)</a>
+<a class="btn sec" href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">Submit it here ↗</a>
+<a class="btn sec" href="executive-summary-2026-10-11b.html">How to submit + verdict ↗</a></p>
+
+<p><b>Session <code>arena/d0303476-62gemsdoe</code>.</b> 120,000 dots from a k-of-N vote over the
+official stack's <b>derivative</b> fields plus metre-scale scarp evidence, hard-core isolated and
+off-catalogue. Download, check the sha256, paste the note, submit — six steps, no edits.</p>
+
+<table class="kv">
+<tr><td>sha256</td><td><code>42bffef1b5973973…</code> (full hash in <a href="../evidence/run_card_20261011b.json">evidence/run_card_20261011b.json</a>)</td></tr>
+<tr><td>Submission name</td><td><code>gems62b-tiltgrad-vote-scarpcorrob-120000-zeros</code></td></tr>
+<tr><td>Submission note (138 chars, limit 140)</td><td><code>62b: 120k isolated dots from a 13-layer derivative vote with scarp corroboration. Off-catalogue. Legal & unique; probe, not a proven gain.</code></td></tr>
+<tr><td>Will the portal accept it?</td><td><b>Yes.</b> Single band, <code>float32</code>, EPSG:32611, 3730×3292, the sample submission's exact
+ geotransform, <b>0 values outside [0, 1]</b>, <b>0 NaN</b>, <code>nodata = null</code>. The error
+ <i>“Predicted values must be in range [0, 1]”</i> cannot occur for these bytes — both mechanisms (a
+ float32 nodata sentinel, a NaN nodata tag) are structurally absent. Verified by re-reading the file from disk.</td></tr>
+<tr><td>Is it a copy of anything?</td><td><b>No.</b> Max exact-pixel overlap 4.6 %, max Jaccard <b>0.022</b>, max tie-aware rank
+ correlation <b>|ρ| = 0.035</b> against 25 prior rasters. The protocol's “≤ 70 % of dots within 3 px of one
+ registry raster” leg is tripped by <code>r13_lattice_s5_00904</code> — and that trip is <b>measured to be
+ vacuous</b>: a uniform-random field scores <b>0.9987</b> and a 3 px lattice <b>0.9988</b> on that comparator.
+ <a href="../evidence/e4_gates_20261011b.json">evidence/e4_gates_20261011b.json</a></td></tr>
+<tr><td>Does it pass the protocol's holdout gate?</td><td><b>No — 0.00073</b> (CI [0.00069, 0.00076], 81,993 withheld positives, evaluator
+ <code>gems62.holdout_segmented v1</code>) against the current best 0.1322. <b>Reason, measured:</b> that gate
+ rewards sitting near the mapped catalogue, while the leaderboard <i>anti</i>-rewards it — credit per dot
+ against the mapped catalogue has <b>ρ = −0.597</b> (p = 0.0054, n = 20) with the owner-reported scores.</td></tr>
+<tr><td>Expected score</td><td><b>Not claimed.</b> No local instrument may be used as a score. Its per-dot credit on the one
+ positively-tracking local quantity is <b>0.0621</b> = 95 % of the champion's 0.0655, at 3.2× the mass.
+ Pre-registered, falsifiable prediction: it beats 0.2778 <b>iff</b> its true per-dot credit exceeds
+ <b>0.0778</b> (≈ 19 % of dots within 300 m of a hidden fault).</td></tr>
+<tr><td>Read before spending a slot</td><td><a href="executive-summary-2026-10-11b.html">Executive summary</a> ·
+ <a href="research/beating-02778-2026-10-11b.html">why 0.2778 scores what it scores, and the exact condition for beating it</a> ·
+ <a href="hypotheses-2026-10-11b.html">five ranked hypotheses</a> ·
+ <a href="../evidence/run_card_20261011b.json">run card</a></td></tr>
+<tr><td>Organizer score</td><td><b>none</b> — never submitted. <code>organizer_score: null</code>.</td></tr>
+</table>
+
+<h3>Earlier files in this repository — each with its own verdict</h3>
+<p><code>gems62-h62g-benchcrosscut-hardcore-zeros.tif</code> (98,893 B, session <code>arena/2b64062a</code>)
+<span class="pill no">NEGATIVE — do not spend a slot</span> — at chance on the proxy instrument:
+credit 0.0420 at 10,000 dots vs a mass-matched isolated-random control of 0.04330 ± 0.00165.
+<a href="downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif">⬇ download</a></p>
+<p><code>gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</code> (372,859 B, session
+<code>arena/dfc9787b</code>) <span class="pill warn">PROBE — projection 0.110, below the 0.24–0.28 band</span> ·
+<a href="executive-summary-v2.html">verdict &amp; evidence</a> ·
+<a href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif">⬇ download</a></p>
+<p class="mut">The two older files are kept because negative results are deliverables; their verdicts
+stand, and nothing in the new file is copied from either of them (measured, see the uniqueness row).</p>
+
+<h3>The second file this session produced is quarantined — do not submit it either</h3>
+<table class="kv">
+<tr><td>File</td><td><code>gems62-h62i-scarpcrosscut-hardcore-zeros.tif</code> (60,000 dots,
+ sha256 <code>aaadb736f1b60379…</code>)</td></tr>
+<tr><td>Why it exists</td><td>It is the only variant this session built that beats chance:
+ credit <b>0.08666</b> = <b>2.00×</b> the isolated-random control.</td></tr>
+<tr><td>Why it is quarantined</td><td><b>DUPLICATE-DRIFT.</b> 87.5 % of its dots fall within 3 px of
+ <code>gemsdoe23-h30-arrangement-matched-habitat</code> and the symmetric Jaccard of the two 3-px halos
+ is <b>0.4465</b> (limit 0.25). Both fields are driven by the same 1 m LiDAR scarp composite, so this is
+ genuine lane drift into the LiDAR-scarp lane, not an artefact. Logged and stopped, as the protocol requires.</td></tr>
+</table>
+</div>
+
+<!-- ==================== SESSION 2026-10-12: the datum doublet ==================== -->
+<h2 id="h62j">Session 2026-10-12 — the datum-doublet detector: real information, capped mass</h2>
+<div class="card">
+<p><span class="pill ok">FORMAT: LEGAL — 14/14 checks on the bytes</span>
+&nbsp;<span class="pill ok">UNIQUE — worst dilated Jaccard 0.0457 over 79 registry rasters</span>
+&nbsp;<span class="pill warn">BEATS ITS OWN CONTROL — 1.60×, first datum-only field here to do so at scale</span>
+&nbsp;<span class="pill no">CANNOT REACH 0.2778 — model DTI 0.0375 at N=12,000</span></p>
+
+<p class="big">gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif</p>
+<p><a class="btn" href="downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif">⬇ Download the GeoTIFF (91,954 bytes)</a>
+<a class="btn sec" href="run-card.html">Run card ↗</a></p>
+
+<table class="kv">
+<tr><td>File</td><td><code>gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif</code> —
+ 10,870 single-pixel dots, values in {0, 1}, 91,954 bytes</td></tr>
+<tr><td>sha256</td><td><code>7e67bf2d4ea506a89b840fc130d38c2c7a8473daf95dc780fbfd9601b1096b94</code></td></tr>
+<tr><td>What it is</td><td>Dots where the <b>excess</b> vertical offset across a bench appears on
+ <i>both</i> flanks of a Lake Lahontan shore platform — the datum-doublet test. <code>step</code> is
+ measured as <code>step_raw − |iso(z+h) − iso(z−h)|</code>, so a warped isobase cannot fake an offset,
+ and the two flanks must agree within 10 m. 25 m DEM, <code>evidence/dem/lahontan_dem_utm11.tif</code>
+ (sha256 <code>90838cbc…</code>). Coverage, stated with its definition because the number moves
+ with it: the DEM extent holds <b>55.7 %</b> of footprint cells (<code>IR-62-15</code>), <b>52.2 %</b>
+ have a finite elevation, and only <b>9.4 %</b> (486,753 cells) are inside a 4 km isobase tile and
+ computable by the doublet at all. That last number is the one that caps this field.</td></tr>
+<tr><td>Should it take a weekly slot?</td><td><b>No.</b> Instrument-B credit <b>0.040588</b> against a
+ mass-matched isolated-random control on the same domain of <b>0.025445</b> (1.60×), model DTI
+ <b>0.0375</b>. <span class="mut">MEASURED on a proxy instrument; the DTI is a MODEL, not a score. No
+ file in this repository has an organiser-confirmed score.</span></td></tr>
+<tr><td>Why the mass stops at 10,870</td><td>Not geology: the 300 m isolation rule. 120,531 candidate
+ cells survive the gates, of which 10,870 fit 3 cells apart. Widening the gates (run 2: evidence
+ threshold 0.03, shore limit 2,500 m, trace ≥ 3 cells) bought 2,299 more dots and 0.004 of model DTI,
+ and cost the control ratio (1.74× → 1.60×) — the lane is mass-capped by DEM coverage × isolation, and the arithmetic ceiling at this credit is
+ <b>5 × 0.041 = 0.203</b>.</td></tr>
+<tr><td>Verdict record</td><td><code>docs/downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.verdict.json</code>,
+ generated from the bytes by <code>scripts/audit_downloads.py --write</code></td></tr>
+</table>
+
+<h3>Where new geometry actually pays: credit per dot, by distance to the catalogue</h3>
+<p><code>scripts/report_bands.py</code> scores the emitted field against the independent SGMC
+compilation <i>within each band</i>, against isolated-random control dots drawn <i>from the same band</i>
+at the same count. Both the field and the control are off-catalogue by construction (realised collar
+223.6 m).</p>
+<table>
+<tr><th>distance to catalogue</th><th>dots</th><th>share of mass</th><th>credit / dot</th>
+    <th>same-band control</th><th>ratio</th></tr>
+<tr><td>0–250 m</td><td>221</td><td>2.0 %</td><td><b>0.17764</b></td><td>0.13341 ± 0.01999</td><td>1.33×</td></tr>
+<tr><td>250–300 m</td><td>84</td><td>0.8 %</td><td><b>0.15329</b></td><td>0.12682 ± 0.02431</td><td>1.21×</td></tr>
+<tr><td>300–500 m</td><td>360</td><td>3.3 %</td><td><b>0.10844</b></td><td>0.08379 ± 0.00977</td><td>1.29×</td></tr>
+<tr><td>500–1000 m</td><td>1,001</td><td>9.2 %</td><td>0.04069</td><td>0.05115 ± 0.00212</td><td>0.80×</td></tr>
+<tr><td>1–2 km</td><td>1,691</td><td>15.6 %</td><td>0.03538</td><td>0.04560 ± 0.00555</td><td>0.78×</td></tr>
+<tr><td>2–4 km</td><td>2,873</td><td>26.4 %</td><td>0.05700</td><td>0.04199 ± 0.00476</td><td>1.36×</td></tr>
+<tr><td>&gt; 4 km</td><td>4,640</td><td>42.7 %</td><td>0.01847</td><td>0.03620 ± 0.00121</td><td><b>0.51×</b></td></tr>
+</table>
+<p><b>6 % of the dots carry 21 % of the credit.</b> Everything inside 500 m of a mapped trace pays
+0.11–0.18 per dot — three to ten times the far-field bands — while the &gt; 4 km band, which is 43 % of
+this field's mass, is <b>worse than chance</b> (0.51×). This is the first band-resolved measurement of
+the “damage zone around existing systems” claim in this group, and it cuts both ways: near-catalogue
+dots are where the information is, and the reflex of every lane here — push dots <i>far</i> from the
+catalogue to be “new” — is where the score goes to die.
+<span class="mut">MEASURED — <code>evidence/h62j-bands.json</code>.</span></p>
+
+<h3>The geothermal screen, run and refuted in ninety seconds</h3>
+<p>Hot springs and mapped vents are the group's standing “obvious” lead (GDR-1391, and the geothermal
+lane's PINNs). <code>scripts/probe_geothermal.py</code> scored every allowed cell at or near those
+indicators against the same independent compilation, each against a <b>mass-matched</b> isolated-random
+control drawn from the same pool:</p>
+<table>
+<tr><th>field</th><th>dots</th><th>credit / dot</th><th>control</th><th>ratio</th></tr>
+<tr><td>Hot or Warm spring / well cells</td><td>1,415</td><td>0.03680</td><td>0.04367 ± 0.00490</td><td><b>0.84×</b></td></tr>
+<tr><td>… within a 600 m corridor</td><td>10,257</td><td>0.03301</td><td>0.04270 ± 0.00064</td><td><b>0.77×</b></td></tr>
+<tr><td>Hot only</td><td>525</td><td>0.03500</td><td>0.04648 ± 0.00652</td><td>0.75×</td></tr>
+<tr><td>Hot only, 600 m corridor</td><td>3,538</td><td>0.03482</td><td>0.04289 ± 0.00281</td><td>0.81×</td></tr>
+<tr><td>Mapped volcanic vents (21 points)</td><td>21</td><td>0.01213</td><td>0.05769 ± 0.04519</td><td>0.21×</td></tr>
+<tr><td>Vents, 600 m corridor</td><td>170</td><td>0.00461</td><td>0.04518 ± 0.00944</td><td><b>0.10×</b></td></tr>
+</table>
+<p><b>And re-run to the other lane's specification.</b> Session <code>d0303476</code> ranked H62-Q —
+per-dot credit inside 5 / 10 / 20 km buffers around GDR wells and springs, mass-matched control, "below
+1.0× it dies" — as their next structural bet. Run that way, at the same mass cap (60,000 dots): Hot+Warm
+buffers score <b>0.79×</b> control at every radius, Hot-only <b>0.87–0.88×</b>, vents <b>0.83× / 0.87×</b>
+at 5 and 10 km and <b>1.13×</b> at 20 km — and the one above-1.0 case is fully explained by geography: five
+placebo buffers built from 21 <i>random</i> points of the same count score <b>0.04757 ± 0.00499</b>
+against the vents' 0.04966 (z = +0.42). <b>H62-Q is dead on its own threshold</b>, and everywhere the real
+thermal field beats its own belt geometry is nowhere. Outside every buffer, credit falls to 0.60–0.64×.</p>
+<p>Hydrothermal alteration marks <i>no</i> unmapped Quaternary structure at better-than-chance rate, and
+the vents mark <i>less</i> than chance because they sit on basin-floor lava fields rather than on
+fault-scarp geometry. That is consistent with the leaderboard: the champion family is scarp- and
+ridge-driven, not thermal. <span class="mut">MEASURED —
+<code>evidence/h62j2-geothermal.json</code>; screen only, this lane emitted nothing from it and the
+geothermal lane owns the question.</span></p>
+</div>
+
+<h2>Also in this repository — session <code>arena/dfc9787b-62gemsdoe</code> (d-lane extension, 2026-10-11)</h2>
+<div class="card">
+<p>This session asked a different question: <b>is the portal itself measurable from the artefacts
+that already have scores?</b> It is. Every scored submission is one linear measurement of the
+hidden test set through the published metric <code>s = T/(0.2M + 0.8K)</code>; inverting 56 of them
+recovers a surrogate truth mask <i>S*</i> (8,479 px) that reproduces the reported scores with
+<b>Spearman +0.968</b> — where the SGMC off-catalogue instrument the group had been using as its
+lead gives <b>−0.928</b> on the 15 artifacts with owner-reported scores.</p>
+
+<p><span class="pill ok">FORMAT: LEGAL — 14/14 validator checks on the bytes re-read from disk</span>
+&nbsp;<span class="pill warn">UNIQUE — worst informative Jaccard 0.069 over 100 comparators</span>
+&nbsp;<span class="pill no">VERDICT: PROBE — projection 0.110, below the group's 0.24–0.28 band</span></p>
+
+<p class="big">gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</p>
+<p><a class="btn" href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif">⬇ Download the GeoTIFF (372,859 bytes)</a>
+<a class="btn sec" href="executive-summary-v2.html">Executive summary &amp; verdict ↗</a>
+<a class="btn sec" href="../datum62/docs/decision-note.md">The blocked higher-value option ↗</a></p>
+
+<table class="kv">
+<tr><td>sha256</td><td><code>4d83efff6c134734b4be66e1fc1041062657ca22b0cadc3b4396cad820501999</code></td></tr>
+<tr><td>What it is</td><td>A detector trained on <b>primary data only</b> — the organiser 19-band stack
+ (sha256 <code>4371c82e…</code>, 418,912,844 B, byte-verified) plus public 10 m-derived topography and
+ the 1 m-LiDAR scarp composite — against <i>S*</i>. 46,598 dots, blocked (3×2 folds) AUC 0.863.</td></tr>
+<tr><td>Vs the previous file in this repository</td><td><b>89× better</b> on the calibrated instrument:
+ DTI(<i>S*</i>) <b>0.21777</b> vs 0.00246 for the shorelines/isobase v8.
+ <span class="mut">MEASURED — <code>datum62/evidence/v8_vs_new_on_instrument.json</code>.</span></td></tr>
+<tr><td>Should it take a weekly slot?</td><td><b>No, not expecting a gain.</b> Projection
+ <b>0.110</b> at the fitted scale 0.5052, against the group's best known 0.2778 and the top-5
+ cut-off 0.3333. <span class="mut">PROJECTION — never written as a score.</span></td></tr>
+<tr><td>Organizer score</td><td><b>none</b> — never submitted. <code>organizer_score: null</code>.</td></tr>
+</table>
+
+<p><b>The highest-value action this session found, and why it was not taken.</b> A field placed on
+<i>S*</i> projects at <b>0.34–0.42</b> by the same estimator that predicted the existing artifacts to
+within a few percent (h33: predicted 0.2992, observed 0.2778). But <i>S*</i> is a subset of pixels
+shared by all 13 artifacts scoring ≥ 0.24, so ~100 % of its dots fall within 3 px of one registry
+raster — the parallel-run protocol's own definition of a duplicate — and the standing brief forbids
+copying. It was <b>not emitted</b>; the arithmetic and receipts are in
+<a href="../datum62/docs/decision-note.md">datum62/docs/decision-note.md</a> for the owner to decide.</p>
+</div>
+
+<!-- ==================== EVERY FILE, GENERATED FROM THE BYTES ==================== -->
+<h2 id="allfiles">Every downloadable file in this repository, with the verdict its bytes carry</h2>
+<p class="mut">This table is generated by <code>scripts/audit_downloads.py --write</code> and is
+checked against the files on disk by <code>tests/test_download_manifest.py</code>: a hash, a byte
+count, a dot count or a verdict that drifts from the bytes fails CI. <b>No file here has an organiser-confirmed score, and none is certified as a scoring
+improvement</b>; each row says why. One file — the 440-dot strain gauge — carries its own lane's
+recommendation to promote, which is a decision, not a measurement. Checks are the 14 named in the audit — the last two strict
+ones (<code>no_nodata_tag</code>, <code>no_nan_anywhere</code>) are this lane's convention, and the
+organiser's own <code>sample_submission.tif</code> does not satisfy them (see
+<a href="irregularities.html">irregularities</a>).</p>
+<table>
+<tr><th>file</th><th>dots</th><th>size</th><th>checks</th><th>sha256</th><th>verdict</th></tr>
+<tr><td><a href="downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif">gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif</a><span class="pill no">not legal: no_nodata_tag, no_nan_anywhere</span> <span class="pill warn">range risk low</span></td><td>440</td><td>125,332 B</td><td>12/14</td><td><code>fa7a68ba411da82e…</code></td><td>FORMAT PROBE (NaN outside the footprint, nodata=NaN) - never submitted; passes the published contract, fails this lane's stricter convention, shipped by another lane as a twin</td></tr>
+<tr><td><a href="downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif">gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif</a><span class="pill ok">legal</span></td><td>440</td><td>57,178 B</td><td>14/14</td><td><code>f1db3dc711cc8e2d…</code></td><td>ANOTHER LANE'S DELIVERABLE (sessions arena/d4d2e53a + 778884cc) - format-legal 14/14 on the bytes, unique against 21 registry comparators, and their run card recommends 'promote-to-defensibility-slot'. This gate does not confirm or deny that: 440 dots cannot move the metric under any instrument, and their own numbers put the projection at 0.0295-0.0210 on the kernel-fixed instrument</td></tr>
+<tr><td><a href="downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif">gems62-h62g-benchcrosscut-hardcore-zeros.tif</a><span class="pill ok">legal</span></td><td>10,000</td><td>98,893 B</td><td>14/14</td><td><code>79eb0a7ddc2dcfb4…</code></td><td>NEGATIVE RESULT - do not submit</td></tr>
+<tr><td><a href="downloads/gems62-h62i-scarpcrosscut-hardcore-zeros.tif">gems62-h62i-scarpcrosscut-hardcore-zeros.tif</a><span class="pill ok">legal</span></td><td>60,000</td><td>282,543 B</td><td>14/14</td><td><code>aaadb736f1b60379…</code></td><td>DUPLICATE-DRIFT OF A SIBLING LANE'S FILE - do not submit</td></tr>
+<tr><td><a href="downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif">gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif</a><span class="pill ok">legal</span></td><td>10,870</td><td>91,954 B</td><td>14/14</td><td><code>7e67bf2d4ea506a8…</code></td><td>DECISION-LEVEL GATES PASS - 14/14 legal, UNIQUE-VS-REGISTRY, model DTI 0.0375 with the official metric (information-positive, score-negative: its own ceiling is 5 x 0.041 = 0.203 < 0.2778), so it is a probe, not a submitted field</td></tr>
+<tr><td><a href="downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif">gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif</a><span class="pill ok">legal</span></td><td>16,864</td><td>129,539 B</td><td>14/14</td><td><code>2a25f29a6b235520…</code></td><td>ANOTHER LANE'S NEGATIVE (session arena/778884cc, experiment h62n) - format-legal 14/14, unique, OK to download; their own verdict is NEGATIVE as an improvement (projection 0.0210 on the kernel-fixed instrument) and this gate has nothing to add to that</td></tr>
+<tr><td><a href="downloads/gems62-lahontan-isobase-99dots-nan.tif">gems62-lahontan-isobase-99dots-nan.tif</a><span class="pill no">not legal: no_nodata_tag, no_nan_anywhere</span> <span class="pill warn">range risk low</span></td><td>99</td><td>124,293 B</td><td>12/14</td><td><code>8675fa33d4d0b181…</code></td><td>FORMAT PROBE (NaN outside, nodata=NaN) - never submitted; passes the published contract, fails our stricter one</td></tr>
+<tr><td><a href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">gems62-lahontan-isobase-99dots-zeros.tif</a><span class="pill ok">legal</span></td><td>99</td><td>56,048 B</td><td>14/14</td><td><code>fc628410873f018d…</code></td><td>FORMAT PROBE - legal by every check we can run; upload only to test acceptance</td></tr>
+<tr><td><a href="downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif">gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</a><span class="pill ok">legal</span></td><td>120,000</td><td>481,168 B</td><td>14/14</td><td><code>42bffef1b5973973…</code></td><td>ANOTHER LANE'S PROBE (session arena/d0303476) - 14/14 legal on its bytes, unique (max Jaccard 0.022, tie-aware |rho| 0.035 over 25 comparators), no organiser score; their run card calls it 'negative as a lead, legal and unique as a probe' and this gate agrees: promotion is the selector's decision, not a measurement</td></tr>
+<tr><td><a href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif">gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</a><span class="pill ok">legal</span></td><td>46,598</td><td>372,859 B</td><td>14/14</td><td><code>4d83efff6c134734…</code></td><td>DIAGNOSTIC ONLY - a detector built on the public 100 m stack; never submitted</td></tr>
+<tr><td><a href="downloads/gemsdoe62-datum-lahontan-isobase-v8.tif">gemsdoe62-datum-lahontan-isobase-v8.tif</a><span class="pill ok">legal</span></td><td>1,660</td><td>62,709 B</td><td>14/14</td><td><code>3d4b66e651bc8e3f…</code></td><td>SUPERSEDED (v8) - arithmetically dead at 1,660 dots; do not submit</td></tr>
+</table>
+
+<h2>What the selector should actually do — a finding this page carried too long</h2>
+<div class="card">
+<p><b>Retracted, on the record, before the table.</b> This section was written on 2026-10-11 to tell the
+selector that the group's highest-credit detector had never been submitted. Two later measurements killed
+the advice, and this page was left saying it for a day — the number below is real, the ranking it seemed to
+support is not. Session <code>d0303476</code> found that the instrument's per-dot credit tracks the
+leaderboard at ρ = +0.617 while the <i>published DTI evaluated on it</i> tracks it at <b>−0.442</b>
+(<code>IR-62-20</code>); session <code>778884cc</code> then found a kernel-radius bug in the S* inversion
+and re-measured this same field at <b>0.0408 credit/dot, projection 0.0295</b> on the corrected,
+portal-calibrated instrument (<code>IR-62-25</code>, <code>IR-62-26</code>). The row is kept because the
+measurement is what a future session needs in order to see how an instrument can flatter a field and invert
+on you. Original text follows, unchanged:</p>
+<table>
+<tr><th>field</th><th>dots</th><th>mean 300 m credit / dot</th><th>submitted?</th></tr>
+<tr><td><b>gems32-bayesopt-dilation-scarp-d28-20261004</b></td><td>45,000</td><td><b>0.29294</b></td><td><b>NO</b></td></tr>
+<tr><td>gems25-dotted-h19-5-d2-8 (submitted family)</td><td>44,090</td><td>0.09892</td><td>yes → 0.2600</td></tr>
+<tr><td>this session, H62-I (quarantined)</td><td>60,000</td><td>0.08666</td><td>no</td></tr>
+<tr><td>isolated-random control</td><td>44,090</td><td>0.04331</td><td>—</td></tr>
+</table>
+<p>It lives at <code>buffedlizard55-lab/GEMSDOE32</code> →
+<code>docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif</code> (302,357 bytes).
+It is absent from the 87-artifact score-anchored registry built this session, i.e. no owner-reported
+score is attached to it anywhere.</p>
+<p class="mut"><b>Caveat, stated before the recommendation rather than after it:</b> 0.29294 is a
+proxy-instrument credit, not an organizer score, and that instrument is a geological compilation that
+favours scarp-like geomorphology over genuinely new faults. The closed form gave 0.71 at N = 12,000,
+which is implausibly high — that was the tell, and the retraction above is why. <b>Do not spend a slot on
+the strength of this row.</b>
+This session did not copy the file: the standing brief forbids copying a previous submission.</p>
+</div>
+
+<h2>The standing brief's headline numbers are stale</h2>
+<p>Official public leaderboard, machine-scraped <b>2026-10-11T20:57:47Z</b> and mirrored from
+<a href="https://github.com/buffedlizard55-lab/12GEMSDOE">GEMSDOE/12</a>
+(this sandbox cannot reach <code>drivendata.org</code>):</p>
+<table>
+<tr><th>rank</th><th>participant</th><th>score</th><th>note</th></tr>
+<tr><td>1</td><td>xiaofanhu</td><td><b>0.4133</b></td><td></td></tr>
+<tr><td>5</td><td>joeyfezster</td><td><b>0.3333</b></td><td>← top-5 cut-off, the number that matters</td></tr>
+<tr><td>9</td><td>DARD</td><td>0.3195</td><td>the brief calls this “the highest” — it was #1 on 2026-10-02</td></tr>
+<tr><td>23</td><td>extradr19</td><td><b>0.2778</b></td><td>← this group's best, <code>h33-2-b2</code></td></tr>
+</table>
+<p>37 timestamped snapshots are committed in
+<a href="../research/leaderboard_series.json"><code>research/leaderboard_series.json</code></a>.
+Full analysis: <a href="research/leaderboard-arithmetic.html">Why <code>h33-2-b2</code> scored 0.2778,
+and what would actually beat it</a>.</p>
+
+<h2>What this session measured, in five lines</h2>
+<ol>
+<li><b>Isolation is a hard rule.</b> Across 87 score-anchored rasters, every one of the top nine distinct
+score levels has mean self-kernel 0.016–0.018 (no second dot inside the 300 m kernel); every raster with
+self-kernel ≥ 0.23 scores ≤ 0.2477. <span class="mut">MEASURED.</span></li>
+<li><b>The score is asymptotically 5 × the mean per-dot credit.</b> Top-5 needs <code>c ≳ 0.0667</code>;
+rank 1 needs <code>c ≳ 0.0827</code>. <span class="mut">MODEL.</span></li>
+<li><b>The hidden truth mass is bounded: N ≤ 13,688 cells</b>, derived from the documented thinning pair
+(44,090 → 0.2600; 37,654 → 0.2778). <span class="mut">MEASURED.</span></li>
+<li><b>Two lane hypotheses are refuted.</b> The pluvial lake-flat habitat earns <b>0.03×</b> the
+isolated-random control and the Lahontan datum band <b>0.61×</b>. Both below chance.
+<span class="mut">MEASURED.</span></li>
+<li><b>The protocol's 3-px uniqueness leg is unsatisfiable.</b> A pure-random 10,000-dot field trips it
+against 3 of 79 comparators (worst 0.8412). Uniqueness must be judged on the symmetric Jaccard and
+Spearman legs. <span class="mut">MEASURED; independently reproduces GEMSDOE54 IR-54-016.</span></li>
+</ol>
 
 <!-- ============================ SUBMISSION DOWNLOAD ============================ -->
 <div class="hero" id="download">
@@ -70,7 +371,8 @@
     &nbsp;<span class="pill ok">VERDICT: OK TO DOWNLOAD &amp; SUBMIT</span>
   </div>
 
-  <h2 style="border:0; margin-top:0;">Official Primary Competition Submission Raster</h2>
+  <h2 id="lane440" style="border:0; margin-top:0;">Official Primary Competition Submission Raster — session <code>arena/d4d2e53a</code> / <code>778884cc</code></h2>
+  <p class="mut">Written by the sessions that made it, kept here as merged. "Primary" is their label for their own candidate, not an organiser decision: every file in this repository, this one included, is verified against its bytes by <code>scripts/audit_downloads.py</code> and carries no organiser-confirmed score. The table under <a href="#allfiles">every downloadable file</a> is the authority on what each one may be used for.</p>
   <p class="big"><code>gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif</code></p>
   
   <p>
@@ -281,8 +583,15 @@
     Our mathematical breakdown reveals:
   </p>
   <ul>
-    <li><strong>Asymmetric Loss:</strong> $\text{DTI} = \frac{\text{TP}_w}{0.2(\text{TP}_w + \text{FP}_w) + 0.8 K}$. The 4:1 penalty weighting rewards broad recall over cautious precision.</li>
-    <li><strong>Marginal Bar:</strong> A 300 m kernel-spaced dot needs only credit $k > 0.0556$ (~14% chance of being near an unmapped fault) to raise a 0.2778 score.</li>
+    <li><strong>Asymmetric Loss:</strong> <code>DTI = TP / (0.2·(TP + FP) + 0.8·N)</code> over the
+    weighted cells inside the 300 m kernel. The 4:1 asymmetry on <code>N</code> (the normaliser, the
+    count of truth cells) rewards broad recall over cautious precision.</li>
+  <li><strong>Marginal Bar:</strong> a dot earns its place only when its expected credit
+    <code>p</code> exceeds <code>0.2 × DTI</code>; at the champion's 0.2778 that is
+    <code>p &gt; 0.0556</code>, which is the number they computed, and their &ldquo;~14 % chance of being
+    near an unmapped fault&rdquo; is that same bar read as a probability. The closed form, the isolation
+    rule it implies, and the bound it puts on any field's ceiling are in
+    <a href="why-h33-scored.html">why 0.2778 scores what it scores</a>; the two readings agree.</li>
     <li><strong>Catalogue Exclusion Boost:</strong> Deleting dots within 200 m of the known catalogue converted wasted mass into pure discovery recall, boosting scores from 0.2600 to 0.2778.</li>
     <li><strong>Condition to Beat 0.2778:</strong> At 120,000 dots, an average per-dot credit $c \ge 0.0778$ beats 0.2778. At 60,000 dots, $c \ge 0.1000$ beats it.</li>
   </ul>
@@ -291,49 +600,28 @@
   </p>
 </div>
 
-<!-- ============================ OFFICIAL SOURCES ============================ -->
-<h2>Official Verified Sources</h2>
-<div class="card">
-  <table>
-    <tr>
-      <th>Source</th>
-      <th>URL / Reference</th>
-      <th>Role in Pipeline</th>
-    </tr>
-    <tr>
-      <td>DrivenData Competition #306</td>
-      <td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/" target="_blank" rel="noopener">drivendata.org/competitions/306/competition-doe-gems/</a></td>
-      <td>Official competition problem description, rules, and leaderboard.</td>
-    </tr>
-    <tr>
-      <td>USGS GeoDAWN Airborne Survey</td>
-      <td><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and" target="_blank" rel="noopener">usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys</a></td>
-      <td>Airborne magnetic and radiometric surveys covering the northwestern Great Basin.</td>
-    </tr>
-    <tr>
-      <td>USGS 3DEP 3D Elevation Program</td>
-      <td><a href="https://www.usgs.gov/3d-elevation-program" target="_blank" rel="noopener">usgs.gov/3d-elevation-program</a></td>
-      <td>High-resolution digital elevation models providing the topographic base.</td>
-    </tr>
-    <tr>
-      <td>Briggs &amp; Wesnousky (2004)</td>
-      <td>J. Geophys. Res., 109, B08402, doi:10.1029/2003JB002888</td>
-      <td>Late Pleistocene displacement on the Pyramid Lake fault zone from Lahontan shorelines.</td>
-    </tr>
-    <tr>
-      <td>Adams, Wesnousky &amp; Bills (1999)</td>
-      <td>J. Geophys. Res., 104(B1), 765–781</td>
-      <td>Lake Lahontan highstand isostatic rebound dome and elevation datum constraints.</td>
-    </tr>
-  </table>
-</div>
+<h2>Reproduce</h2>
+<pre>pip install -r requirements.txt
+python3 scripts/fetch_external.py            # sibling-repo rasters -> data/external/ (not committed)
+python3 scripts/run_h62g.py --ext data/external     # experiment 1: in-lane bench cross-cut
+python3 scripts/run_h62i.py --ext data/external     # experiment 3: scarp cross-cut + holdout
+python3 scripts/run_h62j.py --dem evidence/dem/lahontan_dem_utm11.tif --evdir evidence/h62j \
+        --out /tmp/h62j.tif --block-rows 700         # this session: datum-doublet field + sweep
+python3 scripts/report_bands.py /tmp/h62j.tif --out-json evidence/h62j-bands.json
+python3 scripts/probe_geothermal.py --out-json evidence/h62j2-geothermal.json
+python3 scripts/audit_downloads.py --write           # regenerate verdicts + the manifest above
+python3 -m pytest tests -q                           # 54 tests, incl. the download-claim gate</pre>
 
-<footer>
-  <p class="mut">
-    62GEMSDOE · Branch: <code>arena/d4d2e53a-62gemsdoe</code> · Format validated · Uniqueness confirmed · All claims traceable to bytes on disk.
-  </p>
-</footer>
+<p class="mut">Evidence for every number on this page: <code>evidence/h62g/</code>
+(<code>detector.json</code>, <code>h62i.json</code>, <code>run_card.json</code>,
+<code>uniqueness_*.json</code>, <code>tripwire_satisfiability.json</code>, <code>receipt*.json</code>)
+and <code>research/</code> (<code>registry_index.json</code>, <code>registry_measurements.json</code>,
+<code>leaderboard_arithmetic.json</code>, <code>leaderboard_series.json</code>). This session's:
+<code>evidence/h62j/</code> (<code>isobase.json</code>, <code>sweep.json</code>,
+<code>run_summary.json</code>, <code>receipt.json</code>, <code>fields_100m.npz</code>),
+<code>evidence/h62j1/</code> (the strict-gate run, reproduced: 8,571 dots at 1.74× control),
+<code>evidence/h62j-bands.json</code>,
+<code>evidence/h62j2-geothermal.json</code>, <code>evidence/h62j-uniqueness.json</code>,
+<code>evidence/h62j-holdout.json</code>, and every <code>docs/downloads/*.verdict.json</code>.</p>
 
-</div>
-</body>
-</html>
+</div></body></html>

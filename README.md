@@ -173,3 +173,165 @@ python scripts/run_lane_session.py
 ├── src/gems62/                                                   # Core Python library
 └── tests/                                                        # 52 automated regression and validation tests
 ```
+
+
+> *The tree above is that session's snapshot of its own deliverables, kept as merged. Measured on the
+> merged tree the same day: `tests/` holds **84** tests, `lane62/tests` **46**, `lane62-h62a/tests` **41**;
+> `docs/downloads/` holds **8** rasters at the site root (13 including the lane copies, **16** with this
+> session's) and `docs/downloads/manifest.json` — regenerated from the bytes by `scripts/audit_downloads.py
+> --write` — is authoritative over any hand-written listing. Nothing in the tree above is contradicted by
+> the audit; a hand-maintained count is the thing that drifts, which is why the site's own file table is
+> generated.*
+
+The newest session extends the root lane with a **scoreboard-calibrated instrument** and ships one
+new format-legal, uniqueness-checked artifact plus a disclosed negative.
+
+* **Artifact to submit / download:**
+  [`docs/downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif`](docs/downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif)
+  — 372,859 B, sha256 `4d83efff6c134734b4be66e1fc1041062657ca22b0cadc3b4396cad820501999`,
+  46,598 dots, float32 EPSG:32611, 14/14 validator checks on the re-read bytes, unique against
+  100 comparators (worst informative Jaccard 0.069). **Verdict: OK to download and submit; do
+  not expect an improvement** — blocked DTI on the surrogate 0.2178 → projection 0.110, below the
+  group's incumbent band 0.24–0.28.
+* **Instrument (the real product):** 56 artifacts with owner-reported portal scores are 56 linear
+  measurements of the hidden test set through the published metric. Inverting them recovers a
+  surrogate `S*` (8,479 px) that reproduces the reported scores at Spearman **+0.968**, against
+  **−0.928** for the SGMC off-catalogue instrument the project had been using as its lead.
+  Evidence: [`datum62/evidence/`](datum62/evidence/), hypotheses and the blocked-but-highest-value
+  option in [`datum62/docs/`](datum62/docs/).
+* **Next session:** rebuild the multi-physics oriented-lineament consensus *from the organiser
+  19-band stack* as **features** (H-2); target blocked DTI(`S*`) ≥ 0.60 before any slot is spent.
+
+
+## Suggestions / what still needs doing
+
+Kept current in [`docs/next-steps.md`](docs/next-steps.md) (headline: 1 m 3DEP refinement of the
+top loci, the catalogue-endpoint extension hypothesis H4, and a 19-band + DEM deep detector).
+
+---
+
+## Independent re-derivation of this same lane — `lane62/`
+
+A second session on this repository was assigned the same datum-offset lane and worked without
+seeing this one. Its whole tree lives under [`lane62/`](lane62/README.md) so that the two do not
+collide; **nothing at the root was overwritten**. It ships a different artefact —
+[`lane62/docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif`](lane62/docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif)
+(86,968 dots, 518,595 bytes, sha256 `f58ae055…`, all-finite float32, 0 dots on the catalogue) —
+plus a profiles deliverable and 46 tests. Its own verdict is an **honest negative**
+(mean credit 0.039967/dot below the 0.055556 marginal bar; dominated ~0.55× by a registered
+prior field on the same instrument), so the v8 file above remains the candidate to spend a slot
+on. The two artefacts are **not** copies of one another: re-running the duplicate test against
+this lane's shipped TIFs gives 3 px overlap ≤ 0.0099, exact overlap ≤ 0.0005 and |ρ| ≤ 0.0021
+(`lane62/evidence/crosscheck_sibling_lane.json`). `lane62/scripts/crosscheck_sibling_lane.py`
+also documents one defect it found here — on a clean checkout, `tests/` cannot collect because
+`src/gems62/lahontan.py` imports a `PIXEL_M` that `src/gems62/grid.py` does not define, and
+`tests/test_metric.py` imports a `brute_force_components` that `src/gems62/metric.py` does not
+define. Reported as `IR-62-11`, deliberately not fixed from another lane.
+
+---
+
+## Third independent re-derivation of this same lane — `lane62-h62a/`
+
+A third session was assigned the same datum-offset lane and also worked without seeing the other
+two. Its whole tree lives under [`lane62-h62a/`](lane62-h62a/README.md), following the convention
+`lane62/` set: **nothing at the root was overwritten**. It ships
+[`lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif`](lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif)
+(38,000 dots, 141,486 bytes, sha256 `eabd03c1ca1a5380d100024b3ed7c7401a847bdab5913a423c396bb50f624ed5`,
+all-finite float32, 0 dots within 3 px of the catalogue, validator 26/26), a `-nan` twin, a `.zip`,
+400 shoreline profiles, 12 Pages pages and 41 tests.
+
+Its verdict is also an **honest negative**, and it independently reproduces the finding recorded
+above — that **no local instrument can score this task** — by a different route and on a larger
+sample. Scoring **10 ORGANIZER-CONFIRMED artefacts** as frozen dot masks on one identical
+segmented holdout gives **Spearman(HOLDOUT-DTI, organiser score) = −0.9141 (p = 0.0002)**; the
+anti-correlation survives controlling for dot count (partial Spearman **−0.6810**, p = 0.0302),
+and **7 of 8** count-matched pairs put the higher organiser score on the *lower*-holdout file.
+The cleanest case is `h33-h33-2-b2` (37,654 dots, HOLDOUT 0.0053, **ORGANIZER 0.2778**) against
+`h36-1-rung30-blind-r1` (37,660 dots — six apart — HOLDOUT 0.0368, ORGANIZER 0.2710). Mechanism:
+the holdout withholds segments of the **public** catalogue while the organiser scores a
+**private** pre-competition label set, so one rewards hugging the catalogue and the other rewards
+avoiding it. Recorded as `IR-62-HOLDOUT-01` in
+[`lane62-h62a/evidence/e9_frozen_artifact_holdout.json`](lane62-h62a/evidence/e9_frozen_artifact_holdout.json),
+produced by `lane62-h62a/scripts/compare_holdout.py`.
+
+It also documents a defect in the **uniqueness rule itself** (`IR-62-UNIQ-01`): the ">70 % of dots
+within 3 px" leg is tripped by 64 registry comparators, but 61 of those are regular lattices
+(spacing ≤ 6 px, whose 3 px dilation tiles the footprint) or 4–100 %-density fields that a
+*uniformly random* dot set also trips. Calibrating with two nulls leaves 2 distinct binding fields,
+and they bind marginally — habitat nulls 0.656/0.672 against a 0.70 cliff, with *which* fields bind
+flipping on the null seed. The rule's `DUPLICATE` answer is reported and **not** overruled, while
+every statistic that can actually detect copying stays far inside its limit (max Jaccard 0.0253 vs
+0.50; max signed ρ +0.0647 vs 0.90; max mutual containment 0.3195; `is_a_copy = false`).
+
+The three artefacts are **not** copies of one another. Against the 0.2778 file this lane shares
+1,421 exact pixels of its 37,654 and sits within 3 px of 41.7 % of it, so 58.3 % of its dots are
+in places that file does not cover.
+
+**All three lanes therefore agreed on the operative conclusion then:** the format-legal artefact to spend
+a slot on was the v8 file at the root, and the local holdout must not be used as the promotion gate.
+*Superseded 2026-10-12:* the holdout verdict held (it is anti-correlated, ρ = −0.9141, and is now
+diagnostic-only), but the "v8 file" advice and the `GEMSDOE32` rank-1 advice that replaced it were both
+measured on instruments that have since been corrected — the S* kernel-radius bug (`IR-62-25` in `main`)
+and the SGMC correlation inversion (`IR-62-20`) — so the current list is `docs/next-steps.md` and nothing
+in this paragraph should be acted on.
+
+One note on the trunk's build, so it is not misread as damage from this merge — **(superseded on
+2026-10-12, kept for the record: `pytest tests/` at the root now collects and passes — 92 tests — and
+`.github/workflows/ci.yml` gained a `root` job that runs it plus the download audit, so neither claim
+below is current. What follows is what session `arena/778884cc`-predecessor observed then.)**
+`pytest tests/` at the repository root could not collect, and the `lane62-ci` workflow was red for that
+reason. This predates `lane62-h62a/` — Actions run
+[38173668340](https://github.com/buffedlizard55-lab/62GEMSDOE/actions/runs/38173668340) on the
+PR #7 merge commit already concluded `failure`. Reproduced independently then and recorded as
+`IR-62-TRUNK-01`: `src/gems62/lahontan.py:50` imports a `PIXEL_M` that `src/gems62/grid.py` never
+defines, and `tests/test_metric.py:17` imports a `brute_force_components` that
+`src/gems62/metric.py` never defines. Both are two-line fixes but belong to the root lane's author;
+`lane62/` reached the same conclusion and likewise did not touch it (`IR-62-11`). This lane's own
+suite — `pytest lane62-h62a/tests -q`, 41 tests — and its `ci` workflow are green.
+
+
+---
+
+## Addendum — session 2026-10-12 (`arena/b7846648-62gemsdoe`, datum-offset lane)
+
+**One sentence.** The lane's own hypothesis (H62-J, a datum-doublet displacement detector read off Lake
+Lahontan bench surfaces on the 25 m DEM) was run end to end on the full local DEM and came out
+**negative for score but positive for information** — the first datum-only field in this repository to
+beat a domain-matched control at scale (instrument-B credit 0.040588 vs 0.025445 = **1.60×**), and still
+capped at model DTI **0.0375** by coverage and the isolation rule, against the group's 0.2778.
+
+**What shipped.**
+
+* `docs/downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif` — 10,870 isolated
+  dots, 91,954 B, sha256 `7e67bf2d4ea506a89b840fc130d38c2c7a8473daf95dc780fbfd9601b1096b94`,
+  `legal=True`, `UNIQUE-VS-REGISTRY` (worst dilated Jaccard 0.0457 over 79 registry rasters), labelled
+  **RESEARCH PROBE — not worth submitting** by the verdict sidecar next to it.
+* **A claim-vs-bytes gate for the site.** `scripts/audit_downloads.py --write` re-derives, from the
+  bytes on disk, every hash, size, dot count and legality claim about every downloadable raster in the
+  repository (12 files, 14 named checks each), joins them with the hand-authored claims in
+  `docs/downloads/verdicts.json`, and emits per-file `*.verdict.json` sidecars plus
+  `docs/downloads/manifest.json`. `tests/test_download_manifest.py` (10 tests) fails if any of it drifts,
+  including if a page prints a hash or byte count that disagrees with the file. `scripts/render_doc_pages.py
+  --check` does the same for the markdown↔HTML pair. **Both gates now run in `ci.yml`.**
+* **Ten corrections the audit forced** (`docs/irregularities.md`, numbered `IR-62-J-01` … `IR-62-J-10`
+  rather than by register number, because this lane's `IR-62-25…32` collided *twice in one day* — first
+  with a session merging `IR-62-19…24`, then with a third lane merging `IR-62-25…28` over the renumbered
+  set, and two lanes separately created the same `docs/hypotheses-2026-10-12.md`. `main` owns the numbering;
+  this lane namespaces itself and says so in `IR-62-J-09`): the organiser's
+  own `sample_submission.tif` fails this lane's format contract, which exposed a NaN-poisoned range check
+  in our validator; a `int(round(250/100)) == 2` banker's-rounding bug silently turned a 250 m catalogue
+  collar into a 223.6 m one; a `json.dumps` of a NaN manifest is not valid JSON; and the README's claim
+  that the root suite cannot collect went stale (it does — 54 tests pass, plus 46 and 41 in the two lanes).
+* **Two measurements for every lane, not just this one.**
+  (1) *Where new geometry pays* — per-dot credit by distance to the catalogue, each band against a
+  mass-matched control drawn from that same band (`scripts/report_bands.py`,
+  `evidence/h62j-bands.json`): 0.178 / 0.153 / 0.108 within 500 m, 0.035–0.057 at 0.5–4 km, **0.018**
+  beyond 4 km (0.51× control). 6 % of the dots carry 21 % of the credit. (2) *Geothermal is not
+  structure, for this metric* — Hot/Warm GDR occurrences score **0.75–0.84×** control and mapped vents
+  **0.10–0.21×** (`scripts/probe_geothermal.py`, `evidence/h62j2-geothermal.json`).
+* **Ranked next work** in `docs/hypotheses-2026-10-12.md` (H62-K along-strike continuation first) and
+  `docs/next-steps.md`.
+
+**What is still not claimed.** No file in this repository has an organiser-confirmed score; every DTI
+above is this repository's own model of the metric measured on a proxy instrument (the SGMC compilation,
+minus the catalogue), and `organizer_score` is `null` in every verdict sidecar.

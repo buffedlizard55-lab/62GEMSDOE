@@ -1,0 +1,25 @@
+{
+ "verdict": "DUPLICATE-DRIFT OF A SIBLING LANE'S FILE - do not submit",
+ "ok_to_submit": false,
+ "note": "87.5% of its dots fall within 3 pixels of a field another lane had already emitted (dilated Jaccard 0.4465). Under the group's rules that is a duplicate, so it was never offered to the portal.",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted",
+ "expected_value_label": "not applicable - rejected at the uniqueness gate, not by score",
+ "artifact_of": "scripts/run_h62i.py",
+ "evidence": [
+  "evidence/h62g/h62i.json",
+  "evidence/h62g/uniqueness_h62i-scarpcrosscut-hardcore.json",
+  "docs/irregularities.md"
+ ],
+ "name": "gems62-h62i-scarpcrosscut-hardcore-zeros.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "aaadb736f1b6037919c66983049a8deafab66e986ddba08c2c76083f233568cb",
+ "bytes": 282543,
+ "dots": 60000,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

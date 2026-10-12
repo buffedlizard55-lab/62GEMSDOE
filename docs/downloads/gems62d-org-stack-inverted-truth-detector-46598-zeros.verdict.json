@@ -1,0 +1,24 @@
+{
+ "verdict": "DIAGNOSTIC ONLY - a detector built on the public 100 m stack; never submitted",
+ "ok_to_submit": false,
+ "note": "Built to measure how much headroom the organiser's own stack has, by scoring an inverted-truth detector against S*. S* and consensus13 are diagnostic layers in this repo; a field chosen to maximise them is out of scope as a submission, which is why this one is labelled and not uploaded.",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted",
+ "expected_value_label": "DTI 0.21777 against the S* stack - which is not the organiser's truth and is never a placement objective",
+ "artifact_of": "scripts/run_lane.py (v8)",
+ "evidence": [
+  "evidence/run_card_v8.json",
+  "docs/research/leaderboard-arithmetic.md"
+ ],
+ "name": "gems62d-org-stack-inverted-truth-detector-46598-zeros.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "4d83efff6c134734b4be66e1fc1041062657ca22b0cadc3b4396cad820501999",
+ "bytes": 372859,
+ "dots": 46598,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

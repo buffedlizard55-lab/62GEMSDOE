@@ -1,0 +1,116 @@
+{
+ "sweep": [
+  {
+   "M": 2000,
+   "credit_B": 0.076197,
+   "credit_tail": 0.063261,
+   "model_dti": 0.015239,
+   "ceiling": 0.2
+  },
+  {
+   "M": 5000,
+   "credit_B": 0.056215,
+   "credit_tail": 0.031718,
+   "model_dti": 0.026516,
+   "ceiling": 0.471698,
+   "control_B": 0.025702,
+   "control_sd": 0.000541,
+   "ratio_vs_control": 2.1872
+  },
+  {
+   "M": 8000,
+   "credit_B": 0.045581,
+   "credit_tail": 0.022026,
+   "model_dti": 0.032558,
+   "ceiling": 0.714286,
+   "control_B": 0.025762,
+   "control_sd": 0.000929,
+   "ratio_vs_control": 1.7693
+  },
+  {
+   "M": 10000,
+   "credit_B": 0.042449,
+   "credit_tail": 0.030181,
+   "model_dti": 0.036594,
+   "ceiling": 0.862069,
+   "control_B": 0.025648,
+   "control_sd": 0.00021,
+   "ratio_vs_control": 1.6551
+  },
+  {
+   "M": 10870,
+   "credit_B": 0.040588,
+   "credit_tail": 0.020319,
+   "model_dti": 0.037471,
+   "ceiling": 0.923221,
+   "control_B": 0.025445,
+   "control_sd": 0.000428,
+   "ratio_vs_control": 1.5951
+  }
+ ],
+ "chosen": {
+  "M": 10870,
+  "rule": "max model DTI at N (MODEL, not a score)"
+ },
+ "stats": {
+  "n_dots": 10870,
+  "n_candidates": 120531,
+  "n_isolated_available": 10870,
+  "mass": 10870,
+  "credit_B": 0.040588,
+  "control_B": 0.025445,
+  "ratio_vs_control": 1.5951,
+  "model_dti": 0.037471,
+  "ceiling": 0.923221,
+  "mean_self_kernel": 0.0,
+  "min_neighbour_distance_m": 316.2,
+  "min_dist_to_catalogue_m": 223.6,
+  "frac_within_400m_of_catalogue": 0.051794,
+  "frac_on_catalogue": 0.0,
+  "block_spread": [
+   10716,
+   154,
+   0,
+   0,
+   0,
+   0
+  ],
+  "n_components": 10870,
+  "gate_ladder": {
+   "footprint_cells": 5167373,
+   "dem_valid": 486753,
+   "bench_cells": 70292,
+   "evid_ge_min": 181819,
+   "score_positive": 294537,
+   "score_and_shore": 217549,
+   "score_and_shore_offcat": 209643
+  },
+  "iso_meta": {
+   "res": 25.0,
+   "tile_m": 4000.0,
+   "t": 160,
+   "tr": 58,
+   "tc": 48,
+   "tiles": 2784,
+   "tiles_ok": 1093,
+   "bench_px": 2127960,
+   "valid_px": 56550061,
+   "z_lo": 1150.0,
+   "z_hi": 1460.0,
+   "fine": 0.1,
+   "band": [
+    1157.0,
+    1455.0
+   ],
+   "seconds": 8.6,
+   "surf_min": 1159.050048828125,
+   "surf_max": 1453.25
+  }
+ },
+ "marginal_bar": {
+  "credit_at_target": 0.05556,
+  "distance_m": 283.3,
+  "note": "a dot is profitable iff its credit exceeds alpha*DTI"
+ },
+ "instrument_B": "derived_sgmc_faults_100m.tif minus the catalogue; 300 m triangular kernel credit per dot (a proxy: a 1:750k compilation)"
+}

@@ -140,7 +140,7 @@ composite (USGS 3DEP 1 m, public domain) or stop treating it as basin-wide.
    GitHub-runner transport that already exists for the DEM. The test is fixed in
    `docs/hypotheses-2026-10-11b.md`: per-dot credit inside vs outside a 5/10/20 km buffer, with a
    mass-matched random control. Below 1.0× it dies; above 1.5× it multiplies H62-L.
-6. **Resolve `IR-62-27` / `docs/data.md` §1:** the official stack carries **19** bands with their own
+6. **Resolve `IR-62-21` / `docs/data.md` §1:** the official stack carries **19** bands with their own
    `band_name` tags in the file (verified this session by re-reading the bytes,
    sha256 `4371c82e…` = the pin), not the 35 claimed in `docs/data.md`. Band names are therefore no
    longer "second-hand"; the docs need one edit.
@@ -154,3 +154,50 @@ composite (USGS 3DEP 1 m, public domain) or stop treating it as basin-wide.
   58 %, so ~25 % of the grid is mapped only from 10 m topography.
 * The protocol's "≤ 70 % of dots within 3 px of one registry raster" leg is **unsatisfiable by any
   field** (measured: uniform-random 0.9987, 3 px lattice 0.9988 against the same comparator).
+
+
+## Added 2026-10-12 by session `arena/b7846648-62gemsdoe` (datum-offset lane)
+
+The ranking above (`arena/d0303476`, 2026-10-11b, then corrected by `arena/778884cc` on 2026-10-12)
+stands as the group's list; this one is what the datum lane would add to or change in it, with the measurements behind every line in `evidence/h62j*`
+and `docs/run-card.html`. Where the two disagree the disagreement is named, not averaged.
+
+1. **The `GEMSDOE32` rank-1 advice is retracted, and this lane agrees — drop it.** It was written from
+   instrument-B credit **0.29294** (3.0× the submitted family's 0.09892, no owner-reported score anywhere)
+   and it has now been killed twice from independent directions: session `d0303476` measured that
+   per-dot credit on that instrument tracks the leaderboard at ρ = **+0.617** while the published DTI
+   evaluated on it tracks it at **−0.442** (`IR-62-20`, their numbering), and session `778884cc`
+   re-measured the same field on the kernel-*fixed* portal-calibrated instrument at **0.0408 credit/dot,
+   projection 0.0295** — below their own lane file and ~10× below the champion family (`IR-62-25`/`26`,
+   including the S* kernel-radius bug that inflated every earlier projection). Two proxies now point the
+   same way; no slot. **What this lane adds, and what survives the retraction:** the band table says any
+   detector's mass should sit *near* a mapped trace, not beyond 4 km — a placement rule, not a ranking.
+2. **Run the collar ladder — it is now the cheapest untried experiment in the group.** The band table
+   (this session, `evidence/h62j-bands.json`) measures per-dot credit 0.178 / 0.153 / 0.108 inside
+   500 m of a mapped trace against 0.018 beyond 4 km, with same-band controls giving ratios 1.33 / 1.21 /
+   1.29 versus 0.51. Every lane here emits dots *pushed away* from the catalogue by a 250–300 m collar.
+   Emitting the same detector at collars {200, 300, 500, 1000} m and comparing model DTI costs one sweep
+   per lane and settles whether "new geometry" should mean *near the trace* rather than *far from it*.
+   Note the asymmetry that makes this non-trivial: dots within ~250 m of the catalogue are masked out of
+   the organiser's truth, so the gain has to come from the flanking damage zone, which is exactly what
+   0.108–0.178 per dot says is there.
+3. **H62-K, along-strike continuation of mapped systems into DEM-evident but unmapped ground.** Still
+   untried, still the best physical idea in the lane, and now with a measured reason to expect it to
+   work: continuation is by construction 0–1,500 m off a trace, the band this session found pays 2–5×
+   the far field. Inputs already in the checkout: `qfault_attributes.csv`, `trace_segments_utm11.csv`,
+   `gdr_qfaults_traces.csv`.
+4. **The datum lane needs coverage, not cleverness.** 9.42 % of footprint cells are measurable by the
+   doublet at all (`IR-62-22`), which caps mass at 10,870 dots and the lane's ceiling at 5 × credit =
+   0.203. Reaching a footprint-wide datum field means the remaining 12–16 3DEP tiles on the
+   `dem-fetch.yml` runner (~90 min, >90 MB) — a real cost, worth spending only after (2) or (3) show
+   the *method* beats chance at full coverage.
+5. **Geothermal: stop using thermal occurrences as structure, for this metric.** Measured 0.75–0.84×
+   control for Hot/Warm cells and corridors, 0.10–0.21× for mapped vents (`evidence/h62j2-geothermal.json`,
+   mass-matched controls). If the geothermal lane still wants thermal data, it must be as a *prior
+   weighted by the band table*, not as a placement rule — and the burden is now on it to show that.
+6. **The claim-vs-bytes gate exists and should run in CI.** `scripts/audit_downloads.py --write` now
+   generates every download verdict from the file bytes, `tests/test_download_manifest.py` (10 tests)
+   fails on drift, and `scripts/render_doc_pages.py --check` fails when a `.md` and its `.html` disagree.
+   Next step: add all three to `.github/workflows/ci.yml` so a stale site claim cannot be merged.
+7. **Still true from before:** holdout and SGMC instruments are diagnostic, never gating; `S*` is never a
+   placement objective; no file here has an organiser-confirmed score.

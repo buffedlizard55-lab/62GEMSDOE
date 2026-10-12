@@ -1,0 +1,87 @@
+{
+  "tif": "docs/downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif",
+  "sha256": "7e67bf2d4ea506a89b840fc130d38c2c7a8473daf95dc780fbfd9601b1096b94",
+  "n_dots": 10870,
+  "mean_credit": 0.040588,
+  "marginal_bar": 0.007494,
+  "bands": [
+    {
+      "band_m": "0-250",
+      "n_dots": 221,
+      "frac_dots": 0.0203,
+      "credit": 0.177644,
+      "control_mean": 0.133408,
+      "control_sd": 0.019988,
+      "ratio": 1.332,
+      "pool_cells": 301054,
+      "pays_above_bar": true
+    },
+    {
+      "band_m": "250-300",
+      "n_dots": 84,
+      "frac_dots": 0.0077,
+      "credit": 0.153287,
+      "control_mean": 0.126819,
+      "control_sd": 0.024309,
+      "ratio": 1.209,
+      "pool_cells": 44282,
+      "pays_above_bar": true
+    },
+    {
+      "band_m": "300-500",
+      "n_dots": 360,
+      "frac_dots": 0.0331,
+      "credit": 0.108436,
+      "control_mean": 0.083786,
+      "control_sd": 0.009767,
+      "ratio": 1.294,
+      "pool_cells": 240798,
+      "pays_above_bar": true
+    },
+    {
+      "band_m": "500-1000",
+      "n_dots": 1001,
+      "frac_dots": 0.0921,
+      "credit": 0.040695,
+      "control_mean": 0.05115,
+      "control_sd": 0.002122,
+      "ratio": 0.796,
+      "pool_cells": 637102,
+      "pays_above_bar": true
+    },
+    {
+      "band_m": "1000-2000",
+      "n_dots": 1691,
+      "frac_dots": 0.1556,
+      "credit": 0.035384,
+      "control_mean": 0.045602,
+      "control_sd": 0.005548,
+      "ratio": 0.776,
+      "pool_cells": 1022690,
+      "pays_above_bar": true
+    },
+    {
+      "band_m": "2000-4000",
+      "n_dots": 2873,
+      "frac_dots": 0.2643,
+      "credit": 0.056999,
+      "control_mean": 0.041989,
+      "control_sd": 0.004757,
+      "ratio": 1.357,
+      "pool_cells": 1348675,
+      "pays_above_bar": true
+    },
+    {
+      "band_m": ">4000",
+      "n_dots": 4640,
+      "frac_dots": 0.4269,
+      "credit": 0.018467,
+      "control_mean": 0.036198,
+      "control_sd": 0.00121,
+      "ratio": 0.51,
+      "pool_cells": 1511784,
+      "pays_above_bar": true
+    }
+  ],
+  "instrument": "SGMC quaternary faults minus catalogue, 300 m kernel"
+}

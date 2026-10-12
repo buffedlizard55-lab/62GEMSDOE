@@ -108,6 +108,16 @@ def main() -> int:
     ap.add_argument("--sample", required=True, help="sample_submission.tif (defines the footprint)")
     ap.add_argument("--out-dir", default="build/lane")
     ap.add_argument("--name", default="gemsdoe62-datum-lahontan-isobase")
+    ap.add_argument("--detector-revision", default="legacy", choices=("legacy", "fixed"),
+                    help="'legacy' reproduces the shipped v8 bytes (axis swap, raw step); "
+                         "'fixed' uses the corrected axis convention plus the isobase-excess "
+                         "step and the paired-bench (doublet) gate -- see IR-62-J-01/-03")
+    ap.add_argument("--flank-tol-m", type=float, default=6.0,
+                    help="fixed revision only: how far each flank may sit off the isobase "
+                         "and still count as a bench (published still-highstand resolution ~3 m)")
+    ap.add_argument("--min-flank-corr", type=float, default=0.35,
+                    help="fixed revision only: minimum shape agreement of the two flanks")
+
     # bench / isobase knobs
     ap.add_argument("--flat-slope", type=float, default=0.035)
     ap.add_argument("--riser-slope", type=float, default=0.10)
@@ -325,7 +335,13 @@ def main() -> int:
                                    min_datum_evidence=args.min_datum_evidence,
                                    max_shore_distance_m=args.max_shore_distance_m,
                                    suppression_m=args.locus_separation_m,
-                                   max_loci=args.max_loci_per_block)
+                                   max_loci=args.max_loci_per_block,
+                                   legacy_axis_swap=(args.detector_revision == "legacy"),
+                                   excess_step=(args.detector_revision != "legacy"),
+                                   flank_tol_m=(1e9 if args.detector_revision == "legacy"
+                                               else args.flank_tol_m),
+                                   min_corr=(0.0 if args.detector_revision == "legacy"
+                                             else args.min_flank_corr))
         for e in ds.get("loci", []):
             if e["row"] < 0.5 * overlap_px or e["col"] < 0.5 * overlap_px or \
                e["row"] > (r1 - r0) - 0.5 * overlap_px or e["col"] > (c1 - c0) - 0.5 * overlap_px:
