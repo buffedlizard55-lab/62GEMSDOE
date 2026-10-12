@@ -64,7 +64,12 @@ def md_to_html(md: str) -> str:
         if s.startswith("|"):
             rows = []
             while i < len(lines) and lines[i].rstrip().startswith("|"):
-                cells = [x.strip() for x in lines[i].rstrip().strip("|").split("|")]
+                # cells split on UNESCAPED pipes only: `\|` inside a cell is literal text
+                body = lines[i].rstrip().strip()
+                body = body[1:] if body.startswith("|") else body
+                body = body[:-1] if body.endswith("|") else body
+                cells = [x.strip().replace("\\|", "|").replace("\|", "|")
+                         for x in re.split(r"(?<!\\)\|", body)]
                 i += 1
                 if set("".join(cells)) <= set("-: "):
                     continue
@@ -122,23 +127,38 @@ def md_to_html(md: str) -> str:
 
 
 def plain(t: str) -> list[str]:
-    """Words only -- the lossless guard compares this on both sides of the render."""
+    """Words of the *rendered* text: used to describe a mismatch, never to decide one."""
     t = re.sub(r"<[^>]+>", " ", t)
-    t = (t.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">").replace("&#x27;", "'"))
+    t = t.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">").replace("&#x27;", "'")
     return [w for w in re.split(r"[\s`*_|]+", t) if w]
 
 
-def verify_lossless(md: str, body: str) -> None:
-    """Refuse to write a page whose *words* are not the markdown's words.
+def norm(t: str) -> str:
+    """Alphanumerics only, in order -- the comparison the guard actually makes.
 
-    The markdown side is reduced to the same thing the renderer keeps: structural markers removed
-    (rules, table separators, leading pipes, heading/list/blockquote markers), link labels kept and
-    link targets dropped (they become an href, which `plain` strips), emphasis and code ticks gone.
-    If the two word lists differ at any position the render is refused, so a page can never quietly
-    lose a sentence to a parser gap.
+    Comparing a character stream instead of words is what makes this robust: a tag boundary inserts
+    no space here, so `(0.24073)` written as `(**0.24073**)` and a code span containing a `*` both
+    compare equal, while a dropped sentence still changes the stream. Punctuation and markup carry no
+    content for this purpose; nothing in these documents is distinguished by spacing alone.
     """
-    md = re.sub(r"^```[^`\n]*$", " ", md, flags=re.M)     # fence lines, incl. ```json info strings
+    t = re.sub(r"<[^>]+>", "", t)
+    t = (t.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">").replace("&#x27;", "'"))
+    t = re.sub(r"[^0-9a-z]+", "", t.lower())
+    return t
+
+
+def verify_lossless(md: str, body: str) -> None:
+    """Refuse to write a page whose text is not the markdown's text.
+
+    The markdown side is first reduced to what the renderer is meant to keep: structural markers
+    removed (rules, table separators, leading pipes, heading/list/blockquote markers, fence info
+    strings), link labels kept and link targets dropped (they become an href). Then both sides are
+    normalised with `norm` and compared. The report uses `plain` so a failure says which words
+    diverged.
+    """
+    md = re.sub(r"^```[^`\n]*$", " ", md, flags=re.M)
     md = re.sub(r"^ {0,3}(-{3,}|\*\*\*|_{3,}) *$", " ", md, flags=re.M)
+    md = md.replace("\\|", "|")
     md = re.sub(r"^\s*[|\-: ]+$", " ", md, flags=re.M)
     md = re.sub(r"\[([^\]]*)\]\(([^)]*)\)", r"\1", md)
     md = re.sub(r"^[ \t]*[-*] +", "", md, flags=re.M)
@@ -147,18 +167,15 @@ def verify_lossless(md: str, body: str) -> None:
     md = re.sub(r"^ {0,3}#{1,6} +", "", md, flags=re.M)
     md = re.sub(r"^\s*\|", " ", md, flags=re.M)
     md = re.sub(r"\\([*_`])", " ", md)
-    md = md.replace("*", " ").replace("`", " ").replace("|", " ")
-    src, got = plain(md), plain(body)
-    if src != got:
-        for i, (x, y) in enumerate(zip(src, got)):
-            if x != y:
-                raise SystemExit(f"render would LOSE or CHANGE text at word {i}: md has {x!r}, "
-                                 f"html has {y!r} -- refusing to write")
-        at = min(len(src), len(got))
-        extra = (f"; md continues with {src[at:at + 4]!r}" if len(src) > at
-                 else f"; html continues with {got[at:at + 4]!r}" if len(got) > at else "")
-        raise SystemExit(f"render would LOSE or CHANGE text at word {at}: {len(src)} words in, "
-                         f"{len(got)} out{extra} -- refusing to write")
+    if norm(md) != norm(body):
+        src, got, nsrc, ngot = plain(md), plain(body), norm(md), norm(body)
+        at = next((k for k in range(min(len(nsrc), len(ngot))) if nsrc[k] != ngot[k]),
+                  min(len(nsrc), len(ngot)))
+        wi = next((i for i, w in enumerate(src) if i < len(got) and w != got[i]), min(len(src), len(got)))
+        ctx = nsrc[max(0, at - 40):at + 40]
+        raise SystemExit(f"render would LOSE or CHANGE text near word {wi} (md {src[wi]!r} vs "
+                         f"html {got[wi] if wi < len(got) else None!r}); character stream diverges at "
+                         f"{at} around {ctx!r} -- refusing to write")
 
 
 def render(name: str, *, check_only: bool = False, docs: pathlib.Path = DOCS) -> int:

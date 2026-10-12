@@ -91,17 +91,71 @@ composite (USGS 3DEP 1 m, public domain) or stop treating it as basin-wide.
   organiser 19-band stack* as **features** for the supervised detector; target blocked
   DTI(`S*`) ≥ 0.60 before any slot is spent.
 
+## Added 2026-10-11 by session `arena/d0303476-62gemsdoe` (branch `arena/d0303476-62gemsdoe`)
+
+### Ranked, with the measurement that produced the rank
+
+1. **Get one ORGANIZER-CONFIRMED score into `evidence/` — now the single highest-value action.**
+   This session measured what the two local instruments are worth over **20** owner-reported scores
+   (`evidence/e2b_reference_frame_20261011b.json`, `evidence/e4_gates_20261011b.json`):
+   * credit per dot against SGMC 1:750 k minus catalogue → **ρ = +0.617** (p = 0.0038) with the leaderboard;
+   * credit per dot against the **mapped** catalogue → **ρ = −0.597** (p = 0.0054);
+   * the published DTI *evaluated on* the SGMC instrument → **ρ = −0.442** (p = 0.0513).
+   The third line is new and it invalidates promotion by proxy metric: the two highest DTI values on
+   that instrument belong to a 0.0904-scoring lattice and to a never-submitted file.
+
+2. **Retire the two promotion gates.** The segmented catalogue holdout is anti-correlated with the
+   leaderboard (`IR-62-HOLDOUT-01`, ρ = −0.9141), and this session's field fails it at 0.00073 *for
+   the measured reason that it obeys the leaderboard's own preference* (stay off the mapped
+   catalogue). A gate that rewards the opposite of the target is worse than no gate.
+
+3. **Spend the next slot on a paired experiment, not on a bigger field.** §2(c) of
+   `docs/research/beating-02778-2026-10-11b.md` makes the mass term exact and cheap to reason about
+   (`DTI = c/(0.2 + 0.8K/M)`), and the group's own history shows its credit falling faster than the
+   mass term gains. One field at 120,000 dots with the *same* detector as a 40,000-dot field
+   measures `dc/dM` directly — the one number nobody in this group has.
+
+4. **H62-M — along-strike catalogue extension** (untried; specified in
+   `docs/hypotheses-2026-10-11b.md`). It is the only construction that targets *by design* the
+   population the organizers explicitly include ("newly mapped geometry of existing systems",
+   thread 11536), and its dots are off-catalogue by construction.
+
+5. **Screen H62-Q (geothermal proximity) before the next structural bet.** It is the only untried
+   hypothesis that speaks to the competition's stated purpose, it needs one free official dataset
+   (DOE Geothermal Data Repository wells/springs, `https://gdr.openei.org/`), and it needs the
+   GitHub-runner transport that already exists for the DEM. The test is fixed in
+   `docs/hypotheses-2026-10-11b.md`: per-dot credit inside vs outside a 5/10/20 km buffer, with a
+   mass-matched random control. Below 1.0× it dies; above 1.5× it multiplies H62-L.
+6. **Resolve `IR-62-21` / `docs/data.md` §1:** the official stack carries **19** bands with their own
+   `band_name` tags in the file (verified this session by re-reading the bytes,
+   sha256 `4371c82e…` = the pin), not the 35 claimed in `docs/data.md`. Band names are therefore no
+   longer "second-hand"; the docs need one edit.
+
+### Limitations this session could not remove
+
+* **Still zero organizer-confirmed scores.** Every number in this repository is a proxy.
+* `drivendata.org` and USGS hosts remain unreachable from the sandbox; GitHub is the transport.
+* The official stack's coverage is complete inside the footprint (measured: 5,167,373 cells with no
+  nodata), but the 1 m LiDAR scarp composite covers 75 % of the footprint and the 3 m scarp product
+  58 %, so ~25 % of the grid is mapped only from 10 m topography.
+* The protocol's "≤ 70 % of dots within 3 px of one registry raster" leg is **unsatisfiable by any
+  field** (measured: uniform-random 0.9987, 3 px lattice 0.9988 against the same comparator).
 
 
 ## Added 2026-10-12 by session `arena/b7846648-62gemsdoe` (datum-offset lane)
 
-This ranking replaces the "what to try next" list above where they disagree; the measurements behind
-every line are in `evidence/h62j*` and `docs/run-card.html`.
+The ranking above (`arena/d0303476`, 2026-10-11b) stands as the group's list; this one is what the
+datum lane would add to or change in it, with the measurements behind every line in `evidence/h62j*`
+and `docs/run-card.html`. Where the two disagree the disagreement is named, not averaged.
 
-1. **Make the selector decision about `GEMSDOE32`'s never-submitted field.** Unchanged from 2026-10-11
-   and still first: 45,000 dots at instrument-B credit **0.29294**, 3.0× the submitted family's 0.09892,
-   with no owner-reported score attached anywhere. Minutes of work, a lane-boundary decision, and the
-   number must be discounted hard.
+1. **Make the selector decision about `GEMSDOE32`'s never-submitted field — but discount it harder than
+   this lane's own 2026-10-11 text did.** 45,000 dots at instrument-B credit **0.29294**, 3.0× the
+   submitted family's 0.09892, no owner-reported score anywhere. Session `d0303476` measured (`IR-62-20`,
+   their numbering) that per-dot credit against that instrument tracks the leaderboard at ρ = **+0.617**
+   while the *published DTI evaluated on it* tracks it at **−0.442**, and on that basis downgraded this
+   from rank 1. Both readings are proxies; the decision is the selector's, and spending a slot is cheap
+   relative to the argument. **What this lane adds:** the band table below says the same detector's mass
+   should sit *near* the catalogue, not beyond 4 km, wherever it is placed.
 2. **Run the collar ladder — it is now the cheapest untried experiment in the group.** The band table
    (this session, `evidence/h62j-bands.json`) measures per-dot credit 0.178 / 0.153 / 0.108 inside
    500 m of a mapped trace against 0.018 beyond 4 km, with same-band controls giving ratios 1.33 / 1.21 /

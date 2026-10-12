@@ -1,0 +1,26 @@
+{
+ "verdict": "ANOTHER LANE'S PROBE (session arena/d0303476) - legal and unique as shipped; promotion is the selector's decision",
+ "ok_to_submit": false,
+ "note": "120,000 isolated dots from a k-of-N vote over derivative fields with scarp corroboration. This lane did not build it and does not vouch for its merit; what the audit verifies here is the format contract and the bytes, so that a file on the site root cannot carry an unlabelled claim. The datum lane's band table applies to it too: mass beyond 4 km off the catalogue earns ~0.51x a same-band control.",
+ "organizer_score": null,
+ "organizer_score_note": "that session records `organizer_score: null`; no file in this repository has an organiser-confirmed score",
+ "expected_value_label": "as stated by its own author: per-dot credit 0.0621 on the one positively-tracking local quantity, and a pre-registered condition (beats 0.2778 iff true per-dot credit > 0.0778)",
+ "artifact_of": "not this lane - docs/executive-summary-2026-10-11b.md describes the build",
+ "evidence": [
+  "evidence/final_field_gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.json",
+  "evidence/run_card_20261011b.json",
+  "evidence/e4_gates_20261011b.json",
+  "docs/executive-summary-2026-10-11b.md"
+ ],
+ "name": "gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "42bffef1b5973973cdcb52c252067b33159e03fa721d1f58bec83f18ca779a21",
+ "bytes": 481168,
+ "dots": 120000,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

@@ -61,7 +61,17 @@ def main() -> int:
     ap.add_argument("--out-json", default=str(ROOT / "evidence/h62j2-geothermal.json"))
     ap.add_argument("--corridor-m", type=float, default=600.0,
                     help="also score every allowed cell within this distance of an indicator")
+    ap.add_argument("--buffers-m", default="",
+                    help="comma-separated radii, e.g. 5000,10000,20000 -- the H62-Q test as "
+                         "specified in docs/hypotheses-2026-10-11b.md: credit INSIDE each buffer "
+                         "against a mass-matched control drawn from the SAME buffer, plus the "
+                         "complementary field OUTSIDE every buffer")
     ap.add_argument("--max-mass", type=int, default=60000)
+    ap.add_argument("--placebo-trials", type=int, default=0,
+                    help="for each buffer radius, draw N point sets of the SAME COUNT at random "
+                         "in the allowed pool and build the same buffers: if a random belt scores "
+                         "like the real one, the indicator adds nothing to its geography. This is "
+                         "the control that makes a 1.1x at 20 km interpretable.")
     args = ap.parse_args()
     ext = pathlib.Path(args.ext)
 
@@ -162,6 +172,69 @@ def main() -> int:
             checks.append(rec)
             print(f"{name:26s} {tag:16s} M={n:6d} credit={cr:.5f}"
                   f" ({cr/c_ctrl:5.2f}x control {c_ctrl:.5f}+-{s_ctrl:.5f}) modelDTI={s:.4f}")
+    radii = [float(x) for x in args.buffers_m.split(",") if x.strip()]
+    for name, pts in sets.items():
+        raw = np.zeros(foot.shape, bool)
+        for (r, c) in pts:
+            if 0 <= r < foot.shape[0] and 0 <= c < foot.shape[1]:
+                raw[r, c] = True
+        dist = ndi.distance_transform_edt(~raw, sampling=(100.0, 100.0))
+        for R in radii:
+            inside = dist <= R
+            m = hardcore(inside, args.max_mass, rank=dist)
+            cr, n = mc(m)
+            if n:
+                c_ctrl, s_ctrl = control_at(n) if False else control_at(n)
+                s_m = cr * n / (0.2 * n + 0.8 * N_PLAN)
+                rec = dict(name=name, field=f"inside {R:.0f} m buffer", M=n,
+                           cells_available=int((inside & pool).sum()), credit=round(cr, 6),
+                           control_mean=round(c_ctrl, 6), control_sd=round(s_ctrl, 6),
+                           credit_vs_control=round(cr / c_ctrl, 3) if c_ctrl > 0 else None,
+                           z=(round((cr - c_ctrl) / s_ctrl, 2) if s_ctrl > 1e-12 else None),
+                           model_dti_N12000=round(s_m, 6))
+                checks.append(rec)
+                print(f"{name:26s} {R/1000:5.0f} km buffer   M={n:6d} credit={cr:.5f}"
+                      f" ({cr/c_ctrl:5.2f}x control {c_ctrl:.5f}+-{s_ctrl:.5f}) modelDTI={s_m:.4f}")
+        if radii:
+            outside = dist > max(radii)
+            m = hardcore(outside, args.max_mass, rank=-dist)
+            cr, n = mc(m)
+            if n:
+                c_ctrl, s_ctrl = control_at(n)
+                s_m = cr * n / (0.2 * n + 0.8 * N_PLAN)
+                checks.append(dict(name=name, field=f"outside {max(radii):.0f} m", M=n,
+                                   credit=round(cr, 6), control_mean=round(c_ctrl, 6),
+                                   control_sd=round(s_ctrl, 6),
+                                   credit_vs_control=round(cr / c_ctrl, 3) if c_ctrl > 0 else None,
+                                   model_dti_N12000=round(s_m, 6)))
+                print(f"{name:26s} outside all buffers M={n:6d} credit={cr:.5f}"
+                      f" ({cr/c_ctrl:5.2f}x) modelDTI={s_m:.4f}")
+    for name, pts in sets.items():
+        if args.placebo_trials <= 0:
+            break
+        raw = np.zeros(foot.shape, bool)
+        for (r, c) in pts:
+            if 0 <= r < foot.shape[0] and 0 <= c < foot.shape[1]:
+                raw[r, c] = True
+        cand = np.nonzero(pool)
+        rng = np.random.default_rng(20261012)
+        for R in radii:
+            vals = []
+            for t in range(args.placebo_trials):
+                pick = rng.choice(cand[0].size, size=len(pts), replace=False)
+                fake = np.zeros(foot.shape, bool)
+                fake[cand[0][pick], cand[1][pick]] = True
+                fd = ndi.distance_transform_edt(~fake, sampling=(100.0, 100.0))
+                m = hardcore(fd <= R, args.max_mass, rank=fd)
+                cr, n = mc(m)
+                if n:
+                    vals.append(cr)
+            if vals:
+                checks.append(dict(name=name, field=f"PLACEBO {len(pts)} random points, {R:.0f} m buffer",
+                                   M=int(args.max_mass), credit=round(float(np.mean(vals)), 6),
+                                   placebo_sd=round(float(np.std(vals)), 6), trials=len(vals)))
+                print(f"{name:26s} placebo {R/1000:5.0f} km   credit={np.mean(vals):.5f}"
+                      f" +-{np.std(vals):.5f}  ({len(vals)} random point sets of the same count)")
     out = pathlib.Path(args.out_json)
     out.parent.mkdir(parents=True, exist_ok=True)
     payload = dict(checks=checks,

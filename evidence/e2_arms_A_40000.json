@@ -1,0 +1,21 @@
+{
+ "experiment": "E2 arms",
+ "arm": "A",
+ "budget": 40000,
+ "seed": 11,
+ "generated_utc": "2026-10-12T00:04:39Z",
+ "vote_quantile": 0.975,
+ "min_votes": 2,
+ "rows": [
+  {
+   "arm": "A",
+   "n_dots": 40000,
+   "credit_cat": 0.0010351561941206455,
+   "credit_sgmc": 0.06380913406610489,
+   "frac3px_champ_h33": 0.251125,
+   "frac3px_bayesopt_d28": 0.292175,
+   "frac3px_h25_dotted": 0.26685,
+   "min_pairwise_px": 0.0
+  }
+ ]
+}

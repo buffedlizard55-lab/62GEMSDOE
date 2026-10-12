@@ -11,7 +11,7 @@
   "footprint_cells": 5167373,
   "catalogue_cells": 60988
  },
- "n_files": 12,
+ "n_files": 13,
  "files": [
   {
    "path": "docs/downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif",
@@ -494,6 +494,102 @@
    "expected_value_label": "no expected value - 99 dots is below the mass floor by three orders of magnitude",
    "artifact_of": "scripts/make_control.py",
    "sidecar": "docs/downloads/gems62-lahontan-isobase-99dots-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif",
+   "bytes": 481168,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "42bffef1b5973973cdcb52c252067b33159e03fa721d1f58bec83f18ca779a21",
+   "dots": 120000,
+   "total_mass": 120000.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 120000,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "ANOTHER LANE'S PROBE (session arena/d0303476) - legal and unique as shipped; promotion is the selector's decision",
+   "ok_to_submit": false,
+   "note": "120,000 isolated dots from a k-of-N vote over derivative fields with scarp corroboration. This lane did not build it and does not vouch for its merit; what the audit verifies here is the format contract and the bytes, so that a file on the site root cannot carry an unlabelled claim. The datum lane's band table applies to it too: mass beyond 4 km off the catalogue earns ~0.51x a same-band control.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "as stated by its own author: per-dot credit 0.0621 on the one positively-tracking local quantity, and a pre-registered condition (beats 0.2778 iff true per-dot credit > 0.0778)",
+   "artifact_of": "not this lane - docs/executive-summary-2026-10-11b.md describes the build",
+   "sidecar": "docs/downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.verdict.json",
    "sidecar_matches_bytes": true
   },
   {

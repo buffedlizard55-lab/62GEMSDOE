@@ -1,96 +1,165 @@
-<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Executive summary — how to submit</title><style>
-:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;--warn:#d29922;--card:#161b22;--bd:#30363d}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
-.wrap{max-width:1000px;margin:0 auto;padding:24px 20px 90px}
-h1{font-size:1.8em}h2{font-size:1.3em;margin:1.7em 0 .5em;border-bottom:1px solid var(--bd);padding-bottom:.3em}
-h3{font-size:1.05em;margin:1.2em 0 .4em}
-a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
-code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.88em}
-pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.84em}
-pre code{background:none;padding:0}
-table{border-collapse:collapse;width:100%;margin:.9em 0;font-size:.9em}
-th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
-th{background:#1f2630}
-.mut{color:var(--mut)}blockquote{border-left:3px solid var(--bd);margin:1em 0;padding:.2em 0 .2em 1em;color:var(--mut)}
-hr{border:0;border-top:1px solid var(--bd);margin:2em 0}
-.back{display:inline-block;margin-bottom:14px;font-size:.9em}
-.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
-.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
-.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
-.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
-.hero{border:2px solid var(--no);border-radius:10px;padding:20px;margin:16px 0;background:rgba(248,81,73,.06)}
-.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;border-radius:8px;margin:8px 8px 8px 0}
-.btn:hover{background:#2ea043;text-decoration:none}
-.btn.sec{background:#30363d}
-</style></head><body><div class='wrap'><a class='back' href='index.html'>&larr; back to 62GEMSDOE</a>
-<h1>Executive summary — exactly how to make a submission, and what to submit</h1>
-<h2>1. The file, and the verdict on it</h2>
-<p><b>&lt;span style="color:#f85149"&gt;VERDICT: NEGATIVE — this file is legal and unique, but it should not take a weekly slot.&lt;/span&gt;</b></p>
-<table><tr><th></th><th></th></tr>
-<tr><td><b>Download</b></td><td><a href="downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif"><code>downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif</code></a> — 98,893 bytes</td></tr>
-<tr><td><b>sha256</b></td><td><code>79eb0a7ddc2dcfb4667bff41bbc237f8d5663dd63e025eed79af8c8f984ed500</code></td></tr>
-<tr><td><b>Submission name</b></td><td><code>gems62-h62g-benchcrosscut-hardcore-zeros</code></td></tr>
-<tr><td><b>Submission note</b> (117 / 140 chars)</td><td><code>H62-G Lahontan bench cross-cut, 10k isolated dots; credit at isolated-random control. NEGATIVE - do not spend a slot.</code></td></tr>
-<tr><td><b>Portal-legal?</b></td><td><b>Yes.</b> Every validator check passes on the re-read bytes (§2).</td></tr>
-<tr><td><b>Worth a slot?</b></td><td><b>No.</b> Mean 300 m kernel credit <b>0.0420</b> at 10,000 dots vs a mass-matched isolated-random control of <b>0.04330 ± 0.00165</b> (5 seeds). At chance. At 5,000 dots it is 0.0572 vs 0.04279 (1.34×) — real but tiny, and the closed form still gives 0.027.</td></tr>
-<tr><td><b>Organizer score</b></td><td>none — never submitted.</td></tr>
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Executive summary — how to make a GEMS submission</title><link rel="stylesheet" href="assets/site.css"></head><body><header>
+  <span class="brand">62GEMSDOE · datum-offset lane</span>
+  <nav>
+    <a href="index.html" class="">Overview</a>
+    <a href="executive-summary.html" class="active">How to submit</a>
+    <a href="results.html">Prior results</a>
+    <a href="research/sources.html">Sources</a>
+    <a href="https://github.com/buffedlizard55-lab/62GEMSDOE">GitHub</a>
+  </nav>
+</header>
+<main>
+<h1>Executive summary — exactly how to make a submission into the competition</h1>
+<p class="sub">Written so that someone who has never opened the competition can go from this page to a
+scored submission without reading any code.</p>
+
+<div class="dl">
+  <h2>⬇ The submission file, and whether to upload it</h2>
+  <p><b>OK TO DOWNLOAD</b> for inspection. &nbsp;
+     <span class="verdict v-no">NOT CLEARED TO SUBMIT — do not spend a weekly slot</span></p>
+  <a class="btn" href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">Download gems62-lahontan-isobase-99dots-zeros.tif</a>
+  <a class="btn sec" href="downloads/gems62-lahontan-isobase-99dots-nan.tif">NaN-outside twin</a>
+  <table>
+    <tr><th>sampled dots</th><td class="n">99</td></tr>
+    <tr><th>hard upper bound</th><td class="n"><b>0.0103</b> — with every dot placed perfectly (|G| = 12,000)</td></tr>
+    <tr><th>sha256</th><td class="mono">fc628410873f018d998ca60e0a00228c999aff035e2e9dc22ccd571a6e8c0348</td></tr>
+    <tr><th>format checks</th><td>PASS — and section 2 explains the "values must be in range [0, 1]" error</td></tr>
+  </table>
+  <p>Reason: a 99-dot file cannot beat the incumbent family even with flawless placement, because the
+  metric charges β = 0.8 per <i>missing</i> truth cell. Section 4 gives the mass and quality needed instead.
+  The artifact is still useful as Phase-2 evidence, and it is fully reproducible from this repository.</p>
+</div>
+
+<div class="card hi">
+<h2 style="border:0;margin-top:0;padding-top:0">The 60-second version</h2>
+<ol>
+  <li>Log in to <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">the competition data tab</a>
+      and accept the rules. Download <code>sample_submission.tif</code> — it defines the grid.</li>
+  <li>Produce a single-band float32 GeoTIFF that matches the grid exactly:
+      <b>EPSG 32611, 100 m, shape 3730 × 3292, transform</b>
+      <code>(100, 0, 243350, 0, −100, 4508550)</code>, values in <b>[0, 1]</b>, null/NaN outside the data bounds.</li>
+  <li>Open <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submit/">the submission form</a>,
+      <b>choose your file</b>, paste a short <b>Note</b> (&le; 140 characters so you can tell submissions apart later),
+      and press Submit. Uploading does not consume a slot until you confirm; a scored submission does.</li>
+  <li>Budget: <b>up to three scored submissions per week</b>. Spend them deliberately.</li>
+</ol>
+</div>
+
+<h2>1. The file the portal wants — the exact contract</h2>
+<p>Verbatim from the problem description, “# Submission format”:</p>
+<ul>
+  <li>“same projected coordinate reference system as the training data … <b>EPSG 32611</b>”</li>
+  <li>“same resolution … <b>100m</b>”</li>
+  <li>“same bounds as the training data, and <b>data outside the bounds is null or nan</b>”</li>
+  <li>“a single layer with datatype of <b>32-bit float (float32)</b> with values <b>between 0 and 1</b>”</li>
+</ul>
+<p>A single-band <code>.tif</code>, or a <code>.zip</code> containing one, is accepted.</p>
+
+<h2>2. The error you already hit, and why</h2>
+<div class="card">
+<p><b>“Predicted values must be in range [0, 1]”</b> — this is a range check that sees a value outside
+[0, 1]. The three common causes, in order:</p>
+<ol>
+  <li><b>A float32 nodata sentinel.</b> GeoTIFFs written by GIS tools often carry <code>-3.4028235e38</code>
+      (“−FLT_MAX”). It is a legitimate nodata marker but it is far outside [0, 1], and if the portal reads
+      it as data the check fails. <b>Fix:</b> write <code>nodata=None</code>, or use NaN.</li>
+  <li><b>A NaN nodata tag with NaN cells counted as data.</b> NaN fails any
+      <code>all(v &gt;= 0 and v &lt;= 1)</code> test. Five of the sibling repositories' artifacts are
+      NaN-outside; they are exactly the files that produced this error for the owner.</li>
+  <li><b>Genuine out-of-range data</b> — an unnormalised probability or a scaled integer.</li>
+</ol>
+<p><b>The safe pattern used here:</b> write every cell <i>outside</i> the survey footprint as a <b>finite
+0.0</b> with <code>nodata=None</code>, and every finite value in the footprint in [0, 1]. No sentinel, no NaN,
+nothing for a range check to trip on. This repository ships both encodings so you can choose:
+<code>-zeros.tif</code> (all finite) and <code>-nan.tif</code> (NaN outside, matching the page's wording literally).</p>
+</div>
+
+<h2>3. Which of our files to upload</h2>
+<div class="card">
+<p><span class="verdict v-no">DO NOT SUBMIT THIS WEEK</span></p>
+<p>The current artifact has a hard upper bound of <b>0.0103</b> —
+even if all 99 dots landed exactly on truth pixels — because the metric charges
+β = 0.8 per missing truth cell. Uploading it would spend one of three weekly slots on a file that cannot
+beat the incumbent family. It is <b>OK TO DOWNLOAD</b> and inspect, and it is useful Phase-2 evidence.</p>
+<a class="btn" href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">Download for inspection</a>
+<a class="btn sec" href="downloads/gems62-lahontan-isobase-99dots-nan.tif">NaN-outside twin</a>
+</div>
+
+<h2>4. What to upload instead — the numbers the metric demands</h2>
+<p>For unit-valued, non-overlapping dots the published index reduces to
+<code>DTI = c·N / (α·N + β·|G|)</code>. Clearing a target therefore has exactly two routes: more mass, or
+better placement. At a target of <b>0.3195</b>, with |G| = 12,000:</p>
+<table>
+  <tr><th>route</th><th class="n">requirement</th><th>what it means in practice</th></tr>
+  <tr><td>mass at the family's own placement quality</td><td class="n">46,402 dots at c = 0.130</td>
+      <td>emit ~46,000 dots, not 37–45 k, while keeping every dot's credit profile unchanged</td></tr>
+  <tr><td>placement quality at a moderate mass</td><td class="n">22,536 dots at c = 0.200</td>
+      <td>~22,500 dots each averaging within ~240 m of a truth pixel</td></tr>
+  <tr><td>fixed at 40,000 dots</td><td class="n">c ≥ 0.1406</td>
+      <td>a 15 % improvement in mean credit over the family's 0.122</td></tr>
+  <tr><td>fixed at 25,000 dots</td><td class="n">c ≥ 0.1866</td>
+      <td>a 53 % improvement in mean credit — the highest-leverage single change</td></tr>
 </table>
-<h2>2. The seven things the portal checks, and where each one is satisfied</h2>
-<p>The competition accepts <i>a single-band GeoTIFF (<code>.tif</code>), or a <code>.zip</code> containing a single GeoTIFF, matching the submission format's CRS, shape and geotransform</i> (<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">submission form text, quoted by the owner</a>), and the format spec asks for <i>a single layer, 32-bit float, values between 0 and 1, same CRS / resolution / bounds as the training data</i> (<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem description, page 967</a>).</p>
-<table><tr><th>#</th><th>check</th><th>this file</th><th>how it is enforced</th></tr>
-<tr><td>1</td><td>single band</td><td><code>count = 1</code></td><td><code>grid.write_submission</code> writes <code>count=1</code></td></tr>
-<tr><td>2</td><td><code>float32</code></td><td><code>dtype = float32</code></td><td>written as <code>np.float32</code></td></tr>
-<tr><td>3</td><td>CRS <code>EPSG:32611</code></td><td><code>EPSG:32611</code></td><td>pinned constant, asserted on write</td></tr>
-<tr><td>4</td><td>shape <code>3730 × 3292</code></td><td><code>3730 × 3292</code></td><td>asserted against the sample submission's grid</td></tr>
-<tr><td>5</td><td>geotransform <code>(100, 0, 243350, 0, -100, 4508550)</code></td><td>exact match</td><td>compared to 6 dp</td></tr>
-<tr><td>6</td><td><b>values in [0, 1]</b></td><td><code>n_outside_0_1 = 0</code>, min 0.0, max 1.0</td><td>asserted before write <b>and</b> re-checked after re-reading the file from disk</td></tr>
-<tr><td>7</td><td>no NaN inside the footprint</td><td><code>nan_count = 0</code>, <code>all_finite = true</code></td><td>all-finite zeros are written outside the footprint and <b>no <code>nodata</code> tag is set</b> (<code>nodata = null</code>)</td></tr>
+<p>And the rule that decides whether one more dot is worth emitting — profitable iff its credit exceeds
+α·DTI, i.e. within <b>281 m</b> of a truth pixel at DTI = 0.3195. Dots beyond 300 m contribute
+nothing at all and cost α each.</p>
+<p class="sub">Label: <b>MODEL</b>. The model's own validity check: applied to the two owner-recorded rows of
+the family it reproduces 0.2778 to within 0.02 %. It is not a score and not a projection written as a score.
+For reference, a 225-dot file with flawless placement would score 0.0233.</p>
+
+<h2>5. The single most important rule the competition states</h2>
+<div class="card hi">
+<p>From the problem description: the test set is faults <b>“not included in the existing USGS fault
+database”</b>, and after the Initial prize round “<b>an expert panel will use submitted predictions to update
+fault labels for the full region</b>”, after which the same submissions are rescored:</p>
+<p style="color:var(--warn)">“Predictions that helped experts identify previously-unmapped faults can score
+higher here than in the Initial Prize Round.”</p>
+<p>Two consequences most entries miss:</p>
+<ol>
+  <li><b>The final round rewards defensible placements</b>, because a human panel decides which of your
+      locations become new labels. A blanket of dots that no geologist can confirm adds nothing there.</li>
+  <li><b>The initial round rewards mass geometry</b>, because the score is a weighted-count ratio in which
+      every emitted unit costs α = 0.2 and every missed truth cell costs β = 0.8.</li>
+</ol>
+<p>Those two pull in opposite directions. The winning play is the one that satisfies both: mass placed on
+structures an expert can independently confirm.</p>
+</div>
+
+<h2>6. Checklist before you press Submit</h2>
+<table>
+  <tr><th>#</th><th>check</th><th>how</th></tr>
+  <tr><td>1</td><td>single band, float32, EPSG:32611, shape (3730, 3292), exact transform</td><td><code>python -m gems62.validate</code> or a <code>rasterio</code> one-liner</td></tr>
+  <tr><td>2</td><td>no non-finite value inside the footprint</td><td><code>np.isfinite(a[foot]).all()</code></td></tr>
+  <tr><td>3</td><td>every finite value in [0, 1]</td><td><code>a[foot].min() &gt;= 0 and a[foot].max() &lt;= 1</code></td></tr>
+  <tr><td>4</td><td>no out-of-range nodata sentinel</td><td>the file's <code>nodata</code> must be <code>None</code> or NaN</td></tr>
+  <tr><td>5</td><td>unique vs every earlier raster you own — <b>both before placement (on the surface) and on the final dots</b></td><td>rank correlation &lt; 0.90 and dot overlap &lt; 70 %; <code>scripts/lane_check_surface.py</code> does the pre-placement half and <code>run_lane.py</code> records both</td></tr>
+  <tr><td>6</td><td>you know the file's hard upper bound before you spend the slot</td><td><code>gems62.score_model.perfect_placement_ceiling(n_dots)</code></td></tr>
+  <tr><td>7</td><td>a note under 140 characters that identifies this submission to you later</td><td>e.g. <code>gems62-lahontan-isobase-99dots</code></td></tr>
 </table>
-<p>Checks 6 and 7 are the two that produce the portal error <i>“Predicted values must be in range [0, 1]”</i>. Both failure mechanisms are structurally absent here rather than merely avoided:</p>
+
+<h2>7. Things that will get a submission rejected or disqualified — not technical</h2>
 <ul>
-<li>a <code>float32</code> <b>nodata sentinel</b> such as <code>-3.4028235e38</code> survives as a wild value inside the valid</li>
+  <li><b>Eligibility.</b> The rules restrict entrants to U.S. citizens/permanent residents, U.S.-incorporated
+      entities and U.S. academics, with FFRDC/DOE/FCOC/MFTRP exclusions. Verify before entering.</li>
+  <li><b>Generative-AI disclosure.</b> Rule §3.2 requires a narrative statement of how generative AI was used,
+      including in submission elements.</li>
+  <li><b>External data licence.</b> Any external dataset must be licensed for use in the challenge and
+      shareable with the sponsor. USGS 3DEP and the GeoDAWN release are US Government works (public domain);
+      INGENIOUS/GDR 1391 is CC BY 4.0.</li>
+  <li><b>No automated leaderboard monitoring.</b> DrivenData's Terms of Use prohibit automated
+      monitoring/copying, and manual monitoring without written consent. This repository contains no scraper,
+      no feed and no monitor, and fetches no leaderboard page.</li>
 </ul>
-<p>  footprint → this file has <b>no nodata tag at all</b>;</p>
-<ul>
-<li>a <b>NaN nodata tag</b> makes the reader return NaN, which is not in <code>[0, 1]</code> → this file writes</li>
-</ul>
-<p>  <b>all-finite zeros</b> outside the footprint.</p>
-<p>The receipt is not built from the in-memory array; <code>grid.check_submission</code> <b>re-opens the file from disk</b> and counts. See <a href="../evidence/h62g/receipt.json"><code>evidence/h62g/receipt.json</code></a>.</p>
-<h2>3. Step-by-step submission</h2>
-<ol>
-<li>Download the <code>.tif</code> above (no <code>.zip</code> needed — a bare GeoTIFF is accepted).</li>
-<li>Open the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">submission form</a></li>
-</ol>
-<p>   and sign in.</p>
-<ol>
-<li><b>File to submit</b> → choose the <code>.tif</code>.</li>
-<li><b>Note (optional)</b> → paste the 117-character note from the table above. The stated limit is</li>
-</ol>
-<p>   140 characters; this repository keeps to it.</p>
-<ol>
-<li>Submit. The score appears on the</li>
-</ol>
-<p>   <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">public leaderboard</a>.</p>
-<ol>
-<li><b>Export the receipt.</b> Copy the score row into <code>evidence/</code> and commit it. This repository</li>
-</ol>
-<p>   contains <b>zero</b> organizer-confirmed scores; the first receipt converts every future local    comparison from an argument into an anchored measurement.</p>
-<h2>4. What to submit instead, if a slot is going to be spent</h2>
-<p>The standing brief says promotion to a real slot is a <i>separate selector step</i>. This session's measurement points the selector at one file:</p>
-<p><b><code>buffedlizard55-lab/GEMSDOE32</code> → <code>docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif</code></b> (302,357 bytes, 45,000 dots).</p>
-<p>Measured on the same independent off-catalogue instrument as everything else in this repository, its mean 300 m kernel credit is <b>0.29294 per dot</b> — 3.0× the submitted champion family (0.09892 at the same mass), 3.4× this session's quarantined H62-I, and 6.8× this session's in-lane H62-G. It appears in no score registry anywhere in the group's 73 public repositories, i.e. <b>it has never been submitted</b>.</p>
-<p><b>Read the caveat before acting on it.</b> 0.29294 is a <i>proxy-instrument</i> credit, not an organizer score, and that instrument is a 1:750 k geological compilation which favours scarp-like geomorphology over genuinely new faults. The closed form turns 0.29294 at 45,000 dots into 0.71 at a planning truth mass of 12,000 cells — implausibly high, so discount it hard. Even discounted 4× it clears the top-5 cut-off of 0.3333. This session did <b>not</b> copy that file into a submission: the standing brief forbids copying a previous submission.</p>
-<h2>5. Limits on this page's authority</h2>
-<ul>
-<li><b>No organizer score exists for any file in this repository.</b> <code>organizer_score</code> is <code>null</code> everywhere.</li>
-<li>The leaderboard table used to set the target is a <b>mirror of the official page</b>, scraped</li>
-</ul>
-<p>  2026-10-11T20:57:47Z by a sibling repository's scheduled workflow   (<a href="../research/leaderboard_series.json"><code>research/leaderboard_series.json</code></a>). This sandbox cannot   reach <code>drivendata.org</code>, so it is not re-verified here.</p>
-<ul>
-<li>The per-dot credits quoted above are measured on <b>SGMC 1:750 k off-catalogue</b>, an independent</li>
-</ul>
-<p>  public compilation — <i>not</i> the organizer's private expert set.</p>
-<ul>
-<li>A local format check is <b>not</b> organizer acceptance.</li>
-</ul>
-</div></body></html>
+<p class="sub">Official links: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">competition</a> ·
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem description</a> ·
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/">about</a> ·
+<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">official rules (PDF)</a> ·
+<a href="https://github.com/drivendataorg/gems-prize-reference-solution">reference solution</a> ·
+<a href="https://epsg.io/32611">EPSG 32611</a> ·
+<a href="https://en.wikipedia.org/wiki/Tversky_index">Tversky index</a></p>
+</main>
+<footer>Local format checks are not organizer acceptance. Verify the portal's behaviour with your own upload.
+<a href="index.html">← Overview</a></footer>
+</body></html>

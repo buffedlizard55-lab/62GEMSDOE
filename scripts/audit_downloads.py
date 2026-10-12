@@ -346,9 +346,11 @@ def cross_check_page(root: pathlib.Path, name: str, row: dict, pages: list[str])
             tr = m.group(1)
             if name not in tr:
                 continue
-            for hexm in re.finditer(r"\b[0-9a-f]{8,64}\b", tr):
-                tok = hexm.group(0)
-                if len(tok) <= 64 and sha and not sha.startswith(tok):
+            for hexm in re.finditer(r"(?<![0-9a-f/])([0-9a-f]{16,64})(?![0-9a-f])", tr):
+                tok = hexm.group(1)
+                # a 16+ char hex token is a hash claim; shorter ones are session ids, and anything
+                # after a slash (arena/d0303476) is a branch name, not a digest
+                if sha and not sha.startswith(tok):
                     out.append(f"{page}: prints hash {tok} for {name}, whose sha256 starts "
                                f"{sha[:16]} - stale claim, re-run scripts/audit_downloads.py --write")
             for numm in re.finditer(r"([\d][\d,]{3,})\s*(?:B|\bbytes?\b)", tr):

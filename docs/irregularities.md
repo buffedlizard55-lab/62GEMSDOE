@@ -218,10 +218,29 @@ spurious ρ = 1.0, Jaccard = 1.0, "DUPLICATE-DRIFT"). Both were wrong. Fixed and
 corrected numbers are the ones published. Recorded because the first (wrong) verdict was already
 printed, and a reader comparing the two would otherwise be misled.
 
+## Added 2026-10-11 by session `arena/d0303476-62gemsdoe`
+
+| ID | Irregularity |
+| --- | --- |
+| **IR-62-19** | **The protocol's rank-correlation leg was computed with ordinal ranks.** `np.argsort(np.argsort(mask))` on two sparse binary rasters over 12,279,160 cells is dominated by the arbitrary ordering of the ~12M tied zeros: measured values were **0.95–0.976 for every comparator pair**, i.e. the statistic reported "ρ ≈ 0.97" between fields that share 1.1 % of their pixels. Re-computed tie-aware on a fixed 300,000-pixel sample (average ranks), the same comparison gives **max \|ρ\| = 0.035**. `scripts/build_final_field.py` now uses the tie-aware form; earlier reports of this statistic in this repository should be re-read with this in mind. The superseded 120 k probe that carried the old check (`docs/downloads/probe-120k.tif`) has been removed from the download directory — the field it probed is now the shipped artifact, and its receipt survives at `evidence/final_field_probe-120k.json`. |
+| **IR-62-20** | **The SGMC 1:750 k instrument cannot rank fields.** Over 20 owner-reported scores, its per-dot credit correlates **+0.617** with the leaderboard but the published DTI evaluated on it correlates **−0.442** (p = 0.0513). The repository's previous rank-1 next step ("submit the never-scored high-credit field") rests on the first quantity and is downgraded here. Evidence: `evidence/e2b_reference_frame_20261011b.json`, `evidence/e4_gates_20261011b.json`. |
+| **IR-62-21** | **`docs/data.md` §1 says the official feature stack is 35 bands.** The file says 19 (`count = 19`, sha256 `4371c82e…` = the pin), and each band carries its own `band_name` tag — so the band names are no longer second-hand (contradicting `docs/data.md` §5 and `docs/research/sources.md` §1). One-line doc fix outstanding. |
+| **IR-62-22** | **The 3-px overlap leg of the lane rule is vacuous for every field.** Measured on `r13_lattice_s5_00904.tif` (5 px lattice, 206,895 dots): a *uniform-random* field of 120,000 dots scores **0.9987** and a 3 px lattice scores **0.9988** — both higher than any real field's 0.995. Any submission trips the "duplicate" leg against that comparator, so the leg carries no information about copying. Confirms and quantifies `IR-62-UNIQ-01`. |
+| **IR-62-23** | **Three copies of the holdout evaluator existed** (`src/gems62/holdout.py`, `lane62/src/…`, `lane62-h62a/src/…`), each with a different API — the "private fork" the protocol forbids, in the same repository. Promoted to one: `src/gems62/holdout_segmented.py` (from the copy that produced every quoted HOLDOUT-DTI), with `tests/test_holdout_segmented.py` asserting elementwise equality between the promoted module and the original on a synthetic fixture. `src/gems62/metric.py::dti_binary` gained the `valid=`/`known=` keywords additively so only one call signature exists. |
+| **IR-62-24** | **One defect ID was reused.** `src/gems62/metric.py` cites its keyword-form fix as `IR-62-13`, and this register's `IR-62-13` is the GitHub Pages directory. The citation in the code was stale; it is corrected to `IR-62-18`, which is the entry describing the unification of the holdout evaluator that the fix belongs to. Rule for the next session: **the register is authoritative for IDs; code cites the register, never its own numbering.** |
 
 ## Added 2026-10-12 (session `arena/b7846648-62gemsdoe`)
 
-### IR-62-19 — the organiser's own `sample_submission.tif` fails this lane's format contract
+**An ID collision, flagged rather than smoothed over.** This session allocated `IR-62-19` … `IR-62-24`
+while session `arena/d0303476` was merging the same six numbers into the same register from the other
+direction. The entries below are therefore renumbered **`IR-62-25` … `IR-62-30`** — the register in
+`main` is authoritative for IDs, which is the rule `IR-62-24` above states — and new IDs from this lane
+are namespaced `IR-62-J-nn` so a concurrent session cannot collide with them. The collision is itself the
+irregularity: two sessions numbering from the same counter produced six duplicate IDs in one day, and only
+a merge conflict caught it.
+
+
+### IR-62-25 — the organiser's own `sample_submission.tif` fails this lane's format contract
 
 Measured on the committed bytes (sha256 `2176d08e485aa2cd…`, 1,599,597 B) with the two validators this
 repository ships, which disagree with each other:
@@ -238,7 +257,7 @@ repository ships, which disagree with each other:
 
 Three consequences, now machine-enforced rather than remembered.
 
-1. **A range check written as `0 <= min and max <= 1` is NaN-poisoned.** Min/max over a file whose
+1. **A range check written as `0 ≤ min` and `max ≤ 1` is NaN-poisoned.** Min/max over a file whose
    non-footprint cells are NaN are themselves NaN, so a file that satisfies the portal's stated rule is
    reported as violating it. `scripts/audit_downloads.py` now measures the range over finite pixels and
    reports `portal_range_risk` separately: `none`, `low` (non-finite pixels *with* a nodata tag, so a
@@ -253,7 +272,7 @@ Three consequences, now machine-enforced rather than remembered.
    `strict_checks` and carries the organiser's file itself as `reference_example`, so the asymmetry is
    visible in the machine record rather than only in prose.
 
-### IR-62-20 — `int(round(250 / 100))` is 2: a 250 m collar is not what the code meant
+### IR-62-26 — `int(round(250 / 100))` is 2: a 250 m collar is not what the code meant
 
 The first `run_h62j.py` converted a metres-unit catalogue collar to pixels with `int(round(m / 100))`.
 Python's `round` is banker's rounding, so 250 m became **2** cells, not 3 — a Chebyshev-2 collar whose
@@ -265,7 +284,7 @@ Two rules follow, and both are now how this lane writes code: convert metres to 
 **report the realised distance the bytes contain, never the intended one**. A "250 m collar" in a run card
 is a claim about arithmetic; a "minimum dot-to-catalogue distance 223.6 m" is a claim about the file.
 
-### IR-62-21 — a JSON manifest that is not JSON: `NaN` is valid in Python and invalid in JSON
+### IR-62-27 — a JSON manifest that is not JSON: `NaN` is valid in Python and invalid in JSON
 
 `json.dumps` happily writes `NaN` for a non-finite float, and the browser then refuses to parse the file.
 The audit records `min`, `max`, `nodata` and `total_mass` straight from NumPy, and `data/sample_submission.tif`
@@ -275,7 +294,7 @@ it did, and the audit records `"NaN"` as a *string* where a value is genuinely n
 readable instead of silently null. Recorded because the same trap has already cost this group a scored
 sibling in the mirror, and because a generator that emits unparseable evidence is worse than no generator.
 
-### IR-62-22 — "the DEM covers X % of the footprint" had no X until it had a definition
+### IR-62-28 — "the DEM covers X % of the footprint" had no X until it had a definition
 
 Three numbers were in circulation for the same raster this session: 55.7 %, 29 %, 9.4 %. All three are
 correct of different quantities, measured here on the 100 m grid: the DEM **extent** contains 2,878,929 of
@@ -285,7 +304,7 @@ tile that the doublet pipeline can actually measure — which is the number that
 A "coverage" claim without its numerator and denominator is not a measurement, and the site now states
 all three with their definitions.
 
-### IR-62-23 — the two lane suites cannot be collected in the same pytest process
+### IR-62-29 — the two lane suites cannot be collected in the same pytest process
 
 `pytest lane62/tests -q` passes 46; `pytest lane62-h62a/tests -q` passes 41; together they fail during
 collection with `ImportError: cannot import name 'emission' from 'gems62' (/…/lane62/src/gems62/__init__.py)`.
@@ -298,7 +317,7 @@ or `importmode=importlib` plus per-lane rootdirs. Until then: **run each suite s
 here because "the suites are green" is only true under that qualifier, and a reader who runs one
 combined command would otherwise conclude the repository had regressed.
 
-### IR-62-24 — this README asserted the root suite cannot collect; it can, and did, on this checkout
+### IR-62-30 — this README asserted the root suite cannot collect; it can, and did, on this checkout
 
 `README.md` (the `lane62-h62a/` addendum, line ~441) states that `pytest tests/` at the repository root
 "still cannot collect" because `src/gems62/lahontan.py:50` imports a `PIXEL_M` that `grid.py` never
@@ -308,3 +327,61 @@ and `brute_force_components` is defined at `src/gems62/metric.py:254` — and `p
 checkout reports **54 passed** in 8.2 s. The claim was true when written and is now stale; it is
 corrected rather than deleted so the sequence is visible, and `.github/workflows/ci.yml` grew a root job
 that runs `pytest tests -q` plus the download audit, so the statement cannot silently go stale again.
+
+## IR-62-31 — one lane's run card existed only as HTML, and its own test pinned the HTML-only string
+
+**Found:** 2026-10-12, while resolving the merge of `origin/main` into this lane. `docs/run-card.md` was
+rendered to `docs/run-card.html`; the other lane's `2026-10-11b` section existed **only in the HTML**. Its
+markdown was never written, and `tests/test_docs_20261011b.py` asserted a phrase ("max dots in any 300 m
+disc") that lived in the page but not in the source. My renderer then did exactly what it is built to do —
+rebuild the page from the markdown — and dropped a whole section of a colleague's published verdict.
+
+**Why it was not obvious:** both lanes could produce a consistent-looking `run-card.{md,html}` pair, and
+nothing in CI compared them. The phrase *was* findable, in a file. Half the run card was in one file and
+half in another, with the difference invisible unless someone regenerated the page from its source.
+
+**Fix applied:** their section was ported into `run-card.md` verbatim (converted to markdown table rows,
+marked as restored from the committed HTML, not as this lane's claim), then re-rendered. The
+render/check machinery in `scripts/render_doc_pages.py` plus `tests/test_doc_render.py` makes the pair
+CI-enforced for both lanes' pages.
+
+**The rule:** **a page whose text is not its markdown's text is a defect in the markdown**, not a detail.
+Hand-editing generated HTML is how the *first* session went wrong (IR-62-02), the pattern survived a merge
+because the guard was not in `main` yet, and the fix is one command (`render_doc_pages.py PAGE`) plus one
+test that refuses to let the pair drift. When the guard fires on content you did not write, read the other
+side before you assume the render lost something — here the render was right and the source was short.
+
+**One more trap, found the same hour:** the page renderer is deliberately minimal and does **not** escape
+code spans, so a raw less-than or greater-than sign, or a closing anchor tag, written inside backticks is
+swallowed as markup and the page loses it silently — this is what happened to the range-check line above,
+which had to be rewritten with a Unicode ≤. The guard refused to write in both cases, which is the
+point; the source was rewritten with `≤` and prose instead of angle brackets. **Rule: no raw angle brackets
+in a markdown source that a minimal renderer will pass through.** If `--check` refuses, fix the markdown, not
+the exception list.
+
+**Also fixed while here:** the guard itself, which compared *word lists*. Three legitimate constructs
+produced false alarms — `(0.24073)` written as `(**0.24073**)`, a code span containing a `*`
+(`docs/downloads/*.verdict.json`), and a full stop that follows a link, which the renderer emits as text plus a closing anchor — because tag boundaries
+insert spaces on one side only. It now compares normalised **character streams** (markup, emphasis ticks and
+punctuation removed on both sides, link targets dropped on the markdown side), and reports the nearest word
+for context. The deletion-detection test still passes, so the guard is both quieter and unchanged in power.
+
+## IR-62-32 — the download audit read a *session id* as a stale hash claim
+
+**Found:** 2026-10-12, running `scripts/audit_downloads.py --write` after adding the other lane's file to
+the manifest. It refused to pass, reporting that `docs/index.html` "prints hash `d0303476` for
+gems62b-…, whose sha256 starts 42bffef1…" — inside a row I had generated a minute earlier, where the only
+hex token is the correct 16-char prefix and `d0303476` is the *lane's session identifier* in the verdict text.
+
+**Root cause:** the cross-check scanned every table row that mentions a file name for `\b[0-9a-f]{8,64}\b`. Eight
+hex characters is a normal Git short-id length, and short ids appear in prose about provenance; a gate that
+fires on prose is a gate people will switch off.
+
+**Fix applied:** a token counts as a hash claim only at **16+ hex characters** and not preceded by `/`
+(which excludes `arena/d0303476` and paths generally). Any truncated sha printed for a bytes claim is 16 or
+more in this repo; a stale 16-char prefix is still caught, and the test in `tests/test_download_manifest.py`
+covers the file-name-and-bytes matching.
+
+**The rule:** **a consistency gate must not fire on the things a page legitimately says.** Encode the claim
+types you mean to police (digest, byte count, dot count), not every token that *looks* like one — the value
+of an audit that runs in CI is exactly its false-positive rate.

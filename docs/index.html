@@ -31,12 +31,13 @@ nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;paddi
 </style></head><body><div class="wrap">
 
 <h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
-<p class="mut">DOE GEMS Prize · DrivenData competition #306 · datum-offset lane · sessions
-2026-10-11 (<code>arena/2b64062a</code>) and 2026-10-12 (<code>arena/b7846648</code>, this one)</p>
+<p class="mut">DOE GEMS Prize · DrivenData competition #306 · datum-offset lane · sessions 2026-10-11
+(<code>2b64062a</code>, <code>dfc9787b</code>, <code>d0303476</code>) and 2026-10-12
+(<code>arena/b7846648</code>, this one)</p>
 
 <nav>
 <a href="#download">⬇ Download &amp; verdict</a>
-<a href="#allfiles">⬇ All 7 files + verdicts</a>
+<a href="#allfiles">⬇ All 8 files + verdicts</a>
 <a href="executive-summary.html">How to submit</a>
 <a href="#h62j">H62-J datum doublet</a>
 <a href="hypotheses-2026-10-12.html">Ranked hypotheses</a>
@@ -44,6 +45,9 @@ nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;paddi
 <a href="run-card.html">Run card</a>
 <a href="irregularities.html">Irregularities</a>
 <a href="next-steps.html">Next steps</a>
+<a href="executive-summary-2026-10-11b.html">How to submit (2026-10-11b)</a>
+<a href="hypotheses-2026-10-11b.html">Hypotheses (2026-10-11b)</a>
+<a href="research/beating-02778-2026-10-11b.html">Beating 0.2778 — the exact condition</a>
 <a href="../research/leaderboard_series.json">Leaderboard series</a>
 <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition ↗</a>
 </nav>
@@ -52,36 +56,59 @@ nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;paddi
 <div class="hero" id="download">
 <h2 style="border:0;margin-top:0">The submission file — and whether you should submit it</h2>
 
-<p><span class="pill no">VERDICT: NEGATIVE — DO NOT SPEND A WEEKLY SLOT</span>
-&nbsp;<span class="pill ok">FORMAT: LEGAL — every validator check passes</span>
-&nbsp;<span class="pill warn">UNIQUE under the informative gate; the 3-px leg is unsatisfiable</span></p>
+<p><span class="pill ok">FORMAT: LEGAL — 14/14 validator checks on the bytes re-read from disk</span>
+&nbsp;<span class="pill ok">UNIQUE — max Jaccard 0.022, max |ρ| 0.035 vs 25 prior rasters</span>
+&nbsp;<span class="pill ok">ISOLATION: PROVEN — max 1 dot per 300 m disc</span>
+&nbsp;<span class="pill warn">VERDICT: SUBMIT AS A PROBE — not a validated improvement</span></p>
 
-<p class="big">gems62-h62g-benchcrosscut-hardcore-zeros.tif</p>
-<p><a class="btn" href="downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif">⬇ Download the GeoTIFF (98,893 bytes)</a>
-<a class="btn sec" href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">Submit it here ↗</a></p>
+<p class="big">gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</p>
+<p><a class="btn" href="downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif">⬇ Download the GeoTIFF (481,168 bytes)</a>
+<a class="btn sec" href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">Submit it here ↗</a>
+<a class="btn sec" href="executive-summary-2026-10-11b.html">How to submit + verdict ↗</a></p>
 
-<p><b>Two files live in this repository.</b> The one above is session <code>arena/2b64062a</code>'s.
-Second file (session <code>arena/dfc9787b-62gemsdoe</code>):
-<a href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif">⬇
-gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</a> (372,859 B) —
-<span class="pill warn">legal &amp; unique</span> <span class="pill no">submit expecting a gain: no (projection 0.110)</span>
-· <a href="executive-summary-v2.html">verdict &amp; evidence</a></p>
+<p><b>Session <code>arena/d0303476-62gemsdoe</code>.</b> 120,000 dots from a k-of-N vote over the
+official stack's <b>derivative</b> fields plus metre-scale scarp evidence, hard-core isolated and
+off-catalogue. Download, check the sha256, paste the note, submit — six steps, no edits.</p>
 
 <table class="kv">
-<tr><td>sha256</td><td><code>79eb0a7ddc2dcfb4667bff41bbc237f8d5663dd63e025eed79af8c8f984ed500</code></td></tr>
-<tr><td>Submission name</td><td><code>gems62-h62g-benchcrosscut-hardcore-zeros</code></td></tr>
-<tr><td>Submission note (117 chars, limit 140)</td><td><code>H62-G Lahontan bench cross-cut, 10k isolated dots; credit at isolated-random control. NEGATIVE - do not spend a slot.</code></td></tr>
-<tr><td>Will it be accepted by the portal?</td><td><b>Yes.</b> Single band, <code>float32</code>, EPSG:32611, 3730×3292, the sample submission's exact
- geotransform, <b>0 cells outside [0, 1]</b>, <b>0 NaN</b>, <code>nodata = null</code>. The portal error
- <i>“Predicted values must be in range [0, 1]”</i> cannot occur for these bytes. Verified by re-reading
- the file from disk, not from the in-memory array.</td></tr>
-<tr><td>Should it take a weekly slot?</td><td><b>No.</b> Its mean 300 m kernel credit on an independent
- off-catalogue instrument is <b>0.0420</b> at 10,000 dots against a <b>mass-matched isolated-random
- control of 0.04330 ± 0.00165</b> (5 seeds) — i.e. at chance. At 5,000 dots it is <b>0.0572</b> vs
- <b>0.04279</b> (1.34×), a real but tiny edge that the closed form still puts at <b>0.027</b>, not
- near 0.2778. <span class="mut">MEASURED on a proxy instrument; the DTI is a MODEL, not a score.</span></td></tr>
+<tr><td>sha256</td><td><code>42bffef1b5973973…</code> (full hash in <a href="../evidence/run_card_20261011b.json">evidence/run_card_20261011b.json</a>)</td></tr>
+<tr><td>Submission name</td><td><code>gems62b-tiltgrad-vote-scarpcorrob-120000-zeros</code></td></tr>
+<tr><td>Submission note (138 chars, limit 140)</td><td><code>62b: 120k isolated dots from a 13-layer derivative vote with scarp corroboration. Off-catalogue. Legal & unique; probe, not a proven gain.</code></td></tr>
+<tr><td>Will the portal accept it?</td><td><b>Yes.</b> Single band, <code>float32</code>, EPSG:32611, 3730×3292, the sample submission's exact
+ geotransform, <b>0 values outside [0, 1]</b>, <b>0 NaN</b>, <code>nodata = null</code>. The error
+ <i>“Predicted values must be in range [0, 1]”</i> cannot occur for these bytes — both mechanisms (a
+ float32 nodata sentinel, a NaN nodata tag) are structurally absent. Verified by re-reading the file from disk.</td></tr>
+<tr><td>Is it a copy of anything?</td><td><b>No.</b> Max exact-pixel overlap 4.6 %, max Jaccard <b>0.022</b>, max tie-aware rank
+ correlation <b>|ρ| = 0.035</b> against 25 prior rasters. The protocol's “≤ 70 % of dots within 3 px of one
+ registry raster” leg is tripped by <code>r13_lattice_s5_00904</code> — and that trip is <b>measured to be
+ vacuous</b>: a uniform-random field scores <b>0.9987</b> and a 3 px lattice <b>0.9988</b> on that comparator.
+ <a href="../evidence/e4_gates_20261011b.json">evidence/e4_gates_20261011b.json</a></td></tr>
+<tr><td>Does it pass the protocol's holdout gate?</td><td><b>No — 0.00073</b> (CI [0.00069, 0.00076], 81,993 withheld positives, evaluator
+ <code>gems62.holdout_segmented v1</code>) against the current best 0.1322. <b>Reason, measured:</b> that gate
+ rewards sitting near the mapped catalogue, while the leaderboard <i>anti</i>-rewards it — credit per dot
+ against the mapped catalogue has <b>ρ = −0.597</b> (p = 0.0054, n = 20) with the owner-reported scores.</td></tr>
+<tr><td>Expected score</td><td><b>Not claimed.</b> No local instrument may be used as a score. Its per-dot credit on the one
+ positively-tracking local quantity is <b>0.0621</b> = 95 % of the champion's 0.0655, at 3.2× the mass.
+ Pre-registered, falsifiable prediction: it beats 0.2778 <b>iff</b> its true per-dot credit exceeds
+ <b>0.0778</b> (≈ 19 % of dots within 300 m of a hidden fault).</td></tr>
+<tr><td>Read before spending a slot</td><td><a href="executive-summary-2026-10-11b.html">Executive summary</a> ·
+ <a href="research/beating-02778-2026-10-11b.html">why 0.2778 scores what it scores, and the exact condition for beating it</a> ·
+ <a href="hypotheses-2026-10-11b.html">five ranked hypotheses</a> ·
+ <a href="../evidence/run_card_20261011b.json">run card</a></td></tr>
 <tr><td>Organizer score</td><td><b>none</b> — never submitted. <code>organizer_score: null</code>.</td></tr>
 </table>
+
+<h3>Earlier files in this repository — each with its own verdict</h3>
+<p><code>gems62-h62g-benchcrosscut-hardcore-zeros.tif</code> (98,893 B, session <code>arena/2b64062a</code>)
+<span class="pill no">NEGATIVE — do not spend a slot</span> — at chance on the proxy instrument:
+credit 0.0420 at 10,000 dots vs a mass-matched isolated-random control of 0.04330 ± 0.00165.
+<a href="downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif">⬇ download</a></p>
+<p><code>gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</code> (372,859 B, session
+<code>arena/dfc9787b</code>) <span class="pill warn">PROBE — projection 0.110, below the 0.24–0.28 band</span> ·
+<a href="executive-summary-v2.html">verdict &amp; evidence</a> ·
+<a href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif">⬇ download</a></p>
+<p class="mut">The two older files are kept because negative results are deliverables; their verdicts
+stand, and nothing in the new file is copied from either of them (measured, see the uniqueness row).</p>
 
 <h3>The second file this session produced is quarantined — do not submit it either</h3>
 <table class="kv">
@@ -171,6 +198,14 @@ control drawn from the same pool:</p>
 <tr><td>Mapped volcanic vents (21 points)</td><td>21</td><td>0.01213</td><td>0.05769 ± 0.04519</td><td>0.21×</td></tr>
 <tr><td>Vents, 600 m corridor</td><td>170</td><td>0.00461</td><td>0.04518 ± 0.00944</td><td><b>0.10×</b></td></tr>
 </table>
+<p><b>And re-run to the other lane's specification.</b> Session <code>d0303476</code> ranked H62-Q —
+per-dot credit inside 5 / 10 / 20 km buffers around GDR wells and springs, mass-matched control, "below
+1.0× it dies" — as their next structural bet. Run that way, at the same mass cap (60,000 dots): Hot+Warm
+buffers score <b>0.79×</b> control at every radius, Hot-only <b>0.87–0.88×</b>, vents <b>0.83× / 0.87×</b>
+at 5 and 10 km and <b>1.13×</b> at 20 km — and the one above-1.0 case is fully explained by geography: five
+placebo buffers built from 21 <i>random</i> points of the same count score <b>0.04757 ± 0.00499</b>
+against the vents' 0.04966 (z = +0.42). <b>H62-Q is dead on its own threshold</b>, and everywhere the real
+thermal field beats its own belt geometry is nowhere. Outside every buffer, credit falls to 0.60–0.64×.</p>
 <p>Hydrothermal alteration marks <i>no</i> unmapped Quaternary structure at better-than-chance rate, and
 the vents mark <i>less</i> than chance because they sit on basin-floor lava fields rather than on
 fault-scarp geometry. That is consistent with the leaderboard: the champion family is scarp- and
@@ -234,9 +269,10 @@ organiser's own <code>sample_submission.tif</code> does not satisfy them (see
 <tr><td><a href="downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif">gems62-h62g-benchcrosscut-hardcore-zeros.tif</a><span class="pill ok">legal</span></td><td>10,000</td><td>98,893 B</td><td>14/14</td><td><code>79eb0a7ddc2dcfb4…</code></td><td>NEGATIVE RESULT - do not submit</td></tr>
 <tr><td><a href="downloads/gems62-h62i-scarpcrosscut-hardcore-zeros.tif">gems62-h62i-scarpcrosscut-hardcore-zeros.tif</a><span class="pill ok">legal</span></td><td>60,000</td><td>282,543 B</td><td>14/14</td><td><code>aaadb736f1b60379…</code></td><td>DUPLICATE-DRIFT OF A SIBLING LANE'S FILE - do not submit</td></tr>
 <tr><td><a href="downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif">gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif</a><span class="pill ok">legal</span></td><td>10,870</td><td>91,954 B</td><td>14/14</td><td><code>7e67bf2d4ea506a8…</code></td><td>RESEARCH PROBE at the max-mass operating point - format-legal and unique, not worth submitting</td></tr>
-<tr><td><a href="downloads/gems62-lahontan-isobase-99dots-nan.tif">gems62-lahontan-isobase-99dots-nan.tif</a><span class="pill no">not legal: no_nodata_tag, no_nan_anywhere</span> <span class="pill warn">range risk low</span></td><td>99</td><td>124,293 B</td><td>12/14</td><td><code>8675fa33d4d0b181…</code></td><td>FORMAT PROBE (NaN outside, nodata=NaN) - passes the published contract, fails our stricter one</td></tr>
+<tr><td><a href="downloads/gems62-lahontan-isobase-99dots-nan.tif">gems62-lahontan-isobase-99dots-nan.tif</a><span class="pill no">not legal: no_nodata_tag, no_nan_anywhere</span> <span class="pill warn">range risk low</span></td><td>99</td><td>124,293 B</td><td>12/14</td><td><code>8675fa33d4d0b181…</code></td><td>FORMAT PROBE (NaN outside, nodata=NaN) - never submitted; passes the published contract, fails our stricter one</td></tr>
 <tr><td><a href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">gems62-lahontan-isobase-99dots-zeros.tif</a><span class="pill ok">legal</span></td><td>99</td><td>56,048 B</td><td>14/14</td><td><code>fc628410873f018d…</code></td><td>FORMAT PROBE - legal by every check we can run; upload only to test acceptance</td></tr>
-<tr><td><a href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif">gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</a><span class="pill ok">legal</span></td><td>46,598</td><td>372,859 B</td><td>14/14</td><td><code>4d83efff6c134734…</code></td><td>DIAGNOSTIC ONLY - detector built on the public 100 m stack; never submitted</td></tr>
+<tr><td><a href="downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif">gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</a><span class="pill ok">legal</span></td><td>120,000</td><td>481,168 B</td><td>14/14</td><td><code>42bffef1b5973973…</code></td><td>ANOTHER LANE'S PROBE (session arena/d0303476) - legal and unique as shipped; promotion is the selector's decision</td></tr>
+<tr><td><a href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif">gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</a><span class="pill ok">legal</span></td><td>46,598</td><td>372,859 B</td><td>14/14</td><td><code>4d83efff6c134734…</code></td><td>DIAGNOSTIC ONLY - a detector built on the public 100 m stack; never submitted</td></tr>
 <tr><td><a href="downloads/gemsdoe62-datum-lahontan-isobase-v8.tif">gemsdoe62-datum-lahontan-isobase-v8.tif</a><span class="pill ok">legal</span></td><td>1,660</td><td>62,709 B</td><td>14/14</td><td><code>3d4b66e651bc8e3f…</code></td><td>SUPERSEDED (v8) - arithmetically dead at 1,660 dots; do not submit</td></tr>
 </table>
 

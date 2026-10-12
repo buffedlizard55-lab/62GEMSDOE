@@ -1981,6 +1981,36 @@ organizer receipt.
 
 ---
 
+
+> **Restored into the markdown on 2026-10-12.** This section existed only in
+> `docs/run-card.html` — it was hand-written there and never put into `run-card.md`, so the page and
+> its source disagreed, which is precisely the drift `tests/test_doc_render.py` now forbids. It is
+> reproduced below from the committed HTML, word for word, so the markdown is again the source of
+> truth for the session `arena/d0303476` card; nothing in it is this lane's claim.
+
+## Current — session `arena/d0303476-62gemsdoe` (2026-10-11b)
+
+**Verdict: `negative-as-lead / legal-and-unique-as-a-probe`.** The machine-readable card is [`evidence/run_card_20261011b.json`](../evidence/run_card_20261011b.json); the human pages are the [executive summary](executive-summary-2026-10-11b.html) and [why 0.2778 scores what it scores](research/beating-02778-2026-10-11b.html).
+
+Protocol item 5 requires one JSON card. It is committed verbatim at [`evidence/h62g/run_card.json`](../evidence/h62g/run_card.json) and reproduced below.
+
+**Verdict: `negative`.** A negative result is a deliverable.
+
+| field | value |
+| --- | --- |
+| artifact | `docs/downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif`, 481,168 B, sha256 `42bffef1b5973973…` |
+| hypothesis | H62-L — a k-of-N consensus over the official stack's **derivative** fields (tilt angle, vertical/horizontal gradients, radiometric ratios, χ/ksn, profile curvature), corroborated by metre-scale scarp evidence, holds **per-dot credit** while mass rises 3.2× |
+| mechanism | 13 decorrelated edge layers → structure-tensor line response at σ = 1.2 px (120 m, matched to the 300 m kernel); scarp families vote; dots need k-of-N layer agreement and doubled-angle orientation agreement, then a greedy 300 m hard-core emission with seeded jitter (the tie-break defect that cost 12.5 k dots in E2) |
+| named non-fault mimic | fluvial and hillslope breaks — terrace risers, fan-head trenches, channel knickzones — plus intrabasement magnetic and gravity contacts that are not faults |
+| isolation (MEASURED on the shipped bytes) | max dots in any 300 m disc = **1**; 120,000 dots; values exactly {0,1} |
+| holdout | HOLDOUT-DTI **0.00073** [0.00069, 0.00076], 81,993 withheld positives, `gems62.holdout_segmented v1`; controls random_lines 0.0002 / random_dots 0.0923 / catalogue_offset 0.0386; leakage canary AUC **0.1475**; **gate FAILED by construction** — the gate rewards catalogue proximity, measured ρ = −0.597 with the leaderboard |
+| uniqueness | max Jaccard **0.022**, max exact overlap **4.6 %**, max tie-aware \|ρ\| **0.035** over 25 comparators; the 3 px leg trips against `r13_lattice_s5_00904` and is reported as vacuous (uniform-random null 0.9987, lattice null 0.9988) |
+| validator | 14/14 on the re-read bytes: single band, float32, EPSG:32611, 3730×3292, sample geotransform, `n_outside_0_1 = 0`, `nan_count = 0`, `nodata = null` |
+| submission name + note | `gems62b-tiltgrad-vote-scarpcorrob-120000-zeros` · `62b: 120k isolated dots from a 13-layer derivative vote with scarp corroboration. Off-catalogue. Legal & unique; probe, not a proven gain.` (138/140) |
+| verdict | **negative as a lead** — per-dot credit 0.0621 is below the 0.0778 needed to beat 0.2778 at this mass under exact transfer; **legal and unique as a probe**. Organizer score: none. |
+
+---
+
 ## Session 2026-10-12 — H62-J, the datum-doublet detector, run end to end
 
 **Verdict: `negative-for-score, positive-for-information`.** A legal, unique, max-mass field of 10,870
@@ -2187,6 +2217,6 @@ question.
 
 **What is NOT claimed.** No organiser-confirmed score exists for any file here; every DTI above is this
 repository's own model of the metric on a proxy instrument, labelled MEASURED or MODEL accordingly. The
-25 m DEM reaches 9.42 % of footprint cells for this pipeline (`IR-62-22`), so the lane's mass is capped
+25 m DEM reaches 9.42 % of footprint cells for this pipeline (`IR-62-28`, renumbered on merge), so the lane's mass is capped
 by coverage and isolation, not by geology — and at credit 0.041 the closed form puts the whole
 lane's ceiling at 5 × 0.041 = 0.203 however the dots are arranged.

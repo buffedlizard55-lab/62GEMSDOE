@@ -77,6 +77,216 @@
       "z": -4.3,
       "model_dti_N12000": 8.1e-05,
       "marginal_bar": 1.6e-05
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "inside 5000 m buffer",
+      "M": 60000,
+      "cells_available": 2209986,
+      "credit": 0.034572,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.788,
+      "z": -29.09,
+      "model_dti_N12000": 0.096033
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "inside 10000 m buffer",
+      "M": 60000,
+      "cells_available": 3800192,
+      "credit": 0.034698,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.79,
+      "z": -28.7,
+      "model_dti_N12000": 0.096383
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "inside 20000 m buffer",
+      "M": 60000,
+      "cells_available": 4675362,
+      "credit": 0.034725,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.791,
+      "z": -28.62,
+      "model_dti_N12000": 0.096459
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "outside 20000 m",
+      "M": 6272,
+      "credit": 0.027612,
+      "control_mean": 0.04318,
+      "control_sd": 0.000636,
+      "credit_vs_control": 0.639,
+      "model_dti_N12000": 0.015955
+    },
+    {
+      "name": "hot-only cells",
+      "field": "inside 5000 m buffer",
+      "M": 60000,
+      "cells_available": 965653,
+      "credit": 0.038181,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.87,
+      "z": -17.84,
+      "model_dti_N12000": 0.106058
+    },
+    {
+      "name": "hot-only cells",
+      "field": "inside 10000 m buffer",
+      "M": 60000,
+      "cells_available": 2447942,
+      "credit": 0.038593,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.879,
+      "z": -16.55,
+      "model_dti_N12000": 0.107202
+    },
+    {
+      "name": "hot-only cells",
+      "field": "inside 20000 m buffer",
+      "M": 60000,
+      "cells_available": 4211566,
+      "credit": 0.038495,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.877,
+      "z": -16.86,
+      "model_dti_N12000": 0.106929
+    },
+    {
+      "name": "hot-only cells",
+      "field": "outside 20000 m",
+      "M": 47437,
+      "credit": 0.026534,
+      "control_mean": 0.04368,
+      "control_sd": 0.000461,
+      "credit_vs_control": 0.607,
+      "model_dti_N12000": 0.065944
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "inside 5000 m buffer",
+      "M": 7030,
+      "cells_available": 77546,
+      "credit": 0.035373,
+      "control_mean": 0.042598,
+      "control_sd": 0.000752,
+      "credit_vs_control": 0.83,
+      "z": -9.61,
+      "model_dti_N12000": 0.022594
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "inside 10000 m buffer",
+      "M": 21390,
+      "cells_available": 237815,
+      "credit": 0.037494,
+      "control_mean": 0.043314,
+      "control_sd": 0.000543,
+      "credit_vs_control": 0.866,
+      "z": -10.71,
+      "model_dti_N12000": 0.05779
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "inside 20000 m buffer",
+      "M": 60000,
+      "cells_available": 692815,
+      "credit": 0.049659,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 1.131,
+      "z": 17.97,
+      "model_dti_N12000": 0.137941
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "outside 20000 m",
+      "M": 60000,
+      "credit": 0.026166,
+      "control_mean": 0.043899,
+      "control_sd": 0.000321,
+      "credit_vs_control": 0.596,
+      "model_dti_N12000": 0.072683
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "PLACEBO 2060 random points, 5000 m buffer",
+      "M": 60000,
+      "credit": 0.042413,
+      "placebo_sd": 0.001834,
+      "trials": 5
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "PLACEBO 2060 random points, 10000 m buffer",
+      "M": 60000,
+      "credit": 0.041495,
+      "placebo_sd": 0.001621,
+      "trials": 5
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "PLACEBO 2060 random points, 20000 m buffer",
+      "M": 60000,
+      "credit": 0.044711,
+      "placebo_sd": 0.00246,
+      "trials": 5
+    },
+    {
+      "name": "hot-only cells",
+      "field": "PLACEBO 929 random points, 5000 m buffer",
+      "M": 60000,
+      "credit": 0.044117,
+      "placebo_sd": 0.001884,
+      "trials": 5
+    },
+    {
+      "name": "hot-only cells",
+      "field": "PLACEBO 929 random points, 10000 m buffer",
+      "M": 60000,
+      "credit": 0.04395,
+      "placebo_sd": 0.001411,
+      "trials": 5
+    },
+    {
+      "name": "hot-only cells",
+      "field": "PLACEBO 929 random points, 20000 m buffer",
+      "M": 60000,
+      "credit": 0.043634,
+      "placebo_sd": 0.003244,
+      "trials": 5
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "PLACEBO 21 random points, 5000 m buffer",
+      "M": 60000,
+      "credit": 0.04855,
+      "placebo_sd": 0.013009,
+      "trials": 5
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "PLACEBO 21 random points, 10000 m buffer",
+      "M": 60000,
+      "credit": 0.050772,
+      "placebo_sd": 0.01263,
+      "trials": 5
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "PLACEBO 21 random points, 20000 m buffer",
+      "M": 60000,
+      "credit": 0.047569,
+      "placebo_sd": 0.004993,
+      "trials": 5
     }
   ],
   "mass_matched_controls": [
@@ -114,6 +324,36 @@
       "mean": 0.04517858373873355,
       "sd": 0.009437335922215006,
       "M": 170,
+      "draws": 5
+    },
+    {
+      "mean": 0.043898529662189364,
+      "sd": 0.0003205636362827132,
+      "M": 60000,
+      "draws": 5
+    },
+    {
+      "mean": 0.043179721875444665,
+      "sd": 0.0006355833712771395,
+      "M": 6272,
+      "draws": 5
+    },
+    {
+      "mean": 0.04368041685086059,
+      "sd": 0.00046118739618453017,
+      "M": 47437,
+      "draws": 5
+    },
+    {
+      "mean": 0.04259793187532042,
+      "sd": 0.0007517052011890172,
+      "M": 7030,
+      "draws": 5
+    },
+    {
+      "mean": 0.043313538596490946,
+      "sd": 0.0005434164002786776,
+      "M": 21390,
       "draws": 5
     }
   ],
