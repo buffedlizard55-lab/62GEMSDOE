@@ -21,7 +21,21 @@
 
 ## Ranked next work
 
-### 1. Submit the never-scored high-credit field — highest expected value, minutes of work
+> **2026-10-12 correction (session `arena/778884cc`):** item 1 below is **RETRACTED** — see
+> `docs/irregularities.md` IR-62-20. The bayesopt field's 0.293 credit/dot was measured on the
+> SGMC instrument (Spearman −0.928 vs the portal); on the kernel-fixed portal-calibrated instrument
+> (IR-62-19) it measures 0.0408 credit/dot, projection 0.0295. The corrected rank 1 is the new
+> item 0.
+
+### 0. (2026-10-12) Exploit the measured corridor headroom — the only evidence-backed path above 0.2778
+gate_ortho scored 0.2376 with only 43.4 % of its dots inside the h33 3-px halo (IR-62-22): the
+hidden truth is spatially broader than the group's consensus, and unique fields can score in the
+top band. The instrument to design against is now `evidence/sstar_fixed/` (R² 0.70). Concretely:
+rebuild the multi-physics oriented-lineament consensus **from the organiser 19-band stack** (H-2,
+datum62) *including* the pixels the consensus family never sampled, and rank candidates by
+DTI(S*†) per dot (champion family: 0.42; this lane: 0.059; do not ship below ~0.15/dot).
+
+### 1. ~~Submit the never-scored high-credit field~~ — RETRACTED (IR-62-20), kept for the record
 `GEMSDOE32 → docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif` (302,357 bytes,
 45,000 dots) measures **0.29294** mean 300 m credit per dot on the same instrument that scores the
 submitted champion family at **0.09892** — 3.0×. It is absent from the 87-artifact score registry,

@@ -12,6 +12,40 @@ so this lane buys **defensibility more than area**.
 
 ---
 
+## Session status — 2026-10-12 (`arena/778884cc-62gemsdoe`) — the instrument was broken; it is fixed
+
+Read this first if you are the next session. Four findings, all measured in this checkout:
+
+1. **IR-62-19: the S* leaderboard inversion had a kernel-radius bug** — `datum62/scripts/invert.py`
+   indexed a pixel-unit kernel table with quarter-pixel indices, shrinking the official 300 m kernel
+   to 75 m. Every projection ever derived from `0.5052 × DTI(S*)` is superseded. Fixed once in the
+   template and re-run as `scripts/reconstruct_sstar.py`: the corrected instrument (S*†, 18,721 px)
+   reaches **R² 0.7007** (was 0.3007) at Spearman **+0.9641** over the same 56 owner-reported
+   scores. S*† is a subset of the exact h33-2-b2 dot pixels, so the duplicate block on emitting it
+   stands. Evidence: `evidence/sstar_fixed/`.
+2. **IR-62-20: the standing "submit the bayesopt field" selector advice is retracted.** On the
+   fixed instrument `gems32-bayesopt-dilation-scarp-d28` measures 0.0408 credit/dot (projection
+   0.0295) — below this session's lane file and 10× below the h33 family. The old 0.293 number came
+   from the anti-correlated SGMC instrument.
+3. **IR-62-22: corridor headroom is measured.** gate_ortho (OWNER-REPORTED 0.2376) keeps only
+   43.4 % of its dots within 3 px of h33 and 22.5 % within 3 px of S*† — a *unique* field scoring
+   within 0.04 of the champion exists in the registry. Novel placements are not doomed.
+4. **The datum lane is dominated on the fixed instrument too** (`evidence/h62n_forensics.json`):
+   every lane artifact from four independent sessions projects ≤ 0.06, including this session's
+   primary `h62n` (16,864 isolated dots, projection 0.0210, band 0.02–0.10). It ships as
+   format-legal, unique, economics-compliant, and an honest **negative** on improvement.
+
+**This session's file:** [`docs/downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif`](docs/downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif)
+· 129,539 bytes · sha256 `2a25f29a6b235520a4965199045dae7226260665fc3ec248a79f04cb78bbe7f0` ·
+OK to download, **do not spend a slot expecting an improvement** · run card:
+[`docs/run-card-h62n.json`](docs/run-card-h62n.json). Template fixes this session (all once, in the
+template): the kernel above; `emit_dots(hard_core_px=…)` (zero self-kernel emission — the
+registry's proven isolation rule); `run_lane.py --isobase-mode localmode` (the IR-62-03 /
+next-steps #4 local-mode isobase, rmad 68.9 → 38.5 m), `--balance-blocks`, `--dem-z-scale`, and the
+trace-section scarp sigma now honoring `--scarp-sigma-m`.
+
+---
+
 ## Session status — 2026-10-11 (`arena/2b64062a-62gemsdoe`)
 
 Read this before anything else. Four things changed this session:

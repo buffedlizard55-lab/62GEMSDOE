@@ -217,3 +217,53 @@ The first implementation computed `|dilated_mine ∩ theirs| / |mine|` instead o
 spurious ρ = 1.0, Jaccard = 1.0, "DUPLICATE-DRIFT"). Both were wrong. Fixed and re-run; the
 corrected numbers are the ones published. Recorded because the first (wrong) verdict was already
 printed, and a reader comparing the two would otherwise be misled.
+
+## Added 2026-10-12 (session `arena/778884cc-62gemsdoe`)
+
+### IR-62-19 — the group's best local instrument (the S* leaderboard inversion) had a kernel-radius bug — FOUND, FIXED ONCE IN THE TEMPLATE, RE-RUN
+`datum62/scripts/invert.py` built the kernel table in **pixel** units (`KERN[j] = max(1 − j/3, 0)`,
+zero at j ≥ 3 px = 300 m) but indexed it with **quarter-pixel** indices (`KERN[(dm*4).astype(int)]`),
+so every dot-to-truth distance ≥ 0.75 px (75 m) contributed **zero** credit. The committed evidence
+reproduces the defect: the inversion's own output under-predicts every high-scoring artifact outside
+the 13-field consensus by 4×–37× (gate_ortho: predicted 0.0064 vs OWNER-REPORTED 0.2376; h59-cover:
+0.0219 vs 0.2296; Hedge-v2: 0.0067 vs 0.1563) while fitting the consensus family well (h33: 0.2992
+vs 0.2778) — the signature of an exact-pixel-overlap model. Fixed once (comment + corrected table in
+`invert.py`; re-run as the shared tool `scripts/reconstruct_sstar.py`, no private fork): with the
+official 300 m kernel the same protocol converges to K = 18,721 px, Spearman **+0.9641**, R²
+**0.3007 → 0.7007**, RMSE 0.0768 → 0.0503, scale 0.5052 → 0.3848. Consequences: (a) every
+projection ever written from `0.5052 × DTI(S*)` — including the datum62 detector's 0.110 and this
+lane's v8 0.0012 — is superseded; (b) S*† is now provably a subset of the exact h33-2-b2 dot pixels
+(18,721 of 37,654), so the duplicate block on emitting it stands, unchanged; (c) the fixed
+instrument still under-predicts out-of-family fields (gate_ortho 0.0557 projected vs 0.2376
+observed) — it is a **floor** instrument for novel placements, never a ceiling. Evidence:
+`evidence/sstar_fixed/inverse_truth_fixed.json`, `evidence/h62n_forensics.json`.
+
+### IR-62-20 — the standing "selector rank-1" recommendation is retracted
+`docs/next-steps.md` item 1 and `docs/research/leaderboard-arithmetic.md` §5 told the selector to
+submit `gems32-bayesopt-dilation-scarp-d28` (45,000 dots) because it measures 0.29294 credit/dot on
+the SGMC off-catalogue instrument — 3× the champion family. That instrument is measured
+**anti-correlated** with the portal (Spearman −0.928 over 15 owner-reported scores; datum62's own
+finding). On the kernel-fixed portal-calibrated instrument the same file measures **0.0408
+credit/dot, DTI(S*†) 0.0766, projection 0.0295** — below this session's lane file (0.0593/dot) and
+10× below the h33 family (0.42/dot). The rank-1 advice is retracted wherever it appears; the pages
+carry the retraction inline. Do not spend a slot on the bayesopt field on the strength of the old
+number.
+
+### IR-62-21 — two disclosures about this session's artifact
+(a) **Southern-block loci are not necessarily Lahontan.** The z-band gate (1189–1463 m) plus the
+bench gate cannot distinguish Lake Lahontan's own margins from other pluvial-lake benches and playas
+at similar elevations in the southern blocks (822 + 2,688 dots). The lane's coverage statement is
+"pluvial-lake margins", so this is inside the lane, but a Lahontan-only reading of those dots would
+be wrong. (b) **`tools/fetch_registry.py` clobbers same-named files across repositories**
+(dest = `repo__basename`); 334 fetched rasters land as 290 files. Not fixed this session (budget);
+the S* work used the 60GEMSDOE normalized registry instead, whose bytes are sha-verified against
+`research/registry_index.json` pins.
+
+### IR-62-22 — corridor headroom is now measured, not speculated
+gate_ortho (OWNER-REPORTED 0.2376) keeps only **43.4 %** of its dots within 3 px of h33-2-b2 and
+**22.5 %** within 3 px of S*†, with median nearest-neighbour distance 3.6 px — i.e. a field can sit
+*beside* the champion's corridors, pass the protocol's 70 % tripwire with room to spare, and still
+score within 0.04 of the champion. The hidden truth is therefore spatially broader than the group's
+consensus, and *unique* fields are not doomed to low scores. This is the strongest argument the
+registry offers for continuing to emit novel placements, and it is the frame in which this
+session's negative verdict should be read: negative on the measured projection, not on the design.
