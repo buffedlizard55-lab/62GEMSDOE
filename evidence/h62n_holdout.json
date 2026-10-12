@@ -1,0 +1,176 @@
+{
+ "emission": "h62n-localmode-balanced.tif",
+ "emission_sha256": "2a25f29a6b235520a4965199045dae7226260665fc3ec248a79f04cb78bbe7f0",
+ "protocol": {
+  "folds": 6,
+  "buffer_px": 3,
+  "truth": "visible catalogue",
+  "masking": "visible catalogue pixel-exact",
+  "alpha": 0.2,
+  "beta": 0.8,
+  "kernel_radius_px": 3.0
+ },
+ "pooled": {
+  "tp": 0.0,
+  "fp": 16766.0,
+  "fn": 60362.0,
+  "dti": 0.0,
+  "n_truth": 60362,
+  "n_pred": 16766
+ },
+ "folds": [
+  {
+   "fold": [
+    0,
+    0
+   ],
+   "rows": [
+    0,
+    1243
+   ],
+   "cols": [
+    0,
+    1645
+   ],
+   "n_truth": 18548,
+   "n_pred": 4365,
+   "tp": 0.0,
+   "fp": 4365.0,
+   "fn": 18548.0,
+   "dti": 0.0,
+   "recall": 0.0
+  },
+  {
+   "fold": [
+    0,
+    1
+   ],
+   "rows": [
+    0,
+    1243
+   ],
+   "cols": [
+    1645,
+    3291
+   ],
+   "n_truth": 11590,
+   "n_pred": 3744,
+   "tp": 0.0,
+   "fp": 3744.0,
+   "fn": 11590.0,
+   "dti": 0.0,
+   "recall": 0.0
+  },
+  {
+   "fold": [
+    1,
+    0
+   ],
+   "rows": [
+    1243,
+    2486
+   ],
+   "cols": [
+    0,
+    1645
+   ],
+   "n_truth": 15343,
+   "n_pred": 3929,
+   "tp": 0.0,
+   "fp": 3929.0,
+   "fn": 15343.0,
+   "dti": 0.0,
+   "recall": 0.0
+  },
+  {
+   "fold": [
+    1,
+    1
+   ],
+   "rows": [
+    1243,
+    2486
+   ],
+   "cols": [
+    1645,
+    3291
+   ],
+   "n_truth": 3297,
+   "n_pred": 1238,
+   "tp": 0.0,
+   "fp": 1238.0,
+   "fn": 3297.0,
+   "dti": 0.0,
+   "recall": 0.0
+  },
+  {
+   "fold": [
+    2,
+    0
+   ],
+   "rows": [
+    2486,
+    3730
+   ],
+   "cols": [
+    0,
+    1645
+   ],
+   "n_truth": 4505,
+   "n_pred": 807,
+   "tp": 0.0,
+   "fp": 807.0,
+   "fn": 4505.0,
+   "dti": 0.0,
+   "recall": 0.0
+  },
+  {
+   "fold": [
+    2,
+    1
+   ],
+   "rows": [
+    2486,
+    3730
+   ],
+   "cols": [
+    1645,
+    3291
+   ],
+   "n_truth": 7079,
+   "n_pred": 2683,
+   "tp": 0.0,
+   "fp": 2683.0,
+   "fn": 7079.0,
+   "dti": 0.0,
+   "recall": 0.0
+  }
+ ],
+ "canary": {
+  "lane_kernel_proximity": {
+   "auc_per_fold": [
+    0.47527277179466654,
+    0.47207493814068574,
+    0.46518770703826734,
+    0.4412421260919066,
+    0.45219870367251197,
+    0.45859935385857964
+   ],
+   "auc_mean": 0.4607626000994363,
+   "verdict": "ok"
+  },
+  "lane_binary_mask": {
+   "auc_per_fold": [
+    0.4986932382732851,
+    0.49856746851221373,
+    0.4981805902055106,
+    0.49692252621321575,
+    0.4974828289633747,
+    0.49791350166342957
+   ],
+   "auc_mean": 0.4979600256385049,
+   "verdict": "ok"
+  }
+ },
+ "note": "proxy instrument: truth is the visible catalogue, so a genuinely new fault cannot be rewarded here; a positive result licenses packaging, never a score claim"
+}

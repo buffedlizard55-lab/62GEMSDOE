@@ -1,0 +1,125 @@
+{
+ "session": "arena/778884cc-62gemsdoe",
+ "date_utc": "2026-10-12",
+ "lane": "datum-offset \u2014 Lake Lahontan shorelines as a strain gauge (stayed in lane; no deviation)",
+ "experiment_id": "h62n",
+ "hypothesis": "Faults that offset the ~15 ka Lahontan highstand shoreline are young, low-slip-rate structures whose unmapped segments continue from the pluvial margin into basin floors and range fronts (Pierce & Wesnousky 2016 found exactly such unmapped NW-striking segments in Smith Valley's basin centre; Briggs & Wesnousky 2004 constrained Pyramid Lake fault-zone slip from displaced Lahontan features; Dong et al. documented strike-slip-offset shorelines outboard of the Wassuk front). Seeding traces at flagged datum steps/deflections and extending them while DEM-ridge evidence supports them should therefore sample the catalogue-missing fault population.",
+ "mechanism": "100 m DEM (geodawn_dem_a2_100m, 99.97% footprint, sha-pinned mirror) -> wave-cut bench detection (flat tread x riser proximity x above local lake floor) -> LOCAL-MODE isobase (per-8 km-tile robust mode of bench elevations, Gaussian-smoothed; replaces the degenerate global quadratic, rmad 68.9 m -> 38.5 m: the IR-62-03 / next-steps-#4 fix) -> residual r = z - isobase -> Frangi ridge of |grad r| gated by cross-angle vs the local datum contour, offset >= 3 m, within 1500 m of bench pixels -> 8,408 flagged step/deflection loci -> block-balanced round-robin selection (2,600 loci, 900 m separation, all six competition blocks) -> oriented trace extension while DEM-ridge evidence >= 0.10 (2,017 traces kept) -> dotted emission at 300 m along-trace spacing with a 300 m HARD-CORE between any two dots (template fix: zero self-kernel by construction, the registry's proven isolation rule) and a 300 m catalogue buffer (the kernel-radius buffer GEMSDOE49 measured optimal).",
+ "named_non_fault_process_that_could_mimic_it": "Wave-cut benches and their risers are also cut/modified by non-tectonic processes: delta foresets and beach berms running ALONG the datum (suppressed by the >=30 deg cross-angle gate, not eliminated), alluvial fan-head incision cutting ACROSS benches (indistinguishable from a young fault scarp at 100 m posting), differential rebound warping (absorbed by the local-mode isobase only up to its 8 km tile scale), and modern road grades / berms in the basin floors. Southern-block loci additionally sit on non-Lahontan pluvial-lake margins and playas at similar elevations (the z-band gate cannot distinguish them) - disclosed, and still pluvial-margin geology per the lane's coverage statement.",
+ "holdout_dti": {
+  "primary_instrument": "S*\u2020 \u2014 leaderboard-inverted hidden-truth surrogate REBUILT this session with the official 300 m kernel (the committed instrument had a 75 m kernel bug, IR-62-25). Instrument quality: Spearman +0.9641, R\u00b2 0.7007, RMSE 0.0503 over 56 owner-reported portal scores (was R\u00b2 0.3007).",
+  "DTI_Sstar_fixed": 0.05452,
+  "projection": 0.021,
+  "projection_label": "PROJECTION (0.3848 x DTI(S*\u2020)), NEVER A SCORE. Known bias: the instrument under-predicts out-of-family fields ~4x (gate_ortho: projected 0.0557, OWNER-REPORTED 0.2376), so 0.021 is a floor-style estimate; the plausible band is 0.02-0.10, below the incumbent 0.24-0.28.",
+  "catalogue_segment_holdout": {
+   "pooled_dti": 0.0,
+   "folds": 6,
+   "note": "zero BY CONSTRUCTION: every dot is >=300 m off the catalogue and this holdout's truth is catalogue segments. This is the instrument documented ANTI-correlated with the portal (IR-62-HOLDOUT-01: Spearman -0.9141 over 10 ORGANIZER-CONFIRMED frozen artifacts); h33-2-b2 read 0.0053 on it and scored 0.2778 live. Reported for completeness, not used for the verdict."
+  },
+  "leakage_canary": {
+   "lane_binary_mask_auc": 0.498,
+   "lane_kernel_proximity_auc": 0.461,
+   "verdict": "ok (AUC ~ 0.5, far below the 0.90 leakage threshold; the lane derives nothing from the catalogue except the exclusion buffer)",
+   "withheld_positives": "see build/holdout_h62n.json"
+  }
+ },
+ "correlation_overlap_vs_registry": {
+  "comparators": "379 rasters (289 fetched sibling-repo files + 62 normalized scored registry rasters from 60GEMSDOE + 28 local prior artifacts incl. all four sibling lanes of this repo)",
+  "targeted_scored_comparators_measured_first": {
+   "gate_ortho_0.2376": {
+    "within_3px": 0.384,
+    "exact": 0.0239,
+    "jaccard": 0.0071
+   },
+   "h33_2_b2_0.2778": {
+    "within_3px": 0.276,
+    "exact": 0.0161,
+    "jaccard": 0.005
+   },
+   "d28_0.2600": {
+    "within_3px": 0.281,
+    "exact": 0.0161
+   },
+   "h59_cover_0.2296": {
+    "within_3px": 0.275,
+    "exact": 0.0135
+   },
+   "h19_5_0.1922": {
+    "within_3px": 0.319,
+    "exact": 0.043
+   },
+   "h34_scatter_0.0778": {
+    "within_3px": 0.28,
+    "exact": 0.0125
+   },
+   "local_sibling_lanes": {
+    "v8": 0.024,
+    "h62a_38k": 0.17,
+    "lane62_87k": 0.271,
+    "h62g": 0.091,
+    "run1_h62m": 0.453
+   }
+  },
+  "full_scan": {
+   "file": "evidence/h62n_uniqueness.json",
+   "n_comparators": 379,
+   "verdict": "UNIQUE-VS-REGISTRY",
+   "any_rank_flag": false,
+   "any_overlap_flag": false,
+   "max_rank_corr": -0.0737,
+   "max_abs_rank_corr": 0.7798,
+   "max_abs_rank_corr_comparator": "13GEMSDOE r13-lattice-s5 (206,895-dot lattice; density-blind background effect)",
+   "n_raw_overlap_gt_070": 21,
+   "note_raw_overlap": "all 21 are dense lattices/fields whose 3-px dilation covers most of the footprint - the documented density-blind defect; the symmetric leg (dilated Jaccard) is <= 0.2103 over ALL 379 comparators (limit 0.25)",
+   "worst_informative_jaccard": {
+    "file": "GEMSDOE47 h50-slopeanom-s2p8 (37,654 dots, unscored sibling variant)",
+    "jaccard": 0.2103,
+    "overlap": 0.4826
+   }
+  },
+  "tripwires": "PASS on all 379 comparators: no rank correlation exceeds 0.90 (max +rho = -0.0737 ... i.e. no positive rho above 0.08), and no comparator combines >70% 3-px overlap with informative (symmetric Jaccard > 0.25) agreement; scored-comparator max overlap is gate_ortho 38.4%."
+ },
+ "raster": {
+  "file": "docs/downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif",
+  "bytes": 129539,
+  "sha256": "2a25f29a6b235520a4965199045dae7226260665fc3ec248a79f04cb78bbe7f0",
+  "n_dots": 16864,
+  "zip": "docs/downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.zip"
+ },
+ "validator": {
+  "single_band": true,
+  "dtype": "float32",
+  "crs": "EPSG:32611",
+  "shape": [
+   3730,
+   3292
+  ],
+  "transform_matches_official_sample": true,
+  "nodata_tag": null,
+  "nan_count": 0,
+  "all_finite": true,
+  "n_outside_0_1": 0,
+  "n_positive_inside_footprint": 16864,
+  "legal": true,
+  "portal_error_cannot_occur": true,
+  "re_read_from_disk": true,
+  "receipt": "evidence/h62n_validator.json"
+ },
+ "design_rules_followed_from_registry_evidence": {
+  "isolation": "redundancy_fraction 0.0000 (self-kernel zero by construction; every one of the top nine distinct registry score levels has mean self-kernel 0.016-0.018)",
+  "off_catalogue": "min d(cat) = 3.0 px = 300 m, median 25.0 px = 2500 m (champion h33: median 1965 m, frac<200 m = 0.0)",
+  "block_spread": [
+   4385,
+   3747,
+   3963,
+   1259,
+   822,
+   2688
+  ],
+  "mass": "16,864 \u2014 BELOW the champion 37-45k band; the network emitted only what DEM-ridge evidence supports ('if only a handful are convincing, emit only those'); coverage bound disclosed as the lane's binding constraint"
+ },
+ "submission_name": "gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros",
+ "submission_note": "H62-N Lahontan local-mode isobase, block-balanced trace network; 16,864 isolated dots >=300m off-catalogue; unique vs 379 rasters.",
+ "submission_note_chars": 122,
+ "verdict": "NEGATIVE as an improvement (do not spend a weekly slot expecting to beat 0.2778): projection 0.0210 on the portal-calibrated instrument, plausible band 0.02-0.10, below the incumbent 0.24-0.28 band, and it does not beat the repository's own best on that instrument (datum62 detector, 0.2127). OK TO DOWNLOAD: yes \u2014 format-legal on the re-read bytes and unique. The session's positive deliverables are the instrument fix (IR-62-25: the S* kernel bug; R\u00b2 0.30 -> 0.70), the gate_ortho corridor-headroom proof (a 43%-overlap field scored 0.2376), the retraction of the bayesopt selector recommendation (IR-62-26), and the definitive lane-family table on the fixed instrument."
+}

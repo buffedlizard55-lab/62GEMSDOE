@@ -1,6 +1,25 @@
 # Executive summary — exactly how to make a submission, and what to submit
 
-## 1. The file, and the verdict on it
+## 0. CURRENT (session 2026-10-12, `arena/778884cc-62gemsdoe`) — the file this session generated
+
+**VERDICT: OK TO DOWNLOAD — format-legal and unique; NEGATIVE as an improvement — do not spend a
+weekly slot expecting to beat 0.2778.**
+
+| | |
+|---|---|
+| **Download** | [`downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif`](downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif) — 129,539 bytes ([zip](downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.zip)) |
+| **sha256** | `2a25f29a6b235520a4965199045dae7226260665fc3ec248a79f04cb78bbe7f0` |
+| **Submission name** | `gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros` |
+| **Submission note** (130 / 140 chars) | `H62-N Lahontan local-mode isobase, block-balanced trace network; 16,864 isolated dots >=300m off-catalogue; unique vs 379 rasters.` |
+| **Portal-legal?** | **Yes** — validator on the re-read bytes: single band, float32, EPSG:32611, 3730×3292, sample transform, `nan_count = 0`, `n_outside_0_1 = 0`, no nodata tag; the "[0,1]" error cannot occur (`evidence/h62n_validator.json`). |
+| **Unique?** | **Yes** — 379 comparators, 0 flags, worst informative Jaccard 0.2103 (limit 0.25), scored-comparator max 3-px overlap 38.4 % vs gate_ortho (limit 70 %) (`evidence/h62n_uniqueness.json`). |
+| **Worth a slot?** | **No, on the measurements.** PROJECTION 0.0210 on the kernel-fixed portal-calibrated instrument (DTI(S*†) 0.0545 × 0.3848; a projection is never a score; the instrument under-predicts out-of-family fields ~4×, so the plausible band is 0.02–0.10 — below the incumbent 0.24–0.28 and below this repo's best, the datum62 detector at 0.2127). |
+| **Organizer score** | none — never submitted. |
+
+The rest of this page (how the portal validates, how to submit) is unchanged and applies to this
+file identically. The section below is the 2026-10-11 session's file, kept as history.
+
+## 1. The 2026-10-11 file, and the verdict on it (history)
 
 **<span style="color:#f85149">VERDICT: NEGATIVE — this file is legal and unique, but it should not
 take a weekly slot.</span>**

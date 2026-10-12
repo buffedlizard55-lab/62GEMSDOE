@@ -31,8 +31,8 @@ nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;paddi
 </style></head><body><div class="wrap">
 
 <h1>62GEMSDOE — Lake Lahontan shorelines as a strain gauge</h1>
-<p class="mut">DOE GEMS Prize · DrivenData competition #306 · datum-offset lane · session 2026-10-11
-· sessions 2026-10-11 (2b64062a, dfc9787b, d0303476)</p>
+<p class="mut">DOE GEMS Prize · DrivenData competition #306 · datum-offset lane · latest session 2026-10-12
+· branch <code>arena/778884cc-62gemsdoe</code> · earlier sessions 2026-10-11 (2b64062a, dfc9787b, d0303476)</p>
 
 <nav>
 <a href="#download">⬇ Download &amp; verdict</a>
@@ -49,8 +49,31 @@ nav a{background:var(--card);border:1px solid var(--bd);border-radius:20px;paddi
 </nav>
 
 <!-- ============================ DOWNLOAD — the first thing on the page ============ -->
-<div class="hero" id="download">
-<h2 style="border:0;margin-top:0">The submission file — and whether you should submit it</h2>
+<div class="hero" id="download" style="border-color:var(--warn);background:rgba(210,153,34,.06)">
+<h2 style="border:0;margin-top:0">This session's submission file (2026-10-12) — and whether you should submit it</h2>
+
+<p><span class="pill no">VERDICT: NEGATIVE AS AN IMPROVEMENT — do not spend a weekly slot on it</span>
+&nbsp;<span class="pill ok">FORMAT: LEGAL — validator passes on the re-read bytes; the "[0,1]" portal error cannot occur</span>
+&nbsp;<span class="pill ok">UNIQUE — max 38.4 % of dots within 3 px of any scored comparator (limit 70 %)</span></p>
+
+<p class="big">gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif</p>
+<p><a class="btn" href="downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif">⬇ Download the GeoTIFF (129,539 bytes)</a>
+<a class="btn sec" href="downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.zip">⬇ .zip</a>
+<a class="btn sec" href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">Submission page ↗</a></p>
+
+<table class="kv">
+<tr><td>sha256</td><td><code>2a25f29a6b235520a4965199045dae7226260665fc3ec248a79f04cb78bbe7f0</code></td></tr>
+<tr><td>What it is</td><td>16,864 <b>isolated</b> single-pixel dots (zero dot-to-dot kernel overlap by construction), every one on a DEM-ridge-supported trace seeded at a flagged Lake Lahontan datum step or lateral deflection; local-mode isobase (the IR-62-03 fix), block-balanced over all six competition blocks, ≥300 m off the catalogue (median 2,500 m), float32, EPSG:32611, 3730×3292, no NaN, no nodata tag.</td></tr>
+<tr><td>Submission name</td><td><code>gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros</code></td></tr>
+<tr><td>Portal note (130/140 chars)</td><td><code>H62-N Lahontan local-mode isobase, block-balanced trace network; 16,864 isolated dots &gt;=300m off-catalogue; unique vs 379 rasters.</code></td></tr>
+<tr><td>Instrument reading</td><td><b>PROJECTION 0.0210</b> (0.3848 × DTI(S*†)=0.0545; S*† = this session's kernel-fixed leaderboard inversion, Spearman +0.964 / R² 0.70 over 56 owner-reported scores). A projection is never a score; the instrument under-predicts out-of-family fields ~4× (gate_ortho: projected 0.056, OWNER-REPORTED 0.2376), so the plausible band is 0.02–0.10 — below the incumbent 0.24–0.28.</td></tr>
+<tr><td>Why the verdict is negative</td><td>It does not beat the repository's best on the one portal-calibrated instrument (datum62 detector, DTI(S*†) 0.2127), per the standing rule "do not spend a submission slot on an idea that hasn't beaten the current holdout best".</td></tr>
+<tr><td>This session's real deliverables</td><td>① the S* kernel bug found &amp; fixed once in the template (IR-62-25; R² 0.30→0.70); ② proof that unique fields have corridor headroom (gate_ortho: 43 % halo overlap, scored 0.2376); ③ retraction of the "submit the bayesopt field" selector advice (IR-62-26: it measures 0.041 credit/dot on the fixed instrument, below this lane file); ④ the definitive datum-lane table on the fixed instrument (<a href="run-card.html">run card</a>, <code>evidence/h62n_forensics.json</code>). Full 379-comparator uniqueness scan: <b>UNIQUE-VS-REGISTRY</b> — 0 flags, worst informative Jaccard 0.2103 (limit 0.25), max positive rank-correlation −0.07 (limit 0.90): <code>evidence/h62n_uniqueness.json</code>.</td></tr>
+</table>
+</div>
+
+<div class="hero" id="download-prev">
+<h2 style="border:0;margin-top:0">Previous sessions' files — and whether you should submit them</h2>
 
 <p><span class="pill ok">FORMAT: LEGAL — 14/14 validator checks on the bytes re-read from disk</span>
 &nbsp;<span class="pill ok">UNIQUE — max Jaccard 0.022, max |ρ| 0.035 vs 25 prior rasters</span>
@@ -172,7 +195,7 @@ off-catalogue instrument, against everything else in this table:</p>
 <tr><td>isolated-random control</td><td>44,090</td><td>0.04331</td><td>—</td></tr>
 </table>
 <p>It lives at <code>buffedlizard55-lab/GEMSDOE32</code> →
-<code>docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif</code> (302,357 bytes).
+<code>docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif</code> (302,357 bytes). <b>RETRACTED 2026-10-12 (IR-62-26; convergent with session d0303476's IR-62-20):</b> on the kernel-fixed portal-calibrated instrument this field measures 0.0408 credit/dot — below this session's lane file (0.0593) and 10× below the h33 family; the 0.293 number came from the SGMC instrument that anti-correlates with the portal (ρ = −0.928).
 It is absent from the 87-artifact score-anchored registry built this session, i.e. no owner-reported
 score is attached to it anywhere.</p>
 <p class="mut"><b>Caveat, stated before the recommendation rather than after it:</b> 0.29294 is a
