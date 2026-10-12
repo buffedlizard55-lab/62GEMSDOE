@@ -34,8 +34,7 @@ hr{border:0;border-top:1px solid var(--bd);margin:2em 0}
 <tr><td>fold did not confine scoring (<code>active = footprint &amp; ~visible</code>)</td><td><code>n_pred = 1660</code> in <i>every</i> fold; the whole footprint was scored each time</td><td>score only inside the eroded block</td></tr>
 <tr><td>canary negatives drawn basin-wide while positives were fold-local</td><td>AUC pinned at exactly ~0.500 in every fold — a degenerate tie, not a clean bill of health</td><td>negatives from the same fold interior</td></tr>
 <tr><td>"wholly inside the block" component rule</td><td><code>n_truth = 0</code> in all 6 folds — the catalogue is one basin-scale connected component, so nothing is ever "wholly inside"</td><td>block-scale withholding with a 3 px erosion</td></tr>
-<tr><td><code>metric.dti_binary(pred, truth &amp; active, active)</code></td><td>truth silently zeroed (the module applies <code>active</code> to truth itself)</td><td>pass the block as the scored domain, not the block minus the catalogue</td></tr>
-</table>
+<tr><td><code>metric.dti_binary(pred, truth &amp; active, active)</code></td><td>truth silently zeroed (the module applies <code>active</code> to truth itself)</td><td>pass the block as the scored domain, not the block minus the catalogue</td></tr></table>
 <p>Then a fifth, of a different kind: a run crashed on an undefined variable, its stdout/stderr were suppressed to <code>/dev/null</code>, and the <b>stale JSON from the previous run was read as the result</b>. The lesson is recorded in the commands: never suppress output when the artefact is the evidence.</p>
 <p>The evaluator version that produced the numbers in <code>run-card.md</code> is the one <i>after</i> all five fixes, and the fold arithmetic is asserted (<code>a withheld pixel survived inside the scoring zone</code> raises).</p>
 <h2>3. The registry uniqueness tripwire is density-blind — a shared-tool defect, fixed and reported</h2>
@@ -52,32 +51,18 @@ hr{border:0;border-top:1px solid var(--bd);margin:2em 0}
 <p>The stated limit is 140 characters; the site has previously accepted 177–200 [OWNER-REPORTED]. This repository keeps <b>≤ 140</b> because that is the stated limit. The current note is 128 characters.</p>
 <h2>7. DEM transport and format traps</h2>
 <ul>
-<li>The 3DEP transport GeoTIFF is <b>int16 decimetres</b>, not metres, and the first fetch clipped the</li>
+<li>The 3DEP transport GeoTIFF is <b>int16 decimetres</b>, not metres, and the first fetch clipped the −32767 nodata sentinel to −32766 when rounding to decimetres. Handling it as metres made every elevation gate false; the fix is in <code>read_z()</code> and in the fetch writer (sentinel written <i>after</i> the clip, readers mask ≤ −32000).</li>
+<li>Run <b>38169049665</b> is recorded as <b>success with no artifact</b> — a silent-empty result. It is kept in <code>evidence/</code> precisely because "success" was not the same as "produced data".</li>
+<li><code>dem_transport.json</code> records <code>resampling: "as-is"</code>, i.e. the mosaic is not reprojected here; the tiles are already EPSG:32611 at 25 m.</li>
+<li>Coverage after run <b>38169727207</b>: 6 tiles, valid fraction <b>0.8088</b> (was 0.590 with 5). The per-block coverage map has not been re-verified since the 6th tile landed — a gap in this session's evidence, listed in <code>next-steps.md</code>.</li>
 </ul>
-<p>  −32767 nodata sentinel to −32766 when rounding to decimetres. Handling it as metres made every   elevation gate false; the fix is in <code>read_z()</code> and in the fetch writer (sentinel written <i>after</i>   the clip, readers mask ≤ −32000).</p>
-<ul>
-<li>Run <b>38169049665</b> is recorded as <b>success with no artifact</b> — a silent-empty result. It is</li>
-</ul>
-<p>  kept in <code>evidence/</code> precisely because "success" was not the same as "produced data".</p>
-<ul>
-<li><code>dem_transport.json</code> records <code>resampling: "as-is"</code>, i.e. the mosaic is not reprojected here; the</li>
-</ul>
-<p>  tiles are already EPSG:32611 at 25 m.</p>
-<ul>
-<li>Coverage after run <b>38169727207</b>: 6 tiles, valid fraction <b>0.8088</b> (was 0.590 with 5). The</li>
-</ul>
-<p>  per-block coverage map has not been re-verified since the 6th tile landed — a gap in this   session's evidence, listed in <code>next-steps.md</code>.</p>
 <h2>8. Second-hand layer names</h2>
 <p>The band names used for hypotheses H-A and H-D (<code>lidar_scarp_features_u8.tif</code>, <code>geodawn_rad_u8.tif</code>, <code>training_features.tif</code> bands 13/15/17) are <b>[SIBLING-MEASURED]</b> — read from band descriptions in a sibling checkout. This repository does not clone the 418 MB feature stack, so they are <b>not re-verified here</b>. Treat them as a lead to confirm before building on.</p>
 <h2>9. What the organizers will and will not tell us — read this before trusting any local score</h2>
 <ul>
-<li>They will <b>not</b> share the data sources, fault types or coverage behind the test faults beyond</li>
+<li>They will <b>not</b> share the data sources, fault types or coverage behind the test faults beyond the problem description [OFFICIAL, thread 11527 — chrisk-dd, 2026-09-23].</li>
+<li><b>Phase 2 uses a test set updated by expert review of all Phase 1 submissions</b> [OFFICIAL, same post]. Phase 1 predictions therefore influence final evaluation even when they do not score well — which is the only sound argument for spending a Phase-1 slot on a file whose local evidence is thin, and which is why this file's verdict is "low-risk novelty probe" rather than "do not submit".</li>
 </ul>
-<p>  the problem description [OFFICIAL, thread 11527 — chrisk-dd, 2026-09-23].</p>
-<ul>
-<li><b>Phase 2 uses a test set updated by expert review of all Phase 1 submissions</b> [OFFICIAL, same</li>
-</ul>
-<p>  post]. Phase 1 predictions therefore influence final evaluation even when they do not score   well — which is the only sound argument for spending a Phase-1 slot on a file whose local   evidence is thin, and which is why this file's verdict is "low-risk novelty probe" rather than   "do not submit".</p>
 <h2>10. A suspicious statistic in this file's own output</h2>
 <p>The 221 traces have a <b>median length of 1.3 km</b> (max 5.6 km). Real fault traces are usually longer, so the binding constraint is probably the trace-stopping rule rather than the geology. Flagged as unresolved; see <code>next-steps.md</code>.</p>
 <hr>
@@ -105,4 +90,32 @@ gems62.holdout      ImportError: cannot import name 'PIXEL_M' from 'gems62.grid'
 <p>The brief states "0.3195 is the highest score right now". The official public leaderboard, scraped 2026-10-11T20:57:47Z, puts 0.3195 at <b>rank 9</b> and #1 at <b>0.4133</b>; the top-5 cut-off is <b>0.3333</b>. The group's best (0.2778) is <b>rank 23 of 50</b>. Any target set against 0.3195 is aiming at ninth place. Series: <code>research/leaderboard_series.json</code> (37 snapshots).</p>
 <h3>IR-62-18 — this session's own uniqueness gate had a direction bug, found by running it</h3>
 <p>The first implementation computed <code>|dilated_mine ∩ theirs| / |mine|</code> instead of the protocol's <code>|mine ∩ dilated_theirs| / |mine|</code>, and compared the submission against <b>itself</b> (returning a spurious ρ = 1.0, Jaccard = 1.0, "DUPLICATE-DRIFT"). Both were wrong. Fixed and re-run; the corrected numbers are the ones published. Recorded because the first (wrong) verdict was already printed, and a reader comparing the two would otherwise be misled.</p>
+<h2>Added 2026-10-12 (session <code>arena/b7846648-62gemsdoe</code>)</h2>
+<h3>IR-62-19 — the organiser's own <code>sample_submission.tif</code> fails this lane's format contract</h3>
+<p>Measured on the committed bytes (sha256 <code>2176d08e485aa2cd…</code>, 1,599,597 B) with the two validators this repository ships, which disagree with each other:</p>
+<table><tr><th>property</th><th>value</th></tr>
+<tr><td>bands / dtype / CRS / geotransform</td><td>1, <code>float32</code>, EPSG:32611, identical to every file here</td></tr>
+<tr><td><code>nodata</code> tag</td><td><b>NaN</b></td></tr>
+<tr><td>non-finite pixels</td><td><b>7,111,787</b> — every cell outside the footprint</td></tr>
+<tr><td>finite min / max, and cells outside [0,1]</td><td>0.0 / 1.0, and <b>0</b></td></tr>
+<tr><td>positive cells</td><td><b>60,988 — exactly the public catalogue</b></td></tr>
+<tr><td><code>validate_submission</code> (the published contract)</td><td><b>passes</b>; 0 NaN inside the footprint</td></tr>
+<tr><td><code>check_submission["legal"]</code> (this lane's rule)</td><td><b>False</b> — it demands <code>all_finite</code> and <code>nodata is None</code></td></tr></table>
+<p>Three consequences, now machine-enforced rather than remembered.</p>
+<ol>
+<li><b>A range check written as <code>0 &lt;= min and max &lt;= 1</code> is NaN-poisoned.</b> Min/max over a file whose non-footprint cells are NaN are themselves NaN, so a file that satisfies the portal's stated rule is reported as violating it. <code>scripts/audit_downloads.py</code> now measures the range over finite pixels and reports <code>portal_range_risk</code> separately: <code>none</code>, <code>low</code> (non-finite pixels <i>with</i> a nodata tag, so a masked reader never sees them) or <code>high</code> (non-finite <i>without</i> a tag — the mechanism that actually produces <i>"Predicted values must be in range [0, 1]"</i>).</li>
+<li><b>This repository's own verdict on its <code>-nan</code> probe was wrong and is corrected.</b> With a NaN nodata tag the probe passes the published contract; sibling files written the same way carry scores up to 0.275 in the registry mirror. "NaN tag ⇒ rejection" was never supported by any measurement here, and the download page no longer says it.</li>
+<li><b><code>no_nodata_tag</code> and <code>no_nan_anywhere</code> are labelled as what they are</b> — this lane's convention, stricter than the example the organiser ships. <code>docs/downloads/manifest.json</code> lists them under <code>strict_checks</code> and carries the organiser's file itself as <code>reference_example</code>, so the asymmetry is visible in the machine record rather than only in prose.</li>
+</ol>
+<h3>IR-62-20 — <code>int(round(250 / 100))</code> is 2: a 250 m collar is not what the code meant</h3>
+<p>The first <code>run_h62j.py</code> converted a metres-unit catalogue collar to pixels with <code>int(round(m / 100))</code>. Python's <code>round</code> is banker's rounding, so 250 m became <b>2</b> cells, not 3 — a Chebyshev-2 collar whose realised minimum Euclidean dot-to-catalogue distance is <b>223.6 m</b>, not 250 m. Nothing raised an error; the gate silently measured a different quantity than its name claimed. Measured facts after the fix, on the emitted field: 0 dots on the catalogue, minimum distance to it 223.6 m, 340 of 8,571 within 300 m.</p>
+<p>Two rules follow, and both are now how this lane writes code: convert metres to cells with <code>ceil</code>, and <b>report the realised distance the bytes contain, never the intended one</b>. A "250 m collar" in a run card is a claim about arithmetic; a "minimum dot-to-catalogue distance 223.6 m" is a claim about the file.</p>
+<h3>IR-62-21 — a JSON manifest that is not JSON: <code>NaN</code> is valid in Python and invalid in JSON</h3>
+<p><code>json.dumps</code> happily writes <code>NaN</code> for a non-finite float, and the browser then refuses to parse the file. The audit records <code>min</code>, <code>max</code>, <code>nodata</code> and <code>total_mass</code> straight from NumPy, and <code>data/sample_submission.tif</code> — measured as the reference example — is all four at once (<code>total_mass: NaN</code>, because its raw sum includes 7.1 M NaN pixels). Every manifest is now passed through <code>jsonable()</code>, which writes <code>null</code> and prints that it did, and the audit records <code>"NaN"</code> as a <i>string</i> where a value is genuinely non-finite so the field is readable instead of silently null. Recorded because the same trap has already cost this group a scored sibling in the mirror, and because a generator that emits unparseable evidence is worse than no generator.</p>
+<h3>IR-62-22 — "the DEM covers X % of the footprint" had no X until it had a definition</h3>
+<p>Three numbers were in circulation for the same raster this session: 55.7 %, 29 %, 9.4 %. All three are correct of different quantities, measured here on the 100 m grid: the DEM <b>extent</b> contains 2,878,929 of 5,167,373 footprint cells (<b>55.71 %</b>, matching <code>IR-62-15</code>'s 55.74 % under its area definition); <b>52.24 %</b> of footprint cells have a finite elevation; and only <b>9.42 %</b> (486,753 cells) sit inside a 4 km isobase tile that the doublet pipeline can actually measure — which is the number that caps this lane's mass. A "coverage" claim without its numerator and denominator is not a measurement, and the site now states all three with their definitions.</p>
+<h3>IR-62-23 — the two lane suites cannot be collected in the same pytest process</h3>
+<p><code>pytest lane62/tests -q</code> passes 46; <code>pytest lane62-h62a/tests -q</code> passes 41; together they fail during collection with <code>ImportError: cannot import name 'emission' from 'gems62' (/…/lane62/src/gems62/__init__.py)</code>. Both lanes put their own <code>src</code> on <code>sys.path</code> in a <code>conftest.py</code> and both ship a module named <code>tests/test_gems62.py</code>, so in one process the second lane's import resolves against the <i>first</i> lane's package. Pre-existing (it is not caused by anything this session changed) and it only bites a combined invocation, which no workflow in this repository makes — but it is a trap for anyone who runs <code>pytest tests lane62/tests lane62-h62a/tests</code>, and the fix belongs to the lanes: unique test basenames, or <code>importmode=importlib</code> plus per-lane rootdirs. Until then: <b>run each suite separately.</b> Recorded here because "the suites are green" is only true under that qualifier, and a reader who runs one combined command would otherwise conclude the repository had regressed.</p>
+<h3>IR-62-24 — this README asserted the root suite cannot collect; it can, and did, on this checkout</h3>
+<p><code>README.md</code> (the <code>lane62-h62a/</code> addendum, line ~441) states that <code>pytest tests/</code> at the repository root "still cannot collect" because <code>src/gems62/lahontan.py:50</code> imports a <code>PIXEL_M</code> that <code>grid.py</code> never defines and <code>tests/test_metric.py:17</code> imports a <code>brute_force_components</code> that <code>metric.py</code> never defines. Both symbols exist now — <code>PIXEL_M</code> is restored additively in <code>src/gems62/grid.py</code> by the <code>IR-62-11</code> fix and <code>brute_force_components</code> is defined at <code>src/gems62/metric.py:254</code> — and <code>pytest tests -q</code> on this checkout reports <b>54 passed</b> in 8.2 s. The claim was true when written and is now stale; it is corrected rather than deleted so the sequence is visible, and <code>.github/workflows/ci.yml</code> grew a root job that runs <code>pytest tests -q</code> plus the download audit, so the statement cannot silently go stale again.</p>
 </div></body></html>

@@ -217,3 +217,94 @@ The first implementation computed `|dilated_mine ∩ theirs| / |mine|` instead o
 spurious ρ = 1.0, Jaccard = 1.0, "DUPLICATE-DRIFT"). Both were wrong. Fixed and re-run; the
 corrected numbers are the ones published. Recorded because the first (wrong) verdict was already
 printed, and a reader comparing the two would otherwise be misled.
+
+
+## Added 2026-10-12 (session `arena/b7846648-62gemsdoe`)
+
+### IR-62-19 — the organiser's own `sample_submission.tif` fails this lane's format contract
+
+Measured on the committed bytes (sha256 `2176d08e485aa2cd…`, 1,599,597 B) with the two validators this
+repository ships, which disagree with each other:
+
+| property | value |
+| --- | --- |
+| bands / dtype / CRS / geotransform | 1, `float32`, EPSG:32611, identical to every file here |
+| `nodata` tag | **NaN** |
+| non-finite pixels | **7,111,787** — every cell outside the footprint |
+| finite min / max, and cells outside [0,1] | 0.0 / 1.0, and **0** |
+| positive cells | **60,988 — exactly the public catalogue** |
+| `validate_submission` (the published contract) | **passes**; 0 NaN inside the footprint |
+| `check_submission["legal"]` (this lane's rule) | **False** — it demands `all_finite` and `nodata is None` |
+
+Three consequences, now machine-enforced rather than remembered.
+
+1. **A range check written as `0 <= min and max <= 1` is NaN-poisoned.** Min/max over a file whose
+   non-footprint cells are NaN are themselves NaN, so a file that satisfies the portal's stated rule is
+   reported as violating it. `scripts/audit_downloads.py` now measures the range over finite pixels and
+   reports `portal_range_risk` separately: `none`, `low` (non-finite pixels *with* a nodata tag, so a
+   masked reader never sees them) or `high` (non-finite *without* a tag — the mechanism that actually
+   produces *"Predicted values must be in range [0, 1]"*).
+2. **This repository's own verdict on its `-nan` probe was wrong and is corrected.** With a NaN nodata
+   tag the probe passes the published contract; sibling files written the same way carry scores up to
+   0.275 in the registry mirror. "NaN tag ⇒ rejection" was never supported by any measurement here, and
+   the download page no longer says it.
+3. **`no_nodata_tag` and `no_nan_anywhere` are labelled as what they are** — this lane's convention,
+   stricter than the example the organiser ships. `docs/downloads/manifest.json` lists them under
+   `strict_checks` and carries the organiser's file itself as `reference_example`, so the asymmetry is
+   visible in the machine record rather than only in prose.
+
+### IR-62-20 — `int(round(250 / 100))` is 2: a 250 m collar is not what the code meant
+
+The first `run_h62j.py` converted a metres-unit catalogue collar to pixels with `int(round(m / 100))`.
+Python's `round` is banker's rounding, so 250 m became **2** cells, not 3 — a Chebyshev-2 collar whose
+realised minimum Euclidean dot-to-catalogue distance is **223.6 m**, not 250 m. Nothing raised an error;
+the gate silently measured a different quantity than its name claimed. Measured facts after the fix, on
+the emitted field: 0 dots on the catalogue, minimum distance to it 223.6 m, 340 of 8,571 within 300 m.
+
+Two rules follow, and both are now how this lane writes code: convert metres to cells with `ceil`, and
+**report the realised distance the bytes contain, never the intended one**. A "250 m collar" in a run card
+is a claim about arithmetic; a "minimum dot-to-catalogue distance 223.6 m" is a claim about the file.
+
+### IR-62-21 — a JSON manifest that is not JSON: `NaN` is valid in Python and invalid in JSON
+
+`json.dumps` happily writes `NaN` for a non-finite float, and the browser then refuses to parse the file.
+The audit records `min`, `max`, `nodata` and `total_mass` straight from NumPy, and `data/sample_submission.tif`
+— measured as the reference example — is all four at once (`total_mass: NaN`, because its raw sum includes
+7.1 M NaN pixels). Every manifest is now passed through `jsonable()`, which writes `null` and prints that
+it did, and the audit records `"NaN"` as a *string* where a value is genuinely non-finite so the field is
+readable instead of silently null. Recorded because the same trap has already cost this group a scored
+sibling in the mirror, and because a generator that emits unparseable evidence is worse than no generator.
+
+### IR-62-22 — "the DEM covers X % of the footprint" had no X until it had a definition
+
+Three numbers were in circulation for the same raster this session: 55.7 %, 29 %, 9.4 %. All three are
+correct of different quantities, measured here on the 100 m grid: the DEM **extent** contains 2,878,929 of
+5,167,373 footprint cells (**55.71 %**, matching `IR-62-15`'s 55.74 % under its area definition); **52.24 %**
+of footprint cells have a finite elevation; and only **9.42 %** (486,753 cells) sit inside a 4 km isobase
+tile that the doublet pipeline can actually measure — which is the number that caps this lane's mass.
+A "coverage" claim without its numerator and denominator is not a measurement, and the site now states
+all three with their definitions.
+
+### IR-62-23 — the two lane suites cannot be collected in the same pytest process
+
+`pytest lane62/tests -q` passes 46; `pytest lane62-h62a/tests -q` passes 41; together they fail during
+collection with `ImportError: cannot import name 'emission' from 'gems62' (/…/lane62/src/gems62/__init__.py)`.
+Both lanes put their own `src` on `sys.path` in a `conftest.py` and both ship a module named
+`tests/test_gems62.py`, so in one process the second lane's import resolves against the *first* lane's
+package. Pre-existing (it is not caused by anything this session changed) and it only bites a combined
+invocation, which no workflow in this repository makes — but it is a trap for anyone who runs
+`pytest tests lane62/tests lane62-h62a/tests`, and the fix belongs to the lanes: unique test basenames,
+or `importmode=importlib` plus per-lane rootdirs. Until then: **run each suite separately.** Recorded
+here because "the suites are green" is only true under that qualifier, and a reader who runs one
+combined command would otherwise conclude the repository had regressed.
+
+### IR-62-24 — this README asserted the root suite cannot collect; it can, and did, on this checkout
+
+`README.md` (the `lane62-h62a/` addendum, line ~441) states that `pytest tests/` at the repository root
+"still cannot collect" because `src/gems62/lahontan.py:50` imports a `PIXEL_M` that `grid.py` never
+defines and `tests/test_metric.py:17` imports a `brute_force_components` that `metric.py` never defines.
+Both symbols exist now — `PIXEL_M` is restored additively in `src/gems62/grid.py` by the `IR-62-11` fix
+and `brute_force_components` is defined at `src/gems62/metric.py:254` — and `pytest tests -q` on this
+checkout reports **54 passed** in 8.2 s. The claim was true when written and is now stale; it is
+corrected rather than deleted so the sequence is visible, and `.github/workflows/ci.yml` grew a root job
+that runs `pytest tests -q` plus the download audit, so the statement cannot silently go stale again.

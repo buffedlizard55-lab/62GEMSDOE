@@ -363,7 +363,12 @@ class ScarpField:
         gx = ndimage.gaussian_filter(dzdx, sigma_strike_m / res)
         gy = ndimage.gaussian_filter(dzdy, sigma_strike_m / res)
         mag = np.hypot(gx, gy)
-        te = np.where(mag > 0, -gy / np.maximum(mag, 1e-9), 0.0)   # along-strike (east component)
+        # IR-62-J-02 FIX (2026-10-12): `gy` from ``gradient`` is -dz/dy, so the ascent is
+        # (gx, -gy) and the along-strike perpendicular is (gy, gx).  The shipped version used
+        # (-gy, gx), which reflects the strike about the E-W axis (azimuth -> 180 - azimuth):
+        # a NW-striking trace was walked at its NE mirror image.  Regression test:
+        # tests/test_geom_axes.py::test_scarpfield_strike_matches_the_true_line.
+        te = np.where(mag > 0, gy / np.maximum(mag, 1e-9), 0.0)    # along-strike (east component)
         tn = np.where(mag > 0, gx / np.maximum(mag, 1e-9), 1.0)    # along-strike (north component)
         strike = np.degrees(np.arctan2(te, tn)) % 180.0
         return cls(evidence=ev, strike_deg=strike.astype(np.float32), res=res)
@@ -537,12 +542,113 @@ def frangi_ridge(field: np.ndarray, res: float, *, sigma_m: float = 75.0):
             (big / (np.abs(big) + 1e-12)).astype(np.float32))
 
 
+# ---------------------------------------------------------------------------------------------
+# 2c. the datum-doublet surfaces -- the lane's measurement, in one shared, axis-tested place
+# ---------------------------------------------------------------------------------------------
+def doublet_surfaces(z: np.ndarray, isobase: np.ndarray, bench_score: np.ndarray, res: float, *,
+                     smooth_m: float = 120.0, scarp_sigma_m: float = 100.0,
+                     offset_half_m: float = 250.0, min_step_m: float = 2.0,
+                     flank_tol_m: float = 6.0, corr_sigma_m: float = 300.0,
+                     min_corr: float = 0.0, max_shore_distance_m: float = 1500.0,
+                     min_cross_angle_deg: float = 30.0, excess_step: bool = True,
+                     legacy_axis_swap: bool = False) -> dict:
+    """Per-pixel fields for "the pluvial datum is offset here", on any array (block-callable).
+
+    ``r = z - isobase`` is the datum residual; a fault that displaces the shoreline steps ``r``
+    across its own trace.  Everything measured is a property of ``|grad r|``:
+
+    ``evid``        Frangi bright-ridge score of ``|grad r|`` (a *line*, not a blob);
+    ``step``        ``|r| +h along the ascent  -  r| -h``  with h = ``offset_half_m``;
+    ``doublet_ok``  BOTH flanks sit on the datum (``|r| <= flank_tol_m``) -- the paired-bench
+                    test: a step *between two benches of the same isobase height* is a displaced
+                    shoreline, a step into empty air is a scarp of any origin;
+    ``corr``        local shape agreement of the two flanks over a ``corr_sigma_m`` window:
+                    ``corr(A, B)`` of the two sampled residual fields.  A fault leaves the bench
+                    tread intact on both sides (high corr); a landslide headwall or an erosional
+                    riser does not;
+    ``cross_deg``   angle between the step trace and the local isobase CONTOUR: >= 30 deg
+                    rejects the level-feature family (berms, bluffs, fan-head risers);
+    ``shore_dist``  distance to the nearest bench pixel, i.e. the lane's honest coverage mask.
+
+    Axis conventions live in ``gems62.geom`` (IR-62-J-01).  ``legacy_axis_swap=True`` reproduces
+    the pre-fix mapping, which measured the offset ALONG the scarp for N-S and E-W structures;
+    it exists only so the shipped v8 receipt stays reproducible.
+    """
+    from . import geom
+
+    z = np.asarray(z, np.float32)
+    finite = np.isfinite(z) & np.isfinite(isobase)
+    r = np.where(finite, z - isobase, np.float32(np.nan)).astype(np.float32)
+    r0 = np.nan_to_num(r, nan=0.0)
+    r_s = ndimage.gaussian_filter(r0, smooth_m / res, mode="nearest")
+    if legacy_axis_swap:
+        gx, gy = gradient(r_s, res)
+        m = np.hypot(gx, gy) + 1e-12
+        u_row, u_col = (gx / m).astype(np.float32), (gy / m).astype(np.float32)
+    else:
+        dzdr, dzdc = geom.grad_arr(r_s, res)
+        u_row, u_col = geom.unit_ascent(dzdr, dzdc)
+    mag = np.hypot(dzdr if not legacy_axis_swap else gx,
+                   dzdc if not legacy_axis_swap else gy).astype(np.float32)
+    evid, _ = frangi_ridge(mag, res, sigma_m=scarp_sigma_m)
+    a_f, b_f = geom.offset_pair(r0, u_row, u_col, offset_half_m, res)
+    step_raw = np.abs(a_f - b_f).astype(np.float32)
+    # Excess-step refinement: `step` also picks up whatever the ISOBASE itself changes across the
+    # 2h sampling baseline.  In a warped datum -- up to ~22 m over 300 km for the Lahontan
+    # highstand (Adams, Wesnousky & Bills 1999) -- a steep local isobase gradient can manufacture
+    # a "step" of several metres on terrain that is perfectly level relative to its own datum.
+    # So the step is measured against the isobase's own jump over the same baseline, and only the
+    # EXCESS is a datum offset.  Without this, `min_step_m` is a function of the fit's slope.
+    ia_f, ib_f = geom.offset_pair(np.nan_to_num(np.asarray(isobase, np.float32), nan=0.0),
+                                 u_row, u_col, offset_half_m, res)
+    iso_step = np.abs(ia_f - ib_f).astype(np.float32)
+    step = (np.maximum(step_raw - iso_step, 0.0) if excess_step else step_raw).astype(np.float32)
+    doublet_ok = (np.abs(a_f) <= flank_tol_m) & (np.abs(b_f) <= flank_tol_m) & finite
+    if min_corr > 0.0:
+        sa = ndimage.gaussian_filter(a_f, corr_sigma_m / res, mode="nearest")
+        sb = ndimage.gaussian_filter(b_f, corr_sigma_m / res, mode="nearest")
+        cov = (ndimage.gaussian_filter(a_f * b_f, corr_sigma_m / res, mode="nearest") - sa * sb)
+        va = (ndimage.gaussian_filter(a_f * a_f, corr_sigma_m / res, mode="nearest") - sa * sa)
+        vb = (ndimage.gaussian_filter(b_f * b_f, corr_sigma_m / res, mode="nearest") - sb * sb)
+        corr = (cov / np.sqrt(np.maximum(va, 0) * np.maximum(vb, 0) + 1e-12)).astype(np.float32)
+    else:
+        corr = np.ones_like(step)
+    # strike of the step trace = perpendicular to the ascent direction, in compass degrees
+    az_step = geom.strike_azimuth_from_ascent(geom.azimuth_from_drc(u_row, u_col)).astype(np.float32)
+    ib = np.nan_to_num(np.asarray(isobase, np.float32), nan=0.0)
+    ibr = ndimage.gaussian_filter(ib, scarp_sigma_m / res, mode="nearest")
+    if legacy_axis_swap:
+        igx, igy = gradient(ibr, res)
+        az_cont = ((np.degrees(np.arctan2(igx, igy)) % 180.0)).astype(np.float32)
+    else:
+        ihr, ihc = geom.grad_arr(ibr, res)
+        az_cont = geom.azimuth_from_drc(ihr, ihc).astype(np.float32)
+        az_cont = (az_cont + 90.0) % 180.0                  # contour = perpendicular to its ascent
+    d_az = np.abs(az_step - az_cont) % 180.0
+    cross_deg = np.where(d_az > 90.0, 180.0 - d_az, d_az).astype(np.float32)
+    bench = np.asarray(bench_score) >= 0.25
+    if bench.any():
+        d_shore = (ndimage.distance_transform_edt(~bench) * res).astype(np.float32)
+    else:
+        d_shore = np.full(z.shape, np.inf, np.float32)
+    gates = ((step >= min_step_m) & doublet_ok & (corr >= min_corr)
+             & (d_shore <= max_shore_distance_m) & (cross_deg >= min_cross_angle_deg) & finite)
+    return dict(residual=r, evid=evid, step=step, step_raw=step_raw, iso_step=iso_step,
+                flank_plus=a_f, flank_minus=b_f,
+                doublet_ok=doublet_ok, corr=corr, az_step=az_step, cross_deg=cross_deg,
+                shore_distance=d_shore, gates=gates,
+                score=(evid * np.clip(step / (2.0 * min_step_m), 0.0, 1.0)
+                       * np.clip(corr, 0.0, 1.0)).astype(np.float32))
+
+
 def datum_step_loci(z: np.ndarray, isobase: np.ndarray, bench_score: np.ndarray, res: float, *,
                     smooth_m: float = 120.0, scarp_sigma_m: float = 100.0,
                     offset_half_m: float = 250.0, min_step_m: float = 2.0,
                     min_datum_evidence: float = 0.10, max_shore_distance_m: float = 1500.0,
                     suppression_m: float = 2000.0, max_loci: int = 300,
-                    stride_m: float = 50.0, min_cross_angle_deg: float = 30.0) -> dict:
+                    stride_m: float = 50.0, min_cross_angle_deg: float = 30.0,
+                    flank_tol_m: float = 1e9, min_corr: float = 0.0, excess_step: bool = True,
+                    legacy_axis_swap: bool = True) -> dict:
     """Find places where the *pluvial datum* steps, using the isobase residual.
 
     r(x) = z(x) - isobase(x) is how far the local bench sits above/below the smooth datum.  A
@@ -563,45 +669,35 @@ def datum_step_loci(z: np.ndarray, isobase: np.ndarray, bench_score: np.ndarray,
     across the topography and therefore crosses contours.  So we keep steps that cross contours
     at more than `min_cross_angle_deg` and drop the contour-parallel family.
     """
-    r = np.where(np.isfinite(z) & np.isfinite(isobase), z - isobase, np.nan)
+    # IR-62-J-01 (2026-10-12): the measurement below used to be written inline with the east
+    # gradient component driving the ROW shift and the (sign-flipped) north component driving
+    # the COLUMN shift, i.e. an axis swap that reflects the sampling direction about the NE-SW
+    # diagonal.  For a scarp striking N-S or E-W the sampled direction was ALONG the scarp, so
+    # the measured offset collapsed to ~0 and the detector was structurally blind to those
+    # strikes.  The geometry now lives in ``doublet_surfaces``/``gems62.geom`` (one convention,
+    # unit-tested).  ``legacy_axis_swap=True`` reproduces the pre-fix mapping so the shipped v8
+    # receipt stays reproducible; new runs should pass False.
+    su = doublet_surfaces(z, isobase, bench_score, res, smooth_m=smooth_m,
+                          scarp_sigma_m=scarp_sigma_m, offset_half_m=offset_half_m,
+                          min_step_m=min_step_m, flank_tol_m=flank_tol_m, min_corr=min_corr,
+                          max_shore_distance_m=max_shore_distance_m,
+                          min_cross_angle_deg=min_cross_angle_deg,
+                          excess_step=excess_step, legacy_axis_swap=legacy_axis_swap)
+    r = su["residual"]
     if not np.isfinite(r).any():
         return dict(loci=[], evidence=np.zeros_like(z, np.float32))
-    r_s = ndimage.gaussian_filter(np.nan_to_num(r, nan=0.0), smooth_m / res)
-    gx, gy = gradient(r_s, res)
-    mag = np.hypot(gx, gy)
-    evid, _ = frangi_ridge(mag, res, sigma_m=scarp_sigma_m)
-    # measure the offset across the step: difference r at +-offset_half along the local gradient
-    off = int(round(offset_half_m / res))
-    gxg = ndimage.gaussian_filter(gx, scarp_sigma_m / res)
-    gyg = ndimage.gaussian_filter(gy, scarp_sigma_m / res)
-    m = np.hypot(gxg, gyg) + 1e-9
-    ux = (gxg / m); uy = (gyg / m)          # unit vector across the step (east, north)
-    rr = np.arange(z.shape[0])[:, None]; cc = np.arange(z.shape[1])[None, :]
-    rp_r = np.clip(rr + off * ux, 0, z.shape[0] - 1).astype(int)
-    rp_c = np.clip(cc + off * uy, 0, z.shape[1] - 1).astype(int)
-    rm_r = np.clip(rr - off * ux, 0, z.shape[0] - 1).astype(int)
-    rm_c = np.clip(cc - off * uy, 0, z.shape[1] - 1).astype(int)
-    step = np.abs(r[rp_r, rp_c] - r[rm_r, rm_c])
-    # distance to the pluvial margin (bench pixels)
-    bench = bench_score >= 0.25
-    if bench.any():
-        d_shore = ndimage.distance_transform_edt(~bench) * res
+    evid = su["evid"]
+    step = su["step"]
+    cross_deg = su["cross_deg"]
+    d_shore = su["shore_distance"]
+    if legacy_axis_swap:                      # v8 gate: ridge evidence + step + shore proximity
+        cand = ((evid >= min_datum_evidence) & (step >= min_step_m)
+                & (d_shore <= max_shore_distance_m) & (cross_deg >= min_cross_angle_deg)
+                & np.isfinite(r))
     else:
-        return dict(loci=[], evidence=evid)
-    # cross-cut gate: angle between the step trace and the local datum contour
-    ib = np.nan_to_num(isobase, nan=float(np.nanmedian(isobase)) if np.isfinite(isobase).any() else 0.0)
-    ibr = ndimage.gaussian_filter(ib, scarp_sigma_m / res)
-    ir, ic = np.gradient(ibr, res)
-    def _az(row_comp, col_comp):
-        return np.degrees(np.arctan2(col_comp, -row_comp)) % 180.0    # 0=N, 90=E
-    az_step = (_az(ux, uy) + 90.0) % 180.0        # step trace runs along the ridge, across the gradient
-    az_cont = _az(-ic, ir)                        # contour of the isobase = perpendicular to its gradient
-    d_az = np.abs(az_step - az_cont) % 180.0
-    cross_deg = np.where(d_az > 90.0, 180.0 - d_az, d_az)
-    score = evid * np.clip(step / (2.0 * min_step_m), 0.0, 3.0)
-    cand = (evid >= min_datum_evidence) & (step >= min_step_m) & (d_shore <= max_shore_distance_m)
-    cand &= cross_deg >= min_cross_angle_deg
-    cand &= np.isfinite(r_s)
+        cand = su["gates"] & (evid >= min_datum_evidence)
+    az_step = su["az_step"]
+    score = np.where(cand, evid * np.clip(step / (2.0 * min_step_m), 0.0, 3.0), 0.0)
     sup = int(round(suppression_m / res))
     work = np.where(cand, score, 0.0).copy()
     loci = []

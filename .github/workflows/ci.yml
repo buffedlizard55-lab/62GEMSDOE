@@ -50,3 +50,37 @@ jobs:
       - name: No hand-typed scores on the site
         run: |
           ! grep -rilE "we scored|our score is|this file scored" lane62-h62a/docs/*.html
+
+  # ---------------------------------------------------------------- root lane (this repository)
+  # Two gates that exist because hand-typed claims went stale in earlier sessions:
+  #   * every downloadable raster is re-audited from its bytes, and the committed
+  #     manifest + verdict sidecars must be exactly what the audit regenerates;
+  #   * every docs/*.md must render to the docs/*.html the site serves.
+  root:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Root unit suite (axes, metric identities, leaderboard arithmetic, download claims)
+        run: pytest tests -q
+
+      - name: Download audit is reproducible from the committed bytes
+        run: |
+          python scripts/audit_downloads.py --write
+          git diff --exit-code docs/downloads/ && echo "manifest + verdicts match the bytes"
+
+      - name: Site pages match their markdown
+        run: |
+          python scripts/render_doc_pages.py --check \
+            run-card next-steps irregularities hypotheses-2026-10-12 hypotheses-2026-10-11

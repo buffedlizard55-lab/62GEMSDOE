@@ -1,0 +1,52 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Candidate hypotheses, ranked — 2026-10-12 session</title><style>
+:root{--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--ok:#3fb950;--no:#f85149;--warn:#d29922;--card:#161b22;--bd:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:24px 20px 90px}
+h1{font-size:1.8em}h2{font-size:1.3em;margin:1.7em 0 .5em;border-bottom:1px solid var(--bd);padding-bottom:.3em}
+h3{font-size:1.05em;margin:1.2em 0 .4em}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+code{background:#1f2630;padding:.12em .35em;border-radius:4px;font-size:.88em}
+pre{background:#1f2630;padding:12px;border-radius:6px;overflow:auto;font-size:.84em}
+pre code{background:none;padding:0}
+table{border-collapse:collapse;width:100%;margin:.9em 0;font-size:.9em}
+th,td{border:1px solid var(--bd);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:#1f2630}
+.mut{color:var(--mut)}blockquote{border-left:3px solid var(--bd);margin:1em 0;padding:.2em 0 .2em 1em;color:var(--mut)}
+hr{border:0;border-top:1px solid var(--bd);margin:2em 0}
+.back{display:inline-block;margin-bottom:14px;font-size:.9em}
+.pill{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.8em;font-weight:600}
+.pill.no{background:rgba(248,81,73,.15);color:var(--no);border:1px solid var(--no)}
+.pill.ok{background:rgba(63,185,80,.15);color:var(--ok);border:1px solid var(--ok)}
+.pill.warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid var(--warn)}
+.hero{border:2px solid var(--no);border-radius:10px;padding:20px;margin:16px 0;background:rgba(248,81,73,.06)}
+.btn{display:inline-block;background:#238636;color:#fff;font-weight:600;padding:12px 22px;border-radius:8px;margin:8px 8px 8px 0}
+.btn:hover{background:#2ea043;text-decoration:none}
+.btn.sec{background:#30363d}
+</style></head></style></head><body><div class='wrap'><a class='back' href='index.html'>&larr; back to 62GEMSDOE</a>
+<h1>Candidate hypotheses, ranked — 2026-10-12 session</h1>
+<p>Written by the datum-offset lane after it ran its own hypothesis to the end and got a <i>negative for score, positive for information</i> result (H62-J: 10,870 isolated dots, instrument-B credit 0.040588 = 1.60× its domain-matched control, model DTI 0.0375 — see <code>run-card.html</code>). Each candidate below names the layers it reads, the physical signature it looks for, why that signature should mark a fault the USGS/INGENIOUS catalogue is missing, how it differs from every field already in the 79-raster registry, what it costs in this sandbox (3 GB RAM, 2 vCPU, no <code>drivendata.org</code>), and the measurement that would kill it. Ranking is by expected credit per unit effort <b>given the band table this session measured</b> (<code>evidence/h62j-bands.json</code>): per-dot credit 0.178 / 0.153 / 0.108 within 500 m of a mapped trace, 0.035–0.057 at 0.5–4 km, 0.018 beyond 4 km (0.51× a same-band control). Anything that places mass in the far field starts in debt.</p>
+<table><tr><th>#</th><th>hypothesis</th><th>expected per-dot credit</th><th>cost</th><th>status</th></tr>
+<tr><td>H62-K</td><td>Along-strike continuation of mapped systems past their catalogued tips</td><td>high (bands 0–1.5 km)</td><td>one pass over segments</td><td>not tried</td></tr>
+<tr><td>H62-L</td><td>Collar ladder: re-emit existing detectors at 200 / 300 / 500 / 1000 m and move mass inward</td><td>method-level, applies to every lane</td><td>one sweep per lane</td><td>not tried</td></tr>
+<tr><td>H62-M</td><td>Shore-platform <i>width</i> truncation along strike, not scarp height</td><td>medium</td><td>1 day, DEM already on disk</td><td>not tried</td></tr>
+<tr><td>H62-N</td><td>The isobase residual field (fitted tile surfaces minus a published rebound model) as the generator</td><td>unknown, cheap to test</td><td>hours, no new fetch</td><td>not tried</td></tr>
+<tr><td>H62-J</td><td>Datum-doublet paired-flank displacement detector</td><td>measured 0.041</td><td>—</td><td><b>done: real signal, capped mass</b></td></tr>
+<tr><td>(geothermal)</td><td>Hot springs / vents as structure</td><td>measured 0.031–0.037 = 0.75–0.84× control</td><td>—</td><td><b>REFUTED this session</b></td></tr></table>
+<h2>H62-K — continue the trace, do not buffer it</h2>
+<ul>
+<li><b>Layers.</b> <code>data/labels.tif</code> (mapped trace geometry: orientation, endpoints, segment lengths), <code>evidence/dem/lahontan_dem_utm11.tif</code> (25 m), <code>evidence/h62j/fields_100m.npz</code> (the isobase surface and bench field already computed), plus <code>qfault_attributes.csv</code> / <code>trace_segments_utm11.csv</code> / <code>gdr_qfaults_traces.csv</code> for throw-class and segment length.</li>
+<li><b>Signature.</b> Beyond each mapped tip, along the extrapolated strike, a corridor in which the DEM response (bench cut, doublet step, or scarp curvature) exceeds the <i>same</i> statistic measured at equal distance from the trace's middle — i.e. a continuation test, not a proximity test.</li>
+<li><b>Why it should catch a missing fault.</b> Catalogue tips are where mapping stopped (coverage, cloud, vegetation, alluvium), not where rupture stopped; offset of an isobase across a <i>continuation</i> is the classic sub-scarp signature and requires no new geomorphology.</li>
+<li><b>How it differs from every registry field.</b> All 79 registry rasters are driven by perpendicular proximity or ridge/hillshade response. None is built on along-strike continuation of the catalogue's own geometry — which makes it structurally unique (the duplicate gate cannot fire on it) and keeps it inside the datum lane.</li>
+<li><b>Kill test.</b> Instrument-B credit of the continuation dots against mass-matched control dots drawn from the same catalogue-distance bands. If the ratio is under ~1.2× at whatever mass survives isolation, the lane's geometry is exhausted and this is written up as a second measured negative.</li>
+</ul>
+<h2>H62-L — the collar ladder (a measurement about the metric, not about faults)</h2>
+<p>Every lane here excludes a 250–300 m collar around the catalogue — including, note, one that a banker's-rounded <code>int(round(250/100))</code> silently turned into 223.6 m (<code>IR-62-20</code>). The band table says credit is <i>highest</i> exactly where the collars cut. So: hold the detector fixed, emit at collars {200, 300, 500, 1000} m, and compare model DTI at fixed N. Cost is one sweep per lane, and it settles a group-wide policy question that has been argued from intuition for weeks. The honest complication is stated in advance: dots within ~200 m of a mapped trace are masked out of the organiser's truth, so any gain must come from the flanking damage zone; whether that zone reaches 300 m or 900 m is precisely what this experiment measures.</p>
+<h2>H62-M — measure the platform, not the scarp</h2>
+<p>A Lake Lahontan bench is a <i>width</i> as well as a height: its dip-direction extent scales with stillstand duration and with the slope it was cut into. A fault that interrupts the stillstand truncates the width while leaving bench <i>elevations</i> comparable on the two sides — the opposite of the doublet criterion that this session ran, which looks for a vertical offset. Layers: the 25 m DEM and the fitted isobase surface; signature: a step in bench width (measured perpendicular to the isobase, over a 4–8 km tile) co-located with a bench score that is high on both sides. Cheap: the fields are already on disk. Kill test as for H62-K.</p>
+<h2>H62-N — the residual is the deformation</h2>
+<p>This session fitted a robust modal bench elevation per 4 km tile (1,093 tiles with a bench, surface 1,159.05–1,453.25 m, <code>evidence/h62j/isobase.json</code>) so that the doublet measurement could subtract large-scale warp. The <i>fit residual itself</i> — measured surface minus a published Lahontan rebound or tilt model, not a locally smoothed version of the same data — is a deformation field, and its gradients may localise strain better than a two-flank step test does. Cost is hours and no new fetch; the risk is circularity, which is why the falsifier is fixed in advance: the residual-gradient field must beat the doublet field's 1.60× on the same domain and mass, or the lane's conclusion stands as written.</p>
+<h2>Two things this card does not propose</h2>
+<p><b>Not thermal occurrences as structure.</b> Measured, not intuited: 0.84× control for Hot/Warm GDR cells, 0.77× for a 600 m corridor, 0.10–0.21× for mapped vents (<code>evidence/h62j2-geothermal.json</code>). The only defensible thermal use is as a <i>weight</i> on a structural candidate, and the burden of proof now sits with that proposal.</p>
+<p><b>Not more mass in the far field.</b> The arithmetic is closed: DTI → 5 × mean per-dot credit, and this session's far-field credit is 0.018. Widening gates to reach 20,000–40,000 dots lowers mean credit further (run 1 → run 2: 8,571 dots at 1.74× became 10,870 at 1.60×); it moves the number, not the score.</p>
+</div></body></html>

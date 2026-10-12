@@ -1,0 +1,25 @@
+{
+ "verdict": "FORMAT PROBE - legal by every check we can run; upload only to test acceptance",
+ "ok_to_submit": false,
+ "note": "99 dots, zeros outside, values in [0,1], no NaN, correct grid. Its only job is to prove the portal accepts a legal grid from this lane, in our own logs rather than by inference.",
+ "organizer_score": null,
+ "organizer_score_note": "submitted once as a format test; a 99-dot field is not a result",
+ "expected_value_label": "no expected value - 99 dots is below the mass floor by three orders of magnitude",
+ "artifact_of": "scripts/make_control.py",
+ "evidence": [
+  "evidence/gems62-lahontan-isobase-99dots-holdout.json",
+  "docs/why-h33-scored.md",
+  "docs/irregularities.md"
+ ],
+ "name": "gems62-lahontan-isobase-99dots-zeros.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "fc628410873f018d998ca60e0a00228c999aff035e2e9dc22ccd571a6e8c0348",
+ "bytes": 56048,
+ "dots": 99,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

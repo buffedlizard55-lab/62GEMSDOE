@@ -1,0 +1,37 @@
+{
+ "file": "gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif",
+ "bytes": 91954,
+ "sha256": "7e67bf2d4ea506a89b840fc130d38c2c7a8473daf95dc780fbfd9601b1096b94",
+ "driver": "GTiff",
+ "count": 1,
+ "dtype": "float32",
+ "crs": "EPSG:32611",
+ "transform": [
+  100.0,
+  0.0,
+  243350.0,
+  0.0,
+  -100.0,
+  4508550.0
+ ],
+ "shape": [
+  3730,
+  3292
+ ],
+ "res": [
+  100.0,
+  100.0
+ ],
+ "nodata": null,
+ "width_height_match": true,
+ "crs_match": true,
+ "transform_match": true,
+ "all_finite": true,
+ "nan_count": 0,
+ "min": 0.0,
+ "max": 1.0,
+ "n_outside_0_1": 0,
+ "n_positive": 10870,
+ "total_mass": 10870.0,
+ "legal": true
+}

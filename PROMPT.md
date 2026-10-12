@@ -110,3 +110,21 @@ an experiment design rather than three lottery tickets, and why every artifact g
 negative results are published with the algebra that produces them, and why the defect
 in a rule we were told to follow (the 3-px lane check is unsatisfiable against
 near-blanketing rasters) is measured, published and flagged rather than quietly obeyed.
+
+
+## Addendum — 2026-10-12 (session `arena/b7846648-62gemsdoe`)
+
+Two rules were added to how this repository works, both of them responses to a claim going stale rather
+than to a bug in a model.
+
+1. **No prose owns a number that a file can measure.** Every hash, byte count, dot count and format
+   verdict on the site is regenerated from the bytes by `scripts/audit_downloads.py --write`, and CI runs
+   the audit and fails on any diff (`git diff --exit-code docs/downloads/`). `docs/downloads/verdicts.json`
+   holds the *claims*; the sidecars hold claims joined to facts; a verdict cannot outlive the bytes it
+   describes, and a re-emitted file that keeps an old label breaks the build.
+2. **A control must match the field in mass and in domain, or the comparison is void.** Every "beats
+   chance" number here is now measured against isolated-random dots drawn from the *same band* of the
+   *same* allowed pool at the *same* count (5 seeds, spread reported). That is what turned this session's
+   two most tempting leads into honest negatives: the datum doublet's far field (0.51× control) and the
+   geothermal indicators (0.75–0.84×). *Maximize P(Win)* is served at least as much by killing a
+   plausible lane in ninety seconds as by emitting a probe it would have spent a slot on.

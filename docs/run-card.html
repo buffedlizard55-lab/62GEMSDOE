@@ -1987,8 +1987,169 @@ hr{border:0;border-top:1px solid var(--bd);margin:2em 0}
 <h2>The two labelled numbers a reader needs</h2>
 <table><tr><th>label</th><th>value</th><th>what it is</th></tr>
 <tr><td>HOLDOUT-DTI (evaluator <code>src/gems62/holdout.py::evaluate</code>, 60988 withheld positive cells, CI95 [0.000466, 0.0637])</td><td>candidate <b>0.000351</b> vs its own control <b>0.000170</b> (ratio 2.068×)</td><td>Catalogue-truth proxy. <b>Not a score</b>: the competition target is faults <i>absent</i> from the catalogue, which this instrument masks out.</td></tr>
-<tr><td>MEASURED on instrument B (SGMC 1:750k off-catalogue)</td><td>H62-I credit <b>0.086663</b> at 60,000 dots = <b>2.00×</b> the isolated-random control <b>0.04331</b></td><td>A proxy instrument, not the organizer's truth. The DTI derived from it (<b>0.24073</b>) is a <b>MODEL</b>, never a score.</td></tr>
-</table>
+<tr><td>MEASURED on instrument B (SGMC 1:750k off-catalogue)</td><td>H62-I credit <b>0.086663</b> at 60,000 dots = <b>2.00×</b> the isolated-random control <b>0.04331</b></td><td>A proxy instrument, not the organizer's truth. The DTI derived from it (<b>0.24073</b>) is a <b>MODEL</b>, never a score.</td></tr></table>
 <h2>ORGANIZER-CONFIRMED numbers in this repository</h2>
 <p><b>None.</b> <code>organizer_score</code> is <code>null</code> for every artifact here. Nothing on any page of this site is an organizer receipt.</p>
+<hr>
+<h2>Session 2026-10-12 — H62-J, the datum-doublet detector, run end to end</h2>
+<p><b>Verdict: <code>negative-for-score, positive-for-information</code>.</b> A legal, unique, max-mass field of 10,870 isolated dots whose per-dot credit is <b>1.60× its own domain-matched control</b> — the first datum-only field in this repository to beat a control at scale — and whose model DTI, <b>0.0375</b> at the planned N = 12,000, cannot reach the group's 0.2778. The card below is <code>evidence/h62j/run_summary.json</code> verbatim; the sweep, the gate ladder, the band table and the uniqueness gate are its evidence files.</p>
+<p>Environment, stated because it shaped the design: 3 GB RAM, 2 vCPU, no controlling terminal. One full 25 m float32 array of the DEM is 278 MB and the doublet needs ~13 of them at once, so the lane runs in 700-row blocks over the 25 m grid and accumulates onto the 100 m submission grid; pass 2 measured 70 s over 14 blocks, pass 1 (benches and the tile-wise isobase) 8.6 s. Two experiments of the protocol's three were spent: run 1 (<code>--min-evid 0.10 --max-shore-m 1500</code>) and run 2 (relaxed: <code>0.03 / 2500 m / trace ≥ 3 cells</code>), the latter shipped at its max-mass operating point because the marginal-credit rule still favoured mass at the boundary (tail credit 0.0203 against a bar of 0.0075). Run 1 is reproduced bit-for-bit at <code>evidence/h62j1/</code>: 90,304 candidate cells, 8,571 that fit the isolation rule, credit <b>0.044652</b> against control <b>0.025707</b> = <b>1.737×</b>, model DTI <b>0.033826</b>, ceiling 0.758. Run 2 (the shipped one) is <code>evidence/h62j/</code>: 120,531 candidates, 10,870 isolated, credit <b>0.040588</b> against <b>0.025445</b> = <b>1.595×</b>, model DTI <b>0.037471</b>. Relaxing the gates bought 2,299 dots and 0.004 of model DTI and cost 0.14 of the control ratio — a mass-capped lane's whole trade, in one line. The run-1 evidence had been overwritten by the shipped run when this section was first drafted; re-running the recorded command restored it, which is why the numbers above are cited from files rather than from notes.</p>
+<pre><code>python3 scripts/run_h62j.py --dem evidence/dem/lahontan_dem_utm11.tif --evdir evidence/h62j \
+        --out docs/downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif \
+        --block-rows 700 --min-evid 0.03 --seed-evid 0.15 --max-shore-m 2500 --min-corr 0.20 \
+        --flank-tol-m 10.0 --min-trace-cells 3 --masses 2000,5000,8000,10000,10870   # 155 s, exit 0
+python3 scripts/report_bands.py docs/downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif \
+        --out-json evidence/h62j-bands.json                                          # 4 s
+python3 scripts/probe_geothermal.py --out-json evidence/h62j2-geothermal.json         # 93 s
+python3 scripts/check_uniqueness.py --raster <the file> --registry /tmp/gems/registry \
+        --footprint data/labels.tif --out evidence/h62j-uniqueness.json               # UNIQUE-VS-REGISTRY
+python3 scripts/run_holdout.py --emission <the file> --catalogue data/labels.tif \
+        --sample data/sample_submission.tif --fields evidence/h62j/fields_100m.npz \
+        --out evidence/h62j-holdout.json
+python3 scripts/audit_downloads.py --write        # 12 rasters, 14 named checks each, verdicts + manifest</code></pre>
+<pre><code>{
+ "dem": {
+  "crs": "EPSG:32611",
+  "transform": [
+   25.0,
+   0.0,
+   240000.0,
+   0.0,
+   -25.0,
+   4480000.0
+  ],
+  "shape": [
+   9200,
+   7600
+  ],
+  "res": 25.0,
+  "nodata": -32768.0,
+  "bytes": 139840000
+ },
+ "iso": {
+  "res": 25.0,
+  "tile_m": 4000.0,
+  "t": 160,
+  "tr": 58,
+  "tc": 48,
+  "tiles": 2784,
+  "tiles_ok": 1093,
+  "bench_px": 2127960,
+  "valid_px": 56550061,
+  "z_lo": 1150.0,
+  "z_hi": 1460.0,
+  "fine": 0.1,
+  "band": [
+   1157.0,
+   1455.0
+  ],
+  "seconds": 8.6,
+  "surf_min": 1159.050048828125,
+  "surf_max": 1453.25
+ },
+ "args": {
+  "dem": "evidence/dem/lahontan_dem_utm11.tif",
+  "catalogue": "data/labels.tif",
+  "sample": "data/sample_submission.tif",
+  "ext": "data/external",
+  "out": "docs/downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif",
+  "evdir": "evidence/h62j",
+  "band_lo": 1157.0,
+  "band_hi": 1455.0,
+  "block_rows": 700,
+  "flank_tol_m": 10.0,
+  "min_step_m": 2.0,
+  "min_corr": 0.2,
+  "min_cross_deg": 30.0,
+  "max_shore_m": 2500.0,
+  "min_evid": 0.03,
+  "seed_evid": 0.15,
+  "min_trace_cells": 3,
+  "sep_m": 300.0,
+  "cat_collar_m": 250.0,
+  "masses": "2000,5000,8000,10000,10870",
+  "n_truth": 12000.0,
+  "target_dti": 0.2778
+ },
+ "stats": {
+  "n_dots": 10870,
+  "n_candidates": 120531,
+  "n_isolated_available": 10870,
+  "mass": 10870,
+  "credit_B": 0.040588,
+  "control_B": 0.025445,
+  "ratio_vs_control": 1.5951,
+  "model_dti": 0.037471,
+  "ceiling": 0.923221,
+  "mean_self_kernel": 0.0,
+  "min_neighbour_distance_m": 316.2,
+  "min_dist_to_catalogue_m": 223.6,
+  "frac_within_400m_of_catalogue": 0.051794,
+  "frac_on_catalogue": 0.0,
+  "block_spread": [
+   10716,
+   154,
+   0,
+   0,
+   0,
+   0
+  ],
+  "n_components": 10870,
+  "gate_ladder": {
+   "footprint_cells": 5167373,
+   "dem_valid": 486753,
+   "bench_cells": 70292,
+   "evid_ge_min": 181819,
+   "score_positive": 294537,
+   "score_and_shore": 217549,
+   "score_and_shore_offcat": 209643
+  },
+  "iso_meta": {
+   "res": 25.0,
+   "tile_m": 4000.0,
+   "t": 160,
+   "tr": 58,
+   "tc": 48,
+   "tiles": 2784,
+   "tiles_ok": 1093,
+   "bench_px": 2127960,
+   "valid_px": 56550061,
+   "z_lo": 1150.0,
+   "z_hi": 1460.0,
+   "fine": 0.1,
+   "band": [
+    1157.0,
+    1455.0
+   ],
+   "seconds": 8.6,
+   "surf_min": 1159.050048828125,
+   "surf_max": 1453.25
+  }
+ },
+ "receipt": {
+  "file": "gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif",
+  "bytes": 91954,
+  "sha256": "7e67bf2d4ea506a89b840fc130d38c2c7a8473daf95dc780fbfd9601b1096b94",
+  "n_positive": 10870,
+  "min": 0.0,
+  "max": 1.0,
+  "nodata": null,
+  "legal": true,
+  "all_finite": true,
+  "n_outside_0_1": 0,
+  "transform_match": true,
+  "crs_match": true
+ }
+}</code></pre>
+<h3>What the band table says, because it applies to every lane</h3>
+<p><code>scripts/report_bands.py</code> scores this field against the independent SGMC compilation <i>within each catalogue-distance band</i>, against isolated-random control dots drawn from the same band at the same count. Credit per dot: 0.17764 (0–250 m), 0.15329 (250–300 m), 0.10844 (300–500 m), 0.04069 (500 m–1 km), 0.03538 (1–2 km), 0.05700 (2–4 km), 0.01847 (&gt;4 km). The ratios against same-band controls are 1.33, 1.21, 1.29, 0.80, 0.78, 1.36, <b>0.51</b>. Six per cent of the dots, those inside 500 m of a mapped trace, carry 21 % of the field's total credit; the band beyond 4 km, which is 43 % of its mass, is worse than chance. MEASURED — <code>evidence/h62j-bands.json</code>.</p>
+<h3>The geothermal screen, refuted in ninety seconds</h3>
+<p>Every allowed cell at or near a Hot/Warm GDR occurrence, and a 600 m corridor around them, scored <b>0.77–0.84×</b> a mass-matched isolated-random control on the same instrument; mapped volcanic vents score <b>0.10–0.21×</b>. <code>scripts/probe_geothermal.py</code>, evidence <code>evidence/h62j2-geothermal.json</code>, <code>6</code> fields, controls re-drawn per mass (5 seeds, spread reported). Screen only: this lane emitted nothing from it, and the geothermal lane owns the question.</p>
+<h3>Gates, as run</h3>
+<table><tr><th>gate</th><th>result</th><th>where</th></tr>
+<tr><td>format</td><td><code>legal=True</code>, 14/14 named checks, sha256 <code>7e67bf2d4ea506a89b840fc130d38c2c7a8473daf95dc780fbfd9601b1096b94</code></td><td><code>docs/downloads/*.verdict.json</code></td></tr>
+<tr><td>uniqueness vs 79 registry rasters</td><td><code>UNIQUE-VS-REGISTRY</code>; worst dilated Jaccard <b>0.0457</b>, worst ρ <b>−0.4137</b>; the 3-px asymmetric leg reads 0.9988 against a 206,895-dot lattice and is density-blind, as <code>IR-62-16</code> predicts</td><td><code>evidence/h62j-uniqueness.json</code></td></tr>
+<tr><td>leakage canaries</td><td>per-feature AUC <code>lane_kernel_proximity</code> 0.493, <code>lane_binary_mask</code> 0.4995, <code>field:evid</code> 0.4955, <code>field:step</code> 0.4935, <code>field:corr</code> 0.493, <code>field:score</code> 0.4958, <code>field:doublet_frac</code> 0.4999, <code>field:bench</code> 0.497, <code>field:traced</code> 0.4977, <code>field:cand</code> 0.4942, <code>field:emis</code> 0.4995 — all <code>ok</code> (mean &gt; 0.90 would be flagged <code>LEAKAGE-SUSPECT</code>; 4 of 6 folds hold no withheld positives off the collar, so they sit at 0.5)</td><td><code>evidence/h62j-holdout.json</code></td></tr>
+<tr><td>catalogue collisions</td><td>0 dots on the catalogue; minimum distance 223.6 m; mean self-kernel 0.0; minimum dot spacing 316.2 m</td><td><code>evidence/h62j/run_summary.json</code></td></tr></table>
+<p><b>What is NOT claimed.</b> No organiser-confirmed score exists for any file here; every DTI above is this repository's own model of the metric on a proxy instrument, labelled MEASURED or MODEL accordingly. The 25 m DEM reaches 9.42 % of footprint cells for this pipeline (<code>IR-62-22</code>), so the lane's mass is capped by coverage and isolation, not by geology — and at credit 0.041 the closed form puts the whole lane's ceiling at 5 × 0.041 = 0.203 however the dots are arranged.</p>
 </div></body></html>

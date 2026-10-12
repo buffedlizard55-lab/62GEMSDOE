@@ -1,0 +1,1227 @@
+{
+ "generated_by": "scripts/audit_downloads.py --write",
+ "rule": "this manifest is the source of truth for the site's download table; a page may not state a verdict, hash or byte count that disagrees with it",
+ "grid": {
+  "shape": [
+   3730,
+   3292
+  ],
+  "crs": "EPSG:32611",
+  "pixel_m": 100.0,
+  "footprint_cells": 5167373,
+  "catalogue_cells": 60988
+ },
+ "n_files": 12,
+ "files": [
+  {
+   "path": "docs/downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif",
+   "bytes": 98893,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "79eb0a7ddc2dcfb4667bff41bbc237f8d5663dd63e025eed79af8c8f984ed500",
+   "dots": 10000,
+   "total_mass": 10000.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 10000,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "NEGATIVE RESULT - do not submit",
+   "ok_to_submit": false,
+   "note": "The lake-flat bench cross-cut rule finds nothing that an independent compilation does not already place better at random. Kept because a measured negative, with its control, is the useful artifact.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "instrument-B credit 0.0420 vs mass-matched isolated-random control 0.04330 +- 0.00165 (0.97x, i.e. below chance)",
+   "artifact_of": "scripts/run_h62g.py",
+   "sidecar": "docs/downloads/gems62-h62g-benchcrosscut-hardcore-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62-h62i-scarpcrosscut-hardcore-zeros.tif",
+   "bytes": 282543,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "aaadb736f1b6037919c66983049a8deafab66e986ddba08c2c76083f233568cb",
+   "dots": 60000,
+   "total_mass": 60000.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 60000,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "DUPLICATE-DRIFT OF A SIBLING LANE'S FILE - do not submit",
+   "ok_to_submit": false,
+   "note": "87.5% of its dots fall within 3 pixels of a field another lane had already emitted (dilated Jaccard 0.4465). Under the group's rules that is a duplicate, so it was never offered to the portal.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "not applicable - rejected at the uniqueness gate, not by score",
+   "artifact_of": "scripts/run_h62i.py",
+   "sidecar": "docs/downloads/gems62-h62i-scarpcrosscut-hardcore-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif",
+   "bytes": 91954,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "7e67bf2d4ea506a89b840fc130d38c2c7a8473daf95dc780fbfd9601b1096b94",
+   "dots": 10870,
+   "total_mass": 10870.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 10870,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "RESEARCH PROBE at the max-mass operating point - format-legal and unique, not worth submitting",
+   "ok_to_submit": false,
+   "note": "10,870 isolated dots from the datum-doublet excess-step detector: the maximum mass the 25 m DEM's 29% coverage and the 300 m isolation rule allow. Instrument-B credit 0.040588 = 1.60x its own mass-matched control (0.025445) - the first datum-only field in this repo to beat its control at scale. It still cannot reach 0.2778, because DTI -> 5*credit as mass grows and credit here is 0.041.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "model DTI 0.0375 at N=12,000 (ceiling 0.923 if every dot were perfect)",
+   "artifact_of": "scripts/run_h62j.py",
+   "sidecar": "docs/downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62-lahontan-isobase-99dots-nan.tif",
+   "bytes": 124293,
+   "fails": [
+    "no_nodata_tag",
+    "no_nan_anywhere"
+   ],
+   "fails_only_strict_conventions": true,
+   "sha256": "8675fa33d4d0b181c793c4733cb45b464a0eb227db8ae09e0f2a444d2dc2f181",
+   "dots": 99,
+   "total_mass": null,
+   "min": "NaN",
+   "max": "NaN",
+   "nodata": "NaN",
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 7111787,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 7111787,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 99,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": false
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": false
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 12,
+   "checks_total": 14,
+   "format_legal": false,
+   "portal_range_risk": "low",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "FORMAT PROBE (NaN outside, nodata=NaN) - never submitted; passes the published contract, fails our stricter one",
+   "ok_to_submit": false,
+   "note": "Same 99 dots, but the pixels outside the footprint are NaN and the file declares nodata=NaN. Measured here: no NaN inside the footprint, values in [0,1] where finite, so it passes the published contract validator and fails only this lane's stricter convention (no NaN anywhere, no nodata tag). Sibling files written this way scored up to 0.275 in the registry mirror, so the 'Predicted values must be in range [0, 1]' message is attributed to non-finite pixels WITHOUT a nodata tag, not to NaN outside the footprint. That revises what this page used to claim, and the revised claim is what the audit measures.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "no expected value - 99 dots; and our own measurement now says this encoding is probably ACCEPTED, so it would not have reproduced the rejection",
+   "artifact_of": "scripts/make_control.py",
+   "sidecar": "docs/downloads/gems62-lahontan-isobase-99dots-nan.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62-lahontan-isobase-99dots-zeros.tif",
+   "bytes": 56048,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "fc628410873f018d998ca60e0a00228c999aff035e2e9dc22ccd571a6e8c0348",
+   "dots": 99,
+   "total_mass": 99.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 99,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "FORMAT PROBE - legal by every check we can run; upload only to test acceptance",
+   "ok_to_submit": false,
+   "note": "99 dots, zeros outside, values in [0,1], no NaN, correct grid. Its only job is to prove the portal accepts a legal grid from this lane, in our own logs rather than by inference.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "no expected value - 99 dots is below the mass floor by three orders of magnitude",
+   "artifact_of": "scripts/make_control.py",
+   "sidecar": "docs/downloads/gems62-lahontan-isobase-99dots-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif",
+   "bytes": 372859,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "4d83efff6c134734b4be66e1fc1041062657ca22b0cadc3b4396cad820501999",
+   "dots": 46598,
+   "total_mass": 46598.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 46598,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "DIAGNOSTIC ONLY - a detector built on the public 100 m stack; never submitted",
+   "ok_to_submit": false,
+   "note": "Built to measure how much headroom the organiser's own stack has, by scoring an inverted-truth detector against S*. S* and consensus13 are diagnostic layers in this repo; a field chosen to maximise them is out of scope as a submission, which is why this one is labelled and not uploaded.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "DTI 0.21777 against the S* stack - which is not the organiser's truth and is never a placement objective",
+   "artifact_of": "scripts/run_lane.py (v8)",
+   "sidecar": "docs/downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.tif",
+   "bytes": 62709,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "3d4b66e651bc8e3f58779e4c52e4af66c70d6f8d871308b21720e9003ebd43ba",
+   "dots": 1660,
+   "total_mass": 1660.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 1660,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "SUPERSEDED (v8) - arithmetically dead at 1,660 dots; do not submit",
+   "ok_to_submit": false,
+   "note": "The v8 datum emission. 1,660 dots cannot reach the champion's 0.2778 even if every one were perfect (the bound needs M >= 2,823 at N = 12,000), so it is kept as the holdout and uniqueness artifact and not as a candidate.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "holdout DTI 0.00286 on the visible catalogue; ~0.0006 model DTI at N=12,000",
+   "artifact_of": "scripts/run_lane.py (v8)",
+   "sidecar": "docs/downloads/gemsdoe62-datum-lahontan-isobase-v8.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "lane62-bench/docs/downloads/gems62-lahontan-datumstep-min12max60-seed25-traceonly.tif",
+   "bytes": 179828,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "12aa5d4534b5ddcae90e6e2ec10e1f10262df437358ccd9316b8ba9bcf8ca503",
+   "dots": 63750,
+   "total_mass": 63750.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 63750,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": null,
+   "sidecar": null
+  },
+  {
+   "path": "lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-nan.tif",
+   "bytes": 185555,
+   "fails": [
+    "no_nan_anywhere"
+   ],
+   "fails_only_strict_conventions": true,
+   "sha256": "ba38adcb5b953bebe3140adf7c3c1350812ca324054d430f2f43801e9252c872",
+   "dots": 38000,
+   "total_mass": null,
+   "min": "NaN",
+   "max": "NaN",
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 7111787,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 7111787,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 38000,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": false
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 13,
+   "checks_total": 14,
+   "format_legal": false,
+   "portal_range_risk": "high",
+   "portal_range_risk_note": "7,111,787 non-finite pixels with no nodata tag: a reader that does not mask sees them as values, and NaN is not in [0, 1] - this is the mechanism behind the portal's 'Predicted values must be in range [0, 1]' rejection",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": null,
+   "sidecar": null
+  },
+  {
+   "path": "lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-zeros.tif",
+   "bytes": 141486,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "eabd03c1ca1a5380d100024b3ed7c7401a847bdab5913a423c396bb50f624ed5",
+   "dots": 38000,
+   "total_mass": 38000.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 38000,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": null,
+   "sidecar": null
+  },
+  {
+   "path": "lane62/docs/downloads/gems62-lahontan-datum-break-dotted-primary-zeros.tif",
+   "bytes": 518595,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "f58ae055030e5eddc3ec704d6958019be4220188efc03367e089baf024f32e59",
+   "dots": 86968,
+   "total_mass": 86968.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 86968,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": null,
+   "sidecar": null
+  },
+  {
+   "path": "lane62/docs/downloads/gems62-lahontan-flagged-breaks-selective-secondary-zeros.tif",
+   "bytes": 191897,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "0cb75334251abd7ef29565039cd13a50e60bafb12a35a257d8a4b0dbfb477edf",
+   "dots": 87,
+   "total_mass": 87.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 87,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": null,
+   "sidecar": null
+  }
+ ],
+ "problems": [],
+ "notes": [
+  "docs/downloads/gems62-lahontan-isobase-99dots-nan.tif: deliberately NOT format-legal ['no_nodata_tag', 'no_nan_anywhere'], labelled as a probe - FORMAT PROBE (NaN outside, nodata=NaN) - never submitted; passes the published contract, fails our stricter one",
+  "lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-nan.tif: NOT format-legal ['no_nan_anywhere']; it sits in a lane directory, is not linked from the site, and its owning lane has not labelled it - fix it there"
+ ],
+ "strict_checks": [
+  "no_nodata_tag",
+  "no_nan_anywhere"
+ ],
+ "strict_checks_meaning": "this lane's own convention; the reference example below shows the organiser's shipped file does not satisfy them",
+ "reference_example": {
+  "path": "data/sample_submission.tif",
+  "bytes": 1599597,
+  "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+  "dots": 60988,
+  "total_mass": null,
+  "min": "NaN",
+  "max": "NaN",
+  "finite_min": 0.0,
+  "finite_max": 1.0,
+  "nodata": "NaN",
+  "nan_count": 7111787,
+  "nonfinite_pixels": 7111787,
+  "dots_on_catalogue": 60988,
+  "format_legal": false,
+  "fails": [
+   "no_nodata_tag",
+   "no_nan_anywhere",
+   "no_dead_mass_on_catalogue"
+  ],
+  "portal_range_risk": "low",
+  "fails_only_strict_conventions": false,
+  "checks": [
+   {
+    "check": "single_band",
+    "ok": true
+   },
+   {
+    "check": "dtype_float32",
+    "ok": true
+   },
+   {
+    "check": "crs",
+    "ok": true
+   },
+   {
+    "check": "shape",
+    "ok": true
+   },
+   {
+    "check": "transform",
+    "ok": true
+   },
+   {
+    "check": "pixel_100m",
+    "ok": true
+   },
+   {
+    "check": "no_nodata_tag",
+    "ok": false
+   },
+   {
+    "check": "no_nan_inside_footprint",
+    "ok": true
+   },
+   {
+    "check": "no_nan_anywhere",
+    "ok": false
+   },
+   {
+    "check": "values_in_0_1",
+    "ok": true
+   },
+   {
+    "check": "no_mass_outside_footprint",
+    "ok": true
+   },
+   {
+    "check": "nonempty",
+    "ok": true
+   },
+   {
+    "check": "contract_validator_passes",
+    "ok": true
+   },
+   {
+    "check": "no_dead_mass_on_catalogue",
+    "ok": false
+   }
+  ],
+  "interpretation": "the file the organiser ships as the format example. It carries nodata=NaN, 7.1M non-finite pixels outside the footprint, and its positive cells are exactly the public catalogue (60,988) - so `check_submission`'s all_finite/no_nodata_tag rules, which this lane's own files satisfy, are STRICTER than the example. A failure here is a failure of our convention, not of the published contract."
+ }
+}

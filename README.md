@@ -443,3 +443,46 @@ defines, and `tests/test_metric.py:17` imports a `brute_force_components` that
 `src/gems62/metric.py` never defines. Both are two-line fixes but belong to the root lane's author;
 `lane62/` reached the same conclusion and likewise did not touch it (`IR-62-11`). This lane's own
 suite — `pytest lane62-h62a/tests -q`, 41 tests — and its `ci` workflow are green.
+
+
+---
+
+## Addendum — session 2026-10-12 (`arena/b7846648-62gemsdoe`, datum-offset lane)
+
+**One sentence.** The lane's own hypothesis (H62-J, a datum-doublet displacement detector read off Lake
+Lahontan bench surfaces on the 25 m DEM) was run end to end on the full local DEM and came out
+**negative for score but positive for information** — the first datum-only field in this repository to
+beat a domain-matched control at scale (instrument-B credit 0.040588 vs 0.025445 = **1.60×**), and still
+capped at model DTI **0.0375** by coverage and the isolation rule, against the group's 0.2778.
+
+**What shipped.**
+
+* `docs/downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif` — 10,870 isolated
+  dots, 91,954 B, sha256 `7e67bf2d4ea506a89b840fc130d38c2c7a8473daf95dc780fbfd9601b1096b94`,
+  `legal=True`, `UNIQUE-VS-REGISTRY` (worst dilated Jaccard 0.0457 over 79 registry rasters), labelled
+  **RESEARCH PROBE — not worth submitting** by the verdict sidecar next to it.
+* **A claim-vs-bytes gate for the site.** `scripts/audit_downloads.py --write` re-derives, from the
+  bytes on disk, every hash, size, dot count and legality claim about every downloadable raster in the
+  repository (12 files, 14 named checks each), joins them with the hand-authored claims in
+  `docs/downloads/verdicts.json`, and emits per-file `*.verdict.json` sidecars plus
+  `docs/downloads/manifest.json`. `tests/test_download_manifest.py` (10 tests) fails if any of it drifts,
+  including if a page prints a hash or byte count that disagrees with the file. `scripts/render_doc_pages.py
+  --check` does the same for the markdown↔HTML pair. **Both gates now run in `ci.yml`.**
+* **Three corrections the audit forced** (`docs/irregularities.md`, IR-62-19 … IR-62-24): the organiser's
+  own `sample_submission.tif` fails this lane's format contract, which exposed a NaN-poisoned range check
+  in our validator; a `int(round(250/100)) == 2` banker's-rounding bug silently turned a 250 m catalogue
+  collar into a 223.6 m one; a `json.dumps` of a NaN manifest is not valid JSON; and the README's claim
+  that the root suite cannot collect went stale (it does — 54 tests pass, plus 46 and 41 in the two lanes).
+* **Two measurements for every lane, not just this one.**
+  (1) *Where new geometry pays* — per-dot credit by distance to the catalogue, each band against a
+  mass-matched control drawn from that same band (`scripts/report_bands.py`,
+  `evidence/h62j-bands.json`): 0.178 / 0.153 / 0.108 within 500 m, 0.035–0.057 at 0.5–4 km, **0.018**
+  beyond 4 km (0.51× control). 6 % of the dots carry 21 % of the credit. (2) *Geothermal is not
+  structure, for this metric* — Hot/Warm GDR occurrences score **0.75–0.84×** control and mapped vents
+  **0.10–0.21×** (`scripts/probe_geothermal.py`, `evidence/h62j2-geothermal.json`).
+* **Ranked next work** in `docs/hypotheses-2026-10-12.md` (H62-K along-strike continuation first) and
+  `docs/next-steps.md`.
+
+**What is still not claimed.** No file in this repository has an organiser-confirmed score; every DTI
+above is this repository's own model of the metric measured on a proxy instrument (the SGMC compilation,
+minus the catalogue), and `organizer_score` is `null` in every verdict sidecar.

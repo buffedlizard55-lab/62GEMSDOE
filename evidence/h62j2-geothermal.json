@@ -1,0 +1,124 @@
+{
+  "checks": [
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "points",
+      "n_indicator_cells": 2060,
+      "M": 1415,
+      "credit": 0.036803,
+      "control_mean": 0.04367,
+      "control_sd": 0.004898,
+      "credit_vs_control": 0.843,
+      "z": -1.4,
+      "model_dti_N12000": 0.005269,
+      "marginal_bar": 0.001054
+    },
+    {
+      "name": "hot+warm spring/well cells",
+      "field": "corridor 600 m",
+      "n_indicator_cells": 2060,
+      "M": 10257,
+      "credit": 0.033011,
+      "control_mean": 0.042695,
+      "control_sd": 0.000638,
+      "credit_vs_control": 0.773,
+      "z": -15.17,
+      "model_dti_N12000": 0.029061,
+      "marginal_bar": 0.005812
+    },
+    {
+      "name": "hot-only cells",
+      "field": "points",
+      "n_indicator_cells": 929,
+      "M": 525,
+      "credit": 0.034998,
+      "control_mean": 0.046485,
+      "control_sd": 0.006517,
+      "credit_vs_control": 0.753,
+      "z": -1.76,
+      "model_dti_N12000": 0.001893,
+      "marginal_bar": 0.000379
+    },
+    {
+      "name": "hot-only cells",
+      "field": "corridor 600 m",
+      "n_indicator_cells": 929,
+      "M": 3538,
+      "credit": 0.03482,
+      "control_mean": 0.042888,
+      "control_sd": 0.002807,
+      "credit_vs_control": 0.812,
+      "z": -2.87,
+      "model_dti_N12000": 0.011952,
+      "marginal_bar": 0.00239
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "points",
+      "n_indicator_cells": 21,
+      "M": 21,
+      "credit": 0.012126,
+      "control_mean": 0.057688,
+      "control_sd": 0.045193,
+      "credit_vs_control": 0.21,
+      "z": -1.01,
+      "model_dti_N12000": 2.7e-05,
+      "marginal_bar": 5e-06
+    },
+    {
+      "name": "mapped volcanic vents",
+      "field": "corridor 600 m",
+      "n_indicator_cells": 21,
+      "M": 170,
+      "credit": 0.004607,
+      "control_mean": 0.045179,
+      "control_sd": 0.009437,
+      "credit_vs_control": 0.102,
+      "z": -4.3,
+      "model_dti_N12000": 8.1e-05,
+      "marginal_bar": 1.6e-05
+    }
+  ],
+  "mass_matched_controls": [
+    {
+      "mean": 0.04366950147437969,
+      "sd": 0.004897952765224981,
+      "M": 1415,
+      "draws": 5
+    },
+    {
+      "mean": 0.042695314654386876,
+      "sd": 0.0006383173213525482,
+      "M": 10257,
+      "draws": 5
+    },
+    {
+      "mean": 0.04648474174415826,
+      "sd": 0.00651716800774156,
+      "M": 525,
+      "draws": 5
+    },
+    {
+      "mean": 0.042887907733362686,
+      "sd": 0.00280666904824931,
+      "M": 3538,
+      "draws": 5
+    },
+    {
+      "mean": 0.05768753293731368,
+      "sd": 0.04519345108526765,
+      "M": 21,
+      "draws": 5
+    },
+    {
+      "mean": 0.04517858373873355,
+      "sd": 0.009437335922215006,
+      "M": 170,
+      "draws": 5
+    }
+  ],
+  "pool_cells": 4745447,
+  "truthB_cells": 79615,
+  "instrument": "SGMC quaternary faults minus catalogue, 300 m kernel, isolated-random control at equal mass",
+  "note": "screen only: the datum-offset lane did not emit this field; the geothermal lane owns it"
+}

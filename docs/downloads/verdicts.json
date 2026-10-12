@@ -1,0 +1,100 @@
+{
+  "gems62-h62g-benchcrosscut-hardcore-zeros.tif": {
+    "verdict": "NEGATIVE RESULT - do not submit",
+    "ok_to_submit": false,
+    "artifact_of": "scripts/run_h62g.py",
+    "organizer_score": null,
+    "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+    "expected_value_label": "instrument-B credit 0.0420 vs mass-matched isolated-random control 0.04330 +- 0.00165 (0.97x, i.e. below chance)",
+    "note": "The lake-flat bench cross-cut rule finds nothing that an independent compilation does not already place better at random. Kept because a measured negative, with its control, is the useful artifact.",
+    "evidence": [
+      "evidence/h62g/control_mass_matched.json",
+      "evidence/h62g/mass_selection.json",
+      "docs/hypotheses-2026-10-11.md"
+    ]
+  },
+  "gems62-h62i-scarpcrosscut-hardcore-zeros.tif": {
+    "verdict": "DUPLICATE-DRIFT OF A SIBLING LANE'S FILE - do not submit",
+    "ok_to_submit": false,
+    "artifact_of": "scripts/run_h62i.py",
+    "organizer_score": null,
+    "organizer_score_note": "never submitted",
+    "expected_value_label": "not applicable - rejected at the uniqueness gate, not by score",
+    "note": "87.5% of its dots fall within 3 pixels of a field another lane had already emitted (dilated Jaccard 0.4465). Under the group's rules that is a duplicate, so it was never offered to the portal.",
+    "evidence": [
+      "evidence/h62g/h62i.json",
+      "evidence/h62g/uniqueness_h62i-scarpcrosscut-hardcore.json",
+      "docs/irregularities.md"
+    ]
+  },
+  "gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.tif": {
+    "verdict": "RESEARCH PROBE at the max-mass operating point - format-legal and unique, not worth submitting",
+    "ok_to_submit": false,
+    "artifact_of": "scripts/run_h62j.py",
+    "organizer_score": null,
+    "organizer_score_note": "never submitted; the numbers below are this repo's own model of the metric, not an organiser score",
+    "expected_value_label": "model DTI 0.0375 at N=12,000 (ceiling 0.923 if every dot were perfect)",
+    "note": "10,870 isolated dots from the datum-doublet excess-step detector: the maximum mass the 25 m DEM's 29% coverage and the 300 m isolation rule allow. Instrument-B credit 0.040588 = 1.60x its own mass-matched control (0.025445) - the first datum-only field in this repo to beat its control at scale. It still cannot reach 0.2778, because DTI -> 5*credit as mass grows and credit here is 0.041.",
+    "evidence": [
+      "evidence/h62j/sweep.json",
+      "evidence/h62j/run_summary.json",
+      "evidence/h62j/isobase.json",
+      "evidence/h62j-bands.json",
+      "evidence/h62j-uniqueness.json",
+      "evidence/h62j-holdout.json"
+    ]
+  },
+  "gems62-lahontan-isobase-99dots-zeros.tif": {
+    "verdict": "FORMAT PROBE - legal by every check we can run; upload only to test acceptance",
+    "ok_to_submit": false,
+    "artifact_of": "scripts/make_control.py",
+    "organizer_score": null,
+    "organizer_score_note": "submitted once as a format test; a 99-dot field is not a result",
+    "expected_value_label": "no expected value - 99 dots is below the mass floor by three orders of magnitude",
+    "note": "99 dots, zeros outside, values in [0,1], no NaN, correct grid. Its only job is to prove the portal accepts a legal grid from this lane, in our own logs rather than by inference.",
+    "evidence": [
+      "evidence/gems62-lahontan-isobase-99dots-holdout.json",
+      "docs/why-h33-scored.md",
+      "docs/irregularities.md"
+    ]
+  },
+  "gems62-lahontan-isobase-99dots-nan.tif": {
+    "verdict": "FORMAT PROBE (NaN outside, nodata=NaN) - never submitted; passes the published contract, fails our stricter one",
+    "ok_to_submit": false,
+    "artifact_of": "scripts/make_control.py",
+    "organizer_score": null,
+    "organizer_score_note": "never submitted by this lane; no file in this repository has an organiser-confirmed score",
+    "expected_value_label": "no expected value - 99 dots; and our own measurement now says this encoding is probably ACCEPTED, so it would not have reproduced the rejection",
+    "note": "Same 99 dots, but the pixels outside the footprint are NaN and the file declares nodata=NaN. Measured here: no NaN inside the footprint, values in [0,1] where finite, so it passes the published contract validator and fails only this lane's stricter convention (no NaN anywhere, no nodata tag). Sibling files written this way scored up to 0.275 in the registry mirror, so the 'Predicted values must be in range [0, 1]' message is attributed to non-finite pixels WITHOUT a nodata tag, not to NaN outside the footprint. That revises what this page used to claim, and the revised claim is what the audit measures.",
+    "evidence": [
+      "docs/irregularities.md"
+    ]
+  },
+  "gems62d-org-stack-inverted-truth-detector-46598-zeros.tif": {
+    "verdict": "DIAGNOSTIC ONLY - a detector built on the public 100 m stack; never submitted",
+    "ok_to_submit": false,
+    "artifact_of": "scripts/run_lane.py (v8)",
+    "organizer_score": null,
+    "organizer_score_note": "never submitted",
+    "expected_value_label": "DTI 0.21777 against the S* stack - which is not the organiser's truth and is never a placement objective",
+    "note": "Built to measure how much headroom the organiser's own stack has, by scoring an inverted-truth detector against S*. S* and consensus13 are diagnostic layers in this repo; a field chosen to maximise them is out of scope as a submission, which is why this one is labelled and not uploaded.",
+    "evidence": [
+      "evidence/run_card_v8.json",
+      "docs/research/leaderboard-arithmetic.md"
+    ]
+  },
+  "gemsdoe62-datum-lahontan-isobase-v8.tif": {
+    "verdict": "SUPERSEDED (v8) - arithmetically dead at 1,660 dots; do not submit",
+    "ok_to_submit": false,
+    "artifact_of": "scripts/run_lane.py (v8)",
+    "organizer_score": null,
+    "organizer_score_note": "this lane has never scored on the leaderboard",
+    "expected_value_label": "holdout DTI 0.00286 on the visible catalogue; ~0.0006 model DTI at N=12,000",
+    "note": "The v8 datum emission. 1,660 dots cannot reach the champion's 0.2778 even if every one were perfect (the bound needs M >= 2,823 at N = 12,000), so it is kept as the holdout and uniqueness artifact and not as a candidate.",
+    "evidence": [
+      "evidence/holdout_v8.json",
+      "evidence/run_card_v8.json",
+      "docs/why-h33-scored.md"
+    ]
+  }
+}
