@@ -438,13 +438,23 @@ def trace_from_seed(scarp: ScarpField, seed_rowcol: tuple[float, float], *,
 # ---------------------------------------------------------------------------------------------
 def emit_dots(traces_rc: list[dict], dem_transform, *, catalogue: np.ndarray,
               footprint: np.ndarray, spacing_px: float = 2.8, value: float = 1.0,
-              min_catalogue_px: float = 1.0, max_dots: int = 12000):
+              min_catalogue_px: float = 1.0, max_dots: int = 12000,
+              hard_core_px: float = 0.0):
     """Rasterise traces as a dotted line on the official 100 m grid.
 
     Spacing default 2.8 px = 280 m: every point of a continuous trace is then within 1.4 px
     (140 m) of an emitted dot, i.e. inside the triangular kernel's support (3 px), while the
     emitted mass stays low -- the metric charges 0.2 per unit of mass, so a dot pays for itself
     only if its realised kernel weight exceeds 0.2*DTI (derivation in metric.marginal_bar).
+
+    `hard_core_px` (template fix 2026-10-12, session arena/778884cc): enforce a minimum
+    Euclidean separation between ANY two emitted dots, across traces as well as along them.
+    Along-trace spacing alone does not guarantee this -- two traces 200 m apart each dotted at
+    280 m produce pairs at <300 m, and the registry measurement is unambiguous that isolation
+    is a hard scoring rule (every one of the top nine distinct score levels has mean self-kernel
+    0.016-0.018; every raster with self-kernel >= 0.23 scores <= 0.2477 --
+    docs/research/leaderboard-arithmetic.md section 3d).  At hard_core_px = 3.0 the emitted
+    field has zero dot-to-dot kernel overlap by construction.  0 disables (backward compatible).
 
     Dots are deleted within `min_catalogue_px` cells of the already-known catalogue, because
     known USGS/INGENIOUS pixels are masked out of scoring (organizer clarification, forum
@@ -456,6 +466,22 @@ def emit_dots(traces_rc: list[dict], dem_transform, *, catalogue: np.ndarray,
     H, W = catalogue.shape
     grid = np.zeros((H, W), dtype=np.float32)
     cat_dist_px = ndimage.distance_transform_edt(~catalogue) if min_catalogue_px > 0 else None
+    # hard-core spatial hash: cell size >= hard_core_px so a 3x3 neighbourhood scan is complete
+    hc = float(hard_core_px)
+    cs = max(1, int(np.ceil(hc))) if hc > 0 else 0
+    hcells: dict[tuple[int, int], list[tuple[int, int]]] = {}
+
+    def core_conflict(r: int, c: int) -> bool:
+        if hc <= 0:
+            return False
+        kr, kc = r // cs, c // cs
+        for dr in (-1, 0, 1):
+            for dc in (-1, 0, 1):
+                for (pr, pc) in hcells.get((kr + dr, kc + dc), ()):
+                    if (pr - r) ** 2 + (pc - c) ** 2 < hc * hc - 1e-9:
+                        return True
+        return False
+
     summary: list[dict] = []
     total = 0
     for ti, tr in enumerate(traces_rc):
@@ -481,6 +507,7 @@ def emit_dots(traces_rc: list[dict], dem_transform, *, catalogue: np.ndarray,
         placed = 0
         dropped_cat = 0
         dropped_off = 0
+        dropped_core = 0
         for r, c in zip(np.atleast_1d(rr), np.atleast_1d(cc)):
             if not (0 <= r < H and 0 <= c < W):
                 dropped_off += 1
@@ -493,13 +520,19 @@ def emit_dots(traces_rc: list[dict], dem_transform, *, catalogue: np.ndarray,
                 continue
             if grid[r, c] > 0:
                 continue
+            if core_conflict(r, c):
+                dropped_core += 1
+                continue
             grid[r, c] = value
+            if cs:
+                hcells.setdefault((r // cs, c // cs), []).append((r, c))
             placed += 1
             total += 1
             if total >= max_dots:
                 break
         summary.append(dict(trace=int(ti), dots=int(placed), length_m=float(s[-1]),
                             dropped_catalogue=int(dropped_cat), dropped_off_footprint=int(dropped_off),
+                            dropped_hard_core=int(dropped_core),
                             evidence=float(tr.get("evidence", float("nan"))),
                             n_loci=len(tr.get("loci", []))))
         if total >= max_dots:

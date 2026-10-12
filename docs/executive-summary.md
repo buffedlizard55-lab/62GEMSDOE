@@ -6,7 +6,7 @@
 
 ---
 
-## ⬇ DIRECT DOWNLOAD — Competition Submission Deliverable
+## ⬇ DIRECT DOWNLOAD — Competition Submission Deliverables
 
 Download the validated, competition-ready GeoTIFF below:
 
@@ -15,6 +15,9 @@ Download the validated, competition-ready GeoTIFF below:
 
 Optional twin with NaN outside footprint:  
 👉 **[Download NaN-Outside Twin (`gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif`)](downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif)**
+
+*Sibling localmode-balanced artifact (session 778884cc):*  
+[`gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif`](downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif) (129,539 bytes · sha256 `2a25f29a6b235520a4965199045dae7226260665fc3ec248a79f04cb78bbe7f0`)
 
 ---
 
