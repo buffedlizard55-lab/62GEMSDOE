@@ -229,18 +229,74 @@ printed, and a reader comparing the two would otherwise be misled.
 | **IR-62-23** | **Three copies of the holdout evaluator existed** (`src/gems62/holdout.py`, `lane62/src/…`, `lane62-h62a/src/…`), each with a different API — the "private fork" the protocol forbids, in the same repository. Promoted to one: `src/gems62/holdout_segmented.py` (from the copy that produced every quoted HOLDOUT-DTI), with `tests/test_holdout_segmented.py` asserting elementwise equality between the promoted module and the original on a synthetic fixture. `src/gems62/metric.py::dti_binary` gained the `valid=`/`known=` keywords additively so only one call signature exists. |
 | **IR-62-24** | **One defect ID was reused.** `src/gems62/metric.py` cites its keyword-form fix as `IR-62-13`, and this register's `IR-62-13` is the GitHub Pages directory. The citation in the code was stale; it is corrected to `IR-62-18`, which is the entry describing the unification of the holdout evaluator that the fix belongs to. Rule for the next session: **the register is authoritative for IDs; code cites the register, never its own numbering.** |
 
-## Added 2026-10-12 (session `arena/b7846648-62gemsdoe`)
+## Added 2026-10-12 (session `arena/778884cc-62gemsdoe`)
 
-**An ID collision, flagged rather than smoothed over.** This session allocated `IR-62-19` … `IR-62-24`
-while session `arena/d0303476` was merging the same six numbers into the same register from the other
-direction. The entries below are therefore renumbered **`IR-62-25` … `IR-62-30`** — the register in
-`main` is authoritative for IDs, which is the rule `IR-62-24` above states — and new IDs from this lane
-are namespaced `IR-62-J-nn` so a concurrent session cannot collide with them. The collision is itself the
-irregularity: two sessions numbering from the same counter produced six duplicate IDs in one day, and only
-a merge conflict caught it.
+### IR-62-25 — the group's best local instrument (the S* leaderboard inversion) had a kernel-radius bug — FOUND, FIXED ONCE IN THE TEMPLATE, RE-RUN
+`datum62/scripts/invert.py` built the kernel table in **pixel** units (`KERN[j] = max(1 − j/3, 0)`,
+zero at j ≥ 3 px = 300 m) but indexed it with **quarter-pixel** indices (`KERN[(dm*4).astype(int)]`),
+so every dot-to-truth distance ≥ 0.75 px (75 m) contributed **zero** credit. The committed evidence
+reproduces the defect: the inversion's own output under-predicts every high-scoring artifact outside
+the 13-field consensus by 4×–37× (gate_ortho: predicted 0.0064 vs OWNER-REPORTED 0.2376; h59-cover:
+0.0219 vs 0.2296; Hedge-v2: 0.0067 vs 0.1563) while fitting the consensus family well (h33: 0.2992
+vs 0.2778) — the signature of an exact-pixel-overlap model. Fixed once (comment + corrected table in
+`invert.py`; re-run as the shared tool `scripts/reconstruct_sstar.py`, no private fork): with the
+official 300 m kernel the same protocol converges to K = 18,721 px, Spearman **+0.9641**, R²
+**0.3007 → 0.7007**, RMSE 0.0768 → 0.0503, scale 0.5052 → 0.3848. Consequences: (a) every
+projection ever written from `0.5052 × DTI(S*)` — including the datum62 detector's 0.110 and this
+lane's v8 0.0012 — is superseded; (b) S*† is now provably a subset of the exact h33-2-b2 dot pixels
+(18,721 of 37,654), so the duplicate block on emitting it stands, unchanged; (c) the fixed
+instrument still under-predicts out-of-family fields (gate_ortho 0.0557 projected vs 0.2376
+observed) — it is a **floor** instrument for novel placements, never a ceiling. Evidence:
+`evidence/sstar_fixed/inverse_truth_fixed.json`, `evidence/h62n_forensics.json`.
+
+### IR-62-26 — the standing "selector rank-1" recommendation is retracted
+`docs/next-steps.md` item 1 and `docs/research/leaderboard-arithmetic.md` §5 told the selector to
+submit `gems32-bayesopt-dilation-scarp-d28` (45,000 dots) because it measures 0.29294 credit/dot on
+the SGMC off-catalogue instrument — 3× the champion family. That instrument is measured
+**anti-correlated** with the portal (Spearman −0.928 over 15 owner-reported scores; datum62's own
+finding). On the kernel-fixed portal-calibrated instrument the same file measures **0.0408
+credit/dot, DTI(S*†) 0.0766, projection 0.0295** — below this session's lane file (0.0593/dot) and
+10× below the h33 family (0.42/dot). The rank-1 advice is retracted wherever it appears; the pages
+carry the retraction inline. Do not spend a slot on the bayesopt field on the strength of the old
+number. Convergent finding: session `arena/d0303476` independently downgraded the same rank-1
+advice from the correlation side (their IR-62-20: SGMC per-dot credit ρ = +0.617 with the
+leaderboard but SGMC-evaluated DTI ρ = −0.442); this entry adds the direct measurement on the
+portal-calibrated instrument.
+
+### IR-62-27 — two disclosures about this session's artifact
+(a) **Southern-block loci are not necessarily Lahontan.** The z-band gate (1189–1463 m) plus the
+bench gate cannot distinguish Lake Lahontan's own margins from other pluvial-lake benches and playas
+at similar elevations in the southern blocks (822 + 2,688 dots). The lane's coverage statement is
+"pluvial-lake margins", so this is inside the lane, but a Lahontan-only reading of those dots would
+be wrong. (b) **`tools/fetch_registry.py` clobbers same-named files across repositories**
+(dest = `repo__basename`); 334 fetched rasters land as 290 files. Not fixed this session (budget);
+the S* work used the 60GEMSDOE normalized registry instead, whose bytes are sha-verified against
+`research/registry_index.json` pins.
+
+### IR-62-28 — corridor headroom is now measured, not speculated
+gate_ortho (OWNER-REPORTED 0.2376) keeps only **43.4 %** of its dots within 3 px of h33-2-b2 and
+**22.5 %** within 3 px of S*†, with median nearest-neighbour distance 3.6 px — i.e. a field can sit
+*beside* the champion's corridors, pass the protocol's 70 % tripwire with room to spare, and still
+score within 0.04 of the champion. The hidden truth is therefore spatially broader than the group's
+consensus, and *unique* fields are not doomed to low scores. This is the strongest argument the
+registry offers for continuing to emit novel placements, and it is the frame in which this
+session's negative verdict should be read: negative on the measured projection, not on the design.
+
+---
+## Added 2026-10-12 (session `arena/b7846648-62gemsdoe`) — numbered `IR-62-J-nn`, see the note above
+
+**Two ID collisions in one day, flagged rather than smoothed over.** This session allocated
+`IR-62-19` … `IR-62-24` while session `arena/d0303476` was merging the same six numbers into the same
+register from the other direction; those were renumbered, and then session `arena/778884cc` merged
+`IR-62-25` … `IR-62-28` from a *third* lane, colliding with the renumbering. The entries below therefore
+carry **lane-namespaced IDs `IR-62-J-nn`** and claim no numbers at all: the register in `main` is
+authoritative for numbering (the rule `IR-62-24` states), four sessions were writing to it inside
+twenty-four hours, and `IR-62-J-nn` is the only allocation a concurrent lane cannot hit. The collision is
+itself the irregularity — two duplicate ranges in a day, each caught only by a merge conflict — so the
+convention going forward is stated in `IR-62-J-09` below: allocate from merged `main`, or namespace.
 
 
-### IR-62-25 — the organiser's own `sample_submission.tif` fails this lane's format contract
+### IR-62-J-01 — the organiser's own `sample_submission.tif` fails this lane's format contract
 
 Measured on the committed bytes (sha256 `2176d08e485aa2cd…`, 1,599,597 B) with the two validators this
 repository ships, which disagree with each other:
@@ -272,7 +328,7 @@ Three consequences, now machine-enforced rather than remembered.
    `strict_checks` and carries the organiser's file itself as `reference_example`, so the asymmetry is
    visible in the machine record rather than only in prose.
 
-### IR-62-26 — `int(round(250 / 100))` is 2: a 250 m collar is not what the code meant
+### IR-62-J-02 — `int(round(250 / 100))` is 2: a 250 m collar is not what the code meant
 
 The first `run_h62j.py` converted a metres-unit catalogue collar to pixels with `int(round(m / 100))`.
 Python's `round` is banker's rounding, so 250 m became **2** cells, not 3 — a Chebyshev-2 collar whose
@@ -284,7 +340,7 @@ Two rules follow, and both are now how this lane writes code: convert metres to 
 **report the realised distance the bytes contain, never the intended one**. A "250 m collar" in a run card
 is a claim about arithmetic; a "minimum dot-to-catalogue distance 223.6 m" is a claim about the file.
 
-### IR-62-27 — a JSON manifest that is not JSON: `NaN` is valid in Python and invalid in JSON
+### IR-62-J-03 — a JSON manifest that is not JSON: `NaN` is valid in Python and invalid in JSON
 
 `json.dumps` happily writes `NaN` for a non-finite float, and the browser then refuses to parse the file.
 The audit records `min`, `max`, `nodata` and `total_mass` straight from NumPy, and `data/sample_submission.tif`
@@ -294,7 +350,7 @@ it did, and the audit records `"NaN"` as a *string* where a value is genuinely n
 readable instead of silently null. Recorded because the same trap has already cost this group a scored
 sibling in the mirror, and because a generator that emits unparseable evidence is worse than no generator.
 
-### IR-62-28 — "the DEM covers X % of the footprint" had no X until it had a definition
+### IR-62-J-04 — "the DEM covers X % of the footprint" had no X until it had a definition
 
 Three numbers were in circulation for the same raster this session: 55.7 %, 29 %, 9.4 %. All three are
 correct of different quantities, measured here on the 100 m grid: the DEM **extent** contains 2,878,929 of
@@ -304,7 +360,7 @@ tile that the doublet pipeline can actually measure — which is the number that
 A "coverage" claim without its numerator and denominator is not a measurement, and the site now states
 all three with their definitions.
 
-### IR-62-29 — the two lane suites cannot be collected in the same pytest process
+### IR-62-J-05 — the two lane suites cannot be collected in the same pytest process
 
 `pytest lane62/tests -q` passes 46; `pytest lane62-h62a/tests -q` passes 41; together they fail during
 collection with `ImportError: cannot import name 'emission' from 'gems62' (/…/lane62/src/gems62/__init__.py)`.
@@ -317,7 +373,7 @@ or `importmode=importlib` plus per-lane rootdirs. Until then: **run each suite s
 here because "the suites are green" is only true under that qualifier, and a reader who runs one
 combined command would otherwise conclude the repository had regressed.
 
-### IR-62-30 — this README asserted the root suite cannot collect; it can, and did, on this checkout
+### IR-62-J-06 — this README asserted the root suite cannot collect; it can, and did, on this checkout
 
 `README.md` (the `lane62-h62a/` addendum, line ~441) states that `pytest tests/` at the repository root
 "still cannot collect" because `src/gems62/lahontan.py:50` imports a `PIXEL_M` that `grid.py` never
@@ -328,7 +384,7 @@ checkout reports **54 passed** in 8.2 s. The claim was true when written and is 
 corrected rather than deleted so the sequence is visible, and `.github/workflows/ci.yml` grew a root job
 that runs `pytest tests -q` plus the download audit, so the statement cannot silently go stale again.
 
-## IR-62-31 — one lane's run card existed only as HTML, and its own test pinned the HTML-only string
+## IR-62-J-07 — one lane's run card existed only as HTML, and its own test pinned the HTML-only string
 
 **Found:** 2026-10-12, while resolving the merge of `origin/main` into this lane. `docs/run-card.md` was
 rendered to `docs/run-card.html`; the other lane's `2026-10-11b` section existed **only in the HTML**. Its
@@ -366,7 +422,7 @@ insert spaces on one side only. It now compares normalised **character streams**
 punctuation removed on both sides, link targets dropped on the markdown side), and reports the nearest word
 for context. The deletion-detection test still passes, so the guard is both quieter and unchanged in power.
 
-## IR-62-32 — the download audit read a *session id* as a stale hash claim
+## IR-62-J-08 — the download audit read a *session id* as a stale hash claim
 
 **Found:** 2026-10-12, running `scripts/audit_downloads.py --write` after adding the other lane's file to
 the manifest. It refused to pass, reporting that `docs/index.html` "prints hash `d0303476` for
@@ -385,3 +441,74 @@ covers the file-name-and-bytes matching.
 **The rule:** **a consistency gate must not fire on the things a page legitimately says.** Encode the claim
 types you mean to police (digest, byte count, dot count), not every token that *looks* like one — the value
 of an audit that runs in CI is exactly its false-positive rate.
+
+
+### IR-62-J-09 — two lanes created the *same filename* for the same day, and the register has no owner
+
+**Found:** 2026-10-12, merging `origin/main` (PR #20, sessions `arena/d4d2e53a` + `arena/778884cc`).
+`docs/hypotheses-2026-10-12.md` and its `.html` came back as **add/add conflicts**: that lane wrote a
+four-ranked-hypotheses page for 2026-10-12, this lane wrote one too, and git reported 1,000 lines of
+"conflict" between two documents that never intended to be the same document. The register collision above
+is the same failure one level down: six documents, three lanes, one shared counter.
+
+**Why it was not obvious:** `docs/` files are named by *date*, which is a unique key only while one session
+runs per day. Nothing in the tree declares an owner for `IR-62-25` or for `hypotheses-2026-10-12.md`, and
+`main` had moved twice since either branch was cut, so each lane's "next free ID" was computed against a
+different base.
+
+**Fix applied:** the numeric IDs are theirs — `main` is authoritative — and this lane's page is renamed
+`hypotheses-2026-10-12-j.{md,html}`, with a cross-reference at the top of each so a reader who arrives from
+the index finds both rankings instead of assuming the other does not exist. This lane's own entries move to
+`IR-62-J-nn` and claim no numbers.
+
+**The rule:** **a date is not an identity.** Anything named by a calendar day or by a counter is shared
+property in this repository; a lane writing a new one appends its lane suffix (`-j`, `IR-62-J-nn`) *before*
+it commits, not after a conflict. Renaming my side was chosen over renaming theirs for one reason: their
+page is already cited from `main` and from the README tree, and re-pointing someone else's citations is the
+expensive direction.
+
+### IR-62-J-10 — a maths block written in LaTeX reached a page with no maths renderer
+
+**Found:** the same merge. The other lane's `docs/index.html` explained the metric with
+`$\text{DTI} = \frac{\text{TP}_w}{0.2(\text{TP}_w + \text{FP}_w) + 0.8 K}$` — correct as notation, and
+rendered by every browser as exactly that string, because no page in this repository loads MathJax or KaTeX.
+The same block used `K` for the normaliser where every other document here uses `N`, and `k >` for the
+marginal bar, so the page disagreed with `docs/why-h33-scored.md` on top of being unreadable.
+
+**Fix applied:** the block is now plain text (`DTI = TP / (0.2·(TP + FP) + 0.8·N)`, the 4:1 asymmetry named,
+`N` used consistently), with their numbers and their argument untouched. Not fixed: adding a maths library
+to a site that is otherwise dependency-free would cost more than it buys.
+
+**The rule:** **a claim in markup the page cannot render is a claim nobody reads.** Pages here are static,
+dependency-free HTML, so notation is written in the characters the browser already has — `≤`, `·`, `×` — or
+as an inline code span. If a page ever needs real TeX, that is a decision to record here first.
+
+### IR-62-J-11 — CI, the test and the renderer each carried their own list of pages to check
+
+**Found:** 2026-10-12, minutes before committing the merge that renamed this lane's hypotheses page. Local
+tests were green (92 passed), `render_doc_pages.py --check run-card … irregularities …` was green, and the
+audit was green. `.github/workflows/ci.yml` nevertheless said:
+
+> `python scripts/render_doc_pages.py --check run-card next-steps irregularities hypotheses-2026-10-12 hypotheses-2026-10-11`
+
+That list — hand-copied into the workflow on an earlier day — still named `hypotheses-2026-10-12`, which
+after the merge is **the other lane's hand-styled page** whose markdown this tool refuses to render (their
+`.md` is a separate draft with autolinks and a different structure). CI would have failed on a branch that
+passed every local check, and the fix was not "add `--no-verify`": it was to stop having three lists.
+
+**Why it was not obvious:** the three lists were *equivalent when written* — that is precisely the shape of
+defect that survives review — and each file justified itself separately: the workflow "just" runs the tool,
+the test "just" parametrizes over pages, the tool "just" has a default. Nothing said which one is the
+definition. The workflow's copy also could not express the exemption the merge required, so any attempt to
+fix CI by editing the workflow alone would have left the test and the tool disagreeing again.
+
+**Fix applied:** the page list now lives in exactly one place, `RENDERED` in `scripts/render_doc_pages.py`,
+next to `HAND_WRITTEN` (a dict of page → *why it is exempt*, because an exemption without a reason is how a
+drift becomes permanent). `tests/test_doc_render.py` imports both, `--check` with no arguments uses
+`RENDERED`, CI runs `--check` with no arguments, and
+`test_the_declared_lists_stay_disjoint_and_honest` fails if a page is in both lists, if a declared page has
+no pair, or if an exempt page has no recorded reason.
+
+**The rule:** **one list, imported; no copied lists in CI.** If a workflow names files, it will drift the
+first time a file is renamed — and a rename is exactly what a collision (IR-62-J-09) forces. When you fix a
+CI-only failure, ask which of the copies was authoritative, then delete the copies rather than the check.

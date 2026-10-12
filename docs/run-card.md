@@ -1,4 +1,27 @@
-# Run card — session 2026-10-11, datum-offset lane
+# Run card
+
+## Session 2026-10-12 (`arena/778884cc-62gemsdoe`) — CURRENT
+
+The JSON card required by protocol item 5 is committed verbatim at
+[`../evidence/h62n_run_card.json`](../evidence/h62n_run_card.json) (same content:
+[`run-card-h62n.json`](run-card-h62n.json)). Headline fields:
+
+| field | value |
+| --- | --- |
+| hypothesis | shoreline-datum offsets seed young, low-slip-rate faults whose unmapped segments continue into basin floors (Pierce & Wesnousky 2016; Briggs & Wesnousky 2004; Dong et al.) |
+| artifact | `gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif`, 129,539 B, sha256 `2a25f29a6b235520a4965199045dae7226260665fc3ec248a79f04cb78bbe7f0`, 16,864 isolated dots |
+| instrument | S*† (kernel-fixed leaderboard inversion, this session): DTI 0.0545 → **PROJECTION 0.0210** (never a score; ~4× under-prediction bias for out-of-family fields is disclosed) |
+| catalogue holdout | pooled DTI 0.0 by construction (all dots ≥300 m off-catalogue); instrument documented anti-correlated with the portal (IR-62-HOLDOUT-01) |
+| leakage canary | AUC 0.498 / 0.461 — ok |
+| uniqueness | max 38.4 % of dots within 3 px of any scored comparator (limit 70 %); full 379-comparator scan in `build/uniqueness_h62n.json` → committed under `evidence/` |
+| validator | legal on the re-read bytes; float32; EPSG:32611; 3730×3292; no NaN; no nodata tag; `n_outside_0_1 = 0` |
+| submission note | `H62-N Lahontan local-mode isobase, block-balanced trace network; 16,864 isolated dots >=300m off-catalogue; unique vs 379 rasters.` (130/140) |
+| verdict | **NEGATIVE as an improvement** (projection below the incumbent band and below the repo's best on the fixed instrument); **OK to download**; the positive deliverables are IR-62-25/20/22 and the lane-family table |
+
+Everything below this line is history from earlier sessions.
+
+---
+ — session 2026-10-11, datum-offset lane
 
 Protocol item 5 requires one JSON card. It is committed verbatim at
 [`evidence/h62g/run_card.json`](../evidence/h62g/run_card.json) and reproduced below.
@@ -1966,6 +1989,14 @@ Protocol item 5 requires one JSON card. It is committed verbatim at
 }
 ```
 
+> **Superseded 2026-10-12 — do not act on the `selector_recommendation` quoted above.** The
+> 0.29294 row is a real measurement on instrument B, and instrument B turned out not to be a yardstick:
+> session `d0303476` measured its per-dot credit at ρ = +0.617 with the leaderboard while the published DTI
+> evaluated on it came out at **−0.442** (`IR-62-20`), and session `778884cc` then found the S* kernel-radius
+> bug and re-measured the same field at **0.0408 credit/dot, projection 0.0295** on the corrected instrument
+> (`IR-62-25`, `IR-62-26`, which retracts the rank-1 advice wherever it appears). The JSON block is quoted
+> verbatim because it is the record of what that run card said; the current list is `docs/next-steps.md`.
+
 ## The two labelled numbers a reader needs
 
 | label | value | what it is |
@@ -2217,6 +2248,6 @@ question.
 
 **What is NOT claimed.** No organiser-confirmed score exists for any file here; every DTI above is this
 repository's own model of the metric on a proxy instrument, labelled MEASURED or MODEL accordingly. The
-25 m DEM reaches 9.42 % of footprint cells for this pipeline (`IR-62-28`, renumbered on merge), so the lane's mass is capped
+25 m DEM reaches 9.42 % of footprint cells for this pipeline (`IR-62-J-04`, renumbered on merge), so the lane's mass is capped
 by coverage and isolation, not by geology — and at credit 0.041 the closed form puts the whole
 lane's ceiling at 5 × 0.041 = 0.203 however the dots are arranged.

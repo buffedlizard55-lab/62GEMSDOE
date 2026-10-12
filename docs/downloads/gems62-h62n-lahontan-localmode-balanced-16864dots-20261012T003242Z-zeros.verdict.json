@@ -1,0 +1,25 @@
+{
+ "verdict": "ANOTHER LANE'S NEGATIVE (session arena/778884cc, experiment h62n) - format-legal 14/14, unique, OK to download; their own verdict is NEGATIVE as an improvement (projection 0.0210 on the kernel-fixed instrument) and this gate has nothing to add to that",
+ "ok_to_submit": false,
+ "note": "Verified here: 16,864 dots, 129,539 B, sha256 2a25f29a\u2026, no NaN, no nodata tag. Kept on the site and in this manifest because it is linked from the index; a site table that quietly omits one lane's file is how the last two sessions went wrong.",
+ "organizer_score": null,
+ "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+ "expected_value_label": "the other lane's statement: 16,864 isolated dots on DEM-ridge-supported traces seeded at Lahontan datum steps, DTI(S*\u2020) 0.0545 x scale 0.3848 = 0.0210 projected, below the incumbent band 0.24-0.28; their instrument fix (IR-62-25) is the deliverable, not the field",
+ "artifact_of": "scripts/run_lane_session.py / h62n (session arena/778884cc)",
+ "evidence": [
+  "evidence/h62n_run_card.json",
+  "evidence/h62n_forensics.json",
+  "docs/irregularities.md (IR-62-25, IR-62-26 in main's numbering)"
+ ],
+ "name": "gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif",
+ "format_legal": true,
+ "fails": [],
+ "portal_range_risk": "none",
+ "nonfinite_pixels": 0,
+ "sha256": "2a25f29a6b235520a4965199045dae7226260665fc3ec248a79f04cb78bbe7f0",
+ "bytes": 129539,
+ "dots": 16864,
+ "checks_passed": 14,
+ "checks_total": 14,
+ "generated_by": "scripts/audit_downloads.py --write"
+}

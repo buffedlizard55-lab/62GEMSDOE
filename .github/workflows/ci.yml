@@ -82,5 +82,6 @@ jobs:
 
       - name: Site pages match their markdown
         run: |
-          python scripts/render_doc_pages.py --check \
-            run-card next-steps irregularities hypotheses-2026-10-12 hypotheses-2026-10-11
+          python scripts/render_doc_pages.py --check
+          # no page list here on purpose: scripts/render_doc_pages.py owns it (RENDERED) and
+          # tests/test_doc_render.py imports the same list, so CI, the test and the tool cannot disagree

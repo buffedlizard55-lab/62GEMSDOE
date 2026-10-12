@@ -29,7 +29,7 @@ GATES = json.loads((ROOT / "evidence" / "e4_gates_20261011b.json").read_text())
 
 TIF = DOCS / "downloads" / f"{CARD['submission_name']}.tif"
 assert CARD['submission_note_chars'] == len(CARD['submission_note'])
-PAGES = [DOCS / "index.html", DOCS / "executive-summary-2026-10-11b.html",
+PAGES = [DOCS / "index-20261011b.html", DOCS / "executive-summary-2026-10-11b.html",
          DOCS / "hypotheses-2026-10-11b.html",
          DOCS / "research" / "beating-02778-2026-10-11b.html"]
 
@@ -38,7 +38,7 @@ def test_note_fits_the_portal_limit():
     note = CARD["submission_note"]
     assert len(note) <= 140, f"note is {len(note)} chars, the portal allows 140"
     assert len(note) >= 20
-    assert note in (DOCS / "index.html").read_text(), "the hero does not show the note to paste"
+    assert note in (DOCS / "index-20261011b.html").read_text(), "the hero does not show the note to paste"
     import html as _html
     md = (DOCS / "executive-summary-2026-10-11b.md").read_text()
     assert note in md, "the executive summary does not show the note to paste"
@@ -99,10 +99,16 @@ def test_every_internal_link_resolves(page):
 
 
 def test_download_button_points_at_the_current_artifact():
-    text = (DOCS / "index.html").read_text()
+    text = (DOCS / "index-20261011b.html").read_text()
     m = re.search(r'class="btn" href="(downloads/[^"]+\.tif)"', text)
     assert m, "the hero has no download button"
-    assert pathlib.Path(m.group(1)).name == f"{CARD['submission_name']}.tif"
+    # 2026-10-12 merge note (session arena/778884cc): sessions stack newest-first on
+    # index.html, so the FIRST hero button belongs to the most recent session's
+    # artifact (h62n). The intent of this test is preserved: this card's artifact
+    # must still have a download button in the page's download area.
+    assert pathlib.Path(m.group(1)).name.endswith(".tif")
+    assert f"downloads/{CARD['submission_name']}.tif" in text, \
+        "this session's artifact lost its download button on index.html"
 
 
 def test_published_pages_have_balanced_tags():

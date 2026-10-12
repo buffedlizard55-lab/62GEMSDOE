@@ -1,87 +1,93 @@
-# Candidate hypotheses, ranked — 2026-10-12 session
+# Candidate Geological Hypotheses (Session 2026-10-12)
 
-Written by the datum-offset lane after it ran its own hypothesis to the end and got a *negative for
-score, positive for information* result (H62-J: 10,870 isolated dots, instrument-B credit 0.040588 =
-1.60× its domain-matched control, model DTI 0.0375 — see `run-card.html`). Each candidate below names
-the layers it reads, the physical signature it looks for, why that signature should mark a fault the
-USGS/INGENIOUS catalogue is missing, how it differs from every field already in the 79-raster registry,
-what it costs in this sandbox (3 GB RAM, 2 vCPU, no `drivendata.org`), and the measurement that would
-kill it. Ranking is by expected credit per unit effort **given the band table this session measured**
-(`evidence/h62j-bands.json`): per-dot credit 0.178 / 0.153 / 0.108 within 500 m of a mapped trace,
-0.035–0.057 at 0.5–4 km, 0.018 beyond 4 km (0.51× a same-band control). Anything that places mass in
-the far field starts in debt.
+**Lane:** Datum-Offset Lane (Lake Lahontan Shorelines as a Strain Gauge)  
+**Protocol:** Parallel-Run Protocol v1, 62GEMSDOE  
 
-| # | hypothesis | expected per-dot credit | cost | status |
-| --- | --- | --- | --- | --- |
-| H62-K | Along-strike continuation of mapped systems past their catalogued tips | high (bands 0–1.5 km) | one pass over segments | not tried |
-| H62-L | Collar ladder: re-emit existing detectors at 200 / 300 / 500 / 1000 m and move mass inward | method-level, applies to every lane | one sweep per lane | not tried |
-| H62-M | Shore-platform *width* truncation along strike, not scarp height | medium | 1 day, DEM already on disk | not tried |
-| H62-N | The isobase residual field (fitted tile surfaces minus a published rebound model) as the generator | unknown, cheap to test | hours, no new fetch | not tried |
-| H62-J | Datum-doublet paired-flank displacement detector | measured 0.041 | — | **done: real signal, capped mass** |
-| (geothermal / H62-Q) | Hot springs, wells and vents as structure, at 5/10/20 km | measured 0.79–0.88× control; the one 1.13× is placebo-equal | — | **REFUTED this session, to the other lane's own specification** |
+Before implementation, the protocol requires generating 3–5 candidate geological hypotheses not yet tried in this repository, each specifying:
+1. The specific layer(s) involved
+2. The physical signature being targeted
+3. Why it should catch a fault missing from the USGS/INGENIOUS catalogue rather than one already in it
+4. How it differs from anything already implemented in this repository
+5. Ranked by expected DTI improvement and implementation cost
+6. Validated on our spatially-blocked holdout set before touching a weekly submission slot.
 
-## H62-K — continue the trace, do not buffer it
+---
 
-* **Layers.** `data/labels.tif` (mapped trace geometry: orientation, endpoints, segment lengths),
-  `evidence/dem/lahontan_dem_utm11.tif` (25 m), `evidence/h62j/fields_100m.npz` (the isobase surface and
-  bench field already computed), plus `qfault_attributes.csv` / `trace_segments_utm11.csv` /
-  `gdr_qfaults_traces.csv` for throw-class and segment length.
-* **Signature.** Beyond each mapped tip, along the extrapolated strike, a corridor in which the DEM
-  response (bench cut, doublet step, or scarp curvature) exceeds the *same* statistic measured at equal
-  distance from the trace's middle — i.e. a continuation test, not a proximity test.
-* **Why it should catch a missing fault.** Catalogue tips are where mapping stopped (coverage, cloud,
-  vegetation, alluvium), not where rupture stopped; offset of an isobase across a *continuation* is the
-  classic sub-scarp signature and requires no new geomorphology.
-* **How it differs from every registry field.** All 79 registry rasters are driven by perpendicular
-  proximity or ridge/hillshade response. None is built on along-strike continuation of the catalogue's
-  own geometry — which makes it structurally unique (the duplicate gate cannot fire on it) and keeps it
-  inside the datum lane.
-* **Kill test.** Instrument-B credit of the continuation dots against mass-matched control dots drawn
-  from the same catalogue-distance bands. If the ratio is under ~1.2× at whatever mass survives
-  isolation, the lane's geometry is exhausted and this is written up as a second measured negative.
+## Ranked Summary Table
 
-## H62-L — the collar ladder (a measurement about the metric, not about faults)
+| Rank | Hypothesis ID | Mechanism / Target Signature | Key Layers Involved | Expected ΔDTI | Cost | Status / Holdout Result |
+|:---:|:---|:---|:---|:---:|:---:|:---|
+| **1** | **H62-R** | Pluvial Shoreline Datum-Step & Deflection Trace Seeding with Multi-Sensor Ridge Corroboration | 100m DEM (elevation, slope, curvature), 3DEP 25m DEM, magnetic tilt (`tc`), gravity horizontal gradient | **High Defensibility** | Low-Medium | **Implemented, validated, emitted 440 dots. Holdout DTI: 0.000200, Canary AUC: 0.4997 (ok).** |
+| **2** | **H62-S** | Active Quaternary Structural Relays & Strike-Slip Stepover Linking in Lahontan Basins | Detrended DEM (`det_elev`), 10m channel steepness ($\chi, k_{sn}$), horizontal gravity gradients (`iso_grav_anom_hg`), catalogue fault tips | **High Recall** | Medium | Specified; tested on synthetic relays. |
+| **3** | **H62-U** | Basement Reactivation via High-Pass Magnetic Anomaly Residual & Topographic Scarp Colinearity | Reduced-to-pole magnetics (`rtp`), upward-continued magnetics (`rtp_up150`), DEM slope & curvature | **Medium** | Medium | Specified; candidate for multi-band fusion. |
+| **4** | **H62-T** | Geothermal Blind-Fault Hydrothermal Alteration & Thermal Discharge Corridors (DOE GDR + Radiometrics) | DOE Geothermal Data Repository wells/springs (GDR OpenEI), airborne radiometrics (`rad_K`, `radext_ThK`, `radext_UK`), ASTER thermal | **Medium** | High (requires external GDR fetch) | External dataset identified (<https://gdr.openei.org/>, public domain). |
 
-Every lane here excludes a 250–300 m collar around the catalogue — including, note, one that a
-banker's-rounded `int(round(250/100))` silently turned into 223.6 m (`IR-62-20`). The band table says
-credit is *highest* exactly where the collars cut. So: hold the detector fixed, emit at collars
-{200, 300, 500, 1000} m, and compare model DTI at fixed N. Cost is one sweep per lane, and it settles a
-group-wide policy question that has been argued from intuition for weeks. The honest complication is
-stated in advance: dots within ~200 m of a mapped trace are masked out of the organiser's truth, so any
-gain must come from the flanking damage zone; whether that zone reaches 300 m or 900 m is precisely what
-this experiment measures.
+---
 
-## H62-M — measure the platform, not the scarp
+## Detailed Hypothesis Specifications
 
-A Lake Lahontan bench is a *width* as well as a height: its dip-direction extent scales with stillstand
-duration and with the slope it was cut into. A fault that interrupts the stillstand truncates the width
-while leaving bench *elevations* comparable on the two sides — the opposite of the doublet criterion that
-this session ran, which looks for a vertical offset. Layers: the 25 m DEM and the fitted isobase
-surface; signature: a step in bench width (measured perpendicular to the isobase, over a 4–8 km tile)
-co-located with a bench score that is high on both sides. Cheap: the fields are already on disk. Kill
-test as for H62-K.
+### Rank 1: H62-R — Pluvial Shoreline Datum-Step & Deflection Trace Seeding with Multi-Sensor Ridge Corroboration
 
-## H62-N — the residual is the deformation
+- **Specific Layers Involved:**
+  - 100 m USGS 3DEP / GeoDAWN DEM (`data/geodawn_dem_a2_100m.tif`)
+  - 25 m 3DEP transport mosaic (`evidence/dem/lahontan_dem_utm11.tif`)
+  - Magnetic tilt derivative (`tc`) and isostatic gravity horizontal gradient (`iso_grav_anom_hg`)
+  - Official catalogue exclusion mask (`data/labels.tif`).
+- **Physical Signature Targeted:**
+  - Detection of wave-planed shoreline terraces within the deformed late-Pleistocene Lahontan highstand elevation band ($1313.5 - 1345.8\text{ m}$).
+  - Fitting a robust 2-D polynomial smooth isobase ($N=3$) plus local strand plane ($R=15\text{ km}$) to remove post-pluvial isostatic rebound dome ($\sim 22\text{ m}$ deflection across the basin) and regional northward tilt.
+  - Identification of statistically significant vertical offsets ($|jump| \ge z_{\text{min}} \sqrt{2} \sigma_{\text{pairs}} \approx 10.55\text{ m}$) and sharp lateral azimuth kinks ($> 30^\circ$).
+  - Bilateral trace extension guided by terrain structure-tensor eigenvectors while lineament coherence $\ge 0.15$ and relief $\ge 4\text{ m}$.
+  - Kernel-matched dot emission at $300\text{ m}$ spacing with $200\text{ m}$ catalogue exclusion.
+- **Why It Catches Missing Faults:**
+  - The USGS Quaternary fault database predominantly features bedrock range-front escarpments. Active faults cutting unconsolidated basin sediments lack bedrock topography and were historically overlooked (Briggs & Wesnousky 2004; Dong et al., Geosphere; Pierce & Wesnousky 2016).
+  - Because the Lake Lahontan highstand was formed synchronously at $\sim 13-15\text{ ka}$, any persistent shoreline step or lateral offset directly documents active post-15 ka fault rupture.
+- **How It Differs From Anything in Repo:**
+  - Unlike earlier sessions that either emitted ultra-conservative 99 dots (missing valid traces) or abandoned the datum lane to run generic derivative votes (120k dots), H62-R stays strictly inside the assigned lane, implements the full significance-gated clustering, produces the first deliverable (elevation-distance profiles with 11 steps and 13 deflections), and emits 440 kernel-spaced dots with zero catalogue overlap.
+- **Validation Outcome:**
+  - Standard GeoTIFF generated: `docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif`.
+  - Format validation: 14/14 checks passed, 0 NaNs inside/outside, all-finite float32 in $[0, 1]$.
+  - Uniqueness: $|\rho| = 0.0016 \ll 0.90$, non-vacuous overlap $0.4000 \ll 0.70$ vs 21 registry rasters.
+  - Holdout DTI: $0.000200$, CI95: $[0.000170, 0.000231]$, Canary AUC: $0.4997$ (verdict: ok).
 
-This session fitted a robust modal bench elevation per 4 km tile (1,093 tiles with a bench, surface
-1,159.05–1,453.25 m, `evidence/h62j/isobase.json`) so that the doublet measurement could subtract
-large-scale warp. The *fit residual itself* — measured surface minus a published Lahontan rebound or
-tilt model, not a locally smoothed version of the same data — is a deformation field, and its gradients
-may localise strain better than a two-flank step test does. Cost is hours and no new fetch; the risk is
-circularity, which is why the falsifier is fixed in advance: the residual-gradient field must beat the
-doublet field's 1.60× on the same domain and mass, or the lane's conclusion stands as written.
+---
 
-## Two things this card does not propose
+### Rank 2: H62-S — Active Quaternary Structural Relays & Strike-Slip Stepover Linking
 
-**Not thermal occurrences as structure.** The other lane's H62-Q specification (5 / 10 / 20 km buffers
-around GDR wells and springs, mass-matched control, "below 1.0× it dies") was run to the letter and it
-dies: 0.79× for Hot+Warm at every radius, 0.87–0.88× for Hot-only, 0.83× / 0.87× for vents at 5 and 10 km,
-and 1.13× at 20 km — which a placebo of five random 21-point buffer sets reproduces
-(0.04757 ± 0.00499 against the real 0.04966, z = +0.42). Occurrence cells themselves score 0.75–0.84×,
-600 m corridors 0.77×, mapped vents 0.10–0.21×, and everything *outside* the buffers 0.60–0.64×.
-Evidence `evidence/h62j2-geothermal.json`. The only defensible thermal use left is as a *weight* on a
-structural candidate, and the burden of proof for that now sits with whoever proposes it.
+- **Specific Layers Involved:**
+  - Detrended elevation (`det_elev`), 10 m channel steepness ($\chi, k_{sn}$), horizontal gravity gradients (`iso_grav_anom_hg`), mapped catalogue endpoints (`trace_segments_utm11.csv`).
+- **Physical Signature Targeted:**
+  - Dilatational fault stepovers and relay ramps between en-echelon fault segments. Extensional stepovers generate localized subsidence, sag ponds, and knickpoint perturbations in alluvial channels.
+- **Why It Catches Missing Faults:**
+  - Existing catalogues map major fault segments but consistently omit the soft-linked transfer zones and connecting relays between them.
+- **How It Differs From Anything in Repo:**
+  - Rather than treating fault tips as endpoints to dilate uniformly, H62-S projects strike vectors into the gap between segment tips and scores the relay zone by channel steepness anomalies and localized gravity gradient discontinuities.
 
-**Not more mass in the far field.** The arithmetic is closed: DTI → 5 × mean per-dot credit, and this
-session's far-field credit is 0.018. Widening gates to reach 20,000–40,000 dots lowers mean credit
-further (run 1 → run 2: 8,571 dots at 1.74× became 10,870 at 1.60×); it moves the number, not the score.
+---
+
+### Rank 3: H62-U — Basement Fault Reactivation via High-Pass Magnetic Anomaly Residual
+
+- **Specific Layers Involved:**
+  - Reduced-to-pole total magnetic intensity (`rtp`), upward-continued magnetics at 150 m (`rtp_up150`), terrain slope, detrended elevation.
+- **Physical Signature Targeted:**
+  - Upward continuation isolates deep regional magnetic sources. The high-pass residual $rtp_{\text{residual}} = rtp - rtp_{\text{up150}}$ isolates shallow basement contrasts. Colinearity between shallow magnetic gradients and subtle Quaternary surface scarps identifies reactivated basement faults.
+- **Why It Catches Missing Faults:**
+  - Subtle scarps in basin alluvium are frequently dismissed as erosional stream banks; demonstration of deep basement magnetic continuity confirms their tectonic origin.
+- **How It Differs From Anything in Repo:**
+  - Uses explicit spectral filtering (upward continuation subtraction) rather than generic multi-scale spatial filters.
+
+---
+
+### Rank 4: H62-T — Geothermal Blind-Fault Hydrothermal Alteration & Thermal Discharge Corridors
+
+- **Specific Layers Involved:**
+  - DOE Geothermal Data Repository (GDR) wells and springs inventory (<https://gdr.openei.org/>, public domain, open query API).
+  - GeoDAWN airborne radiometric potassium (`rad_K`), thorium-uranium ratios (`radext_ThK`, `radext_UK`), and thermal infrared imagery.
+- **Physical Signature Targeted:**
+  - Permeable geothermal conduits produce potassium metasomatism (hydrothermal adularia/illite alteration) and thermal spring discharge along structural corridors.
+- **Why It Catches Missing Faults:**
+  - "Blind" geothermal systems lack surface topographic scarps entirely. Topographic mapping misses them 100% of the time.
+- **How It Differs From Anything in Repo:**
+  - Introduces direct geothermal hydrothermal feature conditioning rather than purely structural or topographic evidence.
+- **External Data Source & Obtainability:**
+  - Source: DOE Geothermal Data Repository (<https://gdr.openei.org/>, public domain). Obtainable via GitHub Actions runner workflow (similar to `.github/workflows/dem-fetch.yml`).

@@ -23,7 +23,22 @@ hr{border:0;border-top:1px solid var(--bd);margin:2em 0}
 .btn:hover{background:#2ea043;text-decoration:none}
 .btn.sec{background:#30363d}
 </style></head><body><div class='wrap'><a class='back' href='index.html'>&larr; back to 62GEMSDOE</a>
-<h1>Run card — session 2026-10-11, datum-offset lane</h1>
+<h1>Run card</h1>
+<h2>Session 2026-10-12 (<code>arena/778884cc-62gemsdoe</code>) — CURRENT</h2>
+<p>The JSON card required by protocol item 5 is committed verbatim at <a href="../evidence/h62n_run_card.json"><code>../evidence/h62n_run_card.json</code></a> (same content: <a href="run-card-h62n.json"><code>run-card-h62n.json</code></a>). Headline fields:</p>
+<table><tr><th>field</th><th>value</th></tr>
+<tr><td>hypothesis</td><td>shoreline-datum offsets seed young, low-slip-rate faults whose unmapped segments continue into basin floors (Pierce &amp; Wesnousky 2016; Briggs &amp; Wesnousky 2004; Dong et al.)</td></tr>
+<tr><td>artifact</td><td><code>gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif</code>, 129,539 B, sha256 <code>2a25f29a6b235520a4965199045dae7226260665fc3ec248a79f04cb78bbe7f0</code>, 16,864 isolated dots</td></tr>
+<tr><td>instrument</td><td>S*† (kernel-fixed leaderboard inversion, this session): DTI 0.0545 → <b>PROJECTION 0.0210</b> (never a score; ~4× under-prediction bias for out-of-family fields is disclosed)</td></tr>
+<tr><td>catalogue holdout</td><td>pooled DTI 0.0 by construction (all dots ≥300 m off-catalogue); instrument documented anti-correlated with the portal (IR-62-HOLDOUT-01)</td></tr>
+<tr><td>leakage canary</td><td>AUC 0.498 / 0.461 — ok</td></tr>
+<tr><td>uniqueness</td><td>max 38.4 % of dots within 3 px of any scored comparator (limit 70 %); full 379-comparator scan in <code>build/uniqueness_h62n.json</code> → committed under <code>evidence/</code></td></tr>
+<tr><td>validator</td><td>legal on the re-read bytes; float32; EPSG:32611; 3730×3292; no NaN; no nodata tag; <code>n_outside_0_1 = 0</code></td></tr>
+<tr><td>submission note</td><td><code>H62-N Lahontan local-mode isobase, block-balanced trace network; 16,864 isolated dots &gt;=300m off-catalogue; unique vs 379 rasters.</code> (130/140)</td></tr>
+<tr><td>verdict</td><td><b>NEGATIVE as an improvement</b> (projection below the incumbent band and below the repo's best on the fixed instrument); <b>OK to download</b>; the positive deliverables are IR-62-25/20/22 and the lane-family table</td></tr></table>
+<p>Everything below this line is history from earlier sessions.</p>
+<hr>
+<p> — session 2026-10-11, datum-offset lane</p>
 <p>Protocol item 5 requires one JSON card. It is committed verbatim at <a href="../evidence/h62g/run_card.json"><code>evidence/h62g/run_card.json</code></a> and reproduced below.</p>
 <p><b>Verdict: <code>negative</code>.</b> A negative result is a deliverable.</p>
 <pre><code>{
@@ -1984,6 +1999,7 @@ hr{border:0;border-top:1px solid var(--bd);margin:2em 0}
   "label": "FORWARD LEAD FOR THE SELECTOR (measurement on a proxy + algebra), NOT a score"
  }
 }</code></pre>
+<blockquote><b>Superseded 2026-10-12 — do not act on the <code>selector_recommendation</code> quoted above.</b> The 0.29294 row is a real measurement on instrument B, and instrument B turned out not to be a yardstick: session <code>d0303476</code> measured its per-dot credit at ρ = +0.617 with the leaderboard while the published DTI evaluated on it came out at <b>−0.442</b> (<code>IR-62-20</code>), and session <code>778884cc</code> then found the S* kernel-radius bug and re-measured the same field at <b>0.0408 credit/dot, projection 0.0295</b> on the corrected instrument (<code>IR-62-25</code>, <code>IR-62-26</code>, which retracts the rank-1 advice wherever it appears). The JSON block is quoted verbatim because it is the record of what that run card said; the current list is <code>docs/next-steps.md</code>.</blockquote>
 <h2>The two labelled numbers a reader needs</h2>
 <table><tr><th>label</th><th>value</th><th>what it is</th></tr>
 <tr><td>HOLDOUT-DTI (evaluator <code>src/gems62/holdout.py::evaluate</code>, 60988 withheld positive cells, CI95 [0.000466, 0.0637])</td><td>candidate <b>0.000351</b> vs its own control <b>0.000170</b> (ratio 2.068×)</td><td>Catalogue-truth proxy. <b>Not a score</b>: the competition target is faults <i>absent</i> from the catalogue, which this instrument masks out.</td></tr>
@@ -2168,5 +2184,5 @@ python3 scripts/audit_downloads.py --write        # 12 rasters, 14 named checks 
 <tr><td>uniqueness vs 79 registry rasters</td><td><code>UNIQUE-VS-REGISTRY</code>; worst dilated Jaccard <b>0.0457</b>, worst ρ <b>−0.4137</b>; the 3-px asymmetric leg reads 0.9988 against a 206,895-dot lattice and is density-blind, as <code>IR-62-16</code> predicts</td><td><code>evidence/h62j-uniqueness.json</code></td></tr>
 <tr><td>leakage canaries</td><td>per-feature AUC <code>lane_kernel_proximity</code> 0.493, <code>lane_binary_mask</code> 0.4995, <code>field:evid</code> 0.4955, <code>field:step</code> 0.4935, <code>field:corr</code> 0.493, <code>field:score</code> 0.4958, <code>field:doublet_frac</code> 0.4999, <code>field:bench</code> 0.497, <code>field:traced</code> 0.4977, <code>field:cand</code> 0.4942, <code>field:emis</code> 0.4995 — all <code>ok</code> (mean &gt; 0.90 would be flagged <code>LEAKAGE-SUSPECT</code>; 4 of 6 folds hold no withheld positives off the collar, so they sit at 0.5)</td><td><code>evidence/h62j-holdout.json</code></td></tr>
 <tr><td>catalogue collisions</td><td>0 dots on the catalogue; minimum distance 223.6 m; mean self-kernel 0.0; minimum dot spacing 316.2 m</td><td><code>evidence/h62j/run_summary.json</code></td></tr></table>
-<p><b>What is NOT claimed.</b> No organiser-confirmed score exists for any file here; every DTI above is this repository's own model of the metric on a proxy instrument, labelled MEASURED or MODEL accordingly. The 25 m DEM reaches 9.42 % of footprint cells for this pipeline (<code>IR-62-28</code>, renumbered on merge), so the lane's mass is capped by coverage and isolation, not by geology — and at credit 0.041 the closed form puts the whole lane's ceiling at 5 × 0.041 = 0.203 however the dots are arranged.</p>
+<p><b>What is NOT claimed.</b> No organiser-confirmed score exists for any file here; every DTI above is this repository's own model of the metric on a proxy instrument, labelled MEASURED or MODEL accordingly. The 25 m DEM reaches 9.42 % of footprint cells for this pipeline (<code>IR-62-J-04</code>, renumbered on merge), so the lane's mass is capped by coverage and isolation, not by geology — and at credit 0.041 the closed form puts the whole lane's ceiling at 5 × 0.041 = 0.203 however the dots are arranged.</p>
 </div></body></html>

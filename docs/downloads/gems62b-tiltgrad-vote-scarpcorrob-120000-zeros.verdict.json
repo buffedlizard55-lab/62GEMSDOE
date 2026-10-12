@@ -1,11 +1,11 @@
 {
- "verdict": "ANOTHER LANE'S PROBE (session arena/d0303476) - legal and unique as shipped; promotion is the selector's decision",
+ "verdict": "ANOTHER LANE'S PROBE (session arena/d0303476) - 14/14 legal on its bytes, unique (max Jaccard 0.022, tie-aware |rho| 0.035 over 25 comparators), no organiser score; their run card calls it 'negative as a lead, legal and unique as a probe' and this gate agrees: promotion is the selector's decision, not a measurement",
  "ok_to_submit": false,
- "note": "120,000 isolated dots from a k-of-N vote over derivative fields with scarp corroboration. This lane did not build it and does not vouch for its merit; what the audit verifies here is the format contract and the bytes, so that a file on the site root cannot carry an unlabelled claim. The datum lane's band table applies to it too: mass beyond 4 km off the catalogue earns ~0.51x a same-band control.",
+ "note": "Hashed, size-checked and format-gated from the bytes by scripts/audit_downloads.py exactly like this lane's files, because the site table claims all of them. The science stays theirs: a 13-layer derivative vote, scarp-corroborated, 300 m hard-core.",
  "organizer_score": null,
- "organizer_score_note": "that session records `organizer_score: null`; no file in this repository has an organiser-confirmed score",
- "expected_value_label": "as stated by its own author: per-dot credit 0.0621 on the one positively-tracking local quantity, and a pre-registered condition (beats 0.2778 iff true per-dot credit > 0.0778)",
- "artifact_of": "not this lane - docs/executive-summary-2026-10-11b.md describes the build",
+ "organizer_score_note": "never submitted; no file in this repository has an organiser-confirmed score",
+ "expected_value_label": "the other lane's own statement: 0.0621 credit/dot at 120,000 dots against the 0.0778 needed to beat 0.2778 under exact transfer - a 3.2x mass increase costing 1.9 points; not measured by this lane",
+ "artifact_of": "lane62-bench/scripts/emit_final.py (session arena/d0303476)",
  "evidence": [
   "evidence/final_field_gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.json",
   "evidence/run_card_20261011b.json",

@@ -12,7 +12,9 @@ The subset supported is the one these documents use: `#`-headings, paragraphs, `
 numbered lists, blockquotes, `---`, tables (`|`-rows), `` `code` ``, `**bold**`, `*italic*` and
 `[text](url)`.  Nothing is invented and nothing is dropped.
 
-    python3 scripts/render_doc_pages.py irregularities next-steps run-card hypotheses-2026-10-12
+    python3 scripts/render_doc_pages.py irregularities next-steps run-card hypotheses-2026-10-12-j
+    # the pages this repository renders are listed in tests/test_doc_render.py; a hand-written page has to
+    # be declared there, or CI calls it drift
 """
 from __future__ import annotations
 
@@ -25,10 +27,21 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 
+# The single source of truth for which pages this tool owns. `tests/test_doc_render.py` imports this list and
+# CI runs `--check` with no arguments, so a page cannot be listed in one place and forgotten in another -- on
+# 2026-10-12 the workflow listed a page the renderer refuses (another lane's hand-styled `hypotheses-2026-10-12`)
+# while the test listed a different set, and only CI would have caught it. Register: IR-62-J-11.
+RENDERED = ["irregularities", "next-steps", "run-card", "hypotheses-2026-10-11",
+            "hypotheses-2026-10-12-j", "why-h33-scored"]
+# Pages with a sibling .md and .html that are *not* generated here, and why (a hand-written pair is allowed
+# only when it is declared; see IR-62-J-07 and IR-62-J-09).
+HAND_WRITTEN = {"hypotheses-2026-10-12": "session arena/778884cc's styled page; its .md is a separate draft"}
+
 
 def inline(t: str) -> str:
     t = html.escape(t, quote=False)
     t = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', t)
+    t = re.sub(r"<(https?://[^>\s]+)>", r'<a href="\1">\1</a>', t)   # bare autolinks, another lane's style
     t = re.sub(r"`([^`]+)`", r"<code>\1</code>", t)
     t = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", t)
     t = re.sub(r"(?<![\w*])\*([^*\n]+)\*(?![\w*])", r"<i>\1</i>", t)
@@ -219,7 +232,9 @@ def render(name: str, *, check_only: bool = False, docs: pathlib.Path = DOCS) ->
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("names", nargs="*", help="doc basenames without extension")
-    ap.add_argument("--all", action="store_true", help="every docs/*.md with a sibling .html")
+    ap.add_argument("--all", action="store_true",
+                    help="every docs/*.md that has a sibling .html (includes hand-written pages, which "
+                         "this tool will refuse -- use the declared RENDERED default in CI instead)")
     ap.add_argument("--docs", default=str(DOCS), help="directory holding the md/html pairs "
                                                      "(the repository's docs/ by default)")
     ap.add_argument("--check", action="store_true",
@@ -229,7 +244,7 @@ def main() -> int:
     if args.all:
         names = sorted(p.stem for p in DOCS.glob("*.md"))
     if not names:
-        names = ["irregularities", "next-steps", "run-card"]
+        names = list(RENDERED)
     docs = pathlib.Path(args.docs).resolve()
     rc = 0
     for n in names:

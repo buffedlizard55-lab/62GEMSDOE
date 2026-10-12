@@ -1,5 +1,5 @@
 {
- "verdict": "RESEARCH PROBE at the max-mass operating point - format-legal and unique, not worth submitting",
+ "verdict": "DECISION-LEVEL GATES PASS - 14/14 legal, UNIQUE-VS-REGISTRY, model DTI 0.0375 with the official metric (information-positive, score-negative: its own ceiling is 5 x 0.041 = 0.203 < 0.2778), so it is a probe, not a submitted field",
  "ok_to_submit": false,
  "note": "10,870 isolated dots from the datum-doublet excess-step detector: the maximum mass the 25 m DEM's 29% coverage and the 300 m isolation rule allow. Instrument-B credit 0.040588 = 1.60x its own mass-matched control (0.025445) - the first datum-only field in this repo to beat its control at scale. It still cannot reach 0.2778, because DTI -> 5*credit as mass grows and credit here is 0.041.",
  "organizer_score": null,

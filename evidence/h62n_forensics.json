@@ -1,0 +1,110 @@
+{
+ "session": "arena/778884cc-62gemsdoe",
+ "date_utc": "2026-10-12",
+ "S_star_fixed": {
+  "K": 18721,
+  "scale": 0.3848,
+  "spearman_vs_56_owner_reported": 0.9641,
+  "r2": 0.7007,
+  "rmse": 0.0503,
+  "committed_buggy_run": {
+   "K": 8479,
+   "scale": 0.5052,
+   "spearman": 0.9679,
+   "r2": 0.3007,
+   "rmse": 0.0768
+  },
+  "subset_of_h33_dots": 1.0,
+  "note": "S*\u2020 (fixed 300 m kernel) is a subset of the exact h33-2-b2 dot pixels (18,721 of 37,654). Direct emission remains protocol-blocked as a duplicate of GEMSDOE32 h33-2-b2; the value of the fix is the INSTRUMENT (R\u00b2 0.30\u21920.70), not a new emittable field."
+ },
+ "kernel_bug": {
+  "file": "datum62/scripts/invert.py",
+  "lines": "16,51",
+  "defect": "kernel table defined in pixel units (zero at j>=3 px) indexed with quarter-pixel indices (dm*4): effective support 0.75 px = 75 m instead of 3 px = 300 m",
+  "impact_measured": "every high-scoring artifact outside the 13-field consensus was under-predicted 4x-37x (gate_ortho 0.0064 vs observed 0.2376; h59-cover 0.0219 vs 0.2296); after the single-change fix: h59-cover 0.1596, gate_ortho 0.0557; R\u00b2 0.3007 -> 0.7007",
+  "fix": "applied once in the template (datum62/scripts/invert.py comment + scripts/reconstruct_sstar.py); IR-62-25",
+  "reproducible": "scripts/reconstruct_sstar.py -> evidence/sstar_fixed/"
+ },
+ "gate_ortho_forensics": {
+  "artifact": "GEMSDOE49 gate_ortho_w0.25-40k (OWNER-REPORTED 0.2376)",
+  "frac_dots_within_3px_of_h33": 0.434,
+  "frac_within_3px_of_Sstar_fixed": 0.225,
+  "nn_h33_p50_px": 3.6,
+  "nn_h33_p90_px": 14.6,
+  "dti_Sstar_fixed": 0.145,
+  "projection": 0.0557,
+  "reading": "PROOF BY DEMONSTRATION: a field with only 43.4% of its dots inside the h33 3px halo (below the 70% tripwire) and near-zero exact-pixel overlap scored 0.2376 live. Corridor headroom exists for unique fields; and DTI(S*\u2020) under-predicts out-of-family fields by ~4x (0.0557 projected vs 0.2376 observed) - S*\u2020 is a floor instrument for novel placements, never a ceiling."
+ },
+ "selector_rank1_correction": {
+  "claim_under_correction": "docs/next-steps.md item 1 and docs/research/leaderboard-arithmetic.md section 5: submit gems32-bayesopt-dilation-scarp-d28 (45,000 dots, 0.29294 credit/dot on instrument B)",
+  "measured_on_Sstar_fixed": {
+   "M": 45000,
+   "dti": 0.0766,
+   "per_dot_credit": 0.0408,
+   "projection": 0.0295
+  },
+  "comparison": {
+   "h62n_this_session_per_dot": 0.0593,
+   "h33_family_repro_per_dot": 0.4246,
+   "h32d_submodular_per_dot": 0.3981
+  },
+  "verdict": "RETRACT the rank-1 selector recommendation: it was measured on the SGMC off-catalogue instrument (Spearman -0.928 vs the portal over 15 owner-reported scores). On the portal-calibrated instrument the bayesopt field is BELOW this session's lane field per dot and 10x below the h33 family. IR-62-26."
+ },
+ "lane_family_on_fixed_instrument": [
+  {
+   "artifact": "gemsdoe62-datum-lahontan-isobase-v8",
+   "M": 1660,
+   "dti_Sstar": 0.0028,
+   "proj": 0.0011
+  },
+  {
+   "artifact": "gems62-h62g-benchcrosscut-hardcore",
+   "M": 10000,
+   "dti_Sstar": 0.03804,
+   "proj": 0.0146
+  },
+  {
+   "artifact": "gems62-h62i-scarpcrosscut-hardcore",
+   "M": 60000,
+   "dti_Sstar": 0.107,
+   "proj": 0.0412
+  },
+  {
+   "artifact": "lane62-datum-break-dotted-primary",
+   "M": 86968,
+   "dti_Sstar": 0.08581,
+   "proj": 0.033
+  },
+  {
+   "artifact": "lane62-bench-traceonly",
+   "M": 63750,
+   "dti_Sstar": 0.05446,
+   "proj": 0.021
+  },
+  {
+   "artifact": "h62a-isobase-step-38000",
+   "M": 38000,
+   "dti_Sstar": 0.15103,
+   "proj": 0.0581
+  },
+  {
+   "artifact": "gems62d-org-stack-detector",
+   "M": 46598,
+   "dti_Sstar": 0.21271,
+   "proj": 0.0819
+  },
+  {
+   "artifact": "h62m-run1 (this session, quad isobase)",
+   "M": 9900,
+   "dti_Sstar": 0.03329,
+   "proj": 0.0128
+  },
+  {
+   "artifact": "h62n-run2 (this session, PRIMARY)",
+   "M": 16864,
+   "dti_Sstar": 0.05452,
+   "proj": 0.021
+  }
+ ],
+ "lane_family_reading": "On the portal-calibrated instrument every shoreline-datum artifact in this repository - four independent sessions' worth - projects to <=0.06. The datum lane is dominated, now measured on the ONE instrument that correlates with the portal (+0.964), not only on the two that anti-correlate. Recorded as the lane's honest negative; the artifact ships anyway as a format-legal, unique, economics-compliant probe (see run card)."
+}

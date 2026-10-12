@@ -43,18 +43,20 @@ from gems62 import datum, grid, metric  # noqa: E402
 from gems62.figures import save_map_png, save_profile_png  # noqa: E402,F401
 
 
-def read_z(src, window, res=None):
+def read_z(src, window, res=None, zscale=0.1):
     """Decode a DEM window to metres with NaN for nodata.
 
     The transport GeoTIFF stores int16 decimetres (z_m = value/10) with the -32767/-32768
     sentinel family; both the scale and the sentinel are handled here so no threshold in this
     script ever sees decimetres by accident (a 10x unit error would silently disable every
-    elevation window in the pipeline).
+    elevation window in the pipeline).  Metre-unit DEMs (e.g. the 100 m mirror
+    geodawn_dem_a2_100m.tif, float32 metres, sentinel -999999) must pass zscale=1.0;
+    the sentinel mask z <= -32000 covers both sentinel families.
     """
     import numpy as np
     z = src.read(1, window=window).astype(np.float32)
     z[z <= -32000.0] = np.nan
-    return z * 0.1
+    return z * zscale
 
 def log(msg: str) -> None:
     print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
@@ -152,6 +154,22 @@ def main() -> int:
     ap.add_argument("--dot-spacing-px", type=float, default=2.8)
     ap.add_argument("--min-catalogue-px", type=float, default=1.0)
     ap.add_argument("--max-dots", type=int, default=12000)
+    ap.add_argument("--hard-core-px", type=float, default=0.0,
+                    help="minimum Euclidean dot-to-dot separation in 100 m grid px "
+                         "(3.0 = zero self-kernel; template fix 2026-10-12)")
+    ap.add_argument("--isobase-mode", choices=("quad", "localmode"), default="quad",
+                    help="quad = global robust quadratic (v8 behaviour); localmode = per-tile "
+                         "robust mode of bench elevations + Gaussian smoothing "
+                         "(datum.isobase_surface) -- the IR-62-03 / next-steps #4 fix: a single "
+                         "quadratic cannot represent the multi-subbasin Lahontan datum "
+                         "(measured rmad 68.9 m at 100 m posting)")
+    ap.add_argument("--balance-blocks", action="store_true",
+                    help="select loci round-robin over the 3x2 competition blocks (by weight "
+                         "within block) instead of globally by weight; the global ranking "
+                         "concentrates traces in one corner of the basin")
+    ap.add_argument("--dem-z-scale", type=float, default=0.1,
+                    help="DEM value -> metres scale (0.1 decimetre transport mosaic, "
+                         "1.0 metre-unit mirrors such as geodawn_dem_a2_100m.tif)")
     ap.add_argument("--block-km", type=float, default=30.0)
     ap.add_argument("--overlap-km", type=float, default=3.0)
     args = ap.parse_args()
@@ -183,7 +201,7 @@ def main() -> int:
     n_blocks = 0
     for (r0, c0, r1, c1) in block_windows(H, W, block_px, overlap_px):
         n_blocks += 1
-        z = read_z(src, Window(c0, r0, c1 - c0, r1 - r0))
+        z = read_z(src, Window(c0, r0, c1 - c0, r1 - r0), zscale=args.dem_z_scale)
         if not np.isfinite(z).any():
             continue
         if np.nanmin(z) > args.z_hi or np.nanmax(z) < args.z_lo:
@@ -262,7 +280,31 @@ def main() -> int:
         f"p50={np.percentile(resid_all, 50):.1f} p95={np.percentile(resid_all, 95):.1f} m; "
         f"|r|<={args.shore_tol_m:.0f} m for {float((np.abs(resid_all) <= args.shore_tol_m).mean()):.3f} of pixels")
 
+    iso_full = None
+    if args.isobase_mode == "localmode":
+        # IR-62-03 fix: the smooth isobase is the per-tile robust MODE of bench elevations
+        # (datum.isobase_surface), which follows each subbasin's own stand instead of forcing
+        # one quadratic through a lake system with 10 mapped stands between 1207 and 1445 m.
+        z_full = read_z(src, Window(0, 0, W, H), zscale=args.dem_z_scale)
+        b_full = datum.bench_response(np.nan_to_num(z_full, nan=0.0), res,
+                                      flat_slope=args.flat_slope, riser_slope=args.riser_slope)
+        bench_mask = ((b_full["score"] >= args.bench_min_score) & np.isfinite(z_full)
+                      & (z_full >= z_lo_b) & (z_full <= z_hi_b))
+        iso_full = datum.isobase_surface(np.where(np.isfinite(z_full), z_full, np.nan),
+                                         bench_mask, res, tile_m=args.isobase_tile_m,
+                                         smooth_tiles=args.isobase_smooth_tiles,
+                                         z_lo=max(z_lo_b, args.z_lo), z_hi=min(z_hi_b, args.z_hi),
+                                         dz=max(args.stand_bin_m, 1.0))
+        rv = z_full[bench_mask] - iso_full[bench_mask]
+        log(f"localmode isobase: bench px={int(bench_mask.sum())}  residual "
+            f"p05={np.percentile(rv,5):.1f} p50={np.percentile(rv,50):.1f} "
+            f"p95={np.percentile(rv,95):.1f} m  |r|<={args.shore_tol_m:.0f} m for "
+            f"{float((np.abs(rv)<=args.shore_tol_m).mean()):.3f}  rmad={np.median(np.abs(rv-np.median(rv))):.2f} m")
+        del b_full
+
     def isobase_block(r0_, c0_, r1_, c1_):
+        if iso_full is not None:
+            return iso_full[r0_:r1_, c0_:c1_]
         rows_ = np.arange(r0_, r1_); cols_ = np.arange(c0_, c1_)
         xx = src.transform.c + (cols_ + 0.5) * res
         yy = src.transform.f - (rows_ + 0.5) * res
@@ -273,7 +315,7 @@ def main() -> int:
     loci: list[dict] = []
     segments_meta: list[dict] = []
     for (r0, c0, r1, c1) in block_windows(H, W, block_px, overlap_px):
-        z = read_z(src, Window(c0, r0, c1 - c0, r1 - r0))
+        z = read_z(src, Window(c0, r0, c1 - c0, r1 - r0), zscale=args.dem_z_scale)
         if not np.isfinite(z).any():
             continue
         if np.nanmin(z) > args.z_hi or np.nanmax(z) < args.z_lo:
@@ -361,14 +403,54 @@ def main() -> int:
 
     # ---------------- traces ------------------------------------------------------------------
     (out_dir / f"{args.name}.loci.json").write_text(json.dumps(loci, indent=1))
-    loci_sorted = sorted(loci, key=lambda e: -e["weight"])
-    chosen: list[dict] = []
-    for e in loci_sorted:
-        if len(chosen) >= args.max_loci:
-            break
-        if all(np.hypot(e["row"] - c["row"], e["col"] - c["col"]) * res > args.locus_separation_m
-               for c in chosen):
-            chosen.append(e)
+    if args.balance_blocks:
+        # round-robin over the 3x2 competition blocks, strongest locus first within each block,
+        # so the trace network spreads over the whole pluvial margin instead of clustering where
+        # the largest steps happen to be (measured defect of the global ranking: run 1 put 0 of
+        # 9,900 dots in the southern block row and 71 of 9,900 in the row-1 east block).
+        gb = {k: [] for k in range(6)}
+        for e in loci:
+            # map DEM row/col to competition grid (same mapping as emit_dots)
+            x_ = src.transform.c + (e["col"] + 0.5) * res
+            y_ = src.transform.f - (e["row"] + 0.5) * res
+            gr = int((4508550.0 - y_) // 100); gc = int((x_ - 243350.0) // 100)
+            k = min(2, gr // (3730 // 3 + 1)) * 2 + min(1, gc // (3292 // 2 + 1))
+            if 0 <= gr < 3730 and 0 <= gc < 3292:
+                gb[k].append(e)
+        for k in gb:
+            gb[k].sort(key=lambda e: -e["weight"])
+        chosen = []
+        ptr = {k: 0 for k in gb}
+        while len(chosen) < args.max_loci:
+            added = False
+            for k in range(6):
+                while ptr[k] < len(gb[k]):
+                    e = gb[k][ptr[k]]; ptr[k] += 1
+                    if all(np.hypot(e["row"] - c["row"], e["col"] - c["col"]) * res
+                           > args.locus_separation_m for c in chosen):
+                        chosen.append(e); added = True
+                        break
+                if len(chosen) >= args.max_loci:
+                    break
+            if not added:
+                break
+        per_block = [0] * 6
+        for e in chosen:
+            x_ = src.transform.c + (e["col"] + 0.5) * res
+            y_ = src.transform.f - (e["row"] + 0.5) * res
+            gr = int((4508550.0 - y_) // 100); gc = int((x_ - 243350.0) // 100)
+            if 0 <= gr < 3730 and 0 <= gc < 3292:
+                per_block[min(2, gr // (3730 // 3 + 1)) * 2 + min(1, gc // (3292 // 2 + 1))] += 1
+        log(f"block-balanced loci per competition block (3 rows x 2 cols): {per_block}")
+    else:
+        loci_sorted = sorted(loci, key=lambda e: -e["weight"])
+        chosen: list[dict] = []
+        for e in loci_sorted:
+            if len(chosen) >= args.max_loci:
+                break
+            if all(np.hypot(e["row"] - c["row"], e["col"] - c["col"]) * res > args.locus_separation_m
+                   for c in chosen):
+                chosen.append(e)
     log(f"loci kept after {args.locus_separation_m:.0f} m separation: {len(chosen)}")
 
     half_px = int(round(args.trace_window_m / 2 / res))
@@ -376,7 +458,7 @@ def main() -> int:
     for j, e in enumerate(chosen):
         r0 = max(0, int(e["row"]) - half_px); c0 = max(0, int(e["col"]) - half_px)
         r1 = min(H, int(e["row"]) + half_px); c1 = min(W, int(e["col"]) + half_px)
-        z = read_z(src, Window(c0, r0, c1 - c0, r1 - r0))
+        z = read_z(src, Window(c0, r0, c1 - c0, r1 - r0), zscale=args.dem_z_scale)
         if not np.isfinite(z).any():
             continue
         # fill any NaN by nearest interpolation so the Hessian is defined at block edges
@@ -384,7 +466,7 @@ def main() -> int:
             ind = ndimage.distance_transform_edt(~np.isfinite(z), return_distances=False,
                                                  return_indices=True)
             z = z[tuple(ind)]
-        scarp = datum.ScarpField.from_dem(z, res)
+        scarp = datum.ScarpField.from_dem(z, res, sigma_m=args.scarp_sigma_m)
         seed = (e["row"] - r0, e["col"] - c0)
         path = datum.trace_from_seed(scarp, seed, max_len_m=args.max_trace_len_m,
                                      min_evidence=args.min_trace_evidence)
@@ -411,7 +493,7 @@ def main() -> int:
     emis, emis_summary = datum.emit_dots(
         traces, dem_transform, catalogue=known, footprint=footprint,
         spacing_px=args.dot_spacing_px, min_catalogue_px=args.min_catalogue_px,
-        max_dots=args.max_dots)
+        max_dots=args.max_dots, hard_core_px=args.hard_core_px)
 
     # ---------------- write + receipt ----------------------------------------------------------
     tif = out_dir / f"{args.name}.tif"

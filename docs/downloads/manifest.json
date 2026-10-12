@@ -11,8 +11,203 @@
   "footprint_cells": 5167373,
   "catalogue_cells": 60988
  },
- "n_files": 13,
+ "n_files": 16,
  "files": [
+  {
+   "path": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif",
+   "bytes": 125332,
+   "fails": [
+    "no_nodata_tag",
+    "no_nan_anywhere"
+   ],
+   "fails_only_strict_conventions": true,
+   "sha256": "fa7a68ba411da82e3265f48ec6bf3638d70875df8de65e666e3cfacd008ab39f",
+   "dots": 440,
+   "total_mass": null,
+   "min": "NaN",
+   "max": "NaN",
+   "nodata": "NaN",
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 7111787,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 7111787,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 440,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": false
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": false
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 12,
+   "checks_total": 14,
+   "format_legal": false,
+   "portal_range_risk": "low",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "FORMAT PROBE (NaN outside the footprint, nodata=NaN) - never submitted; passes the published contract, fails this lane's stricter convention, shipped by another lane as a twin",
+   "ok_to_submit": false,
+   "note": "440 dots, 125,332 B, non-finite outside the footprint with a NaN nodata tag, so portal range risk is 'low' (a masked reader never sees the NaN) rather than 'high'. Same convention label as gems62-lahontan-isobase-99dots-nan.tif; nothing here claims NaN is rejected by the portal.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "no score expected - it exists to record what the NaN twin of the same field looks like to the portal's validator",
+   "artifact_of": "scripts/run_lane_session.py (session arena/d4d2e53a)",
+   "sidecar": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.tif",
+   "bytes": 57178,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "f1db3dc711cc8e2d5411c05b0d167f763c3ef22b2263896f463056fd3fbc56bd",
+   "dots": 440,
+   "total_mass": 440.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 440,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "ANOTHER LANE'S DELIVERABLE (sessions arena/d4d2e53a + 778884cc) - format-legal 14/14 on the bytes, unique against 21 registry comparators, and their run card recommends 'promote-to-defensibility-slot'. This gate does not confirm or deny that: 440 dots cannot move the metric under any instrument, and their own numbers put the projection at 0.0295-0.0210 on the kernel-fixed instrument",
+   "ok_to_submit": false,
+   "note": "Verified independently here: 440 dots, 57,178 B, sha256 f1db3dc7\u2026, float32 EPSG:32611, no NaN, no nodata tag. Their own evidence records max_frac3px = 0.40 against gems50_h60_union_d2_75308 - the highest registry overlap of any file at the site root, under the 70 % tripwire but far above this lane's 0.046; the corridor it shares with a registered field is a fact a reader should have next to the word 'defensible'.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "the other lane's statement: 'promote-to-defensibility-slot' as a *defensibility* deliverable (11 flagged steps, 13 deflections, 21-raster uniqueness audit), not as a scored improvement; the h62n sibling measures projection 0.0210 on the portal-calibrated instrument",
+   "artifact_of": "scripts/run_lane_session.py (session arena/d4d2e53a)",
+   "sidecar": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
   {
    "path": "docs/downloads/gems62-h62g-benchcrosscut-hardcore-zeros.tif",
    "bytes": 98893,
@@ -290,7 +485,7 @@
    "format_legal": true,
    "portal_range_risk": "none",
    "dots_on_catalogue_frac": 0.0,
-   "verdict": "RESEARCH PROBE at the max-mass operating point - format-legal and unique, not worth submitting",
+   "verdict": "DECISION-LEVEL GATES PASS - 14/14 legal, UNIQUE-VS-REGISTRY, model DTI 0.0375 with the official metric (information-positive, score-negative: its own ceiling is 5 x 0.041 = 0.203 < 0.2778), so it is a probe, not a submitted field",
    "ok_to_submit": false,
    "note": "10,870 isolated dots from the datum-doublet excess-step detector: the maximum mass the 25 m DEM's 29% coverage and the 300 m isolation rule allow. Instrument-B credit 0.040588 = 1.60x its own mass-matched control (0.025445) - the first datum-only field in this repo to beat its control at scale. It still cannot reach 0.2778, because DTI -> 5*credit as mass grows and credit here is 0.041.",
    "submission_name": null,
@@ -299,6 +494,102 @@
    "expected_value_label": "model DTI 0.0375 at N=12,000 (ceiling 0.923 if every dot were perfect)",
    "artifact_of": "scripts/run_h62j.py",
    "sidecar": "docs/downloads/gems62-h62j-datumdoublet-maxmass10870-20261012T003500Z-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif",
+   "bytes": 129539,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "2a25f29a6b235520a4965199045dae7226260665fc3ec248a79f04cb78bbe7f0",
+   "dots": 16864,
+   "total_mass": 16864.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 16864,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "ANOTHER LANE'S NEGATIVE (session arena/778884cc, experiment h62n) - format-legal 14/14, unique, OK to download; their own verdict is NEGATIVE as an improvement (projection 0.0210 on the kernel-fixed instrument) and this gate has nothing to add to that",
+   "ok_to_submit": false,
+   "note": "Verified here: 16,864 dots, 129,539 B, sha256 2a25f29a\u2026, no NaN, no nodata tag. Kept on the site and in this manifest because it is linked from the index; a site table that quietly omits one lane's file is how the last two sessions went wrong.",
+   "submission_name": null,
+   "submission_note": null,
+   "organizer_score": null,
+   "expected_value_label": "the other lane's statement: 16,864 isolated dots on DEM-ridge-supported traces seeded at Lahontan datum steps, DTI(S*\u2020) 0.0545 x scale 0.3848 = 0.0210 projected, below the incumbent band 0.24-0.28; their instrument fix (IR-62-25) is the deliverable, not the field",
+   "artifact_of": "scripts/run_lane_session.py / h62n (session arena/778884cc)",
+   "sidecar": "docs/downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.verdict.json",
    "sidecar_matches_bytes": true
   },
   {
@@ -581,14 +872,14 @@
    "format_legal": true,
    "portal_range_risk": "none",
    "dots_on_catalogue_frac": 0.0,
-   "verdict": "ANOTHER LANE'S PROBE (session arena/d0303476) - legal and unique as shipped; promotion is the selector's decision",
+   "verdict": "ANOTHER LANE'S PROBE (session arena/d0303476) - 14/14 legal on its bytes, unique (max Jaccard 0.022, tie-aware |rho| 0.035 over 25 comparators), no organiser score; their run card calls it 'negative as a lead, legal and unique as a probe' and this gate agrees: promotion is the selector's decision, not a measurement",
    "ok_to_submit": false,
-   "note": "120,000 isolated dots from a k-of-N vote over derivative fields with scarp corroboration. This lane did not build it and does not vouch for its merit; what the audit verifies here is the format contract and the bytes, so that a file on the site root cannot carry an unlabelled claim. The datum lane's band table applies to it too: mass beyond 4 km off the catalogue earns ~0.51x a same-band control.",
+   "note": "Hashed, size-checked and format-gated from the bytes by scripts/audit_downloads.py exactly like this lane's files, because the site table claims all of them. The science stays theirs: a 13-layer derivative vote, scarp-corroborated, 300 m hard-core.",
    "submission_name": null,
    "submission_note": null,
    "organizer_score": null,
-   "expected_value_label": "as stated by its own author: per-dot credit 0.0621 on the one positively-tracking local quantity, and a pre-registered condition (beats 0.2778 iff true per-dot credit > 0.0778)",
-   "artifact_of": "not this lane - docs/executive-summary-2026-10-11b.md describes the build",
+   "expected_value_label": "the other lane's own statement: 0.0621 credit/dot at 120,000 dots against the 0.0778 needed to beat 0.2778 under exact transfer - a 3.2x mass increase costing 1.9 points; not measured by this lane",
+   "artifact_of": "lane62-bench/scripts/emit_final.py (session arena/d0303476)",
    "sidecar": "docs/downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.verdict.json",
    "sidecar_matches_bytes": true
   },
@@ -1230,6 +1521,7 @@
  ],
  "problems": [],
  "notes": [
+  "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif: deliberately NOT format-legal ['no_nodata_tag', 'no_nan_anywhere'], labelled as a probe - FORMAT PROBE (NaN outside the footprint, nodata=NaN) - never submitted; passes the published contract, fails this lane's stricter convention, shipped by another lane as a twin",
   "docs/downloads/gems62-lahontan-isobase-99dots-nan.tif: deliberately NOT format-legal ['no_nodata_tag', 'no_nan_anywhere'], labelled as a probe - FORMAT PROBE (NaN outside, nodata=NaN) - never submitted; passes the published contract, fails our stricter one",
   "lane62-h62a/docs/downloads/gems62-h62-a-lahontan-isobase-step-38000dots-20261011T201324Z-nan.tif: NOT format-legal ['no_nan_anywhere']; it sits in a lane directory, is not linked from the site, and its owning lane has not labelled it - fix it there"
  ],

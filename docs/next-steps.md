@@ -21,7 +21,21 @@
 
 ## Ranked next work
 
-### 1. Submit the never-scored high-credit field — highest expected value, minutes of work
+> **2026-10-12 correction (session `arena/778884cc`):** item 1 below is **RETRACTED** — see
+> `docs/irregularities.md` IR-62-26. The bayesopt field's 0.293 credit/dot was measured on the
+> SGMC instrument (Spearman −0.928 vs the portal); on the kernel-fixed portal-calibrated instrument
+> (IR-62-25) it measures 0.0408 credit/dot, projection 0.0295. The corrected rank 1 is the new
+> item 0.
+
+### 0. (2026-10-12) Exploit the measured corridor headroom — the only evidence-backed path above 0.2778
+gate_ortho scored 0.2376 with only 43.4 % of its dots inside the h33 3-px halo (IR-62-28): the
+hidden truth is spatially broader than the group's consensus, and unique fields can score in the
+top band. The instrument to design against is now `evidence/sstar_fixed/` (R² 0.70). Concretely:
+rebuild the multi-physics oriented-lineament consensus **from the organiser 19-band stack** (H-2,
+datum62) *including* the pixels the consensus family never sampled, and rank candidates by
+DTI(S*†) per dot (champion family: 0.42; this lane: 0.059; do not ship below ~0.15/dot).
+
+### 1. ~~Submit the never-scored high-credit field~~ — RETRACTED (IR-62-26), kept for the record
 `GEMSDOE32 → docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif` (302,357 bytes,
 45,000 dots) measures **0.29294** mean 300 m credit per dot on the same instrument that scores the
 submitted champion family at **0.09892** — 3.0×. It is absent from the 87-artifact score registry,
@@ -144,18 +158,20 @@ composite (USGS 3DEP 1 m, public domain) or stop treating it as basin-wide.
 
 ## Added 2026-10-12 by session `arena/b7846648-62gemsdoe` (datum-offset lane)
 
-The ranking above (`arena/d0303476`, 2026-10-11b) stands as the group's list; this one is what the
-datum lane would add to or change in it, with the measurements behind every line in `evidence/h62j*`
+The ranking above (`arena/d0303476`, 2026-10-11b, then corrected by `arena/778884cc` on 2026-10-12)
+stands as the group's list; this one is what the datum lane would add to or change in it, with the measurements behind every line in `evidence/h62j*`
 and `docs/run-card.html`. Where the two disagree the disagreement is named, not averaged.
 
-1. **Make the selector decision about `GEMSDOE32`'s never-submitted field — but discount it harder than
-   this lane's own 2026-10-11 text did.** 45,000 dots at instrument-B credit **0.29294**, 3.0× the
-   submitted family's 0.09892, no owner-reported score anywhere. Session `d0303476` measured (`IR-62-20`,
-   their numbering) that per-dot credit against that instrument tracks the leaderboard at ρ = **+0.617**
-   while the *published DTI evaluated on it* tracks it at **−0.442**, and on that basis downgraded this
-   from rank 1. Both readings are proxies; the decision is the selector's, and spending a slot is cheap
-   relative to the argument. **What this lane adds:** the band table below says the same detector's mass
-   should sit *near* the catalogue, not beyond 4 km, wherever it is placed.
+1. **The `GEMSDOE32` rank-1 advice is retracted, and this lane agrees — drop it.** It was written from
+   instrument-B credit **0.29294** (3.0× the submitted family's 0.09892, no owner-reported score anywhere)
+   and it has now been killed twice from independent directions: session `d0303476` measured that
+   per-dot credit on that instrument tracks the leaderboard at ρ = **+0.617** while the published DTI
+   evaluated on it tracks it at **−0.442** (`IR-62-20`, their numbering), and session `778884cc`
+   re-measured the same field on the kernel-*fixed* portal-calibrated instrument at **0.0408 credit/dot,
+   projection 0.0295** — below their own lane file and ~10× below the champion family (`IR-62-25`/`26`,
+   including the S* kernel-radius bug that inflated every earlier projection). Two proxies now point the
+   same way; no slot. **What this lane adds, and what survives the retraction:** the band table says any
+   detector's mass should sit *near* a mapped trace, not beyond 4 km — a placement rule, not a ranking.
 2. **Run the collar ladder — it is now the cheapest untried experiment in the group.** The band table
    (this session, `evidence/h62j-bands.json`) measures per-dot credit 0.178 / 0.153 / 0.108 inside
    500 m of a mapped trace against 0.018 beyond 4 km, with same-band controls giving ratios 1.33 / 1.21 /
