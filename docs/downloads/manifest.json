@@ -11,7 +11,7 @@
   "footprint_cells": 5167373,
   "catalogue_cells": 60988
  },
- "n_files": 21,
+ "n_files": 22,
  "files": [
   {
    "path": "docs/downloads/gems62-datum-lahontan-strain-gauge-defensible-440dots-nan.tif",
@@ -1364,6 +1364,102 @@
    "expected_value_label": "DTI 0.21777 against the S* stack - which is not the organiser's truth and is never a placement objective",
    "artifact_of": "scripts/run_lane.py (v8)",
    "sidecar": "docs/downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.verdict.json",
+   "sidecar_matches_bytes": true
+  },
+  {
+   "path": "docs/downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif",
+   "bytes": 459756,
+   "fails": [],
+   "fails_only_strict_conventions": false,
+   "sha256": "82359f80280062072a4fdd8723d637a9bed0b77223386c319ab35bac990d8f23",
+   "dots": 125890,
+   "total_mass": 125890.0,
+   "min": 0.0,
+   "max": 1.0,
+   "nodata": null,
+   "finite_min": 0.0,
+   "finite_max": 1.0,
+   "nonfinite_pixels": 0,
+   "nonfinite_inside_footprint": 0,
+   "nan_count": 0,
+   "n_outside_0_1": 0,
+   "dots_inside_footprint": 125890,
+   "dots_on_catalogue": 0,
+   "unique_positive_values": [
+    1.0
+   ],
+   "checks": [
+    {
+     "check": "single_band",
+     "ok": true
+    },
+    {
+     "check": "dtype_float32",
+     "ok": true
+    },
+    {
+     "check": "crs",
+     "ok": true
+    },
+    {
+     "check": "shape",
+     "ok": true
+    },
+    {
+     "check": "transform",
+     "ok": true
+    },
+    {
+     "check": "pixel_100m",
+     "ok": true
+    },
+    {
+     "check": "no_nodata_tag",
+     "ok": true
+    },
+    {
+     "check": "no_nan_inside_footprint",
+     "ok": true
+    },
+    {
+     "check": "no_nan_anywhere",
+     "ok": true
+    },
+    {
+     "check": "values_in_0_1",
+     "ok": true
+    },
+    {
+     "check": "no_mass_outside_footprint",
+     "ok": true
+    },
+    {
+     "check": "nonempty",
+     "ok": true
+    },
+    {
+     "check": "contract_validator_passes",
+     "ok": true
+    },
+    {
+     "check": "no_dead_mass_on_catalogue",
+     "ok": true
+    }
+   ],
+   "checks_passed": 14,
+   "checks_total": 14,
+   "format_legal": true,
+   "portal_range_risk": "none",
+   "dots_on_catalogue_frac": 0.0,
+   "verdict": "SESSION arena/7b275dfb (H-2R x vent-prior detector) - format-legal 14/14 on the bytes; unique vs 71 registry rasters (max tie-aware |rho| 0.501 < 0.90, max non-vacuous 3 px overlap 0.692 vs gemsdoe23-h30 < 0.70, mass-matched random control 0.410 so a disclosed 1.69x shared structure, not a copy; IR-62-H2R-02). Blocked OOF DTI(S* v2 fixed kernel) 0.1979 vs the same-instrument raw-band baseline 0.1718 (+15%), AUC 0.893 under the 0.90 leakage canary. The run card says promote-as-probe: legal and unique, merit unproven - no organiser receipt exists for any file here",
+   "ok_to_submit": false,
+   "note": "125,890 isolated off-catalogue dots from the champion mechanism (Hessian line response x orientation order parameter) rebuilt as supervised features plus a temperature/chemistry-weighted GDR vent prior; validated on the fixed-kernel S* instrument. Probe, not a proven gain.",
+   "submission_name": "gems62f-h2r-ventcons-125890-20261012T012736Z-zeros",
+   "submission_note": "62f: H2R multi-physics lineament consensus x vent prior, 125,890 isolated off-catalogue dots, S*v2-blocked CV. Unique vs 56 rasters. Legal.",
+   "organizer_score": null,
+   "expected_value_label": "MEASURED (local instrument, never a score): blocked DTI(S* v2) 0.1979 at 125,890 dots; MODEL condition to beat 0.2778 at this mass: hidden-set credit > 0.0778 per dot",
+   "artifact_of": "scripts/exp7_emit_20261012.py (session arena/7b275dfb-62gemsdoe)",
+   "sidecar": "docs/downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.verdict.json",
    "sidecar_matches_bytes": true
   },
   {

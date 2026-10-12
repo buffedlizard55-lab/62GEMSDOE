@@ -37,7 +37,7 @@ page is merged below)</p>
 
 <nav>
 <a href="#download">⬇ Download &amp; verdict</a>
-<a href="#allfiles">⬇ All 21 files + verdicts</a>
+<a href="#allfiles">⬇ All 22 files + verdicts</a>
 <a href="executive-summary.html">How to submit</a>
 <a href="#h62r">H62-R — multi-level datum stack</a>
 <a href="#h62j">H62-J datum doublet</a>
@@ -450,10 +450,13 @@ organiser's own <code>sample_submission.tif</code> does not satisfy them (see
 <tr><td><a href="downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif">gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif</a><span class="pill ok">legal</span></td><td>16,864</td><td>129,539 B</td><td>14/14</td><td><code>2a25f29a6b235520…</code></td><td>ANOTHER LANE'S NEGATIVE (session arena/778884cc, experiment h62n) - format-legal 14/14, unique, OK to download; their own verdict is NEGATIVE as an improvement (projection 0.0210 on the kernel-fixed instrument) and this gate has nothing to add to that</td></tr>
 <tr><td><a href="downloads/gems62-h62r-multilevel-datum-repeat-offset-zeros.tif">gems62-h62r-multilevel-datum-repeat-offset-zeros.tif</a><span class="pill ok">legal</span></td><td>14,765</td><td>116,946 B</td><td>14/14</td><td><code>d5a15369fdd8863f…</code></td><td>OK TO SUBMIT AS A MEASURED PROBE - format-legal on the bytes re-read from disk (single band float32 EPSG:32611 3730x3292, sample geotransform, 0 NaN, 0 outside [0,1], nodata null), provably isolated (0 of 14,765 dots receives any kernel mass from another dot), 0.0% on the mapped catalogue, and unique against 475 harvested comparators (max |rho| 0.0128, worst 3-px-dilated Jaccard 0.0918). It is a probe and not a validated gain: no local instrument can rank it, because the catalogue-based holdout is structurally zero for any field that obeys the exclusion the calibration demands (IR-62-H62R-02).</td></tr>
 <tr><td><a href="downloads/gems62-h63-diffuse-isolated-offcat-40k-nan.tif">gems62-h63-diffuse-isolated-offcat-40k-nan.tif</a><span class="pill no">not legal: no_nodata_tag, no_nan_anywhere</span> <span class="pill warn">range risk low</span></td><td>40,000</td><td>330,994 B</td><td>12/14</td><td><code>c57d88adf4f6c39c…</code></td><td>FORMAT PROBE TWIN, NOT THE SUBMISSION - the same dot set as the -zeros file encoded with NaN outside the footprint and a NaN nodata tag, so it fails this repository's stricter convention (no_nodata_tag, no_nan_anywhere) and is kept only to keep the two encodings of one field comparable. The published contract permits null/nan outside the footprint, but a float32 nodata sentinel is one of the two mechanisms behind the portal error 'Predicted values must be in range [0, 1]', so the -zeros twin is the one offered for submission</td></tr>
+<tr><td><a href="downloads/gems62-h63-diffuse-isolated-offcat-40k-zeros.tif">gems62-h63-diffuse-isolated-offcat-40k-zeros.tif</a><span class="pill ok">legal</span></td><td>40,000</td><td>184,739 B</td><td>14/14</td><td><code>fa0b254e191cbbc1…</code></td><td>OK TO SUBMIT AS A MEASURED PROBE - format-legal 14/14 (single band float32 EPSG:32611 3730x3292, sample geotransform, 0 NaN, 0 outside [0,1], 0.00% on the masked catalogue), UNIQUE (max 3-px-dilated Jaccard 0.345 against 233 registry rasters, while the family's own top submissions score 0.893-0.948 against each other, and an information-free 40k control trips the same tripwire at 0.331), and the only shape the family's 42 owner-reported scores reward. Not marked ok_to_submit because no organiser-confirmed score exists anywhere in this repository: passing the format contract is not a claim of merit</td></tr>
+<tr><td><a href="downloads/gems62-h63m-multiline-corroborated-90000-zeros.tif">gems62-h63m-multiline-corroborated-90000-zeros.tif</a><span class="pill ok">legal</span></td><td>90,000</td><td>338,731 B</td><td>14/14</td><td><code>3b04880d5cd9f728…</code></td><td>PROMOTE (this lane's recommendation, NOT a confirmed score) - legal by the published contract and by this repository's stricter convention (14/14 byte checks: float32, no nodata tag, values exactly {0.0, 1.0}, so the portal error 'values must be in [0, 1]' cannot fire); unique where the 3-px overlap gate is informative (overlap-lift over a measured random control 0.556-1.695x on 18 of 21 registry rasters; 3 dense gems13 rasters are unsatisfiable by ANY emission). Expected value is a MODEL projection (0.294-0.539, mid 0.417) through a transfer constant fitted to 9 owner-reported scores - never submitted, never organizer-scored, so the decision to submit is the selector's, not a measurement. NOT the same artifact as gems62-h63-diffuse-isolated-offcat-40k-zeros.tif from session arena/61e7859a: different method, different bytes.</td></tr>
 <tr><td><a href="downloads/gems62-lahontan-isobase-99dots-nan.tif">gems62-lahontan-isobase-99dots-nan.tif</a><span class="pill no">not legal: no_nodata_tag, no_nan_anywhere</span> <span class="pill warn">range risk low</span></td><td>99</td><td>124,293 B</td><td>12/14</td><td><code>8675fa33d4d0b181…</code></td><td>FORMAT PROBE (NaN outside, nodata=NaN) - never submitted; passes the published contract, fails our stricter one</td></tr>
 <tr><td><a href="downloads/gems62-lahontan-isobase-99dots-zeros.tif">gems62-lahontan-isobase-99dots-zeros.tif</a><span class="pill ok">legal</span></td><td>99</td><td>56,048 B</td><td>14/14</td><td><code>fc628410873f018d…</code></td><td>FORMAT PROBE - legal by every check we can run; upload only to test acceptance</td></tr>
 <tr><td><a href="downloads/gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif">gems62b-tiltgrad-vote-scarpcorrob-120000-zeros.tif</a><span class="pill ok">legal</span></td><td>120,000</td><td>481,168 B</td><td>14/14</td><td><code>42bffef1b5973973…</code></td><td>ANOTHER LANE'S PROBE (session arena/d0303476) - 14/14 legal on its bytes, unique (max Jaccard 0.022, tie-aware |rho| 0.035 over 25 comparators), no organiser score; their run card calls it 'negative as a lead, legal and unique as a probe' and this gate agrees: promotion is the selector's decision, not a measurement</td></tr>
 <tr><td><a href="downloads/gems62d-org-stack-inverted-truth-detector-46598-zeros.tif">gems62d-org-stack-inverted-truth-detector-46598-zeros.tif</a><span class="pill ok">legal</span></td><td>46,598</td><td>372,859 B</td><td>14/14</td><td><code>4d83efff6c134734…</code></td><td>DIAGNOSTIC ONLY - a detector built on the public 100 m stack; never submitted</td></tr>
+<tr><td><a href="downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif">gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif</a><span class="pill ok">legal</span></td><td>125,890</td><td>459,756 B</td><td>14/14</td><td><code>82359f8028006207…</code></td><td>SESSION arena/7b275dfb (H-2R x vent-prior detector) - format-legal 14/14 on the bytes; unique vs 71 registry rasters (max tie-aware |rho| 0.501 < 0.90, max non-vacuous 3 px overlap 0.692 vs gemsdoe23-h30 < 0.70, mass-matched random control 0.410 so a disclosed 1.69x shared structure, not a copy; IR-62-H2R-02). Blocked OOF DTI(S* v2 fixed kernel) 0.1979 vs the same-instrument raw-band baseline 0.1718 (+15%), AUC 0.893 under the 0.90 leakage canary. The run card says promote-as-probe: legal and unique, merit unproven - no organiser receipt exists for any file here</td></tr>
 <tr><td><a href="downloads/gemsdoe62-datum-lahontan-isobase-v8.tif">gemsdoe62-datum-lahontan-isobase-v8.tif</a><span class="pill ok">legal</span></td><td>1,660</td><td>62,709 B</td><td>14/14</td><td><code>3d4b66e651bc8e3f…</code></td><td>SUPERSEDED (v8) - arithmetically dead at 1,660 dots; do not submit</td></tr>
 </table>
 
@@ -552,6 +555,41 @@ Spearman legs. <span class="mut">MEASURED; independently reproduces GEMSDOE54 IR
     <tr><td class="mut">Submission Note (120/140 chars)</td><td><code>62: 440 kernel-spaced dots from Lake Lahontan shoreline datum steps (z>=1.5) & deflections. Pluvial margin defensibility.</code></td></tr>
     <tr><td class="mut">Portal Error Fix</td><td>All-finite float32 in [0.0, 1.0], nan_count = 0, no negative nodata sentinel. Guaranteed clean upload.</td></tr>
     <tr><td class="mut">Sibling Runs</td><td>Session 778884cc: <a href="downloads/gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif">gems62-h62n-lahontan-localmode-balanced-16864dots-20261012T003242Z-zeros.tif</a> (16,864 dots, 129 KB).</td></tr>
+  </table>
+</div>
+
+<!-- ==================== SESSION 2026-10-12: H-2R x vent prior (arena/7b275dfb) ==================== -->
+<h2 id="h2r">Session <code>arena/7b275dfb</code> — champion-mechanism detector x geothermal-vent prior</h2>
+<div class="card">
+  <p class="big"><code>gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif</code></p>
+  <p>
+    <a class="btn" href="downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif">⬇ Download the GeoTIFF (459,756 bytes)</a>
+    <a class="btn sec" href="executive-summary-2026-10-12.html">Submission Guide (6 steps) ↗</a>
+    <a class="btn sec" href="hypotheses-2026-10-12-h2r.html">Five ranked hypotheses ↗</a>
+    <a class="btn sec" href="run-card-2026-10-12-h2r.html">Run card ↗</a>
+  </p>
+  <table>
+    <tr><td class="mut">What it is</td><td>125,890 isolated single-pixel dots from the 0.26–0.28 band's mechanism
+      (scale-normalised Hessian line response x cross-physics orientation order parameter) rebuilt from the
+      organiser 19-band stack as supervised features, gated by a temperature/chemistry-weighted geothermal-vent
+      prior (27,092 GDR well/spring rows). All dots off the mapped catalogue and its 3 px buffer.</td></tr>
+    <tr><td class="mut">Format</td><td>LEGAL 14/14 — single band, float32, EPSG:32611, 3730×3292, values in [0,1],
+      nan_count = 0, nodata = null. The portal error "Predicted values must be in range [0, 1]" cannot occur.</td></tr>
+    <tr><td class="mut">Uniqueness</td><td>UNIQUE — vs 71 registry rasters: max tie-aware |ρ| = 0.501 &lt; 0.90;
+      max non-vacuous 3 px overlap 0.692 &lt; 0.70 (vs the h30 habitat family; a mass-matched random control scores
+      0.410, so this is a disclosed 1.69× shared structure — IR-62-H2R-02).</td></tr>
+    <tr><td class="mut">Local instrument (NOT a score)</td><td>blocked OOF DTI(S* v2, fixed 300 m kernel) = 0.1979
+      vs the same-instrument raw-band baseline 0.1718 (+15%); AUC 0.893 under the 0.90 leakage canary.</td></tr>
+    <tr><td class="mut">HOLDOUT-DTI</td><td>0.00038 (95% CI [0.00035, 0.00040], 81,993 withheld positives,
+      <code>gems62.holdout_segmented v1</code>) — reported per protocol; the gate is measured anti-correlated with
+      the leaderboard (IR-62-HOLDOUT-01) and is not read as a score.</td></tr>
+    <tr><td class="mut">Submission name</td><td><code>gems62f-h2r-ventcons-125890-20261012T012736Z-zeros</code></td></tr>
+    <tr><td class="mut">Submission note (139/140 chars)</td><td><code>62f: H2R multi-physics lineament consensus x vent prior, 125,890 isolated off-catalogue dots, S*v2-blocked CV. Unique vs 56 rasters. Legal.</code></td></tr>
+    <tr><td class="mut">Verdict</td><td><b>OK TO SUBMIT</b> (as a probe) — PROMOTE-AS-PROBE: legal, unique,
+      the group's best detector trained on primary data against the fixed-kernel instrument. Not a validated
+      improvement: no organiser-confirmed score exists for any file in this repository. Read the
+      <a href="executive-summary-2026-10-12.html">executive summary</a> before spending a weekly slot.</td></tr>
+    <tr><td class="mut">Organizer score</td><td><b>none</b> — never submitted. <code>organizer_score: null</code>.</td></tr>
   </table>
 </div>
 

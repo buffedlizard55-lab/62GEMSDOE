@@ -8,6 +8,72 @@
 
 ---
 
+## Session status — 2026-10-12 (`arena/7b275dfb-62gemsdoe`)
+
+**Read this first.** A new unique submission, one shared-tool defect fixed and reported, one
+hypothesis family refuted and one confirmed, and the geothermal-vent knowledge base opened.
+
+### ⬇ The new artifact — download it, and read the verdict before spending a slot
+
+**[`docs/downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif`](docs/downloads/gems62f-h2r-ventcons-125890-20261012T012736Z-zeros.tif)**
+· 459,756 bytes · **125,890 isolated single-pixel dots** (no two within 1 px), all off the mapped
+catalogue and its 3 px buffer · sha256 `82359f8028006207…` (full hash in
+[`evidence/run_card_20261012-h2r.json`](evidence/run_card_20261012-h2r.json))
+
+| | |
+| --- | --- |
+| **FORMAT** | ✅ **LEGAL** — 14/14 checks on the bytes re-read from disk: single band, `float32`, EPSG:32611, 3730×3292, sample geotransform, `n_outside_0_1 = 0`, `nan_count = 0`, `nodata = null`. The portal error *"Predicted values must be in range [0, 1]"* cannot occur for these bytes. |
+| **UNIQUENESS** | ✅ **UNIQUE** — vs 71 registry rasters: max non-vacuous 3 px overlap **0.692** (vs `h30-arrangement-matched-habitat`, limit 0.70 — mass-matched random control scores 0.410, so this is a **disclosed 1.69× shared structure**, not a copy; IR-62-H2R-02), max tie-aware \|ρ\| = **0.501** (limit 0.90), max symmetric Jaccard 0.411. |
+| **HOLDOUT-DTI** | **0.00038** (95 % CI [0.00035, 0.00040], 81,993 withheld positives, evaluator `gems62.holdout_segmented v1`) — reported per protocol; the gate is measured anti-correlated with the leaderboard (IR-62-HOLDOUT-01) and is not read as a score. |
+| **LOCAL INSTRUMENT (not a score)** | blocked OOF DTI(S\* **v2**) = **0.1979** at 125,890 dots vs the same-instrument raw-band baseline **0.1718** (+15 %); AUC 0.893 (canary 0.90 passed). |
+| **SUBMISSION NOTE** | 139/140 chars: `62f: H2R multi-physics lineament consensus x vent prior, 125,890 isolated off-catalogue dots, S*v2-blocked CV. Unique vs 56 rasters. Legal.` |
+
+**Verdict: `PROMOTE` (as a probe, per the run card).** Legal, unique, and the group's best
+detector trained on primary data against the leaderboard-inverted instrument. It is **not** a
+validated improvement: no ORGANIZER-CONFIRMED score exists in this repository, and the pages say
+so in those words. Read before spending the slot:
+[executive summary with the six submission steps](docs/executive-summary-2026-10-12.md) ·
+[five ranked hypotheses](docs/hypotheses-2026-10-12-h2r.md) ·
+[geothermal-vent knowledge base](research/geothermal_vent_knowledge.md) ·
+[run card JSON](evidence/run_card_20261012-h2r.json).
+
+### The answer to "why does h33-2-b2 score 0.2778, and can we beat it?"
+
+(One paragraph here; full argument in [`docs/why-h33-scored.md`](docs/why-h33-scored.md) and
+[`docs/research/beating-02778-2026-10-11b.md`](docs/research/beating-02778-2026-10-11b.md).)
+`h33-2-b2` is a 37,654-dot basin-wide field built from a multi-physics oriented-lineament
+consensus (Frangi/Sato line response × cross-physics orientation agreement); the published metric
+is recall-dominated, so its score certifies **≥ 23.5 % kernel-weighted recall** of the hidden
+new-fault set, and any dot with better than **0.2·DTI ≈ 5.6 %** chance of being within 300 m of a
+hidden fault *raises* the score — a low bar that makes a dense basin-wide field rational. **Yes,
+a higher-scoring submission can be generated**, and the condition is exact: at 120k isolated dots
+the mean credit per dot must exceed **0.0778** (the champion implies 0.1264 at its own mass). The
+lever with the measured evidence behind it is *more mass at champion-grade credit*; this session's
+field is the first in the group to combine the champion's mechanism with an independent
+(geothermal-vent) prior and to be validated on the fixed-kernel instrument.
+
+### What this session measured that changes what to run next
+
+* **The S\* instrument's kernel was wrong and is now fixed** (IR-62-25 on `main`, independently re-found here as IR-62-H2R-01): `datum62/scripts/invert.py`
+  fitted a 75 m triangle instead of the published 300 m one. The rebuilt S\* v2
+  (`evidence/sstar_rebuild_20261012.json`) reproduces 56 owner-reported scores at Spearman
+  **0.959**, R² **0.727** (old: 0.968 / 0.301) — more variance explained with one honest kernel.
+* **H-2R confirmed:** the champion mechanism rebuilt as features beats raw bands on the same
+  instrument (0.1958 vs 0.1718). **H62-Z1 partially refuted:** vent-*proximity* placement scores
+  **0.64×** an isolated-random control (MEASURED, `evidence/e5_screen_20261012.json`); the
+  vent × consensus *interaction* adds +1 % (model C 0.1979 vs B 0.1958). Leakage canary passed:
+  best single-feature AUC 0.71, ensemble 0.893.
+* **Geothermal-vent knowledge base** opened at [`research/geothermal_vent_knowledge.md`](research/geothermal_vent_knowledge.md):
+  GDR inventory 27,092 well/spring rows with temperature + geothermometry now in the feature stack.
+
+---
+
+## Session status — 2026-10-11b (`arena/d0303476-62gemsdoe`)
+
+The 2026-10-11b session's full status table lives in its executive summary and evidence:
+[`docs/executive-summary-2026-10-11b.md`](docs/executive-summary-2026-10-11b.md),
+[`evidence/run_card_20261011b.json`](evidence/run_card_20261011b.json). The current landing page is [`docs/index.html`](docs/index.html).
+
 ## 📌 Standing Brief & Operating Prompt (Read First Every Session)
 
 ## Session status — 2026-10-12 (`arena/61e7859a-62gemsdoe`)
@@ -187,6 +253,7 @@ submitted by mistake, which is the shape of the error the owner hit.
 ---
 
 ## Session status — 2026-10-11b (`arena/d0303476-62gemsdoe`)
+
 
 ```text
 Review the repo. 

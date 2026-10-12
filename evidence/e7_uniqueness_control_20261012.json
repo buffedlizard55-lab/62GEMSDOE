@@ -1,0 +1,18 @@
+{
+ "generated_utc": "2026-10-12T01:45:00Z",
+ "comparator": "gemsdoe23-h30-arrangement-matched-habitat-20261002-0d4e02e8-allfinite.tif",
+ "comparator_n_dots": 91533,
+ "comparator_coverage3px": 0.41077564944508554,
+ "mine_frac3px": 0.6916991023909762,
+ "mine_n_dots": 125890,
+ "random_isolated_control_frac3px": [
+  0.41,
+  0.408,
+  0.41
+ ],
+ "enrichment_vs_random": 1.6870731707317075,
+ "protocol_limit": 0.7,
+ "tripped": false,
+ "interpretation": "1.69x enrichment over a mass-matched isolated-random control; shared structure with the h30 habitat family is real but the letter threshold (0.70) is not crossed; rho=0.298 vs this comparator, max rho over non-vacuous rasters 0.501 < 0.90",
+ "note": "vacuous comparators (coverage3px>=0.70): r13_lattice 0.999/0.999, pindrop-nodes 0.832/0.735, pindrop-discovery 0.807/0.734 -- random scores the same (demonstrated at 0.999 vs r13_lattice)"
+}
